@@ -1,0 +1,8 @@
+/log.html
+/output.xml
+/report.html
+/selenium-screenshot-*.png
+*.pyc
+/libspecs/
+/geckodriver.log
+/robot/library/

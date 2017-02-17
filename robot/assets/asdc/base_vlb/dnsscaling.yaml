@@ -1,0 +1,182 @@
+heat_template_version: 2013-05-23
+
+description: Heat template to deploy a vDNS for OpenECOMP (scaling-up scenario)
+
+parameters:
+  vlb_image_name:
+    type: string
+    label: Image name or ID
+    description: Image to be used for compute instance
+  vlb_flavor_name:
+    type: string
+    label: Flavor
+    description: Type of instance (flavor) to be used
+  public_net_id:
+    type: string
+    label: Public network name or ID
+    description: Public network that enables remote connection to VNF
+  vlb_private_net_id:
+    type: string
+    label: vLoadBalancer private network name or ID
+    description: Private network that connects vLoadBalancer with vDNSs
+  ecomp_private_net_id:
+    type: string
+    label: ECOMP management network name or ID
+    description: Private network that connects ECOMP component and the VNF
+  ecomp_private_subnet_id:
+    type: string
+    label: ECOMP management sub-network name or ID
+    description: Private sub-network that connects ECOMP component and the VNF
+  vlb_private_ip_0:
+    type: string
+    label: vLoadBalancer private IP address towards the private network
+    description: Private IP address that is assigned to the vLoadBalancer to communicate with the vDNSs
+  vlb_private_ip_1:
+    type: string
+    label: vLoadBalancer private IP address towards the ECOMP management network
+    description: Private IP address that is assigned to the vLoadBalancer to communicate with ECOMP components
+  vdns_private_ip_0:
+    type: string
+    label: vDNS private IP address towards the private network
+    description: Private IP address that is assigned to the vDNS to communicate with the vLoadBalancer
+  vdns_private_ip_1:
+    type: string
+    label: vDNS private IP address towards the ECOMP management network
+    description: Private IP address that is assigned to the vDNS to communicate with ECOMP components
+  vdns_name_0:
+    type: string
+    label: vDNS name
+    description: Name of the vDNS
+  vnf_id:
+    type: string
+    label: VNF ID
+    description: The VNF ID is provided by ECOMP
+  vf_module_id:
+    type: string
+    label: vFirewall module ID
+    description: The vLoadBalancer Module ID is provided by ECOMP
+  webserver_ip:
+    type: string
+    label: Webserver IP address
+    description: IP address of the webserver that hosts the source code and binaries
+  key_name:
+    type: string
+    label: Key pair name
+    description: Public/Private key pair name
+  pub_key:
+    type: string
+    label: Public key
+    description: Public key to be installed on the compute instance
+  repo_user:
+    type: string
+    label: Repository username
+    description: Username to access the repository that hosts the demo packages
+  repo_passwd:
+    type: string
+    label: Repository password
+    description: Password to access the repository that hosts the demo packages
+  repo_url:
+    type: string
+    label: Repository URL
+    description: URL of the repository that hosts the demo packages
+
+resources:
+  vdns_0:
+    type: OS::Nova::Server
+    properties:
+      image: { get_param: vlb_image_name }
+      flavor: { get_param: vlb_flavor_name }
+      name: { get_param: vdns_name_0 }
+      key_name: { get_param: key_name }
+      networks:
+        - network: { get_param: public_net_id }
+        - port: { get_resource: vdns_private_0_port }
+        - port: { get_resource: vdns_private_1_port }
+      metadata: {vnf_id: { get_param: vnf_id }, vf_module_id: { get_param: vf_module_id }}
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            __webserver__: { get_param: webserver_ip }
+            __lb_oam_int__ : { get_param: vlb_private_ip_1 }
+            __lb_private_ipaddr__: { get_param: vlb_private_ip_0 }
+            __local_private_ipaddr__: { get_param: vdns_private_ip_0 }
+            __repo_url__ : { get_param: repo_url }
+            __repo_user__ : { get_param: repo_user }
+            __repo_passwd__ : { get_param: repo_passwd }
+          template: |
+            #!/bin/bash
+
+            WEBSERVER_IP=__webserver__
+            LB_OAM_INT=__lb_oam_int__
+            LB_PRIVATE_IPADDR=__lb_private_ipaddr__
+            LOCAL_PRIVATE_IPADDR=__local_private_ipaddr__
+            REPO_URL=__repo_url__
+            REPO_USER=__repo_user__
+            REPO_PASSWD=__repo_passwd__
+
+            # Download required dependencies
+            add-apt-repository -y ppa:openjdk-r/ppa
+            apt-get update
+            apt-get install -y wget openjdk-8-jdk bind9 bind9utils bind9-doc apt-transport-https ca-certificates
+            sleep 1
+
+            # Install Nexus certificate
+            echo "$WEBSERVER_IP ecomp-nexus" >> /etc/hosts
+            keytool -printcert -sslserver $WEBSERVER_IP:8443 -rfc > nexus.crt
+            cp nexus.crt /usr/local/share/ca-certificates/
+            update-ca-certificates
+
+            # Download vDNS demo code for DNS Server
+            mkdir /opt/config
+            cd /opt
+            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/v_dns_init.sh
+            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/vdns.sh
+            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/DNSClient.tar.gz
+            tar -zxvf DNSClient.tar.gz
+            rm *.tar.gz
+            chmod +x v_dns_init.sh
+            chmod +x vdns.sh
+            echo $LB_OAM_INT > config/lb_oam_int.txt
+            echo $LB_PRIVATE_IPADDR > config/lb_private_ipaddr.txt
+            echo $LOCAL_PRIVATE_IPADDR > config/local_private_ipaddr.txt
+
+            # Download Bind config files
+            cd /opt/config
+            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/db_dnsdemo_openecomp_org
+            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/named.conf.options
+            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/named.conf.local
+
+            # Configure Bind
+            modprobe ip_gre
+            mkdir /etc/bind/zones
+            sed -i "s/OPTIONS=.*/OPTIONS=\"-4 -u bind\"/g" /etc/default/bind9
+            cp /opt/config/db_dnsdemo_openecomp_org /etc/bind/zones/db.dnsdemo.openecomp.org
+            cp /opt/config/named.conf.local /etc/bind/
+            sleep 1
+
+            # Start Failure Detector
+            cd /opt/DNSClient/src
+            javac -d ../bin/ *.java
+            cd /opt/DNSClient/bin
+            chmod +x dnsclient.sh
+            chmod +x set_gre_tunnel.sh
+            sleep 1
+
+            # Run instantiation script
+            cd /opt
+            mv vdns.sh /etc/init.d
+            update-rc.d vdns.sh defaults
+            ./v_dns_init.sh
+
+  vdns_private_0_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_param: vlb_private_net_id }
+      fixed_ips: [{"subnet": { get_param: vlb_private_net_id }, "ip_address": { get_param: vdns_private_ip_0 }}]
+
+  vdns_private_1_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_param: ecomp_private_net_id }
+      fixed_ips: [{"subnet": { get_param: ecomp_private_subnet_id }, "ip_address": { get_param: vdns_private_ip_1 }}]

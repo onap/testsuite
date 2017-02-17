@@ -1,0 +1,8 @@
+{
+  "auth": {
+    "passwordCredentials": {
+      "username": "${username}",
+      "password": "${password}"
+    }
+  }
+}
