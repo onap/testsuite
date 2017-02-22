@@ -28,12 +28,24 @@ Inventory Tenant If Not Exists
 Inventory Tenant
     [Documentation]    Inventorys a Tenant in A&AI	
     [Arguments]    ${cloud_owner}  ${cloud_region_id}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}    ${tenant_id}    ${tenant_name}       
+    ${json_resource_version}=   Get Resource Version If Exists   ${cloud_owner}  ${cloud_region_id}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}
     ${data_template}=    OperatingSystem.Get File    ${AAI_ADD_TENANT_BODY}
-    ${arguments}=    Create Dictionary     cloud_owner=${cloud_owner}  cloud_region_id=${cloud_region_id}  cloud_type=${cloud_type}    owner_defined_type=${owner_defined_type}    cloud_region_version=${cloud_region_version}    cloud_zone=${cloud_zone}    tenant_id=${tenant_id}    tenant_name=${tenant_name}       
+    ${arguments}=    Create Dictionary     cloud_owner=${cloud_owner}  cloud_region_id=${cloud_region_id}  cloud_type=${cloud_type}    owner_defined_type=${owner_defined_type}    cloud_region_version=${cloud_region_version}    cloud_zone=${cloud_zone}    tenant_id=${tenant_id}    tenant_name=${tenant_name}   resource_version=${json_resource_version}       
     ${data}=	Fill JSON Template    ${data_template}    ${arguments}        
 	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}     ${data}
-    Should Be Equal As Strings 	${put_resp.status_code} 	201   
-	[Return]  ${put_resp.status_code}
+    ${status_string}=    Convert To String    ${put_resp.status_code}
+    Should Match Regexp    ${status_string} 	^(201|200)$   
+
+Get Resource Version If Exists
+    [Documentation]    Creates a service in A&AI if it doesn't exist	
+    [Arguments]    ${cloud_owner}  ${cloud_region_id}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}
+    ${resource_version}=   Set Variable
+    ${resp}=    Get Cloud Region    ${cloud_owner}   ${cloud_region_id}
+    Return from Keyword if   '${resp.status_code}' != '200'   ${resource_version}
+    ${json}=   Set Variable   ${resp.json()}
+    ${resource_version}=   Catenate   ${json['resource-version']}  
+    [Return]   "resource-version":"${resource_version}", 
+        
 
 Delete Tenant
     [Documentation]    Removes both Tenant 
@@ -65,6 +77,12 @@ Get Tenants
     ${status}    ${value}=    Run Keyword And Ignore Error    Should Be Equal As Strings 	${resp.status_code} 	200
     Run Keyword If    '${status}' == 'PASS'    Update Tenant Dictionary    ${dict}    ${resp.json()}      
 	[Return]  ${dict}
+
+Get Cloud Region
+    [Documentation]   Returns the Cloud Region if it exists    
+    [Arguments]    ${cloud_owner}    ${cloud_region_id}	
+	${resp}=    Run A&AI Get Request     ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}
+	[Return]  ${resp}
 
 Update Tenant Dictionary
     [Arguments]    ${dict}    ${json}

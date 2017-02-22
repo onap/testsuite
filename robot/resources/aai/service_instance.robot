@@ -14,6 +14,7 @@ Resource          ../json_templater.robot
 Resource          ../stack_validation/validate_vlb.robot
 Resource          ../stack_validation/validate_vfw.robot
 Resource          ../stack_validation/validate_vvg.robot
+Resource          ../aai/aai_interface.robot
 
 *** Variables ***
 ${INDEX PATH}     /aai/v8
@@ -26,6 +27,7 @@ ${SERVCE INSTANCE TEMPLATE}    robot/assets/templates/aai/service_subscription.t
 
 ${GENERIC_VNF_PATH_TEMPLATE}   /network/generic-vnfs/generic-vnf/\${vnf_id}/vf-modules/vf-module/\${vf_module_id}
 ${VLB_CLOSED_LOOP_HACK_BODY}    robot/assets/templates/aai/vlb_closed_loop_hack.template
+${VLB_CLOSED_LOOP_DELETE}
 
 *** Keywords ***    
 Validate Service Instance
@@ -60,7 +62,12 @@ VLB Closed Loop Hack
     ${data}=	Fill JSON Template File    ${VLB_CLOSED_LOOP_HACK_BODY}    ${dict}    
 	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${datapath}   ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
-    Should Match Regexp    ${status_string}    ^(201|412)$     
+    Should Match Regexp    ${status_string}    ^(201|412)$  
+    Set Test Variable   ${VLB_CLOSED_LOOP_DELETE}    ${datapath}   
+
+Teardown VLB Closed Loop Hack
+    Return From Keyword If    ' ${VLB_CLOSED_LOOP_DELETE}' == ''
+	Delete A&AI Entity    ${VLB_CLOSED_LOOP_DELETE}
 		
     
 Validate VF Module

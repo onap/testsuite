@@ -47,8 +47,8 @@ ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    robot/assets/templates/asdc/resource_insta
 *** Keywords ***
 Distribute Model From ASDC
     [Documentation]    goes end to end creating all the asdc objects based ona  model and distributing it to the systems. it then returns the service name, vf name and vf module name
-    [Arguments]    ${model_zip_path}
-    ${catalog_service_id}=    Add ASDC Catalog Service
+    [Arguments]    ${model_zip_path}   ${catalog_service_name}=
+    ${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
     ${catalog_resource_ids}=    Create List
     : FOR    ${zip}     IN     @{model_zip_path}
     \    ${loop_catalog_resource_id}=    Setup ASDC Catalog Resource    ${zip}
@@ -283,9 +283,11 @@ Upload ASDC Heat Package
 	Should Be Equal As Strings 	${resp.status_code} 	200    
 Add ASDC Catalog Service
     [Documentation]    Creates an asdc Catalog Service and returns its id
+    [Arguments]   ${catalog_service_name}
     ${uuid}=    Generate UUID  
-    ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]    
-    ${map}=    Create Dictionary    service_name=${shortened_uuid}
+    ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
+    ${catalog_service_name}=   Set Variable If   '${catalog_service_name}' ==''   ${shortened_uuid}   ${catalog_service_name}     
+    ${map}=    Create Dictionary    service_name=${catalog_service_name}
     ${data}=   Fill JSON Template File    ${ASDC_CATALOG_SERVICE_TEMPLATE}    ${map} 
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings 	${resp.status_code} 	201

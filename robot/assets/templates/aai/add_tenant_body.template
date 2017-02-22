@@ -5,6 +5,7 @@
         "owner-defined-type": "${owner_defined_type}",
         "cloud-region-version": "${cloud_region_version}",
         "cloud-zone": "${cloud_zone}",
+        ${resource_version}
         "tenants": {
                 "tenant": [{
                         "tenant-id": "${tenant_id}",

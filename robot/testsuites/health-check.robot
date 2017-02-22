@@ -14,12 +14,8 @@ Resource          ../resources/appc_interface.robot
 Resource          ../resources/portal_interface.robot
 Resource          ../resources/mr_interface.robot
 Resource          ../resources/aaf_interface.robot
-Resource          ../resources/heatbridge.robot
 
 *** Test Cases ***   
-Do Teardown
-    Execute Heatbridge Teardown    Vfmodule_Ete_Name49a8fbc5-3e94-430d-80d6-a52826961170
-
 Basic DCAE Health Check
     [Tags]    health
 	Run DCAE Health Check

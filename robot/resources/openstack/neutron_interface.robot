@@ -112,6 +112,12 @@ Get Openstack Ports For Subnet
     :for    ${port}    in    @{ports['ports']}
     \    Run Keyword If   '${net['network_id']}' == '${port['network_id']}'    Append To List    ${net_ports}   ${port}
     [Return]   ${net_ports}
+
+Get Openstack Port By Id
+    [Arguments]    ${alias}    ${port_id}
+    ${resp}=    Internal Get Openstack    ${alias}    ${GLOBAL_OPENSTACK_NEUTRON_SERVICE_TYPE}    ${GLOBAL_OPENSTACK_SERVICE_REGION}    ${OPENSTACK_NEUTRON_PORT_PATH}/${port_id}    
+    [Return]    ${resp}
+
                 
 Delete Openstack Port
     [Arguments]    ${alias}    ${port_id} 
