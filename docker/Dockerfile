@@ -3,7 +3,7 @@ FROM ubuntu
 
 MAINTAINER "OpenECOMP"
 
-LABEL name="Docker image for the OpenECOMP End-to-End Robot Framework"
+LABEL name="Docker image for the OpenECOMP Robot Testing Framework"
 LABEL usage="docker run -e ROBOT_TEST=<testname> -ti openecompete"
 
 # Install Python Pip, Robot framework, firefox, lighttpd web server, wget
@@ -22,7 +22,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     apt-get --assume-yes install google-chrome-stable
 
 # Copy the robot code
-COPY OpenECOMP_ETE/ /var/opt/OpenECOMP_ETE/
+COPY / /var/opt/OpenECOMP_ETE/
 COPY lighttpd.conf /etc/lighttpd/lighttpd.conf      
 RUN chmod 777 /var/opt/OpenECOMP_ETE/setup.sh
 RUN chmod 777 /var/opt/OpenECOMP_ETE/runTags.sh
