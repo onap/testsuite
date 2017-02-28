@@ -15,16 +15,16 @@
             },
              "vnf-parameters": [
                 {
-                    "vnf-parameter-name": "repo_url",
-                    "vnf-parameter-value": "${repo_url}"
+                    "vnf-parameter-name": "repo_url_blob",
+                    "vnf-parameter-value": "${repo_url_blob}"
                 },
                 {
-                    "vnf-parameter-name": "repo_user",
-                    "vnf-parameter-value": "${repo_user}"
+                    "vnf-parameter-name": "repo_url_artifacts",
+                    "vnf-parameter-value": "${repo_url_artifacts}"
                 },
                 {
-                    "vnf-parameter-name": "repo_passwd",
-                    "vnf-parameter-value": "${repo_passwd}"
+                    "vnf-parameter-name": "demo_artifacts_version",
+                    "vnf-parameter-value": "${demo_artifacts_version}"
                 },
                 {
                     "vnf-parameter-name": "ecomp_private_net_id",
@@ -61,10 +61,6 @@
                 {
                     "vnf-parameter-name": "vdns_name_0",
                     "vnf-parameter-value": "${scaling_vdns_name_0}"
-                },
-                {
-                    "vnf-parameter-name": "webserver_ip",
-                    "vnf-parameter-value": "${webserver_ip}"
                 },
                 {
                     "vnf-parameter-name": "dcae_collector_ip",

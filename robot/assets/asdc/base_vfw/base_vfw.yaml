@@ -91,10 +91,6 @@ parameters:
     type: string
     label: vFirewall module ID
     description: The vFirewall Module ID is provided by ECOMP
-  webserver_ip:
-    type: string
-    label: Webserver IP address
-    description: IP address of the webserver that hosts the source code and binaries
   dcae_collector_ip:
     type: string
     label: DCAE collector IP address
@@ -111,24 +107,35 @@ parameters:
     type: string
     label: Public key
     description: Public key to be installed on the compute instance
-  repo_user:
-    type: string
-    label: Repository username
-    description: Username to access the repository that hosts the demo packages
-  repo_passwd:
-    type: string
-    label: Repository password
-    description: Password to access the repository that hosts the demo packages
-  repo_url:
+  repo_url_blob:
     type: string
     label: Repository URL
     description: URL of the repository that hosts the demo packages
+  repo_url_artifacts:
+    type: string
+    label: Repository URL
+    description: URL of the repository that hosts the demo packages
+  demo_artifacts_version:
+    type: string
+    label: Artifacts version used in demo vnfs
+    description: Artifacts (jar, tar.gz) version used in demo vnfs
 
 resources:
+  
+  random-str:
+    type: OS::Heat::RandomString
+    properties:
+      length: 4
+
   my_keypair:
     type: OS::Nova::KeyPair
     properties:
-      name: { get_param: key_name }
+      name: 
+        str_replace:
+          template: base_rand
+          params:
+            base: { get_param: key_name }
+            rand: { get_resource: random-str }  
       public_key: { get_param: pub_key }
       save_private_key: false
 
@@ -171,63 +178,65 @@ resources:
       user_data:
         str_replace:
           params:
-            __webserver__: { get_param: webserver_ip }
             __dcae_collector_ip__ : { get_param: dcae_collector_ip }
             __dcae_collector_port__ : { get_param: dcae_collector_port }
-            __repo_url__ : { get_param: repo_url }
-            __repo_user__ : { get_param: repo_user }
-            __repo_passwd__ : { get_param: repo_passwd }
+            __repo_url_blob__ : { get_param: repo_url_blob }
+            __repo_url_artifacts__ : { get_param: repo_url_artifacts }
+            __demo_artifacts_version__ : { get_param: demo_artifacts_version }
           template: |
             #!/bin/bash
 
-            WEBSERVER_IP=__webserver__
             DCAE_COLLECTOR_IP=__dcae_collector_ip__
             DCAE_COLLECTOR_PORT=__dcae_collector_port__
-            REPO_URL=__repo_url__
-            REPO_USER=__repo_user__
-            REPO_PASSWD=__repo_passwd__
+            REPO_URL_BLOB=__repo_url_blob__
+            REPO_URL_ARTIFACTS=__repo_url_artifacts__
+            DEMO_ARTIFACTS_VERSION=__demo_artifacts_version__
 
             # Download required dependencies
             add-apt-repository -y ppa:openjdk-r/ppa
             apt-get update
             apt-get install -y make wget openjdk-8-jdk gcc libcurl4-openssl-dev python-pip bridge-utils apt-transport-https ca-certificates
+            apt-get install -y maven
             pip install jsonschema
-
-            # Install Nexus certificate
-            echo "$WEBSERVER_IP ecomp-nexus" >> /etc/hosts
-            keytool -printcert -sslserver $WEBSERVER_IP:8443 -rfc > nexus.crt
-            cp nexus.crt /usr/local/share/ca-certificates/
-            update-ca-certificates
 
             # Download vFirewall code for virtual firewall
             mkdir /opt/config
+            mkdir /opt/honeycomb
             cd /opt
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/v_firewall_init.sh
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/vfirewall.sh  
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/VESvFW.tar.gz
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/vpp.tar.gz
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/honeycomb.tar.gz
-            tar -zxvf VESvFW.tar.gz
-            tar -zxvf vpp.tar.gz
-            tar -zxvf honeycomb.tar.gz
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vfw/$DEMO_ARTIFACTS_VERSION/v_firewall_init.sh
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vfw/$DEMO_ARTIFACTS_VERSION/vfirewall.sh
+
+            mvn org.apache.maven.plugins:maven-dependency-plugin:2.10:get -DremoteRepositories=$REPO_URL_ARTIFACTS -Dartifact=org.openecomp.demo.vnf:sample-distribution:$DEMO_ARTIFACTS_VERSION:tar.gz:hc -Dtransitive=false -Ddest=.
+            mvn org.apache.maven.plugins:maven-dependency-plugin:2.10:get -DremoteRepositories=$REPO_URL_ARTIFACTS -Dartifact=org.openecomp.demo.vnf.ves:ves:$DEMO_ARTIFACTS_VERSION:tar.gz:demo -Dtransitive=false -Ddest=.
+            mvn org.apache.maven.plugins:maven-dependency-plugin:2.10:get -DremoteRepositories=$REPO_URL_ARTIFACTS -Dartifact=org.openecomp.demo.vnf.ves:ves_vfw_reporting:$DEMO_ARTIFACTS_VERSION:tar.gz:demo -Dtransitive=false -Ddest=.
+
+            
+            tar -zxvf ves-$DEMO_ARTIFACTS_VERSION-demo.tar.gz
+            mv ves-$DEMO_ARTIFACTS_VERSION VES
+            tar -zxvf ves_vfw_reporting-$DEMO_ARTIFACTS_VERSION-demo.tar.gz
+            mv ves_vfw_reporting-$DEMO_ARTIFACTS_VERSION VESreporting_vFW
+            tar -zxvf sample-distribution-$DEMO_ARTIFACTS_VERSION-hc.tar.gz
+            mv sample-distribution-$DEMO_ARTIFACTS_VERSION honeycomb
+            sed -i 's/"restconf-binding-address": "127.0.0.1",/"restconf-binding-address": "0.0.0.0",/g' honeycomb/sample-distribution-$DEMO_ARTIFACTS_VERSION/config/honeycomb.json
+            mv VESreporting_vFW /opt/VES/code/evel_training/VESreporting
             rm *.tar.gz
             chmod +x v_firewall_init.sh
             chmod +x vfirewall.sh
             echo $DCAE_COLLECTOR_IP > config/dcae_collector_ip.txt
             echo $DCAE_COLLECTOR_PORT > config/dcae_collector_port.txt
+            echo $DEMO_ARTIFACTS_VERSION > config/artifacts_version.txt
 
             # Install VPP
-            cd /opt/vpp/build-root/
-            dpkg -i vpp-lib_16.09-3~gc021053_amd64.deb
-            dpkg -i vpp_16.09-3~gc021053_amd64.deb
-            dpkg -i vpp-dbg_16.09-3~gc021053_amd64.deb
-            dpkg -i vpp-dev_16.09-3~gc021053_amd64.deb
-            dpkg -i vpp-dpdk-dev_16.09-3~gc021053_amd64.deb
-            dpkg -i vpp-plugins_16.09-3~gc021053_amd64.deb
+            export UBUNTU="trusty"
+            export RELEASE=".stable.1609"
+            rm /etc/apt/sources.list.d/99fd.io.list
+            echo "deb [trusted=yes] https://nexus.fd.io/content/repositories/fd.io$RELEASE.ubuntu.$UBUNTU.main/ ./" | sudo tee -a /etc/apt/sources.list.d/99fd.io.list
+            apt-get update
+            apt-get install -y vpp vpp-dpdk-dkms vpp-lib vpp-dbg vpp-plugins vpp-dev
             sleep 1
 
             # Install VES
-            cd /opt/VES1.1/bldjobs/
+            cd /opt/VES/bldjobs/
             make clean
             make
             sleep 1
@@ -272,63 +281,62 @@ resources:
       user_data:
         str_replace:
           params:
-            __webserver__: { get_param: webserver_ip }
             __fw_ipaddr__: { get_param: vfw_private_ip_0 }
             __protected_net_cidr__: { get_param: protected_private_net_cidr }
             __sink_ipaddr__: { get_param: vsn_private_ip_0 }
-            __repo_url__ : { get_param: repo_url }
-            __repo_user__ : { get_param: repo_user }
-            __repo_passwd__ : { get_param: repo_passwd }
+            __repo_url_blob__ : { get_param: repo_url_blob }
+            __repo_url_artifacts__ : { get_param: repo_url_artifacts }
+            __demo_artifacts_version__ : { get_param: demo_artifacts_version }
           template: |
             #!/bin/bash
 
-            WEBSERVER_IP=__webserver__
             FW_IPADDR=__fw_ipaddr__
             PROTECTED_NET_CIDR=__protected_net_cidr__
             SINK_IPADDR=__sink_ipaddr__
-            REPO_URL=__repo_url__
-            REPO_USER=__repo_user__
-            REPO_PASSWD=__repo_passwd__
+            REPO_URL_BLOB=__repo_url_blob__
+            REPO_URL_ARTIFACTS=__repo_url_artifacts__
+            DEMO_ARTIFACTS_VERSION=__demo_artifacts_version__
 
             # Download required dependencies
             add-apt-repository -y ppa:openjdk-r/ppa
             apt-get update
             apt-get install -y make wget openjdk-8-jdk gcc libcurl4-openssl-dev python-pip bridge-utils apt-transport-https ca-certificates
+            apt-get install -y maven
             pip install jsonschema
-
-            # Install Nexus certificate
-            echo "$WEBSERVER_IP ecomp-nexus" >> /etc/hosts
-            keytool -printcert -sslserver $WEBSERVER_IP:8443 -rfc > nexus.crt
-            cp nexus.crt /usr/local/share/ca-certificates/
-            update-ca-certificates
 
             # Download vFirewall demo code for packet generator
             mkdir /opt/config
+            mkdir /opt/honeycomb
             cd /opt
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/v_packetgen_init.sh
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/vpacketgen.sh
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/vpp.tar.gz
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/honeycomb.tar.gz
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/pg_streams.tar.gz
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/run_traffic_fw_demo.sh
-            tar -zxvf vpp.tar.gz
-            tar -zxvf honeycomb.tar.gz
-            tar -zxvf pg_streams.tar.gz
+
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vfw/$DEMO_ARTIFACTS_VERSION/v_packetgen_init.sh
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vfw/$DEMO_ARTIFACTS_VERSION/vpacketgen.sh
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vfw/$DEMO_ARTIFACTS_VERSION/run_traffic_fw_demo.sh
+
+            mvn org.apache.maven.plugins:maven-dependency-plugin:2.10:get -DremoteRepositories=$REPO_URL_ARTIFACTS -Dartifact=org.openecomp.demo.vnf:sample-distribution:$DEMO_ARTIFACTS_VERSION:tar.gz:hc -Dtransitive=false -Ddest=.
+            mvn org.apache.maven.plugins:maven-dependency-plugin:2.10:get -DremoteRepositories=$REPO_URL_ARTIFACTS -Dartifact=org.openecomp.demo.vnf.vfw:vfw_pg_streams:$DEMO_ARTIFACTS_VERSION:tar.gz:demo -Dtransitive=false -Ddest=.
+
+
+            tar -zxvf sample-distribution-$DEMO_ARTIFACTS_VERSION-hc.tar.gz
+            tar -zxvf vfw_pg_streams-$DEMO_ARTIFACTS_VERSION-demo.tar.gz 
+            mv vfw_pg_streams-$DEMO_ARTIFACTS_VERSION pg_streams
+            mv sample-distribution-$DEMO_ARTIFACTS_VERSION honeycomb
+            sed -i 's/"restconf-binding-address": "127.0.0.1",/"restconf-binding-address": "0.0.0.0",/g' honeycomb/sample-distribution-$DEMO_ARTIFACTS_VERSION/config/honeycomb.json
             rm *.tar.gz
             chmod +x v_packetgen_init.sh
             chmod +x vpacketgen.sh
             echo $FW_IPADDR > config/fw_ipaddr.txt
             echo $PROTECTED_NET_CIDR > config/protected_net_cidr.txt
             echo $SINK_IPADDR > config/sink_ipaddr.txt
+            echo $DEMO_ARTIFACTS_VERSION > config/artifacts_version.txt
 
             # Install VPP
-            cd /opt/vpp/build-root/
-            dpkg -i vpp-lib_16.09-3~gc021053_amd64.deb
-            dpkg -i vpp_16.09-3~gc021053_amd64.deb
-            dpkg -i vpp-dbg_16.09-3~gc021053_amd64.deb
-            dpkg -i vpp-dev_16.09-3~gc021053_amd64.deb
-            dpkg -i vpp-dpdk-dev_16.09-3~gc021053_amd64.deb
-            dpkg -i vpp-plugins_16.09-3~gc021053_amd64.deb
+            export UBUNTU="trusty"
+            export RELEASE=".stable.1609"
+            rm /etc/apt/sources.list.d/99fd.io.list
+            echo "deb [trusted=yes] https://nexus.fd.io/content/repositories/fd.io$RELEASE.ubuntu.$UBUNTU.main/ ./" | sudo tee -a /etc/apt/sources.list.d/99fd.io.list
+            apt-get update
+            apt-get install -y vpp vpp-dpdk-dkms vpp-lib vpp-dbg vpp-plugins vpp-dev
             sleep 1
 
             # Run instantiation script
@@ -365,22 +373,20 @@ resources:
       user_data:
         str_replace:
           params:
-            __webserver__: { get_param: webserver_ip }
             __protected_net_gw__: { get_param: vfw_private_ip_1 }
             __unprotected_net__: { get_param: unprotected_private_net_cidr }
-            __repo_url__ : { get_param: repo_url }
-            __repo_user__ : { get_param: repo_user }
-            __repo_passwd__ : { get_param: repo_passwd }
+            __repo_url_blob__ : { get_param: repo_url_blob }
+            __repo_url_artifacts__ : { get_param: repo_url_artifacts }
+            __demo_artifacts_version__ : { get_param: demo_artifacts_version }
           template: |
             #!/bin/bash
 
-            WEBSERVER_IP=__webserver__
             PROTECTED_NET_GW=__protected_net_gw__
             UNPROTECTED_NET=__unprotected_net__
             UNPROTECTED_NET=$(echo $UNPROTECTED_NET | cut -d'/' -f1)
-            REPO_URL=__repo_url__
-            REPO_USER=__repo_user__
-            REPO_PASSWD=__repo_passwd__
+            REPO_URL_BLOB=__repo_url_blob__
+            REPO_URL_ARTIFACTS=__repo_url_artifacts__
+            DEMO_ARTIFACTS_VERSION=__demo_artifacts_version__
 
             # Download required dependencies
             add-apt-repository -y ppa:openjdk-r/ppa
@@ -392,16 +398,10 @@ resources:
             sed -i "s/INTERFACE=.*/INTERFACE=\"-i eth1\"/g" /etc/darkstat/init.cfg
             /etc/init.d/darkstat start
 
-            # Install Nexus certificate
-            echo "$WEBSERVER_IP ecomp-nexus" >> /etc/hosts
-            keytool -printcert -sslserver $WEBSERVER_IP:8443 -rfc > nexus.crt
-            cp nexus.crt /usr/local/share/ca-certificates/
-            update-ca-certificates
-
             mkdir /opt/config
             cd /opt
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/v_sink_init.sh
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/vsink.sh
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vfw/$DEMO_ARTIFACTS_VERSION/v_sink_init.sh
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vfw/$DEMO_ARTIFACTS_VERSION/vsink.sh
             chmod +x v_sink_init.sh
             chmod +x vsink.sh
             echo $PROTECTED_NET_GW > config/protected_net_gw.txt

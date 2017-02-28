@@ -55,10 +55,6 @@ parameters:
     type: string
     label: vFirewall module ID
     description: The vLoadBalancer Module ID is provided by ECOMP
-  webserver_ip:
-    type: string
-    label: Webserver IP address
-    description: IP address of the webserver that hosts the source code and binaries
   key_name:
     type: string
     label: Key pair name
@@ -67,27 +63,45 @@ parameters:
     type: string
     label: Public key
     description: Public key to be installed on the compute instance
-  repo_user:
-    type: string
-    label: Repository username
-    description: Username to access the repository that hosts the demo packages
-  repo_passwd:
-    type: string
-    label: Repository password
-    description: Password to access the repository that hosts the demo packages
-  repo_url:
+  repo_url_blob:
     type: string
     label: Repository URL
     description: URL of the repository that hosts the demo packages
+  repo_url_artifacts:
+    type: string
+    label: Repository URL
+    description: URL of the repository that hosts the demo packages
+  demo_artifacts_version:
+    type: string
+    label: Artifacts version used in demo vnfs
+    description: Artifacts (jar, tar.gz) version used in demo vnfs
 
 resources:
+
+  random-str:
+    type: OS::Heat::RandomString
+    properties:
+      length: 4
+
+  my_keypair:
+    type: OS::Nova::KeyPair
+    properties:
+      name:
+        str_replace:
+          template: base_rand
+          params:
+            base: { get_param: key_name }
+            rand: { get_resource: random-str }
+      public_key: { get_param: pub_key }
+      save_private_key: false
+
   vdns_0:
     type: OS::Nova::Server
     properties:
       image: { get_param: vlb_image_name }
       flavor: { get_param: vlb_flavor_name }
       name: { get_param: vdns_name_0 }
-      key_name: { get_param: key_name }
+      key_name: { get_resource: my_keypair }
       networks:
         - network: { get_param: public_net_id }
         - port: { get_resource: vdns_private_0_port }
@@ -97,70 +111,68 @@ resources:
       user_data:
         str_replace:
           params:
-            __webserver__: { get_param: webserver_ip }
             __lb_oam_int__ : { get_param: vlb_private_ip_1 }
             __lb_private_ipaddr__: { get_param: vlb_private_ip_0 }
             __local_private_ipaddr__: { get_param: vdns_private_ip_0 }
-            __repo_url__ : { get_param: repo_url }
-            __repo_user__ : { get_param: repo_user }
-            __repo_passwd__ : { get_param: repo_passwd }
+            __repo_url_blob__ : { get_param: repo_url_blob }
+            __repo_url_artifacts__ : { get_param: repo_url_artifacts }
+            __demo_artifacts_version__ : { get_param: demo_artifacts_version }
           template: |
             #!/bin/bash
 
-            WEBSERVER_IP=__webserver__
             LB_OAM_INT=__lb_oam_int__
             LB_PRIVATE_IPADDR=__lb_private_ipaddr__
             LOCAL_PRIVATE_IPADDR=__local_private_ipaddr__
-            REPO_URL=__repo_url__
-            REPO_USER=__repo_user__
-            REPO_PASSWD=__repo_passwd__
+            REPO_URL_BLOB=__repo_url_blob__
+            REPO_URL_ARTIFACTS=__repo_url_artifacts__
+            DEMO_ARTIFACTS_VERSION=__demo_artifacts_version__
 
             # Download required dependencies
             add-apt-repository -y ppa:openjdk-r/ppa
             apt-get update
             apt-get install -y wget openjdk-8-jdk bind9 bind9utils bind9-doc apt-transport-https ca-certificates
+            apt-get install -y maven
             sleep 1
-
-            # Install Nexus certificate
-            echo "$WEBSERVER_IP ecomp-nexus" >> /etc/hosts
-            keytool -printcert -sslserver $WEBSERVER_IP:8443 -rfc > nexus.crt
-            cp nexus.crt /usr/local/share/ca-certificates/
-            update-ca-certificates
 
             # Download vDNS demo code for DNS Server
             mkdir /opt/config
+            mkdir /opt/FDclient
             cd /opt
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/v_dns_init.sh
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/vdns.sh
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/DNSClient.tar.gz
-            tar -zxvf DNSClient.tar.gz
-            rm *.tar.gz
+
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vlb/$DEMO_ARTIFACTS_VERSION/v_dns_init.sh
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vlb/$DEMO_ARTIFACTS_VERSION/vdns.sh
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vlb/$DEMO_ARTIFACTS_VERSION/dnsclient.sh
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vlb/$DEMO_ARTIFACTS_VERSION/set_gre_tunnel.sh
+
+            mvn org.apache.maven.plugins:maven-dependency-plugin:2.10:get -DremoteRepositories=$REPO_URL_ARTIFACTS -Dartifact=org.openecomp.demo.vnf.vlb:dns-client:$DEMO_ARTIFACTS_VERSION:jar -Dtransitive=false -Ddest=.
+
+            mv dns-client-$DEMO_ARTIFACTS_VERSION.jar /opt/FDclient/
+            mv dnsclient.sh /opt/FDclient/
+            mv set_gre_tunnel.sh /opt/FDclient/
+
             chmod +x v_dns_init.sh
             chmod +x vdns.sh
+            chmod +x /opt/FDclient/dnsclient.sh
+            chmod +x /opt/FDclient/set_gre_tunnel.sh
+
             echo $LB_OAM_INT > config/lb_oam_int.txt
             echo $LB_PRIVATE_IPADDR > config/lb_private_ipaddr.txt
             echo $LOCAL_PRIVATE_IPADDR > config/local_private_ipaddr.txt
+            echo $DEMO_ARTIFACTS_VERSION > config/artifacts_version.txt
 
             # Download Bind config files
             cd /opt/config
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/db_dnsdemo_openecomp_org
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/named.conf.options
-            wget --user=$REPO_USER --password=$REPO_PASSWD $REPO_URL/named.conf.local
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vlb/$DEMO_ARTIFACTS_VERSION/db_dnsdemo_openecomp_org
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vlb/$DEMO_ARTIFACTS_VERSION/named.conf.options
+            wget $REPO_URL_BLOB/org.openecomp.demo/vnfs/vlb/$DEMO_ARTIFACTS_VERSION/named.conf.local
 
             # Configure Bind
             modprobe ip_gre
             mkdir /etc/bind/zones
             sed -i "s/OPTIONS=.*/OPTIONS=\"-4 -u bind\"/g" /etc/default/bind9
-            cp /opt/config/db_dnsdemo_openecomp_org /etc/bind/zones/db.dnsdemo.openecomp.org
-            cp /opt/config/named.conf.local /etc/bind/
-            sleep 1
-
-            # Start Failure Detector
-            cd /opt/DNSClient/src
-            javac -d ../bin/ *.java
-            cd /opt/DNSClient/bin
-            chmod +x dnsclient.sh
-            chmod +x set_gre_tunnel.sh
+            mv db_dnsdemo_openecomp_org /etc/bind/zones/db.dnsdemo.openecomp.org
+            mv named.conf.options /etc/bind/
+            mv named.conf.local /etc/bind/
             sleep 1
 
             # Run instantiation script
