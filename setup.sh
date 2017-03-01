@@ -7,7 +7,7 @@
 # get the path
 path=$(pwd)
 
-pip install --target="$path/robot/library" 'selenium<=3.0.0' 'requests==2.11.1' 'robotframework-selenium2library==1.8.0' \
+pip install --no-cache-dir --target="$path/robot/library" 'selenium<=3.0.0' 'requests==2.11.1' 'robotframework-selenium2library==1.8.0' \
 'robotframework-databaselibrary==0.8.1' 'robotframework-extendedselenium2library==0.9.1' 'robotframework-requests==0.4.5' \
 'robotframework-sshlibrary==2.1.2' \
 'robotframework-sudslibrary==0.8' 'robotframework-ftplibrary==1.3' 'robotframework-rammbock==0.4.0.1' \
