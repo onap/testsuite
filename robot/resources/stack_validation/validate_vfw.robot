@@ -44,7 +44,8 @@ Validate Firewall Stack
     Wait For Packet Generator    ${vpg_public_ip}
     Wait For Packet Sink    ${vsn_public_ip}
     Log    All server processes up
-    ${appc}=    Create Mount Point In APPC    ${vpg_name_0}    ${vpg_public_ip}
+    ${vpg_oam_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_1
+    ${appc}=    Create Mount Point In APPC    ${vpg_name_0}    ${vpg_oam_ip}
 
     # Following hack was implemented because the stack doesn't always come up clean
     # It was found that rebooting the servers at this point did not improve the
