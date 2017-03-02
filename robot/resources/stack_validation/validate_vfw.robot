@@ -83,7 +83,6 @@ Wait For Packet Generator
     [Documentation]     Wait for the defined packet generator processes to come up
     [Arguments]    ${ip}    
     Wait for Process on Host    vpp -c /etc/vpp/startup.conf    ${ip}    
-    Wait for Process on Host    java .* -jar /opt/honeycomb/Honeycomb/vpp-integration/minimal-distribution/target/vpp-integration-distribution-1.16.9-hc/vpp-integration-distribution-1.16.9/vpp-integration-distribution-1.16.9.jar    ${ip}    
     Wait Until Keyword Succeeds    180s    5s    Tail File on Host Until    ${ip}    Honeycomb    /var/log/honeycomb/honeycomb.log    - Honeycomb initialized   options=-c +0    timeout=120s
     Run Keyword And Ignore Error    Wait for Process on Host    run_traffic_fw_demo.sh    ${ip}    timeout=60s  
     Pkill Process On Host    "/bin/bash ./run_traffic_fw_demo.sh"    ${ip}

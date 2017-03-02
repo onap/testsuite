@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the defaults
-DEFAULT_LOG_LEVEL="INFO" # Available levels: TRACE, DEBUG, INFO (default), WARN, NONE (no logging)
+DEFAULT_LOG_LEVEL="TRACE" # Available levels: TRACE, DEBUG, INFO (default), WARN, NONE (no logging)
 DEFAULT_RES="1280x1024x24"
 DEFAULT_DISPLAY=":99"
 DEFAULT_ROBOT_TEST="-i health"

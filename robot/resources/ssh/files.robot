@@ -11,7 +11,7 @@ Library           Collections
 *** Keywords ***
 Open Connection And Log In
    [Documentation]    Open a connection using the passed user and SSH key. Connection alias will be the host name by default.
-   [Arguments]    ${HOST}    ${user}    ${pvt}    ${password}=    ${alias}=${HOST}    ${timeout}=20s
+   [Arguments]    ${HOST}    ${user}    ${pvt}    ${password}=    ${alias}=${HOST}    ${timeout}=120s
    Open Connection    ${HOST}    alias=${alias}    timeout=${timeout}
    Login With Public Key    ${user}    ${pvt}    password=${password}    delay=0.5 seconds
 
