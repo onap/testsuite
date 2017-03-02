@@ -1,9 +1,9 @@
 *** Settings ***
-Documentation	  This test template encapsulates the VNF Orchestration use case. 
+Documentation	  This test template encapsulates the VNF Orchestration use case.
 
-Resource        test_templates/model_test_template.robot 
-Resource        test_templates/vnf_orchestration_test_template.robot 
-Resource        asdc_interface.robot 
+Resource        test_templates/model_test_template.robot
+Resource        test_templates/vnf_orchestration_test_template.robot
+Resource        asdc_interface.robot
 
 Library	        UUID
 Library	        Collections
@@ -16,9 +16,9 @@ Library         ExtendedSelenium2Library
 ${ADD_DEMO_CUSTOMER_BODY}   robot/assets/templates/aai/add_demo_customer.template
 ${AAI_INDEX_PATH}     /aai/v8
 ${VF_MODULES_NAME}     _Demo_VFModules.json
-${FILE_CACHE}    /share/     
+${FILE_CACHE}    /share/
 
-*** Keywords ***     
+*** Keywords ***
 Load Customer And Models
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
@@ -27,25 +27,25 @@ Load Customer And Models
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFW   demoVFW
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB   demoVLB
     ## MSO polling is 60 second intervals
-    Sleep    60s     
-    Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    ${GLOBAL_OPENSTACK_SERVICE_REGION}   ${TENANT_ID}        
+    Sleep    60s
+    Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    ${GLOBAL_OPENSTACK_SERVICE_REGION}   ${TENANT_ID}
 
 Distribute Model
     [Arguments]   ${service}   ${modelName}
     ${service_model_type}     ${vnf_type}    ${vf_modules}=   Model Distribution For Directory    ${service}   ${modelName}
     ${jsonString}=   Evaluate    json.dumps(${vf_modules})   json
     OperatingSystem.Create File   ${FILE_CACHE}${service}${VF_MODULES_NAME}   ${jsonString}
-    
+
 Create Customer For VNF Demo
     [Documentation]    Create demo customer for the demo
-    [Arguments]    ${customer_name}   ${customer_id}   ${customer_type}    ${clouder_owner}    ${cloud_region_id}    ${tenant_id}  
-    ${data_template}=    OperatingSystem.Get File    ${ADD_DEMO_CUSTOMER_BODY}  
-    ${arguments}=    Create Dictionary    subscriber_name=${customer_name}    global_customer_id=${customer_id}    subscriber_type=${customer_type}     cloud_owner=${clouder_owner}  cloud_region_id=${cloud_region_id}    tenant_id=${tenant_id}       
-    Set To Dictionary   ${arguments}       service1=vFW       service2=vLB      
-    ${data}=	Fill JSON Template    ${data_template}    ${arguments}         
+    [Arguments]    ${customer_name}   ${customer_id}   ${customer_type}    ${clouder_owner}    ${cloud_region_id}    ${tenant_id}
+    ${data_template}=    OperatingSystem.Get File    ${ADD_DEMO_CUSTOMER_BODY}
+    ${arguments}=    Create Dictionary    subscriber_name=${customer_name}    global_customer_id=${customer_id}    subscriber_type=${customer_type}     cloud_owner=${clouder_owner}  cloud_region_id=${cloud_region_id}    tenant_id=${tenant_id}
+    Set To Dictionary   ${arguments}       service1=vFW       service2=vLB
+    ${data}=	Fill JSON Template    ${data_template}    ${arguments}
 	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
-    Should Match Regexp    ${status_string}    ^(201|412)$  
+    Should Match Regexp    ${status_string}    ^(201|412)$
     Create Service If Not Exists    vFW
     Create Service If Not Exists    vLB
 
@@ -53,14 +53,14 @@ Create Customer For VNF Demo
 Preload Demo
     [Arguments]   ${vnf_name}   ${vf_module_name}
     ${vf_modules}=   Create List
-    ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance    ${vnf_name} 
+    ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance    ${vnf_name}
     Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF Name: ${vnf_name} is not found.
     ${vnf_type}=   Set Variable   ${generic_vnf['vnf-type']}
     ${relationships}=   Set Variable   ${generic_vnf['relationship-list']['relationship']}
     ${relationship_data}=    Get Relationship Data   ${relationships}
-    :for    ${r}   in   @{relationship_data}  
-    \   ${service}=   Set Variable If    '${r['relationship-key']}' == 'service-subscription.service-type'   ${r['relationship-value']}    ${service}  
-    \   ${service_instance_id}=   Set Variable If    '${r['relationship-key']}' == 'service-instance.service-instance-id'   ${r['relationship-value']}   ${service_instance_id}  
+    :for    ${r}   in   @{relationship_data}
+    \   ${service}=   Set Variable If    '${r['relationship-key']}' == 'service-subscription.service-type'   ${r['relationship-value']}    ${service}
+    \   ${service_instance_id}=   Set Variable If    '${r['relationship-key']}' == 'service-instance.service-instance-id'   ${r['relationship-value']}   ${service_instance_id}
     ${data}=   OperatingSystem.Get File   ${FILE_CACHE}${service}${VF_MODULES_NAME}
     ${vf_modules}=   Evaluate    json.loads('''${data}''')   json
     Log    ${generic_vnf}
@@ -68,27 +68,28 @@ Preload Demo
     Setup Browser
     Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${service}    demo
     [Teardown]    Close All Browsers
-    
+
 Get Relationship Data
     [Arguments]   ${relationships}
     :for    ${r}   in   @{relationships}
-    \     ${status}   ${relationship_data}   Run Keyword And Ignore Error    Set Variable   ${r['relationship-data']}            
-    \     Return From Keyword If    '${status}' == 'PASS'   ${relationship_data}     
-    
-         
+    \     ${status}   ${relationship_data}   Run Keyword And Ignore Error    Set Variable   ${r['relationship-data']}
+    \     Return From Keyword If    '${status}' == 'PASS'   ${relationship_data}
+
+
 Get Service Instance
     [Arguments]   ${vnf_name}
-    ${resp}=    Run A&AI Get Request      ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-name=${vnf_name}	
+    ${resp}=    Run A&AI Get Request      ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-name=${vnf_name}
     Should Be Equal As Strings 	${resp.status_code} 	200
-    [Return]   ${resp.json()}    
-    
-APPC Mount Point    
+    [Return]   ${resp.json()}
+
+APPC Mount Point
     [Arguments]   ${vf_module_name}
     Run Openstack Auth Request    auth
     ${status}   ${stack_info}=   Run Keyword and Ignore Error    Wait for Stack to Be Deployed    auth    ${vf_module_name}   timeout=120s
     Run Keyword if   '${status}' == 'FAIL'   FAIL   ${vf_module_name} Stack is not found
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
-    ${server_list}=    Get Openstack Servers    auth 
+    ${server_list}=    Get Openstack Servers    auth
     ${vpg_name_0}=    Get From Dictionary    ${stack_info}    vpg_name_0
-    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=public     
-    ${appc}=    Create Mount Point In APPC    ${vpg_name_0}    ${vpg_public_ip}
+    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=public
+    ${vpg_oam_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_1
+    ${appc}=    Create Mount Point In APPC    ${vpg_name_0}    ${vpg_oam_ip}

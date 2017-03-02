@@ -8,6 +8,9 @@ DEFAULT_ROBOT_TEST="-i health"
 INSTALL_NAME="OpenECOMP_ETE"
 DEFAULT_OUTPUT_FOLDER=./
 
+# To mitigate the chromedriver hanging issue
+export DBUS_SESSION_BUS_ADDRESS=/dev/null
+
 # Use default if none specified as env var
 LOG_LEVEL=${LOG_LEVEL:-$DEFAULT_LOG_LEVEL}
 RES=${RES:-$DEFAULT_RES}
@@ -23,45 +26,45 @@ if [ $# -eq 1 ]; then
     ROBOT_TAGS="-i $1"
 fi
 
-## 
-## if more than 1 tag is supplied, the must be provided with -i or -e 
+##
+## if more than 1 tag is supplied, the must be provided with -i or -e
 ##
 while [ $# -gt 1 ]
 do
 	key="$1"
-	
+
 	case $key in
     	-i|--include)
     	ROBOT_TAGS="${ROBOT_TAGS} -i $2"
-    	shift 
+    	shift
     	;;
     	-e|--exclude)
     	ROBOT_TAGS="${ROBOT_TAGS} -e $2"
-    	shift 
+    	shift
     	;;
     	-d|--outputdir)
     	OUTPUT_FOLDER=$2
     	shift
-    	;; 
+    	;;
     	--display)
     	DISPLAY=:$2
-    	shift 
+    	shift
     	;;
    	-V)
     	VARIABLEFILES="${VARIABLEFILES} -V $2 "
-    	shift 
+    	shift
     	;;
    	-v)
     	VARIABLES="${VARIABLES} -v $2 "
-    	shift 
+    	shift
     	;;
 	esac
 	shift
-done	
+done
 
 if [ "${ROBOT_TAGS}" = "" ];then
     ROBOT_TAGS=$DEFAULT_ROBOT_TEST
-fi 
+fi
 
 # Start Xvfb
 echo -e "Starting Xvfb on display ${DISPLAY} with res ${RES}"
@@ -81,8 +84,8 @@ python -m robot.run -L ${LOG_LEVEL} -d ${OUTPUT_FOLDER} ${VARIABLEFILES} ${VARIA
 
 # Stop Xvfb we started earlier
 # select it from list of possible Xvfb pids running because
-# a) there may be multiple Xvfbs running and 
-# b) the XVFBPID may not be the correct if the start did not actually work (unlikely and that may be) 
+# a) there may be multiple Xvfbs running and
+# b) the XVFBPID may not be the correct if the start did not actually work (unlikely and that may be)
 PIDS=$(pgrep Xvfb)
 for P in $PIDS
 do
