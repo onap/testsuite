@@ -65,9 +65,11 @@ Delete Cloud Region
 	Run Keyword If    '${get_resp.status_code}' == '200'    Delete Cloud Region Exists   ${tenant_id}    ${cloud_owner}    ${cloud_region_id}    ${get_resp.json()['resource-version']}
 	
 Delete Cloud Region Exists
+    [Documentation]   Delete may get status 400 (Bad Request) if the region is still referenced
     [Arguments]    ${tenant_id}    ${cloud_owner}    ${cloud_region_id}    ${resource_version}
     ${put_resp}=    Run A&AI Delete Request    ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}   ${resource_version}
-    Should Be Equal As Strings 	${put_resp.status_code} 	204     
+    ${status_string}=    Convert To String    ${put_resp.status_code}
+    Should Match Regexp    ${status_string}    ^(204|400)$  
     
 Get Tenants
     [Documentation]   Return list of tenants for this cloud owner/region    
