@@ -2,31 +2,31 @@
 <projectConfiguration>
     <configVersion>1.0</configVersion>
     <relativeTo>PROJECT</relativeTo>
-    <referencedLibrary type="PYTHON" name="RequestsLibrary" path="ete-testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="RequestsClientCert" path="ete-testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="UUID" path="ete-testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="Selenium2Library" path="ete-testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ExtendedSelenium2Library" path="ete-testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="SSHLibrary" path="ete-testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="HTTPUtils" path="ete-testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="JSONUtils" path="ete-testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="HttpLibrary" path="ete-testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="HttpLibrary.HTTP" path="ete-testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="StringTemplater" path="ete-testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="OpenstackLibrary" path="ete-testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="HEATUtils" path="ete-testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="OSUtils" path="ete-testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="DNSUtils" path="ete-testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="ArchiveLibrary" path="ete-testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="HeatBridge" path="ete-testsuite/robot/library/heatbridge"/>
+    <referencedLibrary type="PYTHON" name="RequestsLibrary" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="RequestsClientCert" path="testsuite/robot/library/eteutils"/>
+    <referencedLibrary type="PYTHON" name="UUID" path="testsuite/robot/library/eteutils"/>
+    <referencedLibrary type="PYTHON" name="Selenium2Library" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="ExtendedSelenium2Library" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="SSHLibrary" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="HTTPUtils" path="testsuite/robot/library/eteutils"/>
+    <referencedLibrary type="PYTHON" name="JSONUtils" path="testsuite/robot/library/eteutils"/>
+    <referencedLibrary type="PYTHON" name="HttpLibrary" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="HttpLibrary.HTTP" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="StringTemplater" path="testsuite/robot/library/eteutils"/>
+    <referencedLibrary type="PYTHON" name="OpenstackLibrary" path="testsuite/robot/library/eteutils"/>
+    <referencedLibrary type="PYTHON" name="HEATUtils" path="testsuite/robot/library/eteutils"/>
+    <referencedLibrary type="PYTHON" name="OSUtils" path="testsuite/robot/library/eteutils"/>
+    <referencedLibrary type="PYTHON" name="DNSUtils" path="testsuite/robot/library/eteutils"/>
+    <referencedLibrary type="PYTHON" name="ArchiveLibrary" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="HeatBridge" path="testsuite/robot/library/heatbridge"/>
     <pythonpath>
         <path location="robot/library"/>
     </pythonpath>
     <classpath/>
-    <variableFiles path="ete-testsuite/ete-properties/dfw_robot_properties_local.py"/>
-    <variableFiles path="ete-testsuite/ete-properties/dfw_preload_parameters.py"/>
-    <variableFiles path="ete-testsuite/ete-properties/dfw_vm_properties.py"/>
-    <variableFiles path="ete-testsuite/robot/assets/service_mappings.py"/>
+    <variableFiles path="testsuite/ete-properties/dfw_robot_properties_local.py"/>
+    <variableFiles path="testsuite/ete-properties/dfw_preload_parameters.py"/>
+    <variableFiles path="testsuite/ete-properties/dfw_vm_properties.py"/>
+    <variableFiles path="testsuite/robot/assets/service_mappings.py"/>
     <excludedForValidation/>
     <isValidatedFileSizeCheckingEnabled>true</isValidatedFileSizeCheckingEnabled>
     <validatedFileMaxSize>1024</validatedFileMaxSize>
