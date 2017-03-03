@@ -41,8 +41,8 @@ Execute Heatbridge
     Init Bridge    ${openstack_identity_url}    ${GLOBAL_VM_PROPERTIES['openstack_username']}    ${GLOBAL_VM_PROPERTIES['openstack_password']}    ${tenant_id}    ${GLOBAL_OPENSTACK_SERVICE_REGION}    ${GLOBAL_AAI_CLOUD_OWNER}    
     ${request}=    Bridge Data    ${stack_id}
     Log    ${request}
-    ${resp}=    Run A&AI Put Request    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request} 
-    Should Be Equal As Strings    ${resp.status_code}     200
+    ${resp}=    Run A&AI Put Request    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request}
+    Should Match Regexp    ${resp.status_code} 	^(201|200)$
     ${reverse_heatbridge}=   Generate Reverse Heatbridge From Stack Info   ${stack_info}
     Set Test Variable   ${REVERSE_HEATBRIDGE}   ${reverse_heatbridge}
     Run Validation Query    ${stack_info}    ${service}
