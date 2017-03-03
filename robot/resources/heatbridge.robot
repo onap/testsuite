@@ -42,7 +42,8 @@ Execute Heatbridge
     ${request}=    Bridge Data    ${stack_id}
     Log    ${request}
     ${resp}=    Run A&AI Put Request    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request}
-    Should Match Regexp    ${resp.status_code} 	^(201|200)$
+    ${status_string}=    Convert To String    ${resp.status_code}
+    Should Match Regexp    ${status_string} 	^(201|200)$
     ${reverse_heatbridge}=   Generate Reverse Heatbridge From Stack Info   ${stack_info}
     Set Test Variable   ${REVERSE_HEATBRIDGE}   ${reverse_heatbridge}
     Run Validation Query    ${stack_info}    ${service}
