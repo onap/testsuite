@@ -26,8 +26,10 @@ ${SERVICE INSTANCE}    /service-instances?service-instance-id=
 ${SERVCE INSTANCE TEMPLATE}    robot/assets/templates/aai/service_subscription.template    
 
 ${GENERIC_VNF_PATH_TEMPLATE}   /network/generic-vnfs/generic-vnf/\${vnf_id}/vf-modules/vf-module/\${vf_module_id}
+${GENERIC_VNF_QUERY_TEMPLATE}   /network/generic-vnfs/generic-vnf/\${vnf_id}/vf-modules/vf-module?vf-module-name=\${vf_module_name}
 ${VLB_CLOSED_LOOP_HACK_BODY}    robot/assets/templates/aai/vlb_closed_loop_hack.template
 ${VLB_CLOSED_LOOP_DELETE}
+${VLB_CLOSED_LOOP_VNF_ID}
 
 *** Keywords ***    
 Validate Service Instance
@@ -57,13 +59,31 @@ VLB Closed Loop Hack
     ${vfmodule}=    Get From List    ${list}    0
     ${persona_model_id}=    Get From Dictionary    ${closedloop_vf_module}    invariantUUID
     ${persona_model_version}=   Get From Dictionary    ${closedloop_vf_module}    version
-    ${dict}=    Create Dictionary   vnf_id=${vnf_id}   vf_module_id=dummy   persona_model_id=${persona_model_id}   persona_model_version=${persona_model_version}    
+    ${dummy}=    Catenate   dummy_${vnf_id}
+    ${dict}=    Create Dictionary   vnf_id=${vnf_id}   vf_module_id=${dummy}   persona_model_id=${persona_model_id}   persona_model_version=${persona_model_version}    
     ${datapath}=    Template String    ${GENERIC_VNF_PATH_TEMPLATE}    ${dict}
     ${data}=	Fill JSON Template File    ${VLB_CLOSED_LOOP_HACK_BODY}    ${dict}    
 	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${datapath}   ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}    ^(201|412)$  
     Set Test Variable   ${VLB_CLOSED_LOOP_DELETE}    ${datapath}   
+    Set Test Variable   ${VLB_CLOSED_LOOP_VNF_ID}    ${vnf_id}   
+
+
+VLB Closed Loop Hack Update
+    [Documentation]   Update the A&AI vDNS scaling vf module to have persona-model-version 1 rather than 1.0
+    [Arguments]   ${stack_name}
+    ${dict}=    Create Dictionary   vnf_id=${VLB_CLOSED_LOOP_VNF_ID}   vf_module_name=${stack_name}
+    ${query}=   Template String   ${GENERIC_VNF_QUERY_TEMPLATE}   ${dict} 
+    ${get_resp}=    Run A&AI Get Request     ${INDEX_PATH}${query}
+    ${json}=   Set Variable   ${get_resp.json()}
+    Set to Dictionary    ${json}   persona-model-version   1
+    ${vf_module_id}=   Get From Dictionary   ${json}   vf-module-id
+    Set to Dictionary   ${dict}   vf_module_id=${vf_module_id}
+    ${uri}=   Template String   ${GENERIC_VNF_PATH_TEMPLATE}   ${dict} 
+    ${resp}=   Run A&AI Put Request    ${INDEX_PATH}${uri}   ${json}
+    ${get_resp}=    Run A&AI Get Request     ${INDEX_PATH}${query}
+
 
 Teardown VLB Closed Loop Hack
     Return From Keyword If    ' ${VLB_CLOSED_LOOP_DELETE}' == ''

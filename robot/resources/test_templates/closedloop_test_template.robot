@@ -119,17 +119,8 @@ Get Configs VDNS Policy
 Teardown Closed Loop
     [Documentation]   Tear down a closed loop test case
     Terminate All Processes 
-    Teardown VDNS
     Teardown VNF   
-    #Clean A&AI Inventory    VFWPolicy_Customer   Rackspece    vFW   
-#    Delete Config Policy    ${CONFIG_POLICY_NAME}
-#    Delete Ops Policy    ${OPS_POLICY_NAME}  
     Log     Teardown complete  
-
-Teardown VDNS
-    Return From Keyword if    '${DNSSCALINGSTACK}' == ''
-    # This needs to be done via VID
-    Teardown Stack    ${DNSSCALINGSTACK}
 
 Create Config Policy
     [Documentation]    Create Config Policy 

@@ -17,6 +17,7 @@ Resource          ../../resources/ssh/processes.robot
 Resource          packet_generator_interface.robot
 Resource          darkstat_interface.robot
 Resource          validate_common.robot
+Resource          ../../resources/test_templates/vnf_orchestration_test_template.robot
 
 
 *** Variables ***
@@ -78,6 +79,7 @@ Policy Check vLB Stack
     ${prefix}=    Get DNSScaling Prefix
     ${dnsscaling}=    Replace String Using Regexp    ${stack_name}    ^Vfmodule_    ${prefix}    
     ${dnsscaling_info}=    Wait for Stack to Be Deployed    auth    ${dnsscaling}
+    VLB Closed Loop Hack Update   ${dnsscaling}
     # TO DO: Log into vLB and cehck that traffic is flowing to the new DNS
     [Return]    ${dnsscaling}   
 
