@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a014df3_07492cd0",
+        "filename": "robot/resources/vid/create_service_instance.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2017-03-08T21:48:29Z",
+      "side": 0,
+      "message": "can we fix the line endings?",
+      "revId": "1f19017263f431689c265997c092281b0d7f4964",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
