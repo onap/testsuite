@@ -47,8 +47,6 @@ Orchestrate VNF
     ${service_type}=    Set Variable    ${service}
     ${vf_module_name}=    Catenate    Vfmodule_Ete_Name${uuid}
     ${service_model_type}     ${vnf_type}    ${vf_modules} =    Model Distribution For Directory    ${service}
-    ## MSO polling is 60 second intervals
-    Sleep    70s
     Run Keyword If   '${service}' == 'vVG'    Create VVG Server    ${uuid}
     Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${GLOBAL_OPENSTACK_SERVICE_REGION}
     Setup Browser

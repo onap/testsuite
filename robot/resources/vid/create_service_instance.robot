@@ -16,11 +16,7 @@ Create VID Service Instance
     [Documentation]    Creates a service instance using VID	
     [Arguments]    ${customer_name}  ${service_model_type}    ${service_type}     ${service_name}    
     Go To VID HOME
-    Click Element    partial link=Browse SDC Service
-    Page Should Contain Element    xpath=//div/h1[text() = 'Browse SDC Service Models']
-    Wait Until Page Contains Element    xpath=//button[text() = 'Deploy']    240s
-    Input Text When Enabled    //input[@ng-model='searchString']    ${service_model_type}     
-    Wait Until Element Is Visible    xpath=//tr[td/span/text() = '${service_model_type}']/td/button[contains(text(),'Deploy')]    300000   
+    Wait Until Keyword Succeeds    300s    1s    Wait For Model    ${service_model_type}
     Press Key    xpath=//tr[td/span/text() = '${service_model_type}']/td/button[text() = 'Deploy' and not(@disabled)]    \\13
     ${uuid}=    Generate UUID  
     Wait Until Page Contains Element    xpath=//input[@parameter-name='Instance Name']    120s
@@ -38,6 +34,14 @@ Create VID Service Instance
     Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
     [return]    ${service_instance_id}
 
+Wait For Model 
+    [Documentation]   Distributed model may not yet be available. Kepp trying until it shows up. 
+    [Arguments]   ${service_model_type}
+    Click Element    partial link=Browse SDC Service
+    Page Should Contain Element    xpath=//div/h1[text() = 'Browse SDC Service Models']
+    Wait Until Page Contains Element    xpath=//button[text() = 'Deploy']    240s
+    Input Text When Enabled    //input[@ng-model='searchString']    ${service_model_type}     
+    Wait Until Element Is Visible    xpath=//tr[td/span/text() = '${service_model_type}']/td/button[contains(text(),'Deploy')]    10s   
     
 Delete Service Instance By GUI   
     [Arguments]    ${service_instance_id}    ${customer_name} 
