@@ -25,6 +25,7 @@ Library	        Collections
 
 *** Variables ***
 
+#**************** TEST CASE VARIABLES **************************
 ${TENANT_NAME}
 ${TENANT_ID}
 ${REGIONS}
@@ -38,7 +39,8 @@ ${SERVICE_INSTANCE_ID}
 
 Orchestrate VNF
     [Documentation]   Use openECOMP to Orchestrate a service.
-    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${lcp_region}    ${tenant}
+    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}
+    ${lcp_region}=   Get Openstack Region
     ${uuid}=    Generate UUID
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
     Set Test Variable    ${SERVICE}    ${service}
@@ -48,7 +50,7 @@ Orchestrate VNF
     ${vf_module_name}=    Catenate    Vfmodule_Ete_Name${uuid}
     ${service_model_type}     ${vnf_type}    ${vf_modules} =    Model Distribution For Directory    ${service}
     Run Keyword If   '${service}' == 'vVG'    Create VVG Server    ${uuid}
-    Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${GLOBAL_OPENSTACK_SERVICE_REGION}
+    Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}
     Setup Browser
     Login To VID GUI
     ${service_instance_id}=    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}
@@ -68,7 +70,8 @@ Orchestrate VNF
 Create Customer For VNF
     [Documentation]    VNF Orchestration Test setup....
     ...                Create Tenant if not exists, Create Customer, Create Service and related relationships
-    [Arguments]    ${customer_name}    ${customer_id}    ${customer_type}    ${service_type}    ${cloud_owner}  ${cloud_region_id}
+    [Arguments]    ${customer_name}    ${customer_id}    ${customer_type}    ${service_type}    ${cloud_owner}
+    ${cloud_region_id}=   Get Openstack Region
     ${resp}=    Create Customer    ${customer_name}    ${customer_id}    ${customer_type}    ${service_type}   ${cloud_owner}  ${cloud_region_id}    ${TENANT_ID}
 	Should Be Equal As Strings 	${resp} 	201
     Create Service If Not Exists    ${service_type}
@@ -76,7 +79,7 @@ Create Customer For VNF
 Setup Orchestrate VNF
     [Documentation]    Called before each test case to ensure tenant and region data
     ...                required by the Orchstrate VNF exists in A&AI
-    [Arguments]        ${cloud_owner}  ${cloud_region_id}   ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}
+    [Arguments]        ${cloud_owner}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}
     Initialize Tenant From Openstack
     Initialize Regions From Openstack
     :FOR    ${region}    IN    @{REGIONS}
@@ -120,9 +123,10 @@ Get VVG Preload Parameters
 
 Teardown VNF
     [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
+    ${lcp_region}=   Get Openstack Region
     Teardown VVG Server
     Run Keyword If   '${TEST STATUS}' == 'PASS'   Teardown VLB Closed Loop Hack
-    Run Keyword If   '${TEST STATUS}' == 'PASS'   Teardown VID   ${SERVICE_INSTANCE_ID}   ${GLOBAL_OPENSTACK_SERVICE_REGION}   ${TENANT_ID}
+    Run Keyword If   '${TEST STATUS}' == 'PASS'   Teardown VID   ${SERVICE_INSTANCE_ID}   ${lcp_region}   ${TENANT_ID}
     Run Keyword If   '${TEST STATUS}' == 'PASS'   Teardown Model Distribution
     Run Keyword If   '${TEST STATUS}' == 'PASS'   Clean A&AI Inventory
     Close All Browsers

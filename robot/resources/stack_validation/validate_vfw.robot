@@ -22,7 +22,7 @@ ${ASSETS}              ${EXECDIR}/robot/assets/
 
 *** Keywords ***
 Validate Firewall Stack
-    [Documentation]    Identifies the firewall servers in the VFW Stack in the GLOBAL_OPENSTACK_SERVICE_REGION
+    [Documentation]    Identifies and validates the firewall servers in the VFW Stack
     [Arguments]    ${STACK_NAME}
     Run Openstack Auth Request    auth
     ${stack_info}=    Wait for Stack to Be Deployed    auth    ${STACK_NAME}
@@ -46,22 +46,6 @@ Validate Firewall Stack
     Log    All server processes up
     ${vpg_oam_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_1
     ${appc}=    Create Mount Point In APPC    ${vpg_name_0}    ${vpg_oam_ip}
-
-    # Following hack was implemented because the stack doesn't always come up clean
-    # It was found that rebooting the servers at this point did not improve the
-    # chances of the packets flowing to the SNK
-    #${status}    ${data}=    Run Keyword And Ignore Error    Wait For Packets   ${vpg_public_ip}   ${vpg_unprotected_ip}   ${vsn_protected_ip}   ${vsn_public_ip}
-    #Return From Keyword if    '${status}' == 'PASS'
-    #Close All Connections
-    #Find And Reboot The Server    ${stack_info}    ${server_list}    vfw_name_0
-    #Find And Reboot The Server    ${stack_info}    ${server_list}    vpg_name_0
-    #Find And Reboot The Server    ${stack_info}    ${server_list}    vsn_name_0
-    ## Gives some time for servers to shutdown
-    #Sleep    10s
-    #Wait For Server    ${vfw_public_ip}
-    #Wait For Server    ${vpg_public_ip}
-    #Wait For Server    ${vsn_public_ip}
-
     Wait For Packets   ${vpg_public_ip}   ${vpg_unprotected_ip}   ${vsn_protected_ip}   ${vsn_public_ip}
 
 Wait For Packets

@@ -10,8 +10,8 @@ Resource          validate_common.robot
 ${ASSETS}              ${EXECDIR}/robot/assets/
 
 *** Keywords ***
-Validate vVG Stack 
-    [Documentation]    Identifies the LB and DNS servers in the vLB stack in the GLOBAL_OPENSTACK_SERVICE_REGION
-    [Arguments]    ${stack_name}    
+Validate vVG Stack
+    [Documentation]    Validation of vVG stack (TBD)
+    [Arguments]    ${stack_name}
     Log    All server processes up
 

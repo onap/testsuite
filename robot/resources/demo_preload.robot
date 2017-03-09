@@ -22,13 +22,14 @@ ${FILE_CACHE}    /share/
 Load Customer And Models
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
-    Setup Orchestrate VNF   ${GLOBAL_AAI_CLOUD_OWNER}    ${GLOBAL_OPENSTACK_SERVICE_REGION}    SharedNode    OwnerType    v1    CloudZone
+    Setup Orchestrate VNF   ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFW   demoVFW
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB   demoVLB
     ## MSO polling is 60 second intervals
     Sleep    60s
-    Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    ${GLOBAL_OPENSTACK_SERVICE_REGION}   ${TENANT_ID}
+    ${region}=   Get Openstack Region
+    Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${TENANT_ID}
 
 Distribute Model
     [Arguments]   ${service}   ${modelName}
