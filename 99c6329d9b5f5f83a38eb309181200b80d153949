@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a014df3_d6bf73cf",
+        "filename": "robot/resources/aai/service_instance.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-03-09T20:55:33Z",
+      "side": 1,
+      "message": "Identify test case variables - remove trailing whitespace",
+      "revId": "99c6329d9b5f5f83a38eb309181200b80d153949",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a014df3_b6b4e7f2",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-03-09T20:55:33Z",
+      "side": 1,
+      "message": "Remove refs to ${GLOBAL_OPENSTACK_SERVICE_REGION}",
+      "revId": "99c6329d9b5f5f83a38eb309181200b80d153949",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a014df3_76ce5f85",
+        "filename": "robot/resources/heatbridge.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-03-09T20:55:33Z",
+      "side": 1,
+      "message": "Use new Keywords to retrieve the openstack region and credentials\n\nDocument test case variables.",
+      "revId": "99c6329d9b5f5f83a38eb309181200b80d153949",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a014df3_36c8d773",
+        "filename": "robot/resources/openstack/cinder_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-03-09T20:55:33Z",
+      "side": 1,
+      "message": "Remove references to GLOBAL_OPENSTACK_SERVICE_REGION\n\nFix whitespace",
+      "revId": "99c6329d9b5f5f83a38eb309181200b80d153949",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a014df3_16c5db5a",
+        "filename": "robot/resources/openstack/heat_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-03-09T20:55:33Z",
+      "side": 1,
+      "message": "Remove references to GLOBAL_OPENSTACK_SERVICE_REGION\n\nFix whitespace",
+      "revId": "99c6329d9b5f5f83a38eb309181200b80d153949",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a014df3_f6a14faa",
+        "filename": "robot/resources/openstack/keystone_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-03-09T20:55:33Z",
+      "side": 1,
+      "message": "Create keyword for retrieving openstack credentials\n\nFix whitespace",
+      "revId": "99c6329d9b5f5f83a38eb309181200b80d153949",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
