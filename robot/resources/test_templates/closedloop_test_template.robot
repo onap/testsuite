@@ -54,13 +54,14 @@ VFW Policy
     Initialize VFW Policy
     ${stackname}=   Orchestrate VNF vFW closedloop
     Policy Check Firewall Stack    ${stackname}    ${VFWPOLICYRATE}
-
+    Delete VNF
 
 VDNS Policy
     Initialize VDNS Policy
     ${stackname}=   Orchestrate VNF vDNS closedloop
     ${dnsscaling}=   Policy Check vLB Stack    ${stackname}    ${VLBPOLICYRATE}
     Set Test Variable   ${DNSSCALINGSTACK}   ${dnsscaling}
+    Delete VNF
 
 Initialize VFW Policy
 #    Create Config Policy

@@ -5,7 +5,7 @@ Documentation	  Executes the VNF Orchestration Test cases including setup and te
 Resource         ../resources/test_templates/vnf_orchestration_test_template.robot
 
 Test Setup            Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-Test Template         Orchestrate VNF
+Test Template         Orchestrate VNF Template
 Test Teardown         Teardown VNF
 
 *** Test Cases ***              CUSTOMER           SERVICE   PRODUCT_FAMILY  TENANT

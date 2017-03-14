@@ -36,6 +36,11 @@ ${VVG_SERVER_ID}
 ${SERVICE_INSTANCE_ID}
 
 *** Keywords ***
+Orchestrate VNF Template
+    [Documentation]   Use openECOMP to Orchestrate a service.
+    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}
+    Orchestrate VNF   ${customer_name}    ${service}    ${product_family}    ${tenant}
+    Delete VNF
 
 Orchestrate VNF
     [Documentation]   Use openECOMP to Orchestrate a service.
@@ -121,12 +126,16 @@ Get VVG Preload Parameters
     ${vvg_params}   Get From Dictionary    ${test_dict}    vvg_preload.template
     [Return]    ${vvg_params}
 
-Teardown VNF
+Delete VNF
     [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
     ${lcp_region}=   Get Openstack Region
     Teardown VVG Server
-    Run Keyword If   '${TEST STATUS}' == 'PASS'   Teardown VLB Closed Loop Hack
-    Run Keyword If   '${TEST STATUS}' == 'PASS'   Teardown VID   ${SERVICE_INSTANCE_ID}   ${lcp_region}   ${TENANT_ID}
+    Teardown VLB Closed Loop Hack
+    Teardown VID   ${SERVICE_INSTANCE_ID}   ${lcp_region}   ${TENANT_ID}
+    Log    VNF Deleted
+
+Teardown VNF
+    [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
     Run Keyword If   '${TEST STATUS}' == 'PASS'   Teardown Model Distribution
     Run Keyword If   '${TEST STATUS}' == 'PASS'   Clean A&AI Inventory
     Close All Browsers
