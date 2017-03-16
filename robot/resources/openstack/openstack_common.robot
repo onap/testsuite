@@ -67,8 +67,7 @@ Get Openstack Region
     [Documentation]   Returns the current openstack region test variable
     ...               Defaults to the openstack region of the Robot VM
     Return From Keyword If   len('${OPENSTACK_SERVICE_REGION}') > 0   ${OPENSTACK_SERVICE_REGION}
-    Dictionary Should Contain Key    ${GLOBAL_VM_PROPERTIES}   region
-    Set Test Variable   ${OPENSTACK_SERVICE_REGION}   ${GLOBAL_VM_PROPERTIES['region']}
+    Set Test Variable   ${OPENSTACK_SERVICE_REGION}   ${GLOBAL_INJECTED_REGION}
     Log   Setting OPENSTACK_SERVICE_REGION=${OPENSTACK_SERVICE_REGION}
     [Return]   ${OPENSTACK_SERVICE_REGION}
 

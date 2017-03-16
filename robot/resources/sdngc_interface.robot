@@ -133,7 +133,9 @@ Get Template Parameters
     ${hostid}=    Get Substring    ${uuid}    -4
     ${ecompnet}=    Evaluate    ${GLOBAL_BUILD_NUMBER}%255
     # Initialize the value map with the properties generated from the Robot VM /opt/config folder
-    ${valuemap}=   Copy Dictionary   ${GLOBAL_VM_PROPERTIES}
+    ${valuemap}=   Create Dictionary
+    Set To Dictionary   ${valuemap}   artifacts_version=${GLOBAL_INJECTED_ARTIFACTS_VERSION}
+    Set To Dictionary   ${valuemap}   network=${GLOBAL_INJECTED_NETWORK} 
     # update the value map with unique values.
     Set To Dictionary   ${valuemap}   uuid=${uuid}   hostid=${hostid}    ecompnet=${ecompnet}
     ${parameters}=    Create Dictionary

@@ -23,9 +23,9 @@
         <path location="robot/library"/>
     </pythonpath>
     <classpath/>
-    <variableFiles path="../properties/integration_preload_parameters.py"/>
-    <variableFiles path="../properties/integration_robot_properties.py"/>
-    <variableFiles path="../properties/sample_vm_properties.py"/>
+    <variableFiles path="testsuite/properties/integration_preload_parameters.py"/>
+    <variableFiles path="testsuite/properties/dfw_robot_properties.py"/>
+    <variableFiles path="testsuite/properties/dfw_vm_properties.py"/>
     <variableFiles path="testsuite/robot/assets/service_mappings.py"/>
     <excludedForValidation/>
     <isValidatedFileSizeCheckingEnabled>true</isValidatedFileSizeCheckingEnabled>

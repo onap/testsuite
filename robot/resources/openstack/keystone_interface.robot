@@ -51,5 +51,4 @@ Set Openstack Credentials
     [Return]   ${user}   ${pass}
 
 Get Openstack Credentials
-    Dictionary Should Contain Key  ${GLOBAL_VM_PROPERTIES}   openstack_username
-    [Return]   ${GLOBAL_VM_PROPERTIES['openstack_username']}    ${GLOBAL_VM_PROPERTIES['openstack_password']}
+    [Return]   ${GLOBAL_INJECTED_OPENSTACK_USERNAME}    ${GLOBAL_INJECTED_OPENSTACK_PASSWORD}
