@@ -27,7 +27,7 @@ else
 		cd python-testing-utils
 		git pull origin master
 	else
-		git clone https://gerrit.openecomp.org/r/testsuite/python-testing-utils.git
+		git clone https://DR695H@gerrit.openecomp.org/r/a/testsuite/python-testing-utils
 		cd python-testing-utils
 	fi
 fi
@@ -46,7 +46,7 @@ else
 		cd heatbridge
 		git pull origin master
 	else
-		git clone https://gerrit.openecomp.org/r/testsuite/heatbridge.git
+		git clone https://DR695H@gerrit.openecomp.org/r/a/testsuite/heatbridge
 		cd heatbridge
 	fi
 fi
