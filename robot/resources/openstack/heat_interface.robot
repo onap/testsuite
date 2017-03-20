@@ -78,7 +78,7 @@ Get Stack Resources
     [Return]    ${resp.json()}
 
 Wait for Stack to Be Deployed
-    [Arguments]    ${alias}   ${stack_name}    ${timeout}=600s
+    [Arguments]    ${alias}   ${stack_name}    ${timeout}=${GLOBAL_OPENSTACK_STACK_DEPLOYMENT_TIMEOUT}
     ${stack_info}=    Wait Until Keyword Succeeds    ${timeout}    30 sec    Get Deployed Stack    ${alias}    ${stack_name}
     ${status}=   Get From Dictionary    ${stack_info}    stack_status
     Should Be Equal    ${status}    CREATE_COMPLETE

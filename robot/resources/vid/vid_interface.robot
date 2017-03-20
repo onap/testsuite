@@ -4,7 +4,7 @@ Library 	    ExtendedSelenium2Library
 Library    Collections
 Library         String
 Library 	      RequestsLibrary
-Library	          UUID      
+Library	          UUID
 Resource        ../global_properties.robot
 Resource        ../browser_setup.robot
 
@@ -31,8 +31,8 @@ Run VID Get Request
     ${headers}=  Create Dictionary     username=${GLOBAL_VID_HEALTH_USERNAME}    password=${GLOBAL_VID_HEALTH_PASSWORD}    Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	vid 	${data_path}     headers=${headers}
     Log    Received response from vid ${resp.text}
-    [Return]    ${resp}   
-    
+    [Return]    ${resp}
+
 Login To VID GUI
     [Documentation]   Logs in to VID GUI
     # Setup Browser Now being managed by test case
@@ -47,55 +47,49 @@ Login To VID GUI
     Input Text    xpath=//input[@ng-model='loginId']    ${GLOBAL_VID_USERNAME}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_VID_PASSWORD}
     Click Button    xpath=//input[@id='loginBtn']
-    Wait Until Page Contains Element    xpath=//div[@class='applicationWindow']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
+    Wait Until Page Contains Element    xpath=//div[@class='applicationWindow']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Log    Logged in to ${GLOBAL_VID_SERVER}${VID_ENV}
 
 Go To VID HOME
     [Documentation]    Naviage to VID Home
     Go To    ${VID_HOME_URL}
-    Wait Until Page Contains Element    xpath=//div[@class='applicationWindow']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
-        
+    Wait Until Page Contains Element    xpath=//div[@class='applicationWindow']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+
 Click On Button When Enabled
-    [Arguments]     ${xpath}    ${timeout}=60s
+    [Arguments]     ${xpath}    ${timeout}=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Wait Until Page Contains Element    xpath=${xpath}    ${timeout}
     Wait Until Element Is Enabled    xpath=${xpath}    ${timeout}
     Click Button      xpath=${xpath}
 
-Click On Button When Visible
-    [Arguments]     ${xpath}    ${timeout}=60s
-    Wait Until Page Contains Element    xpath=${xpath}    ${timeout}
-    Wait Until Element Is Visible    xpath=${xpath}    ${timeout}
-    Click Button      xpath=${xpath}
-   
 Click On Element When Visible
-    [Arguments]     ${xpath}    ${timeout}=60s
+    [Arguments]     ${xpath}    ${timeout}=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Wait Until Page Contains Element    xpath=${xpath}    ${timeout}
     Wait Until Element Is Visible    xpath=${xpath}    ${timeout}
     Click Element      xpath=${xpath}
-    
+
 Select From List When Enabled
-    [Arguments]     ${xpath}    ${value}    ${timeout}=60s
+    [Arguments]     ${xpath}    ${value}    ${timeout}=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Wait Until Page Contains Element    xpath=${xpath}    ${timeout}
     Wait Until Element Is Enabled    xpath=${xpath}    ${timeout}
-    Select From List     xpath=${xpath}    ${value}   
-    
-Input Text When Enabled        
-    [Arguments]     ${xpath}    ${value}    ${timeout}=60s
+    Select From List     xpath=${xpath}    ${value}
+
+Input Text When Enabled
+    [Arguments]     ${xpath}    ${value}    ${timeout}=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Wait Until Page Contains Element    xpath=${xpath}    ${timeout}
     Wait Until Element Is Enabled    xpath=${xpath}    ${timeout}
     Input Text    xpath=${xpath}    ${value}
-    
+
 Parse Request Id
-    [Arguments]    ${mso_response_text}					
+    [Arguments]    ${mso_response_text}
 	${request_list}=     Split String    ${mso_response_text}    202)\n    1
-	${clean_string}=    Replace String    ${request_list[1]}    \n    ${empty}   
-    ${json}=    To Json    ${clean_string} 
+	${clean_string}=    Replace String    ${request_list[1]}    \n    ${empty}
+    ${json}=    To Json    ${clean_string}
     ${request_id}=    Catenate    ${json['requestReferences']['requestId']}
     [Return]    ${request_id}
-    
+
 Parse Instance Id
-    [Arguments]    ${mso_response_text}					
+    [Arguments]    ${mso_response_text}
 	${request_list}=     Split String    ${mso_response_text}    202)\n    1
-    ${json}=    To Json    ${request_list[1]} 
+    ${json}=    To Json    ${request_list[1]}
     ${request_id}=    Catenate    ${json['requestReferences']['instanceId']}
     [Return]    ${request_id}
