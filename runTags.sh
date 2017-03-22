@@ -20,6 +20,7 @@ DISPLAY=${DISPLAY:-$DEFAULT_DISPLAY}
 OUTPUT_FOLDER=${OUTPUT_FOLDER:-$DEFAULT_OUTPUT_FOLDER}
 
 VARIABLEFILES=
+LISTENERS=
 
 ## Single argument, it is an include tag
 if [ $# -eq 1 ]; then
@@ -46,15 +47,19 @@ do
     	OUTPUT_FOLDER=$2
     	shift
     	;;
-    	--display)
+  		--display)
     	DISPLAY=:$2
     	shift
     	;;
-   	-V)
+  		--listener)
+    	LISTENERS="${LISTENER} --listener $2 "
+    	shift
+    	;;
+   		-V)
     	VARIABLEFILES="${VARIABLEFILES} -V $2 "
     	shift
     	;;
-   	-v)
+   		-v)
     	VARIABLES="${VARIABLES} -v $2 "
     	shift
     	;;
@@ -80,7 +85,7 @@ echo -e "Executing robot tests at log level ${LOG_LEVEL}"
 ROBOT_LIBS=./robot/library:./robot/library/eteutils:./robot/library/heatbridge
 
 cd /var/opt/${INSTALL_NAME}
-python -m robot.run -L ${LOG_LEVEL} -d ${OUTPUT_FOLDER} ${VARIABLEFILES} ${VARIABLES} -P ${ROBOT_LIBS} ${ROBOT_TAGS} $(pwd)
+python -m robot.run -L ${LOG_LEVEL} -d ${OUTPUT_FOLDER} ${VARIABLEFILES} ${VARIABLES} ${LISTENERS} -P ${ROBOT_LIBS} ${ROBOT_TAGS} $(pwd)
 
 # Stop Xvfb we started earlier
 # select it from list of possible Xvfb pids running because
