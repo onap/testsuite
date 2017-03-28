@@ -50,11 +50,11 @@ do
     	DISPLAY=:$2
     	shift
     	;;
-   	-V)
+   	    -V)
     	VARIABLEFILES="${VARIABLEFILES} -V $2 "
     	shift
     	;;
-   	-v)
+   	    -v)
     	VARIABLES="${VARIABLES} -v $2 "
     	shift
     	;;
