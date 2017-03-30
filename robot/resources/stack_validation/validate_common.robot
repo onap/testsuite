@@ -16,16 +16,12 @@ Resource          packet_generator_interface.robot
 
 
 *** Variables ***
-${ASSETS}              ${EXECDIR}/robot/assets/
-${VFW_STACK_NAME}    EcompETE_VFWStack
-${VLB_STACK_NAME}    EcompETE_VLBStack
-${DNS_STACK_NAME}    EcompETE_DNSStack
 
 *** Keywords ***
 Wait For Server
     [Documentation]    Attempts to login to the passed server info and verify (??). Uses server info to get public ip and locate corresponding provate key file   
     [Arguments]    ${server_ip}    ${timeout}=300s
-    ${file}=    Catenate    ${ASSETS}keys/robot_ssh_private_key.pvt
+    ${file}=    Catenate    ${GLOBAL_VM_PRIVATE_KEY}
     Wait Until Keyword Succeeds    ${timeout}    5 sec    Open Connection And Log In    ${server_ip}    root    ${file}
     ${lines}=   Grep Local File    "Accepted publickey"    /var/log/auth.log    
     Log    ${lines}            
