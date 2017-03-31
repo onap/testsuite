@@ -27,11 +27,11 @@ else
 		cd python-testing-utils
 		git pull origin master
 	else
-		git clone https://gerrit.openecomp.org/r/testsuite/python-testing-utils.git
+		git clone https://gerrit.onap.org/r/testsuite/python-testing-utils.git
 		cd python-testing-utils
 	fi
 fi
-pip install --upgrade --target="$path/robot/library" .
+pip install --no-cache-dir --upgrade --target="$path/robot/library" .
 
 
 if [ -d $path/testsuite/heatbridge ]
@@ -46,17 +46,17 @@ else
 		cd heatbridge
 		git pull origin master
 	else
-		git clone https://gerrit.openecomp.org/r/testsuite/heatbridge.git
+		git clone https://gerrit.onap.org/r/testsuite/heatbridge.git
 		cd heatbridge
 	fi
 fi
-pip install --upgrade --target="$path/robot/library" .
+pip install --no-cache-dir --upgrade --target="$path/robot/library" .
 
 
 # NOTE: Patch to incude explicit install of paramiko to 2.0.2 to work with sshlibrary 2.1.2
 # This should be removed on new release of paramiko (2.1.2) or sshlibrary
 # https://github.com/robotframework/SSHLibrary/issues/157
-pip install --target="$path/robot/library" -U 'paramiko==2.0.2'
+pip install --no-cache-dir --target="$path/robot/library" -U 'paramiko==2.0.2'
 
 #
 # Get the appropriate chromedriver. Default to linux64
