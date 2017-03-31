@@ -29,12 +29,6 @@
 
     As everything should go through the portal there are many subsystems which have there own GUI or API which come in very handy when debugging things. Here the most important once.
 
-    <h2> Testing </h2>
-
-    <b> Not working. </b> :
-
-    <a href="http://${robot}:88/report.html"> Test Report </a>
-
     <h2> SDN-C </h2>
 
     <a  href="http://admin:Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U@${sdnc}:8282/apidoc/explorer/index.html"> Controller </a>  with admin/Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U <p>
@@ -48,7 +42,6 @@
 
     <h2> Policy </h2>
 
-  <b> Not working. </b> :
     <a href="http://healthcheck:zb!XztG34@${policy}:6969/healthcheck"> Healthcheck </a> <p>
 
     <h2> MSO </h2>
