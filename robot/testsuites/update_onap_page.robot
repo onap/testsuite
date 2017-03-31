@@ -33,7 +33,7 @@ Update ONAP Page
     Set To Dictionary    ${oam_ip_map}   10.0.2.1=appc
     Set To Dictionary    ${oam_ip_map}   10.0.3.1=sdc
     Set To Dictionary    ${oam_ip_map}   10.0.4.1=dcae_controller
-    Set To Dictionary    ${oam_ip_map}   10.0.4.103=dcae_cdap
+    Set To Dictionary    ${oam_ip_map}   10.0.4.105=dcae_cdap
     Set To Dictionary    ${oam_ip_map}   10.0.4.102=dcae_coll
     Set To Dictionary    ${oam_ip_map}   10.0.5.1=mso
     Set To Dictionary    ${oam_ip_map}   10.0.6.1=policy
