@@ -17,7 +17,6 @@ Resource          validate_common.robot
 
 
 *** Variables ***
-${ASSETS}              ${EXECDIR}/robot/assets/
 
 *** Keywords ***
 Validate Dns Scaling Stack

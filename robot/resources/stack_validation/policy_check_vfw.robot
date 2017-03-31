@@ -21,7 +21,6 @@ Resource          ../../resources/test_templates/vnf_orchestration_test_template
 
 
 *** Variables ***
-${ASSETS}              ${EXECDIR}/robot/assets/
 
 *** Keywords ***
 Policy Check Firewall Stack

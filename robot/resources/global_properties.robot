@@ -20,3 +20,4 @@ ${GLOBAL_OPENSTACK_GLANCE_SERVICE_TYPE}    image
 ${GLOBAL_OPENSTACK_KEYSTONE_SERVICE_TYPE}    identity
 ${GLOBAL_AAI_CLOUD_OWNER}    Rackspace
 ${GLOBAL_BUILD_NUMBER}    0
+${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/robot_ssh_private_key.pvt
