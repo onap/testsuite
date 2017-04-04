@@ -78,7 +78,7 @@ Search Addresses
     ${addresses}   Get From Dictionary   ${server}   addresses
     ${public_ips}   Get From Dictionary   ${addresses}   public
     ${public_ip}=   Get V4 IP   ${public_ips}
-    ${oam_ips}   Get From Dictionary   ${addresses}   ${GLOBAL_VM_PROPERTIES['network']}
+    ${oam_ips}   Get From Dictionary   ${addresses}   ${GLOBAL_INJECTED_NETWORK}
     ${this_oam_ip}=   Get V4 IP   ${oam_ips}
     Return From Keyword If   '${this_oam_ip}' == '${oam_ip}'   ${public_ip}
     Fail  ${oam_ip} Server Not Found
