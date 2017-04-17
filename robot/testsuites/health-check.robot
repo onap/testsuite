@@ -15,7 +15,14 @@ Resource          ../resources/portal_interface.robot
 Resource          ../resources/mr_interface.robot
 Resource          ../resources/aaf_interface.robot
 
-*** Test Cases ***   
+*** Test Cases ***
+Wait For ONAP Startup
+    [Documentation]   When running healh check for the 1st time after ONAP startup
+    ...    use -i waitForOnap -i health 
+    ...    This will run HC for up to the timeout (1 hour) before reporting HC failure.  
+    [Tags]    waitForONAP
+	Wait Until Keyword Succeeds   ${GLOBAL_ONAP_STARTUP_TIMEOUT}   60s   Wait For ONAP
+   
 Basic DCAE Health Check
     [Tags]    health
 	Run DCAE Health Check
@@ -55,3 +62,19 @@ Basic Message Router Health Check
 Basic VID Health Check
     [Tags]    health
 	Run VID Health Check
+
+
+
+*** Keywords ***
+Wait For ONAP
+	Run DCAE Health Check
+	Run SDNGC Health Check
+	Run A&AI Health Check
+    Run Policy Health Check
+    Run MSO Health Check
+    Run ASDC Health Check
+    Run APPC Health Check
+    Run Portal Health Check
+	Run MR Health Check
+	Run VID Health Check
+    
