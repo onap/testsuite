@@ -165,8 +165,4 @@ Teardown Stack
 
 Clean A&AI Inventory
     [Documentation]    Clean up Tenant in A&AI, Create Customer, Create Service and related relationships
-    :FOR    ${region}    IN    @{REGIONS}
-    \      Delete Tenant  ${TENANT_ID}    ${GLOBAL_AAI_CLOUD_OWNER}  ${region}
-    \      Delete Cloud Region  ${TENANT_ID}    ${GLOBAL_AAI_CLOUD_OWNER}  ${region}
     Delete Customer    ${CUSTOMER_NAME}
-    Delete Service If Exists    ${SERVICE}
