@@ -29,6 +29,7 @@ Run Openstack Auth Request
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     Log    Sending authenticate post request ${data_path} with headers ${headers} and data ${data}
     ${resp}= 	Post Request 	keystone 	${data_path}     data=${data}    headers=${headers}
+    Should Be True    200 <= ${resp.status_code} < 300
     Save Openstack Auth    ${alias}    ${resp.text}
     Log    Received response from keystone ${resp.text}
 
