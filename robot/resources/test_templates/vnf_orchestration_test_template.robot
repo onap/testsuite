@@ -83,7 +83,7 @@ Setup Orchestrate VNF
     Initialize Tenant From Openstack
     Initialize Regions From Openstack
     :FOR    ${region}    IN    @{REGIONS}
-    \    Inventory Tenant If Not Exists    ${cloud_owner}  ${region}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}    ${TENANT_NAME}    ${TENANT_ID}
+    \    Inventory Tenant If Not Exists    ${cloud_owner}  ${region}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}    ${TENANT_ID}    ${TENANT_NAME}
     Log   Orchestrate VNF setup complete
 
 Initialize Tenant From Openstack
