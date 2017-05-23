@@ -18,7 +18,7 @@ Run DCAE Health Check
     ${session}=    Create Session 	dcae 	${GLOBAL_DCAE_SERVER}    auth=${auth}
     ${uuid}=    Generate UUID
     ${data}=    OperatingSystem.Get File    ${DCAE_HEALTH_CHECK_BODY}
-    ${headers}=  Create Dictionary     action=getTable    Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
+    ${headers}=  Create Dictionary     X-ECOMP-Client-Version=ONAP-R2   action=getTable    Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Put Request 	dcae 	${DCAE_HEALTH_CHECK_PATH}     data=${data}    headers=${headers}
     Log    Received response from dcae ${resp.json()}
     Should Be Equal As Strings 	${resp.status_code} 	200
