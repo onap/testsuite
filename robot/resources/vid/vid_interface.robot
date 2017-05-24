@@ -11,7 +11,7 @@ Resource        ../browser_setup.robot
 *** Variables ***
 ${VID_ENV}            /vid
 ${VID_LOGIN_URL}                ${GLOBAL_VID_SERVER}${VID_ENV}/login_external.htm
-${VID_HEALTHCHECK_PATH}    ${VID_ENV}/api/users
+${VID_HEALTHCHECK_PATH}    ${VID_ENV}/api/v2/users
 ${VID_HOME_URL}                ${GLOBAL_VID_SERVER}${VID_ENV}/vidhome.htm
 
 *** Keywords ***
