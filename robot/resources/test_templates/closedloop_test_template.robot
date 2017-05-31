@@ -9,10 +9,10 @@ Library    HttpLibrary.HTTP
 LIbrary    Process
 
 *** Variables ***
-${RESOURCE_PATH_CREATE}        /PyPDPServer/createPolicy
-${RESOURCE_PATH_CREATE_PUSH}        /PyPDPServer/pushPolicy
-${RESOURCE_PATH_CREATE_DELETE}        /PyPDPServer/deletePolicy
-${RESOURCE_PATH_GET_CONFIG}    /PyPDPServer/getConfig
+${RESOURCE_PATH_CREATE}        /pdp/createPolicy
+${RESOURCE_PATH_CREATE_PUSH}        /pdp/pushPolicy
+${RESOURCE_PATH_CREATE_DELETE}        /pdp/deletePolicy
+${RESOURCE_PATH_GET_CONFIG}    /pdp/getConfig
 ${CREATE_CONFIG_TEMPLATE}    robot/assets/templates/policy/closedloop_configpolicy.template
 ${CREATE_OPS_TEMPLATE}    robot/assets/templates/policy/closedloop_opspolicy.template
 ${PUSH_POLICY_TEMPLATE}   robot/assets/templates/policy/closedloop_pushpolicy.template
