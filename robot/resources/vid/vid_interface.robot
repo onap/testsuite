@@ -10,9 +10,10 @@ Resource        ../browser_setup.robot
 
 *** Variables ***
 ${VID_ENV}            /vid
-${VID_LOGIN_URL}                ${GLOBAL_VID_SERVER}${VID_ENV}/login_external.htm
+${VID_LOGIN_URL}                ${GLOBAL_VID_SERVER}${VID_ENV}/login.htm
 ${VID_HEALTHCHECK_PATH}    ${VID_ENV}/api/v2/users
-${VID_HOME_URL}                ${GLOBAL_VID_SERVER}${VID_ENV}/vidhome.htm
+${VID_HOME_URL}                ${GLOBAL_VID_SERVER}${VID_ENV}/welcome.htm
+${VID_SERVICE_MODELS_URL}                ${GLOBAL_VID_SERVER}${VID_ENV}/serviceModels.htm#/models/services
 
 *** Keywords ***
 Run VID Health Check
@@ -43,17 +44,22 @@ Login To VID GUI
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
     Log    Logging in to ${GLOBAL_VID_SERVER}${VID_ENV}
     Handle Proxy Warning
-    Title Should Be    VID Login
-    Input Text    xpath=//input[@ng-model='loginId']    ${GLOBAL_VID_USERNAME}
-    Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_VID_PASSWORD}
+    Title Should Be    Login
+    Input Text    xpath=//input[@id='loginId']    ${GLOBAL_VID_USERNAME}
+    Input Password    xpath=//input[@id='password']    ${GLOBAL_VID_PASSWORD}
     Click Button    xpath=//input[@id='loginBtn']
-    Wait Until Page Contains Element    xpath=//div[@class='applicationWindow']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+    Wait Until Page Contains  Welcome to VID    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Log    Logged in to ${GLOBAL_VID_SERVER}${VID_ENV}
 
 Go To VID HOME
     [Documentation]    Naviage to VID Home
     Go To    ${VID_HOME_URL}
-    Wait Until Page Contains Element    xpath=//div[@class='applicationWindow']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+    Wait Until Page Contains  Welcome to VID    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+
+Go To VID Browse Service Models
+    [Documentation]    Naviage to VID Browse Service Models
+    Go To    ${VID_SERVICE_MODELS_URL}
+    Wait Until Page Contains   Browse SDC Service Models   ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
 
 Click On Button When Enabled
     [Arguments]     ${xpath}    ${timeout}=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}

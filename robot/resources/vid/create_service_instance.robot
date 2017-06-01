@@ -15,7 +15,7 @@ Resource          vid_interface.robot
 Create VID Service Instance
     [Documentation]    Creates a service instance using VID
     [Arguments]    ${customer_name}  ${service_model_type}    ${service_type}     ${service_name}
-    Go To VID HOME
+    Go To VID Browse Service Models
     Wait Until Keyword Succeeds    300s    1s    Wait For Model    ${service_model_type}
     Press Key    xpath=//tr[td/span/text() = '${service_model_type}']/td/button[text() = 'Deploy' and not(@disabled)]    \\13
     ${uuid}=    Generate UUID
@@ -37,7 +37,6 @@ Create VID Service Instance
 Wait For Model
     [Documentation]   Distributed model may not yet be available. Kepp trying until it shows up.
     [Arguments]   ${service_model_type}
-    Click Element    partial link=Browse SDC Service
     Page Should Contain Element    xpath=//div/h1[text() = 'Browse SDC Service Models']
     Wait Until Page Contains Element    xpath=//button[text() = 'Deploy']    ${GLOBAL_VID_UI_TIMEOUT_LONG}
     Input Text When Enabled    //input[@ng-model='searchString']    ${service_model_type}
