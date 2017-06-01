@@ -1,4 +1,7 @@
 # Getting Started
+## Prerequisites
+This guide assumes you have run git clone on https://gerrit.onap.org/r/p/testsuite.git
+
 ## Development Environment Setup
 ### Python Installation
 You should install 2.7.12: [https://www.python.org/downloads/release/python-2712](https://www.python.org/downloads/release/python-2712)
