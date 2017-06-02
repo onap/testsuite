@@ -25,7 +25,7 @@ Run DCAE Health Check
     Check DCAE Results    ${resp.json()}
 
 Check DCAE Results
-    [Documentation]    Parse DCAE JSON response and make sure all rows have healthTestStatus=GREEN
+    [Documentation]    Parse DCAE JSON response and make sure all rows have healthTestStatus=GREEN (except for the exceptions ;-)
     [Arguments]    ${json}
     @{rows}=    Get From Dictionary    ${json['returns']}    rows
     @{headers}=    Get From Dictionary    ${json['returns']}    columns
@@ -40,7 +40,29 @@ Check DCAE Results
     :for    ${row}    in    @{rows}
     \    ${cells}=    Get From Dictionary    ${row}    cells
     \    ${dict}=    Make A Dictionary    ${cells}    ${columns}
-    \    Dictionary Should Contain Item    ${dict}    healthTestStatus    GREEN
+    \    Is DCAE Status Valid    ${dict}
+
+Is DCAE Status Valid
+    [Arguments]   ${dict}
+    # If it is GREEN we are done.
+    ${status}   ${value}=   Run Keyword And Ignore Error       Dictionary Should Contain Item    ${dict}    healthTestStatus    GREEN
+    Return From Keyword If   '${status}' == 'PASS'
+
+    # Check for Exceptions
+    # Only 1 so far
+    ${status}   ${value}=   Run Keyword And Ignore Error       Check For Exception    ${dict}    vm-controller    UNDEPLOYED   YELLOW
+    Return From Keyword If   '${status}' == 'PASS'
+
+    # Status not GREEN or is not an exception
+    Fail    Health check failed ${dict}
+
+Check for Exception
+    [Arguments]   ${dict}   ${service}    ${status}   ${healthTestStatus}
+    # Test the significant attributes to see if this is a legit exception
+    ${exception}=   Copy Dictionary   ${dict}
+    Set To Dictionary   ${exception}   service=${service}   status=${status}    healthTestStatus=${healthTestStatus}
+    Dictionaries Should Be Equal    ${dict}    ${exception}
+
 
 
 Make A Dictionary
