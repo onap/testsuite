@@ -14,7 +14,7 @@ RUN apt-get update && \
     pip install --upgrade pip && \
     pip install robotframework  && \
     python --version
-    
+
 # Install chrome
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list  && \
@@ -23,10 +23,12 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 
 # Copy the robot code
 COPY / /var/opt/OpenECOMP_ETE/
-COPY lighttpd.conf /etc/lighttpd/lighttpd.conf      
+COPY lighttpd.conf /etc/lighttpd/lighttpd.conf
 RUN chmod 777 /var/opt/OpenECOMP_ETE/setup.sh
 RUN chmod 777 /var/opt/OpenECOMP_ETE/runTags.sh
 RUN chmod 777 /var/opt/OpenECOMP_ETE/dnstraffic.sh
+chmod 777 /var/opt/OpenECOMP_ETE/runSoak.sh
+chmod 777 /var/opt/OpenECOMP_ETE/runEteTag.sh
 
 # Update the ssh library so that it will run properly in the docker env
 RUN cd /var/opt/OpenECOMP_ETE && ./setup.sh
