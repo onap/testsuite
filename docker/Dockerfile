@@ -27,6 +27,8 @@ COPY lighttpd.conf /etc/lighttpd/lighttpd.conf
 RUN chmod 777 /var/opt/OpenECOMP_ETE/setup.sh
 RUN chmod 777 /var/opt/OpenECOMP_ETE/runTags.sh
 RUN chmod 777 /var/opt/OpenECOMP_ETE/dnstraffic.sh
+chmod 777 /var/opt/OpenECOMP_ETE/runSoak.sh
+chmod 777 /var/opt/OpenECOMP_ETE/runEteTag.sh
 
 # Update the ssh library so that it will run properly in the docker env
 RUN cd /var/opt/OpenECOMP_ETE && ./setup.sh
