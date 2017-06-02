@@ -13,6 +13,7 @@ Resource    openstack_common.robot
 ${OPENSTACK_KEYSTONE_API_VERSION}    /v2.0
 ${OPENSTACK_KEYSTONE_AUTH_PATH}    /tokens
 ${OPENSTACK_KEYSTONE_AUTH_BODY_FILE}    robot/assets/templates/keystone_get_auth.template
+${OPENSTACK_KEYSTONE_AUTH_FOR_TENANT_BODY_FILE}    robot/assets/templates/keystone_get_auth_for_tenant.template
 ${OPENSTACK_KEYSTONE_TENANT_PATH}    /tenants
 
 *** Keywords ***
@@ -22,8 +23,9 @@ Run Openstack Auth Request
     ${username}    ${password}=   Set Openstack Credentials   ${username}    ${password}
     ${session}=    Create Session 	keystone 	${GLOBAL_OPENSTACK_KEYSTONE_SERVER}    verify=True
     ${uuid}=    Generate UUID
-    ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_KEYSTONE_AUTH_BODY_FILE}
-    ${arguments}=    Create Dictionary    username=${username}    password=${password}
+    ${template_name}=    Set Variable If   '${GLOBAL_OPENSTACK_TENANT_NAME}' == ''    ${OPENSTACK_KEYSTONE_AUTH_BODY_FILE}   ${OPENSTACK_KEYSTONE_AUTH_FOR_TENANT_BODY_FILE}
+    ${data_template}=    OperatingSystem.Get File    ${template_name}
+    ${arguments}=    Create Dictionary    username=${username}    password=${password}   tenantName=${GLOBAL_OPENSTACK_TENANT_NAME}
     ${data}=	Fill JSON Template    ${data_template}    ${arguments}
     ${data_path}=    Catenate    ${OPENSTACK_KEYSTONE_API_VERSION}${OPENSTACK_KEYSTONE_AUTH_PATH}
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}

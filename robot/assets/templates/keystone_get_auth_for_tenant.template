@@ -1,0 +1,9 @@
+{
+  "auth": {
+    "tenantName" : "${tenantName}",
+    "passwordCredentials": {
+      "username": "${username}",
+      "password": "${password}"
+    }
+  }
+}
