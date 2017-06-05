@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da141535_184bc588",
+        "filename": "robot/resources/openstack/keystone_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2017-06-05T15:42:04Z",
+      "side": 1,
+      "message": "i think this is the standard way of doing authentication so we should need an If",
+      "revId": "23cd8539204958ecdc8fc7a675d664279b4a5a27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
