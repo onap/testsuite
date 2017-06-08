@@ -23,7 +23,7 @@ Run Openstack Auth Request
     ${session}=    Create Session 	keystone 	${GLOBAL_OPENSTACK_KEYSTONE_SERVER}    verify=True
     ${uuid}=    Generate UUID
     ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_KEYSTONE_AUTH_BODY_FILE}
-    ${arguments}=    Create Dictionary    username=${username}    password=${password}
+    ${arguments}=    Create Dictionary    username=${username}    password=${password}   tenantName=${GLOBAL_OPENSTACK_TENANT_NAME}
     ${data}=	Fill JSON Template    ${data_template}    ${arguments}
     ${data_path}=    Catenate    ${OPENSTACK_KEYSTONE_API_VERSION}${OPENSTACK_KEYSTONE_AUTH_PATH}
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
