@@ -3,7 +3,10 @@
   "description": "vendor software product",
   "category": "resourceNewCategory.generic",
   "subCategory": "resourceNewCategory.generic.abstract",
-  "licensingVersion": "1.0",
+  "licensingVersion":  { 
+        "id" : "1.0",
+        "label" : "1.0"
+        },
   "vendorName": "${vendor_name}",
   "vendorId": "${vendor_id}",
   "icon": "icon",
