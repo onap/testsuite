@@ -11,8 +11,7 @@ Resource        create_service_instance.robot
 
 *** Variables ***
 ${VID_ENV}            /vid
-${VID_SERVICE_MODELS_SEARCH_CUST}  ${GLOBAL_VID_SERVER}${VID_ENV}/serviceModels.htm#/instances/subdetails?selectedSubscriber=\${customer_id}
-${VID_SERVICE_MODELS_SEARCH_URL}  ${GLOBAL_VID_SERVER}${VID_ENV}/serviceModels.htm#/instances/services
+${VID_SERVICE_MODELS_SEARCH_URL}  ${GLOBAL_VID_SERVER_PROTOCOL}://${GLOBAL_INJECTED_VID_IP_ADDR}:${GLOBAL_VID_SERVER_PORT}${VID_ENV}/serviceModels.htm#/instances/services
 *** Keywords ***
 
 Teardown VID

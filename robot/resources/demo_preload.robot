@@ -4,6 +4,7 @@ Documentation	  This test template encapsulates the VNF Orchestration use case.
 Resource        test_templates/model_test_template.robot
 Resource        test_templates/vnf_orchestration_test_template.robot
 Resource        asdc_interface.robot
+Resource        vid/vid_interface.robot
 
 Library	        UUID
 Library	        Collections
@@ -103,51 +104,6 @@ Get Persona Model Id
     ${resp}=    Run A&AI Get Request      ${INDEX PATH}${CUSTOMER SPEC PATH}${customer_id}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_id}
     ${persona_model_id}=   Get From DIctionary   ${resp.json()['service-instance'][0]}    persona-model-id
     [Return]   ${persona_model_id}
-
-
-Get Model UUID from VID
-    [Documentation]    Must use UI since rest call get redirect to portal and get DNS error
-    ...    Search all services and match on the invariantUUID
-    [Arguments]   ${invariantUUID}
-    Go To     ${GLOBAL_VID_SERVER}${VID_ENV}/rest/models/services
-    ${resp}=   Get Text   xpath=//body/pre
-    ${json}=   To Json    ${resp}
-    :for   ${dict}  in  @{json}
-    \    ${uuid}=   Get From DIctionary   ${dict}   uuid
-    \    ${inv}=   Get From DIctionary   ${dict}    invariantUUID
-    \    Return From Keyword If   "${invariantUUID}" == "${inv}"   ${uuid}
-    [Return]    ""
-
-
-Get Module Names from VID
-    [Documentation]    Must use UI since rest call get redirect to portal and get DNS error
-    ...    Given the invariantUUID of the model, mock up the vf_modules list passed to Preload VNF
-    [Arguments]   ${invariantUUID}
-    ${id}=   Get Model UUID from VID    ${invariantUUID}
-    Go To     ${GLOBAL_VID_SERVER}${VID_ENV}/rest/models/services/${id}
-    ${resp}=   Get Text   xpath=//body/pre
-    ${json}=   To Json    ${resp}
-    ${modules}=   Create List
-    ${vnfs}=   Get From Dictionary    ${json}   vnfs
-    ${keys}=   Get Dictionary Keys    ${vnfs}
-    :for   ${key}  in  @{keys}
-    \    Add VFModule   ${vnfs['${key}']}   ${modules}
-    [Return]    ${modules}
-
-Add VFModule
-    [Documentation]   Dig the vf module names from the VID service model
-    [Arguments]   ${vnf}   ${modules}
-    ${vfModules}=   Get From Dictionary    ${vnf}   vfModules
-    ${keys}=   Get Dictionary Keys    ${vfModules}
-    :for   ${key}  in  @{keys}
-    \    ${module}=   Get From Dictionary    ${vfModules}   ${key}
-    \    ${dict}=    Create Dictionary   name=${module['name']}
-    \    Append to List   ${modules}   ${dict}
-
-
-
-
-
 
 APPC Mount Point
     [Arguments]   ${vf_module_name}

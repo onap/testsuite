@@ -10,10 +10,11 @@ Resource        ../browser_setup.robot
 
 *** Variables ***
 ${VID_ENV}            /vid
-${VID_LOGIN_URL}                ${GLOBAL_VID_SERVER}${VID_ENV}/login.htm
+${VID_ENDPOINT}    ${GLOBAL_VID_SERVER_PROTOCOL}://${GLOBAL_INJECTED_VID_IP_ADDR}:${GLOBAL_VID_SERVER_PORT}
+${VID_LOGIN_URL}                ${VID_ENDPOINT}${VID_ENV}/login.htm
 ${VID_HEALTHCHECK_PATH}    ${VID_ENV}/api/v2/users
-${VID_HOME_URL}                ${GLOBAL_VID_SERVER}${VID_ENV}/welcome.htm
-${VID_SERVICE_MODELS_URL}                ${GLOBAL_VID_SERVER}${VID_ENV}/serviceModels.htm#/models/services
+${VID_HOME_URL}                ${VID_ENDPOINT}${VID_ENV}/welcome.htm
+${VID_SERVICE_MODELS_URL}                ${VID_ENDPOINT}${VID_ENV}/serviceModels.htm#/models/services
 
 *** Keywords ***
 Run VID Health Check
@@ -26,8 +27,8 @@ Run VID Get Request
     [Documentation]    Runs an VID get request
     [Arguments]    ${data_path}
     ${auth}=  Create List  ${GLOBAL_VID_HEALTH_USERNAME}    ${GLOBAL_VID_HEALTH_PASSWORD}
-    Log    Creating session ${GLOBAL_VID_SERVER}
-    ${session}=    Create Session 	vid 	${GLOBAL_VID_SERVER}    auth=${auth}
+    Log    Creating session ${VID_ENDPOINT}
+    ${session}=    Create Session 	vid 	${VID_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     username=${GLOBAL_VID_HEALTH_USERNAME}    password=${GLOBAL_VID_HEALTH_PASSWORD}    Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	vid 	${data_path}     headers=${headers}
@@ -42,14 +43,14 @@ Login To VID GUI
     Maximize Browser Window
     Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    Log    Logging in to ${GLOBAL_VID_SERVER}${VID_ENV}
+    Log    Logging in to ${VID_ENDPOINT}${VID_ENV}
     Handle Proxy Warning
     Title Should Be    Login
     Input Text    xpath=//input[@id='loginId']    ${GLOBAL_VID_USERNAME}
     Input Password    xpath=//input[@id='password']    ${GLOBAL_VID_PASSWORD}
     Click Button    xpath=//input[@id='loginBtn']
     Wait Until Page Contains  Welcome to VID    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
-    Log    Logged in to ${GLOBAL_VID_SERVER}${VID_ENV}
+    Log    Logged in to ${VID_ENDPOINT}${VID_ENV}
 
 Go To VID HOME
     [Documentation]    Naviage to VID Home
@@ -99,3 +100,42 @@ Parse Instance Id
     ${json}=    To Json    ${request_list[1]}
     ${request_id}=    Catenate    ${json['requestReferences']['instanceId']}
     [Return]    ${request_id}
+    
+Get Model UUID from VID
+    [Documentation]    Must use UI since rest call get redirect to portal and get DNS error
+    ...    Search all services and match on the invariantUUID
+    [Arguments]   ${invariantUUID}
+    Go To     ${VID_ENDPOINT}${VID_ENV}/rest/models/services
+    ${resp}=   Get Text   xpath=//body/pre
+    ${json}=   To Json    ${resp}
+    :for   ${dict}  in  @{json}
+    \    ${uuid}=   Get From DIctionary   ${dict}   uuid
+    \    ${inv}=   Get From DIctionary   ${dict}    invariantUUID
+    \    Return From Keyword If   "${invariantUUID}" == "${inv}"   ${uuid}
+    [Return]    ""
+
+
+Get Module Names from VID
+    [Documentation]    Must use UI since rest call get redirect to portal and get DNS error
+    ...    Given the invariantUUID of the model, mock up the vf_modules list passed to Preload VNF
+    [Arguments]   ${invariantUUID}
+    ${id}=   Get Model UUID from VID    ${invariantUUID}
+    Go To     ${VID_ENDPOINT}${VID_ENV}/rest/models/services/${id}
+    ${resp}=   Get Text   xpath=//body/pre
+    ${json}=   To Json    ${resp}
+    ${modules}=   Create List
+    ${vnfs}=   Get From Dictionary    ${json}   vnfs
+    ${keys}=   Get Dictionary Keys    ${vnfs}
+    :for   ${key}  in  @{keys}
+    \    Add VFModule   ${vnfs['${key}']}   ${modules}
+    [Return]    ${modules}
+
+Add VFModule
+    [Documentation]   Dig the vf module names from the VID service model
+    [Arguments]   ${vnf}   ${modules}
+    ${vfModules}=   Get From Dictionary    ${vnf}   vfModules
+    ${keys}=   Get Dictionary Keys    ${vfModules}
+    :for   ${key}  in  @{keys}
+    \    ${module}=   Get From Dictionary    ${vfModules}   ${key}
+    \    ${dict}=    Create Dictionary   name=${module['name']}
+    \    Append to List   ${modules}   ${dict}

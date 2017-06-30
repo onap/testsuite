@@ -20,7 +20,7 @@ Run Openstack Auth Request
     [Documentation]    Runs an Openstack Auth Request and returns the token and service catalog. you need to include the token in future request's x-auth-token headers. Service catalog describes what can be called
     [Arguments]    ${alias}    ${username}=    ${password}=
     ${username}    ${password}=   Set Openstack Credentials   ${username}    ${password}
-    ${session}=    Create Session 	keystone 	${GLOBAL_OPENSTACK_KEYSTONE_SERVER}    verify=True
+    ${session}=    Create Session 	keystone 	${GLOBAL_INJECTED_KEYSTONE}    verify=True
     ${uuid}=    Generate UUID
     ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_KEYSTONE_AUTH_BODY_FILE}
     ${arguments}=    Create Dictionary    username=${username}    password=${password}   tenantName=${GLOBAL_OPENSTACK_TENANT_NAME}
