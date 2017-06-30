@@ -8,6 +8,8 @@ Resource            ../global_properties.robot
 *** Variables ***
 ${AAI_HEALTH_PATH}  /aai/util/echo?action=long
 ${VERSIONED_INDEX_PATH}     /aai/v8
+${AAI_FRONTEND_ENDPOINT}    ${GLOBAL_AAI_SERVER_PROTOCOL}://${GLOBAL_INJECTED_AAI1_IP_ADDR}:${GLOBAL_AAI_SERVER_PORT}
+
 
 *** Keywords ***
 Run A&AI Health Check
@@ -20,7 +22,7 @@ Run A&AI Get Request
     [Arguments]    ${data_path}
     Disable Warnings
     ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${session}=    Create Session 	aai 	${GLOBAL_AAI_SERVER_URL}    auth=${auth}
+    ${session}=    Create Session 	aai 	${AAI_FRONTEND_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	aai 	${data_path}     headers=${headers}
@@ -32,7 +34,7 @@ Run A&AI Put Request
     [Arguments]    ${data_path}    ${data}
     Disable Warnings
     ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${session}=    Create Session 	aai 	${GLOBAL_AAI_SERVER_URL}    auth=${auth}
+    ${session}=    Create Session 	aai 	${AAI_FRONTEND_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Put Request 	aai 	${data_path}     data=${data}    headers=${headers}
@@ -44,7 +46,7 @@ Run A&AI Post Request
     [Arguments]    ${data_path}    ${data}
     Disable Warnings
     ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${session}=    Create Session 	aai 	${GLOBAL_AAI_SERVER_URL}    auth=${auth}
+    ${session}=    Create Session 	aai 	${AAI_FRONTEND_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	aai 	${data_path}     data=${data}    headers=${headers}
@@ -56,7 +58,7 @@ Run A&AI Delete Request
     [Arguments]    ${data_path}    ${resource_version}
     Disable Warnings
     ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${session}=    Create Session 	aai 	${GLOBAL_AAI_SERVER_URL}    auth=${auth}
+    ${session}=    Create Session 	aai 	${AAI_FRONTEND_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Delete Request 	aai 	${data_path}?resource-version=${resource_version}       headers=${headers}

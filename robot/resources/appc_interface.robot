@@ -11,6 +11,8 @@ ${APPC_INDEX_PATH}    /restconf
 ${APPC_HEALTHCHECK_OPERATION_PATH}  /operations/SLI-API:healthcheck
 ${APPC_CREATE_MOUNTPOINT_PATH}  /config/network-topology:network-topology/topology/topology-netconf/node/
 ${APPC_MOUNT_XML}    robot/assets/templates/appc/vnf_mount.template
+${APPC_ENDPOINT}    ${GLOBAL_APPC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_APPC_IP_ADDR}:${GLOBAL_APPC_SERVER_PORT}
+
 
 *** Keywords ***
 Run APPC Health Check
@@ -23,8 +25,8 @@ Run APPC Post Request
     [Documentation]    Runs an APPC post request
     [Arguments]    ${data_path}    ${data}    ${content}=json
     ${auth}=  Create List  ${GLOBAL_APPC_USERNAME}    ${GLOBAL_APPC_PASSWORD}
-    Log    Creating session ${GLOBAL_APPC_SERVER}
-    ${session}=    Create Session 	appc 	${GLOBAL_APPC_SERVER}    auth=${auth}
+    Log    Creating session ${APPC_ENDPOINT}
+    ${session}=    Create Session 	appc 	${APPC_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/${content}    Content-Type=application/${content}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	appc 	${data_path}     data=${data}    headers=${headers}
@@ -35,8 +37,8 @@ Run APPC Put Request
     [Documentation]    Runs an APPC post request
     [Arguments]    ${data_path}    ${data}    ${content}=xml
     ${auth}=  Create List  ${GLOBAL_APPC_USERNAME}    ${GLOBAL_APPC_PASSWORD}
-    Log    Creating session ${GLOBAL_APPC_SERVER}
-    ${session}=    Create Session 	appc 	${GLOBAL_APPC_SERVER}    auth=${auth}
+    Log    Creating session ${APPC_ENDPOINT}
+    ${session}=    Create Session 	appc 	${APPC_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/${content}    Content-Type=application/${content}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Put Request 	appc 	${data_path}     data=${data}    headers=${headers}

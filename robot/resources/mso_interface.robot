@@ -8,12 +8,13 @@ Resource          global_properties.robot
 Resource          ../resources/json_templater.robot
 *** Variables ***
 ${MSO_HEALTH_CHECK_PATH}    /ecomp/mso/infra/globalhealthcheck
+${MSO_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_MSO_IP_ADDR}:${GLOBAL_MSO_SERVER_PORT}
 
 *** Keywords ***
 Run MSO Health Check
     [Documentation]    Runs an MSO global health check
     ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
-    ${session}=    Create Session 	mso 	${GLOBAL_MSO_SERVER}
+    ${session}=    Create Session 	mso 	${MSO_ENDPOINT}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=text/html    Content-Type=text/html    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	mso 	${MSO_HEALTH_CHECK_PATH}     headers=${headers}
@@ -23,8 +24,8 @@ Run MSO Get Request
     [Documentation]    Runs an MSO get request
     [Arguments]    ${data_path}    ${accept}=application/json
     ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
-    Log    Creating session ${GLOBAL_MSO_SERVER}
-    ${session}=    Create Session 	mso 	${GLOBAL_MSO_SERVER}    auth=${auth}
+    Log    Creating session ${MSO_ENDPOINT}
+    ${session}=    Create Session 	mso 	${MSO_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=${accept}    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	mso 	${data_path}     headers=${headers}
@@ -35,8 +36,8 @@ Poll MSO Get Request
     [Documentation]    Runs an MSO get request until a certain status is received. valid values are COMPLETE
     [Arguments]    ${data_path}     ${status}
     ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
-    Log    Creating session ${GLOBAL_MSO_SERVER}
-    ${session}=    Create Session 	mso 	${GLOBAL_MSO_SERVER}    auth=${auth}
+    Log    Creating session ${MSO_ENDPOINT}
+    ${session}=    Create Session 	mso 	${MSO_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     #do this until it is done

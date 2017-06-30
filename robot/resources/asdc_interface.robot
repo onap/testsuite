@@ -44,6 +44,9 @@ ${ASDC_CATALOG_RESOURCE_TEMPLATE}    robot/assets/templates/asdc/catalog_resourc
 ${ASDC_USER_REMARKS_TEMPLATE}    robot/assets/templates/asdc/user_remarks.template
 ${ASDC_CATALOG_SERVICE_TEMPLATE}    robot/assets/templates/asdc/catalog_service.template
 ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    robot/assets/templates/asdc/resource_instance.template
+${ASDC_FE_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_IP_ADDR}:${GLOBAL_ASDC_FE_PORT}
+${ASDC_BE_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_IP_ADDR}:${GLOBAL_ASDC_BE_PORT}
+
 *** Keywords ***
 Distribute Model From ASDC
     [Documentation]    goes end to end creating all the asdc objects based ona  model and distributing it to the systems. it then returns the service name, vf name and vf module name
@@ -397,7 +400,7 @@ Get Catalog Service Distribution Details
     [Return]    ${resp.json()}
 Run ASDC Health Check
     [Documentation]    Runs a ASDC health check
-    ${session}=    Create Session 	asdc 	${GLOBAL_ASDC_SERVER}:${GLOBAL_ASDC_FE_PORT}
+    ${session}=    Create Session 	asdc 	${ASDC_FE_ENDPOINT}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	asdc 	${ASDC_HEALTH_CHECK_PATH}     headers=${headers}
@@ -410,8 +413,8 @@ Run ASDC Get Request
     [Documentation]    Runs an ASDC get request
     [Arguments]    ${data_path}    ${user}=${ASDC_DESIGNER_USER_ID}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
-    Log    Creating session ${GLOBAL_ASDC_SERVER}
-    ${session}=    Create Session 	asdc 	${GLOBAL_ASDC_SERVER}:${GLOBAL_ASDC_BE_PORT}    auth=${auth}
+    Log    Creating session ${ASDC_BE_ENDPOINT}
+    ${session}=    Create Session 	asdc 	${ASDC_BE_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${user}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	asdc 	${data_path}     headers=${headers}
@@ -421,8 +424,8 @@ Run ASDC Put Request
     [Documentation]    Runs an ASDC put request
     [Arguments]    ${data_path}    ${data}    ${user}=${ASDC_DESIGNER_USER_ID}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
-    Log    Creating session ${GLOBAL_ASDC_SERVER}
-    ${session}=    Create Session 	asdc 	${GLOBAL_ASDC_SERVER}:${GLOBAL_ASDC_BE_PORT}    auth=${auth}
+    Log    Creating session ${ASDC_BE_ENDPOINT}
+    ${session}=    Create Session 	asdc 	${ASDC_BE_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${user}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Put Request 	asdc 	${data_path}     data=${data}    headers=${headers}
@@ -432,8 +435,8 @@ Run ASDC Post Files Request
     [Documentation]    Runs an ASDC post request
     [Arguments]    ${data_path}    ${files}    ${user}=${ASDC_DESIGNER_USER_ID}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
-    Log    Creating session ${GLOBAL_ASDC_SERVER}
-    ${session}=    Create Session 	asdc 	${GLOBAL_ASDC_SERVER}:${GLOBAL_ASDC_BE_PORT}    auth=${auth}
+    Log    Creating session ${ASDC_BE_ENDPOINT}
+    ${session}=    Create Session 	asdc 	${ASDC_BE_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=multipart/form-data    USER_ID=${user}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	asdc 	${data_path}     files=${files}    headers=${headers}
@@ -443,8 +446,8 @@ Run ASDC Post Request
     [Documentation]    Runs an ASDC post request
     [Arguments]    ${data_path}    ${data}    ${user}=${ASDC_DESIGNER_USER_ID}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
-    Log    Creating session ${GLOBAL_ASDC_SERVER}
-    ${session}=    Create Session 	asdc 	${GLOBAL_ASDC_SERVER}:${GLOBAL_ASDC_BE_PORT}    auth=${auth}
+    Log    Creating session ${ASDC_BE_ENDPOINT}
+    ${session}=    Create Session 	asdc 	${ASDC_BE_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${user}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	asdc 	${data_path}     data=${data}    headers=${headers}
@@ -454,8 +457,8 @@ Run ASDC Delete Request
     [Documentation]    Runs an ASDC delete request
     [Arguments]    ${data_path}    ${user}=${ASDC_DESIGNER_USER_ID}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
-    Log    Creating session ${GLOBAL_ASDC_SERVER}
-    ${session}=    Create Session 	asdc 	${GLOBAL_ASDC_SERVER}:${GLOBAL_ASDC_BE_PORT}    auth=${auth}
+    Log    Creating session ${ASDC_BE_ENDPOINT}
+    ${session}=    Create Session 	asdc 	${ASDC_BE_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${user}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Delete Request 	asdc 	${data_path}        headers=${headers}
@@ -466,11 +469,11 @@ Open ASDC GUI
     [Arguments]    ${PATH}
     ## Setup Browever now being managed by the test case
     ##Setup Browser
-    Go To    ${GLOBAL_ASDC_SERVER}${PATH}
+    Go To    ${ASDC_FE_ENDPOINT}${PATH}
     Maximize Browser Window
     Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    Log    Logging in to ${GLOBAL_ASDC_SERVER}${PATH}
+    Log    Logging in to ${ASDC_FE_ENDPOINT}${PATH}
     Title Should Be    ASDC
     Wait Until Page Contains Element    xpath=//div/a[text()='SDC']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
-    Log    Logged in to ${GLOBAL_PORTAL_SERVER}${PATH}
+    Log    Logged in to ${ASDC_FE_ENDPOINT}${PATH}
