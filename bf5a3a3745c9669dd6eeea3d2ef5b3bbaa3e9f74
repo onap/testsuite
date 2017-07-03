@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a0e1d27_8ba1ddab",
+        "filename": "robot/resources/vid/vid_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1207
+      },
+      "writtenOn": "2017-07-03T01:39:38Z",
+      "side": 1,
+      "message": "This movement of code should be another commit as it is unrelated to the change.",
+      "revId": "bf5a3a3745c9669dd6eeea3d2ef5b3bbaa3e9f74",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
