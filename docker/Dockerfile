@@ -9,10 +9,12 @@ LABEL usage="docker run -e ROBOT_TEST=<testname> -ti openecompete"
 # Install Python Pip, Robot framework, firefox, lighttpd web server, wget
 RUN apt-get update && \
     apt-get --assume-yes install python=2.7.11-1 && \
-    apt-get --assume-yes install python-pip dbus xvfb lighttpd wget git net-tools dnsutils unzip && \
-    apt-get --assume-yes install libxss1 libappindicator1 libindicator7 build-essential libssl-dev libffi-dev python-dev && \
+    apt-get --assume-yes install build-essential dbus dnsutils git libappindicator1 \
+				 libffi-dev libindicator7 libssl-dev libxss1 \
+				 lighttpd net-tools python-dev python-pip unzip \
+				 wget xvfb && \
     pip install --upgrade pip && \
-    pip install robotframework  && \
+    pip install robotframework && \
     python --version
 
 # Install chrome
@@ -24,15 +26,14 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 # Copy the robot code
 COPY / /var/opt/OpenECOMP_ETE/
 COPY lighttpd.conf /etc/lighttpd/lighttpd.conf
-RUN chmod 777 /var/opt/OpenECOMP_ETE/setup.sh
-RUN chmod 777 /var/opt/OpenECOMP_ETE/runTags.sh
-RUN chmod 777 /var/opt/OpenECOMP_ETE/dnstraffic.sh
-RUN chmod 777 /var/opt/OpenECOMP_ETE/runSoak.sh
-RUN chmod 777 /var/opt/OpenECOMP_ETE/runEteTag.sh
+RUN chmod 777 /var/opt/OpenECOMP_ETE/setup.sh && \
+    chmod 777 /var/opt/OpenECOMP_ETE/runTags.sh && \
+    chmod 777 /var/opt/OpenECOMP_ETE/dnstraffic.sh && \
+    chmod 777 /var/opt/OpenECOMP_ETE/runSoak.sh && \
+    chmod 777 /var/opt/OpenECOMP_ETE/runEteTag.sh
 
 # Update the ssh library so that it will run properly in the docker env
-RUN cd /var/opt/OpenECOMP_ETE && ./setup.sh
-RUN apt-get clean
+RUN cd /var/opt/OpenECOMP_ETE && ./setup.sh && apt-get clean
 
 CMD ["lighttpd", "-D", "-f",  "/etc/lighttpd/lighttpd.conf"]
 
