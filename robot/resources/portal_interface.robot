@@ -8,6 +8,7 @@ Resource          global_properties.robot
 
 *** Variables ***
 ${PORTAL_HEALTH_CHECK_PATH}        /ECOMPPORTAL/portalApi/healthCheck
+${PORTAL_ENDPOINT}     ${GLOBAL_PORTAL_SERVER_PROTOCOL}://${GLOBAL_INJECTED_PORTAL_IP_ADDR}:${GLOBAL_PORTAL_SERVER_PORT}
 
 *** Keywords ***
 Run Portal Health Check
@@ -19,7 +20,7 @@ Run Portal Health Check
 Run Portal Get Request
      [Documentation]    Runs Portal Get request
      [Arguments]    ${data_path}
-     ${session}=    Create Session 	portal	${GLOBAL_PORTAL_SERVER}
+     ${session}=    Create Session 	portal	${PORTAL_ENDPOINT}
      ${uuid}=    Generate UUID
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
      ${resp}= 	Get Request 	portal 	${data_path}     headers=${headers}

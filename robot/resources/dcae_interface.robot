@@ -9,13 +9,14 @@ Resource          global_properties.robot
 *** Variables ***
 ${DCAE_HEALTH_CHECK_BODY}    robot/assets/dcae/dcae_healthcheck.json
 ${DCAE_HEALTH_CHECK_PATH}    /gui
+${DCAE_ENDPOINT}     ${GLOBAL_DCAE_SERVER_PROTOCOL}://${GLOBAL_INJECTED_DCAE_IP_ADDR}:${GLOBAL_DCAE_SERVER_PORT}
 
 *** Keywords ***
 Run DCAE Health Check
     [Documentation]    Runs a DCAE health check
     ${auth}=  Create List  ${GLOBAL_DCAE_USERNAME}    ${GLOBAL_DCAE_PASSWORD}
-    Log    Creating session ${GLOBAL_DCAE_SERVER}
-    ${session}=    Create Session 	dcae 	${GLOBAL_DCAE_SERVER}    auth=${auth}
+    Log    Creating session ${DCAE_ENDPOINT}
+    ${session}=    Create Session 	dcae 	${DCAE_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${data}=    OperatingSystem.Get File    ${DCAE_HEALTH_CHECK_BODY}
     ${headers}=  Create Dictionary     X-ECOMP-Client-Version=ONAP-R2   action=getTable    Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
