@@ -2,22 +2,22 @@
 Documentation	  The main interface for interacting with Message router. It handles low level stuff like managing the http request library and message router required fields
 Library	          RequestsClientCert
 Library 	      RequestsLibrary
-Library	          UUID      
+Library	          UUID
 
 Resource          global_properties.robot
 
 *** Variables ***
 ${MR_HEALTH_CHECK_PATH}        /topics
-${MR_ENDPOINT}     ${GLOBAL_MR_SERVER_PROTOCOL}://${GLOBAL_INJECTED_MR_IP_ADDR}:${GLOBAL_MR_SERVER_PROTOCOL}
+${MR_ENDPOINT}     ${GLOBAL_MR_SERVER_PROTOCOL}://${GLOBAL_INJECTED_MR_IP_ADDR}:${GLOBAL_MR_SERVER_PORT}
 
 
 *** Keywords ***
 Run MR Health Check
      [Documentation]    Runs MR Health check
-     ${resp}=    Run MR Get Request    ${MR_HEALTH_CHECK_PATH}    
+     ${resp}=    Run MR Get Request    ${MR_HEALTH_CHECK_PATH}
      Should Be Equal As Strings 	${resp.status_code} 	200
      Should Contain    ${resp.json()}    topics
-         
+
 Run MR Get Request
      [Documentation]    Runs MR Get request
      [Arguments]    ${data_path}
