@@ -17,7 +17,7 @@
     <referencedLibrary type="PYTHON" name="HEATUtils" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="OSUtils" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="DNSUtils" path="testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="EteListener" path="testsuite/robot/library/eteutils"/>
+    <referencedLibrary type="PYTHON" name="EteGatherDataListener" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="ArchiveLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="HeatBridge" path="testsuite/robot/library/heatbridge"/>
     <pythonpath>
