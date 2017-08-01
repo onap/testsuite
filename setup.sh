@@ -2,7 +2,14 @@
 #
 # setup : script to setup required runtime environment. This script can be run again to update anything
 # this should stay in your project directory
-#
+
+
+# save console output in setup_<timestamp>.log file in project directory
+timestamp=$(date +"%m%d%Y_%H%M%S")
+LOG_FILE=setup_$timestamp.log
+exec > >(tee -a ${LOG_FILE} )
+exec 2> >(tee -a ${LOG_FILE} >&2)
+
 
 # get the path
 path=$(pwd)
@@ -57,6 +64,11 @@ pip install --no-cache-dir --upgrade --target="$path/robot/library" .
 # This should be removed on new release of paramiko (2.1.2) or sshlibrary
 # https://github.com/robotframework/SSHLibrary/issues/157
 pip install --no-cache-dir --target="$path/robot/library" -U 'paramiko==2.0.2'
+
+
+# Go back to execution folder
+cd $path
+
 
 #
 # Get the appropriate chromedriver. Default to linux64
