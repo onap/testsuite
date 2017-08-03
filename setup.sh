@@ -57,7 +57,7 @@ else
 		cd heatbridge
 	fi
 fi
-pip install --no-cache-dir --upgrade --target="$path/robot/library" .
+pip install --no-cache-dir --upgrade --target="$path/robot/library" ./heatbridge
 
 
 # NOTE: Patch to incude explicit install of paramiko to 2.0.2 to work with sshlibrary 2.1.2
