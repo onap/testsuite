@@ -51,5 +51,13 @@ Poll MSO Get Request
     Log    Received response from mso ${resp.text}
     [Return]    ${resp}
 
-
-    
+Run MSO Post request
+    [Documentation]    Runs an MSO post request
+    [Arguments]  ${data_path}  ${data}
+    ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    Log    Creating session ${MSO_ENDPOINT}
+    ${session}=    Create Session 	mso 	${MSO_ENDPOINT}    auth=${auth}
+    ${uuid}=    Generate UUID
+    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
+	${resp}= 	Post Request 	mso 	${data_path}     data=${data}   headers=${headers}
+	[Return]  ${resp}
