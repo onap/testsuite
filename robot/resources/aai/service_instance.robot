@@ -40,8 +40,8 @@ Validate Service Instance
     ${cust_resp}=    Run A&AI Get Request      ${INDEX PATH}/business/customers?subscriber-name=${customer_name}
 	${resp}=    Run A&AI Get Request      ${INDEX PATH}${CUSTOMER SPEC PATH}${cust_resp.json()['customer'][0]['global-customer-id']}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_name}
     Dictionary Should Contain Value	${resp.json()['service-instance'][0]}    ${service_instance_name}
-    Dictionary Should Contain Key	${resp.json()['service-instance'][0]}    persona-model-id
-    Dictionary Should Contain Key	${resp.json()['service-instance'][0]}    persona-model-version
+    #Dictionary Should Contain Key	${resp.json()['service-instance'][0]}    persona-model-id
+    #Dictionary Should Contain Key	${resp.json()['service-instance'][0]}    persona-model-version
 
 Validate Generic VNF
     [Documentation]    Query and Validates A&AI Service Instance

@@ -24,7 +24,7 @@ Create VID Service Instance
     Xpath Should Match X Times    //input[@parameter-name='Instance Name']    1
     Input Text When Enabled    //input[@parameter-name='Instance Name']    ${service_name}
     Select From List When Enabled    //select[@prompt='Select Subscriber Name']    ${customer_name}
-    Select From List WHen Enabled    //select[@prompt='Select Service Type']     ${service_type}
+    Select From List WHen Enabled    //select[@prompt='Select Service Type']     ${service_type}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Click On Button When Enabled    //div[@class = 'buttonRow']/button[text() = 'Confirm']
  	Wait Until Element Contains    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']    requestId    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     ${response text}=    Get Text    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']

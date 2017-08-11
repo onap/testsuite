@@ -195,7 +195,7 @@ Add ASDC Feature Group
     [Arguments]    ${license_model_id}    ${key_group_id}    ${entitlement_pool_id}      ${version_id}=0.1
     ${uuid}=    Generate UUID
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
-    ${map}=    Create Dictionary    feature_group_name=${shortened_uuid}    key_group_id=${key_group_id}    entitlement_pool_id=${entitlement_pool_id}
+    ${map}=    Create Dictionary    feature_group_name=${shortened_uuid}    key_group_id=${key_group_id}    entitlement_pool_id=${entitlement_pool_id}   manufacturer_reference_number=mrn${shortened_uuid}
     ${data}=   Fill JSON Template File    ${ASDC_FEATURE_GROUP_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_FEATURE_GROUP_PATH}     ${data}
     Should Be Equal As Strings 	${resp.status_code} 	200

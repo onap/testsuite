@@ -40,7 +40,7 @@ Login To VID GUI
     # Setup Browser Now being managed by test case
     ##Setup Browser
     Go To    ${VID_LOGIN_URL}
-    Maximize Browser Window
+    #Maximize Browser Window
     Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
     Log    Logging in to ${VID_ENDPOINT}${VID_ENV}
