@@ -60,4 +60,5 @@ Run MSO Post request
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
 	${resp}= 	Post Request 	mso 	${data_path}     data=${data}   headers=${headers}
+	Log    Received response from mso ${resp.text}
 	[Return]  ${resp}

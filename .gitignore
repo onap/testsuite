@@ -7,3 +7,6 @@
 /geckodriver.log
 /robot/library/
 /.idea
+/*.exe
+/*.log
+/*.zip
