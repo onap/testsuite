@@ -11,10 +11,6 @@ Variables       ../../assets/service_mappings.py
 ${ASDC_BASE_PATH}    /sdc1
 ${ASDC_DESIGNER_PATH}    /proxy-designer1#/dashboard
 ${ASDC_ASSETS_DIRECTORY}    robot/assets/asdc
-${VFW_DIRECTORY}    base_vfw
-${VLB_DIRECTORY}    base_vlb
-${VVG_DIRECTORY}    base_vvg
-${SCALING_DIRECTORY}    dns_scaling
 ${ASDC_ZIP_DIRECTORY}    ${ASDC_ASSETS_DIRECTORY}/temp
 
 #***************** Test Case Variables *********************

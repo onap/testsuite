@@ -1,6 +1,7 @@
 GLOBAL_SERVICE_FOLDER_MAPPING = {"vFW" : ['base_vfw'], \
                                  "vLB" : ['base_vlb'], \
                                  "vVG" : ['base_vvg'], \
+                                 "vIMS" : ['base_clearwater'], \
                                  }
                                  
 GLOBAL_SERVICE_TEMPLATE_MAPPING = {"vFW" : [{"isBase" : "true", "template" : "vfw_preload.template", "name_pattern": "base_vfw"}], \
