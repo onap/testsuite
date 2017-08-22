@@ -21,6 +21,7 @@ Create VID VNF
 
     # If we don't wait for this control to be enabled, the submit results in a 'not found' pop-up (UnexpectedAlertPresentException)
     Input Text When Enabled    //input[@name='selectedServiceInstance']    ${service_instance_id}
+    Select From List By Label    //select[@ng-model='selectedserviceinstancetype']    Service Instance Id
     Click Button    button=Submit
     Wait Until Page Contains Element    link=View/Edit    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click Element     xpath=//a[contains(text(), 'View/Edit')]
