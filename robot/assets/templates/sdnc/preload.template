@@ -13,13 +13,8 @@
                 "vnf-networks": [],
                 "vnf-vms": []
             },
-             "vnf-parameters": [
-  				{
-                    "vnf-parameter-name": "nova_instance",
-                    "vnf-parameter-value": "${nova_instance}"
-                }
-            ]
-        },
+             "vnf-parameters": ${vnf_parameters}
+       },
         "request-information": {
             "request-id": "robot12",
             "order-version": "1",
