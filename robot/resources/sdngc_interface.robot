@@ -113,11 +113,10 @@ Get From Mapping
     \    Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}'     ${template}    
     [Return]    None
     
-            
 Preload One Vnf Topology
     [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}       ${vf_module_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}
     Return From Keyword If    '${filename}' == ''
-    ${data_template}=    OperatingSystem.Get File    ${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}/${filename}
+    ${data_template}=    OperatingSystem.Get File    ${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}/preload.template
     ${parameters}=    Get Template Parameters    ${filename}   ${uuid}
     Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}    uuid=${uuid}
     ${data}=	Fill JSON Template    ${data_template}    ${parameters}        
@@ -143,9 +142,11 @@ Get Template Parameters
     Resolve Values Into Dictionary   ${valuemap}   ${defaults}    ${parameters}
     ${suite_templates}=    Get From Dictionary    ${GLOBAL_PRELOAD_PARAMETERS}    ${suite}
     ${template}=    Get From Dictionary    ${suite_templates}    ${template}
-    Resolve Values Into Dictionary   ${valuemap}   ${template}    ${parameters}
+    ${vnf_parameters}=   Resolve VNF Parameters Into Array   ${valuemap}   ${template}    ${parameters}
+    ${vnf_parameters_json}=   Evaluate    json.dumps(${vnf_parameters})    json
+    Set To Dictionary   ${parameters}   vnf_parameters=${vnf_parameters_json}
     [Return]    ${parameters}
-   
+    
 Resolve Values Into Dictionary    
     [Arguments]   ${valuemap}    ${from}    ${to}
     ${keys}=    Get Dictionary Keys    ${from}
@@ -153,6 +154,17 @@ Resolve Values Into Dictionary
     \    ${value}=    Get From Dictionary    ${from}   ${key}
     \    ${value}=    Template String    ${value}    ${valuemap}
     \    Set To Dictionary    ${to}    ${key}    ${value}
+
+Resolve VNF Parameters Into Array    
+    [Arguments]   ${valuemap}    ${from}    ${to}
+    ${vnf_parameters}=   Create List
+    ${keys}=    Get Dictionary Keys    ${from}
+    :for   ${key}   in  @{keys}
+    \    ${value}=    Get From Dictionary    ${from}   ${key}
+    \    ${value}=    Template String    ${value}    ${valuemap}
+    \    ${parameter}=   Create Dictionary   vnf-parameter-name=${key}    vnf-parameter-value=${value}
+    \    Append To List    ${vnf_parameters}   ${parameter}
+    [Return]   ${vnf_parameters}    
      
 Preload Vnf Profile
     [Arguments]    ${vnf_name}
