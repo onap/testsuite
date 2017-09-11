@@ -1,6 +1,6 @@
 {
   "auth": {
-    "tenantName" : "${tenantName}",
+    "tenantId" : "${tenantId}",
     "passwordCredentials": {
       "username": "${username}",
       "password": "${password}"
