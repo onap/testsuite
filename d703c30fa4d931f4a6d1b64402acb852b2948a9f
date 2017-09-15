@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_dbf732f4",
+        "filename": "robot/assets/service_mappings.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-09-15T23:43:32Z",
+      "side": 1,
+      "message": "vCPE rather than vIMS?",
+      "revId": "d703c30fa4d931f4a6d1b64402acb852b2948a9f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_bbdeae6b",
+        "filename": "robot/assets/service_mappings.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-09-15T23:43:32Z",
+      "side": 1,
+      "message": "Also need an entry here. Template name is still used by preload logic to select preload paramaeters/",
+      "revId": "d703c30fa4d931f4a6d1b64402acb852b2948a9f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_9bd9aa85",
+        "filename": "robot/assets/service_mappings.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-09-15T23:43:32Z",
+      "side": 1,
+      "message": "When will heatbridge go away?",
+      "revId": "d703c30fa4d931f4a6d1b64402acb852b2948a9f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
