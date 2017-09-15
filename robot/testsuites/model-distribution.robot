@@ -20,3 +20,5 @@ Distribute vVG Model    vVG
     [Tags]    ete    distribute
 Distribute vIMS Model    vIMS
     [Tags]    ete    distribute
+Distribute vCPE Model    vCPE
+    [Tags]    ete    distribute
