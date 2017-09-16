@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_96abc1d5",
+        "filename": "robot/assets/service_mappings.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2017-09-16T14:11:51Z",
+      "side": 1,
+      "message": "i actually didnt do instantiate yet :D",
+      "parentUuid": "9a437d4f_bbdeae6b",
+      "revId": "d703c30fa4d931f4a6d1b64402acb852b2948a9f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_9bd9aa85",
         "filename": "robot/assets/service_mappings.py",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2017-09-15T23:43:32Z",
       "side": 1,
       "message": "When will heatbridge go away?",
+      "revId": "d703c30fa4d931f4a6d1b64402acb852b2948a9f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_76ba9d24",
+        "filename": "robot/assets/service_mappings.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2017-09-16T14:11:51Z",
+      "side": 1,
+      "message": "for amsterdam SO will be doing it. ONce i have confirmation i will be removing it from testuite",
+      "parentUuid": "9a437d4f_9bd9aa85",
       "revId": "d703c30fa4d931f4a6d1b64402acb852b2948a9f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
