@@ -5,6 +5,7 @@ GLOBAL_SERVICE_FOLDER_MAPPING = {"vFW" : ['base_vfw'], \
                                  "vLB" : ['base_vlb'], \
                                  "vVG" : ['base_vvg'], \
                                  "vIMS" : ['base_clearwater'], \
+                                 "vCPE" : ['base_vcpe_infra', 'base_vcpe_vbng', 'base_vcpe_vbrgemu', 'base_vcpe_vgmux', 'base_vcpe_vgw'], \
                                  }
 
 '''
