@@ -1,14 +1,14 @@
 *** Settings ***
 Documentation     The main interface for interacting with MSO. It handles low level stuff like managing the http request library and MSO required fields
 Library 	      RequestsLibrary
-Library	          UUID      
+Library	          UUID
 Library           OperatingSystem
 Library           Collections
 Resource          global_properties.robot
 Resource          ../resources/json_templater.robot
 *** Variables ***
 ${MSO_HEALTH_CHECK_PATH}    /ecomp/mso/infra/globalhealthcheck
-${MSO_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_MSO_IP_ADDR}:${GLOBAL_MSO_SERVER_PORT}
+${MSO_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_IP_ADDR}:${GLOBAL_MSO_SERVER_PORT}
 
 *** Keywords ***
 Run MSO Health Check
@@ -31,7 +31,7 @@ Run MSO Get Request
     ${resp}= 	Get Request 	mso 	${data_path}     headers=${headers}
     Log    Received response from mso ${resp.text}
     [Return]    ${resp}
-    
+
 Poll MSO Get Request
     [Documentation]    Runs an MSO get request until a certain status is received. valid values are COMPLETE
     [Arguments]    ${data_path}     ${status}
@@ -44,7 +44,7 @@ Poll MSO Get Request
     :FOR    ${i}    IN RANGE    20
     \    ${resp}= 	Get Request 	mso 	${data_path}     headers=${headers}
     \    Should Not Contain    ${resp.text}    FAILED
-    \    Log    ${resp.json()['request']['requestStatus']['requestState']}   
+    \    Log    ${resp.json()['request']['requestStatus']['requestState']}
     \    ${exit_loop}=    Evaluate    "${resp.json()['request']['requestStatus']['requestState']}" == "${status}"
     \    Exit For Loop If  ${exit_loop}
     \    Sleep    15s
