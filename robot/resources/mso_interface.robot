@@ -8,7 +8,7 @@ Resource          global_properties.robot
 Resource          ../resources/json_templater.robot
 *** Variables ***
 ${MSO_HEALTH_CHECK_PATH}    /ecomp/mso/infra/globalhealthcheck
-${MSO_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_MSO_IP_ADDR}:${GLOBAL_MSO_SERVER_PORT}
+${MSO_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_IP_ADDR}:${GLOBAL_MSO_SERVER_PORT}
 
 *** Keywords ***
 Run MSO Health Check
