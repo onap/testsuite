@@ -293,8 +293,9 @@ Upload ASDC Heat Package
     [Documentation]    Creates an asdc Software Product and returns its id
     [Arguments]    ${software_product_id}    ${file_path}   ${version_id}=0.1
     ${file}=    Get Binary File     ${file_path}
-    ${files}=     Create Dictionary     upload=${file}
-    ${resp}=    Run ASDC Post Files Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${software_product_id}/versions/${version_id}${ASDC_VENDOR_SOFTWARE_UPLOAD_PATH}     ${files}    ${ASDC_DESIGNER_USER_ID}
+    ${files}=     Create Dictionary
+    Create Multi Part ${files} upload ${file_path} contentType=application/zip
+    ${resp}=    Run ASDC Post Files Request2 ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${software_product_id}/versions/${version_id}${ASDC_VENDOR_SOFTWARE_UPLOAD_PATH} ${files}    ${ASDC_DESIGNER_USER_ID}    ${resp}=    Run ASDC Post Files Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${software_product_id}/versions/${version_id}${ASDC_VENDOR_SOFTWARE_UPLOAD_PATH}     ${files}    ${ASDC_DESIGNER_USER_ID}
 	Should Be Equal As Strings 	${resp.status_code} 	200
 Add ASDC Catalog Service
     [Documentation]    Creates an asdc Catalog Service and returns its id
@@ -431,6 +432,17 @@ Run ASDC Put Request
     ${resp}= 	Put Request 	asdc 	${data_path}     data=${data}    headers=${headers}
     Log    Received response from asdc ${resp.text}
     [Return]    ${resp}
+Run ASDC Post Files Request2
+    [Documentation]    Runs an ASDC post request2
+    [Arguments]    ${data_path}    ${files} ${user}=${ASDC_DESIGNER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME} ${GLOBAL_ASDC_BE_PASSWORD}
+    Log    Creating session ${ASDC_BE_ENDPOINT}
+    ${session}=    Create Session asdc ${ASDC_BE_ENDPOINT} auth=${auth}
+    ${uuid}=    Generate UUID
+    ${headers}=  Create Dictionary     Accept=application/json Content-Type=multipart/form-data    USER_ID=${user} X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid} X-FromAppId=${GLOBAL_APPLICATION_ID}
+    ${resp}= RequestsLibrary.Post Request asdc ${data_path} files=${files}    headers=${headers}
+    Log    Received response from asdc ${resp.text}
+    [Return]    ${resp}
 Run ASDC Post Files Request
     [Documentation]    Runs an ASDC post request
     [Arguments]    ${data_path}    ${files}    ${user}=${ASDC_DESIGNER_USER_ID}
@@ -477,3 +489,10 @@ Open ASDC GUI
     Title Should Be    ASDC
     Wait Until Page Contains Element    xpath=//div/a[text()='SDC']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Log    Logged in to ${ASDC_FE_ENDPOINT}${PATH}
+Create Multi Part
+  [Arguments]  ${addTo}  ${partName}  ${filePath} ${contentType}=${None}  ${content}=${None}
+  ${fileData}=  Run Keyword If  '''${content}''' != '''${None}'''  Set Variable  ${content}
+  ...            ELSE  Get Binary File  ${filePath}
+  ${fileDir}  ${fileName}=  Split Path  ${filePath}
+  ${partData}=  Create List  ${fileName}  ${fileData}  ${contentType}
+  Set To Dictionary  ${addTo}  ${partName}=${partData}
