@@ -9,6 +9,7 @@ Resource        ../vid/teardown_vid.robot
 Resource        ../sdngc_interface.robot
 Resource        model_test_template.robot
 
+Resource        ../aai/create_zone.robot
 Resource        ../aai/create_customer.robot
 Resource        ../aai/create_tenant.robot
 Resource        ../aai/create_service.robot
@@ -89,6 +90,7 @@ Setup Orchestrate VNF
     Initialize Regions From Openstack
     :FOR    ${region}    IN    @{REGIONS}
     \    Inventory Tenant If Not Exists    ${cloud_owner}  ${region}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}    ${TENANT_ID}    ${TENANT_NAME}
+    Inventory Zone If Not Exists    
     Log   Orchestrate VNF setup complete
 
 Initialize Tenant From Openstack
