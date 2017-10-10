@@ -22,6 +22,53 @@
       "revId": "d750315fb5b707935f618b4768b21c6412f02941",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_5fccbb35",
+        "filename": "docker/lighttpd.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-10-10T16:58:36Z",
+      "side": 1,
+      "message": "Site is password protected. No users are configured (no /etc/lighttpd/authorization file). The test user and password are created by the demo.sh init_robot.",
+      "parentUuid": "5a2585a7_16ece2c6",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "d750315fb5b707935f618b4768b21c6412f02941",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_3fd1efcd",
+        "filename": "docker/lighttpd.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-10-10T16:58:36Z",
+      "side": 1,
+      "message": "Doesn\u0027t exist until demo.sh init_robot",
+      "range": {
+        "startLine": 26,
+        "startChar": 45,
+        "endLine": 26,
+        "endChar": 58
+      },
+      "revId": "d750315fb5b707935f618b4768b21c6412f02941",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
