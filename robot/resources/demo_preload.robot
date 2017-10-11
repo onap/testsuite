@@ -57,7 +57,7 @@ Create Customer For VNF Demo
     ${data}=	Fill JSON Template    ${data_template}    ${arguments}
     ${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
-    Should Match Regexp    ${status_string}    ^(201|412)$
+    Should Match Regexp    ${status_string}    ^(200|201|412)$
     Create Service If Not Exists    vFW
     Create Service If Not Exists    vLB
     Create Service If Not Exists    vCPE
