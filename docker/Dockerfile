@@ -7,15 +7,28 @@ LABEL name="Docker image for the OpenECOMP Robot Testing Framework"
 LABEL usage="docker run -e ROBOT_TEST=<testname> -ti openecompete"
 
 # Install Python Pip, Robot framework, firefox, lighttpd web server, wget
-RUN apt-get update && \
-    apt-get --assume-yes install python=2.7.11-1 && \
-    apt-get --assume-yes install build-essential dbus dnsutils git libappindicator1 \
-				 libffi-dev libindicator7 libssl-dev libxss1 \
-				 lighttpd net-tools python-dev python-pip unzip \
-				 wget xvfb && \
-    pip install --upgrade pip && \
-    pip install robotframework && \
-    python --version
+# Restructuring so we can see where it fails in the build.
+RUN apt-get update
+RUN apt-get --assume-yes install python=2.7.11-1
+RUN apt-get --assume-yes install build-essential
+RUN apt-get --assume-yes install dbus
+RUN apt-get --assume-yes install dnsutils
+RUN apt-get --assume-yes install git
+RUN apt-get --assume-yes install libappindicator1
+RUN apt-get --assume-yes install libffi-dev
+RUN apt-get --assume-yes install libindicator7
+RUN apt-get --assume-yes install libssl-dev
+RUN apt-get --assume-yes install libxss1
+RUN apt-get --assume-yes install lighttpd
+RUN apt-get --assume-yes install net-tools
+RUN apt-get --assume-yes install python-dev
+RUN apt-get --assume-yes install python-pip
+RUN apt-get --assume-yes install unzip
+RUN apt-get --assume-yes install wget
+RUN apt-get --assume-yes install xvfb
+RUN pip install --upgrade pip
+RUN pip install robotframework
+RUN python --version
 
 # Install chrome
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
