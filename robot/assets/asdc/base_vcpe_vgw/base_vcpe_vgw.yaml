@@ -24,7 +24,7 @@
 
 heat_template_version: 2013-05-23
 
-description: Heat template to deploy vCPE vGateway (vG) for ONAP
+description: Heat template to deploy vCPE vGateway (vG)
 
 ##############
 #            #
@@ -49,6 +49,10 @@ parameters:
     type: string
     label: vGMUX private network name or ID
     description: Private network that connects vGMUX to vGWs
+  mux_gw_private_subnet_id:
+    type: string
+    label: vGMUX private sub-network name or ID
+    description: vGMUX private sub-network name or ID
   mux_gw_private_net_cidr:
     type: string
     label: vGMUX private network CIDR
@@ -69,6 +73,10 @@ parameters:
     type: string
     label: vCPE network that emulates internetmanagement name or ID
     description: Private network that connects vGW to emulated internet
+  cpe_public_subnet_id:
+    type: string
+    label: vCPE Public subnet
+    description: vCPE Public subnet
   cpe_public_net_cidr:
     type: string
     label: vCPE public network CIDR
@@ -133,6 +141,22 @@ parameters:
     type: string
     label: Cloud environment
     description: Cloud environment (e.g., openstack, rackspace)
+  vpp_source_repo_url:
+    type: string
+    label: VPP Source Git Repo
+    description: URL for VPP source codes
+  vpp_source_repo_branch:
+    type: string
+    label: VPP Source Git Branch
+    description: Git Branch for the VPP source codes
+  hc2vpp_source_repo_url:
+    type: string
+    label: Honeycomb Source Git Repo
+    description: URL for Honeycomb source codes
+  hc2vpp_source_repo_branch:
+    type: string
+    label: Honeycomb Source Git Branch
+    description: Git Branch for the Honeycomb source codes
 
 #############
 #           #
@@ -160,13 +184,11 @@ resources:
       save_private_key: false
 
   # Virtual GW Instantiation
-  #   mux_gw_private_net created by mux heat template
-  #   cpe_public_net created by infra heat template (vDNS)
   vgw_private_0_port:
     type: OS::Neutron::Port
     properties:
       network: { get_param: mux_gw_private_net_id }
-      fixed_ips: [{"subnet": { get_param: mux_gw_private_net_id }, "ip_address": { get_param: vgw_private_ip_0 }}]
+      fixed_ips: [{"subnet": { get_param: mux_gw_private_subnet_id }, "ip_address": { get_param: vgw_private_ip_0 }}]
 
   vgw_private_1_port:
     type: OS::Neutron::Port
@@ -178,7 +200,7 @@ resources:
     type: OS::Neutron::Port
     properties:
       network: { get_param: cpe_public_net_id}
-      fixed_ips: [{"subnet": { get_param: cpe_public_net_id }, "ip_address": { get_param: vgw_private_ip_2 }}]
+      fixed_ips: [{"subnet": { get_param: cpe_public_subnet_id }, "ip_address": { get_param: vgw_private_ip_2 }}]
 
   vgw_0:
     type: OS::Nova::Server
@@ -207,6 +229,10 @@ resources:
             __demo_artifacts_version__ : { get_param: demo_artifacts_version }
             __install_script_version__ : { get_param: install_script_version }
             __cloud_env__ : { get_param: cloud_env }
+            __vpp_source_repo_url__ : { get_param: vpp_source_repo_url }
+            __vpp_source_repo_branch__ : { get_param: vpp_source_repo_branch }
+            __hc2vpp_source_repo_url__ : { get_param: hc2vpp_source_repo_url }
+            __hc2vpp_source_repo_branch__ : { get_param: hc2vpp_source_repo_branch }
           template: |
             #!/bin/bash
 
@@ -222,6 +248,10 @@ resources:
             echo "__demo_artifacts_version__" > /opt/config/demo_artifacts_version.txt
             echo "__install_script_version__" > /opt/config/install_script_version.txt
             echo "__cloud_env__" > /opt/config/cloud_env.txt
+            echo "__vpp_source_repo_url__" > /opt/config/vpp_source_repo_url.txt
+            echo "__vpp_source_repo_branch__" > /opt/config/vpp_source_repo_branch.txt
+            echo "__hc2vpp_source_repo_url__" > /opt/config/hc2vpp_source_repo_url.txt
+            echo "__hc2vpp_source_repo_branch__" > /opt/config/hc2vpp_source_repo_branch.txt
 
             # Download and run install script
             curl -k __repo_url_blob__/org.onap.demo/vnfs/vcpe/__install_script_version__/v_gw_install.sh -o /opt/v_gw_install.sh
