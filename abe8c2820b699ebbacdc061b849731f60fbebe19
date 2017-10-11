@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_aae11a9c",
+        "filename": "robot/assets/service_mappings.py.bak",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2017-10-11T15:12:29Z",
+      "side": 1,
+      "message": "remove this?",
+      "revId": "abe8c2820b699ebbacdc061b849731f60fbebe19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
