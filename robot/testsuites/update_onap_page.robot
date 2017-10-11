@@ -8,7 +8,7 @@ Resource          ../resources/openstack/keystone_interface.robot
 Resource          ../resources/openstack/nova_interface.robot
 
 
-Test Timeout    1 minutes
+Test Timeout    5 minutes
 
 *** Variables ***
 ${URLS_HTML_TEMPLATE}   robot/assets/templates/web/index.html.template
@@ -70,17 +70,34 @@ Get Public Ip
     ${servers}   Get Dictionary Values    ${server_map}
     :for   ${server}   in   @{servers}
     \    ${status}   ${public_ip}   Run Keyword And Ignore Error   Search Addresses   ${server}   ${oam_ip}
-    \    Return From Keyword If   '${status}' == 'PASS'   ${public_ip}
+    \    Return From Keyword If   '${status}'=='PASS'   ${public_ip}
     Fail  ${oam_ip} Server Not Found
 
 Search Addresses
     [Arguments]   ${server}   ${oam_ip}
     ${addresses}   Get From Dictionary   ${server}   addresses
+    ${status}   ${public_ip}=   Run Keyword And Ignore Error   Find Rackspace   ${addresses}   ${oam_ip}
+    Return From Keyword If   '${status}'=='PASS'   ${public_ip}
+    ${status}   ${public_ip}=   Run Keyword And Ignore Error   Find Openstack   ${addresses}   ${oam_ip}
+    Return From Keyword If   '${status}'=='PASS'   ${public_ip}
+    Fail  ${oam_ip} Server Not Found
+
+Find Rackspace
+    [Arguments]   ${addresses}   ${oam_ip}
     ${public_ips}   Get From Dictionary   ${addresses}   public
     ${public_ip}=   Get V4 IP   ${public_ips}
     ${oam_ips}   Get From Dictionary   ${addresses}   ${GLOBAL_INJECTED_NETWORK}
     ${this_oam_ip}=   Get V4 IP   ${oam_ips}
     Return From Keyword If   '${this_oam_ip}' == '${oam_ip}'   ${public_ip}
+    Fail  ${oam_ip} Server Not Found
+
+Find Openstack
+    [Arguments]   ${addresses}   ${oam_ip}    
+    ${ips}   Get From Dictionary   ${addresses}   ${GLOBAL_INJECTED_NETWORK}
+    ${public_ip}=   Get V4 IP Openstack   ${ips}   floating
+    ##${oam_ips}   Get From Dictionary   ${addresses}   ${GLOBAL_INJECTED_NETWORK}
+    ${this_oam_ip}=    Get V4 IP Openstack   ${ips}   fixed
+    Return From Keyword If   '${this_oam_ip}'=='${oam_ip}'   ${public_ip}
     Fail  ${oam_ip} Server Not Found
 
 Get V4 IP
@@ -90,3 +107,12 @@ Get V4 IP
     \    ${version}   Get From Dictionary   ${ipmap}   version
     \    Return from Keyword if   '${version}' == '4'   ${ip}
     Fail  No Version 4 IP
+
+Get V4 IP Openstack
+    [Arguments]   ${ipmaps}   ${testtype}
+    :for   ${ipmap}   in   @{ipmaps}
+    \    ${type}   Get From Dictionary   ${ipmap}   OS-EXT-IPS:type
+    \    ${ip}   Get From Dictionary   ${ipmap}   addr
+    \    ${version}   Get From Dictionary   ${ipmap}   version
+    \    Return from Keyword if   '${version}'=='4' and '${type}'=='${testtype}'   ${ip}
+    Fail  No Version 4 IP    

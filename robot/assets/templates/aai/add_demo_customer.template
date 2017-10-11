@@ -41,6 +41,44 @@
 						}
 					]
 				}
+			}, {
+				"service-type" : "${service3}",
+				"relationship-list" : {
+					"relationship" : [{
+							"related-to" : "tenant",
+							"relationship-data" : [{
+									"relationship-key" : "cloud-region.cloud-owner",
+									"relationship-value" : "${cloud_owner}"
+								}, {
+									"relationship-key" : "cloud-region.cloud-region-id",
+									"relationship-value" : "${cloud_region_id}"
+								}, {
+									"relationship-key" : "tenant.tenant-id",
+									"relationship-value" : "${tenant_id}"
+								}
+							]
+						}
+					]
+				}
+			}, {
+				"service-type" : "${service4}",
+				"relationship-list" : {
+					"relationship" : [{
+							"related-to" : "tenant",
+							"relationship-data" : [{
+									"relationship-key" : "cloud-region.cloud-owner",
+									"relationship-value" : "${cloud_owner}"
+								}, {
+									"relationship-key" : "cloud-region.cloud-region-id",
+									"relationship-value" : "${cloud_region_id}"
+								}, {
+									"relationship-key" : "tenant.tenant-id",
+									"relationship-value" : "${tenant_id}"
+								}
+							]
+						}
+					]
+				}
 			}
 		]
 	}

@@ -24,7 +24,7 @@
 
 heat_template_version: 2013-05-23
 
-description: Heat template to deploy vCPE Infrastructue Metro vGMUX for ONAP
+description: Heat template to deploy vCPE Infrastructue Metro vGMUX
 
 ##############
 #            #
@@ -49,14 +49,22 @@ parameters:
     type: string
     label: vBNG vGMUX private network name or ID
     description: Private network that connects vBNG to vGMUX
+  bng_gmux_private_subnet_id:
+    type: string
+    label: vBNG vGMUX private sub-network name or ID
+    description: vBNG vGMUX private sub-network name or ID
   bng_gmux_private_net_cidr:
     type: string
     label: vBNG vGMUX private network CIDR
     description: The CIDR of the vBNG-vGMUX private network
   mux_gw_private_net_id:
     type: string
-    label: vCPE Public network name or ID
+    label: vGMUX vGWs network name or ID
     description: Private network that connects vGMUX to vGWs
+  mux_gw_private_subnet_id:
+    type: string
+    label: vGMUX vGWs sub-network name or ID
+    description: vGMUX vGWs sub-network name or ID
   mux_gw_private_net_cidr:
     type: string
     label: vGMUX private network CIDR
@@ -133,6 +141,30 @@ parameters:
     type: string
     label: Cloud environment
     description: Cloud environment (e.g., openstack, rackspace)
+  vpp_source_repo_url:
+    type: string
+    label: VPP Source Git Repo
+    description: URL for VPP source codes
+  vpp_source_repo_branch:
+    type: string
+    label: VPP Source Git Branch
+    description: Git Branch for the VPP source codes
+  hc2vpp_source_repo_url:
+    type: string
+    label: Honeycomb Source Git Repo
+    description: URL for Honeycomb source codes
+  hc2vpp_source_repo_branch:
+    type: string
+    label: Honeycomb Source Git Branch
+    description: Git Branch for the Honeycomb source codes
+  vpp_patch_url:
+    type: string
+    label: VPP Patch URL
+    description: URL for VPP patch for vG-MUX
+  hc2vpp_patch_url:
+    type: string
+    label: Honeycomb Patch URL
+    description: URL for Honeycomb patch for vG-MUX
 
 #############
 #           #
@@ -159,36 +191,13 @@ resources:
       public_key: { get_param: pub_key }
       save_private_key: false
 
-  mux_gw_private_network:
-    type: OS::Neutron::Net
-    properties:
-      name: { get_param: mux_gw_private_net_id }
-
-  mux_gw_private_subnet:
-    type: OS::Neutron::Subnet
-    properties:
-      name: { get_param: mux_gw_private_net_id }
-      network_id: { get_resource: mux_gw_private_network }
-      cidr: { get_param: mux_gw_private_net_cidr }
-      
-  bng_gmux_private_network:
-    type: OS::Neutron::Net
-    properties:
-      name: { get_param: bng_gmux_private_net_id }
-
-  bng_gmux_private_subnet:
-    type: OS::Neutron::Subnet
-    properties:
-      name: { get_param: bng_gmux_private_net_id }
-      network_id: { get_resource: bng_gmux_private_network }
-      cidr: { get_param: bng_gmux_private_net_cidr }
 
   # Virtual GMUX Instantiation
   vgmux_private_0_port:
     type: OS::Neutron::Port
     properties:
-      network: { get_resource: bng_gmux_private_network }
-      fixed_ips: [{"subnet": { get_resource: bng_gmux_private_subnet }, "ip_address": { get_param: vgmux_private_ip_0 }}]
+      network: { get_param: bng_gmux_private_net_id }
+      fixed_ips: [{"subnet": { get_param: bng_gmux_private_subnet_id }, "ip_address": { get_param: vgmux_private_ip_0 }}]
 
   vgmux_private_1_port:
     type: OS::Neutron::Port
@@ -199,8 +208,8 @@ resources:
   vgmux_private_2_port:
     type: OS::Neutron::Port
     properties:
-      network: { get_resource: mux_gw_private_network }
-      fixed_ips: [{"subnet": {  get_resource: mux_gw_private_subnet }, "ip_address": { get_param: vgmux_private_ip_2 }}]
+      network: { get_param: mux_gw_private_net_id }
+      fixed_ips: [{"subnet": {  get_param: mux_gw_private_subnet_id }, "ip_address": { get_param: vgmux_private_ip_2 }}]
 
   vgmux_0:
     type: OS::Nova::Server
@@ -230,6 +239,12 @@ resources:
             __demo_artifacts_version__ : { get_param: demo_artifacts_version }
             __install_script_version__ : { get_param: install_script_version }
             __cloud_env__ : { get_param: cloud_env }
+            __vpp_source_repo_url__ : { get_param: vpp_source_repo_url }
+            __vpp_source_repo_branch__ : { get_param: vpp_source_repo_branch }
+            __hc2vpp_source_repo_url__ : { get_param: hc2vpp_source_repo_url }
+            __hc2vpp_source_repo_branch__ : { get_param: hc2vpp_source_repo_branch }
+            __vpp_patch_url__ : { get_param: vpp_patch_url }
+            __hc2vpp_patch_url__ : { get_param: hc2vpp_patch_url }
           template: |
             #!/bin/bash
 
@@ -246,10 +261,15 @@ resources:
             echo "__demo_artifacts_version__" > /opt/config/demo_artifacts_version.txt
             echo "__install_script_version__" > /opt/config/install_script_version.txt
             echo "__cloud_env__" > /opt/config/cloud_env.txt
+            echo "__vpp_source_repo_url__" > /opt/config/vpp_source_repo_url.txt
+            echo "__vpp_source_repo_branch__" > /opt/config/vpp_source_repo_branch.txt
+            echo "__vpp_patch_url__" > /opt/config/vpp_patch_url.txt
+            echo "__hc2vpp_source_repo_url__" > /opt/config/hc2vpp_source_repo_url.txt
+            echo "__hc2vpp_source_repo_branch__" > /opt/config/hc2vpp_source_repo_branch.txt
+            echo "__hc2vpp_patch_url__" > /opt/config/hc2vpp_patch_url.txt
 
             # Download and run install script
             curl -k __repo_url_blob__/org.onap.demo/vnfs/vcpe/__install_script_version__/v_gmux_install.sh -o /opt/v_gmux_install.sh
             cd /opt
             chmod +x v_gmux_install.sh
             ./v_gmux_install.sh
-
