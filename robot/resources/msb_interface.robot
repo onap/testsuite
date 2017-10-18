@@ -20,5 +20,6 @@ Run MSB Get Request
      [Arguments]    ${data_path}
      ${session}=    Create Session 	msb	${MSB_ENDPOINT}
      ${resp}= 	Get Request 	msb 	${data_path}
+     Should Be Equal As Integers 	${resp.status_code} 	200
      Log    Received response from MSB ${resp.text}
      [Return]    ${resp}

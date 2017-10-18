@@ -60,3 +60,51 @@ Basic VID Health Check
 Basic Microservice Bus Health Check
     [Tags]    health
     Run MSB Health Check
+
+catalog API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/catalog/v1/swagger.json
+
+gvnfmdriver API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/gvnfmdriver/v1/swagger.json
+
+multicloud API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/multicloud/v0/swagger.json
+
+multicloud-ocata API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/multicloud-ocata/v0/swagger.json
+
+multicloud-titanium_cloud API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/multicloud-titanium_cloud/v0/swagger.json
+
+multicloud-vio API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/multicloud-vio/v0/swagger.json
+
+nslcm API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/nslcm/v1/swagger.json
+
+vnflcm API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/vnflcm/v1/swagger.json
+
+vnfmgr API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/vnfmgr/v1/swagger.json
+
+vnfres API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/vnfres/v1/swagger.json
+
+ztesdncdriver API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/ztesdncdriver/v1/swagger.json
+
+ztevmanagerdriver API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/ztevmanagerdriver/v1/swagger.json
