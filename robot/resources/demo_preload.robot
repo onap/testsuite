@@ -19,6 +19,8 @@ ${ADD_DEMO_CUSTOMER_BODY}   robot/assets/templates/aai/add_demo_customer.templat
 ${AAI_INDEX_PATH}     /aai/v8
 ${VF_MODULES_NAME}     _Demo_VFModules.json
 ${FILE_CACHE}    /share/
+${DEMO_PREFIX}   demo
+
 
 *** Keywords ***
 Load Customer And Models
@@ -39,10 +41,10 @@ Load Models
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFW   demoVFW
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB   demoVLB
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPE   demoVCPE
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vIMS   demoVIMS
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFW   ${DEMO_PREFIX}VFW
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB   ${DEMO_PREFIX}VLB
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPE   ${DEMO_PREFIX}VCPE
+    ##${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vIMS   ${DEMO_PREFIX}VIMS
 
 Distribute Model
     [Arguments]   ${service}   ${modelName}
