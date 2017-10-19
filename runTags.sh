@@ -86,6 +86,7 @@ ROBOT_LIBS=./robot/library:./robot/library/eteutils:./robot/library/heatbridge
 
 cd /var/opt/${INSTALL_NAME}
 python -m robot.run -L ${LOG_LEVEL} -d ${OUTPUT_FOLDER} ${VARIABLEFILES} ${VARIABLES} ${LISTENERS} -P ${ROBOT_LIBS} ${ROBOT_TAGS} $(pwd)
+RET_CODE=$?
 
 # Stop Xvfb we started earlier
 # select it from list of possible Xvfb pids running because
@@ -98,3 +99,5 @@ do
 		kill -9 $P
 	fi
 done
+
+exit $RET_CODE
