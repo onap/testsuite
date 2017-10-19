@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_232c1e02",
+        "filename": "red.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-10-19T17:51:27Z",
+      "side": 1,
+      "message": "Not seeing how this is relevant to this change... For future use?",
+      "range": {
+        "startLine": 23,
+        "startChar": 27,
+        "endLine": 23,
+        "endChar": 29
+      },
+      "revId": "30dd6c13d2d580b4dca37cf04624893b40059b35",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a2f8d8d_63f2269c",
+        "filename": "robot/testsuites/demo.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2017-10-19T17:51:27Z",
+      "side": 1,
+      "message": "Not seeing why this change is necessary...",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 26
+      },
+      "revId": "30dd6c13d2d580b4dca37cf04624893b40059b35",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
