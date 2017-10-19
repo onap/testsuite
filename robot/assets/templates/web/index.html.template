@@ -25,15 +25,52 @@
     <p>
     the password for all of them is: demo123456!
 
+    <h3>/etc/hosts or C:\Windows\system32\drivers\etc\hosts</h>
+	<pre>
+${sdc}	sdc.api.simpledemo.openecomp.org
+${policy}	policy.api.simpledemo.openecomp.org
+${portal}	portal.api.simpledemo.openecomp.org
+${vid}	vid.api.simpledemo.openecomp.org
+	</pre>
+
     <h1> The Reality </h1>
 
     As everything should go through the portal there are many subsystems which have there own GUI or API which come in very handy when debugging things. Here the most important once.
 
     <h2> Testing </h2>
 
-    <b> Not working. </b> :
+	<h3>Robot Logs</h3>
 
-    <a href="http://${robot}:88/report.html"> Test Report </a>
+    <a href="http://${robot}:88/logs/"> Robot Logs </a>
+
+    <h3>Robot vm_properties.py for local testing</h3>
+    <pre>
+GLOBAL_INJECTED_ARTIFACTS_VERSION = "${GLOBAL_INJECTED_ARTIFACTS_VERSION}"
+GLOBAL_INJECTED_GITLAB_PASSWORD = "password"
+GLOBAL_INJECTED_GITLAB_USERNAME = "username"
+GLOBAL_INJECTED_NETWORK = "${GLOBAL_INJECTED_NETWORK}"
+GLOBAL_INJECTED_NEXUS_DOCKER_REPO = "${GLOBAL_INJECTED_NEXUS_DOCKER_REPO}"
+GLOBAL_INJECTED_NEXUS_PASSWORD = "password"
+GLOBAL_INJECTED_NEXUS_REPO = "${GLOBAL_INJECTED_NEXUS_REPO}"
+GLOBAL_INJECTED_NEXUS_USERNAME = "docker"
+GLOBAL_INJECTED_OPENSTACK_API_KEY = "openstackapikey"
+GLOBAL_INJECTED_OPENSTACK_PASSWORD = "openstackpass"
+GLOBAL_INJECTED_OPENSTACK_USERNAME = "openstackuser"
+GLOBAL_INJECTED_OPENSTACK_TENANT_ID = "${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}"
+GLOBAL_INJECTED_REGION = "${GLOBAL_INJECTED_REGION}"
+GLOBAL_INJECTED_KEYSTONE = "${GLOBAL_INJECTED_KEYSTONE}"
+GLOBAL_INJECTED_AAI1_IP_ADDR = "${aai1}"
+GLOBAL_INJECTED_AAI2_IP_ADDR = "${aai2}"
+GLOBAL_INJECTED_APPC_IP_ADDR = "${appc}"
+GLOBAL_INJECTED_DCAE_IP_ADDR = "${dcae_controller}"
+GLOBAL_INJECTED_SO_IP_ADDR = "${mso}"
+GLOBAL_INJECTED_MR_IP_ADDR = "${message_router}"
+GLOBAL_INJECTED_POLICY_IP_ADDR = "${policy}"
+GLOBAL_INJECTED_PORTAL_IP_ADDR = "${portal}"
+GLOBAL_INJECTED_SDC_IP_ADDR = "${sdc}"
+GLOBAL_INJECTED_SDNC_IP_ADDR = "${sdnc}"
+GLOBAL_INJECTED_VID_IP_ADDR = "${vid}"
+    </pre>
 
     <h2> SDN-C </h2>
 
@@ -99,7 +136,8 @@
 
     The following links will open a shell and ssh to the various running VMs (at least on a Mac). It assumes that the .ssh/config file has been set appropriately and /etc/hosts has been updated to the running instance.<p>
 
-      <a href="ssh://${aai}"> AAI </a><p>
+      <a href="ssh://${aai1}"> AAI1 </a><p>
+      <a href="ssh://${aai2}"> AAI2 </a><p>
       <a href="ssh://${policy}"> Policy </a><p>
       <a href="ssh://${sdc}"> SDC </a><p>
       <a href="ssh://${portal}"> Portal </a><p>
