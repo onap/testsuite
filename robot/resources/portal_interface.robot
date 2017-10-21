@@ -7,7 +7,7 @@ Library	          UUID
 Resource          global_properties.robot
 
 *** Variables ***
-${PORTAL_HEALTH_CHECK_PATH}        /ECOMPPORTAL/portalApi/healthCheck
+${PORTAL_HEALTH_CHECK_PATH}        /ONAPPORTAL/portalApi/healthCheck
 ${PORTAL_ENDPOINT}     ${GLOBAL_PORTAL_SERVER_PROTOCOL}://${GLOBAL_INJECTED_PORTAL_IP_ADDR}:${GLOBAL_PORTAL_SERVER_PORT}
 
 *** Keywords ***

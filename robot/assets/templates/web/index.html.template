@@ -9,7 +9,7 @@
 
     The portal can be found at:<p>
 
-    <a href="http://portal.api.simpledemo.openecomp.org:8989/ECOMPPORTAL/login.htm">Portal</a>
+    <a href="http://portal.api.simpledemo.openecomp.org:8989/ONAPPORTAL/login.htm">Portal</a>
     <p>
     One requires role based user names and passwords to receive the full portal functionality. In the demo setup we pre provisioned:
     <p>
