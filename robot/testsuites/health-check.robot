@@ -94,6 +94,10 @@ nslcm API Health Check
      [Tags]    health
      Run MSB Get Request  /api/nslcm/v1/swagger.json
 
+usecaseui-gui API Health Check
+     [Tags]    health
+     Run MSB Get Request  /iui/usecaseui/
+
 vnflcm API Health Check
      [Tags]    health
      Run MSB Get Request  /api/vnflcm/v1/swagger.json
