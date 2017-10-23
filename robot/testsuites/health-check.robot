@@ -70,9 +70,21 @@ catalog API Health Check
      [Tags]    health
      Run MSB Get Request  /api/catalog/v1/swagger.json
 
+emsdriver API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/emsdriver/v1/swagger.json
+
 gvnfmdriver API Health Check
      [Tags]    health
      Run MSB Get Request  /api/gvnfmdriver/v1/swagger.json
+
+huaweivnfmdriver API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/huaweivnfmdriver/v1/swagger.json
+
+jujuvnfmdriver API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/jujuvnfmdriver/v1/swagger.json
 
 multicloud API Health Check
      [Tags]    health
@@ -90,13 +102,21 @@ multicloud-vio API Health Check
      [Tags]    health
      Run MSB Get Request  /api/multicloud-vio/v0/swagger.json
 
+nokiavnfmdriver API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/nokiavnfmdriver/v1/swagger.json
+
 nslcm API Health Check
      [Tags]    health
      Run MSB Get Request  /api/nslcm/v1/swagger.json
 
+resmgr API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/resmgr/v1/swagger.json
+
 usecaseui-gui API Health Check
      [Tags]    health
-     Run MSB Get Request  /iui/usecaseui/
+     Run MSB Get Request  /iui/usecase-ui/
 
 vnflcm API Health Check
      [Tags]    health
@@ -109,6 +129,10 @@ vnfmgr API Health Check
 vnfres API Health Check
      [Tags]    health
      Run MSB Get Request  /api/vnfres/v1/swagger.json
+
+workflow API Health Check
+     [Tags]    health
+     Run MSB Get Request  /api/workflow/v1/swagger.json
 
 ztesdncdriver API Health Check
      [Tags]    health
