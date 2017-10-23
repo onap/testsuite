@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_429f1b60",
+        "filename": "robot/assets/templates/web/index.html.template",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 681
+      },
+      "writtenOn": "2017-10-23T12:14:23Z",
+      "side": 1,
+      "message": "Please note that the host name should be portal.api.simpledemo.ONAP.org",
+      "revId": "85b749bac23adde11ea1f69ced2b4cffbddd0564",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
