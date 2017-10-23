@@ -15,6 +15,7 @@ Resource          ../resources/portal_interface.robot
 Resource          ../resources/mr_interface.robot
 Resource          ../resources/aaf_interface.robot
 Resource          ../resources/msb_interface.robot
+Resource          ../resources/clamp_interface.robot
 
 *** Test Cases ***   
 Basic DCAE Health Check
@@ -60,6 +61,10 @@ Basic VID Health Check
 Basic Microservice Bus Health Check
     [Tags]    health
     Run MSB Health Check
+
+Basic CLAMP Health Check
+    [Tags]    health
+    Run CLAMP Health Check
 
 catalog API Health Check
      [Tags]    health
