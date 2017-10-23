@@ -15,6 +15,7 @@ Resource          ../resources/portal_interface.robot
 Resource          ../resources/mr_interface.robot
 Resource          ../resources/aaf_interface.robot
 Resource          ../resources/msb_interface.robot
+Resource          ../resources/clamp_interface.robot
 
 *** Test Cases ***   
 Basic DCAE Health Check
