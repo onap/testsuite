@@ -53,6 +53,10 @@ Distribute Model
 Create Customer For VNF Demo
     [Documentation]    Create demo customer for the demo
     [Arguments]    ${customer_name}   ${customer_id}   ${customer_type}    ${clouder_owner}    ${cloud_region_id}    ${tenant_id}
+    Create Service If Not Exists    vFW
+    Create Service If Not Exists    vLB
+    Create Service If Not Exists    vCPE
+    Create Service If Not Exists    vIMS
     ${data_template}=    OperatingSystem.Get File    ${ADD_DEMO_CUSTOMER_BODY}
     ${arguments}=    Create Dictionary    subscriber_name=${customer_name}    global_customer_id=${customer_id}    subscriber_type=${customer_type}     cloud_owner=${clouder_owner}  cloud_region_id=${cloud_region_id}    tenant_id=${tenant_id}
     Set To Dictionary   ${arguments}       service1=vFW       service2=vLB   service3=vCPE   service4=vIMS
@@ -60,10 +64,6 @@ Create Customer For VNF Demo
     ${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}    ^(200|201|412)$
-    Create Service If Not Exists    vFW
-    Create Service If Not Exists    vLB
-    Create Service If Not Exists    vCPE
-    Create Service If Not Exists    vIMS
 
 Preload User Model
     [Documentation]   Preload the demo data for the passed VNF with the passed module name

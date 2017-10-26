@@ -78,9 +78,9 @@ Create Customer For VNF
     ...                Create Tenant if not exists, Create Customer, Create Service and related relationships
     [Arguments]    ${customer_name}    ${customer_id}    ${customer_type}    ${service_type}    ${cloud_owner}
     ${cloud_region_id}=   Get Openstack Region
+    Create Service If Not Exists    ${service_type}
     ${resp}=    Create Customer    ${customer_name}    ${customer_id}    ${customer_type}    ${service_type}   ${cloud_owner}  ${cloud_region_id}    ${TENANT_ID}
 	Should Be Equal As Strings 	${resp} 	201
-    Create Service If Not Exists    ${service_type}
 
 Setup Orchestrate VNF
     [Documentation]    Called before each test case to ensure tenant and region data
