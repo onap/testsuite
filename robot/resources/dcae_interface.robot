@@ -7,8 +7,7 @@ Library           Collections
 Resource          global_properties.robot
 
 *** Variables ***
-${DCAE_HEALTH_CHECK_BODY}    robot/assets/dcae/dcae_healthcheck.json
-${DCAE_HEALTH_CHECK_PATH}    /gui
+${DCAE_HEALTH_CHECK_PATH}    /healthcheck
 ${DCAE_ENDPOINT}     ${GLOBAL_DCAE_SERVER_PROTOCOL}://${GLOBAL_INJECTED_DCAE_IP_ADDR}:${GLOBAL_DCAE_SERVER_PORT}
 
 *** Keywords ***
@@ -18,9 +17,8 @@ Run DCAE Health Check
     Log    Creating session ${DCAE_ENDPOINT}
     ${session}=    Create Session 	dcae 	${DCAE_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
-    ${data}=    OperatingSystem.Get File    ${DCAE_HEALTH_CHECK_BODY}
     ${headers}=  Create Dictionary     X-ECOMP-Client-Version=ONAP-R2   action=getTable    Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
-    ${resp}= 	Put Request 	dcae 	${DCAE_HEALTH_CHECK_PATH}     data=${data}    headers=${headers}
+    ${resp}= 	Get Request 	dcae 	${DCAE_HEALTH_CHECK_PATH}     headers=${headers}
     Log    Received response from dcae ${resp.json()}
     Should Be Equal As Strings 	${resp.status_code} 	200
     Check DCAE Results    ${resp.json()}
@@ -28,53 +26,29 @@ Run DCAE Health Check
 Check DCAE Results
     [Documentation]    Parse DCAE JSON response and make sure all rows have healthTestStatus=GREEN (except for the exceptions ;-)
     [Arguments]    ${json}
-    @{rows}=    Get From Dictionary    ${json['returns']}    rows
-    @{headers}=    Get From Dictionary    ${json['returns']}    columns
+    ${service_names}=   Get DCAE Healthcheck Service Names
+    :for   ${service}   in   @{json}
+    \    ${sn}=   Get From DIctionary    ${service}   ServiceName
+    \    ${status}=   Get From Dictionary   ${service}   Status
+    \    Run Keyword If   '${status}'=='passing'   Remove Values From List   ${service_names}   ${sn}   
+    Should Be Empty    ${service_names}   Services failing healthcheck ${service_names}   
+    
+    
+Get DCAE Healthcheck Service Names
+    [Documentation]    From Lusheng's email servaices that must be passing for DCAE to be healthy. Mayne grab from a config file?
+    ${service_names}=   Create List
+    Append To List    ${service_names}   cdap
+    Append To List    ${service_names}   cdap_broker
+    Append To List    ${service_names}   config_binding_service
+    Append To List    ${service_names}   deployment_handler
+    Append To List    ${service_names}   inventory
+    Append To List    ${service_names}   service_change_handler
+    Append To List    ${service_names}   policy_handler
+    Append To List    ${service_names}   platform_dockerhost
+    Append To List    ${service_names}   component_dockerhost
+    Append To List    ${service_names}   cloudify_manager
+    Append To List    ${service_names}   VES
+    Append To List    ${service_names}   TCA
+    Append To List    ${service_names}   Holmes
+    [Return]   ${service_names}
 
-    # Retrieve column names from headers
-    ${columns}=    Create List
-    :for    ${header}    in    @{headers}
-    \    ${colName}=    Get From Dictionary    ${header}    colName
-    \    Append To List    ${columns}    ${colName}
-
-    # Process each row making sure status=GREEN
-    :for    ${row}    in    @{rows}
-    \    ${cells}=    Get From Dictionary    ${row}    cells
-    \    ${dict}=    Make A Dictionary    ${cells}    ${columns}
-    \    Is DCAE Status Valid    ${dict}
-
-Is DCAE Status Valid
-    [Arguments]   ${dict}
-    # If it is GREEN we are done.
-    ${status}   ${value}=   Run Keyword And Ignore Error       Dictionary Should Contain Item    ${dict}    healthTestStatus    GREEN
-    Return From Keyword If   '${status}' == 'PASS'
-
-    # Check for Exceptions
-    # Only 1 so far
-    ${status}   ${value}=   Run Keyword And Ignore Error       Check For Exception    ${dict}    vm-controller    UNDEPLOYED   YELLOW
-    Return From Keyword If   '${status}' == 'PASS'
-
-    # Status not GREEN or is not an exception
-    Fail    Health check failed ${dict}
-
-Check for Exception
-    [Arguments]   ${dict}   ${service}    ${status}   ${healthTestStatus}
-    # Test the significant attributes to see if this is a legit exception
-    ${exception}=   Copy Dictionary   ${dict}
-    Set To Dictionary   ${exception}   service=${service}   status=${status}    healthTestStatus=${healthTestStatus}
-    Dictionaries Should Be Equal    ${dict}    ${exception}
-
-
-
-Make A Dictionary
-    [Documentation]    Given a list of column names and a list of dictionaries, map columname=value
-    [Arguments]     ${columns}    ${names}    ${valuename}=value
-    ${dict}=    Create Dictionary
-    ${collength}=    Get Length    ${columns}
-    ${namelength}=    Get Length    ${names}
-    :for    ${index}    in range    0   ${collength}
-    \    ${name}=    Evaluate     ${names}[${index}]
-    \    ${valued}=    Evaluate     ${columns}[${index}]
-    \    ${value}=    Get From Dictionary    ${valued}    ${valueName}
-    \    Set To Dictionary    ${dict}   ${name}    ${value}
-    [Return]     ${dict}
