@@ -2,6 +2,7 @@
 Documentation     The main interface for interacting with Openstack Keystone API. It handles low level stuff like managing the authtoken and Openstack required fields
 Library           OpenstackLibrary
 Library 	      RequestsLibrary
+Library 	      HTTPUtils
 Library	          UUID
 Library	          Collections
 Library    OperatingSystem
@@ -20,12 +21,13 @@ Run Openstack Auth Request
     [Documentation]    Runs an Openstack Auth Request and returns the token and service catalog. you need to include the token in future request's x-auth-token headers. Service catalog describes what can be called
     [Arguments]    ${alias}    ${username}=    ${password}=
     ${username}    ${password}=   Set Openstack Credentials   ${username}    ${password}
-    ${session}=    Create Session 	keystone 	${GLOBAL_INJECTED_KEYSTONE}    verify=True
+    ${url}   ${path}=   Get Keystone Url And Path
+    ${session}=    Create Session 	keystone 	${url}    verify=True
     ${uuid}=    Generate UUID
     ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_KEYSTONE_AUTH_BODY_FILE}
     ${arguments}=    Create Dictionary    username=${username}    password=${password}   tenantId=${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
     ${data}=	Fill JSON Template    ${data_template}    ${arguments}
-    ${data_path}=    Catenate    ${OPENSTACK_KEYSTONE_API_VERSION}${OPENSTACK_KEYSTONE_AUTH_PATH}
+    ${data_path}=    Catenate    ${path}${OPENSTACK_KEYSTONE_AUTH_PATH}
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     Log    Sending authenticate post request ${data_path} with headers ${headers} and data ${data}
     ${resp}= 	Post Request 	keystone 	${data_path}     data=${data}    headers=${headers}
@@ -53,3 +55,12 @@ Set Openstack Credentials
 
 Get Openstack Credentials
     [Return]   ${GLOBAL_INJECTED_OPENSTACK_USERNAME}    ${GLOBAL_INJECTED_OPENSTACK_PASSWORD}
+
+Get Keystone Url And Path
+    [Documentation]    Handle arbitrary keystone identiit url. Add v2.0 if not present.
+    ${pieces}=   URL Parse   ${GLOBAL_INJECTED_KEYSTONE}
+    ${url}=      Catenate   ${pieces.scheme}://${pieces.netloc}
+    ${version}=  Evaluate   ''
+    ${version}=  Set Variable If   '${OPENSTACK_KEYSTONE_API_VERSION}' not in '${pieces.path}'   ${OPENSTACK_KEYSTONE_API_VERSION}   ${version}
+    ${path}=     Catenate   ${pieces.path}${version}
+    [Return]   ${url}   ${path}

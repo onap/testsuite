@@ -2,12 +2,17 @@
 Documentation	  Executes the VNF Orchestration Test cases including setup and teardown
 ...
 Library   Collections
-Library    DatabaseLibrary
+Library    HTTPUtils
 Resource         ../resources/demo_preload.robot
 *** Variables ***
 
 ${VNF_NAME}       DemoVNF
 ${MODULE_NAME}    DemoModuleName
+
+${HB_STACK}
+${HB_SERVICE_INSTANCE_ID}
+${HB_SERVICE}
+
 
 *** Test Cases ***
 Initialize Customer And Models
@@ -42,4 +47,10 @@ Delete Instantiated VNF
     Login To VID GUI
     Delete VNF
     [Teardown]   Teardown VNF
+
+Run Heatbridge
+    [Documentation]
+    ...    Try to run heatbridge
+    [Tags]   heatbridge
+    Execute Heatbridge   ${HB_STACK}   ${HB_SERVICE_INSTANCE_ID}    ${HB_SERVICE}
 

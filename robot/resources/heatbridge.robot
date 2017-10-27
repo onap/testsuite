@@ -38,7 +38,8 @@ Execute Heatbridge
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${tenant_id}=   Get From Dictionary    ${stack_info}    OS::project_id
     ${vnf_id}=    Get From Dictionary    ${stack_info}    vnf_id
-    ${openstack_identity_url}=    Catenate    ${GLOBAL_INJECTED_KEYSTONE}/v2.0
+    ${url}   ${path}=   Get Keystone Url And Path
+    ${openstack_identity_url}=    Catenate    ${url}${path}
     ${region}=   Get Openstack Region
     ${user}   ${pass}=   Get Openstack Credentials
     Init Bridge    ${openstack_identity_url}    ${user}    ${pass}    ${tenant_id}    ${region}   ${GLOBAL_AAI_CLOUD_OWNER}
