@@ -27,10 +27,38 @@
 
     <h3>/etc/hosts or C:\Windows\system32\drivers\etc\hosts</h>
 	<pre>
-${sdc}	sdc.api.simpledemo.openecomp.org
-${policy}	policy.api.simpledemo.openecomp.org
-${portal}	portal.api.simpledemo.openecomp.org
-${vid}	vid.api.simpledemo.openecomp.org
+
+${portal} portal portal.api.simpledemo.onap.org
+${sdc} sdc sdc.api.simpledemo.onap.org
+${vid} vid vid.api.simpledemo.onap.org
+${policy} policy policy.api.simpledemo.onap.org
+${aai1} aai1 aai.api.simpledemo.onap.org
+
+${robot} robot
+${appc} appc
+${mso}  so
+${sdnc} sdnc
+${openo} multi-service  
+${dcae_controller} dcae
+${aai2} aai2
+${message_router} message-router
+${clamp} clamp
+
+${portal} ${prefix}-portal
+${sdc} ${prefix}-sdc
+${vid} ${prefix}-vid 
+${policy} ${prefix}-policy 
+${aai1} ${prefix}-aai1 
+${robot} ${prefix}-robot
+${appc} ${prefix}-appc
+${mso}  ${prefix}-so
+${sdnc} ${prefix}-sdnc
+${openo} ${prefix}-multi-service  
+${dcae_controller} ${prefix}-dcae
+${aai2} ${prefix}-aai2
+${message_router} ${prefix}-message-router
+${clamp} ${prefix}-clamp
+
 	</pre>
 
     <h1> The Reality </h1>
