@@ -68,8 +68,9 @@ Distribute Model From ASDC
 	Distribute ASDC Catalog Service    ${catalog_service_id}
 	${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
 	${vf_module}=    Find Element In Array    ${loop_catalog_resource_resp['groups']}    type    org.openecomp.groups.VfModule
-    [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}
 	Check Catalog Service Distributed    ${catalog_service_resp['uuid']}
+    [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}
+    
 Setup ASDC Catalog Resource
     [Documentation]    Creates all the steps a vf needs for an asdc catalog resource and returns the id
     [Arguments]    ${model_zip_path}

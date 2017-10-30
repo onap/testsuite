@@ -3,6 +3,7 @@ Documentation     The main interface for interacting with ASDC. It handles low l
 Library           OperatingSystem
 Library            ArchiveLibrary
 Library           Collections
+Library           String 
 Resource          ../asdc_interface.robot
 
 Variables       ../../assets/service_mappings.py
@@ -10,7 +11,7 @@ Variables       ../../assets/service_mappings.py
 *** Variables ***
 ${ASDC_BASE_PATH}    /sdc1
 ${ASDC_DESIGNER_PATH}    /proxy-designer1#/dashboard
-${ASDC_ASSETS_DIRECTORY}    robot/assets/asdc
+${ASDC_ASSETS_DIRECTORY}    ${GLOBAL_HEAT_TEMPLATES_FOLDER}
 ${ASDC_ZIP_DIRECTORY}    ${ASDC_ASSETS_DIRECTORY}/temp
 
 #***************** Test Case Variables *********************
@@ -24,7 +25,8 @@ Model Distribution For Directory
     ${directory_list}=    Get From Dictionary    ${GLOBAL_SERVICE_FOLDER_MAPPING}    ${service}
     ${ziplist}=    Create List
     :for   ${directory}    in    @{directory_list}
-    \    ${zip}=    Catenate    ${ASDC_ZIP_DIRECTORY}/${directory}.zip
+    \    ${zipname}=   Replace String    ${directory}    /    _     
+    \    ${zip}=    Catenate    ${ASDC_ZIP_DIRECTORY}/${zipname}.zip
     \    ${folder}=    Catenate    ${ASDC_ASSETS_DIRECTORY}/${directory}
     \    OperatingSystem.Create Directory    ${ASDC_ASSETS_DIRECTORY}/temp
     \    Create Zip From Files In Directory        ${folder}    ${zip}

@@ -1,10 +1,10 @@
 '''
 This metadata identifies the folders to be zipped and uploaded to SDC for model distribution for a given VNF
 '''
-GLOBAL_SERVICE_FOLDER_MAPPING = {"vFW" : ['base_vfw'], \
-                                 "vLB" : ['base_vlb'], \
-                                 "vVG" : ['base_vvg'], \
-                                 "vCPE" : ['base_vcpe_infra', 'base_vcpe_vbng', 'base_vcpe_vbrgemu', 'base_vcpe_vgmux', 'base_vcpe_vgw'], 
+GLOBAL_SERVICE_FOLDER_MAPPING = {"vFW" : ['vFW'], \
+                                 "vLB" : ['vLB'], \
+                                 "vVG" : ['vVG'], \
+                                 "vCPE" : ['vCPE/infra', 'vCPE/vbng', 'vCPE/vbrgemu', 'vCPE/vgmux', 'vCPE/vgw'], 
                                  }
 
 '''

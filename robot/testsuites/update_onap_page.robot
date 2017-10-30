@@ -13,7 +13,7 @@ Test Timeout    5 minutes
 *** Variables ***
 ${URLS_HTML_TEMPLATE}   robot/assets/templates/web/index.html.template
 
-
+${HOSTS_PREFIX}   vm
 ${WEB_USER}       test
 ${WEB_PASSWORD}
 
@@ -60,6 +60,7 @@ Update ONAP Page
     Set To Dictionary    ${values}   GLOBAL_INJECTED_OPENSTACK_TENANT_ID=${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
     Set To Dictionary    ${values}   GLOBAL_INJECTED_REGION=${GLOBAL_INJECTED_REGION}
     Set To Dictionary    ${values}   GLOBAL_INJECTED_KEYSTONE=${GLOBAL_INJECTED_KEYSTONE}
+    Set To Dictionary    ${values}   prefix=${HOSTS_PREFIX}
     Create File From Template   ${URLS_HTML_TEMPLATE}   ${URLS_HTML}   ${values}
 
 *** Keywords ***
