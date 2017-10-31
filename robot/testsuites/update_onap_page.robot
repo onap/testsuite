@@ -60,6 +60,9 @@ Update ONAP Page
     Set To Dictionary    ${values}   GLOBAL_INJECTED_OPENSTACK_TENANT_ID=${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
     Set To Dictionary    ${values}   GLOBAL_INJECTED_REGION=${GLOBAL_INJECTED_REGION}
     Set To Dictionary    ${values}   GLOBAL_INJECTED_KEYSTONE=${GLOBAL_INJECTED_KEYSTONE}
+    Set To Dictionary    ${values}   GLOBAL_INJECTED_VM_FLAVOR=${GLOBAL_INJECTED_VM_FLAVOR}
+    Set To Dictionary    ${values}   GLOBAL_INJECTED_VM_IMAGE_NAME=${GLOBAL_INJECTED_VM_IMAGE_NAME}
+    Set To Dictionary    ${values}   GLOBAL_INJECTED_PUBLIC_NET_ID=${GLOBAL_INJECTED_PUBLIC_NET_ID}
     Set To Dictionary    ${values}   prefix=${HOSTS_PREFIX}
     Create File From Template   ${URLS_HTML_TEMPLATE}   ${URLS_HTML}   ${values}
 
