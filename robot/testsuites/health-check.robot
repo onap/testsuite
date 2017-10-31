@@ -82,10 +82,6 @@ huaweivnfmdriver API Health Check
      [Tags]    health
      Run MSB Get Request  /api/huaweivnfmdriver/v1/swagger.json
 
-jujuvnfmdriver API Health Check
-     [Tags]    health
-     Run MSB Get Request  /api/jujuvnfmdriver/v1/swagger.json
-
 multicloud API Health Check
      [Tags]    health
      Run MSB Get Request  /api/multicloud/v0/swagger.json
