@@ -9,7 +9,7 @@
 
     The portal can be found at:<p>
 
-    <a href="http://portal.api.simpledemo.openecomp.org:8989/ONAPPORTAL/login.htm">Portal</a>
+    <a href="http://portal.api.simpledemo.onap.org:8989/ONAPPORTAL/login.htm">Portal</a>
     <p>
     One requires role based user names and passwords to receive the full portal functionality. In the demo setup we pre provisioned:
     <p>
@@ -38,7 +38,7 @@ ${robot} robot
 ${appc} appc
 ${mso}  so
 ${sdnc} sdnc
-${openo} multi-service  
+${openo} multi-service
 ${dcae_controller} dcae
 ${aai2} aai2
 ${message_router} message-router
@@ -46,14 +46,14 @@ ${clamp} clamp
 
 ${portal} ${prefix}-portal
 ${sdc} ${prefix}-sdc
-${vid} ${prefix}-vid 
-${policy} ${prefix}-policy 
-${aai1} ${prefix}-aai1 
+${vid} ${prefix}-vid
+${policy} ${prefix}-policy
+${aai1} ${prefix}-aai1
 ${robot} ${prefix}-robot
 ${appc} ${prefix}-appc
 ${mso}  ${prefix}-so
 ${sdnc} ${prefix}-sdnc
-${openo} ${prefix}-multi-service  
+${openo} ${prefix}-multi-service
 ${dcae_controller} ${prefix}-dcae
 ${aai2} ${prefix}-aai2
 ${message_router} ${prefix}-message-router
@@ -100,6 +100,10 @@ GLOBAL_INJECTED_SDNC_IP_ADDR = "${sdnc}"
 GLOBAL_INJECTED_VID_IP_ADDR = "${vid}"
 GLOBAL_INJECTED_OPENO_IP_ADDR = "${openo}"
 GLOBAL_INJECTED_CLAMP_IP_ADDR = "${clamp}"
+GLOBAL_INJECTED_VM_FLAVOR = "${GLOBAL_INJECTED_VM_FLAVOR}"
+GLOBAL_INJECTED_VM_IMAGE_NAME = "${GLOBAL_INJECTED_VM_IMAGE_NAME}"
+GLOBAL_INJECTED_PUBLIC_NET_ID = "${GLOBAL_INJECTED_PUBLIC_NET_ID}"
+
     </pre>
 
     <h2> SDN-C </h2>

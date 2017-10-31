@@ -92,14 +92,14 @@ Add Server
 
 Add Server For Image Name
     [Documentation]    Adds a server for the passed if
-    [Arguments]    ${alias}    ${name}    ${imageName}    ${flavorName}
+    [Arguments]    ${alias}    ${name}    ${imageName}    ${flavorName}   ${public_net_id}
     ${images}=  Get Openstack Images    ${alias}
     ${flavors}=  Get Openstack Flavors    ${alias}
     ${images}=   Get From Dictionary   ${images}   images
     ${flavors}=   Get From Dictionary   ${flavors}   flavors
     ${imageRef}=    Get Id For Name   ${images}    ${imageName}
     ${flavorRef}=   Get Id For Name   ${flavors}    ${flavorName}
-    ${dict}=    Create Dictionary   name=${name}   imageRef=${imageRef}   flavorRef=${flavorRef}
+    ${dict}=    Create Dictionary   name=${name}   imageRef=${imageRef}   flavorRef=${flavorRef}   public_net_id=${public_net_id}
     ${data}=    Fill JSON Template File    ${OPENSTACK_NOVA_SERVER_ADD_BODY_FILE}    ${dict}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    ${OPENSTACK_NOVA_SERVERS_PATH}   data_path=    data=${data}
     ${status_string}=    Convert To String    ${resp.status_code}
