@@ -26,29 +26,20 @@ Run DCAE Health Check
 Check DCAE Results
     [Documentation]    Parse DCAE JSON response and make sure all rows have healthTestStatus=GREEN (except for the exceptions ;-)
     [Arguments]    ${json}
-    ${service_names}=   Get DCAE Healthcheck Service Names
-    :for   ${service}   in   @{json}
-    \    ${sn}=   Get From DIctionary    ${service}   ServiceName
-    \    ${status}=   Get From Dictionary   ${service}   Status
-    \    Run Keyword If   '${status}'=='passing'   Remove Values From List   ${service_names}   ${sn}   
-    Should Be Empty    ${service_names}   Services failing healthcheck ${service_names}   
-    
-    
-Get DCAE Healthcheck Service Names
-    [Documentation]    From Lusheng's email servaices that must be passing for DCAE to be healthy. Mayne grab from a config file?
-    ${service_names}=   Create List
-    Append To List    ${service_names}   cdap
-    Append To List    ${service_names}   cdap_broker
-    Append To List    ${service_names}   config_binding_service
-    Append To List    ${service_names}   deployment_handler
-    Append To List    ${service_names}   inventory
-    Append To List    ${service_names}   service_change_handler
-    Append To List    ${service_names}   policy_handler
-    Append To List    ${service_names}   platform_dockerhost
-    Append To List    ${service_names}   component_dockerhost
-    Append To List    ${service_names}   cloudify_manager
-    Append To List    ${service_names}   VES
-    Append To List    ${service_names}   TCA
-    Append To List    ${service_names}   Holmes
+    # ${service_names} to contain only the names of services that are passing
+    ${service_names}=    Evaluate    map( lambda s: s['ServiceName'], filter(lambda s: s['Status'] == 'passing', ${json} ))
+    Should Contain Match    ${service_names}   cdap
+    Should Contain Match    ${service_names}   cdap_broker
+    Should Contain Match    ${service_names}   config_binding_service
+    Should Contain Match    ${service_names}   deployment_handler
+    Should Contain Match    ${service_names}   inventory
+    Should Contain Match    ${service_names}   service_change_handler
+    Should Contain Match    ${service_names}   policy_handler
+    Should Contain Match    ${service_names}   platform_dockerhost
+    Should Contain Match    ${service_names}   component_dockerhost
+    Should Contain Match    ${service_names}   cloudify_manager
+    Should Contain Match    ${service_names}   VES
+    Should Contain Match    ${service_names}   TCA
+    Should Contain Match    ${service_names}   regexp=.*holmes
     [Return]   ${service_names}
 
