@@ -10,7 +10,7 @@ Library    OperatingSystem
 
 
 *** Variables ***
-${INDEX PATH}     /aai/v8 
+${INDEX PATH}     /aai/v11
 ${ROOT_CUSTOMER_PATH}  /business/customers/customer/
 ${SYSTEM USER}    robot-ete
 ${A&AI ADD CUSTOMER BODY}    robot/assets/templates/aai/add_customer.template

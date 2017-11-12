@@ -12,7 +12,7 @@ Library    UUID
 
 
 *** Variables ***
-${INDEX PATH}     /aai/v8 
+${INDEX PATH}     /aai/v11
 ${ROOT_SERVICE_PATH}  /service-design-and-creation/services
 
 ${SYSTEM USER}    robot-ete

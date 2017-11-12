@@ -11,7 +11,7 @@ Library    Collections
 
 
 *** Variables ***
-${INDEX PATH}     /aai/v8
+${INDEX PATH}     /aai/v11
 ${ROOT_TENANT_PATH}  /cloud-infrastructure/cloud-regions/cloud-region/
 
 ${SYSTEM USER}    robot-ete

@@ -13,7 +13,7 @@ Library    HttpLibrary.HTTP
 Resource          ../json_templater.robot
 
 *** Variables ***
-${INDEX PATH}     /aai/v8
+${INDEX PATH}     /aai/v11
 ${GENERIC_QUERY_PATH}  /search/generic-query?
 ${SYSTEM USER}    robot-ete
 ${CUSTOMER SPEC PATH}    /business/customers/customer/

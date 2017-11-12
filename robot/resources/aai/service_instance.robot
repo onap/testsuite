@@ -17,7 +17,7 @@ Resource          ../stack_validation/validate_vvg.robot
 Resource          ../aai/aai_interface.robot
 
 *** Variables ***
-${INDEX PATH}     /aai/v8
+${INDEX PATH}     /aai/v11
 ${GENERIC_QUERY_PATH}  /search/generic-query?
 ${SYSTEM USER}    robot-ete
 ${CUSTOMER SPEC PATH}    /business/customers/customer/
