@@ -48,7 +48,7 @@ Delete Zone Exists
 
 Get Zone
     [Documentation]   Return zone
-    [Arguments]    ${zone_id} 
+    [Arguments]    ${zone_id}
 	${resp}=    Run A&AI Get Request     ${ZONE_INDEX_PATH}${ROOT_ZONE_PATH}/${zone_id}
     Should Be Equal As Strings 	${resp.status_code} 	200
 	[Return]  ${resp.json()}

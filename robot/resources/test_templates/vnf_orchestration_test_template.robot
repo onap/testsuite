@@ -11,6 +11,7 @@ Resource        model_test_template.robot
 
 Resource        ../aai/create_zone.robot
 Resource        ../aai/create_customer.robot
+Resource        ../aai/create_complex.robot
 Resource        ../aai/create_tenant.robot
 Resource        ../aai/create_service.robot
 Resource        ../openstack/neutron_interface.robot
@@ -91,6 +92,7 @@ Setup Orchestrate VNF
     :FOR    ${region}    IN    @{REGIONS}
     \    Inventory Tenant If Not Exists    ${cloud_owner}  ${region}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}    ${TENANT_ID}    ${TENANT_NAME}
     Inventory Zone If Not Exists
+    Inventory Complex If Not Exists    ${GLOBAL_AAI_COMPLEX_NAME}   ${GLOBAL_AAI_PHYSICAL_LOCATION_ID}   ${GLOBAL_AAI_CLOUD_OWNER}   ${GLOBAL_INJECTED_REGION}   ${GLOBAL_AAI_CLOUD_OWNER_DEFINED_TYPE}
     Log   Orchestrate VNF setup complete
 
 Initialize Tenant From Openstack
