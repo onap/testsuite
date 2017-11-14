@@ -69,6 +69,11 @@ pip install --no-cache-dir --target="$path/robot/library" -U 'paramiko==2.0.2'
 # Go back to execution folder
 cd $path
 
+#
+# Temporary patch to the neutron client.py 
+# to add the v2.0 to the URL
+#
+cp -rfv  patch/library robot
 
 #
 # Get the appropriate chromedriver. Default to linux64
