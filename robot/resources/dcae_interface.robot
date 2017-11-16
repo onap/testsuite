@@ -34,12 +34,13 @@ Check DCAE Results
     Should Contain Match    ${service_names}   deployment_handler
     Should Contain Match    ${service_names}   inventory
     Should Contain Match    ${service_names}   service_change_handler
-    Should Contain Match    ${service_names}   policy_handler
+    # Should Contain Match    ${service_names}   policy_handler
     Should Contain Match    ${service_names}   platform_dockerhost
     Should Contain Match    ${service_names}   component_dockerhost
     Should Contain Match    ${service_names}   cloudify_manager
-    Should Contain Match    ${service_names}   VES
-    Should Contain Match    ${service_names}   TCA
-    Should Contain Match    ${service_names}   regexp=.*holmes
+    Should Contain Match    ${service_names}   regexp=.*dcaegen2-collectors-ves
+    Should Contain Match    ${service_names}   regexp=.*cdap_app_cdap_app_tca
+    Should Contain Match    ${service_names}   regexp=.*dcae-analytics-holmes-rule-management
+    Should Contain Match    ${service_names}   regexp=.*dcae-analytics-holmes-engine-management
     [Return]   ${service_names}
 
