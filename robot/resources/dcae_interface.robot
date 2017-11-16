@@ -33,7 +33,7 @@ Check DCAE Results
     Should Contain Match    ${service_names}   config_binding_service
     Should Contain Match    ${service_names}   deployment_handler
     Should Contain Match    ${service_names}   inventory
-    Should Contain Match    ${service_names}   service_change_handler
+    Should Contain Match    ${service_names}   service-change-handler
     # Should Contain Match    ${service_names}   policy_handler
     Should Contain Match    ${service_names}   platform_dockerhost
     Should Contain Match    ${service_names}   component_dockerhost
