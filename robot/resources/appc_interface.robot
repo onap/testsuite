@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     The main interface for interacting with APP-C. It handles low level stuff like managing the http request library and APP-C required fields
 Library 	      RequestsLibrary
-Library	          UUID      
+Library	          UUID
 Library           OperatingSystem
 Library           StringTemplater
 Resource          global_properties.robot
@@ -19,7 +19,7 @@ Run APPC Health Check
     [Documentation]    Runs an APPC healthcheck
 	${resp}=    Run APPC Post Request     ${APPC_INDEX PATH}${APPC_HEALTHCHECK_OPERATION_PATH}     ${None}
     Should Be Equal As Strings 	${resp.status_code} 	200
-    Should Be Equal As Strings 	${resp.json()['output']['response-code']} 	200   
+    Should Be Equal As Strings 	${resp.json()['output']['response-code']} 	200
 
 Run APPC Post Request
     [Documentation]    Runs an APPC post request
@@ -44,13 +44,13 @@ Run APPC Put Request
     ${resp}= 	Put Request 	appc 	${data_path}     data=${data}    headers=${headers}
     Log    Received response from appc ${resp.text}
     [Return]    ${resp}
-    
+
 Create Mount Point In APPC
     [Documentation]     Go tell APPC about the PGN we just spun up...
     [Arguments]    ${nodeid}    ${host}    ${port}=${GLOBAL_PGN_PORT}    ${username}=admin    ${password}=admin
     ${dict}=    Create Dictionary    nodeid=${nodeid}    host=${host}    port=${port}    username=${username}    password=${password}
     ${template}=    OperatingSystem.Get File    ${APPC_MOUNT_XML}
-    ${data}=    Template String    ${template}    ${dict}   
+    ${data}=    Template String    ${template}    ${dict}
     ${resp}=    Run APPC Put Request     ${APPC_INDEX PATH}${APPC_CREATE_MOUNTPOINT_PATH}${nodeid}     ${data}
-    Should Be Equal As Strings 	${resp.status_code} 	200
-    [Return]     ${resp}    
+    Should Be Equal As Strings 	${resp.status_code} 	201
+    [Return]     ${resp}

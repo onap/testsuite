@@ -14,22 +14,24 @@ Resource          vid_interface.robot
 
 Create VID VNF
     [Documentation]    Creates a VNF instance using VID for passed instance id with the passed service instance name
-    [Arguments]    ${service_instance_id}    ${service_instance_name}    ${product_family}    ${lcp_region}    ${tenant}   ${vnf_type}
+    [Arguments]    ${service_instance_id}    ${service_instance_name}    ${product_family}    ${lcp_region}    ${tenant}   ${vnf_type}   ${customer}
     Go To VID HOME
     Click Link       xpath=//div[@heading = 'Search for Existing Service Instances']/a
     Wait Until Page Contains    Please search by    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
 
     # If we don't wait for this control to be enabled, the submit results in a 'not found' pop-up (UnexpectedAlertPresentException)
-    Input Text When Enabled    //input[@name='selectedServiceInstance']    ${service_instance_id}
-    Select From List By Label    //select[@ng-model='selectedserviceinstancetype']    Service Instance Id
+    #Input Text When Enabled    //input[@name='selectedServiceInstance']    ${service_instance_id}
+    #Select From List By Label    //select[@ng-model='selectedserviceinstancetype']    Service Instance Id
+    Select From List By Label    //select[@ng-model='selectedCustomer']    ${customer}
     Click Button    button=Submit
     Wait Until Page Contains Element    link=View/Edit    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click Element     xpath=//a[contains(text(), 'View/Edit')]
     Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click Element    button=Add VNF
-
+    #01681d02-2304-4c91-ab2d 0
     # This is where firefox breaks. Th elink never becomes visible when run with the script.
-    Click Element    link=${vnf_type}
+    ${dataTestsId}=    Catenate   AddVNFOption-${vnf_type}
+    Click Element    xpath=//a[contains(text(), '${vnf_type}')]
     Wait Until Page Contains Element    xpath=//input[@parameter-id='instanceName']    ${GLOBAL_VID_UI_TIMEOUT_SHORT}
     Wait Until Element Is Enabled    xpath=//input[@parameter-id='instanceName']    ${GLOBAL_VID_UI_TIMEOUT_SHORT}
 
@@ -41,7 +43,7 @@ Create VID VNF
     Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region}
     Select From List By Label    xpath=//select[@parameter-id='tenant']    ${tenant}
     Click Element    button=Confirm
- 	Wait Until Element Contains    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']    Status: OK (200)    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+ 	Wait Until Element Contains    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     ${response text}=    Get Text    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']
  	Should Not Contain    ${response text}    FAILED
     Click Element    button=Close
@@ -79,14 +81,15 @@ Delete VID VNF
     Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
 
 Create VID VNF module
-    [Arguments]    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${TENANT}    ${VNF_TYPE}
+    [Arguments]    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${TENANT}    ${VNF_TYPE}   ${customer}
     Go To VID HOME
     Click Link       xpath=//div[@heading = 'Search for Existing Service Instances']/a
     Wait Until Page Contains    Please search by    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Wait Until Page Contains Element    xpath=//div[@class='statusLine aaiHidden']    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
 
      # If we don't wait for this control to be enabled, the submit results in a 'not found' pop-up (UnexpectedAlertPresentException)
-    Input Text When Enabled    //input[@name='selectedServiceInstance']    ${service_instance_id}
+    Select From List By Label    //select[@ng-model='selectedCustomer']    ${customer}
+    ###Input Text When Enabled    //input[@name='selectedServiceInstance']    ${service_instance_id}
     Click Button    button=Submit
     Wait Until Page Contains Element    link=View/Edit    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click Element     link=View/Edit
@@ -108,6 +111,7 @@ Create VID VNF module
     Input Text 	  xpath=//input[@parameter-id='instanceName']    ${vf_module_name}
     Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region}
     Select From List By Label    xpath=//select[@parameter-id='tenant']    ${tenant}
+    Select Checkbox    xpath=//input[@parameter-id='sdncPreload']
     Click Element    button=Confirm
  	Wait Until Element Contains    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']    requestId    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     ${response text}=    Get Text    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']

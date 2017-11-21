@@ -32,7 +32,7 @@ Get Server Ip
     ${server_name}=   Get From Dictionary     ${stack_info}   ${key_name}
     ${server}=    Get From Dictionary    ${server_list}    ${server_name}
     Log    Entering Get Openstack Server Ip
-    ${ip}=    Get Openstack Server Ip    ${server}    network_name=${network_name}
+    ${ip}=    Search Addresses    ${server}    ${network_name}
     Log    Returned Get Openstack Server Ip
     [Return]    ${ip}
 
@@ -45,3 +45,58 @@ Find And Reboot The Server
     Reboot Server    auth   ${vfw_server_id}
 
 
+Search Addresses
+    [Arguments]   ${server}   ${network_name}
+    ${addresses}   Get From Dictionary   ${server}   addresses
+    ${status}   ${server_ip}=   Run Keyword And Ignore Error   Find Rackspace   ${addresses}   ${network_name}
+    Return From Keyword If   '${status}'=='PASS'   ${server_ip}
+    ${status}   ${server_ip}=   Run Keyword And Ignore Error   Find Openstack   ${addresses}   ${network_name}
+    Return From Keyword If   '${status}'=='PASS'   ${server_ip}
+    ${status}   ${server_ip}=   Run Keyword And Ignore Error   Find Openstack 2   ${addresses}   ${network_name}
+    Return From Keyword If   '${status}'=='PASS'   ${server_ip}
+    Fail  ${server}/${network_name} Not Found
+
+Find Rackspace
+    [Arguments]   ${addresses}   ${network_name}
+    ${ips}   Get From Dictionary   ${addresses}   ${network_name}
+    ${ip}=   Get V4 IP   ${ips}
+    [Return]   ${ip}
+
+Find Openstack
+    [Arguments]   ${addresses}   ${network_name}
+    ${network_name}=   Set Variable If    '${network_name}' == 'public'    external   ${network_name}
+    ${ip}=   Get V4 IP Openstack   ${addresses}   ${network_name}
+    [Return]   ${ip}
+
+Find Openstack 2
+    [Arguments]   ${addresses}   ${network_name}
+    ${network_name}=   Set Variable If    '${network_name}' == 'public'    floating   ${network_name}
+    ${ipmaps}=   Get From Dictionary   ${addresses}   ${GLOBAL_INJECTED_NETWORK}
+    ${ip}=   Get V4 IP Openstack 2  ${ipmaps}   ${network_name}
+    [Return]   ${ip}
+
+Get V4 IP
+    [Arguments]   ${ipmaps}
+    :for   ${ipmap}   in   @{ipmaps}
+    \    ${ip}   Get From Dictionary   ${ipmap}   addr
+    \    ${version}   Get From Dictionary   ${ipmap}   version
+    \    Return from Keyword if   '${version}' == '4'   ${ip}
+    Fail  No Version 4 IP
+
+Get V4 IP Openstack
+    [Arguments]   ${addresses}   ${testtype}
+    ${ipmaps}=   Get From Dictionary   ${addresses}   ${testtype}
+    :for   ${ipmap}   in   @{ipmaps}
+    \    ${ip}   Get From Dictionary   ${ipmap}   addr
+    \    ${version}   Get From Dictionary   ${ipmap}   version
+    \    Return from Keyword if   '${version}'=='4'   ${ip}
+    Fail  No Version 4 IP
+
+Get V4 IP Openstack 2
+    [Arguments]   ${ipmaps}   ${testtype}
+    :for   ${ipmap}   in   @{ipmaps}
+    \    ${type}   Get From Dictionary   ${ipmap}   OS-EXT-IPS:type
+    \    ${ip}   Get From Dictionary   ${ipmap}   addr
+    \    ${version}   Get From Dictionary   ${ipmap}   version
+    \    Return from Keyword if   '${version}'=='4' and '${type}'=='${testtype}'   ${ip}
+    Fail  No Version 4 IP

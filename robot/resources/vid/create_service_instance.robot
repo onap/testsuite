@@ -22,11 +22,12 @@ Create VID Service Instance
     Wait Until Page Contains Element    xpath=//input[@parameter-name='Instance Name']    ${GLOBAL_VID_UI_TIMEOUT_LONG}
     Wait Until Element Is Visible    xpath=//input[@parameter-name='Instance Name']    ${GLOBAL_VID_UI_TIMEOUT_LONG}
     Xpath Should Match X Times    //input[@parameter-name='Instance Name']    1
-    Input Text When Enabled    //input[@parameter-name='Instance Name']    ${service_name}
-    Select From List When Enabled    //select[@prompt='Select Subscriber Name']    ${customer_name}
+    Wait Until Keyword Succeeds   120s  5s    Input Text When Enabled    //input[@parameter-name='Instance Name']    ${service_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+    Select From List When Enabled    //select[@prompt='Select Subscriber Name']    ${customer_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Select From List WHen Enabled    //select[@prompt='Select Service Type']     ${service_type}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Click On Button When Enabled    //div[@class = 'buttonRow']/button[text() = 'Confirm']
- 	Wait Until Element Contains    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']    requestId    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+ 	Wait Until Element Contains    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+ 	Page Should Contain    "requestState": "COMPLETE"
     ${response text}=    Get Text    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']
     Click On Button When Enabled    //div[@class = 'buttonRow']/button[text() = 'Close']
     ${request_id}=    Parse Request Id    ${response text}

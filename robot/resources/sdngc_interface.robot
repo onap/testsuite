@@ -118,7 +118,7 @@ Preload One Vnf Topology
     Return From Keyword If    '${filename}' == ''
     ${data_template}=    OperatingSystem.Get File    ${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}/preload.template
     ${parameters}=    Get Template Parameters    ${filename}   ${uuid}
-    Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}    uuid=${uuid}
+    Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
     ${data}=	Fill JSON Template    ${data_template}    ${parameters}
 	${put_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     ${data}
     Should Be Equal As Strings 	${put_resp.json()['output']['response-code']} 	200
@@ -130,26 +130,44 @@ Get Template Parameters
     ${rest}   ${suite}=    Split String From Right    ${SUITE NAME}   .   1
     ${uuid}=    Catenate    ${uuid}
     ${hostid}=    Get Substring    ${uuid}    -4
-    ${ecompnet}=    Evaluate    ${GLOBAL_BUILD_NUMBER}%255
+    ${ecompnet}=    Evaluate    (${GLOBAL_BUILD_NUMBER}%128)+128
+
+
     # Initialize the value map with the properties generated from the Robot VM /opt/config folder
-    ${valuemap}=   Create Dictionary
+    ${valuemap}=   Copy Dictionary    ${GLOBAL_INJECTED_PROPERTIES}
+
+    # These should be deprecated by the above....
     Set To Dictionary   ${valuemap}   artifacts_version=${GLOBAL_INJECTED_ARTIFACTS_VERSION}
     Set To Dictionary   ${valuemap}   network=${GLOBAL_INJECTED_NETWORK}
     Set To Dictionary   ${valuemap}   public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
     Set To Dictionary   ${valuemap}   cloud_env=${GLOBAL_INJECTED_CLOUD_ENV}
-    Set To Dictionary   ${valuemap}   install_script_version=${GLOBAL_INJECTED_INSTALL_SCRIPT_VERSION}
+    Set To Dictionary   ${valuemap}   install_script_version=${GLOBAL_INJECTED_SCRIPT_VERSION}
     Set To Dictionary   ${valuemap}   vm_image_name=${GLOBAL_INJECTED_VM_IMAGE_NAME}
-    Set To Dictionary   ${valuemap}   vm_flavor_name=${GLOBAL_INJECTED_VM_FLAVOR_NAME}
+    Set To Dictionary   ${valuemap}   vm_flavor_name=${GLOBAL_INJECTED_VM_FLAVOR}
+
+
     # update the value map with unique values.
     Set To Dictionary   ${valuemap}   uuid=${uuid}   hostid=${hostid}    ecompnet=${ecompnet}
-    ${parameters}=    Create Dictionary
-    ${defaults}=    Get From Dictionary    ${GLOBAL_PRELOAD_PARAMETERS}    defaults
-    Resolve Values Into Dictionary   ${valuemap}   ${defaults}    ${parameters}
+
+    #
+    # Mash together the defaults dict with the test case dict to create the set of
+    # preload parameters
+    #
     ${suite_templates}=    Get From Dictionary    ${GLOBAL_PRELOAD_PARAMETERS}    ${suite}
     ${template}=    Get From Dictionary    ${suite_templates}    ${template}
-    ${vnf_parameters}=   Resolve VNF Parameters Into Array   ${valuemap}   ${template}    ${parameters}
+    ${defaults}=    Get From Dictionary    ${GLOBAL_PRELOAD_PARAMETERS}    defaults
+    # add all of the defaults to template...
+    @{keys}=    Get Dictionary Keys    ${defaults}
+    :for   ${key}   in   @{keys}
+    \    ${value}=   Get From Dictionary    ${defaults}    ${key}
+    \    Set To Dictionary    ${template}  ${key}    ${value}
+
+    #
+    # Get the vnf_parameters to preload
+    #
+    ${vnf_parameters}=   Resolve VNF Parameters Into Array   ${valuemap}   ${template}
     ${vnf_parameters_json}=   Evaluate    json.dumps(${vnf_parameters})    json
-    Set To Dictionary   ${parameters}   vnf_parameters=${vnf_parameters_json}
+    ${parameters}=   Create Dictionary   vnf_parameters=${vnf_parameters_json}
     [Return]    ${parameters}
 
 Resolve Values Into Dictionary
@@ -161,7 +179,7 @@ Resolve Values Into Dictionary
     \    Set To Dictionary    ${to}    ${key}    ${value}
 
 Resolve VNF Parameters Into Array
-    [Arguments]   ${valuemap}    ${from}    ${to}
+    [Arguments]   ${valuemap}    ${from}
     ${vnf_parameters}=   Create List
     ${keys}=    Get Dictionary Keys    ${from}
     :for   ${key}   in  @{keys}
@@ -201,7 +219,7 @@ Login To SDNGC Admin GUI
     ## Setup Browser is now being managed by the test case
     ## Setup Browser
     Go To    ${SDNGC_ADMIN_SIGNUP_URL}
-    Maximize Browser Window
+    ##Maximize Browser Window
     Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
     Log    Logging in to ${SDNGC_ADMIN_LOGIN_URL}
