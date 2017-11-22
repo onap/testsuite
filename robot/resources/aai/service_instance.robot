@@ -50,6 +50,8 @@ Validate Generic VNF
     Dictionary Should Contain Value	${generic_vnf.json()}    ${vnf_name}
     ${returned_vnf_type}=    Get From Dictionary    ${generic_vnf.json()}    vnf-type
     Should Contain	${returned_vnf_type}    ${vnf_type}
+    ${vnf_id}=    Get From Dictionary    ${generic_vnf.json()}    vnf-id
+    ${generic_vnf}=    Run A&AI Get Request      ${INDEX PATH}/network/generic-vnfs/generic-vnf/${vnf_id}?depth=all
     [Return]    ${generic_vnf.json()}
 
 VLB Closed Loop Hack

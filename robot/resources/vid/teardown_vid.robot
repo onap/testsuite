@@ -12,24 +12,29 @@ Resource        create_service_instance.robot
 *** Variables ***
 ${VID_ENV}            /vid
 ${VID_SERVICE_MODELS_SEARCH_URL}  ${GLOBAL_VID_SERVER_PROTOCOL}://${GLOBAL_INJECTED_VID_IP_ADDR}:${GLOBAL_VID_SERVER_PORT}${VID_ENV}/serviceModels.htm#/instances/services
+${TEARDOWN_STATUS}   FAIL
+
 *** Keywords ***
 
 Teardown VID
     [Documentation]   Teardown the VID This assumes that the any runnign stacks have been torn down
-    [Arguments]    ${service_instance_id}    ${lcp_region}    ${tenant}
+    [Arguments]    ${service_instance_id}    ${lcp_region}    ${tenant}   ${customer}
     Return From Keyword If   len('${service_instance_id}') == 0
     # Keep going to the VID service instance until we get the pop-up alert that there is no service instance
-    Wait Until Keyword Succeeds    300s    1s    Delete VID    ${service_instance_id}    ${lcp_region}    ${tenant}
+    Set Test Variable    ${TEARDOWN_STATUS}    FAIL
+    Wait Until Keyword Succeeds    300s    1s    Delete VID    ${service_instance_id}    ${lcp_region}    ${tenant}   ${customer}
+    Return From Keyword If   '${TEARDOWN_STATUS}' == 'PASS'
+    Fail   ${TEARDOWN_STATUS}
 
 
 Delete VID
     [Documentation]    Teardown the next VID entity that has a Remove icon.
-    [Arguments]    ${service_instance_id}    ${lcp_region}    ${tenant}
+    [Arguments]    ${service_instance_id}    ${lcp_region}    ${tenant}   ${customer}
     # For vLB closed loop, we may have 2 vf modules and the vDNS one needs to be removed first.
     ${remove_order}=    Create List    vDNS_Ete   Vfmodule_Ete
 
     # FAIL status is returned in ${vfmodule} because FAIL are ignored during teardown
-    ${status}    ${vfmodule}=   Run Keyword and Ignore Error   Delete Next VID Entity    ${service_instance_id}    ${lcp_region}    ${tenant}   ${remove_order}
+    ${status}    ${vfmodule}=   Run Keyword and Ignore Error   Delete Next VID Entity    ${service_instance_id}    ${lcp_region}    ${tenant}   ${remove_order}   ${customer}
     Return From Keyword If    '${status}' == 'FAIL'
     Return From Keyword If    '${vfmodule}' == 'FAIL'
     # After tearing down a VF module, execute the reverse HB for it to remove the references from A&AI
@@ -38,7 +43,7 @@ Delete VID
 
 Delete Next VID Entity
     [Documentation]    Teardown the next VID entity that has a Remove icon.
-    [Arguments]    ${service_instance_id}    ${lcp_region}    ${tenant}   ${remove_order}
+    [Arguments]    ${service_instance_id}    ${lcp_region}    ${tenant}   ${remove_order}   ${customer}
     ${vfmodule}=    Catenate
     Go To    ${VID_SERVICE_MODELS_SEARCH_URL}
     Wait Until Page Contains    Please search by    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
@@ -46,14 +51,17 @@ Delete Next VID Entity
     Wait Until Element Is Not Visible    xpath=//div[@class='statusLine aaiHidden']    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
 
     # If we don't wait for this control to be enabled, the submit results in a 'not found' pop-up (UnexpectedAlertPresentException)
-    Input Text When Enabled    //input[@name='selectedServiceInstance']    ${service_instance_id}
+    Select From List By Label    //select[@ng-model='selectedCustomer']    ${customer}
+    Click Button    button=Submit
 
     # When Handle alert detects a pop-up. it will return FAIL and we are done
     # Return from Keyword is required because FAIL is inored during teardown
+    Set Test Variable   ${TEARDOWN_STATUS}   PASS
     ${status}   ${value}   Run Keyword And Ignore Error    Handle Alert
     Return From Keyword If   '${status}' == 'FAIL'   ${status}
     ${status}   ${value}   Run Keyword And Ignore Error    Wait Until Page Contains Element    link=View/Edit    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Return From Keyword If   '${status}' == 'FAIL'   ${status}
+    Set Test Variable   ${TEARDOWN_STATUS}   FAIL
 
 
     Click Element     link=View/Edit
