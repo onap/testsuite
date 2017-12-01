@@ -5,6 +5,18 @@ GLOBAL_SERVICE_FOLDER_MAPPING = {"vFW" : ['vFW'], \
                                  "vLB" : ['vLB'], \
                                  "vVG" : ['vVG'], \
                                  "vCPE" : ['vCPE/infra', 'vCPE/vbng', 'vCPE/vbrgemu', 'vCPE/vgmux', 'vCPE/vgw'], 
+                                 "vFWCL" : ['vFWCL/vFWSNK', 'vFWCL/vPKG'], 
+                                 }
+
+'''
+Map the service to the list of VNFs to be orchestrated
+'''
+GLOBAL_SERVICE_VNF_MAPPING = {
+    "vFW"  : ['vFW'], 
+    "vLB"  : ['vLB'],
+    "vVG"  : ['vVG'], 
+    "vCPE" : ['vCPE'], 
+    "vFWCL"  : ['vFWSNK', 'vPKG'],
                                  }
 
 '''
@@ -19,6 +31,8 @@ GLOBAL_SERVICE_TEMPLATE_MAPPING = {
               {"isBase" : "false",  "template" : "dnsscaling_preload.template", "name_pattern": "dnsscaling", "prefix" : "vDNS_"}],
     "vVG"  : [{"isBase" : "true",   "template" : "vvg_preload.template", "name_pattern": "base_vvg"}], 
     "vCPE" : [{"isBase" : "true",  "template" : "vcpe_preload.template", "name_pattern": "base_clearwater"}], 
+    "vFWSNK" : [{"isBase" : "true",   "template" : "vfwsnk_preload.template", "name_pattern": "base_vfw"}],
+    "vPKG"   : [{"isBase" : "true",  "template" : "vpkg_preload.template", "name_pattern": "base_vpkg"}],
 }
 
 '''
@@ -28,4 +42,6 @@ GLOBAL_VALIDATE_NAME_MAPPING = {"vFW" : 'vfw_name_0',
                                  "vLB" : 'vlb_name_0',
                                  "vVG" : '',
                                  "vCPE" : '',
+                                 "vFWSNK" : 'vfw_name_0',
+                                 "vPKG" : 'vpg_name_0',
                                  }

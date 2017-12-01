@@ -81,7 +81,7 @@ Delete VID VNF
     Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
 
 Create VID VNF module
-    [Arguments]    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${TENANT}    ${VNF_TYPE}   ${customer}
+    [Arguments]    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${TENANT}    ${VNF_TYPE}   ${customer}   ${vnf_name}
     Go To VID HOME
     Click Link       xpath=//div[@heading = 'Search for Existing Service Instances']/a
     Wait Until Page Contains    Please search by    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
@@ -98,7 +98,7 @@ Create VID VNF module
     #Wait Until Page Contains Element    xpath=//div[@class='statusLine']    timeout=120s
     #Wait Until Element Is Not Visible    xpath=//div[@class='statusLine aaiHidden']    timeout=120s
     #Wait Until Element Is Visible    button=Add VF-Module   timeout=120s
-    Click Element    button=Add VF-Module
+    Click Element     xpath=//div[contains(.,'${vnf_name}')]/div/button[contains(.,'Add VF-Module')]
 
     # This is where firefox breaks. Th elink never becomes visible when run with the script.
     Click Element    link=${vnf_type}
