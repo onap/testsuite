@@ -83,7 +83,7 @@ Run SDNGC Delete Request
 
 Preload Vnf
     [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_module_name}    ${vf_modules}    ${service}   ${uuid}
-    ${base_vf_module_type}=    Catenate    ''
+    ${base_vf_module_type}=    Catenate
     ${closedloop_vf_module}=    Create Dictionary
     ${templates}=    Get From Dictionary    ${GLOBAL_SERVICE_TEMPLATE_MAPPING}    ${service}
     :for    ${vf_module}    in      @{vf_modules}

@@ -192,7 +192,7 @@ Orchestrate VNF vFW closedloop
 	[Documentation]    VNF Orchestration for vFW
 	Log    VNF Orchestration flow TEST NAME=${TEST NAME}
 	Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-	${stack_name}    ${service}=  Orchestrate VNF   ETE_CLP    vFW      vFW   ${TENANT_NAME}
+	${stack_name}    ${service}=  Orchestrate VNF   ETE_CLP    vFWCL      vFWCL   ${TENANT_NAME}
 	[Return]  ${stack_name}
 
  Orchestrate VNF vDNS closedloop

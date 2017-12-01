@@ -3,7 +3,7 @@ Documentation     The main interface for interacting with ASDC. It handles low l
 Library           OperatingSystem
 Library            ArchiveLibrary
 Library           Collections
-Library           String 
+Library           String
 Resource          ../asdc_interface.robot
 
 Variables       ../../assets/service_mappings.py
@@ -25,16 +25,17 @@ Model Distribution For Directory
     ${directory_list}=    Get From Dictionary    ${GLOBAL_SERVICE_FOLDER_MAPPING}    ${service}
     ${ziplist}=    Create List
     :for   ${directory}    in    @{directory_list}
-    \    ${zipname}=   Replace String    ${directory}    /    _     
+    \    ${zipname}=   Replace String    ${directory}    /    _
     \    ${zip}=    Catenate    ${ASDC_ZIP_DIRECTORY}/${zipname}.zip
     \    ${folder}=    Catenate    ${ASDC_ASSETS_DIRECTORY}/${directory}
     \    OperatingSystem.Create Directory    ${ASDC_ASSETS_DIRECTORY}/temp
     \    Create Zip From Files In Directory        ${folder}    ${zip}
     \    Append To List    ${ziplist}    ${zip}
-    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}    ${catalog_resource_ids}   ${catalog_service_id}   Distribute Model From ASDC    ${ziplist}    ${catalog_service_name}
+    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute Model From ASDC    ${ziplist}    ${catalog_service_name}
     Set Test Variable   ${CATALOG_RESOURCE_IDS}   ${catalog_resource_ids}
     Set Test Variable   ${CATALOG_SERVICE_ID}   ${catalog_service_id}
-    [Return]    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}
+    Set Test Variable   ${CATALOG_RESOURCES}   ${catalog_resources}
+    [Return]    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}
 
 
 

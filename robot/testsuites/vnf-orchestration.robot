@@ -15,6 +15,7 @@ Instantiate Virtual DNS             ETE_Customer    vLB      vLB             ${T
     [Tags]    ete    instantiate
 Instantiate Virtual Volume Group    ETE_Customer    vVG      vVG             ${TENANT_NAME}
     [Tags]    ete    instantiate
+Instantiate Virtual FirewallCL      ETE_Customer    vFWCL      vFWCL         ${TENANT_NAME}
 
 
 
