@@ -41,7 +41,7 @@ Load Models
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFW   ${DEMO_PREFIX}VFW
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFWCL   ${DEMO_PREFIX}VFWCL
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB   ${DEMO_PREFIX}VLB
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPE   ${DEMO_PREFIX}VCPE
     ##${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vIMS   ${DEMO_PREFIX}VIMS
@@ -53,13 +53,13 @@ Distribute Model
 Create Customer For VNF Demo
     [Documentation]    Create demo customer for the demo
     [Arguments]    ${customer_name}   ${customer_id}   ${customer_type}    ${clouder_owner}    ${cloud_region_id}    ${tenant_id}
-    Create Service If Not Exists    vFW
+    Create Service If Not Exists    vFWCL
     Create Service If Not Exists    vLB
     Create Service If Not Exists    vCPE
     Create Service If Not Exists    vIMS
     ${data_template}=    OperatingSystem.Get File    ${ADD_DEMO_CUSTOMER_BODY}
     ${arguments}=    Create Dictionary    subscriber_name=${customer_name}    global_customer_id=${customer_id}    subscriber_type=${customer_type}     cloud_owner=${clouder_owner}  cloud_region_id=${cloud_region_id}    tenant_id=${tenant_id}
-    Set To Dictionary   ${arguments}       service1=vFW       service2=vLB   service3=vCPE   service4=vIMS
+    Set To Dictionary   ${arguments}       service1=vFWCL       service2=vLB   service3=vCPE   service4=vIMS
     ${data}=	Fill JSON Template    ${data_template}    ${arguments}
     ${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
@@ -108,7 +108,7 @@ Get Persona Model Id
     [Documentation]    Query and Validates A&AI Service Instance
     [Arguments]    ${service_instance_id}    ${service_type}   ${customer_id}
     ${resp}=    Run A&AI Get Request      ${INDEX PATH}${CUSTOMER SPEC PATH}${customer_id}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_id}
-    ${persona_model_id}=   Get From DIctionary   ${resp.json()['service-instance'][0]}    persona-model-id
+    ${persona_model_id}=   Get From DIctionary   ${resp.json()['service-instance'][0]}    model-invariant-id
     [Return]   ${persona_model_id}
 
 APPC Mount Point
