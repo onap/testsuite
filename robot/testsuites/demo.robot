@@ -8,6 +8,7 @@ Resource         ../resources/demo_preload.robot
 
 ${VNF_NAME}       DemoVNF
 ${MODULE_NAME}    DemoModuleName
+${VNF_SERVICE}    default
 
 ${HB_STACK}
 ${HB_SERVICE_INSTANCE_ID}
@@ -29,7 +30,7 @@ Initialize Models
 
 Preload VNF
     [Tags]   PreloadDemo
-    Preload User Model   ${VNF_NAME}   ${MODULE_NAME}
+    Preload User Model   ${VNF_NAME}   ${MODULE_NAME}   ${VNF_SERVICE}
 
 Create APPC Mount Point
     [Tags]   APPCMountPointDemo

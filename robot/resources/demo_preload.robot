@@ -41,7 +41,7 @@ Load Models
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFW   ${DEMO_PREFIX}VFW
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFWCL   ${DEMO_PREFIX}VFWCL
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB   ${DEMO_PREFIX}VLB
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPE   ${DEMO_PREFIX}VCPE
     ##${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vIMS   ${DEMO_PREFIX}VIMS
@@ -53,13 +53,13 @@ Distribute Model
 Create Customer For VNF Demo
     [Documentation]    Create demo customer for the demo
     [Arguments]    ${customer_name}   ${customer_id}   ${customer_type}    ${clouder_owner}    ${cloud_region_id}    ${tenant_id}
-    Create Service If Not Exists    vFW
+    Create Service If Not Exists    vFWCL
     Create Service If Not Exists    vLB
     Create Service If Not Exists    vCPE
     Create Service If Not Exists    vIMS
     ${data_template}=    OperatingSystem.Get File    ${ADD_DEMO_CUSTOMER_BODY}
     ${arguments}=    Create Dictionary    subscriber_name=${customer_name}    global_customer_id=${customer_id}    subscriber_type=${customer_type}     cloud_owner=${clouder_owner}  cloud_region_id=${cloud_region_id}    tenant_id=${tenant_id}
-    Set To Dictionary   ${arguments}       service1=vFW       service2=vLB   service3=vCPE   service4=vIMS
+    Set To Dictionary   ${arguments}       service1=vFWCL       service2=vLB   service3=vCPE   service4=vIMS
     ${data}=	Fill JSON Template    ${data_template}    ${arguments}
     ${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
@@ -67,7 +67,7 @@ Create Customer For VNF Demo
 
 Preload User Model
     [Documentation]   Preload the demo data for the passed VNF with the passed module name
-    [Arguments]   ${vnf_name}   ${vf_module_name}
+    [Arguments]   ${vnf_name}   ${vf_module_name}    ${vnf_service}=default
     # Go to A&AI and get information about the VNF we need to preload
     ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance    ${vnf_name}
     Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF Name: ${vnf_name} is not found.
@@ -85,11 +85,26 @@ Preload User Model
     Setup Browser
     Login To VID GUI
     ${vf_modules}=   Get Module Names from VID    ${invariantUUID}
+    ${vnf_service}=   Set Variable If   '${vnf_service}'=='default'   ${service}   ${vnf_service}
+    ${vf_modules}=    Get The Selected Modules   ${vf_modules}   ${vnf_service}      
     Log    ${generic_vnf}
     Log   ${service_instance_id},${vnf_name},${vnf_type},${vf_module_name},${vf_modules},${service}
-    Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${service}    demo
+    Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf_service}    demo
     [Teardown]    Close All Browsers
 
+Get The Selected Modules   
+    [Arguments]   ${vf_modules}   ${vnf_service}
+    ${returnlist}   Create List
+    ${list}=   Get From DIctionary   ${GLOBAL_SERVICE_TEMPLATE_MAPPING}   ${vnf_service}
+    :for    ${map}   in   @{list}
+    \    ${name}=   Get From Dictionary    ${map}    name_pattern
+    \    Add To Module List   ${vf_modules}   ${name}   ${returnlist}   
+    [Return]    ${returnlist}
+
+Add To Module List
+    [Arguments]   ${vf_modules}   ${name}   ${returnlist}
+    :for   ${map}   in   @{vf_modules}
+    \    Run Keyword If   '${name}' in '${map['name']}'   Append To List    ${returnlist}   ${map}   
 
 Get Relationship Data
     [Arguments]   ${relationships}
@@ -108,7 +123,7 @@ Get Persona Model Id
     [Documentation]    Query and Validates A&AI Service Instance
     [Arguments]    ${service_instance_id}    ${service_type}   ${customer_id}
     ${resp}=    Run A&AI Get Request      ${INDEX PATH}${CUSTOMER SPEC PATH}${customer_id}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_id}
-    ${persona_model_id}=   Get From DIctionary   ${resp.json()['service-instance'][0]}    persona-model-id
+    ${persona_model_id}=   Get From DIctionary   ${resp.json()['service-instance'][0]}    model-invariant-id
     [Return]   ${persona_model_id}
 
 APPC Mount Point

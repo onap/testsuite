@@ -33,6 +33,7 @@ ${TENANT_ID}
 ${REGIONS}
 ${CUSTOMER_NAME}
 ${STACK_NAME}
+${STACK_NAMES}
 ${SERVICE}
 ${VVG_SERVER_ID}
 ${SERVICE_INSTANCE_ID}
@@ -51,11 +52,11 @@ Orchestrate VNF
     ${uuid}=    Generate UUID
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
     Set Test Variable    ${SERVICE}    ${service}
-    ${vnf_name}=    Catenate    Vnf_Ete_Name${uuid}
+    ${list}=    Create List
+    Set Test Variable    ${STACK_NAMES}   ${list}
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
     ${service_type}=    Set Variable    ${service}
-    ${vf_module_name}=    Catenate    Vfmodule_Ete_Name${uuid}
-    ${service_model_type}     ${vnf_type}    ${vf_modules} =    Model Distribution For Directory    ${service}
+    ${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=    Model Distribution For Directory    ${service}
     Run Keyword If   '${service}' == 'vVG'    Create VVG Server    ${uuid}
     Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}
     Setup Browser
@@ -63,15 +64,60 @@ Orchestrate VNF
     ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}
     Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
-    Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant}    ${vnf_type}   ${CUSTOMER_NAME}
-    ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${service}    ${uuid}
-    ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant}     ${vf_module_type}   ${CUSTOMER_NAME}
-    ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
-    VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
-    Set Test Variable    ${STACK_NAME}   ${vf_module_name}
-    Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${service}
-    Validate VF Module      ${vf_module_name}    ${service}
+    ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
+    :for   ${vnf}   in   @{vnflist}
+    \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
+    \   ${vf_module_name}=    Catenate    Vfmodule_Ete_${vnf}_${uuid}
+    \   ${vnf_type}=   Get VNF Type   ${catalog_resources}   ${vnf}
+    \   ${vf_module}=    Get VF Module    ${catalog_resources}   ${vnf}
+    \   Append To List   ${STACK_NAMES}   ${vf_module_name}
+    \   Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant}    ${vnf_type}   ${CUSTOMER_NAME}
+    \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}
+    \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
+    \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
+    \   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
+    \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
+    \   Append To List   ${STACK_NAMES}   ${STACK_NAME}
+    \   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}
+    \   Validate VF Module      ${vf_module_name}    ${vnf}
     [Return]     ${vf_module_name}    ${service}
+
+
+Get VNF Type
+    [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
+    [Arguments]   ${resources}   ${vnf}
+    ${cr}=   Get Catalog Resource    ${resources}    ${vnf}
+    ${vnf_type}=   Get From Dictionary   ${cr}   name
+    [Return]   ${vnf_type}
+
+Get VF Module
+    [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
+    [Arguments]   ${resources}   ${vnf}
+    ${cr}=   Get Catalog Resource    ${resources}    ${vnf}
+    ${vf_module}=    Find Element In Array    ${cr['groups']}    type    org.openecomp.groups.VfModule
+    [Return]  ${vf_module}
+
+Get Catalog Resource
+    [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
+    [Arguments]   ${resources}   ${vnf}
+
+    ${base_name}=  Get Name Pattern   ${vnf}
+    ${keys}=    Get Dictionary Keys    ${resources}
+
+    :for   ${key}   in    @{keys}
+    \    ${cr}=   Get From Dictionary    ${resources}    ${key}
+    \    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat1']['artifactDisplayName']}'    ${cr}
+    Fail    Unable to find catalog resource for ${vnf} ${base_name}
+
+Get Name Pattern
+    [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
+    [Arguments]   ${vnf}
+    ${list}=   Get From Dictionary    ${GLOBAL_SERVICE_TEMPLATE_MAPPING}   ${vnf}
+    :for    ${dict}   in   @{list}
+    \   ${base_name}=   Get From Dictionary    ${dict}    name_pattern
+    \   Return From Keyword If   '${dict['isBase']}' == 'true'   ${base_name}
+    Fail  Unable to locate base name pattern
+
 
 
 Create Customer For VNF
