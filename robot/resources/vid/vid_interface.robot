@@ -108,7 +108,8 @@ Get Model UUID from VID
     Go To     ${VID_ENDPOINT}${VID_ENV}/rest/models/services
     ${resp}=   Get Text   xpath=//body/pre
     ${json}=   To Json    ${resp}
-    :for   ${dict}  in  @{json}
+    ${list}=   Get From Dictionary   ${json}   services
+    :for   ${dict}  in  @{list}
     \    ${uuid}=   Get From DIctionary   ${dict}   uuid
     \    ${inv}=   Get From DIctionary   ${dict}    invariantUUID
     \    Return From Keyword If   "${invariantUUID}" == "${inv}"   ${uuid}
