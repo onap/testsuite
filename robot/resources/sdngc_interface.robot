@@ -10,6 +10,9 @@ Library      StringTemplater
 Resource          global_properties.robot
 Resource          ../resources/json_templater.robot
 Resource        browser_setup.robot
+Resource          openstack/nova_interface.robot
+Resource          openstack/keystone_interface.robot
+Resource          stack_validation/validate_common.robot
 
 Variables    ../assets/service_mappings.py
 
@@ -85,6 +88,8 @@ Preload Vnf
     [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_module_name}    ${vf_modules}    ${service}   ${uuid}
     ${base_vf_module_type}=    Catenate
     ${closedloop_vf_module}=    Create Dictionary
+    Run Openstack Auth Request    auth
+    ${servers}=    Get Openstack Servers    auth
     ${templates}=    Get From Dictionary    ${GLOBAL_SERVICE_TEMPLATE_MAPPING}    ${service}
     :for    ${vf_module}    in      @{vf_modules}
     \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
@@ -94,7 +99,7 @@ Preload Vnf
     \       ${closedloop_vf_module}=   Set Variable If    '${dict['isBase']}' == 'false'     ${vf_module}    ${closedloop_vf_module}
     \       ${vf_name}=     Update Module Name    ${dict}    ${vf_module_name}
     \       Preload Vnf Profile    ${vf_module_type}
-    \       Preload One Vnf Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}
+    \       Preload One Vnf Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}   ${servers}
     [Return]    ${base_vf_module_type}   ${closedloop_vf_module}
 
 
@@ -114,10 +119,10 @@ Get From Mapping
     [Return]    None
 
 Preload One Vnf Topology
-    [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}       ${vf_module_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}
+    [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}       ${vf_module_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}   ${servers}
     Return From Keyword If    '${filename}' == ''
     ${data_template}=    OperatingSystem.Get File    ${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}/preload.template
-    ${parameters}=    Get Template Parameters    ${filename}   ${uuid}
+    ${parameters}=    Get Template Parameters    ${filename}   ${uuid}   ${servers}
     Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
     ${data}=	Fill JSON Template    ${data_template}    ${parameters}
 	${put_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     ${data}
@@ -126,11 +131,13 @@ Preload One Vnf Topology
     Should Be Equal As Strings 	${get_resp.status_code} 	200
 
 Get Template Parameters
-    [Arguments]    ${template}    ${uuid}
+    [Arguments]    ${template}    ${uuid}   ${servers}
     ${rest}   ${suite}=    Split String From Right    ${SUITE NAME}   .   1
     ${uuid}=    Catenate    ${uuid}
     ${hostid}=    Get Substring    ${uuid}    -4
     ${ecompnet}=    Evaluate    (${GLOBAL_BUILD_NUMBER}%128)+128
+    ${dcae_server}=   Get From Dictionary    ${servers}    ${GLOBAL_DCAE_COLLECTOR_HOST_NAME}
+    ${dcae_collector_ip}=   Search Addresses    ${dcae_server}    public
 
 
     # Initialize the value map with the properties generated from the Robot VM /opt/config folder
@@ -144,6 +151,7 @@ Get Template Parameters
     Set To Dictionary   ${valuemap}   install_script_version=${GLOBAL_INJECTED_SCRIPT_VERSION}
     Set To Dictionary   ${valuemap}   vm_image_name=${GLOBAL_INJECTED_VM_IMAGE_NAME}
     Set To Dictionary   ${valuemap}   vm_flavor_name=${GLOBAL_INJECTED_VM_FLAVOR}
+    Set To Dictionary   ${valuemap}   dcae_collector_ip=${dcae_collector_ip}
 
 
     # update the value map with unique values.

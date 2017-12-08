@@ -38,6 +38,22 @@ Policy Check Firewall Stack
     ${upper_bound}=    Evaluate    ${policy_rate}*2
     Wait Until Keyword Succeeds    300s    1s    Run VFW Policy Check    ${vpg_public_ip}   ${policy_rate}    ${upper_bound}    1
 
+Policy Check FirewallCL Stack
+    [Documentation]    Executes the vFW policy closed loop test.
+    [Arguments]    ${stack_name}    ${policy_rate}
+    Run Openstack Auth Request    auth
+    ${stack_info}=    Wait for Stack to Be Deployed    auth    ${stack_name}
+    ${stack_id}=    Get From Dictionary    ${stack_info}    id
+    ${server_list}=    Get Openstack Servers    auth
+    Log     ${server_list}
+    ${vpg_unprotected_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_0
+    ${vsn_protected_ip}=    Get From Dictionary    ${stack_info}    vsn_private_ip_0
+    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=public
+    ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vsn_name_0    network_name=public
+    ${upper_bound}=    Evaluate    ${policy_rate}*2
+    Wait Until Keyword Succeeds    300s    1s    Run VFW Policy Check    ${vpg_public_ip}   ${policy_rate}    ${upper_bound}    1
+
+
 Run VFW Policy Check
     [Documentation]     Push traffic above upper bound, wait for policy to fix it, push traffic to lower bound, wait for policy to fix it,
     [Arguments]    ${vpg_public_ip}    ${policy_rate}    ${upper_bound}    ${lower_bound}

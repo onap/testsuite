@@ -86,25 +86,25 @@ Preload User Model
     Login To VID GUI
     ${vf_modules}=   Get Module Names from VID    ${invariantUUID}
     ${vnf_service}=   Set Variable If   '${vnf_service}'=='default'   ${service}   ${vnf_service}
-    ${vf_modules}=    Get The Selected Modules   ${vf_modules}   ${vnf_service}      
+    ${vf_modules}=    Get The Selected Modules   ${vf_modules}   ${vnf_service}
     Log    ${generic_vnf}
     Log   ${service_instance_id},${vnf_name},${vnf_type},${vf_module_name},${vf_modules},${service}
     Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf_service}    demo
     [Teardown]    Close All Browsers
 
-Get The Selected Modules   
+Get The Selected Modules
     [Arguments]   ${vf_modules}   ${vnf_service}
     ${returnlist}   Create List
     ${list}=   Get From DIctionary   ${GLOBAL_SERVICE_TEMPLATE_MAPPING}   ${vnf_service}
     :for    ${map}   in   @{list}
     \    ${name}=   Get From Dictionary    ${map}    name_pattern
-    \    Add To Module List   ${vf_modules}   ${name}   ${returnlist}   
+    \    Add To Module List   ${vf_modules}   ${name}   ${returnlist}
     [Return]    ${returnlist}
 
 Add To Module List
     [Arguments]   ${vf_modules}   ${name}   ${returnlist}
     :for   ${map}   in   @{vf_modules}
-    \    Run Keyword If   '${name}' in '${map['name']}'   Append To List    ${returnlist}   ${map}   
+    \    Run Keyword If   '${name}' in '${map['name']}'   Append To List    ${returnlist}   ${map}
 
 Get Relationship Data
     [Arguments]   ${relationships}
@@ -133,18 +133,20 @@ APPC Mount Point
     Run Keyword if   '${status}' == 'FAIL'   FAIL   ${vf_module_name} Stack is not found
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${server_list}=    Get Openstack Servers    auth
-    ${vpg_name_0}=    Get From Dictionary    ${stack_info}    vpg_name_0
+    ${vnf_id}=    Get From Dictionary    ${stack_info}    vnf_id
     ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=public
     ${vpg_oam_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_1
-    ${appc}=    Create Mount Point In APPC    ${vpg_name_0}    ${vpg_oam_ip}
+    ${appc}=    Create Mount Point In APPC    ${vnf_id}    ${vpg_oam_ip}
 
 Instantiate VNF
     [Arguments]   ${service}
     Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-    ${vf_module_name}    ${service}=    Orchestrate VNF    DemoCust    ${service}   ${service}    ${TENANT_NAME}
+    ${stacknamemap}    ${service}=    Orchestrate VNF    DemoCust    ${service}   ${service}    ${TENANT_NAME}
     Save For Delete
     Log to Console   Customer Name=${CUSTOMER_NAME}
-    Log to Console   VNF Module Name=${vf_module_name}
+    ${stacks}=   Get Dictionary Values    ${stacknamemap}
+    :for   ${stackname}   in   @{stacks}
+    \   Log to Console   VNF Module Name=${stackname}
 
 Save For Delete
     [Documentation]   Create a variable file to be loaded for save for delete

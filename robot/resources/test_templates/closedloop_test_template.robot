@@ -19,12 +19,14 @@ ${PUSH_POLICY_TEMPLATE}   robot/assets/templates/policy/closedloop_pushpolicy.te
 ${DEL_POLICY_TEMPLATE}   robot/assets/templates/policy/closedloop_deletepolicy.template
 ${GECONFIG_VFW_TEMPLATE}    robot/assets/templates/policy/closedloop_getconfigpolicy.template
 
+
 # 'Normal' number of pg streams that will be set when policy is triggered
 ${VFWPOLICYRATE}    5
 
 # Max nslookup requests per second before triggering event.
 ${VLBPOLICYRATE}    20
 
+${CLCONFIG_POLICY_NAME}    BRMSParamvFirewall
 ${CONFIG_POLICY_NAME}    vFirewall
 ${CONFIG_POLICY_TYPE}    Unknown
 ${OPS_POLICY_NAME}
@@ -49,16 +51,25 @@ ${Expected_Direction_3}    GREATER_OR_EQUAL
 ${DNSSCALINGSTACK}
 
 *** Keywords ***
+VFWCL Policy
+    Log    Suite name ${SUITE NAME} ${TEST NAME} ${PREV TEST NAME}
+    Initialize VFWCL Policy
+    ${stacknamemap}=   Orchestrate VNF vFWCL closedloop
+    Policy Check FirewallCL Stack    ${stacknamemap}    ${VFWPOLICYRATE}
+    Delete VNF
+
 VFW Policy
     Log    Suite name ${SUITE NAME} ${TEST NAME} ${PREV TEST NAME}
     Initialize VFW Policy
-    ${stackname}=   Orchestrate VNF vFW closedloop
+    ${stacknamemap}=   Orchestrate VNF vFW closedloop
+    ${stackname}=    Get From Dictionary   ${stacknamemap}   vFW
     Policy Check Firewall Stack    ${stackname}    ${VFWPOLICYRATE}
     Delete VNF
 
 VDNS Policy
     Initialize VDNS Policy
-    ${stackname}=   Orchestrate VNF vDNS closedloop
+    ${stacknamemap}=   Orchestrate VNF vDNS closedloop
+    ${stackname}=    Get From Dictionary   ${stacknamemap}   vLB
     ${dnsscaling}=   Policy Check vLB Stack    ${stackname}    ${VLBPOLICYRATE}
     Set Test Variable   ${DNSSCALINGSTACK}   ${dnsscaling}
     Delete VNF
@@ -70,12 +81,47 @@ Initialize VFW Policy
 #    Push Ops Policy    ${OPS_POLICY_NAME}    ${OPS_POLICY_TYPE}
      Get Configs VFW Policy
 
+Initialize VFWCL Policy
+#    Create Config Policy
+#    Push Config Policy    ${CONFIG_POLICY_NAME}    ${CONFIG_POLICY_TYPE}
+#    Create Ops Policy
+#    Push Ops Policy    ${OPS_POLICY_NAME}    ${OPS_POLICY_TYPE}
+     Get Configs VFWCL Policy
+
+
 Initialize VDNS Policy
     Get Configs VDNS Policy
 
 Get Configs VFW Policy
     [Documentation]    Get Config Policy for VFW
     ${getconfigpolicy}=    Catenate    .*${CONFIG_POLICY_NAME}*
+    ${configpolicy_name}=    Create Dictionary    config_policy_name=${getconfigpolicy}
+    ${output} =     Fill JSON Template File     ${GECONFIG_VFW_TEMPLATE}    ${configpolicy_name}
+    ${get_resp} =    Run Policy Get Configs Request    ${RESOURCE_PATH_GET_CONFIG}   ${output}
+	Should Be Equal As Strings 	${get_resp.status_code} 	200
+
+	${json}=    Parse Json    ${get_resp.content}
+    ${config}=    Parse Json    ${json[0]["config"]}
+
+    # Extract object1 from Array
+    ${severity}=    Get Variable Value      ${config["content"]["thresholds"][0]["severity"]}
+    Should Be Equal    ${severity}    ${Expected_Severity_1}
+    ${Thresold_Value}=    Get Variable Value      ${config["content"]["thresholds"][0]["thresholdValue"]}
+    Should Be Equal   ${Thresold_Value}    ${Expected_Threshold_1}
+    ${direction}=    Get Variable Value      ${config["content"]["thresholds"][0]["direction"]}
+    Should Be Equal   ${direction}    ${Expected_Direction_1}
+
+    # Extract object2 from Array
+    ${severity_1}=    Get Variable Value      ${config["content"]["thresholds"][1]["severity"]}
+    Should Be Equal    ${severity_1}    ${Expected_Severity_2}
+    ${Thresold_Value_1}=    Get Variable Value      ${config["content"]["thresholds"][1]["thresholdValue"]}
+    Should Be Equal   ${Thresold_Value_1}    ${Expected_Threshold_2}
+    ${direction_1}=    Get Variable Value      ${config["content"]["thresholds"][1]["direction"]}
+    Should Be Equal   ${direction_1}    ${Expected_Direction_2}
+
+Get Configs VFWCL Policy
+    [Documentation]    Get Config Policy for VFWCL
+    ${getconfigpolicy}=    Catenate    ${CLCONFIG_POLICY_NAME}
     ${configpolicy_name}=    Create Dictionary    config_policy_name=${getconfigpolicy}
     ${output} =     Fill JSON Template File     ${GECONFIG_VFW_TEMPLATE}    ${configpolicy_name}
     ${get_resp} =    Run Policy Get Configs Request    ${RESOURCE_PATH_GET_CONFIG}   ${output}
@@ -188,16 +234,23 @@ Delete Ops Policy
     ${put_resp} =    Run Policy Delete Request    ${RESOURCE_PATH_CREATE_DELETE}  ${output}
     Should Be Equal As Strings 	${put_resp.status_code} 	200
 
+Orchestrate VNF vFWCL closedloop
+	[Documentation]    VNF Orchestration for vFW
+	Log    VNF Orchestration flow TEST NAME=${TEST NAME}
+	Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
+	${stack_name_map}    ${service}=  Orchestrate VNF   ETE_CLP    vFWCL      vFWCL   ${TENANT_NAME}
+	[Return]  ${stack_name_map}
+
 Orchestrate VNF vFW closedloop
 	[Documentation]    VNF Orchestration for vFW
 	Log    VNF Orchestration flow TEST NAME=${TEST NAME}
 	Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-	${stack_name}    ${service}=  Orchestrate VNF   ETE_CLP    vFWCL      vFWCL   ${TENANT_NAME}
-	[Return]  ${stack_name}
+	${stack_name_map}    ${service}=  Orchestrate VNF   ETE_CLP    vFW      vFW   ${TENANT_NAME}
+	[Return]  ${stack_name_map}
 
  Orchestrate VNF vDNS closedloop
 	[Documentation]    VNF Orchestration for vLB
 	Log    VNF Orchestration flow TEST NAME=${TEST NAME}
 	Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
-	${stack_name}    ${service}=  Orchestrate VNF   ETE_CLP    vLB      vLB   ${TENANT_NAME}
-	[Return]  ${stack_name}
+	${stack_name_map}    ${service}=  Orchestrate VNF   ETE_CLP    vLB      vLB   ${TENANT_NAME}
+	[Return]  ${stack_name_map}

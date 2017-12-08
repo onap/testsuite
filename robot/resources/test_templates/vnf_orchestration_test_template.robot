@@ -65,6 +65,7 @@ Orchestrate VNF
     Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
     ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
+    ${vnfmap}=    Create Dictionary
     :for   ${vnf}   in   @{vnflist}
     \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
     \   ${vf_module_name}=    Catenate    Vfmodule_Ete_${vnf}_${uuid}
@@ -80,7 +81,8 @@ Orchestrate VNF
     \   Append To List   ${STACK_NAMES}   ${STACK_NAME}
     \   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}
     \   Validate VF Module      ${vf_module_name}    ${vnf}
-    [Return]     ${vf_module_name}    ${service}
+    \   Set To Dictionary    ${vnfmap}    ${vnf}=${vf_module_name}
+    [Return]     ${vnfmap}    ${service}
 
 
 Get VNF Type

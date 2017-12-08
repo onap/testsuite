@@ -46,7 +46,7 @@ Update ONAP Page
     Set To Dictionary    ${oam_ip_map}   10.0.4.102=dcae_coll
     Set To Dictionary    ${oam_ip_map}   10.0.10.1=robot
 
-    ${values}=   Create Dictionary
+    ${values}=   Copy Dictionary    ${GLOBAL_INJECTED_PROPERTIES}
     ${keys}=    Get Dictionary Keys    ${oam_ip_map}
     :for   ${oam_ip}   in    @{keys}
     \    ${value_name}=   Get From Dictionary    ${oam_ip_map}   ${oam_ip}
