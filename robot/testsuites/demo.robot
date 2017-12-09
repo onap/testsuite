@@ -9,6 +9,8 @@ Resource         ../resources/demo_preload.robot
 ${VNF_NAME}       DemoVNF
 ${MODULE_NAME}    DemoModuleName
 ${VNF_SERVICE}    default
+${GENERIC_VNF_NAME}   DemoVNF
+${RESOURCE_ID}   DemoResourceId
 
 ${HB_STACK}
 ${HB_SERVICE_INSTANCE_ID}
@@ -16,13 +18,6 @@ ${HB_SERVICE}
 
 
 *** Test Cases ***
-Jerry
-    ${uuid}=   Generate UUID
-    ${shortuuid}=   Catenate   ${uuid} 
-    ${shortuuid}=   Replace String    ${shortuuid}    -   ${SPACE}
-    ${shortuuid}=   Get Substring    ${shortuuid}    -8         
-    Log   ${shortuuid}
-    
 Initialize Customer And Models
     [Tags]   InitDemo
     Load Customer And Models   Demonstration
@@ -62,3 +57,14 @@ Run Heatbridge
     [Tags]   heatbridge
     Execute Heatbridge   ${HB_STACK}   ${HB_SERVICE_INSTANCE_ID}    ${HB_SERVICE}
 
+Run vFWCL Policy Update By ID
+    [Documentation]
+    ...    Update the vFW policy for the given generic VNF name
+    [Tags]   vfwpolicyById
+    Execute VFW Policy Update   ${RESOURCE_ID}
+
+Run vFWCL Policy Update By Name
+    [Documentation]
+    ...    Update the vFW policy for the given generic VNF name
+    [Tags]   vfwpolicyByName
+    Execute VFW Policy Update VNF Name   ${GENERIC_VNF_NAME}

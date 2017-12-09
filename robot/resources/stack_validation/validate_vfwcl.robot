@@ -58,6 +58,7 @@ Validate FirewallSNK Stack
     ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vsn_name_0    network_name=public
 
     Wait For Server    ${vfw_public_ip}
+    Wait For Server    ${vsn_public_ip}
     Log    Accessed all servers
     Wait For Firewall    ${vfw_public_ip}
     Wait For Packet Sink    ${vsn_public_ip}

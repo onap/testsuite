@@ -122,7 +122,8 @@ Preload One Vnf Topology
     [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}       ${vf_module_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}   ${servers}
     Return From Keyword If    '${filename}' == ''
     ${data_template}=    OperatingSystem.Get File    ${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}/preload.template
-    ${robot_values}=   Create Dictionary   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
+    ${pub_key}=   OperatingSystem.Get File    ${GLOBAL_VM_PUBLIC_KEY}
+    ${robot_values}=   Create Dictionary   pub_key=${pub_key}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
     ${parameters}=    Get Template Parameters    ${filename}   ${uuid}   ${servers}   ${robot_values}
     ${data}=	Fill JSON Template    ${data_template}    ${parameters}
 	${put_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     ${data}
@@ -146,7 +147,7 @@ Get Template Parameters
     :for   ${key}   in   @{robot_keys}
     \    ${value}=   Get From Dictionary    ${robot_values}    ${key}
     \    Set To Dictionary    ${valuemap}  ${key}    ${value}
-   
+
     # These should be deprecated by the above....
     Set To Dictionary   ${valuemap}   artifacts_version=${GLOBAL_INJECTED_ARTIFACTS_VERSION}
     Set To Dictionary   ${valuemap}   network=${GLOBAL_INJECTED_NETWORK}
