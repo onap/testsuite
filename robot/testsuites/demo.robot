@@ -16,6 +16,13 @@ ${HB_SERVICE}
 
 
 *** Test Cases ***
+Jerry
+    ${uuid}=   Generate UUID
+    ${shortuuid}=   Catenate   ${uuid} 
+    ${shortuuid}=   Replace String    ${shortuuid}    -   ${SPACE}
+    ${shortuuid}=   Get Substring    ${shortuuid}    -8         
+    Log   ${shortuuid}
+    
 Initialize Customer And Models
     [Tags]   InitDemo
     Load Customer And Models   Demonstration

@@ -50,26 +50,26 @@ Validate Firewall Stack
 Wait For Packets
     [Documentation]    Final vfw validation that packets are flowing from the pgn VM  to the snk VM
     [Arguments]   ${vpg_public_ip}   ${vpg_unprotected_ip}   ${vsn_protected_ip}   ${vsn_public_ip}
-    ${resp}=    Enable Stream    ${vpg_public_ip}
-    Should Be Equal As Strings    ${resp.status_code}    200
+    #${resp}=    Enable Stream    ${vpg_public_ip}
+    #Should Be Equal As Strings    ${resp.status_code}    200
     ${syslog_message}=    Catenate    UDP: short packet: From ${vpg_unprotected_ip}:.* to ${vsn_protected_ip}:.*
     Tail File on Host Until    ${vsn_public_ip}    UDP:    /var/log/syslog    ${syslog_message}    timeout=120s
-    Disable All Streams    ${vpg_public_ip}
+    #Disable All Streams    ${vpg_public_ip}
 
 
 Wait For Firewall
     [Documentation]     Wait for the defined firewall processes to come up
     [Arguments]    ${ip}
-    ##Wait for Process on Host    ./vpp_measurement_reporter    ${ip}
+    Wait for Process on Host    ./vpp_measurement_reporter    ${ip}
     Wait for Process on Host    vpp -c /etc/vpp/startup.conf    ${ip}
 
 Wait For Packet Generator
     [Documentation]     Wait for the defined packet generator processes to come up
     [Arguments]    ${ip}
     Wait for Process on Host    vpp -c /etc/vpp/startup.conf    ${ip}
-    ##Wait Until Keyword Succeeds    180s    5s    Tail File on Host Until    ${ip}    Honeycomb    /var/log/honeycomb/honeycomb.log    - Honeycomb initialized   options=-c +0    timeout=120s
+    Wait Until Keyword Succeeds    180s    5s    Tail File on Host Until    ${ip}    Honeycomb    /var/log/honeycomb/honeycomb.log    Honeycomb initialized   options=-c +0    timeout=120s
     Run Keyword And Ignore Error    Wait for Process on Host    run_traffic_fw_demo.sh    ${ip}    timeout=60s
-    Pkill Process On Host    "/bin/bash ./run_traffic_fw_demo.sh"    ${ip}
+    ##Pkill Process On Host    "/bin/bash ./run_traffic_fw_demo.sh"    ${ip}
 
 Wait For Packet Sink
     [Documentation]     Wait for the defined packet sink processes to come up

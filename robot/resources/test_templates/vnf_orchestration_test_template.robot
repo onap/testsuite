@@ -22,6 +22,7 @@ Library         OpenstackLibrary
 Library 	    ExtendedSelenium2Library
 Library	        UUID
 Library	        Collections
+Library	        String
 
 
 
@@ -66,8 +67,13 @@ Orchestrate VNF
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
     ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
     ${vnfmap}=    Create Dictionary
+    # For vFWLC closed loop test generic-vnf-name (${vnf_name} will be used as the FWL hostname so we 
+    # now need to make it be a valid hostname 
     :for   ${vnf}   in   @{vnflist}
-    \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
+    \   ${shortuuid}=   Catenate   ${uuid} 
+    \   ${shortuuid}=   Replace String    ${shortuuid}    -   ${SPACE}
+    \   ${shortuuid}=   Get Substring    ${shortuuid}    -8         
+    \   ${vnf_name}=    Catenate    ${vnf}${shortuuid}
     \   ${vf_module_name}=    Catenate    Vfmodule_Ete_${vnf}_${uuid}
     \   ${vnf_type}=   Get VNF Type   ${catalog_resources}   ${vnf}
     \   ${vf_module}=    Get VF Module    ${catalog_resources}   ${vnf}

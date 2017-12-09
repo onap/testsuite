@@ -122,8 +122,8 @@ Preload One Vnf Topology
     [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}       ${vf_module_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}   ${servers}
     Return From Keyword If    '${filename}' == ''
     ${data_template}=    OperatingSystem.Get File    ${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}/preload.template
-    ${parameters}=    Get Template Parameters    ${filename}   ${uuid}   ${servers}
-    Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
+    ${robot_values}=   Create Dictionary   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
+    ${parameters}=    Get Template Parameters    ${filename}   ${uuid}   ${servers}   ${robot_values}
     ${data}=	Fill JSON Template    ${data_template}    ${parameters}
 	${put_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     ${data}
     Should Be Equal As Strings 	${put_resp.json()['output']['response-code']} 	200
@@ -131,7 +131,7 @@ Preload One Vnf Topology
     Should Be Equal As Strings 	${get_resp.status_code} 	200
 
 Get Template Parameters
-    [Arguments]    ${template}    ${uuid}   ${servers}
+    [Arguments]    ${template}    ${uuid}   ${servers}   ${robot_values}
     ${rest}   ${suite}=    Split String From Right    ${SUITE NAME}   .   1
     ${uuid}=    Catenate    ${uuid}
     ${hostid}=    Get Substring    ${uuid}    -4
@@ -142,7 +142,11 @@ Get Template Parameters
 
     # Initialize the value map with the properties generated from the Robot VM /opt/config folder
     ${valuemap}=   Copy Dictionary    ${GLOBAL_INJECTED_PROPERTIES}
-
+    ${robot_keys}=   Get Dictionary Keys    ${robot_values}
+    :for   ${key}   in   @{robot_keys}
+    \    ${value}=   Get From Dictionary    ${robot_values}    ${key}
+    \    Set To Dictionary    ${valuemap}  ${key}    ${value}
+   
     # These should be deprecated by the above....
     Set To Dictionary   ${valuemap}   artifacts_version=${GLOBAL_INJECTED_ARTIFACTS_VERSION}
     Set To Dictionary   ${valuemap}   network=${GLOBAL_INJECTED_NETWORK}
@@ -175,7 +179,8 @@ Get Template Parameters
     #
     ${vnf_parameters}=   Resolve VNF Parameters Into Array   ${valuemap}   ${template}
     ${vnf_parameters_json}=   Evaluate    json.dumps(${vnf_parameters})    json
-    ${parameters}=   Create Dictionary   vnf_parameters=${vnf_parameters_json}
+    ${parameters}=   Copy Dictionary    ${robot_values}
+    Set TO Dictionary   ${parameters}   vnf_parameters=${vnf_parameters_json}
     [Return]    ${parameters}
 
 Resolve Values Into Dictionary

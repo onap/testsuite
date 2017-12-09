@@ -13,6 +13,7 @@ Library    StringTemplater
 Resource          ../json_templater.robot
 Resource          ../stack_validation/validate_vlb.robot
 Resource          ../stack_validation/validate_vfw.robot
+Resource          ../stack_validation/validate_vfwcl.robot
 Resource          ../stack_validation/validate_vvg.robot
 Resource          ../aai/aai_interface.robot
 
@@ -100,6 +101,8 @@ Validate VF Module
 	Run Keyword If    '${stack_type}'=='vLB'    Validate vLB Stack    ${vf_module_name}
 	Run Keyword If    '${stack_type}'=='vFW'    Validate Firewall Stack    ${vf_module_name}
 	Run Keyword If    '${stack_type}'=='vVG'    Validate vVG Stack    ${vf_module_name}
+	Run Keyword If    '${stack_type}'=='vPKG'    Validate FirewallPKG Stack    ${vf_module_name}
+	Run Keyword If    '${stack_type}'=='vFWSNK'    Validate FirewallSNK Stack    ${vf_module_name}
 
 *** Keywords ***
 Create AAI Service Instance
