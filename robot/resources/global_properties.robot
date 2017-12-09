@@ -27,10 +27,12 @@ ${GLOBAL_BUILD_NUMBER}    0
 ${GLOBAL_VID_UI_TIMEOUT_SHORT}    20s
 ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}    60s
 ${GLOBAL_VID_UI_TIMEOUT_LONG}    120s
-${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/robot_ssh_private_key.pvt
+${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/onap_dev.pvt
+${GLOBAL_VM_PUBLIC_KEY}   ${EXECDIR}/robot/assets/keys/onap_dev_public.txt
 ${GLOBAL_AAI_ZONE_ID}    nova1
 ${GLOBAL_AAI_ZONE_NAME}    nova
 ${GLOBAL_AAI_DESIGN_TYPE}    integration
 ${GLOBAL_AAI_ZONE_CONTEXT}    labs
 ${GLOBAL_DCAE_COLLECTOR_HOST_NAME}    dcaedoks00
-
+${GLOBAL_DROOLS_USERNAME}   @1b3rt
+${GLOBAL_DROOLS_PASSWORD}   31nst31n

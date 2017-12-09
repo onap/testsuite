@@ -5,6 +5,7 @@ Resource        test_templates/model_test_template.robot
 Resource        test_templates/vnf_orchestration_test_template.robot
 Resource        asdc_interface.robot
 Resource        vid/vid_interface.robot
+Resource        policy_interface.robot
 
 Library	        UUID
 Library	        Collections
@@ -72,14 +73,17 @@ Preload User Model
     ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance    ${vnf_name}
     Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF Name: ${vnf_name} is not found.
     ${vnf_type}=   Set Variable   ${generic_vnf['vnf-type']}
-    ${relationships}=   Set Variable   ${generic_vnf['relationship-list']['relationship']}
-    ${relationship_data}=    Get Relationship Data   ${relationships}
-    ${customer_id}=   Catenate
-    :for    ${r}   in   @{relationship_data}
-    \   ${service}=   Set Variable If    '${r['relationship-key']}' == 'service-subscription.service-type'   ${r['relationship-value']}    ${service}
-    \   ${service_instance_id}=   Set Variable If    '${r['relationship-key']}' == 'service-instance.service-instance-id'   ${r['relationship-value']}   ${service_instance_id}
-    \   ${customer_id}=    Set Variable If   '${r['relationship-key']}' == 'customer.global-customer-id'   ${r['relationship-value']}   ${customer_id}
-    ${invariantUUID}=   Get Persona Model Id     ${service_instance_id}    ${service}    ${customer_id}
+    ${invariantUUID}   ${service}   ${customer_id}   ${service_instance_id}=   Get Generic VNF Info    ${generic_vnf}
+
+    ## Reuse for VFW policy update...
+    ##${relationships}=   Set Variable   ${generic_vnf['relationship-list']['relationship']}
+    ##${relationship_data}=    Get Relationship Data   ${relationships}
+    ##${customer_id}=   Catenate
+    ##:for    ${r}   in   @{relationship_data}
+    ##\   ${service}=   Set Variable If    '${r['relationship-key']}' == 'service-subscription.service-type'   ${r['relationship-value']}    ${service}
+    ##\   ${service_instance_id}=   Set Variable If    '${r['relationship-key']}' == 'service-instance.service-instance-id'   ${r['relationship-value']}   ${service_instance_id}
+    ##\   ${customer_id}=    Set Variable If   '${r['relationship-key']}' == 'customer.global-customer-id'   ${r['relationship-value']}   ${customer_id}
+    ##${invariantUUID}=   Get Persona Model Id     ${service_instance_id}    ${service}    ${customer_id}
 
     # We still need the vf module names. We can get them from VID using the persona_model_id (invariantUUID) from A&AI
     Setup Browser
@@ -91,6 +95,23 @@ Preload User Model
     Log   ${service_instance_id},${vnf_name},${vnf_type},${vf_module_name},${vf_modules},${service}
     Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf_service}    demo
     [Teardown]    Close All Browsers
+
+Get Generic VNF Info
+    [Documentation]   Grab some selected informastion from the generic vnf relationships
+    [Arguments]   ${generic_vnf}
+    ${relationships}=   Set Variable   ${generic_vnf['relationship-list']['relationship']}
+    ${relationship_data}=    Get Relationship Data   ${relationships}
+    ${customer_id}=   Catenate
+    ${service_instance_id}=   Catenate
+    ${service}=    Catenate
+    :for    ${r}   in   @{relationship_data}
+    \   ${service}=   Set Variable If    '${r['relationship-key']}' == 'service-subscription.service-type'   ${r['relationship-value']}    ${service}
+    \   ${service_instance_id}=   Set Variable If    '${r['relationship-key']}' == 'service-instance.service-instance-id'   ${r['relationship-value']}   ${service_instance_id}
+    \   ${customer_id}=    Set Variable If   '${r['relationship-key']}' == 'customer.global-customer-id'   ${r['relationship-value']}   ${customer_id}
+    ${invariantUUID}=   Get Persona Model Id     ${service_instance_id}    ${service}    ${customer_id}
+    [Return]   ${invariantUUID}   ${service}   ${customer_id}   ${service_instance_id}
+
+
 
 Get The Selected Modules
     [Arguments]   ${vf_modules}   ${vnf_service}
@@ -137,6 +158,17 @@ APPC Mount Point
     ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=public
     ${vpg_oam_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_1
     ${appc}=    Create Mount Point In APPC    ${vnf_id}    ${vpg_oam_ip}
+
+Execute VFW Policy Update VNF Name
+    [Arguments]   ${vnf_name}
+    ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance    ${vnf_name}
+    Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF Name: ${vnf_name} is not found.
+    ${invariantUUID}   ${service}   ${customer_id}   ${service_instance_id}=   Get Generic VNF Info    ${generic_vnf}
+    Update vVFWCL Policy   ${invariantUUID}
+
+Execute VFW Policy Update
+    [Arguments]   ${resource_id}
+    Update vVFWCL Policy   ${resource_id}
 
 Instantiate VNF
     [Arguments]   ${service}

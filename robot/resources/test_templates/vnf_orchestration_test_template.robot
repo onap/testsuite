@@ -115,8 +115,20 @@ Get Catalog Resource
 
     :for   ${key}   in    @{keys}
     \    ${cr}=   Get From Dictionary    ${resources}    ${key}
-    \    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat1']['artifactDisplayName']}'    ${cr}
+    \    ${status}   ${value}=   Run Keyword and Ignore Error   Get Catalog Resource Info from Heat Artifact   ${cr['allArtifacts']}   ${base_name}
+    \    Return From Keyword If   '${status}' == 'PASS'    ${cr}
     Fail    Unable to find catalog resource for ${vnf} ${base_name}
+
+Get Catalog Resource Info from Heat Artifact
+    [Documentation]    Need to look though the list of heats.... heat1, heat2...
+    [Arguments]   ${artifacts}   ${base_name}
+    ${keys}=   Get Dictionary Keys    ${artifacts}
+    ${heatArtifacts}=   Create List
+    :for   ${key}   in    @{keys}
+    \    Run Keyword If    'heat' in '${key}' and 'env' not in '${key}'   Append To List   ${heatArtifacts}   ${artifacts['${key}']}
+    :for   ${ha}   in   @{heatArtifacts}
+    \    Return From Keyword If   '${base_name}' in '${ha['artifactDisplayName']}'
+    Fail   Unable to find ${base_name} in heatArtifacts
 
 Get Name Pattern
     [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
