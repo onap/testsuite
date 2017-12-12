@@ -18,27 +18,38 @@ Resource          packet_generator_interface.robot
 Resource          darkstat_interface.robot
 Resource          validate_common.robot
 Resource          ../../resources/test_templates/vnf_orchestration_test_template.robot
+Resource          ../../resources/policy_interface.robot
+Resource          ../../resources/demo_preload.robot
 
 
 *** Variables ***
 
 *** Keywords ***
-Policy Check Firewall Stack
+Policy Check FirewallCL Stack
     [Documentation]    Executes the vFW policy closed loop test.
-    [Arguments]    ${stack_name}    ${policy_rate}
+    [Arguments]    ${stacknamemap}    ${policy_rate}
     Run Openstack Auth Request    auth
-    ${stack_info}=    Wait for Stack to Be Deployed    auth    ${stack_name}
-    ${stack_id}=    Get From Dictionary    ${stack_info}    id
+    ${vsnk_stack_name}=   Get From Dictionary    ${stacknamemap}    vFWSNK
+    ${vpkg_stack_name}=   Get From Dictionary    ${stacknamemap}    vPKG
+    ${vsnk_stack_info}=    Wait for Stack to Be Deployed    auth    ${vsnk_stack_name}
+    ${vpkg_stack_info}=    Wait for Stack to Be Deployed    auth    ${vpkg_stack_name}
     ${server_list}=    Get Openstack Servers    auth
     Log     ${server_list}
-    ${vpg_unprotected_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_0
-    ${vsn_protected_ip}=    Get From Dictionary    ${stack_info}    vsn_private_ip_0
-    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=public
-    ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vsn_name_0    network_name=public
+    # WIth amsterdam, the generic-vnf-name = the vFW host name
+    ${vfw_name}=   Get From Dictionary     ${vsnk_stack_info}   vfw_name_0
+    ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance    ${vfw_name}
+    Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF Name: ${vfw_name} is not found.
+    ${invariantUUID}   ${service}   ${customer_id}   ${service_instance_id}=   Get Generic VNF Info    ${generic_vnf}
+    Update vVFWCL Policy   ${invariantUUID}
+
+    ${vpg_unprotected_ip}=    Get From Dictionary    ${vpkg_stack_info}    vpg_private_ip_0
+    ${vsn_protected_ip}=    Get From Dictionary    ${vsnk_stack_info}    vsn_private_ip_0
+    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${vpkg_stack_info}   vpg_name_0    network_name=public
+    ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${vsnk_stack_info}   vsn_name_0    network_name=public
     ${upper_bound}=    Evaluate    ${policy_rate}*2
     Wait Until Keyword Succeeds    300s    1s    Run VFW Policy Check    ${vpg_public_ip}   ${policy_rate}    ${upper_bound}    1
 
-Policy Check FirewallCL Stack
+Policy Check Firewall Stack
     [Documentation]    Executes the vFW policy closed loop test.
     [Arguments]    ${stack_name}    ${policy_rate}
     Run Openstack Auth Request    auth

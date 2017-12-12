@@ -109,7 +109,7 @@ Reboot Drools
     ${start}=   Catenate   docker exec -t -u policy drools bash -c "source /opt/app/policy/etc/profile.d/env.sh; policy start"
     Wait Until Keyword Succeeds    120    5 sec    Open Connection And Log In    ${GLOBAL_INJECTED_POLICY_IP_ADDR}    root    ${GLOBAL_VM_PRIVATE_KEY}
     Write    ${stop}
-    ${status}   ${stdout}=	 Run Keyword And Ignore Error    SSHLibrary.Read Until Regexp    is running
+    ${status}   ${stdout}=	 Run Keyword And Ignore Error    SSHLibrary.Read Until Regexp    has stopped
     Log   ${status}: stdout=${stdout}
     ${ctrlc}=    Evaluate   '\x03'
     Run Keyword If   '${status}' == 'FAIL'   Write   ${ctrlc}

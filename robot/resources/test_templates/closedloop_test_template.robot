@@ -53,7 +53,6 @@ ${DNSSCALINGSTACK}
 *** Keywords ***
 VFWCL Policy
     Log    Suite name ${SUITE NAME} ${TEST NAME} ${PREV TEST NAME}
-    Initialize VFWCL Policy
     ${stacknamemap}=   Orchestrate VNF vFWCL closedloop
     Policy Check FirewallCL Stack    ${stacknamemap}    ${VFWPOLICYRATE}
     Delete VNF
