@@ -112,7 +112,7 @@ resmgr API Health Check
 
 usecaseui-gui API Health Check
      [Tags]    health
-     Run MSB Get Request  /iui/usecase-ui/
+     Run MSB Get Request  /iui/usecaseui/
 
 vnflcm API Health Check
      [Tags]    health
