@@ -19,3 +19,10 @@ Fill JSON Template File
     ${json}=    OperatingSystem.Get File    ${json_file}
     ${returned_json}=  Fill JSON Template    ${json}    ${arguments}
     [Return]    ${returned_json}
+
+Encode String
+   [Documentation]    Encodes String
+   [Arguments]    ${json}
+   ${returned_string}=    string encoder    ${json}
+   log    ${returned_string}
+   [Return]    ${returned_string}
