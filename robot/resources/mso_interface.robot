@@ -66,15 +66,11 @@ Run MSO Post request
 Run MSO Delete request
     [Documentation]    Runs an MSO Delete request
     [Arguments]  ${data_path}  ${data}
-    sleep    2
     ${auth}=    Create List    ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
     Log    Creating session ${MSO_ENDPOINT}
     ${session}=    Create Session    mso    ${MSO_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID
     ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
-    log    ${data}
-    ${data1}    Encode String    ${data}
-    log    ${data1}
-    ${resp}=    Delete Request    mso    ${data_path}    ${data1}    headers=${headers}
+    ${resp}=    Delete Request    mso    ${data_path}    ${data}    headers=${headers}
     Log    Received response from mso ${resp.text}
     [Return]    ${resp}

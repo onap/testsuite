@@ -60,12 +60,7 @@ Get Complex
 
 Get Complexes
     [Documentation]   Return all complexes
-    [Arguments]
 	${resp}=    Run A&AI Get Request     ${COMPLEX_INDEX_PATH}${ROOT_COMPLEXES_PATH}
     Should Be Equal As Strings 	${resp.status_code} 	200
     Log    ${resp.json()}
 	[Return]  ${resp.json()}
-
-
-
-

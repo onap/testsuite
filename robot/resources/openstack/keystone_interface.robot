@@ -58,7 +58,7 @@ Get Openstack Credentials
 
 Get Keystone Url And Path
     [Documentation]    Handle arbitrary keystone identiit url. Add v2.0 if not present.
-    ${pieces}=   URL Parse   ${GLOBAL_INJECTED_KEYSTONE}
+    ${pieces}=   Url Parse   ${GLOBAL_INJECTED_KEYSTONE}
     ${url}=      Catenate   ${pieces.scheme}://${pieces.netloc}
     ${version}=  Evaluate   ''
     ${version}=  Set Variable If   '${OPENSTACK_KEYSTONE_API_VERSION}' not in '${pieces.path}'   ${OPENSTACK_KEYSTONE_API_VERSION}   ${version}
