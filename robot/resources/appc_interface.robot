@@ -52,5 +52,5 @@ Create Mount Point In APPC
     ${template}=    OperatingSystem.Get File    ${APPC_MOUNT_XML}
     ${data}=    Template String    ${template}    ${dict}
     ${resp}=    Run APPC Put Request     ${APPC_INDEX PATH}${APPC_CREATE_MOUNTPOINT_PATH}${nodeid}     ${data}
-    Should Be True 200    <= ${resp.status_code} < 300
+    Should Be True    200 <= ${resp.status_code} < 300
     [Return]     ${resp}
