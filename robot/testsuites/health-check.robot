@@ -19,121 +19,121 @@ Resource          ../resources/clamp_interface.robot
 
 *** Test Cases ***   
 Basic DCAE Health Check
-    [Tags]    health
+    [Tags]    health    core
 	Run DCAE Health Check
 	
 Basic SDNGC Health Check
-    [Tags]    health
+    [Tags]    health    core
 	Run SDNGC Health Check
 	
 Basic A&AI Health Check
-    [Tags]    health
+    [Tags]    health    core
 	Run A&AI Health Check
 
 Basic Policy Health Check
-    [Tags]    health
+    [Tags]    health    core
     Run Policy Health Check
     
 Basic MSO Health Check
-    [Tags]    health
+    [Tags]    health    core
     Run MSO Health Check
     
 Basic ASDC Health Check
-    [Tags]    health
+    [Tags]    health    core
     Run ASDC Health Check
 
 Basic APPC Health Check    
-    [Tags]    health
+    [Tags]    health    core
     Run APPC Health Check
     
 Basic Portal Health Check    
-    [Tags]    health
+    [Tags]    health    core
     Run Portal Health Check
 	
 Basic Message Router Health Check
-    [Tags]    health
+    [Tags]    health    core
 	Run MR Health Check
 	
 Basic VID Health Check
-    [Tags]    health
+    [Tags]    health    core
 	Run VID Health Check
 
 Basic Microservice Bus Health Check
-    [Tags]    health
+    [Tags]    health    core
     Run MSB Health Check
 
 Basic CLAMP Health Check
-    [Tags]    health
+    [Tags]    health    core
     Run CLAMP Health Check
 
 catalog API Health Check
-     [Tags]    health
+     [Tags]    health    api
      Run MSB Get Request  /api/catalog/v1/swagger.json
 
 emsdriver API Health Check
-     [Tags]    health
+     [Tags]    health    3rdparty
      Run MSB Get Request  /api/emsdriver/v1/swagger.json
 
 gvnfmdriver API Health Check
-     [Tags]    health
+     [Tags]    health    3rdparty
      Run MSB Get Request  /api/gvnfmdriver/v1/swagger.json
 
 huaweivnfmdriver API Health Check
-     [Tags]    health
+     [Tags]    health    3rdparty
      Run MSB Get Request  /api/huaweivnfmdriver/v1/swagger.json
 
 multicloud API Health Check
-     [Tags]    health
+     [Tags]    health    multicloud
      Run MSB Get Request  /api/multicloud/v0/swagger.json
 
 multicloud-ocata API Health Check
-     [Tags]    health
+     [Tags]    health    multicloud
      Run MSB Get Request  /api/multicloud-ocata/v0/swagger.json
 
 multicloud-titanium_cloud API Health Check
-     [Tags]    health
+     [Tags]    health    multicloud
      Run MSB Get Request  /api/multicloud-titanium_cloud/v0/swagger.json
 
 multicloud-vio API Health Check
-     [Tags]    health
+     [Tags]    health    multicloud
      Run MSB Get Request  /api/multicloud-vio/v0/swagger.json
 
 nokiavnfmdriver API Health Check
-     [Tags]    health
+     [Tags]    health    3rdparty
      Run MSB Get Request  /api/nokiavnfmdriver/v1/swagger.json
 
 nslcm API Health Check
-     [Tags]    health
+     [Tags]    health    api
      Run MSB Get Request  /api/nslcm/v1/swagger.json
 
 resmgr API Health Check
-     [Tags]    health
+     [Tags]    health    api
      Run MSB Get Request  /api/resmgr/v1/swagger.json
 
 usecaseui-gui API Health Check
-     [Tags]    health
+     [Tags]    health    api
      Run MSB Get Request  /iui/usecaseui/
 
 vnflcm API Health Check
-     [Tags]    health
+     [Tags]    health    api
      Run MSB Get Request  /api/vnflcm/v1/swagger.json
 
 vnfmgr API Health Check
-     [Tags]    health
+     [Tags]    health    api
      Run MSB Get Request  /api/vnfmgr/v1/swagger.json
 
 vnfres API Health Check
-     [Tags]    health
+     [Tags]    health    api
      Run MSB Get Request  /api/vnfres/v1/swagger.json
 
 workflow API Health Check
-     [Tags]    health
+     [Tags]    health    api
      Run MSB Get Request  /api/workflow/v1/swagger.json
 
 ztesdncdriver API Health Check
-     [Tags]    health
+     [Tags]    health    3rdparty
      Run MSB Get Request  /api/ztesdncdriver/v1/swagger.json
 
 ztevmanagerdriver API Health Check
-     [Tags]    health
+     [Tags]    health    3rdparty
      Run MSB Get Request  /api/ztevmanagerdriver/v1/swagger.json
