@@ -9,7 +9,7 @@ LABEL usage="docker run -e ROBOT_TEST=<testname> -ti openecompete"
 # Install Python Pip, Robot framework, firefox, lighttpd web server, wget
 # Restructuring so we can see where it fails in the build.
 RUN apt-get update
-RUN apt-get --assume-yes install python=2.7.11-1
+RUN apt-get --assume-yes install python2.7
 RUN apt-get --assume-yes install build-essential
 RUN apt-get --assume-yes install dbus
 RUN apt-get --assume-yes install dnsutils
