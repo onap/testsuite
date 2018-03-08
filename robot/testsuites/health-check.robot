@@ -17,46 +17,46 @@ Resource          ../resources/aaf_interface.robot
 Resource          ../resources/msb_interface.robot
 Resource          ../resources/clamp_interface.robot
 
-*** Test Cases ***   
+*** Test Cases ***
 Basic DCAE Health Check
     [Tags]    health    core
-	Run DCAE Health Check
-	
+    Run DCAE Health Check
+
 Basic SDNGC Health Check
     [Tags]    health    core
-	Run SDNGC Health Check
-	
+    Run SDNGC Health Check
+
 Basic A&AI Health Check
     [Tags]    health    core
-	Run A&AI Health Check
+    Run A&AI Health Check
 
 Basic Policy Health Check
     [Tags]    health    core
     Run Policy Health Check
-    
+
 Basic MSO Health Check
     [Tags]    health    core
     Run MSO Health Check
-    
+ 
 Basic ASDC Health Check
     [Tags]    health    core
     Run ASDC Health Check
 
-Basic APPC Health Check    
+Basic APPC Health Check
     [Tags]    health    core
     Run APPC Health Check
-    
-Basic Portal Health Check    
+
+Basic Portal Health Check
     [Tags]    health    core
     Run Portal Health Check
-	
+
 Basic Message Router Health Check
     [Tags]    health    core
-	Run MR Health Check
+    Run MR Health Check
 	
 Basic VID Health Check
     [Tags]    health    core
-	Run VID Health Check
+    Run VID Health Check
 
 Basic Microservice Bus Health Check
     [Tags]    health    core
@@ -67,32 +67,32 @@ Basic CLAMP Health Check
     Run CLAMP Health Check
 
 catalog API Health Check
-     [Tags]    health    api
-     Run MSB Get Request  /api/catalog/v1/swagger.json
+    [Tags]    health    api
+    Run MSB Get Request  /api/catalog/v1/swagger.json
 
 emsdriver API Health Check
-     [Tags]    health    3rdparty
-     Run MSB Get Request  /api/emsdriver/v1/swagger.json
+    [Tags]    health    3rdparty
+    Run MSB Get Request  /api/emsdriver/v1/swagger.json
 
 gvnfmdriver API Health Check
-     [Tags]    health    3rdparty
-     Run MSB Get Request  /api/gvnfmdriver/v1/swagger.json
+    [Tags]    health    3rdparty
+    Run MSB Get Request  /api/gvnfmdriver/v1/swagger.json
 
 huaweivnfmdriver API Health Check
-     [Tags]    health    3rdparty
-     Run MSB Get Request  /api/huaweivnfmdriver/v1/swagger.json
+    [Tags]    health    3rdparty
+    Run MSB Get Request  /api/huaweivnfmdriver/v1/swagger.json
 
 multicloud API Health Check
-     [Tags]    health    multicloud
-     Run MSB Get Request  /api/multicloud/v0/swagger.json
+    [Tags]    health    multicloud
+    Run MSB Get Request  /api/multicloud/v0/swagger.json
 
 multicloud-ocata API Health Check
-     [Tags]    health    multicloud
-     Run MSB Get Request  /api/multicloud-ocata/v0/swagger.json
+    [Tags]    health    multicloud
+    Run MSB Get Request  /api/multicloud-ocata/v0/swagger.json
 
 multicloud-titanium_cloud API Health Check
-     [Tags]    health    multicloud
-     Run MSB Get Request  /api/multicloud-titanium_cloud/v0/swagger.json
+    [Tags]    health    multicloud
+    Run MSB Get Request  /api/multicloud-titanium_cloud/v0/swagger.json
 
 multicloud-vio API Health Check
      [Tags]    health    multicloud
