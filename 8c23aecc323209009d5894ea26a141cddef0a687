@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_72fb2b79",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1201
+      },
+      "writtenOn": "2018-03-08T16:42:29Z",
+      "side": 1,
+      "message": "Several linters could detect blank chars (see ODL csit).",
+      "revId": "8c23aecc323209009d5894ea26a141cddef0a687",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
