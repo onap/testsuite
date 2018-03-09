@@ -20,7 +20,7 @@ Resource          ../resources/clamp_interface.robot
 
 *** Test Cases ***
 Basic DCAE Health Check
-    [Tags]    health    core
+    [Tags]    health    dcae
     Run DCAE Health Check
 
 Basic SDNGC Health Check
