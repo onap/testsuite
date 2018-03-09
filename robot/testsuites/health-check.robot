@@ -1,4 +1,5 @@
 *** Settings ***
+Test Timeout    1 minute
 Documentation	  Testing ecomp components are available via calls.
 ...
 ...	              Testing ecomp components are available via calls.
