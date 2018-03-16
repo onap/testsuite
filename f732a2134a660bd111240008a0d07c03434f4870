@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_76ef7f1e",
+        "filename": "robot/resources/asdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2018-03-16T15:37:31Z",
+      "side": 1,
+      "message": "We need to remember to update smaple_vm_properties.py in testsuite/properties repo",
+      "range": {
+        "startLine": 47,
+        "startChar": 59,
+        "endLine": 47,
+        "endChar": 89
+      },
+      "revId": "f732a2134a660bd111240008a0d07c03434f4870",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d63c53ca",
+        "filename": "robot/resources/asdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2018-03-16T15:37:31Z",
+      "side": 1,
+      "message": "Wish there was a \u0027Set Test Variable If\u0027 keyword ;-)\n\nSince you are initializing the variables to FALSE, did you try just using \u0027Set Variable\u0027  and then using \u0027Set Variable If\u0027 rather than \u0027Run Keyword If\u0027\n\nScoping of RED variables is quite confusing ;-)",
+      "range": {
+        "startLine": 399,
+        "startChar": 4,
+        "endLine": 399,
+        "endChar": 21
+      },
+      "revId": "f732a2134a660bd111240008a0d07c03434f4870",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
