@@ -88,7 +88,7 @@ Get Configs VFW Policy
     ${severity}=    Get Variable Value      ${config["content"]["thresholds"][0]["severity"]}
     Should Be Equal    ${severity}    ${Expected_Severity_1}
     ${Thresold_Value}=    Get Variable Value      ${config["content"]["thresholds"][0]["thresholdValue"]}
-    Should Be Equal   ${Thresold_Value}    ${Expected_Threshold_1}
+    Should Be Equal As Integers   ${Thresold_Value}    ${Expected_Threshold_1}
     ${direction}=    Get Variable Value      ${config["content"]["thresholds"][0]["direction"]}
     Should Be Equal   ${direction}    ${Expected_Direction_1}
 
@@ -96,7 +96,7 @@ Get Configs VFW Policy
     ${severity_1}=    Get Variable Value      ${config["content"]["thresholds"][1]["severity"]}
     Should Be Equal    ${severity_1}    ${Expected_Severity_2}
     ${Thresold_Value_1}=    Get Variable Value      ${config["content"]["thresholds"][1]["thresholdValue"]}
-    Should Be Equal   ${Thresold_Value_1}    ${Expected_Threshold_2}
+    Should Be Equal As Integers   ${Thresold_Value_1}    ${Expected_Threshold_2}
     ${direction_1}=    Get Variable Value      ${config["content"]["thresholds"][1]["direction"]}
     Should Be Equal   ${direction_1}    ${Expected_Direction_2}
 
@@ -114,7 +114,7 @@ Get Configs VDNS Policy
     ${severity}=    Get Variable Value      ${config["content"]["tca_policy"]["metricsPerEventName"][0]["thresholds"][0]["severity"]}
     Should Be Equal    ${severity}    ${Expected_Severity_2}
     ${Thresold_Value}=    Get Variable Value      ${config["content"]["tca_policy"]["metricsPerEventName"][0]["thresholds"][0]["thresholdValue"]}
-    Should Be Equal   ${Thresold_Value}    ${Expected_Threshold_1}
+    Should Be Equal As Integers   ${Thresold_Value}    ${Expected_Threshold_1}
 ${direction}=    Get Variable Value      ${config["content"]["tca_policy"]["metricsPerEventName"][0]["thresholds"][0]["direction"]}
     Should Be Equal   ${direction}    ${Expected_Direction_3}
 
