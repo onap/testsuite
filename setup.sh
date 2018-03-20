@@ -73,7 +73,7 @@ cd $path
 #
 # Get the appropriate chromedriver. Default to linux64
 #
-CHROMEDRIVER_URL=http://chromedriver.storage.googleapis.com/2.29
+CHROMEDRIVER_URL=http://chromedriver.storage.googleapis.com/2.37
 CHROMEDRIVER_ZIP=chromedriver_linux64.zip
 
 # Handle mac and windows
