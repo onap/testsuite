@@ -1,31 +1,36 @@
 {
-                "service": "TcaMetrics",
-                "location": "SampleServiceLocation",
-                "uuid": "/services/cdap-tca-hi-lo/instances/demo/configuration/metricsPerFunctionalRole/vFireWall",
-                "policyName": "${policy_name}",
-                "description": "vFirewall configuration Policy@CreatedBy:demo@CreatedBy:@ModifiedBy:demo@ModifiedBy:",
-                "configName": "SampleConfigName",
-                "templateVersion": "OpenSource.version.1",
-                "version": "1.0.0.5",
-                "priority": "1",
-                "policyScope": "resource=SampleResource,service=SampleService,type=SampleType,closedLoopControlName=SampleClosedLoop",
-                "content": {
-                                "thresholds": [{
-                                                "severity": "MAJOR",
-                                                "fieldPath": "$$.event.measurementsForVfScalingFields.vNicUsageArray[*].packetsIn",
-                                                "thresholdValue": "300",
-                                                "closedLoopControlName": "CL-FRWL-LOW-TRAFFIC-SIG-d925ed73-8231-4d02-9545-db4e101f88f8",
-                                                "version": "1.0.2",
-                                                "direction": "LESS_OR_EQUAL"
-                                }, {
-                                                "severity": "CRITICAL",
-                                                "fieldPath": "$$.event.measurementsForVfScalingFields.vNicUsageArray[*].packetsIn",
-                                                "thresholdValue": "800",
-                                                "closedLoopControlName": "CL-FRWL-LOW-TRAFFIC-SIG-d925ed73-8231-4d02-9545-db4e101f88f8",
-                                                "version": "1.0.2",
-                                                "direction": "GREATER_OR_EQUAL"
-                                }],
-                                "functionalRole": "vFirewall",
-                                "name": "0"
-                }
+	"service": "tca_policy",
+	"location": "SampleServiceLocation",
+	"uuid": "test",
+	"policyName": "MicroServicevDNS",
+	"description": "MicroService vDNS Policy",
+	"configName": "SampleConfigName",
+	"templateVersion": "OpenSource.version.1",
+	"version": "1.1.0",
+	"priority": "1",
+	"policyScope": "resource=SampleResource,service=SampleService,type=SampleType,closedLoopControlName=ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
+	"riskType": "SampleRiskType",
+	"riskLevel": "1",
+	"guard": "False",
+	"content": {
+		"tca_policy": {
+			"domain": "measurementsForVfScaling",
+			"metricsPerEventName": [{
+				"eventName": "vLoadBalancer",
+				"controlLoopSchemaType": "VM",
+				"policyScope": "DCAE",
+				"policyName": "DCAE.Config_tca-hi-lo",
+				"policyVersion": "v0.0.1",
+				"thresholds": [{
+					"closedLoopControlName": "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
+					"version": "1.0.2",
+					"fieldPath": "$.event.measurementsForVfScalingFields.vNicUsageArray[*].receivedTotalPacketsDelta",
+					"thresholdValue": 300,
+					"direction": "GREATER_OR_EQUAL",
+					"severity": "CRITICAL",
+					"closedLoopEventStatus": "ONSET"
+				}]
+			}]
+		}
+	}
 }

@@ -102,7 +102,7 @@ Get Configs VFW Policy
 
 Get Configs VDNS Policy
     [Documentation]    Get Config Policy for VDNS
-    ${getconfigpolicy}=    Catenate    .*vLoadBalancer*
+    ${getconfigpolicy}=    Catenate    .*com.MicroServicevDNS*
     ${configpolicy_name}=    Create Dictionary    config_policy_name=${getconfigpolicy}
     ${output} =     Fill JSON Template File     ${GECONFIG_VFW_TEMPLATE}    ${configpolicy_name}
     ${get_resp} =    Run Policy Get Configs Request    ${RESOURCE_PATH_GET_CONFIG}   ${output}
@@ -111,11 +111,11 @@ Get Configs VDNS Policy
     ${config}=    Parse Json    ${json[0]["config"]}
 
     # Extract object1 from Array
-    ${severity}=    Get Variable Value      ${config["content"]["thresholds"][0]["severity"]}
-    Should Be Equal    ${severity}    ${Expected_Severity_3}
-    ${Thresold_Value}=    Get Variable Value      ${config["content"]["thresholds"][0]["thresholdValue"]}
-    Should Be Equal   ${Thresold_Value}    ${Expected_Threshold_3}
-    ${direction}=    Get Variable Value      ${config["content"]["thresholds"][0]["direction"]}
+    ${severity}=    Get Variable Value      ${config["content"]["tca_policy"]["metricsPerEventName"][0]["thresholds"][0]["severity"]}
+    Should Be Equal    ${severity}    ${Expected_Severity_2}
+    ${Thresold_Value}=    Get Variable Value      ${config["content"]["tca_policy"]["metricsPerEventName"][0]["thresholds"][0]["thresholdValue"]}
+    Should Be Equal   ${Thresold_Value}    ${Expected_Threshold_1}
+${direction}=    Get Variable Value      ${config["content"]["tca_policy"]["metricsPerEventName"][0]["thresholds"][0]["direction"]}
     Should Be Equal   ${direction}    ${Expected_Direction_3}
 
 Teardown Closed Loop
