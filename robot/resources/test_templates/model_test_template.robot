@@ -4,6 +4,7 @@ Library           OperatingSystem
 Library            ArchiveLibrary
 Library           Collections
 Library           String
+Library           DateTime
 Resource          ../asdc_interface.robot
 
 Variables       ../../assets/service_mappings.py
@@ -24,6 +25,10 @@ Model Distribution For Directory
     [Arguments]    ${service}   ${catalog_service_name}=
     ${directory_list}=    Get From Dictionary    ${GLOBAL_SERVICE_FOLDER_MAPPING}    ${service}
     ${ziplist}=    Create List
+    ${uuid}=    Get Current Date
+    ${service_name}=    Catenate    ${service}    ${uuid}
+    ${shortened_uuid}=     Evaluate    str("${service_name}")[:23]
+    ${catalog_service_name}=   Set Variable If   '${catalog_service_name}' ==''   ${shortened_uuid}   ${catalog_service_name}
     :for   ${directory}    in    @{directory_list}
     \    ${zipname}=   Replace String    ${directory}    /    _
     \    ${zip}=    Catenate    ${ASDC_ZIP_DIRECTORY}/${zipname}.zip

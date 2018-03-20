@@ -44,8 +44,8 @@ ${ASDC_CATALOG_RESOURCE_TEMPLATE}    robot/assets/templates/asdc/catalog_resourc
 ${ASDC_USER_REMARKS_TEMPLATE}    robot/assets/templates/asdc/user_remarks.template
 ${ASDC_CATALOG_SERVICE_TEMPLATE}    robot/assets/templates/asdc/catalog_service.template
 ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    robot/assets/templates/asdc/resource_instance.template
-${ASDC_FE_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_IP_ADDR}:${GLOBAL_ASDC_FE_PORT}
-${ASDC_BE_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_IP_ADDR}:${GLOBAL_ASDC_BE_PORT}
+${ASDC_FE_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_FE_IP_ADDR}:${GLOBAL_ASDC_FE_PORT}
+${ASDC_BE_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_BE_IP_ADDR}:${GLOBAL_ASDC_BE_PORT}
 
 *** Keywords ***
 Distribute Model From ASDC
@@ -70,9 +70,9 @@ Distribute Model From ASDC
 	Distribute ASDC Catalog Service    ${catalog_service_id}
 	${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
 	${vf_module}=    Find Element In Array    ${loop_catalog_resource_resp['groups']}    type    org.openecomp.groups.VfModule
-	Check Catalog Service Distributed    ${catalog_service_resp['uuid']}
+	#Check Catalog Service Distributed    ${catalog_service_resp['uuid']}
+	Wait Until Keyword Succeeds   180   15    Check Catalog Service Distributed    ${catalog_service_resp['uuid']}
     [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
-
 Setup ASDC Catalog Resource
     [Documentation]    Creates all the steps a vf needs for an asdc catalog resource and returns the id
     [Arguments]    ${model_zip_path}
@@ -294,12 +294,12 @@ Certify ASDC Catalog Resource
     [Return]    ${resp.json()['uniqueId']}
 
 Upload ASDC Heat Package
-     [Documentation]    Creates an asdc Software Product and returns its id
-     [Arguments]    ${software_product_id}    ${file_path}  ${version_id}=0.1
+    [Documentation]    Creates an asdc Software Product and returns its id
+    [Arguments]    ${software_product_id}    ${file_path}   ${version_id}=0.1
      ${files}=     Create Dictionary
      Create Multi Part     ${files}  upload  ${file_path}    contentType=application/zip
-     ${resp}=    Run ASDC Post Files Request   ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${software_product_id}/versions/${version_id}${ASDC_VENDOR_SOFTWARE_UPLOAD_PATH}  ${files}    ${ASDC_DESIGNER_USER_ID}
-     Should Be Equal As Strings          ${resp.status_code}       200
+    ${resp}=    Run ASDC Post Files Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${software_product_id}/versions/${version_id}${ASDC_VENDOR_SOFTWARE_UPLOAD_PATH}     ${files}    ${ASDC_DESIGNER_USER_ID}
+	Should Be Equal As Strings 	${resp.status_code} 	200
 
 Add ASDC Catalog Service
     [Documentation]    Creates an asdc Catalog Service and returns its id
@@ -394,9 +394,19 @@ Check Catalog Service Distributed
     Should Be Equal As Strings 	${dist_resp['distributionStatusOfServiceList'][0]['deployementStatus']} 	Distributed
     ${det_resp}=    Get Catalog Service Distribution Details    ${dist_resp['distributionStatusOfServiceList'][0]['distributionID']}
     @{ITEMS}=    Copy List    ${det_resp['distributionStatusList']}
+    Should Not Be Empty   ${ITEMS}
+    ${AAI_DEPLOY}   Set Variable   FALSE
+    ${SDNC_DEPLOY}   Set Variable  FALSE
+    ${SO_DEPLOY}   Set Variable   FALSE
     :FOR    ${ELEMENT}    IN    @{ITEMS}
+    \    Log    ${ELEMENT['omfComponentID']}
     \    Log    ${ELEMENT['status']}
-    \    Should Match Regexp    ${ELEMENT['status']}    ^(DEPLOY_OK|NOTIFIED|DOWNLOAD_OK|NOT_NOTIFIED)$
+    \    ${SDNC_DEPLOY}  Set Variable If   (('sdnc-docker' in '${ELEMENT['omfComponentID']}') and ('${ELEMENT['status']}' == 'DEPLOY_OK')) or ('${SDNC_DEPLOY}' == 'TRUE')    TRUE 
+    \     ${SO_DEPLOY}  Set Variable If   (('mso-docker' in '${ELEMENT['omfComponentID']}') and ('${ELEMENT['status']}' == 'DEPLOY_OK')) or ('${SO_DEPLOY}' == 'TRUE')   TRUE  
+    \    ${AAI_DEPLOY}   Set Variable If   (('aai-ml' in '${ELEMENT['omfComponentID']}') and ('${ELEMENT['status']}' == 'DEPLOY_OK')) or ('${AAI_DEPLOY}'=='TRUE')  TRUE 
+    Should Be True   ( '${SDNC_DEPLOY}'=='TRUE')  SDNC Test
+    Should Be True   ( '${SO_DEPLOY}'=='TRUE')   SO Test 
+    Should Be True   ( '${AAI_DEPLOY}'=='TRUE')   AAI Test
 Get Catalog Service Distribution Details
     [Documentation]    gets an asdc catalog Service distrbution details
     [Arguments]    ${catalog_service_distribution_id}

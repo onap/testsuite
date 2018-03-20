@@ -17,6 +17,8 @@ Resource          ../resources/mr_interface.robot
 Resource          ../resources/aaf_interface.robot
 Resource          ../resources/msb_interface.robot
 Resource          ../resources/clamp_interface.robot
+Resource          ../resources/test_templates/model_test_template.robot
+
 
 *** Test Cases ***
 Basic DCAE Health Check
@@ -138,3 +140,7 @@ ztesdncdriver API Health Check
 ztevmanagerdriver API Health Check
      [Tags]    health    3rdparty
      Run MSB Get Request  /api/ztevmanagerdriver/v1/swagger.json
+
+Health Distribution Test
+    [Tags]    healthdist
+    Model Distribution For Directory    vFW
