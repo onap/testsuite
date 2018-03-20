@@ -102,7 +102,7 @@ Get Configs VFW Policy
 
 Get Configs VDNS Policy
     [Documentation]    Get Config Policy for VDNS
-    ${getconfigpolicy}=    Catenate    .*com.MicroServicevDNS*
+    ${getconfigpolicy}=    Catenate    .*MicroServicevDNS*
     ${configpolicy_name}=    Create Dictionary    config_policy_name=${getconfigpolicy}
     ${output} =     Fill JSON Template File     ${GECONFIG_VFW_TEMPLATE}    ${configpolicy_name}
     ${get_resp} =    Run Policy Get Configs Request    ${RESOURCE_PATH_GET_CONFIG}   ${output}
