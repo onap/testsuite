@@ -12,4 +12,4 @@ VFW Closed Loop Test
     VFWCL Policy
 VDNS Closed Loop Test
     [TAGS]    ete    closedloop
-    VDNS Policy    
+    VDNS Policy
