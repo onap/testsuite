@@ -35,10 +35,9 @@ Policy Check FirewallCL Stack
     ${vpkg_stack_info}=    Wait for Stack to Be Deployed    auth    ${vpkg_stack_name}
     ${server_list}=    Get Openstack Servers    auth
     Log     ${server_list}
-    # WIth amsterdam, the generic-vnf-name = the vFW host name
-    ${vfw_name}=   Get From Dictionary     ${vsnk_stack_info}   vfw_name_0
-    ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance    ${vfw_name}
-    Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF Name: ${vfw_name} is not found.
+    ${vpkg_id}=   Get From Dictionary     ${vpkg_stack_info}   vpkg_id
+    ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance By ID    ${vpkg_id}
+    Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF ID: ${vpkg_id} is not found.
     ${invariantUUID}   ${service}   ${customer_id}   ${service_instance_id}=   Get Generic VNF Info    ${generic_vnf}
     Update vVFWCL Policy   ${invariantUUID}
 
