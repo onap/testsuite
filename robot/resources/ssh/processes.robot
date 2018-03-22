@@ -38,7 +38,7 @@ Create Process Map
          
 Wait for Process on Host
     [Documentation]     Wait for the passed process name (regular expression) to be running on the passed host  
-    [Arguments]    ${process_name}    ${host}    ${timeout}=600s    
+    [Arguments]    ${process_name}    ${host}    ${timeout}=800s
     ${map}=    Wait Until Keyword Succeeds    ${timeout}    10 sec    Is Process On Host    ${process_name}    ${host}
     [Return]    ${map}
 
