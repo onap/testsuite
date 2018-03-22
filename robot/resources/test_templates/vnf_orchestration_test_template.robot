@@ -182,7 +182,7 @@ Delete VNF
     ${lcp_region}=   Get Openstack Region
     Teardown VVG Server
     Teardown VLB Closed Loop Hack
-    Teardown VID   ${SERVICE_INSTANCE_ID}   ${lcp_region}   ${TENANT_NAME}   ${CUSTOMER_NAME}
+    Run Keyword and Ignore Error   Teardown VID   ${SERVICE_INSTANCE_ID}   ${lcp_region}   ${TENANT_NAME}   ${CUSTOMER_NAME}
     Log    VNF Deleted
 
 Teardown VNF

@@ -58,3 +58,56 @@ Run Policy Get Configs Request
     ${resp}= 	Post Request 	policy 	${data_path}    data=${data}    headers=${headers}
     Log    Received response from policy ${resp.text}
     [Return]    ${resp}
+
+
+
+Update vVFWCL Policy
+    [Arguments]   ${resource_id}
+    Delete vFWCL Policy
+    Sleep    20s
+    Create vFWCL Policy     ${resource_id}
+    Sleep    5s
+    Push vFWCL Policy
+    Sleep    20s
+    Reboot Drools
+    Sleep    20s
+    Validate the vFWCL Policy
+
+Delete vFWCL Policy
+     ${data}=   OperatingSystem.Get File    ${POLICY_TEMPLATES}/FirewallPolicy_delete.template
+     ${resp}=   Run Policy Delete Request    /pdp/api/deletePolicy    ${data}
+     Should Be Equal As Strings 	${resp.status_code} 	200
+
+Create vFWCL Policy
+    [Arguments]   ${resource_id}
+    ${dict}=   Create Dictionary   RESOURCE_ID=${resource_id}
+    ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/FirewallPolicy_update.template   ${dict}
+    ${resp}=   Run Policy Put Request    /pdp/api/updatePolicy    ${data}
+    Should Be Equal As Strings 	${resp.status_code} 	200
+
+Push vFWCL Policy
+     ${dict}=   Create Dictionary
+     ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/FirewallPolicy_push.template   ${dict}
+     ${resp}=   Run Policy Put Request    /pdp/api/pushPolicy    ${data}
+     Should Be Equal As Strings 	${resp.status_code} 	200
+
+Reboot Drools
+    ${stop}=   Catenate   docker exec -t -u policy drools bash -c "source /opt/app/policy/etc/profile.d/env.sh; policy stop"
+    ${start}=   Catenate   docker exec -t -u policy drools bash -c "source /opt/app/policy/etc/profile.d/env.sh; policy start"
+    Wait Until Keyword Succeeds    120    5 sec    Open Connection And Log In    ${GLOBAL_INJECTED_POLICY_IP_ADDR}    root    ${GLOBAL_VM_PRIVATE_KEY}
+    Write    ${stop}
+    ${status}   ${stdout}=	 Run Keyword And Ignore Error    SSHLibrary.Read Until Regexp    has stopped
+    Log   ${status}: stdout=${stdout}
+    ${ctrlc}=    Evaluate   '\x03'
+    Run Keyword If   '${status}' == 'FAIL'   Write   ${ctrlc}
+    Sleep    5s
+    Write    ${start}
+    ${stdout}=   SSHLibrary.Read Until Regexp    is running
+    Log   stdout=${stdout}
+    Should Contain     ${stdout}    is running
+
+Validate the vFWCL Policy
+    ${resp}=   Run Drools Get Request   /policy/pdp/engine/controllers/amsterdam/drools
+    Should Be Equal As Strings 	${resp.status_code} 	200
+    ${resp}=   Run Drools Get Request   /policy/pdp/engine/controllers/amsterdam/drools/facts/closedloop-amsterdam/org.onap.policy.controlloop.Params
+    Should Be Equal As Strings 	${resp.status_code} 	200

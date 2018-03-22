@@ -23,20 +23,28 @@ Resource          ../../resources/test_templates/vnf_orchestration_test_template
 *** Variables ***
 
 *** Keywords ***
-Policy Check Firewall Stack
+Policy Check FirewallCL Stack
     [Documentation]    Executes the vFW policy closed loop test.
-    [Arguments]    ${stack_name}    ${policy_rate}
+    [Arguments]    ${stacknamemap}    ${policy_rate}
     Run Openstack Auth Request    auth
-    ${stack_info}=    Wait for Stack to Be Deployed    auth    ${stack_name}
-    ${stack_id}=    Get From Dictionary    ${stack_info}    id
+    ${vsnk_stack_name}=   Get From Dictionary    ${stacknamemap}    vFWSNK
+    ${vpkg_stack_name}=   Get From Dictionary    ${stacknamemap}    vPKG
+    ${vsnk_stack_info}=    Wait for Stack to Be Deployed    auth    ${vsnk_stack_name}
+    ${vpkg_stack_info}=    Wait for Stack to Be Deployed    auth    ${vpkg_stack_name}
     ${server_list}=    Get Openstack Servers    auth
     Log     ${server_list}
-    ${vpg_unprotected_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_0
-    ${vsn_protected_ip}=    Get From Dictionary    ${stack_info}    vsn_private_ip_0
-    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=public
-    ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vsn_name_0    network_name=public
+    ${vpkg_id}=   Get From Dictionary     ${vpkg_stack_info}   vnf_id
+    ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Generic VNF By ID    ${vpkg_id}
+    Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF ID: ${vpkg_id} is not found.
+    ${invariantUUID}   Get From Dictionary  ${generic_vnf}   persona-model-id
+    Update vVFWCL Policy   ${invariantUUID}
+
+    ${vpg_unprotected_ip}=    Get From Dictionary    ${vpkg_stack_info}    vpg_private_ip_0
+    ${vsn_protected_ip}=    Get From Dictionary    ${vsnk_stack_info}    vsn_private_ip_0
+    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${vpkg_stack_info}   vpg_name_0    network_name=public
+    ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${vsnk_stack_info}   vsn_name_0    network_name=public
     ${upper_bound}=    Evaluate    ${policy_rate}*2
-    Wait Until Keyword Succeeds    300s    1s    Run VFW Policy Check    ${vpg_public_ip}   ${policy_rate}    ${upper_bound}    1
+    Wait Until Keyword Succeeds    30m    2s    Run VFW Policy Check    ${vpg_public_ip}   ${policy_rate}    ${upper_bound}    1
 
 Run VFW Policy Check
     [Documentation]     Push traffic above upper bound, wait for policy to fix it, push traffic to lower bound, wait for policy to fix it,
@@ -51,8 +59,8 @@ Check For Policy Enforcement
     [Documentation]     Push traffic above upper bound, wait for policy to fix it, push traffic to lower bound, wait for policy to fix it,
     [Arguments]    ${vpg_public_ip}    ${policy_rate}    ${forced_rate}
     Enable Streams    ${vpg_public_ip}    ${forced_rate}
-    Wait Until Keyword Succeeds    20s    5s    Test For Expected Rate    ${vpg_public_ip}    ${forced_rate}
-    Wait Until Keyword Succeeds    280s    5s    Test For Expected Rate    ${vpg_public_ip}    ${policy_rate}
+    Wait Until Keyword Succeeds    20s    2s    Test For Expected Rate    ${vpg_public_ip}    ${forced_rate}
+    Wait Until Keyword Succeeds    10m    2s    Test For Expected Rate    ${vpg_public_ip}    ${policy_rate}
 
 Test For Expected Rate
     [Documentation]    Ge the number of pg-streams from the PGN, and test to see if it is what we expect.
