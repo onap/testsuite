@@ -1,0 +1,46 @@
+{ 
+   "event":{ 
+      "commonEventHeader":{ 
+         "startEpochMicrosec":1500584201765465,
+         "sourceId":"Dummy VM UUID - No Metadata available",
+         "eventId":"11",
+         "reportingEntityId":"No UUID available",
+         "internalHeaderFields":{ 
+            "collectorTimeStamp":"Thu, 07 20 2017 08:56:52 GMT"
+         },
+         "eventType":"HTTP request rate",
+         "priority":"Normal",
+         "version":1.2,
+         "reportingEntityName":"fwll",
+         "sequence":11,
+         "domain":"measurementsForVfScaling",
+         "lastEpochMicrosec":1500584212017216,
+         "eventName":"vFirewallBroadcastPackets",
+         "sourceName":"vFWCntLoopHealth1"
+      },
+      "measurementsForVfScalingFields":{ 
+         "cpuUsageArray":[ 
+            { 
+               "percentUsage":0,
+               "cpuIdentifier":"cpu1",
+               "cpuIdle":100,
+               "cpuUsageSystem":0,
+               "cpuUsageUser":0
+            }
+         ],
+         "measurementInterval":10,
+         "requestRate":7832,
+         "vNicUsageArray":[ 
+            { 
+               "transmittedOctetsDelta":5680,
+               "receivedTotalPacketsDelta":714,
+               "vNicIdentifier":"eth0",
+               "valuesAreSuspect":"true",
+               "transmittedTotalPacketsDelta":31,
+               "receivedOctetsDelta":1332
+            }
+         ],
+         "measurementsForVfScalingVersion":2.1
+      }
+   }
+}
