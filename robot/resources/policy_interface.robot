@@ -82,9 +82,13 @@ Run Policy Get Configs Request
 Update vVFWCL Policy
     [Arguments]   ${resource_id}
     Delete vFWCL Policy
+    Sleep    20s
     Create vFWCL Policy     ${resource_id}
+    Sleep    5s
     Push vFWCL Policy
+    Sleep    20s
     Reboot Drools
+    Sleep    20s
     Validate the vFWCL Policy
 
 Delete vFWCL Policy
@@ -100,7 +104,8 @@ Create vFWCL Policy
     Should Be Equal As Strings 	${resp.status_code} 	200
 
 Push vFWCL Policy
-     ${data}=   OperatingSystem.Get File    ${POLICY_TEMPLATES}/FirewallPolicy_push.template
+     ${dict}=   Create Dictionary
+     ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/FirewallPolicy_push.template   ${dict}
      ${resp}=   Run Policy Put Request    /pdp/api/pushPolicy    ${data}
      Should Be Equal As Strings 	${resp.status_code} 	200
 
