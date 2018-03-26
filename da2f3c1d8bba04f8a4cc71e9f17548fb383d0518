@@ -16,6 +16,24 @@
       "revId": "da2f3c1d8bba04f8a4cc71e9f17548fb383d0518",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ef085b2f",
+        "filename": "robot/testsuites/closed-loop.robot",
+        "patchSetId": 15
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-03-26T20:11:11Z",
+      "side": 1,
+      "message": "Oh, did not know that...  I\u0027ll remove it.",
+      "parentUuid": "5a93c517_f9302e09",
+      "revId": "da2f3c1d8bba04f8a4cc71e9f17548fb383d0518",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
