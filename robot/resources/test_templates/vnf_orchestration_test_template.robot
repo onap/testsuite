@@ -182,7 +182,7 @@ Create VVG Server
     [Arguments]    ${uuid}
     Run Openstack Auth Request    auth
     ${vvg_server_name}=    Catenate   vVG_${uuid}
-    ${server}=   Add Server For Image Name  auth    ${vvg_server_name}   ${GLOBAL_INJECTED_VM_IMAGE_NAME}   ${GLOBAL_INJECTED_VM_FLAVOR}   ${GLOBAL_INJECTED_PUBLIC_NET_ID}
+    ${server}=   Add Server For Image Name  auth    ${vvg_server_name}   ${GLOBAL_INJECTED_UBUNTU_1404_IMAGE}   ${GLOBAL_INJECTED_VM_FLAVOR}   ${GLOBAL_INJECTED_PUBLIC_NET_ID}
     ${server}=       Get From Dictionary   ${server}   server
     ${server_id}=    Get From Dictionary   ${server}   id
     Set Test Variable    ${VVG_SERVER_ID}   ${server_id}

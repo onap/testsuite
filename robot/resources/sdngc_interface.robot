@@ -154,7 +154,7 @@ Get Template Parameters
     Set To Dictionary   ${valuemap}   public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
     Set To Dictionary   ${valuemap}   cloud_env=${GLOBAL_INJECTED_CLOUD_ENV}
     Set To Dictionary   ${valuemap}   install_script_version=${GLOBAL_INJECTED_SCRIPT_VERSION}
-    Set To Dictionary   ${valuemap}   vm_image_name=${GLOBAL_INJECTED_VM_IMAGE_NAME}
+    Set To Dictionary   ${valuemap}   vm_image_name=${GLOBAL_INJECTED_UBUNTU_1404_IMAGE}
     Set To Dictionary   ${valuemap}   vm_flavor_name=${GLOBAL_INJECTED_VM_FLAVOR}
     Set To Dictionary   ${valuemap}   dcae_collector_ip=${dcae_collector_ip}
 
