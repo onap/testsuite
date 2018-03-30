@@ -1,7 +1,7 @@
 {
 	"is-base-vf-module": false,
-	"model-invariant-id": "${model-invariant-id}",
-	"model-version-id": "${model-version-id}",
+	"model-invariant-id": "${model_invariant_id}",
+	"model-version-id": "${model_version_id}",
 	"vf-module-id": "${vf_module_id}",
 	"vf-module-name": "${vf_module_id}"
 }

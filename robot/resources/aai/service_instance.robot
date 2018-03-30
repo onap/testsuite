@@ -62,10 +62,10 @@ VLB Closed Loop Hack
     ${vf_modules}=    Get From Dictionary    ${generic_vnf}    vf-modules
     ${list}=    Get From Dictionary    ${vf_modules}   vf-module
     ${vfmodule}=    Get From List    ${list}    0
-    ${model-invariant-id}=    Get From Dictionary    ${closedloop_vf_module}    invariantUUID
-    ${model-version-id}=   Get From Dictionary    ${closedloop_vf_module}    groupUUID
+    ${model_invariant_id}=    Get From Dictionary    ${closedloop_vf_module}    invariantUUID
+    ${model_version_id}=   Get From Dictionary    ${closedloop_vf_module}    groupUUID
     ${dummy}=    Catenate   dummy_${vnf_id}
-    ${dict}=    Create Dictionary   vnf_id=${vnf_id}   vf_module_id=${dummy}   model-invariant-id=${model-invariant-id}   model-version-id=${model-version-id}
+    ${dict}=    Create Dictionary   vnf_id=${vnf_id}   vf_module_id=${dummy}   model_invariant_id=${model_invariant_id}   model_version_id=${model_version_id}
     ${datapath}=    Template String    ${GENERIC_VNF_PATH_TEMPLATE}    ${dict}
     ${data}=	Fill JSON Template File    ${VLB_CLOSED_LOOP_HACK_BODY}    ${dict}
 	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${datapath}   ${data}
