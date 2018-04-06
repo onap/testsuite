@@ -143,4 +143,5 @@ ztevmanagerdriver API Health Check
 
 Health Distribution Test
     [Tags]    healthdist
+    [Timeout]   240
     Model Distribution For Directory    vFW
