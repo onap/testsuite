@@ -76,22 +76,23 @@ Distribute Model From ASDC
 Setup ASDC Catalog Resource
     [Documentation]    Creates all the steps a vf needs for an asdc catalog resource and returns the id
     [Arguments]    ${model_zip_path}
-    ${license_model_id}=    Add ASDC License Model
-    ${key_group_id}=    Add ASDC License Group    ${license_model_id}
-    ${pool_id}=    Add ASDC Entitlement Pool    ${license_model_id}
-    ${feature_group_id}=    Add ASDC Feature Group    ${license_model_id}    ${key_group_id}    ${pool_id}
-    ${license_agreement_id}=    Add ASDC License Agreement    ${license_model_id}    ${feature_group_id}
-    Checkin ASDC License Model    ${license_model_id}
-    Submit ASDC License Model    ${license_model_id}
-    ${license_model_resp}=    Get ASDC License Model    ${license_model_id}   1.0
-    ${software_product_id}=    Add ASDC Software Product    ${license_agreement_id}    ${feature_group_id}    ${license_model_resp['vendorName']}    ${license_model_id}
-    Upload ASDC Heat Package    ${software_product_id}    ${model_zip_path}
-    Validate ASDC Software Product    ${software_product_id}
-    Checkin ASDC Software Product    ${software_product_id}
-    Submit ASDC Software Product    ${software_product_id}
-    Package ASDC Software Product    ${software_product_id}
-    ${software_product_resp}=    Get ASDC Software Product    ${software_product_id}   1.0
-    ${catalog_resource_id}=    Add ASDC Catalog Resource     ${license_agreement_id}    ${software_product_resp['name']}    ${license_model_resp['vendorName']}    ${software_product_id}
+    #${license_model_id}=    Add ASDC License Model
+    ${license_model_id}   ${license_model_version_id}=    Add ASDC License Model
+    ${key_group_id}=    Add ASDC License Group    ${license_model_id}   ${license_model_version_id}
+    ${pool_id}=    Add ASDC Entitlement Pool    ${license_model_id}   ${license_model_version_id}
+    ${feature_group_id}=    Add ASDC Feature Group    ${license_model_id}    ${key_group_id}    ${pool_id}  ${license_model_version_id}
+    ${license_agreement_id}=    Add ASDC License Agreement    ${license_model_id}    ${feature_group_id}   ${license_model_version_id}
+    #Checkin ASDC License Model    ${license_model_id}   ${license_model_version_id}
+    Submit ASDC License Model    ${license_model_id}   ${license_model_version_id}
+    ${license_model_resp}=    Get ASDC License Model    ${license_model_id}   ${license_model_version_id}
+    ${software_product_id}   ${software_product_version_id}=    Add ASDC Software Product    ${license_agreement_id}    ${feature_group_id}    ${license_model_resp['vendorName']}    ${license_model_id}    ${license_model_version_id}
+    Upload ASDC Heat Package    ${software_product_id}    ${model_zip_path}   ${software_product_version_id}
+    Validate ASDC Software Product    ${software_product_id}  ${software_product_version_id}
+    #Checkin ASDC Software Product    ${software_product_id}   ${software_product_version_id}
+    Submit ASDC Software Product    ${software_product_id}  ${software_product_version_id}
+    Package ASDC Software Product    ${software_product_id}   ${software_product_version_id}
+    ${software_product_resp}=    Get ASDC Software Product    ${software_product_id}    ${software_product_version_id}
+    ${catalog_resource_id}=    Add ASDC Catalog Resource     ${license_agreement_id}    ${software_product_resp['name']}    ${license_model_resp['vendorName']}    ${software_product_id}  
     Checkin ASDC Catalog Resource    ${catalog_resource_id}
     Request Certify ASDC Catalog Resource    ${catalog_resource_id}
     Start Certify ASDC Catalog Resource    ${catalog_resource_id}
@@ -106,7 +107,10 @@ Add ASDC License Model
     ${data}=   Fill JSON Template File    ${ASDC_LICENSE_MODEL_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}    ${data}
     Should Be Equal As Strings 	${resp.status_code} 	200
-    [Return]    ${resp.json()['value']}
+    #[Return]    ${resp.json()['value']}
+    # license_model_id needs to be returned
+    #[Return]    ${resp.json()['itemId']}   
+    [Return]    ${resp.json()['itemId']}    ${resp.json()['version']['id']}
 Get ASDC License Model
     [Documentation]    gets an asdc license model by its id
     [Arguments]    ${id}   ${version_id}=0.1
@@ -180,7 +184,8 @@ Get ASDC Entitlement Pool
     [Return]    ${resp.json()}
 Add ASDC License Group
     [Documentation]    Creates an asdc license group and returns its id
-    [Arguments]    ${license_model_id}   ${version_id}=0.1
+    [Arguments]    ${license_model_id}   ${version_id}=1.0
+    #[Arguments]    ${license_model_id}   ${version_id}=0.1
     ${uuid}=    Generate UUID
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    key_group_name=${shortened_uuid}
@@ -225,14 +230,14 @@ Get ASDC License Agreement
     [Return]    ${resp.json()}
 Add ASDC Software Product
     [Documentation]    Creates an asdc Software Product and returns its id
-    [Arguments]    ${license_agreement_id}    ${feature_group_id}    ${license_model_name}    ${license_model_id}
+    [Arguments]    ${license_agreement_id}    ${feature_group_id}    ${license_model_name}    ${license_model_id}   ${license_model_version_id}
     ${uuid}=    Generate UUID
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
-    ${map}=    Create Dictionary    software_product_name=${shortened_uuid}    feature_group_id=${feature_group_id}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}    vendor_id=${license_model_id}
+    ${map}=    Create Dictionary    software_product_name=${shortened_uuid}    feature_group_id=${feature_group_id}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}    vendor_id=${license_model_id}    version_id=${license_model_version_id}
     ${data}=   Fill JSON Template File    ${ASDC_SOFTWARE_PRODUCT_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}     ${data}
     Should Be Equal As Strings 	${resp.status_code} 	200
-    [Return]    ${resp.json()['vspId']}
+    [Return]    ${resp.json()['itemId']}   ${resp.json()['version']['id']}
 Get ASDC Software Product
     [Documentation]    gets an asdc Software Product by its id
     [Arguments]    ${software_product_id}   ${version_id}=0.1

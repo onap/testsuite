@@ -4,10 +4,7 @@
   "category": "resourceNewCategory.generic",
   "subCategory": "resourceNewCategory.generic.abstract",
   "onboardingMethod" : "NetworkPackage",
-  "licensingVersion":  {
-        "id" : "1.0",
-        "label" : "1.0"
-        },
+  "licensingVersion":  "${version_id}",
   "vendorName": "${vendor_name}",
   "vendorId": "${vendor_id}",
   "icon": "icon",
@@ -18,3 +15,4 @@
     ]
   }
 }
+
