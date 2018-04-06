@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e78365ca",
+        "filename": "robot/resources/asdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-04-06T02:07:36Z",
+      "side": 1,
+      "message": "we trust you, you are allowed to delete something!",
+      "revId": "86393b7a0ad14d9edd72ed4fff805f1a40f54578",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
