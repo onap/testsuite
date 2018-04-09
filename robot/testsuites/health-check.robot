@@ -137,9 +137,9 @@ ztesdncdriver API Health Check
      [Tags]    health    3rdparty
      Run MSB Get Request  /api/ztesdncdriver/v1/swagger.json
 
-ztevmanagerdriver API Health Check
+ztevnfmdriver API Health Check
      [Tags]    health    3rdparty
-     Run MSB Get Request  /api/ztevmanagerdriver/v1/swagger.json
+     Run MSB Get Request  /api/ztevnfmdriver/v1/swagger.json
 
 Health Distribution Test
     [Tags]    healthdist
