@@ -105,6 +105,10 @@ nokiavnfmdriver API Health Check
      [Tags]    health    3rdparty
      Run MSB Get Request  /api/nokiavnfmdriver/v1/swagger.json
 
+nokiav2driver API Health Check
+     [Tags]    health    3rdparty
+     Run MSB Get Request  /api/NokiaSVNFM/v1/swagger.json
+
 nslcm API Health Check
      [Tags]    health    api
      Run MSB Get Request  /api/nslcm/v1/swagger.json
