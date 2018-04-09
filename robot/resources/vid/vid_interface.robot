@@ -12,7 +12,7 @@ Resource        ../browser_setup.robot
 ${VID_ENV}            /vid
 ${VID_ENDPOINT}    ${GLOBAL_VID_SERVER_PROTOCOL}://${GLOBAL_INJECTED_VID_IP_ADDR}:${GLOBAL_VID_SERVER_PORT}
 ${VID_LOGIN_URL}                ${VID_ENDPOINT}${VID_ENV}/login.htm
-${VID_HEALTHCHECK_PATH}    ${VID_ENV}/api/v2/users
+${VID_HEALTHCHECK_PATH}    ${VID_ENV}/healthCheck
 ${VID_HOME_URL}                ${VID_ENDPOINT}${VID_ENV}/welcome.htm
 ${VID_SERVICE_MODELS_URL}                ${VID_ENDPOINT}${VID_ENV}/serviceModels.htm#/models/services
 
@@ -21,7 +21,7 @@ Run VID Health Check
     [Documentation]   Logs in to VID GUI
     ${resp}=    Run VID Get Request    ${VID_HEALTHCHECK_PATH}
     Should Be Equal As Strings 	${resp.status_code} 	200
-    Should Be String    ${resp.json()[0]['loginId']}
+    Should Be String    ${resp.json()['message']}
 
 Run VID Get Request
     [Documentation]    Runs an VID get request
