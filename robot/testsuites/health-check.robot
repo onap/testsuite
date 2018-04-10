@@ -97,6 +97,14 @@ Basic VFC gvnfmdriver API Health Check
     [Tags]    health    3rdparty
     Run MSB Get Request  /api/gvnfmdriver/v1/swagger.json
 
+Basic VFC jujuvnfmdriver API Health Check
+    [Tags]    health    3rdparty
+    Run MSB Get Request  /api/jujuvnfmdriver/v1/swagger.json    
+
+Basic VFC multivimproxy API Health Check
+    [Tags]    health    3rdparty
+    Run MSB Get Request  /api/multivimproxy/v1/swagger.json
+
 Basic VFC huaweivnfmdriver API Health Check
     [Tags]    health    3rdparty
     Run MSB Get Request  /api/huaweivnfmdriver/v1/swagger.json
