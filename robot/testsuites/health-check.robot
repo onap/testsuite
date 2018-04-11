@@ -157,3 +157,7 @@ Health Distribution Test
     [Tags]    healthdist
     [Timeout]   240
     Model Distribution For Directory    vFW
+
+Portal Login Tests
+    [Tags]    healthlogin
+    Run Portal Login Tests 

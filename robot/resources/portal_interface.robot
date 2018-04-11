@@ -1,14 +1,22 @@
 *** Settings ***
 Documentation	  The main interface for interacting with Portal. It handles low level stuff like managing the http request library and Portal required fields
-Library	          RequestsClientCert
-Library 	      RequestsLibrary
-Library	          UUID      
+Library	        RequestsClientCert
+Library 	RequestsLibrary
+Library	        UUID      
+Library 	ExtendedSelenium2Library
+Library         Collections
+Library         String
 
-Resource          global_properties.robot
+Resource        global_properties.robot
+Resource        browser_setup.robot
 
 *** Variables ***
 ${PORTAL_HEALTH_CHECK_PATH}        /ONAPPORTAL/portalApi/healthCheck
 ${PORTAL_ENDPOINT}     ${GLOBAL_PORTAL_SERVER_PROTOCOL}://${GLOBAL_INJECTED_PORTAL_IP_ADDR}:${GLOBAL_PORTAL_SERVER_PORT}
+${PORTAL_GUI_ENDPOINT}     ${GLOBAL_PORTAL_SERVER_PROTOCOL}://portal.api.simpledemo.onap.org:${GLOBAL_PORTAL_SERVER_PORT}
+${PORTAL_ENV}            /ONAPPORTAL
+${PORTAL_LOGIN_URL}                ${PORTAL_GUI_ENDPOINT}${PORTAL_ENV}/login.htm
+${PORTAL_HOME_URL}                ${PORTAL_GUI_ENDPOINT}${PORTAL_ENV}/applicationsHome
 
 *** Keywords ***
 Run Portal Health Check
@@ -26,4 +34,68 @@ Run Portal Get Request
      ${resp}= 	Get Request 	portal 	${data_path}     headers=${headers}
      Log    Received response from portal ${resp.text}
      [Return]    ${resp}
+
+Run Portal Login Tests
+     [Documentation]    Runs Portal Login Tests
+     Close All Browsers
+     Login To Portal GUI   demo   demo123456!
+     Close All Browsers
+     Login To Portal GUI   cs0008  demo123456!
+     Close All Browsers
+     Login To Portal GUI   jm0007  demo123456!
+     Close All Browsers
+     Login To Portal GUI   gv0001  demo123456!
+     Close All Browsers
+     Login To Portal GUI   op0001  demo123456!
+     Close All Browsers
+
+Login To Portal GUI
+    [Documentation]   Logs in to Portal GUI
+    [Arguments]     ${loginId}    ${password}
+    # Setup Browser Now being managed by test case
+    ### revert to local Setup Browser for Login test
+    Setup Browser
+    Go To    ${PORTAL_LOGIN_URL}
+    #Maximize Browser Window
+    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
+    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
+    Log    Logging in to ${PORTAL_ENDPOINT}${PORTAL_ENV}
+    Handle Proxy Warning
+    Title Should Be    Login
+    Input Text    xpath=//input[@ng-model='loginId']    ${loginId}
+    Input Password    xpath=//input[@ng-model='password']    ${password}
+    #Click Button    xpath=//a[@ng-click='loginExternal();']
+    Click Element    xpath=//a[@id='loginBtn']
+    Wait Until Page Contains  Applications   ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+    Log    Logged in to ${PORTAL_ENDPOINT}${PORTAL_ENV}
+    Log To Console  ${loginId} SUCCESS
+
+Go To Portal HOME
+    [Documentation]    Naviage to Portal Home
+    Go To    ${PORTAL_HOME_URL}
+    Wait Until Page Contains  Applications    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+
+Click On Button When Enabled
+    [Arguments]     ${xpath}    ${timeout}=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
+    Wait Until Page Contains Element    xpath=${xpath}    ${timeout}
+    Wait Until Element Is Enabled    xpath=${xpath}    ${timeout}
+    Click Button      xpath=${xpath}
+
+Click On Element When Visible
+    [Arguments]     ${xpath}    ${timeout}=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
+    Wait Until Page Contains Element    xpath=${xpath}    ${timeout}
+    Wait Until Element Is Visible    xpath=${xpath}    ${timeout}
+    Click Element      xpath=${xpath}
+
+Select From List When Enabled
+    [Arguments]     ${xpath}    ${value}    ${timeout}=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
+    Wait Until Page Contains Element    xpath=${xpath}    ${timeout}
+    Wait Until Element Is Enabled    xpath=${xpath}    ${timeout}
+    Select From List     xpath=${xpath}    ${value}
+
+Input Text When Enabled
+    [Arguments]     ${xpath}    ${value}    ${timeout}=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
+    Wait Until Page Contains Element    xpath=${xpath}    ${timeout}
+    Wait Until Element Is Enabled    xpath=${xpath}    ${timeout}
+    Input Text    xpath=${xpath}    ${value}
 
