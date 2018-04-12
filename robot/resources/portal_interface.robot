@@ -49,6 +49,16 @@ Run Portal Login Tests
      Login To Portal GUI   op0001  demo123456!
      Close All Browsers
 
+Run Portal Application Access Tests
+     [Documentation]    Runs Portal Application Access Tests
+     Log To Console    Testing SDC,VID,Policy
+     Run Portal Application Login Test   cs0008   demo123456!   gridster-SDC-icon-link   tabframe-SDC    Welcome to SDC
+     Close All Browsers
+     Run Portal Application Login Test   demo    demo123456!  gridster-Virtual-Infrastructure-Deployment-icon-link   tabframe-Virtual-Infrastructure-Deployment    Welcome to VID
+     Close All Browsers
+     Run Portal Application Login Test   demo    demo123456!  gridster-Policy-icon-link   tabframe-Policy    Policy Editor
+     Close All Browsers
+
 Login To Portal GUI
     [Documentation]   Logs in to Portal GUI
     [Arguments]     ${loginId}    ${password}
@@ -69,6 +79,33 @@ Login To Portal GUI
     Wait Until Page Contains  Applications   ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Log    Logged in to ${PORTAL_ENDPOINT}${PORTAL_ENV}
     Log To Console  ${loginId} SUCCESS
+
+Run Portal Application Login Test
+    [Documentation]    Login to Portal Application
+    [Arguments]   ${loginId}   ${password}   ${click_element}    ${tabframe}   ${match_string}
+    # Setup Browser Now being managed by test case
+    ### revert to local Setup Browser for Login test
+    Setup Browser
+    Go To    ${PORTAL_LOGIN_URL}
+    #Maximize Browser Window
+    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
+    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
+    Log    Logging in to ${PORTAL_ENDPOINT}${PORTAL_ENV}
+    Handle Proxy Warning
+    Title Should Be    Login
+    Input Text    xpath=//input[@ng-model='loginId']    ${loginId}
+    Input Password    xpath=//input[@ng-model='password']    ${password}
+    Click Element    xpath=//a[@id='loginBtn']
+    Wait Until Page Contains  Applications   ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+    Log    Logged in to ${PORTAL_ENDPOINT}${PORTAL_ENV}
+    Log To Console  ${loginId} SUCCESS
+    Sleep  5
+    Click Element    id=${click_element}
+    Sleep  5
+    Select Frame  id=${tabframe}
+    Sleep  5
+    Page Should Contain  ${match_string}
+    Log To Console   Portal Application Access SUCCESS ${click_element}
 
 Go To Portal HOME
     [Documentation]    Naviage to Portal Home

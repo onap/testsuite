@@ -161,3 +161,8 @@ Health Distribution Test
 Portal Login Tests
     [Tags]    healthlogin
     Run Portal Login Tests 
+
+Portal Application Access Tests
+    [Tags]    healthportalapp
+    [Timeout]   180
+    Run Portal Application Access Tests
