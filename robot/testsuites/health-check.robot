@@ -17,6 +17,7 @@ Resource          ../resources/mr_interface.robot
 Resource          ../resources/aaf_interface.robot
 Resource          ../resources/msb_interface.robot
 Resource          ../resources/clamp_interface.robot
+Resource          ../resources/music/music_interface.robot
 Resource          ../resources/test_templates/model_test_template.robot
 
 
@@ -60,6 +61,10 @@ Basic Multicloud-titanium_cloud API Health Check
 Basic Multicloud-vio API Health Check
      [Tags]    health    multicloud
      Run MSB Get Request  /api/multicloud-vio/v0/swagger.json
+
+Basic MUSIC Health Check
+     [Tags]    health    core
+     Run MUSIC Health Check
 
 Basic Policy Health Check
     [Tags]    health    core
