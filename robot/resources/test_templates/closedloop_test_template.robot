@@ -115,7 +115,7 @@ Get Configs VDNS Policy
     Should Be Equal    ${severity}    ${Expected_Severity_2}
     ${Thresold_Value}=    Get Variable Value      ${config["content"]["tca_policy"]["metricsPerEventName"][0]["thresholds"][0]["thresholdValue"]}
     Should Be Equal As Integers   ${Thresold_Value}    ${Expected_Threshold_1}
-${direction}=    Get Variable Value      ${config["content"]["tca_policy"]["metricsPerEventName"][0]["thresholds"][0]["direction"]}
+    ${direction}=    Get Variable Value      ${config["content"]["tca_policy"]["metricsPerEventName"][0]["thresholds"][0]["direction"]}
     Should Be Equal   ${direction}    ${Expected_Direction_3}
 
 Teardown Closed Loop

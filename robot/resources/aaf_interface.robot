@@ -27,4 +27,3 @@ Run AAF Get Request
      ${resp}= 	Get Request 	aaf 	${data_path}     headers=${headers}
      Log    Received response from aaf ${resp.text}
      [Return]    ${resp}
-
