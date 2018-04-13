@@ -1,8 +1,8 @@
 *** Settings ***
 Test Timeout    1 minute
-Documentation	  Testing ecomp components are available via calls.
+Documentation    Testing ecomp components are available via calls.
 ...
-...	              Testing ecomp components are available via calls.
+...                Testing ecomp components are available via calls.
 
 Resource          ../resources/dcae_interface.robot
 Resource          ../resources/sdngc_interface.robot
@@ -19,6 +19,7 @@ Resource          ../resources/msb_interface.robot
 Resource          ../resources/clamp_interface.robot
 Resource          ../resources/music/music_interface.robot
 Resource          ../resources/test_templates/model_test_template.robot
+Resource          ../resources/nbi_interface.robot
 
 
 *** Test Cases ***
@@ -104,7 +105,7 @@ Basic VFC gvnfmdriver API Health Check
 
 Basic VFC jujuvnfmdriver API Health Check
     [Tags]    health    3rdparty
-    Run MSB Get Request  /api/jujuvnfmdriver/v1/swagger.json    
+    Run MSB Get Request  /api/jujuvnfmdriver/v1/swagger.json
 
 Basic VFC multivimproxy API Health Check
     [Tags]    health    3rdparty
@@ -165,9 +166,13 @@ Health Distribution Test
 
 Portal Login Tests
     [Tags]    healthlogin
-    Run Portal Login Tests 
+    Run Portal Login Tests
 
 Portal Application Access Tests
     [Tags]    healthportalapp
     [Timeout]   180
     Run Portal Application Access Tests
+
+Basic NBI Health Check
+    [Tags]    externalapi
+    Run NBI Health Check
