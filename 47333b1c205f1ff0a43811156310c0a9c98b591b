@@ -16,6 +16,57 @@
       "revId": "47333b1c205f1ff0a43811156310c0a9c98b591b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9b03bd41",
+        "filename": "robot/resources/nbi_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2018-04-13T15:04:22Z",
+      "side": 1,
+      "message": "Microservice Bus to be replaced by External API/NBI",
+      "revId": "47333b1c205f1ff0a43811156310c0a9c98b591b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_1bf00d66",
+        "filename": "robot/resources/nbi_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2018-04-13T15:04:22Z",
+      "side": 1,
+      "message": "tabulations to be replaced",
+      "revId": "47333b1c205f1ff0a43811156310c0a9c98b591b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_dbe5c5a4",
+        "filename": "robot/resources/nbi_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2018-04-13T15:04:22Z",
+      "side": 1,
+      "message": "tabulations to be replaced",
+      "revId": "47333b1c205f1ff0a43811156310c0a9c98b591b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
