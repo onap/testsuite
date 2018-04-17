@@ -20,6 +20,7 @@ Resource          ../resources/clamp_interface.robot
 Resource          ../resources/music/music_interface.robot
 Resource          ../resources/test_templates/model_test_template.robot
 Resource          ../resources/nbi_interface.robot
+Resource          ../resources/cli_interface.robot
 
 
 *** Test Cases ***
@@ -176,3 +177,7 @@ Portal Application Access Tests
 Basic NBI Health Check
     [Tags]    externalapi
     Run NBI Health Check
+
+Basic CLI Health Check
+    [Tags]    health core
+    Run CLI Health Check
