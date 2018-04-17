@@ -7,7 +7,7 @@ Library	          UUID
 Resource          ../global_properties.robot
 
 *** Variables ***
-${MUSIC_HEALTH_CHECK_PATH}        /MUSIC/rest/version
+${MUSIC_HEALTH_CHECK_PATH}        /MUSIC/rest/v2/version
 ${MUSIC_ENDPOINT}     ${GLOBAL_MUSIC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_MUSIC_IP_ADDR}:${GLOBAL_MUSIC_SERVER_PORT}
 
 *** Keywords ***
