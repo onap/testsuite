@@ -181,3 +181,7 @@ Basic NBI Health Check
 Basic CLI Health Check
     [Tags]    health core
     Run CLI Health Check
+
+Basic VNFSDK Health Check
+    [Tags]    health core
+    Run VNFSDK Health Check
