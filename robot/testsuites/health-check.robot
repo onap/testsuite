@@ -22,6 +22,7 @@ Resource          ../resources/test_templates/model_test_template.robot
 Resource          ../resources/nbi_interface.robot
 Resource          ../resources/cli_interface.robot
 Resource          ../resources/vnfsdk_interface.robot
+Resource          ../resources/log_interface.robot
 
 
 *** Test Cases ***
@@ -182,3 +183,16 @@ Basic CLI Health Check
 Basic VNFSDK Health Check
     [Tags]    health    core
     Run VNFSDK Health Check
+
+Basic Log Elasticsearch Health Check
+    [Tags]    health    core
+    Run Log Elasticsearch Health Check
+
+Basic Log Logstash Health Check
+    [Tags]    health    core
+    Run Log Logstash Health Check
+
+Basic Log Kibana Health Check
+    [Tags]    health    core
+    Run Log Kibana Health Check
+
