@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_fa3ae9cb",
+        "filename": ".gitreview",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-04-19T04:09:47Z",
+      "side": 1,
+      "message": "This line should not be in master branch.",
+      "revId": "7740f0fdcbd25210923fe01b24a7137edac2beac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
