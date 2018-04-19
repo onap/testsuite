@@ -64,10 +64,6 @@ Basic Multicloud-vio API Health Check
      [Tags]    health    multicloud
      Run MSB Get Request  /api/multicloud-vio/v0/swagger.json
 
-Basic MUSIC Health Check
-     [Tags]    health    core
-     Run MUSIC Health Check
-
 Basic Policy Health Check
     [Tags]    health    core
     Run Policy Health Check
