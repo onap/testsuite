@@ -21,6 +21,7 @@ Resource          ../resources/music/music_interface.robot
 Resource          ../resources/test_templates/model_test_template.robot
 Resource          ../resources/nbi_interface.robot
 Resource          ../resources/cli_interface.robot
+Resource          ../resources/vnfsdk_interface.robot
 
 
 *** Test Cases ***
@@ -179,5 +180,5 @@ Basic CLI Health Check
     Run CLI Health Check
 
 Basic VNFSDK Health Check
-    [Tags]    health core
+    [Tags]    health    core
     Run VNFSDK Health Check
