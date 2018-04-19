@@ -175,7 +175,7 @@ Portal Application Access Tests
     Run Portal Application Access Tests
 
 Basic NBI Health Check
-    [Tags]    externalapi    api
+    [Tags]    health    externalapi    api
     Run NBI Health Check
 
 Basic CLI Health Check
