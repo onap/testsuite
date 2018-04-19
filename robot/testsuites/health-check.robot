@@ -179,5 +179,5 @@ Basic CLI Health Check
     Run CLI Health Check
 
 Basic VNFSDK Health Check
-    [Tags]    health core
+    [Tags]    health    core
     Run VNFSDK Health Check
