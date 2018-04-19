@@ -98,6 +98,12 @@ Get Relationship Data
     \     Return From Keyword If    '${status}' == 'PASS'   ${relationship_data}
 
 
+Get Generic VNF By ID
+    [Arguments]   ${vnf_id}
+    ${resp}=    Run A&AI Get Request      ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-id=${vnf_id}
+    Should Be Equal As Strings 	${resp.status_code} 	200
+    [Return]   ${resp.json()}
+
 Get Service Instance
     [Arguments]   ${vnf_name}
     ${resp}=    Run A&AI Get Request      ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-name=${vnf_name}
