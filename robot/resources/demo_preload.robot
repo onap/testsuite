@@ -26,9 +26,21 @@ ${DEMO_PREFIX}   demo
 Load Customer And Models
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
+    Load OwningEntity "lineOfBusiness" ${customer_name}
+    Load OwningEntity "platform" ${customer_name}
+    Load OwningEntity "project" ${customer_name}
+    Load OwningEntity "owningEntity" ${customer_name}
     Load Customer  ${customer_name}
     Load Models  ${customer_name}
 
+Load OwningEntity
+    [Documentation]   Use openECOMP to Orchestrate a service.
+    [Arguments]    ${parameter}   ${name}
+    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+    ${data_path} = ${VID_ENDPOINT}${VID_ENV}/maintenance/category_parameter/${parameter}
+    ${vid_data} = '{"options":["${name}"]}'
+    ${resp}= 	Post Request 	vid 	${data_path}  data=${vid_data}    headers=${headers}
+	
 Load Customer
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
