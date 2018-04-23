@@ -26,20 +26,24 @@ ${DEMO_PREFIX}   demo
 Load Customer And Models
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
-    Load OwningEntity "lineOfBusiness" ${customer_name}
-    Load OwningEntity "platform" ${customer_name}
-    Load OwningEntity "project" ${customer_name}
-    Load OwningEntity "owningEntity" ${customer_name}
+    Load OwningEntity  lineOfBusiness  LOB-${customer_name}
+    Load OwningEntity  platform  Platform-${customer_name}
+    Load OwningEntity  project  Project-${customer_name}
+    Load OwningEntity  owningEntity  OE-${customer_name}
     Load Customer  ${customer_name}
     Load Models  ${customer_name}
 
 Load OwningEntity
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${parameter}   ${name}
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-    ${data_path} = ${VID_ENDPOINT}${VID_ENV}/maintenance/category_parameter/${parameter}
-    ${vid_data} = '{"options":["${name}"]}'
-    ${resp}= 	Post Request 	vid 	${data_path}  data=${vid_data}    headers=${headers}
+    ${data_path}=  Set Variable  /maintenance/category_parameter/${parameter}
+    ${vid_data}=  Set Variable  {"options":["${name}"]}
+    ${auth}=  Create List  ${GLOBAL_VID_USERNAME}    ${GLOBAL_VID_PASSWORD}
+    Log    Creating session ${data_path}
+    ${session}=    Create Session       vid    ${VID_ENDPOINT}${VID_ENV}     auth=${auth}
+    ${uuid}=    Generate UUID
+    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${GLOBAL_VID_USERNAME}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
+    ${resp}= 	Post Request 	vid 	${data_path}   data=${vid_data}    headers=${headers}
 	
 Load Customer
     [Documentation]   Use openECOMP to Orchestrate a service.
