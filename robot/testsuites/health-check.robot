@@ -34,6 +34,10 @@ Basic APPC Health Check
     [Tags]    health    core
     Run APPC Health Check
 
+Basic CLI Health Check
+    [Tags]    health    core
+    Run CLI Health Check
+
 Basic CLAMP Health Check
     [Tags]    health    core
     Run CLAMP Health Check
@@ -46,6 +50,22 @@ Basic DMAAP Message Router Health Check
     [Tags]    health    core
     Run MR Health Check
 
+Basic External API NBI Health Check
+    [Tags]    health    externalapi    api
+    Run NBI Health Check
+
+Basic Log Elasticsearch Health Check
+    [Tags]    health    core
+    Run Log Elasticsearch Health Check
+
+Basic Log Kibana Health Check
+    [Tags]    health    core
+    Run Log Kibana Health Check
+
+Basic Log Logstash Health Check
+    [Tags]    health    core
+    Run Log Logstash Health Check
+    
 Basic Microservice Bus Health Check
     [Tags]    health    core
     Run MSB Health Check
@@ -102,6 +122,10 @@ Basic VFC gvnfmdriver API Health Check
     [Tags]    health    3rdparty
     Run MSB Get Request  /api/gvnfmdriver/v1/swagger.json
 
+Basic VFC huaweivnfmdriver API Health Check
+    [Tags]    health    3rdparty
+    Run MSB Get Request  /api/huaweivnfmdriver/v1/swagger.json
+
 Basic VFC jujuvnfmdriver API Health Check
     [Tags]    health    3rdparty
     Run MSB Get Request  /api/jujuvnfmdriver/v1/swagger.json
@@ -109,10 +133,6 @@ Basic VFC jujuvnfmdriver API Health Check
 Basic VFC multivimproxy API Health Check
     [Tags]    health    3rdparty
     Run MSB Get Request  /api/multivimproxy/v1/swagger.json
-
-Basic VFC huaweivnfmdriver API Health Check
-    [Tags]    health    3rdparty
-    Run MSB Get Request  /api/huaweivnfmdriver/v1/swagger.json
 
 Basic VFC nokiavnfmdriver API Health Check
      [Tags]    health    3rdparty
@@ -158,6 +178,10 @@ Basic VID Health Check
     [Tags]    health    core
     Run VID Health Check
 
+Basic VNFSDK Health Check
+    [Tags]    health    core
+    Run VNFSDK Health Check
+
 Health Distribution Test
     [Tags]    healthdist
     [Timeout]   240
@@ -171,28 +195,3 @@ Portal Application Access Tests
     [Tags]    healthportalapp
     [Timeout]   180
     Run Portal Application Access Tests
-
-Basic NBI Health Check
-    [Tags]    health    externalapi    api
-    Run NBI Health Check
-
-Basic CLI Health Check
-    [Tags]    health    core
-    Run CLI Health Check
-
-Basic VNFSDK Health Check
-    [Tags]    health    core
-    Run VNFSDK Health Check
-
-Basic Log Elasticsearch Health Check
-    [Tags]    health    core
-    Run Log Elasticsearch Health Check
-
-Basic Log Logstash Health Check
-    [Tags]    health    core
-    Run Log Logstash Health Check
-
-Basic Log Kibana Health Check
-    [Tags]    health    core
-    Run Log Kibana Health Check
-
