@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_08489d5a",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-04-24T17:35:39Z",
+      "side": 1,
+      "message": "beyond health, is this a core or closeloop or cloud or what?",
+      "revId": "da28794a06ea2c0f916275d911fb6154e3249246",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
