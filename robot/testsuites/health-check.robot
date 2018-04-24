@@ -87,9 +87,13 @@ Basic Multicloud-vio API Health Check
      [Tags]    health    multicloud
      Run MSB Get Request  /api/multicloud-vio/v0/swagger.json
 
-Basic OOF Health Check
+Basic OOF-Homing Health Check
     [Tags]    health    core
-    Run OOF Health Check
+    Run OOF-Homing Health Check
+
+Basic OOF-SNIRO Health Check
+    [Tags]    health    core
+    Run OOF-SNIRO Health Check
 
 Basic Policy Health Check
     [Tags]    health    core
