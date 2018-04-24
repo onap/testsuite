@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_ffd88ef0",
+        "filename": "robot/resources/asdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-04-24T01:38:58Z",
+      "side": 1,
+      "message": "does it have to be down? or can we just not check it?",
+      "revId": "5cf5fa69e8caac3f429dc89afb996de0804009cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
