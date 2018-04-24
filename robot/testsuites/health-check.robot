@@ -23,6 +23,7 @@ Resource          ../resources/nbi_interface.robot
 Resource          ../resources/cli_interface.robot
 Resource          ../resources/vnfsdk_interface.robot
 Resource          ../resources/log_interface.robot
+Resource          ../resources/oof_interface.robot
 
 
 *** Test Cases ***
@@ -85,6 +86,10 @@ Basic Multicloud-titanium_cloud API Health Check
 Basic Multicloud-vio API Health Check
      [Tags]    health    multicloud
      Run MSB Get Request  /api/multicloud-vio/v0/swagger.json
+
+Basic OOF Health Check
+    [Tags]    health    core
+    Run OOF Health Check
 
 Basic Policy Health Check
     [Tags]    health    core
