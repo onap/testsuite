@@ -417,7 +417,7 @@ Run ASDC Health Check
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	asdc 	${ASDC_HEALTH_CHECK_PATH}     headers=${headers}
     Should Be Equal As Strings 	${resp.status_code} 	200
-    ${SDC_DE_HEALTH}=    Catenate   UP 
+    ${SDC_DE_HEALTH}=    Catenate   DOWN
     @{ITEMS}=    Copy List    ${resp.json()['componentsInfo']}
     :FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['healthCheckStatus']}
