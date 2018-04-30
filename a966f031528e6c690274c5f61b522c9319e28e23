@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_1a02110a",
+        "filename": "robot/resources/aaf_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-04-30T19:12:56Z",
+      "side": 1,
+      "message": "These variables are in global_integration_properties.py how do they get set ?\n# aaf info - everything is from the private oam network (also called onap private network)\nGLOBAL_AAF_SERVER \u003d \"https://aaf.api.simpledemo.onap.org:8100\"\nGLOBAL_AAF_USERNAME \u003d \"demo@people.osaaf.org\"\nGLOBAL_AAF_PASSWORD \u003d \"demo123456!\"",
+      "range": {
+        "startLine": 22,
+        "startChar": 30,
+        "endLine": 22,
+        "endChar": 49
+      },
+      "revId": "a966f031528e6c690274c5f61b522c9319e28e23",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
