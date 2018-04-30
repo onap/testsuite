@@ -19,5 +19,5 @@ Run DCAE Health Check
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     X-ECOMP-Client-Version=ONAP-R2   action=getTable    Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	dcae 	${DCAE_HEALTH_CHECK_PATH}     headers=${headers}
-    Log    Received response from dcae ${resp.json()}
+    Log    Received response from dcae ${resp}
     Should Be Equal As Strings 	${resp.status_code} 	200
