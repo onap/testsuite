@@ -31,6 +31,10 @@ Basic A&AI Health Check
     [Tags]    health    core
     Run A&AI Health Check
 
+Basic AAF Health Check
+    [Tags]    health    core
+    Run AAF Health Check
+
 Basic APPC Health Check
     [Tags]    health    core
     Run APPC Health Check

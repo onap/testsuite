@@ -7,21 +7,21 @@ Library	          UUID
 Resource          global_properties.robot
 
 *** Variables ***
-${AAF_HEALTH_CHECK_PATH}        /authz/nss/org.openecomp
+${AAF_HEALTH_CHECK_PATH}        /authz/perms/user/${GLOBAL_AAF_USERNAME}
 
 *** Keywords ***
 Run AAF Health Check
      [Documentation]    Runs AAF Health check
      ${resp}=    Run AAF Get Request    ${AAF_HEALTH_CHECK_PATH}    
      Should Be Equal As Strings 	${resp.status_code} 	200
-     Should Contain    ${resp.json()}    ns
+     #Should Contain    ${resp.json()}    access
          
 Run AAF Get Request
      [Documentation]    Runs AAF Get request
      [Arguments]    ${data_path}
      ${auth}=  Create List  ${GLOBAL_AAF_USERNAME}    ${GLOBAL_AAF_PASSWORD}
      ${session}=    Create Session 	aaf	${GLOBAL_AAF_SERVER}    auth=${auth}
-     ${session_client}=    Add Client Cert    ${session}    cert
+     #${session_client}=    Add Client Cert    ${session}    cert
      ${uuid}=    Generate UUID
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
      ${resp}= 	Get Request 	aaf 	${data_path}     headers=${headers}
