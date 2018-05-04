@@ -60,17 +60,17 @@ Basic External API NBI Health Check
     Run NBI Health Check
 
 Basic Log Elasticsearch Health Check
-    [Tags]    health    core
+    [Tags]    health    core    oom
     Run Log Elasticsearch Health Check
 
 Basic Log Kibana Health Check
-    [Tags]    health    core
+    [Tags]    health    core    oom
     Run Log Kibana Health Check
 
 Basic Log Logstash Health Check
-    [Tags]    health    core
+    [Tags]    health    core   oom
     Run Log Logstash Health Check
-    
+
 Basic Microservice Bus Health Check
     [Tags]    health    core
     Run MSB Health Check
