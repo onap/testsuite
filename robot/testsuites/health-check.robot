@@ -61,16 +61,19 @@ Basic External API NBI Health Check
 
 Basic Log Elasticsearch Health Check
     [Tags]    health    core
+    Pass Execution If   '${GLOBAL_LOG_SERVER_PROTOCOL}' == 'SKIP'  Skipping log server checks
     Run Log Elasticsearch Health Check
 
 Basic Log Kibana Health Check
     [Tags]    health    core
+    Pass Execution If   '${GLOBAL_LOG_SERVER_PROTOCOL}' == 'SKIP'  Skipping log server checks
     Run Log Kibana Health Check
 
 Basic Log Logstash Health Check
     [Tags]    health    core
+    Pass Execution If   '${GLOBAL_LOG_SERVER_PROTOCOL}' == 'SKIP'  Skipping log server checks
     Run Log Logstash Health Check
-    
+
 Basic Microservice Bus Health Check
     [Tags]    health    core
     Run MSB Health Check
