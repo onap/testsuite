@@ -53,6 +53,9 @@ Orchestrate VNF
     ${uuid}=    Generate UUID
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
     Set Test Variable    ${SERVICE}    ${service}
+    # demo.sh init sets up Project-Demonstraiton and OD-Demonstration
+    Set Test Variable    ${project_name}    Project-Demonstration
+    Set Test Variable    ${owning_entity}    OE-Demonstration
     ${list}=    Create List
     Set Test Variable    ${STACK_NAMES}   ${list}
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
@@ -62,7 +65,7 @@ Orchestrate VNF
     Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}
     Setup Browser
     Login To VID GUI
-    ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}
+    ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}  ${project_name}   ${owning_entity}
     Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
     ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
