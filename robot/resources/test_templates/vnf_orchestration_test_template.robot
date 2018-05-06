@@ -48,7 +48,7 @@ Orchestrate VNF Template
 
 Orchestrate VNF
     [Documentation]   Use openECOMP to Orchestrate a service.
-    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}
+    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}  ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
     ${lcp_region}=   Get Openstack Region
     ${uuid}=    Generate UUID
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
@@ -62,7 +62,7 @@ Orchestrate VNF
     Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}
     Setup Browser
     Login To VID GUI
-    ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}
+    ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
     Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
     ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
@@ -108,6 +108,7 @@ Get Catalog Resource
     :for   ${key}   in    @{keys}
     \    ${cr}=   Get From Dictionary    ${resources}    ${key}
     \    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat1']['artifactDisplayName']}'    ${cr}
+    \    Run Keyword If    'heat2' in ${cr['allArtifacts']}    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat2']['artifactDisplayName']}'    ${cr}
     Fail    Unable to find catalog resource for ${vnf} ${base_name}
 
 Get Name Pattern
