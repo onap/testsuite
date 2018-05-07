@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_75047549",
+        "filename": "robot/resources/test_templates/vnf_orchestration_test_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-05-07T13:54:50Z",
+      "side": 1,
+      "message": "you should add params for this, since not everyone uses demo.sh (jenkins wont)",
+      "revId": "a731366c3b3f325106e37751b2c657594fee3ffd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
