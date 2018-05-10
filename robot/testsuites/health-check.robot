@@ -24,6 +24,7 @@ Resource          ../resources/cli_interface.robot
 Resource          ../resources/vnfsdk_interface.robot
 Resource          ../resources/log_interface.robot
 Resource          ../resources/oof_interface.robot
+Resource          ../resources/sms_interface.robot
 
 
 *** Test Cases ***
@@ -106,6 +107,10 @@ Basic Policy Health Check
 Basic Portal Health Check
     [Tags]    health    core
     Run Portal Health Check
+
+Basic SMS Health Check
+    [Tags]    health    core
+    Run SMS Health Check
 
 Basic SDC Health Check
     [Tags]    health    core
