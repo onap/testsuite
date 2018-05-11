@@ -14,7 +14,7 @@ Resource          vid_interface.robot
 
 Create VID VNF
     [Documentation]    Creates a VNF instance using VID for passed instance id with the passed service instance name
-    [Arguments]    ${service_instance_id}    ${service_instance_name}    ${product_family}    ${lcp_region}    ${tenant}   ${vnf_type}   ${customer}
+    [Arguments]    ${service_instance_id}    ${service_instance_name}    ${product_family}    ${lcp_region}    ${tenant}   ${vnf_type}   ${customer}   ${line_of_business}=LOB-Demonstration   ${platform}=Platform-Demonstration
     Go To VID HOME
     Click Link       xpath=//div[@heading = 'Search for Existing Service Instances']/a
     Wait Until Page Contains    Please search by    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
@@ -27,7 +27,7 @@ Create VID VNF
     Wait Until Page Contains Element    link=View/Edit    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click Element     xpath=//a[contains(text(), 'View/Edit')]
     Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
-    Click Element    button=Add VNF
+    Click Element    button=Add node instance
     #01681d02-2304-4c91-ab2d 0
     # This is where firefox breaks. Th elink never becomes visible when run with the script.
     ${dataTestsId}=    Catenate   AddVNFOption-${vnf_type}
@@ -42,9 +42,14 @@ Create VID VNF
     Select From List By Label     xpath=//select[@parameter-id='productFamily']    ${product_family}
     Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region}
     Select From List By Label    xpath=//select[@parameter-id='tenant']    ${tenant}
+    Sleep    5s
+    Click Element   xpath=//multiselect[@parameter-id='lineOfBusiness']
+    Sleep    5s
+    Click Element   xpath=//button[contains(text(),${line_of_business})] 
+    Select From List By Label    xpath=//select[@parameter-id='platform']    ${platform}
     Click Element    button=Confirm
- 	Wait Until Element Contains    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
-    ${response text}=    Get Text    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']
+ 	Wait Until Element Contains    xpath=//pre[@class = 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+    ${response text}=    Get Text    xpath=//pre[@class = 'log ng-binding']
  	Should Not Contain    ${response text}    FAILED
     Click Element    button=Close
     ${instance_id}=    Parse Instance Id     ${response text}
@@ -67,9 +72,6 @@ Delete VID VNF
     Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Wait Until Page Contains Element    xpath=//div[@class='statusLine']    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Wait Until Element Is Not Visible    xpath=//div[@class='statusLine aaiHidden']    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
-
-
-
     Click On Element When Visible    xpath=//li/div[contains(.,'${vnf_instance_id}')]/a/span[@class='glyphicon glyphicon-remove']    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region}
     Select From List By Label    xpath=//select[@parameter-id='tenant']    ${tenant}
@@ -81,7 +83,7 @@ Delete VID VNF
     Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
 
 Create VID VNF module
-    [Arguments]    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${TENANT}    ${VNF_TYPE}   ${customer}   ${vnf_name}
+    [Arguments]    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${TENANT}    ${VNF_TYPE}   ${customer}   ${vnf_name}  
     Go To VID HOME
     Click Link       xpath=//div[@heading = 'Search for Existing Service Instances']/a
     Wait Until Page Contains    Please search by    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
@@ -94,10 +96,6 @@ Create VID VNF module
     Wait Until Page Contains Element    link=View/Edit    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click Element     link=View/Edit
     Wait Until Keyword Succeeds   300s   5s   Wait For Add VF Module
-    #Wait Until Page Contains    View/Edit Service Instance     timeout=60s
-    #Wait Until Page Contains Element    xpath=//div[@class='statusLine']    timeout=120s
-    #Wait Until Element Is Not Visible    xpath=//div[@class='statusLine aaiHidden']    timeout=120s
-    #Wait Until Element Is Visible    button=Add VF-Module   timeout=120s
     Click Element     xpath=//div[contains(.,'${vnf_name}')]/div/button[contains(.,'Add VF-Module')]
 
     # This is where firefox breaks. Th elink never becomes visible when run with the script.
@@ -113,21 +111,18 @@ Create VID VNF module
     Select From List By Label    xpath=//select[@parameter-id='tenant']    ${tenant}
     Select Checkbox    xpath=//input[@parameter-id='sdncPreload']
     Click Element    button=Confirm
- 	Wait Until Element Contains    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']    requestId    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
-    ${response text}=    Get Text    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']
+ 	Wait Until Element Contains    xpath=//pre[@class = 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+    ${response text}=    Get Text    xpath=//pre[@class = 'log ng-binding']
     Click Element    button=Close
     ${instance_id}=    Parse Instance Id     ${response text}
 
     ${request_id}=    Parse Request Id     ${response text}
     Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
-
     [Return]     ${instance_id}
 
 Wait For Add VF Module
     [Documentation]   Retry by refresh if the ADD VF-Module is not visible
     Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
-    Wait Until Page Contains Element    xpath=//div[@class='statusLine']    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
-    Wait Until Element Is Not Visible    xpath=//div[@class='statusLine aaiHidden']    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     ${status}   ${value}   Run Keyword And Ignore Error   Wait Until Element Is Visible    button=Add VF-Module   timeout=${GLOBAL_VID_UI_TIMEOUT_SHORT}
     Return From Keyword If   '${status}' == 'PASS'
     Reload Page

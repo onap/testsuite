@@ -14,7 +14,7 @@ Resource          vid_interface.robot
 *** Keywords ***
 Create VID Service Instance
     [Documentation]    Creates a service instance using VID
-    [Arguments]    ${customer_name}  ${service_model_type}    ${service_type}     ${service_name}
+    [Arguments]    ${customer_name}  ${service_model_type}    ${service_type}     ${service_name}  ${project_name}  ${owning_entity}
     Go To VID Browse Service Models
     Wait Until Keyword Succeeds    300s    1s    Wait For Model    ${service_model_type}
     Press Key    xpath=//tr[td/span/text() = '${service_model_type}']/td/button[text() = 'Deploy' and not(@disabled)]    \\13
@@ -24,11 +24,13 @@ Create VID Service Instance
     Xpath Should Match X Times    //input[@parameter-name='Instance Name']    1
     Wait Until Keyword Succeeds   120s  5s    Input Text When Enabled    //input[@parameter-name='Instance Name']    ${service_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Select From List When Enabled    //select[@prompt='Select Subscriber Name']    ${customer_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
-    Select From List WHen Enabled    //select[@prompt='Select Service Type']     ${service_type}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+    Select From List When Enabled    //select[@prompt='Select Service Type']     ${service_type}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+    Select From List When Enabled    //select[@prompt='Select Project Name']     ${project_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+    Select From List When Enabled    //select[@prompt='Select Owning Entity']     ${owning_entity}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Click On Button When Enabled    //div[@class = 'buttonRow']/button[text() = 'Confirm']
- 	Wait Until Element Contains    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+ 	Wait Until Element Contains    xpath=//pre[@class= 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
  	Page Should Contain    "requestState": "COMPLETE"
-    ${response text}=    Get Text    xpath=//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']
+    ${response text}=    Get Text    xpath=//pre[@class = 'log ng-binding']
     Click On Button When Enabled    //div[@class = 'buttonRow']/button[text() = 'Close']
     ${request_id}=    Parse Request Id    ${response text}
     ${service_instance_id}=    Parse Instance Id     ${response text}
