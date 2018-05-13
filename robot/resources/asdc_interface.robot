@@ -397,15 +397,18 @@ Check Catalog Service Distributed
     ${AAI_DEPLOY}   Set Variable   FALSE
     ${SDNC_DEPLOY}   Set Variable  FALSE
     ${SO_DEPLOY}   Set Variable   FALSE
+    ${SO_COMPLETE}   Set Variable   FALSE
     :FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['omfComponentID']}
     \    Log    ${ELEMENT['status']}
     \    ${SDNC_DEPLOY}  Set Variable If   (('sdnc-docker' in '${ELEMENT['omfComponentID']}') and ('${ELEMENT['status']}' == 'DEPLOY_OK')) or ('${SDNC_DEPLOY}' == 'TRUE')    TRUE 
     \     ${SO_DEPLOY}  Set Variable If   (('mso-docker' in '${ELEMENT['omfComponentID']}') and ('${ELEMENT['status']}' == 'DEPLOY_OK')) or ('${SO_DEPLOY}' == 'TRUE')   TRUE  
     \    ${AAI_DEPLOY}   Set Variable If   (('aai-ml' in '${ELEMENT['omfComponentID']}') and ('${ELEMENT['status']}' == 'DEPLOY_OK')) or ('${AAI_DEPLOY}'=='TRUE')  TRUE 
+    \    ${SO_COMPLETE}   Set Variable If   (('mso-docker' in '${ELEMENT['omfComponentID']}') and ('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_OK')) or ('${SO_COMPLETE}'=='TRUE')  TRUE
     Should Be True   ( '${SDNC_DEPLOY}'=='TRUE')  SDNC Test
-    Should Be True   ( '${SO_DEPLOY}'=='TRUE')   SO Test 
+    Should Be True   ( '${SO_DEPLOY}'=='TRUE')   SO Test
     Should Be True   ( '${AAI_DEPLOY}'=='TRUE')   AAI Test
+    Should Be True   ( '${SO_COMPLETE}'=='TRUE')   SO Test
 Get Catalog Service Distribution Details
     [Documentation]    gets an asdc catalog Service distrbution details
     [Arguments]    ${catalog_service_distribution_id}
@@ -503,4 +506,3 @@ Create Multi Part
    ${fileDir}  ${fileName}=  Split Path  ${filePath}
    ${partData}=  Create List  ${fileName}  ${fileData}  ${contentType}
    Set To Dictionary  ${addTo}  ${partName}=${partData}
-

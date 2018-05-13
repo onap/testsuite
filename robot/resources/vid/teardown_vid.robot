@@ -31,7 +31,7 @@ Delete VID
     [Documentation]    Teardown the next VID entity that has a Remove icon.
     [Arguments]    ${service_instance_id}    ${lcp_region}    ${tenant}   ${customer}
     # For vLB closed loop, we may have 2 vf modules and the vDNS one needs to be removed first.
-    ${remove_order}=    Create List    vDNS_Ete   Vfmodule_Ete
+    ${remove_order}=    Create List    vDNS_Ete   vPKG   Vfmodule_Ete
 
     # FAIL status is returned in ${vfmodule} because FAIL are ignored during teardown
     ${status}    ${vfmodule}=   Run Keyword and Ignore Error   Delete Next VID Entity    ${service_instance_id}    ${lcp_region}    ${tenant}   ${remove_order}   ${customer}

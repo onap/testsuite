@@ -79,8 +79,8 @@ Orchestrate VNF
     \   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
     \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
     \   Append To List   ${STACK_NAMES}   ${STACK_NAME}
-    \   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}
-    \   Validate VF Module      ${vf_module_name}    ${vnf}
+    \   Run Keyword and Ignore Error   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}
+    \   Run Keyword and Ignore Error   Validate VF Module      ${vf_module_name}    ${vnf}
     [Return]     ${vf_module_name}    ${service}
 
 
@@ -181,9 +181,26 @@ Get VVG Preload Parameters
 Delete VNF
     [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
     ${lcp_region}=   Get Openstack Region
+    ${list}=    Create List
+    Set Test Variable    ${KEYPAIRS}   ${list}
+    # remove duplicates, sort vFW-> vPKG , revers to get vPKG > vFWSNK
+    ${sorted_stack_names}=    Create List
+    ${sorted_stack_names}=  Remove Duplicates   ${STACK_NAMES}
+    Sort List   ${sorted_stack_names}
+    Reverse List   ${sorted_stack_names}
+    :for   ${stack}   in   @{sorted_stack_names}
+    \     Get Stack Keypairs   ${stack}
     Teardown VVG Server
     Teardown VLB Closed Loop Hack
     Run Keyword and Ignore Error   Teardown VID   ${SERVICE_INSTANCE_ID}   ${lcp_region}   ${TENANT_NAME}   ${CUSTOMER_NAME}
+    #
+    :for   ${stack}   in   @{sorted_stack_names}
+    \    Run Keyword and Ignore Error    Teardown Stack    ${stack}
+    \    Log    Stack Deleted ${stack}
+    # only needed if stack deleted but not keypair
+    :for   ${key_pair}   in   @{KEYPAIRS}
+    \    Run Keyword and Ignore Error    Delete Stack Keypair  ${key_pair}
+    \    Log    Key pair Deleted ${key_pair}
     Log    VNF Deleted
 
 Teardown VNF
@@ -202,6 +219,22 @@ Teardown VVG Server
     Remove from Dictionary   ${vvg_params}   nova_instance
     Log    Teardown VVG Server Completed
 
+Get Stack Keypairs
+    [Documentation]  Get keypairs from openstack
+    [Arguments]   ${stack}
+    Run Openstack Auth Request    auth
+    ${stack_info}=    Get Stack Details    auth    ${stack}
+    Log    ${stack_info}
+    ${stack_id}=    Get From Dictionary    ${stack_info}    id
+    ${key_pair_status}   ${keypair_name}=   Run Keyword And Ignore Error   Get From Dictionary    ${stack_info}    key_name
+    Append To List   ${KEYPAIRS}   ${keypair_name}
+
+Delete Stack Keypair
+    [Documentation]  Delete keypairs from openstack
+    [Arguments]   ${keypair_name}
+    Run Openstack Auth Request    auth
+    Run Keyword   Delete Openstack Keypair    auth    ${keypair_name}
+
 Teardown Stack
     [Documentation]    OBSOLETE - Called at the end of a test case to tear down the Stack created by Orchestrate VNF
     [Arguments]   ${stack}
@@ -213,7 +246,7 @@ Teardown Stack
     Delete Openstack Stack      auth    ${stack}    ${stack_id}
     Log    Deleted ${stack} ${stack_id}
     Run Keyword If   '${key_pair_status}' == 'PASS'   Delete Openstack Keypair    auth    ${keypair_name}
-    Teardown VLB Closed Loop Hack
+    #Teardown VLB Closed Loop Hack
 
 Clean A&AI Inventory
     [Documentation]    Clean up Tenant in A&AI, Create Customer, Create Service and related relationships
