@@ -10,11 +10,11 @@ Test Teardown         Teardown VNF
 
 *** Test Cases ***              CUSTOMER           SERVICE   PRODUCT_FAMILY  TENANT
 Instantiate Virtual DNS             ETE_Customer    vLB      vLB             ${TENANT_NAME}
-    [Tags]    ete    instantiate
+    [Tags]    ete    instantiate  stability72hr
 Instantiate Virtual Volume Group    ETE_Customer    vVG      vVG             ${TENANT_NAME}
-    [Tags]    ete    instantiate
+    [Tags]    ete    instantiate  stability72hr
 Instantiate Virtual FirewallCL      ETE_Customer    vFWCL      vFWCL         ${TENANT_NAME}
-    [Tags]    ete    instantiate
+    [Tags]    ete    instantiate  stability72hr
 Instantiate Virtual Firewall        ETE_Customer    vFW      vFW             ${TENANT_NAME}
 
 
