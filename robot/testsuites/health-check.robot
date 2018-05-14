@@ -36,6 +36,10 @@ Basic AAF Health Check
     [Tags]    health    core
     Run AAF Health Check
 
+Basic AAF SMS Health Check
+    [Tags]    health    core
+    Run SMS Health Check
+    
 Basic APPC Health Check
     [Tags]    health    core
     Run APPC Health Check
@@ -107,10 +111,6 @@ Basic Policy Health Check
 Basic Portal Health Check
     [Tags]    health    core
     Run Portal Health Check
-
-Basic SMS Health Check
-    [Tags]    health    core
-    Run SMS Health Check
 
 Basic SDC Health Check
     [Tags]    health    core
