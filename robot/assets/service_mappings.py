@@ -41,7 +41,7 @@ Used by the Heatbridge Validate Query to A&AI to locate the vserver name
 GLOBAL_VALIDATE_NAME_MAPPING = {"vFW" : 'vfw_name_0',
                                  "vLB" : 'vlb_name_0',
                                  "vVG" : '',
-                                 "vCPE" : '',
+                                 "vCPE" : 'vgw_name_0',
                                  "vFWSNK" : 'vfw_name_0',
                                  "vPKG" : 'vpg_name_0',
                                  }
