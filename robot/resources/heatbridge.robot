@@ -89,7 +89,7 @@ Run Set VNF ProvStatus
 Run Get Generic VNF By VnfId
     [Documentation]  Get VNF GET Payload with resource ID
     [Arguments]   ${vnf_id}
-    ${resp}=    Run A&AI Get Request      ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-id=${vnf_id}
+    ${resp}=    Run A&AI Get Request      ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf?vnf-id=${vnf_id}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]   ${resp.json()}
 
