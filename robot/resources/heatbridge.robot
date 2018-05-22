@@ -38,6 +38,7 @@ Execute Heatbridge
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${tenant_id}=   Get From Dictionary    ${stack_info}    OS::project_id
     ${vnf_id}=    Get From Dictionary    ${stack_info}    vnf_id
+    Run Set VNF ProvStatus  ${vnf_id}  PROV
     ${url}   ${path}=   Get Keystone Url And Path
     ${openstack_identity_url}=    Catenate    ${url}${path}
     ${region}=   Get Openstack Region
@@ -45,7 +46,7 @@ Execute Heatbridge
     Init Bridge    ${openstack_identity_url}    ${user}    ${pass}    ${tenant_id}    ${region}   ${GLOBAL_AAI_CLOUD_OWNER}
     ${request}=    Bridge Data    ${stack_id}
     Log    ${request}
-    ${resp}=    Run A&AI Put Request    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request}
+    ${resp}=    Run A&AI Put Request    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request}  
     ${status_string}=    Convert To String    ${resp.status_code}
     Should Match Regexp    ${status_string} 	^(201|200)$
     ${reverse_heatbridge}=   Generate Reverse Heatbridge From Stack Info   ${stack_info}
@@ -70,6 +71,27 @@ Run Vserver Query
     ${resp}=    Run A&AI Post Request    ${NAMED_QUERY_PATH}    ${request}
     Should Be Equal As Strings    ${resp.status_code}    200
 
+
+Run Set VNF ProvStatus 
+    [Documentation]  Run A&A GET and PUT to set prov-status
+    [Arguments]   ${vnf_id}   ${prov_status}=PROV
+    ${payload}=  Run Get Generic VNF by VnfId   ${vnf_id}
+
+    #${payload_json}=    evaluate    json.loads('''${payload}''')    json
+    set to dictionary    ${payload}    prov-status    ${prov_status}
+    ${payload_string}=    evaluate    json.dumps(${payload})    json
+
+    ${put_resp}=    Run A&AI Put Request      ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf/${vnf_id}    ${payload_string}
+    ${status_string}=    Convert To String    ${put_resp.status_code}
+    Should Match Regexp    ${status_string}    ^(200|201)$
+    Log To Console    Set VNF ProvStatus: ${vnf_id} to ${prov_status}
+
+Run Get Generic VNF By VnfId
+    [Documentation]  Get VNF GET Payload with resource ID
+    [Arguments]   ${vnf_id}
+    ${resp}=    Run A&AI Get Request      ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-id=${vnf_id}
+    Should Be Equal As Strings  ${resp.status_code}     200
+    [Return]   ${resp.json()}
 
 Execute Reverse Heatbridge
     [Documentation]   VID has already torn down the stack, reverse HB
