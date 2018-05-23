@@ -8,12 +8,12 @@
             "street2": "example-street2-val-99210",
             "city": "example-city-val-27150",
             "state": "example-state-val-59487",
-            "postal-code": "example-postal-code-val-68871",
+            "postal-code": "68871",
             "country": "example-country-val-94173",
             "region": "example-region-val-13893",
             "latitude": "example-latitude-val-89101",
-            "longitude": "example-longitude-val-66229",
-            "elevation": "example-elevation-val-30253",
+            "longitude": "32.89948",
+            "elevation": "97.045443",
             "lata": "example-lata-val-46073",
             "relationship-list": {
                 "relationship": [
