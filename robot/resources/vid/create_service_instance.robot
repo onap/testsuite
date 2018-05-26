@@ -16,20 +16,22 @@ Create VID Service Instance
     [Documentation]    Creates a service instance using VID
     [Arguments]    ${customer_name}  ${service_model_type}    ${service_type}     ${service_name}  ${project_name}  ${owning_entity}
     Go To VID Browse Service Models
-    Wait Until Keyword Succeeds    300s    1s    Wait For Model    ${service_model_type}
+    Wait Until Keyword Succeeds    180s    5s    Wait For Model    ${service_model_type}
     Press Key    xpath=//tr[td/span/text() = '${service_model_type}']/td/button[text() = 'Deploy' and not(@disabled)]    \\13
     ${uuid}=    Generate UUID
     Wait Until Page Contains Element    xpath=//input[@parameter-name='Instance Name']    ${GLOBAL_VID_UI_TIMEOUT_LONG}
     Wait Until Element Is Visible    xpath=//input[@parameter-name='Instance Name']    ${GLOBAL_VID_UI_TIMEOUT_LONG}
-    Xpath Should Match X Times    //input[@parameter-name='Instance Name']    1
-    Wait Until Keyword Succeeds   120s  5s    Input Text When Enabled    //input[@parameter-name='Instance Name']    ${service_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Select From List When Enabled    //select[@prompt='Select Subscriber Name']    ${customer_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Select From List When Enabled    //select[@prompt='Select Service Type']     ${service_type}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Select From List When Enabled    //select[@prompt='Select Project Name']     ${project_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Select From List When Enabled    //select[@prompt='Select Owning Entity']     ${owning_entity}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+    Capture Page Screenshot
+    Xpath Should Match X Times    //input[@parameter-name='Instance Name']    1
+    Wait Until Keyword Succeeds   120s  5s    Input Text When Enabled    //input[@parameter-name='Instance Name']    ${service_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+    Capture Page Screenshot
     Click On Button When Enabled    //div[@class = 'buttonRow']/button[text() = 'Confirm']
- 	Wait Until Element Contains    xpath=//pre[@class= 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
- 	Page Should Contain    "requestState": "COMPLETE"
+ 	Wait Until Element Contains    xpath=//pre[@class= 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
+        Wait Until Page Contains    "requestState": "COMPLETE"   timeout= ${GLOBAL_VID_UI_TIMEOUT_LONG}
     ${response text}=    Get Text    xpath=//pre[@class = 'log ng-binding']
     Click On Button When Enabled    //div[@class = 'buttonRow']/button[text() = 'Close']
     ${request_id}=    Parse Request Id    ${response text}
@@ -41,7 +43,7 @@ Wait For Model
     [Documentation]   Distributed model may not yet be available. Kepp trying until it shows up.
     [Arguments]   ${service_model_type}
     Page Should Contain Element    xpath=//div/h1[text() = 'Browse SDC Service Models']
-    Wait Until Page Contains Element    xpath=//button[text() = 'Deploy']    ${GLOBAL_VID_UI_TIMEOUT_LONG}
+    Wait Until Page Contains Element    xpath=//button[text() = 'Deploy']    ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Input Text When Enabled    //input[@ng-model='searchString']    ${service_model_type}
     Wait Until Element Is Visible    xpath=//tr[td/span/text() = '${service_model_type}']/td/button[contains(text(),'Deploy')]    ${GLOBAL_VID_UI_TIMEOUT_SHORT}
 

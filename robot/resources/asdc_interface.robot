@@ -73,17 +73,18 @@ Distribute Model From ASDC
         \   Distribute ASDC Catalog Service    ${catalog_service_id}
         \   ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
         \   ${vf_module}=    Find Element In Array    ${loop_catalog_resource_resp['groups']}    type    org.openecomp.groups.VfModule
-        \   ${status}   Loop Over Check Catalog Service Distributed       ${catalog_service_resp['uuid']}
-	\   Exit For Loop If   ${status}
+        \   ${status}   ${_} =   Run Keyword And Ignore Error   Loop Over Check Catalog Service Distributed       ${catalog_service_resp['uuid']}
+	\   Exit For Loop If   '${status}'=='PASS'
     [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
 
 Loop Over Check Catalog Service Distributed
     [Arguments]    ${catalog_service_id} 
-    : FOR     ${CHECK_INDEX}  IN RANGE   1   7  
-    \   ${status}     Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}   
-    \   Sleep     15s  
-    \   Exit For Loop if   ${status}
-    [Return]   ${status}
+    : FOR     ${CHECK_INDEX}  IN RANGE   1   15  
+    \   ${status}   ${_} =   Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}   
+    \   Sleep     20s  
+    \   Return From Keyword If   '${status}'=='PASS'
+    Fail
+     
 
 Setup ASDC Catalog Resource
     [Documentation]    Creates all the steps a vf needs for an asdc catalog resource and returns the id
@@ -518,3 +519,4 @@ Create Multi Part
    ${fileDir}  ${fileName}=  Split Path  ${filePath}
    ${partData}=  Create List  ${fileName}  ${fileData}  ${contentType}
    Set To Dictionary  ${addTo}  ${partName}=${partData}
+
