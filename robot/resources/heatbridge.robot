@@ -38,7 +38,7 @@ Execute Heatbridge
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${tenant_id}=   Get From Dictionary    ${stack_info}    OS::project_id
     ${vnf_id}=    Get From Dictionary    ${stack_info}    vnf_id
-    Run Set VNF ProvStatus  ${vnf_id}  PROV
+    Run Set VNF ProvStatus  ${vnf_id}  PROV  Active
     ${url}   ${path}=   Get Keystone Url And Path
     ${openstack_identity_url}=    Catenate    ${url}${path}
     ${region}=   Get Openstack Region
@@ -74,11 +74,12 @@ Run Vserver Query
 
 Run Set VNF ProvStatus 
     [Documentation]  Run A&A GET and PUT to set prov-status
-    [Arguments]   ${vnf_id}   ${prov_status}=PROV
+    [Arguments]   ${vnf_id}   ${prov_status}=PROV  ${orch_status}=Active
     ${payload}=  Run Get Generic VNF by VnfId   ${vnf_id}
 
     #${payload_json}=    evaluate    json.loads('''${payload}''')    json
     set to dictionary    ${payload}    prov-status    ${prov_status}
+    set to dictionary    ${payload}    orchestration-status   ${orch_status}
     ${payload_string}=    evaluate    json.dumps(${payload})    json
 
     ${put_resp}=    Run A&AI Put Request      ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf/${vnf_id}    ${payload_string}
