@@ -27,6 +27,7 @@ Create VID Service Instance
     Select From List When Enabled    //select[@prompt='Select Owning Entity']     ${owning_entity}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Capture Page Screenshot
     Xpath Should Match X Times    //input[@parameter-name='Instance Name']    1
+    Focus   //input[@parameter-name='Instance Name']
     Wait Until Keyword Succeeds   120s  5s    Input Text When Enabled    //input[@parameter-name='Instance Name']    ${service_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Capture Page Screenshot
     Click On Button When Enabled    //div[@class = 'buttonRow']/button[text() = 'Confirm']
