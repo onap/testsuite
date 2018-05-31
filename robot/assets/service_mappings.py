@@ -33,6 +33,8 @@ GLOBAL_SERVICE_TEMPLATE_MAPPING = {
     "vCPE" : [{"isBase" : "true",  "template" : "vcpe_preload.template", "name_pattern": "base_clearwater"}],
     "vFWSNK" : [{"isBase" : "true",   "template" : "vfwsnk_preload.template", "name_pattern": "base_vfw"}],
     "vPKG"   : [{"isBase" : "true",  "template" : "vpkg_preload.template", "name_pattern": "base_vpkg"}],
+    "vFWCL"   : [{"isBase" : "true",   "template" : "vfwsnk_preload.template", "name_pattern": "base_vfw"},
+                 {"isBase" : "true",  "template" : "vpkg_preload.template", "name_pattern": "base_vpkg"}],
 }
 
 '''
