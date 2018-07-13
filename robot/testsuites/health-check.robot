@@ -39,7 +39,7 @@ Basic AAF Health Check
 Basic AAF SMS Health Check
     [Tags]    health    core
     Run SMS Health Check
-    
+
 Basic APPC Health Check
     [Tags]    health    core
     Run APPC Health Check
@@ -202,7 +202,7 @@ Basic VNFSDK Health Check
 
 Health Distribution Test
     [Tags]    healthdist
-    [Timeout]   300
+    [Timeout]   600
     Model Distribution For Directory    vFW
 
 Portal Login Tests
