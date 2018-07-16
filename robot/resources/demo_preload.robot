@@ -64,7 +64,7 @@ Load Models
 
 Distribute Model
     [Arguments]   ${service}   ${modelName}
-    ${service_model_type}     ${vnf_type}    ${vf_modules}=   Model Distribution For Directory    ${service}   ${modelName}
+    ${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=   Model Distribution For Directory    ${service}   ${modelName}
 
 Create Customer For VNF Demo
     [Documentation]    Create demo customer for the demo
