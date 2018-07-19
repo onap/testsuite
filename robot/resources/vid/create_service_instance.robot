@@ -21,6 +21,7 @@ Create VID Service Instance
     ${uuid}=    Generate UUID
     Wait Until Page Contains Element    xpath=//input[@parameter-name='Instance Name']    ${GLOBAL_VID_UI_TIMEOUT_LONG}
     Wait Until Element Is Visible    xpath=//input[@parameter-name='Instance Name']    ${GLOBAL_VID_UI_TIMEOUT_LONG}
+    Click On Element When Visible    //select[@prompt='Select Subscriber Name']
     Select From List When Enabled    //select[@prompt='Select Subscriber Name']    ${customer_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Select From List When Enabled    //select[@prompt='Select Service Type']     ${service_type}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Select From List When Enabled    //select[@prompt='Select Project Name']     ${project_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
