@@ -1,0 +1,6 @@
+{
+  "pdpGroup": "default",
+  "policyComponent" : "PDP",
+  "policyName": "com.BRMSParamvFirewall",
+  "policyType": "BRMS_Param"
+}

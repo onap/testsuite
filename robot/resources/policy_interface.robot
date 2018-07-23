@@ -11,6 +11,7 @@ Resource          global_properties.robot
 ${POLICY_HEALTH_CHECK_PATH}        /healthcheck
 ${POLICY_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_IP_ADDR}:${GLOBAL_POLICY_SERVER_PORT}
 ${POLICY_HEALTHCHECK_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_IP_ADDR}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+${POLICY_TEMPLATES}        robot/assets/templates/policy
 
 *** Keywords ***
 
@@ -63,7 +64,7 @@ Run Policy Get Configs Request
 
 Update vVFWCL Policy
     [Arguments]   ${resource_id}
-    Delete vFWCL Policy
+    Run Keyword and Ignore Error    Delete vFWCL Policy
     Sleep    20s
     Create vFWCL Policy     ${resource_id}
     Sleep    5s

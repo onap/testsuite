@@ -4,7 +4,9 @@ Documentation	  This test template encapsulates the VNF Orchestration use case.
 Resource        test_templates/model_test_template.robot
 Resource        test_templates/vnf_orchestration_test_template.robot
 Resource        asdc_interface.robot
+Resource        mso_interface.robot
 Resource        vid/vid_interface.robot
+Resource	policy_interface.robot
 
 Library	        UUID
 Library	        Collections
@@ -152,6 +154,14 @@ Instantiate VNF
     Save For Delete
     Log to Console   Customer Name=${CUSTOMER_NAME}
     Log to Console   VNF Module Name=${vf_module_name}
+    ${model_invariant_id}=   Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME} 
+    Log to Console   ModelInvariantID=${model_invariant_id}
+    Update vVFWCL Policy   ${model_invariant_id}
+    APPC Mount Point    ${vf_module_name}
+    
+    
+    
+
 
 Save For Delete
     [Documentation]   Create a variable file to be loaded for save for delete
@@ -182,5 +192,6 @@ Save For Delete
     \    ${comma}=   Catenate   ,
     ${vars}=    Catenate  ${vars}]\n
     OperatingSystem.Create File   ${FILE_CACHE}/${STACK_NAME}.py   ${vars}
+    OperatingSystem.Create File   ${FILE_CACHE}/lastVNF4HEATBRIGE.py   ${vars}
 
 

@@ -20,6 +20,16 @@ Run MSO Health Check
     ${resp}= 	Get Request 	mso 	${MSO_HEALTH_CHECK_PATH}     headers=${headers}
     Should Be Equal As Strings 	${resp.status_code} 	200
 
+Run MSO Get ModelInvariantId
+    [Documentation]    Runs an MSO Get ModelInvariantID for ClosedLoop Polieis 
+    [Arguments]    ${service_model_name}    
+    ${param_dict}=    Create Dictionary    serviceModelName    ${service_model_name}
+    ${param}=   Evaluate   urllib.urlencode(${param_dict})    urllib
+    ${data_path}=   Catenate   SEPARATOR=     /ecomp/mso/catalog/v2/serviceVnfs?  ${param}
+    ${resp}=    Run MSO Get Request    ${data_path}
+    Log    ${resp.json()}
+    [Return]   ${resp.json()['serviceVnfs'][0]['modelInfo']['modelInvariantUuid']}
+    
 Run MSO Get Request
     [Documentation]    Runs an MSO get request
     [Arguments]    ${data_path}    ${accept}=application/json

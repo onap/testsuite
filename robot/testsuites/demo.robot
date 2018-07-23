@@ -43,6 +43,7 @@ Instantiate VFWCL
     [Tags]   instantiateVFWCL
     Instantiate VNF   vFWCL
 
+
 Delete Instantiated VNF
     [Documentation]   This test assumes all necessary variables are loaded via the variable file create in  Save For Delete
     ...    The Teardown VNF needs to be in the teardown step of the test case...
