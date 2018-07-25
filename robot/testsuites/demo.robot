@@ -57,5 +57,5 @@ Run Heatbridge
     [Documentation]
     ...    Try to run heatbridge
     [Tags]   heatbridge
-    Execute Heatbridge   ${HB_STACK}   ${HB_SERVICE_INSTANCE_ID}    ${HB_SERVICE}
+    Execute Heatbridge   ${HB_STACK}   ${HB_SERVICE_INSTANCE_ID}    ${HB_SERVICE}    ${HB_IPV4_OAM_ADDRESS}
 

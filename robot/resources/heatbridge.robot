@@ -31,14 +31,15 @@ Execute Heatbridge
     [Documentation]   Run the Heatbridge against the stack to generate the bulkadd message
     ...    Execute the build add
     ...    Validate the add results by running the named query
-    [Arguments]    ${stack_name}    ${service_instance_id}    ${service}
+    [Arguments]    ${stack_name}    ${service_instance_id}    ${service}    ${ipv4_oam_address}
     Return From Keyword If    '${service}' == 'vVG'
     Run Openstack Auth Request    auth
     ${stack_info}=    Wait for Stack to Be Deployed    auth    ${stack_name}
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${tenant_id}=   Get From Dictionary    ${stack_info}    OS::project_id
     ${vnf_id}=    Get From Dictionary    ${stack_info}    vnf_id
-    Run Set VNF ProvStatus  ${vnf_id}  PROV  Active
+    ${ipv4_vnf_address}=    Get From Dictionary  ${stack_info}   ${ipv4_oam_address}
+    Run Set VNF Params  ${vnf_id}  ${ipv4_vnf_address}  PROV  Active
     ${url}   ${path}=   Get Keystone Url And Path
     ${openstack_identity_url}=    Catenate    ${url}${path}
     ${region}=   Get Openstack Region
@@ -72,14 +73,15 @@ Run Vserver Query
     Should Be Equal As Strings    ${resp.status_code}    200
 
 
-Run Set VNF ProvStatus 
-    [Documentation]  Run A&A GET and PUT to set prov-status
-    [Arguments]   ${vnf_id}   ${prov_status}=PROV  ${orch_status}=Active
+Run Set VNF Params
+    [Documentation]  Run A&A GET and PUT to set prov-status, orchestration status, and ipv4-oam-address
+    [Arguments]   ${vnf_id}  ${ipv4_vnf_address}  ${prov_status}=PROV  ${orch_status}=Active
     ${payload}=  Run Get Generic VNF by VnfId   ${vnf_id}
 
     #${payload_json}=    evaluate    json.loads('''${payload}''')    json
     set to dictionary    ${payload}    prov-status    ${prov_status}
     set to dictionary    ${payload}    orchestration-status   ${orch_status}
+    set to dictionary    ${payload}    ipv4-oam-address  ${ipv4_vnf_address}
     ${payload_string}=    evaluate    json.dumps(${payload})    json
 
     ${put_resp}=    Run A&AI Put Request      ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf/${vnf_id}    ${payload_string}
