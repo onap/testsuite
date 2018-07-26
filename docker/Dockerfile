@@ -45,6 +45,9 @@ RUN chmod 777 /var/opt/OpenECOMP_ETE/setup.sh && \
     chmod 777 /var/opt/OpenECOMP_ETE/runSoak.sh && \
     chmod 777 /var/opt/OpenECOMP_ETE/runEteTag.sh
 
+# Set mode for the SSH keys
+RUN chmod 600 /var/opt/OpenECOMP_ETE/robot/assets/keys/* 
+
 # Update the ssh library so that it will run properly in the docker env
 RUN cd /var/opt/OpenECOMP_ETE && ./setup.sh && apt-get clean
 
