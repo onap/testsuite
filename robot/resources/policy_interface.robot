@@ -12,6 +12,7 @@ ${POLICY_HEALTH_CHECK_PATH}        /healthcheck
 ${POLICY_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_IP_ADDR}:${GLOBAL_POLICY_SERVER_PORT}
 ${POLICY_HEALTHCHECK_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_IP_ADDR}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
 ${POLICY_TEMPLATES}        robot/assets/templates/policy
+${DROOLS_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_IP_ADDR}:${GLOBAL_DROOLS_SERVER_PORT}
 
 *** Keywords ***
 
@@ -30,6 +31,18 @@ Run Policy Health Check
      \    Should Be Equal As Strings 	${ELEMENT['code']} 	200
      \    Should Be True    ${ELEMENT['healthy']}
     
+Run Drools Get Request
+     [Documentation]    Runs Drools Get Request
+     [Arguments]    ${data_path}
+     ${auth}=    Create List    ${GLOBAL_DROOLS_USERNAME}    ${GLOBAL_DROOLS_PASSWORD}
+     Log    Creating session ${POLICY_ENDPOINT}
+     ${session}=    Create Session      policy  ${DROOLS_ENDPOINT}   auth=${auth}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}=   Get Request     policy  ${data_path}     headers=${headers}
+     Log    Received response from policy ${resp.text}
+     Should Be Equal As Strings         ${resp.status_code}     200
+     [Return]   ${resp}
+
 Run Policy Put Request
      [Documentation]    Runs Policy Put request
      [Arguments]    ${data_path}  ${data}
@@ -66,12 +79,16 @@ Update vVFWCL Policy
     [Arguments]   ${resource_id}
     Run Keyword and Ignore Error    Delete vFWCL Policy
     Sleep    20s
+    Log To Console   Create vFWCL Policy
     Create vFWCL Policy     ${resource_id}
     Sleep    5s
+    Log To Console   Push vFWCL Policy
     Push vFWCL Policy
     Sleep    20s
+    Log To Console   Reboot Drools
     Reboot Drools
     Sleep    20s
+    Log To Console   Validate vFWCL Policy
     Validate the vFWCL Policy
 
 Delete vFWCL Policy

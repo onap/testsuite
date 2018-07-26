@@ -41,7 +41,7 @@ Instantiate VFW
 
 Instantiate VFWCL
     [Tags]   instantiateVFWCL
-    Instantiate VNF   vFWCL
+    Instantiate VNF   vFWCL  base_vpkg
 
 
 Delete Instantiated VNF

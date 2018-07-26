@@ -22,6 +22,7 @@ ${AAI_INDEX_PATH}     /aai/v8
 ${VF_MODULES_NAME}     _Demo_VFModules.json
 ${FILE_CACHE}    /share/
 ${DEMO_PREFIX}   demo
+${VPKG_MODULE_LABEL}    base_vpkg
 
 
 *** Keywords ***
@@ -143,21 +144,23 @@ APPC Mount Point
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${server_list}=    Get Openstack Servers    auth
     ${vpg_name_0}=    Get From Dictionary    ${stack_info}    vpg_name_0
+    ${vnf_id}=    Get From Dictionary    ${stack_info}    vnf_id
     ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=public
     ${vpg_oam_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_1
-    ${appc}=    Create Mount Point In APPC    ${vpg_name_0}    ${vpg_oam_ip}
+    #${appc}=    Create Mount Point In APPC    ${vpg_name_0}    ${vpg_oam_ip}
+    ${appc}=    Create Mount Point In APPC    ${vnf_id}    ${vpg_oam_ip}
 
 Instantiate VNF
-    [Arguments]   ${service}
+    [Arguments]   ${service}   ${vf_module_label}=NULL
     Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
     ${vf_module_name}    ${service}=    Orchestrate VNF    DemoCust    ${service}   ${service}    ${TENANT_NAME}
     Save For Delete
     Log to Console   Customer Name=${CUSTOMER_NAME}
     Log to Console   VNF Module Name=${vf_module_name}
-    ${model_invariant_id}=   Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME} 
+    ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
     Log to Console   ModelInvariantID=${model_invariant_id}
-    Update vVFWCL Policy   ${model_invariant_id}
-    APPC Mount Point    ${vf_module_name}
+    ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
+    ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
     
     
     

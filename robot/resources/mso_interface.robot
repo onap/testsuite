@@ -22,13 +22,20 @@ Run MSO Health Check
 
 Run MSO Get ModelInvariantId
     [Documentation]    Runs an MSO Get ModelInvariantID for ClosedLoop Polieis 
-    [Arguments]    ${service_model_name}    
+    [Arguments]    ${service_model_name}   ${vf_module_label}=NULL
     ${param_dict}=    Create Dictionary    serviceModelName    ${service_model_name}
     ${param}=   Evaluate   urllib.urlencode(${param_dict})    urllib
     ${data_path}=   Catenate   SEPARATOR=     /ecomp/mso/catalog/v2/serviceVnfs?  ${param}
     ${resp}=    Run MSO Get Request    ${data_path}
     Log    ${resp.json()}
-    [Return]   ${resp.json()['serviceVnfs'][0]['modelInfo']['modelInvariantUuid']}
+    # ${resp.json()['serviceVnfs'][0]['vfModules'][0]['vfModuleLabel'] should be 'base_vpkg'
+    ${model_invariant_id}=   Set Variable   NULL
+    @{ITEMS}=    Copy List    ${resp.json()['serviceVnfs']}
+    :FOR    ${ELEMENT}    IN    @{ITEMS}
+    \    Log    ${ELEMENT['vfModules']}
+    \    ${model_invariant_id}  Set Variable If   ('${vf_module_label}' in '${ELEMENT['vfModules'][0]['vfModuleLabel']}')   ${ELEMENT['modelInfo']['modelInvariantUuid']}  NULL
+    \    Exit For Loop If  '${model_invariant_id}' != 'NULL'
+    [Return]   ${model_invariant_id}
     
 Run MSO Get Request
     [Documentation]    Runs an MSO get request
