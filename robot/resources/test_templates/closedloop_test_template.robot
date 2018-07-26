@@ -1,9 +1,11 @@
 *** Settings ***
 Documentation	  Policy Closed Loop Test cases
 
-Resource          ../policy_interface.robot
+Resource        ../policy_interface.robot
 Resource        ../stack_validation/policy_check_vfw.robot
+Resource        ../stack_validation/packet_generator_interface.robot
 Resource        vnf_orchestration_test_template.robot
+
 Library    String
 Library    HttpLibrary.HTTP
 LIbrary    Process
@@ -201,3 +203,30 @@ Orchestrate VNF vFW closedloop
 	Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
 	${stack_name}    ${service}=  Orchestrate VNF   ETE_CLP    vLB      vLB   ${TENANT_NAME}
 	[Return]  ${stack_name}
+
+VFWCL High Test
+	[Documentation]    Test Control Loop for High Traffic
+        [Arguments]    ${pkg_host}
+	Enable Streams    ${pkg_host}   10
+	:FOR    ${i}    IN RANGE    8
+	\   Sleep  15s
+	\   ${resp}=   Get List Of Enabled Streams   ${pkg_host}
+        \   ${stream_count}=   Evaluate  len(${resp['sample-plugin']['pg-streams']['pg-stream']})
+        \   Log To Console   Number of steam: ${stream_count}
+        \   Exit For Loop If   '${stream_count}'=='5' 
+        Should Be Equal As Integers  ${stream_count}   5
+
+VFWCL Low Test
+	[Documentation]    Test Control Loop for Low Traffic
+        [Arguments]    ${pkg_host}
+	Enable Streams    ${pkg_host}   1
+	Get List Of Enabled Streams   ${pkg_host}
+	:FOR    ${i}    IN RANGE    8
+	\   Sleep  15s
+	\   ${resp}=   Get List Of Enabled Streams   ${pkg_host}
+        \   ${stream_count}=   Evaluate  len(${resp['sample-plugin']['pg-streams']['pg-stream']})
+        \   Log To Console   Number of steam: ${stream_count}
+        \   Exit For Loop If   '${stream_count}'=='5' 
+        Should Be Equal As Integers  ${stream_count}   5
+
+
