@@ -68,23 +68,23 @@ Distribute Model From ASDC
     # on certify it gets a new id
     ${catalog_service_id}=    Certify ASDC Catalog Service    ${catalog_service_id}
     Approve ASDC Catalog Service    ${catalog_service_id}
-        : FOR   ${DIST_INDEX}    IN RANGE   1     3
+        : FOR   ${DIST_INDEX}    IN RANGE   3
         \   Log     Distribution Attempt ${DIST_INDEX}
         \   Distribute ASDC Catalog Service    ${catalog_service_id}
         \   ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
         \   ${vf_module}=    Find Element In Array    ${loop_catalog_resource_resp['groups']}    type    org.openecomp.groups.VfModule
         \   ${status}   ${_} =   Run Keyword And Ignore Error   Loop Over Check Catalog Service Distributed       ${catalog_service_resp['uuid']}
 	\   Exit For Loop If   '${status}'=='PASS'
+        Should Be Equal As Strings  ${status}  'PASS'
     [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
 
 Loop Over Check Catalog Service Distributed
-    [Arguments]    ${catalog_service_id} 
-    : FOR     ${CHECK_INDEX}  IN RANGE   1   15  
-    \   ${status}   ${_} =   Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}   
-    \   Sleep     20s  
+    [Arguments]    ${catalog_service_id}
+    : FOR     ${CHECK_INDEX}  IN RANGE   15
+    \   ${status}   ${_} =   Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}
+    \   Sleep     20s
     \   Return From Keyword If   '${status}'=='PASS'
-    Fail
-     
+    Should Be Equal As Strings  ${status}  'PASS'
 
 Setup ASDC Catalog Resource
     [Documentation]    Creates all the steps a vf needs for an asdc catalog resource and returns the id
