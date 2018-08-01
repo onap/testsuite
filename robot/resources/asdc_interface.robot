@@ -103,12 +103,8 @@ Setup ASDC Catalog Resource
     Package ASDC Software Product    ${software_product_id}   ${software_product_version_id}
     ${software_product_resp}=    Get ASDC Software Product    ${software_product_id}    ${software_product_version_id}
     ${catalog_resource_id}=    Add ASDC Catalog Resource     ${license_agreement_id}    ${software_product_resp['name']}    ${license_model_resp['vendorName']}    ${software_product_id}  
-    Checkin ASDC Catalog Resource    ${catalog_resource_id}
-    Request Certify ASDC Catalog Resource    ${catalog_resource_id}
-    Start Certify ASDC Catalog Resource    ${catalog_resource_id}
-    # on certify it gets a new id
+    ${catalog_resource_id}=    Certify ASDC Catalog Resource    ${catalog_resource_id}   ${ASDC_DESIGNER_USER_ID}
     [Return]    ${catalog_resource_id}
-    ${catalog_resource_id}=    Certify ASDC Catalog Resource    ${catalog_resource_id}
 Add ASDC License Model
     [Documentation]    Creates an asdc license model and returns its id
     ${uuid}=    Generate UUID
@@ -298,10 +294,10 @@ Start Certify ASDC Catalog Resource
     [Return]    ${resp.json()}
 Certify ASDC Catalog Resource
     [Documentation]    start certify an asdc Catalog Resource by its id and returns the new id
-    [Arguments]    ${catalog_resource_id}
+    [Arguments]    ${catalog_resource_id}    ${user_id}=${ASDC_TESTER_USER_ID}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     ${data}=   Fill JSON Template File    ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${ASDC_TESTER_USER_ID}
+    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${user_id}
     Should Be Equal As Strings 	${resp.status_code} 	200
     [Return]    ${resp.json()['uniqueId']}
 
