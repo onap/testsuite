@@ -38,7 +38,8 @@ Execute Heatbridge
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${tenant_id}=   Get From Dictionary    ${stack_info}    OS::project_id
     ${vnf_id}=    Get From Dictionary    ${stack_info}    vnf_id
-    ${ipv4_vnf_address}=    Get From Dictionary  ${stack_info}   ${ipv4_oam_address}
+    ${KeyIsPresent}=    Run Keyword And Return Status       Dictionary Should Contain Key       ${stack_info}      ${ipv4_oam_address}
+    ${ipv4_vnf_address}=   Run Keyword If      ${KeyIsPresent}     Get From Dictionary  ${stack_info}      ${ipv4_oam_address}
     Run Set VNF Params  ${vnf_id}  ${ipv4_vnf_address}  PROV  Active
     ${url}   ${path}=   Get Keystone Url And Path
     ${openstack_identity_url}=    Catenate    ${url}${path}
