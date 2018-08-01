@@ -15,6 +15,10 @@ Instantiate Virtual Volume Group    ETE_Customer    vVG      vVG             ${T
     [Tags]    ete    instantiate  stability72hr
 Instantiate Virtual FirewallCL      ETE_Customer    vFWCL      vFWCL         ${TENANT_NAME}
     [Tags]    ete    instantiate  stability72hr
+Instantiate Virtual DNS No Delete             ETE_Customer    vLB      vLB             ${TENANT_NAME}   KEEP
+    [Tags]    instantiateNoDelete
+Instantiate Virtual FirewallCL No Delete      ETE_Customer    vFWCL      vFWCL         ${TENANT_NAME}   KEEP
+    [Tags]    instantiateNoDelete
 Instantiate Virtual Firewall        ETE_Customer    vFW      vFW             ${TENANT_NAME}
 
 
