@@ -59,3 +59,10 @@ Run Heatbridge
     [Tags]   heatbridge
     Execute Heatbridge   ${HB_STACK}   ${HB_SERVICE_INSTANCE_ID}    ${HB_SERVICE}    ${HB_IPV4_OAM_ADDRESS}
 
+Preload APPC CDT GUI
+    [Documentation]
+    ...    APPC CDT Preload Demo
+    [Tags]   APPCCDTPreloadDemo
+    Setup Browser
+    Preload APPC CDT GUI
+
