@@ -12,6 +12,13 @@ ${APPC_HEALTHCHECK_OPERATION_PATH}  /operations/SLI-API:healthcheck
 ${APPC_CREATE_MOUNTPOINT_PATH}  /config/network-topology:network-topology/topology/topology-netconf/node/
 ${APPC_MOUNT_XML}    robot/assets/templates/appc/vnf_mount.template
 ${APPC_ENDPOINT}    ${GLOBAL_APPC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_APPC_IP_ADDR}:${GLOBAL_APPC_SERVER_PORT}
+${APPC_CDT_Config_Scaleout}    ${EXECDIR}/robot/assets/templates/appc/template_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.xml
+${APPC_CDT_Config_Scaleout_PD}    ${EXECDIR}/robot/assets/templates/appc/pd_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.yaml
+${APPC_CDT_Config_Scaleout_REF}    ${EXECDIR}/robot/assets/templates/appc/reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json
+${APPC_CDT_Config_Scaleout_REF_name}    reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json
+${APPC_ENDPOINT}    ${GLOBAL_APPC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_APPC_IP_ADDR}:${GLOBAL_APPC_SERVER_PORT}
+${APPC_CDT_ENDPOINT}    ${GLOBAL_APPC_CDT_SERVER_PROTOCOL}://${GLOBAL_INJECTED_APPC_CDT_IP_ADDR}:${GLOBAL_APPC_CDT_SERVER_PORT}
+${APPC_CDT_LOGIN_URL}                ${APPC_CDT_ENDPOINT}/index.html
 
 
 *** Keywords ***
@@ -54,3 +61,41 @@ Create Mount Point In APPC
     ${resp}=    Run APPC Put Request     ${APPC_INDEX PATH}${APPC_CREATE_MOUNTPOINT_PATH}${nodeid}     ${data}
     Should Be True	200    <= ${resp.status_code} < 300
     [Return]     ${resp}
+
+Preload APPC CDT GUI
+    [Documentation]   APPC CDT GUI Preload
+    # Setup Browser Now being managed by test case
+    ##Setup Browser
+    Go To   ${APPC_CDT_LOGIN_URL}#/home
+    Set Selenium Speed   ${GLOBAL_SELENIUM_DELAY}
+    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
+    Log   Logging in to ${APPC_CDT_ENDPOINT}
+    Handle Proxy Warning
+    Wait Until Page Contains   WELCOME   ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+    Go To    ${APPC_CDT_LOGIN_URL}#/vnfs
+    Wait Until Element Is Visible   id=userId   ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+    Input Text   id=userId   ${GLOBAL_APPC_CDT_USERNAME}
+    Click Button   Submit
+    Page Should Contain   ${GLOBAL_APPC_CDT_USERNAME}
+    Wait Until Page Contains Element   xpath=(//*[@class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary'])   ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
+    Click Button   Create New VNF Type or VNFC Type
+    Page Should Contain   Enter VNF type and VNFC to proceed
+    Click Button   Proceed anyway
+    Click Button   Upload Reference File
+    Choose File   id=inputFile   ${APPC_CDT_Config_Scaleout_REF}
+    Select From List By Value   name=templateIdentifier   vLB
+    Sleep   ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
+    Click Link   Template
+    Click Button   Upload Template File
+    Choose File   id=inputFile   ${APPC_CDT_Config_Scaleout}
+    Sleep   ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
+    Click Link   Parameter Definition
+    Click Button   UPLOAD PD FILE
+    Choose File   id=inputFile1   ${APPC_CDT_Config_Scaleout_PD}
+    Sleep   ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
+    Click Link   Reference Data
+    Select From List By Value   name=templateIdentifier   vLB
+    Click Button   saveToAppc
+    Go To    ${APPC_CDT_LOGIN_URL}#/vnfs
+    Wait Until Page Contains   ${APPC_CDT_Config_Scaleout_REF_name}
+    Log   Logged in to ${APPC_CDT_ENDPOINT}
