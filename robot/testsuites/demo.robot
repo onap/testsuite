@@ -59,3 +59,18 @@ Run Heatbridge
     [Tags]   heatbridge
     Execute Heatbridge   ${HB_STACK}   ${HB_SERVICE_INSTANCE_ID}    ${HB_SERVICE}    ${HB_IPV4_OAM_ADDRESS}
 
+Preload APPC CDT GUI
+    [Documentation]
+    ...    APPC CDT Preload Demo
+    [Tags]   APPCCDTPreloadDemo
+    Setup Browser
+    Preload APPC CDT GUI
+
+Preload APPC CDT GUI
+    [Documentation]
+    ...    APPC CDT Preload Demo
+    [Tags]   APPCCDTPreloadDemo
+    Setup Browser
+    Preload APPC CDT GUI
+#    Preload APPC CDT GUI   demo   reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json   ${EXECDIR}/robot/assets/templates/appc/reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json   ${EXECDIR}/robot/assets/templates/appc/template_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.xml   ${EXECDIR}/robot/assets/templates/appc/pd_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.yaml
+
