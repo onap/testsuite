@@ -39,7 +39,7 @@ Update ONAP Page
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_PORTAL_IP_ADDR}=portal
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_SDC_IP_ADDR}=sdc
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_SDNC_IP_ADDR}=sdnc
-    Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_OPENO_IP_ADDR}=openo
+    Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_MSB_IP_ADDR}=openo
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_CLAMP_IP_ADDR}=clamp
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_VID_IP_ADDR}=vid
     Set To Dictionary    ${oam_ip_map}   10.0.4.105=dcae_cdap

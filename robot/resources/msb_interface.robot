@@ -6,7 +6,7 @@ Resource          global_properties.robot
 
 *** Variables ***
 ${MSB_HEALTH_CHECK_PATH}        /iui/microservices/default.html
-${MSB_ENDPOINT}     ${GLOBAL_MSB_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OPENO_IP_ADDR}:${GLOBAL_MSB_SERVER_PORT}
+${MSB_ENDPOINT}     ${GLOBAL_MSB_SERVER_PROTOCOL}://${GLOBAL_INJECTED_MSB_IP_ADDR}:${GLOBAL_MSB_SERVER_PORT}
 
 
 *** Keywords ***
