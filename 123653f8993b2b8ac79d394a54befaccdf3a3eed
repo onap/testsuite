@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_39ac75ed",
+        "filename": "robot/testsuites/demo.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-08-06T13:18:44Z",
+      "side": 1,
+      "message": "what is the use case for this? demo is really a hack and not meant to be expanded on. You should build a test case that demonstrates the functionality first",
+      "revId": "123653f8993b2b8ac79d394a54befaccdf3a3eed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
