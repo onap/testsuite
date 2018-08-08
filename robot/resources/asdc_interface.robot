@@ -103,7 +103,7 @@ Setup ASDC Catalog Resource
     Package ASDC Software Product    ${software_product_id}   ${software_product_version_id}
     ${software_product_resp}=    Get ASDC Software Product    ${software_product_id}    ${software_product_version_id}
     ${catalog_resource_id}=    Add ASDC Catalog Resource     ${license_agreement_id}    ${software_product_resp['name']}    ${license_model_resp['vendorName']}    ${software_product_id}  
-    ${catalog_resource_id}=    Certify ASDC Catalog Resource    ${catalog_resource_id}   ${ASDC_DESIGNER_USER_ID}
+    Request Certify ASDC Catalog Resource    ${catalog_resource_id}
     [Return]    ${catalog_resource_id}
 Add ASDC License Model
     [Documentation]    Creates an asdc license model and returns its id
@@ -403,20 +403,11 @@ Check Catalog Service Distributed
     ${det_resp}=    Get Catalog Service Distribution Details    ${dist_resp['distributionStatusOfServiceList'][0]['distributionID']}
     @{ITEMS}=    Copy List    ${det_resp['distributionStatusList']}
     Should Not Be Empty   ${ITEMS}
-    ${AAI_DEPLOY}   Set Variable   FALSE
-    ${SDNC_DEPLOY}   Set Variable  FALSE
-    ${SO_DEPLOY}   Set Variable   FALSE
     ${SO_COMPLETE}   Set Variable   FALSE
     :FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['omfComponentID']}
     \    Log    ${ELEMENT['status']}
-    \    ${SDNC_DEPLOY}  Set Variable If   (('sdnc-docker' in '${ELEMENT['omfComponentID']}') and ('${ELEMENT['status']}' == 'DEPLOY_OK')) or ('${SDNC_DEPLOY}' == 'TRUE')    TRUE 
-    \     ${SO_DEPLOY}  Set Variable If   (('mso-docker' in '${ELEMENT['omfComponentID']}') and ('${ELEMENT['status']}' == 'DEPLOY_OK')) or ('${SO_DEPLOY}' == 'TRUE')   TRUE  
-    \    ${AAI_DEPLOY}   Set Variable If   (('aai-ml' in '${ELEMENT['omfComponentID']}') and ('${ELEMENT['status']}' == 'DEPLOY_OK')) or ('${AAI_DEPLOY}'=='TRUE')  TRUE 
-    \    ${SO_COMPLETE}   Set Variable If   (('mso-docker' in '${ELEMENT['omfComponentID']}') and ('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_OK')) or ('${SO_COMPLETE}'=='TRUE')  TRUE
-    Should Be True   ( '${SDNC_DEPLOY}'=='TRUE')  SDNC Test
-    Should Be True   ( '${SO_DEPLOY}'=='TRUE')   SO Test
-    Should Be True   ( '${AAI_DEPLOY}'=='TRUE')   AAI Test
+    \    ${SO_COMPLETE}   Set Variable If   (('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_OK')) or ('${SO_COMPLETE}'=='TRUE')  TRUE
     Should Be True   ( '${SO_COMPLETE}'=='TRUE')   SO Test
 Get Catalog Service Distribution Details
     [Documentation]    gets an asdc catalog Service distrbution details

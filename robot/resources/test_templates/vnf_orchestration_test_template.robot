@@ -42,7 +42,7 @@ ${SERVICE_INSTANCE_ID}
 *** Keywords ***
 Orchestrate VNF Template
     [Documentation]   Use openECOMP to Orchestrate a service.
-    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}   ${delete_flag}='DELETE'
+    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}   ${delete_flag}=DELETE
     Orchestrate VNF   ${customer_name}    ${service}    ${product_family}    ${tenant}
     Run Keyword If   '${delete_flag}' == 'DELETE'   Delete VNF
 
