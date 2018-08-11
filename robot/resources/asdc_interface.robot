@@ -103,7 +103,7 @@ Setup ASDC Catalog Resource
     Package ASDC Software Product    ${software_product_id}   ${software_product_version_id}
     ${software_product_resp}=    Get ASDC Software Product    ${software_product_id}    ${software_product_version_id}
     ${catalog_resource_id}=    Add ASDC Catalog Resource     ${license_agreement_id}    ${software_product_resp['name']}    ${license_model_resp['vendorName']}    ${software_product_id}  
-    Request Certify ASDC Catalog Resource    ${catalog_resource_id}
+    ${catalog_resource_id}=   Certify ASDC Catalog Resource    ${catalog_resource_id}  ${ASDC_DESIGNER_USER_ID}
     [Return]    ${catalog_resource_id}
 Add ASDC License Model
     [Documentation]    Creates an asdc license model and returns its id

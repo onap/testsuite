@@ -7,7 +7,7 @@ Library         String
 Library        DateTime
 Library 	      RequestsLibrary
 
-Resource          ../mso_interface.robot
+Resource          ../so_interface.robot
 Resource          vid_interface.robot
 
 *** Keywords ***

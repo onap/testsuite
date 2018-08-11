@@ -8,7 +8,7 @@ Library	        UUID
 Library         String
 Library        DateTime
 
-Resource          ../mso_interface.robot
+Resource          ../so_interface.robot
 Resource          vid_interface.robot
 
 *** Keywords ***

@@ -7,16 +7,36 @@ Library           Collections
 Resource          global_properties.robot
 Resource          ../resources/json_templater.robot
 *** Variables ***
-${MSO_HEALTH_CHECK_PATH}    /ecomp/mso/infra/globalhealthcheck
+${MSO_HEALTH_CHECK_PATH}    /manage/health
 ${MSO_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_IP_ADDR}:${GLOBAL_MSO_SERVER_PORT}
+${SO_APIHAND_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_IP_ADDR}:${GLOBAL_MSO_APIHAND_SERVER_PORT}
+${SO_ASDCHAND_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_IP_ADDR}:${GLOBAL_MSO__ASDCHAND_SERVER_PORT}
+${SO_BPMN_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_IP_ADDR}:${GLOBAL_MSO_BPMN_SERVER_PORT}
+${SO_CATDB_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_IP_ADDR}:${GLOBAL_MSO__CATDB_SERVER_PORT}
+${SO_OPENSTACK_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_IP_ADDR}:${GLOBAL_MSO_OPENSTACK_SERVER_PORT}
+${SO_REQDB_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_IP_ADDR}:${GLOBAL_MSO_REQDB_SERVER_PORT}
+${SO_SDNC_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_IP_ADDR}:${GLOBAL_MSO_SDNC_SERVER_PORT}
+${SO_VFC_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_IP_ADDR}:${GLOBAL_MSO_VFC_SERVER_PORT}
 
 *** Keywords ***
-Run MSO Health Check
+Run SO Global Health Check
+    Run SO Container Health Check    API_HANDLER  ${SO_APIHAND_ENDPOINT}     
+    Run SO Container Health Check    ASDC_HANDLER  ${SO_ASDCHAND_ENDPOINT}     
+    Run SO Container Health Check    BPMN_INFRA    ${SO_BPMN_ENDPOINT}     
+    Run SO Container Health Check    CATALOG_DB    ${SO_CATDB_ENDPOINT}     
+    Run SO Container Health Check    OPENSTACK_INFRA   ${SO_OPENSTACK_ENDPOINT}     
+    Run SO Container Health Check    REQUEST_DB    ${SO_REQDB_ENDPOINT}     
+    Run SO Container Health Check    SDNC_INFRA  ${SO_SDNC_ENDPOINT}     
+    Run SO Container Health Check    VFC_INFRA  ${SO_VFC_ENDPOINT}     
+
+
+Run SO Container Health Check
     [Documentation]    Runs an MSO global health check
+    [Arguments]    ${so_endpoint_label}    ${so_endpoint}  
     ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
-    ${session}=    Create Session 	mso 	${MSO_ENDPOINT}
+    ${session}=    Create Session 	mso 	${so_endpoint}
     ${uuid}=    Generate UUID
-    ${headers}=  Create Dictionary     Accept=text/html    Content-Type=text/html    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
+    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json   X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	mso 	${MSO_HEALTH_CHECK_PATH}     headers=${headers}
     Should Be Equal As Strings 	${resp.status_code} 	200
 

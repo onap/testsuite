@@ -9,7 +9,7 @@ Resource          ../resources/sdngc_interface.robot
 Resource          ../resources/aai/aai_interface.robot
 Resource          ../resources/vid/vid_interface.robot
 Resource          ../resources/policy_interface.robot
-Resource          ../resources/mso_interface.robot
+Resource          ../resources/so_interface.robot
 Resource          ../resources/asdc_interface.robot
 Resource          ../resources/appc_interface.robot
 Resource          ../resources/portal_interface.robot
@@ -122,7 +122,7 @@ Basic SDNC Health Check
 
 Basic SO Health Check
     [Tags]    health    core
-    Run MSO Health Check
+    Run SO Global Health Check
 
 Basic UseCaseUI API Health Check
      [Tags]    health    api

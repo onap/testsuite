@@ -4,7 +4,7 @@ Documentation	  This test template encapsulates the VNF Orchestration use case.
 Resource        test_templates/model_test_template.robot
 Resource        test_templates/vnf_orchestration_test_template.robot
 Resource        asdc_interface.robot
-Resource        mso_interface.robot
+Resource        so_interface.robot
 Resource        vid/vid_interface.robot
 Resource	policy_interface.robot
 
