@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_46c289ea",
+        "filename": "robot/assets/templates/portal-sdk/json_templater.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-08-15T17:28:26Z",
+      "side": 1,
+      "message": "this whole file exists in robot/resources, plus robot files shouldnt be in assets folder",
+      "revId": "4bddd2283d9ccf241271778fd6348c80e9d2c21e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_26966df1",
+        "filename": "robot/resources/portal-sdk/__init__.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-08-15T17:28:26Z",
+      "side": 1,
+      "message": "i dont think you need this file as it will set this documentation at the global level",
+      "revId": "4bddd2283d9ccf241271778fd6348c80e9d2c21e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_66aa251b",
+        "filename": "robot/resources/portal-sdk/news_widget.zip",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-08-15T17:28:26Z",
+      "side": 1,
+      "message": "this file should be in robot/assets/portal-sdk or robot/assets/widgets",
+      "revId": "4bddd2283d9ccf241271778fd6348c80e9d2c21e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_86a7414f",
+        "filename": "robot/resources/portal-sdk/portalDef.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-08-15T17:28:26Z",
+      "side": 1,
+      "message": "there is tons of duplicated code in this file, including properties and keywords.",
+      "revId": "4bddd2283d9ccf241271778fd6348c80e9d2c21e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_26642d21",
+        "filename": "robot/resources/portal-sdk/widget_news.zip",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-08-15T17:28:26Z",
+      "side": 1,
+      "message": "this file should be in robot/assets/portal-sdk or robot/assets/widgets",
+      "revId": "4bddd2283d9ccf241271778fd6348c80e9d2c21e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_466929f8",
+        "filename": "robot/testsuites/portalApp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-08-15T17:28:26Z",
+      "side": 1,
+      "message": "there are a ton of commented out test cases here. are they needed?",
+      "revId": "4bddd2283d9ccf241271778fd6348c80e9d2c21e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a677ddd3",
+        "filename": "robot/testsuites/portalApp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-08-15T17:28:26Z",
+      "side": 1,
+      "message": "there is already a portla healthcheck test",
+      "revId": "4bddd2283d9ccf241271778fd6348c80e9d2c21e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6681c58e",
+        "filename": "robot/testsuites/portalApp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-08-15T17:28:26Z",
+      "side": 1,
+      "message": "if you have a teardown it should not just be the last testcase ,it should be in the teardown as you dont know when this will actually be run",
+      "revId": "4bddd2283d9ccf241271778fd6348c80e9d2c21e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
