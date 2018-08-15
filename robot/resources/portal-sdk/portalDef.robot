@@ -12,8 +12,8 @@ Library		StringTemplater
 Library		String
 #Library		XvfbRobot
 
-Resource	json_templater.robot
-Resource    ../global_properties.robot
+Resource	../../assets/templates/portal-sdk/json_templater.robot
+Resource	../global_properties.robot
 
 *** Variables ***
 ${PORTAL_URL}		http://portal.api.simpledemo.onap.org:8989
