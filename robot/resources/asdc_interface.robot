@@ -68,7 +68,7 @@ Distribute Model From ASDC
     # on certify it gets a new id
     ${catalog_service_id}=    Certify ASDC Catalog Service    ${catalog_service_id}
     Approve ASDC Catalog Service    ${catalog_service_id}
-        : FOR   ${DIST_INDEX}    IN RANGE   3
+        : FOR   ${DIST_INDEX}    IN RANGE   2
         \   Log     Distribution Attempt ${DIST_INDEX}
         \   Distribute ASDC Catalog Service    ${catalog_service_id}
         \   ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
@@ -408,6 +408,8 @@ Check Catalog Service Distributed
     \    Log    ${ELEMENT['omfComponentID']}
     \    Log    ${ELEMENT['status']}
     \    ${SO_COMPLETE}   Set Variable If   (('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_OK')) or ('${SO_COMPLETE}'=='TRUE')  TRUE
+    \    Exit For Loop If   ('${SO_COMPLETE}'=='TRUE')
+    \    Exit For Loop If   ('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_ERROR')
     Should Be True   ( '${SO_COMPLETE}'=='TRUE')   SO Test
 Get Catalog Service Distribution Details
     [Documentation]    gets an asdc catalog Service distrbution details

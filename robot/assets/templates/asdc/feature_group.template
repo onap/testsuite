@@ -7,6 +7,5 @@
   ],
   "addedEntitlementPoolsIds": [
     "${entitlement_pool_id}"
-  ],
-  "manufacturerReferenceNumber" : "${manufacturer_reference_number}"
+  ]
 }
