@@ -100,7 +100,7 @@ Parse Instance Id
     ${json}=    To Json    ${request_list[1]}
     ${request_id}=    Catenate    ${json['requestReferences']['instanceId']}
     [Return]    ${request_id}
-    
+
 Get Model UUID from VID
     [Documentation]    Must use UI since rest call get redirect to portal and get DNS error
     ...    Search all services and match on the invariantUUID
@@ -108,7 +108,8 @@ Get Model UUID from VID
     Go To     ${VID_ENDPOINT}${VID_ENV}/rest/models/services
     ${resp}=   Get Text   xpath=//body/pre
     ${json}=   To Json    ${resp}
-    :for   ${dict}  in  @{json}
+    ${services}=   Get From Dictionary    ${json}   services
+    :for   ${dict}  in  @{services}
     \    ${uuid}=   Get From DIctionary   ${dict}   uuid
     \    ${inv}=   Get From DIctionary   ${dict}    invariantUUID
     \    Return From Keyword If   "${invariantUUID}" == "${inv}"   ${uuid}
