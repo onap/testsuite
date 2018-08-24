@@ -45,7 +45,7 @@ Run MSO Get ModelInvariantId
     [Arguments]    ${service_model_name}   ${vf_module_label}=NULL
     ${param_dict}=    Create Dictionary    serviceModelName    ${service_model_name}
     ${param}=   Evaluate   urllib.urlencode(${param_dict})    urllib
-    ${data_path}=   Catenate   SEPARATOR=     /ecomp/mso/catalog/v2/serviceVnfs?  ${param}
+    ${data_path}=   Catenate   SEPARATOR=     /onap/so/catalog/v2/serviceVnfs?  ${param}
     ${resp}=    Run MSO Get Request    ${data_path}
     Log    ${resp.json()}
     # ${resp.json()['serviceVnfs'][0]['vfModules'][0]['vfModuleLabel'] should be 'base_vpkg'
