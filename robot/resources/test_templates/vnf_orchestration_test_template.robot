@@ -80,7 +80,8 @@ Orchestrate VNF
     \   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
     \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
     \   Append To List   ${STACK_NAMES}   ${STACK_NAME}
-    \   Run Keyword and Ignore Error   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}
+    #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
+    \   Run Keyword and Ignore Error   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
     \   Run Keyword and Ignore Error   Validate VF Module      ${vf_module_name}    ${vnf}
     [Return]     ${vf_module_name}    ${service}
 
