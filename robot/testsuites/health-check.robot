@@ -90,7 +90,7 @@ Basic Multicloud-ocata API Health Check
 
 Basic Multicloud-titanium_cloud API Health Check
     [Tags]    health    multicloud
-    Run MSB Get Request  /api/multicloud-titanium_cloud/v0/swagger.json
+    Run MSB Get Request  /api/multicloud-titaniumcloud/v1/swagger.json
 
 Basic Multicloud-vio API Health Check
      [Tags]    health    multicloud
