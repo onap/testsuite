@@ -25,6 +25,7 @@ Resource          ../resources/vnfsdk_interface.robot
 Resource          ../resources/log_interface.robot
 Resource          ../resources/oof_interface.robot
 Resource          ../resources/sms_interface.robot
+Resource          ../resources/dr_interface.robot
 
 
 *** Test Cases ***
@@ -55,6 +56,10 @@ Basic CLAMP Health Check
 Basic DCAE Health Check
     [Tags]    health    dcae
     Run DCAE Health Check
+
+Basic DMAAP Data Router Health Check
+    [Tags]    health    core
+    Run DR Health Check
 
 Basic DMAAP Message Router Health Check
     [Tags]    health    core
