@@ -21,6 +21,7 @@ OUTPUT_FOLDER=${OUTPUT_FOLDER:-$DEFAULT_OUTPUT_FOLDER}
 
 VARIABLEFILES=
 LISTENERS=
+VARIABLES="--removekeywords name:keystone_interface.*"
 
 ## Single argument, it is an include tag
 if [ $# -eq 1 ]; then

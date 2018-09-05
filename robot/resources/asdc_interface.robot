@@ -423,13 +423,13 @@ Run ASDC Health Check
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	asdc 	${ASDC_HEALTH_CHECK_PATH}     headers=${headers}
-    Should Be Equal As Strings 	${resp.status_code} 	200
+    Should Be Equal As Strings 	${resp.status_code} 	200    SDC DOWN
     ${SDC_DE_HEALTH}=    Catenate   DOWN
     @{ITEMS}=    Copy List    ${resp.json()['componentsInfo']}
     :FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['healthCheckStatus']}
     \    ${SDC_DE_HEALTH}  Set Variable If   (('DE' in '${ELEMENT['healthCheckComponent']}') and ('${ELEMENT['healthCheckStatus']}' == 'UP')) or ('${SDC_DE_HEALTH}'=='UP')  UP
-    Should Be Equal As Strings    ${SDC_DE_HEALTH}     UP
+    Should Be Equal As Strings    ${SDC_DE_HEALTH}     UP     SDC_DE DOWN
 Run ASDC Get Request
     [Documentation]    Runs an ASDC get request
     [Arguments]    ${data_path}    ${user}=${ASDC_DESIGNER_USER_ID}  ${MY_ASDC_BE_ENDPOINT}=${ASDC_BE_ENDPOINT}
