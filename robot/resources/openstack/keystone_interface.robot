@@ -54,7 +54,10 @@ Set Openstack Credentials
     [Return]   ${user}   ${pass}
 
 Get Openstack Credentials
-    [Return]   ${GLOBAL_INJECTED_OPENSTACK_USERNAME}    ${GLOBAL_INJECTED_OPENSTACK_PASSWORD}
+    [Documentation]   Returns the Decripted Password and openstack username using same api_key.txt as SO
+    ${DECRYPTED_OPENSTACK_PASSWORD}=   Run    echo -n ${GLOBAL_INJECTED_OPENSTACK_API_KEY} | xxd -r -p | openssl enc -aes-128-ecb -d -nopad -nosalt -K aa3871669d893c7fb8abbcda31b88b4f | tr -d '\x08'
+    [Return]   ${GLOBAL_INJECTED_OPENSTACK_USERNAME}    ${DECRYPTED_OPENSTACK_PASSWORD}
+
 
 Get Keystone Url And Path
     [Documentation]    Handle arbitrary keystone identiit url. Add v2.0 if not present.
