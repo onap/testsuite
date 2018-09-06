@@ -17,6 +17,7 @@ ${ROOT_COMPLEX_PATH}  /cloud-infrastructure/complexes/complex
 
 ${SYSTEM USER}    robot-ete
 ${AAI_ADD_COMPLEX_BODY}=    robot/assets/templates/aai/add_complex_body.template
+${AAI_ADD_COMPLEX_ONLY_BODY}=    robot/assets/templates/aai/add_complex_only_body.template
 
 *** Keywords ***
 Inventory Complex If Not Exists
@@ -64,3 +65,22 @@ Get Complexes
     Should Be Equal As Strings 	${resp.status_code} 	200
     Log    ${resp.json()}
 	[Return]  ${resp.json()}
+
+Inventory Complex Only If Not Exists
+    [Documentation]    Creates a Complex object in A&AI if it doesn't exist
+    [Arguments]    ${complex_name}   ${physical_location_id}   ${complex_latitude}   ${complex_longitude}
+    ${get_resp}=    Run A&AI Get Request     ${COMPLEX_INDEX_PATH}${ROOT_COMPLEX_PATH}/${physical_location_id}
+    Return From Keyword If    '${get_resp.status_code}' == '200'
+    Inventory Complex Only  ${complex_name}   ${physical_location_id}   ${complex_latitude}   ${complex_longitude}
+
+Inventory Complex Only
+    [Documentation]    Inventorys a Complex object in A&AI
+    [Arguments]    ${complex_name}   ${physical_location_id}   ${complex_latitude}   ${complex_longitude}
+    ${arguments}=    Create Dictionary     complex_name=${complex_name}
+    Set To Dictionary   ${arguments}     physical_location_id=${physical_location_id}
+    Set To Dictionary   ${arguments}     complex_latitude=${complex_latitude}
+    Set To Dictionary   ${arguments}     complex_longitude=${complex_longitude}
+    ${data}=	Fill JSON Template File    ${AAI_ADD_COMPLEX_ONLY_BODY}    ${arguments}
+	${put_resp}=    Run A&AI Put Request     ${COMPLEX_INDEX_PATH}${ROOT_COMPLEX_PATH}/${physical_location_id}     ${data}
+    ${status_string}=    Convert To String    ${put_resp.status_code}
+    Should Match Regexp    ${status_string} 	^(201|200)$

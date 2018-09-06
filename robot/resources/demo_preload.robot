@@ -197,4 +197,54 @@ Save For Delete
     OperatingSystem.Create File   ${FILE_CACHE}/${STACK_NAME}.py   ${vars}
     OperatingSystem.Create File   ${FILE_CACHE}/lastVNF4HEATBRIGE.py   ${vars}
 
+Get VF Module With Type
+    [Documentation]   search the VF Module by matching the VF Module name with type pattern
+    [Arguments]   ${vf_modules}   ${vf_module_type_pattern}
+    :for    ${vf_module}    in      @{vf_modules}
+    \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
+    \       Return From Keyword If    '${vf_module_type_pattern}' in '${vf_module_type}'     ${vf_module}
+    [Return]    None
+
+Preload User Model for VF Module
+    [Documentation]   Preload the heat env file as VF module data into SDNC
+    [Arguments]   ${vnf_name}   ${vf_module_name}   ${vf_module_type_pattern}   ${VF_MODULE_DATA_FILE}
+    # Go to A&AI and get information about the VNF we need to preload
+    ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance    ${vnf_name}
+    Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF Name: ${vnf_name} is not found.
+    ${vnf_type}=   Set Variable   ${generic_vnf['vnf-type']}
+    ${relationships}=   Set Variable   ${generic_vnf['relationship-list']['relationship']}
+    ${relationship_data}=    Get Relationship Data   ${relationships}
+    ${customer_id}=   Catenate
+    :for    ${r}   in   @{relationship_data}
+    \   ${service}=   Set Variable If    '${r['relationship-key']}' == 'service-subscription.service-type'   ${r['relationship-value']}    ${service}
+    \   ${service_instance_id}=   Set Variable If    '${r['relationship-key']}' == 'service-instance.service-instance-id'   ${r['relationship-value']}   ${service_instance_id}
+    \   ${customer_id}=    Set Variable If   '${r['relationship-key']}' == 'customer.global-customer-id'   ${r['relationship-value']}   ${customer_id}
+    ${invariantUUID}=   Get Persona Model Id     ${service_instance_id}    ${service}    ${customer_id}
+
+    # We still need the vf module names. We can get them from VID using the persona_model_id (invariantUUID) from A&AI
+    Setup Browser
+    Login To VID GUI
+    ${vf_modules}=   Get Module Names from VID    ${invariantUUID}
+    ${vf_module}=   Get VF Module With Type   ${vf_modules}   ${vf_module_type_pattern}
+    Log    ${generic_vnf}
+    Log   ${service_instance_id},${vnf_name},${vnf_type},${vf_module_name},${vf_module},${service}
+    Preload VF Module    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${service}   ${VF_MODULE_DATA_FILE}
+    [Teardown]    Close All Browsers
+
+Create AAI Customer
+    [Documentation]   Use openECOMP to Orchestrate a service.
+    [Arguments]    ${CUSTOMER_NAME}   ${SERVICE-TYPE}
+    Create Customer Only    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${SERVICE-TYPE}
+
+
+Create AAI Complex
+    [Documentation]   Create Complex object if not exist
+    [Arguments]   ${COMPLEX_NAME_ID}   ${LATITUDE}   ${LONGITUDE}
+    Inventory Complex Only If Not Exists    ${COMPLEX_NAME_ID}   ${COMPLEX_NAME_ID}   ${LATITUDE}   ${LONGITUDE}
+
+Associate Customer And Cloud Region
+    [Documentation]   Associate the customer with a cloud region
+    [Arguments]   ${CUSTOMER-NAME}   ${SERVICE-TYPE}   ${CLOUD-OWNER}   ${CLOUD-REGION-ID}   ${TENANT-NAME}
+    ${tenant_id}=   Get Tenant ID by Name   ${CLOUD-OWNER}   ${CLOUD-REGION-ID}   ${TENANT-NAME}
+    Associate Customer with Cloud Region   ${CUSTOMER-NAME}   ${SERVICE-TYPE}   ${CLOUD-OWNER}   ${CLOUD-REGION-ID}   ${tenant_id}
 

@@ -94,5 +94,22 @@ Update Tenant Dictionary
     \    Run Keyword If    '${status}' == 'PASS'    Set To Dictionary    ${dict}    ${tenant_id}=${map}
     Log    ${dict}
 
+Get Tenant from Resp
+    [Arguments]    ${tenant}    ${json}
+    ${list}=    Evaluate    ${json}['tenant']
+    :for   ${map}    in    @{list}
+    \    ${status}    ${tenant_name}=     Run Keyword And Ignore Error    Get From Dictionary    ${map}    tenant-name
+    \    Run Keyword If    '${status}' == 'PASS'    Set To Dictionary    ${tenant}    ${tenant_name}=${map}
+    Log    ${tenant}
 
-
+*** Keywords ***
+Get Tenant ID by Name
+    [Documentation]   Return Tenant ID by looking up tenants with name for a cloud owner/region
+    [Arguments]    ${cloud_owner}    ${cloud_region_id}    ${tenant_name}
+    ${resp}=    Run A&AI Get Request     ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}/tenants
+	${tenant}=    Create Dictionary
+    ${status}    ${value}=    Run Keyword And Ignore Error    Should Be Equal As Strings 	${resp.status_code} 	200
+    Run Keyword If    '${status}' == 'PASS'    Get Tenant from Resp    ${tenant}    ${resp.json()}
+    ${status}    ${tenant_wanted}=     Run Keyword And Ignore Error    Get From Dictionary    ${tenant}    ${tenant_name}
+    ${status}    ${tenant-id}=     Run Keyword And Ignore Error    Get From Dictionary    ${tenant_wanted}    tenant-id
+    [Return]  ${tenant-id}

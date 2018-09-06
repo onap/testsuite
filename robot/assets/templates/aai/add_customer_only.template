@@ -1,0 +1,10 @@
+{
+         "global-customer-id": "${global_customer_id}",
+         "subscriber-name": "${subscriber_name}",
+         "subscriber-type": "INFRA",
+         "service-subscriptions": {
+                 "service-subscription": [{
+                         "service-type": "${service1}"
+                 }]
+         }
+      }

@@ -14,6 +14,8 @@ ${INDEX PATH}     /aai/v11
 ${ROOT_CUSTOMER_PATH}  /business/customers/customer/
 ${SYSTEM USER}    robot-ete
 ${A&AI ADD CUSTOMER BODY}    robot/assets/templates/aai/add_customer.template
+${A&AI ADD CUSTOMER ONLY BODY}    robot/assets/templates/aai/add_customer_only.template
+${A&AI ADD CUSTOMER RELATIONSHIP BODY}    robot/assets/templates/aai/add_customer_relationship.template
 
 *** Keywords ***
 Create Customer
@@ -39,3 +41,25 @@ Delete Customer Exists
     [Arguments]    ${customer_id}    ${resource_version_id}
     ${put_resp}=    Run A&AI Delete Request    ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${resource_version_id}
     Should Be Equal As Strings 	${put_resp.status_code} 	204
+
+*** Keywords ***
+Create Customer Only
+    [Documentation]    Creates a customer object in A&AI
+    [Arguments]    ${customer_name}  ${customer_id}  ${customer_type}  ${service_type}
+    ${data_template}=    OperatingSystem.Get File    ${A&AI ADD CUSTOMER ONLY BODY}
+    ${arguments}=    Create Dictionary    global_customer_id=${customer_id}    subscriber_name=${customer_name}    subscriber_type=${customer_type}    service1=${service_type}
+    ${data}=	Fill JSON Template    ${data_template}    ${arguments}
+	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${data}
+    Should Be Equal As Strings 	${put_resp.status_code} 	201
+	[Return]  ${put_resp.status_code}
+
+*** Keywords ***
+Associate Customer with Cloud Region
+    [Documentation]    Associate a customer object with Cloud Region in A&AI
+    [Arguments]    ${customer_id}   ${service_type}   ${cloud_owner}   ${cloud_region_id}   ${tenant_id}
+    ${data_template}=    OperatingSystem.Get File    ${A&AI ADD CUSTOMER RELATIONSHIP BODY}
+    ${arguments}=    Create Dictionary    cloud_owner1=${cloud_owner}    cloud_region_id1=${cloud_region_id}    tenant_id1=${tenant_id}
+    ${data}=	Fill JSON Template    ${data_template}    ${arguments}
+	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}/service-subscriptions/service-subscription/${service_type}/relationship-list/relationship    ${data}
+    Should Be Equal As Strings 	${put_resp.status_code} 	201
+	[Return]  ${put_resp.status_code}

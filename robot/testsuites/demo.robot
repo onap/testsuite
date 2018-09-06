@@ -21,6 +21,10 @@ Initialize Customer And Models
 
 Initialize Customer
     [Tags]   InitCustomer
+    Load OwningEntity  lineOfBusiness  LOB-${customer_name}
+    Load OwningEntity  platform  Platform-${customer_name}
+    Load OwningEntity  project  Project-${customer_name}
+    Load OwningEntity  owningEntity  OE-${customer_name}
     Load Customer   Demonstration
 
 Initialize Models
@@ -30,6 +34,7 @@ Initialize Models
 Preload VNF
     [Tags]   PreloadDemo
     Preload User Model   ${VNF_NAME}   ${MODULE_NAME}
+
 
 Create APPC Mount Point
     [Tags]   APPCMountPointDemo
@@ -67,3 +72,22 @@ Preload APPC CDT GUI
     Preload APPC CDT GUI
 #    Preload APPC CDT GUI   demo   reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json   ${EXECDIR}/robot/assets/templates/appc/reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json   ${EXECDIR}/robot/assets/templates/appc/template_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.xml   ${EXECDIR}/robot/assets/templates/appc/pd_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.yaml
 
+Preload VF Module
+    [Tags]   PreloadVFModule
+    Preload User Model for VF Module   ${VNF_NAME}   ${VF_MODULE_NAME}   ${VF_MODULE_TYPE_PATTERN}   ${VF_MODULE_DATA_FILE}
+
+ADD Complex
+    [Tags]   AddComplex
+    Create AAI Complex   ${COMPLEX_NAME_ID}   ${LATITUDE}   ${LONGITUDE}
+
+ADD Customer
+    [Tags]   AddCustomer
+    Load OwningEntity  lineOfBusiness  LOB-${CUSTOMER-NAME}
+    Load OwningEntity  platform  Platform-${CUSTOMER-NAME}
+    Load OwningEntity  project  Project-${CUSTOMER-NAME}
+    Load OwningEntity  owningEntity  OE-${CUSTOMER-NAME}
+    Create AAI Customer   ${CUSTOMER-NAME}   ${SERVICE-TYPE}
+
+Associate Customer And Cloud Region
+    [Tags]   AssociateCustomerCloudRegion
+    Associate Customer And Cloud Region   ${CUSTOMER-NAME}   ${SERVICE-TYPE}   ${CLOUD-OWNER}   ${CLOUD-REGION-ID}   ${TENANT-NAME}

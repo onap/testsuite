@@ -7,6 +7,7 @@ Library 	    ExtendedSelenium2Library
 Library         Collections
 Library      String
 Library      StringTemplater
+Library    HEATUtils
 Resource          global_properties.robot
 Resource          ../resources/json_templater.robot
 Resource        browser_setup.robot
@@ -238,3 +239,36 @@ Login To SDNGC Admin GUI
     Click Button    xpath=//button[@type='submit']
     Title Should Be    SDN-C AdminPortal
     Log    Logged in to ${SDNGC_ADMIN_LOGIN_URL}
+
+Resolve VF Module Into Array
+    [Arguments]   ${from}
+    ${vf_parameters}=   Create List
+    ${keys}=    Get Dictionary Keys    ${from}
+    :for   ${key}   in  @{keys}
+    \    ${value}=    Get From Dictionary    ${from}   ${key}
+    \    ${parameter}=   Create Dictionary   vnf-parameter-name=${key}    vnf-parameter-value=${value}
+    \    Append To List    ${vf_parameters}   ${parameter}
+    [Return]   ${vf_parameters}
+
+Preload VF Module
+    [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}    ${vf_module_name}    ${vf_module}    ${service}    ${vf_data_file}
+    ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
+    Preload Vnf Profile    ${vf_module_type}
+    Preload One Vnf Topology With Data    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_module_name}    ${vf_module_type}    ${service}    ${vf_data_file}
+    [Return]    ${vf_module_type}
+
+Preload One Vnf Topology With Data
+    [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}       ${vf_module_name}    ${vf_module_type}    ${service}    ${filename}
+    Return From Keyword If    '${filename}' == ''
+    ${data_template}=    OperatingSystem.Get File    ${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}/preload.template
+    ${vf_module_data_str}=    Env Yaml To Json    /share/vfmoduledata/${filename}
+    ${vnf_parameters_dict}=    To Json    ${vf_module_data_str}
+    ${vnf_parameters_array}=   Resolve VF Module Into Array  ${vnf_parameters_dict}
+    ${vnf_parameters_json}=   Evaluate    json.dumps(${vnf_parameters_array})    json
+    ${parameters}=   Create Dictionary   vnf_parameters=${vnf_parameters_json}
+    Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
+    ${data}=	Fill JSON Template    ${data_template}    ${parameters}
+	${put_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     ${data}
+    Should Be Equal As Strings 	${put_resp.json()['output']['response-code']} 	200
+    ${get_resp}=  Run SDNGC Get Request  ${SDNGC_INDEX_PATH}${PRELOAD_VNF_CONFIG_PATH}/${vf_module_name}/${vf_module_type}
+    Should Be Equal As Strings 	${get_resp.status_code} 	200
