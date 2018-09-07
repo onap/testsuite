@@ -5,7 +5,7 @@ Library           RequestsLibrary
 Resource          global_properties.robot
 
 *** Variables ***
-${CLAMP_HEALTH_CHECK_PATH}        /restservices/clds/v1/clds/healthcheck
+${CLAMP_HEALTH_CHECK_PATH}        /restservices/clds/v1/healthcheck
 ${CLAMP_ENDPOINT}     ${GLOBAL_CLAMP_SERVER_PROTOCOL}://${GLOBAL_INJECTED_CLAMP_IP_ADDR}:${GLOBAL_CLAMP_SERVER_PORT}
 
 
