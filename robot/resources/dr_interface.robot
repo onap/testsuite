@@ -20,5 +20,4 @@ Run DR Get Request
     [Arguments]        ${data_path}
     ${session}=        Create Session    session    ${DR_ENDPOINT}
     ${resp}=           Get Request       session    ${data_path}
-    Log                Received response from data router    ${resp.text}
     [Return]           ${resp}
