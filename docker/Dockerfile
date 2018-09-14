@@ -26,6 +26,7 @@ RUN apt-get --assume-yes install python-pip
 RUN apt-get --assume-yes install unzip
 RUN apt-get --assume-yes install wget
 RUN apt-get --assume-yes install xvfb
+RUN apt-get --assume-yes install xxd
 RUN pip install --upgrade pip
 RUN pip install robotframework
 RUN python --version
