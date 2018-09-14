@@ -40,7 +40,6 @@ ${mso}  so
 ${sdnc} sdnc
 ${openo} multi-service
 ${dcae_controller} dcae
-${aai2} aai2
 ${message_router} message-router
 ${clamp} clamp
 
@@ -55,7 +54,6 @@ ${mso}  ${prefix}-so
 ${sdnc} ${prefix}-sdnc
 ${openo} ${prefix}-multi-service
 ${dcae_controller} ${prefix}-dcae
-${aai2} ${prefix}-aai2
 ${message_router} ${prefix}-message-router
 ${clamp} ${prefix}-clamp
 
@@ -87,7 +85,6 @@ GLOBAL_INJECTED_OPENSTACK_TENANT_ID = "${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}"
 GLOBAL_INJECTED_REGION = "${GLOBAL_INJECTED_REGION}"
 GLOBAL_INJECTED_KEYSTONE = "${GLOBAL_INJECTED_KEYSTONE}"
 GLOBAL_INJECTED_AAI1_IP_ADDR = "${aai1}"
-GLOBAL_INJECTED_AAI2_IP_ADDR = "${aai2}"
 GLOBAL_INJECTED_APPC_IP_ADDR = "${appc}"
 GLOBAL_INJECTED_DCAE_IP_ADDR = "${dcae_controller}"
 GLOBAL_INJECTED_SO_IP_ADDR = "${mso}"
@@ -170,7 +167,6 @@ GLOBAL_INJECTED_PUBLIC_NET_ID = "${GLOBAL_INJECTED_PUBLIC_NET_ID}"
     The following links will open a shell and ssh to the various running VMs (at least on a Mac). It assumes that the .ssh/config file has been set appropriately and /etc/hosts has been updated to the running instance.<p>
 
       <a href="ssh://${aai1}"> AAI1 </a><p>
-      <a href="ssh://${aai2}"> AAI2 </a><p>
       <a href="ssh://${policy}"> Policy </a><p>
       <a href="ssh://${sdc}"> SDC </a><p>
       <a href="ssh://${portal}"> Portal </a><p>
