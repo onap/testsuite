@@ -78,7 +78,7 @@ Setup Browser Chrome
 Portal admin Login To Portal GUI
     [Documentation]   Logs into Portal GUI
     ## Setup Browser Now being managed by test case
-    #Setup Browser
+    Setup Browser
     #Start Virtual Display    1920    1080
 	Open Browser    ${PORTAL_LOGIN_URL}    chrome
 	#Go To    ${PORTAL_LOGIN_URL}
