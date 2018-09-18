@@ -1,0 +1,1856 @@
+tosca_definitions_version: tosca_simple_yaml_1_1
+metadata:
+  invariantUUID: caaff476-b99b-4e3d-a790-dea9e9bb0156
+  UUID: fbd4a48f-409f-4e57-98d1-068aa50f50b1
+  name: vFirewall-0911
+  description: vFW
+  type: Service
+  category: Network L4+
+  serviceType: ''
+  serviceRole: ''
+  instantiationType: A-la-carte
+  serviceEcompNaming: true
+  ecompGeneratedNaming: true
+  namingPolicy: ''
+  environmentContext: General_Revenue-Bearing
+imports:
+- nodes:
+    file: nodes.yml
+- datatypes:
+    file: data.yml
+- capabilities:
+    file: capabilities.yml
+- relationships:
+    file: relationships.yml
+- groups:
+    file: groups.yml
+- policies:
+    file: policies.yml
+- annotations:
+    file: annotations.yml
+- service-vFirewall-0911-interface:
+    file: service-Vfirewall0911-template-interface.yml
+- resource-vFirewall:
+    file: resource-Vfirewall-template.yml
+- resource-vFirewall-interface:
+    file: resource-Vfirewall-template-interface.yml
+topology_template:
+  node_templates:
+    vFirewall 0:
+      type: org.openecomp.resource.vf.Vfirewall
+      metadata:
+        invariantUUID: a91dbe64-cadd-499c-9a19-7f5a19d7e8ab
+        UUID: b04870b8-a9f9-4b0d-9851-466830c75ee2
+        customizationUUID: 3b9b0fa4-ca9d-4bba-a1cd-bc6b470a5999
+        version: '1.0'
+        name: vFirewall
+        description: vFW
+        type: VF
+        category: Application L4+
+        subcategory: Firewall
+        resourceVendor: 00c5fde9-cc1f-41e9-9e88
+        resourceVendorRelease: '1.0'
+        resourceVendorModelNumber: ''
+      properties:
+        vf_module_id: vFirewall
+        nf_function: ONAP-FIREWALL
+        vfw_private_ip_1: 192.168.20.100
+        public_net_id: PUT THE PUBLIC NETWORK ID HERE
+        vfw_private_ip_0: 192.168.10.100
+        onap_private_subnet_id: PUT THE ONAP PRIVATE NETWORK NAME HERE
+        sec_group: PUT THE ONAP SECURITY GROUP HERE
+        vfw_private_ip_2: 10.0.100.1
+        nf_type: FIREWALL
+        vfw_name_0: zdfw1fwl01fwl01
+        nexus_artifact_repo: https://nexus.onap.org
+        onap_private_net_cidr: 10.0.0.0/16
+        dcae_collector_ip: 10.0.4.1
+        vnf_id: vFirewall_demo_app
+        dcae_collector_port: '8081'
+        vpg_name_0: zdfw1fwl01pgn01
+        vsn_private_ip_0: 192.168.20.250
+        vpg_private_ip_1: 10.0.100.2
+        vsn_private_ip_1: 10.0.100.3
+        vpg_private_ip_0: 192.168.10.200
+        protected_private_net_cidr: 192.168.20.0/24
+        unprotected_private_net_cidr: 192.168.10.0/24
+        nf_naming:
+          naming_policy: SDNC_Policy.Config_MS_ONAP_VFW_NAMING_TIMESTAMP
+          ecomp_generated_naming: true
+        vsn_name_0: zdfw1fwl01snk01
+        multi_stage_design: false
+        onap_private_net_id: PUT THE ONAP PRIVATE NETWORK NAME HERE
+        nf_naming_code: vfw
+        unprotected_private_net_id: zdfw1fwl01_unprotected
+        availability_zone_max_count: 1
+        sdnc_artifact_name: vFW_vNF_Artifact
+        vfw_flavor_name: PUT THE VM FLAVOR NAME HERE (m1.medium suggested)
+        demo_artifacts_version: 1.3.0-SNAPSHOT
+        pub_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQXYJYYi3/OUZXUiCYWdtc7K0m5C0dJKVxPG0eI8EWZrEHYdfYe6WoTSDJCww+1qlBSpA5ac/Ba4Wn9vh+lR1vtUKkyIC/nrYb90ReUd385Glkgzrfh5HdR5y5S2cL/Frh86lAn9r6b3iWTJD8wBwXFyoe1S2nMTOIuG4RPNvfmyCTYVh8XTCCE8HPvh3xv2r4egawG1P4Q4UDwk+hDBXThY2KS8M5/8EMyxHV0ImpLbpYCTBA6KYDIRtqmgS6iKyy8v2D1aSY5mc9J0T5t9S2Gv+VZQNWQDDKNFnxqYaAo1uEoq/i1q63XC5AD3ckXb2VT6dp23BQMdDfbHyUWfJN
+        key_name: vfw_key
+        sdnc_model_version: 1.0.0
+        nf_role: vFW
+        install_script_version: 1.3.0-SNAPSHOT
+        vfw_image_name: PUT THE VM IMAGE NAME HERE (UBUNTU 1404 required)
+        protected_private_net_id: zdfw1fwl01_protected
+        sdnc_model_name: vFW_spinup
+        cloud_env: openstack
+      capabilities:
+        abstract_vfw.cpu_vfw:
+          properties:
+            unit: ns
+            description: CPU time used
+            type: Cumulative
+            category: compute
+        abstract_vpg.memory.resident_vpg:
+          properties:
+            unit: MB
+            description: Volume of RAM used by the instance on the physical machine
+            type: Gauge
+            category: compute
+        abstract_vfw.network.incoming.bytes.rate_vfw_vfw_private_0_port:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vfw.disk.device.read.requests_vfw:
+          properties:
+            unit: request
+            description: Number of read requests
+            type: Cumulative
+            category: disk
+        abstract_vpg.disk.write.bytes_vpg:
+          properties:
+            unit: B
+            description: Volume of writes
+            type: Cumulative
+            category: compute
+        abstract_vsn.disk.device.write.requests.rate_vsn:
+          properties:
+            unit: request/s
+            description: Average rate of write requests
+            type: Gauge
+            category: disk
+        protected_private_network.end_point:
+          properties:
+            protocol: tcp
+            initiator: source
+            network_name: PRIVATE
+            secure: false
+        abstract_vfw.port_mirroring_vfw_vfw_private_2_port:
+          properties:
+            connection_point:
+              network_role:
+                get_input: port_vfw_private_2_port_network_role
+              nfc_naming_code: vfw
+        abstract_vpg.disk.usage_vpg:
+          properties:
+            unit: B
+            description: The physical size in bytes of the image container on the host
+            type: Gauge
+            category: disk
+        abstract_vsn.network.outgoing.bytes.rate_vsn_vsn_private_1_port:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vfw.disk.device.latency_vfw:
+          properties:
+            unit: ms
+            description: Average disk latency per device
+            type: Gauge
+            category: disk
+        abstract_vsn.disk.device.write.bytes_vsn:
+          properties:
+            unit: B
+            description: Volume of writes
+            type: Cumulative
+            category: disk
+        abstract_vfw.disk.read.requests_vfw:
+          properties:
+            unit: request
+            description: Number of read requests
+            type: Cumulative
+            category: compute
+        abstract_vsn.memory.resident_vsn:
+          properties:
+            unit: MB
+            description: Volume of RAM used by the instance on the physical machine
+            type: Gauge
+            category: compute
+        abstract_vfw.memory_vfw:
+          properties:
+            unit: MB
+            description: Volume of RAM allocated to the instance
+            type: Gauge
+            category: compute
+        abstract_vsn.disk.device.read.requests.rate_vsn:
+          properties:
+            unit: request/s
+            description: Average rate of read requests
+            type: Gauge
+            category: disk
+        unprotected_private_network.end_point:
+          properties:
+            protocol: tcp
+            initiator: source
+            network_name: PRIVATE
+            secure: false
+        abstract_vsn.network.outgoing.bytes.rate_vsn_vsn_private_0_port:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vfw.disk.device.allocation_vfw:
+          properties:
+            unit: B
+            description: The amount of disk per device occupied by the instance on the host machine
+            type: Gauge
+            category: disk
+        abstract_vfw.disk.root.size_vfw:
+          properties:
+            unit: GB
+            description: Size of root disk
+            type: Gauge
+            category: compute
+        abstract_vpg.memory.usage_vpg:
+          properties:
+            unit: MB
+            description: Volume of RAM used by the instance from the amount of its allocated memory
+            type: Gauge
+            category: compute
+        abstract_vfw.disk.capacity_vfw:
+          properties:
+            unit: B
+            description: The amount of disk that the instance can see
+            type: Gauge
+            category: disk
+        abstract_vfw.disk.allocation_vfw:
+          properties:
+            unit: B
+            description: The amount of disk occupied by the instance on the host machine
+            type: Gauge
+            category: disk
+        abstract_vpg.network.incoming.bytes_vpg_vpg_private_0_port:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vpg.disk.iops_vpg:
+          properties:
+            unit: count/s
+            description: Average disk iops
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.device.capacity_vpg:
+          properties:
+            unit: B
+            description: The amount of disk per device that the instance can see
+            type: Gauge
+            category: disk
+        abstract_vsn.scalable_vsn:
+          properties:
+            min_instances: 1
+            max_instances: 1
+        abstract_vsn.disk.read.bytes_vsn:
+          properties:
+            unit: B
+            description: Volume of reads
+            type: Cumulative
+            category: compute
+        abstract_vpg.disk.write.requests.rate_vpg:
+          properties:
+            unit: request/s
+            description: Average rate of write requests
+            type: Gauge
+            category: compute
+        abstract_vfw.disk.device.iops_vfw:
+          properties:
+            unit: count/s
+            description: Average disk iops per device
+            type: Gauge
+            category: disk
+        abstract_vsn.disk.device.write.requests_vsn:
+          properties:
+            unit: request
+            description: Number of write requests
+            type: Cumulative
+            category: disk
+        abstract_vfw.disk.write.requests_vfw:
+          properties:
+            unit: request
+            description: Number of write requests
+            type: Cumulative
+            category: compute
+        abstract_vsn.disk.device.allocation_vsn:
+          properties:
+            unit: B
+            description: The amount of disk per device occupied by the instance on the host machine
+            type: Gauge
+            category: disk
+        abstract_vsn.disk.ephemeral.size_vsn:
+          properties:
+            unit: GB
+            description: Size of ephemeral disk
+            type: Gauge
+            category: compute
+        abstract_vpg.disk.read.bytes_vpg:
+          properties:
+            unit: B
+            description: Volume of reads
+            type: Cumulative
+            category: compute
+        abstract_vsn.cpu_vsn:
+          properties:
+            unit: ns
+            description: CPU time used
+            type: Cumulative
+            category: compute
+        abstract_vfw.network.outgoing.bytes.rate_vfw_vfw_private_2_port:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vsn.disk.write.bytes_vsn:
+          properties:
+            unit: B
+            description: Volume of writes
+            type: Cumulative
+            category: compute
+        abstract_vpg.disk.device.read.bytes_vpg:
+          properties:
+            unit: B
+            description: Volume of reads
+            type: Cumulative
+            category: disk
+        abstract_vpg.disk.capacity_vpg:
+          properties:
+            unit: B
+            description: The amount of disk that the instance can see
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.device.read.bytes.rate_vpg:
+          properties:
+            unit: B/s
+            description: Average rate of reads
+            type: Gauge
+            category: disk
+        abstract_vfw.disk.usage_vfw:
+          properties:
+            unit: B
+            description: The physical size in bytes of the image container on the host
+            type: Gauge
+            category: disk
+        abstract_vsn.disk.device.latency_vsn:
+          properties:
+            unit: ms
+            description: Average disk latency per device
+            type: Gauge
+            category: disk
+        abstract_vpg.scalable_vpg:
+          properties:
+            min_instances: 1
+            max_instances: 1
+        abstract_vfw.network.incoming.packets_vfw_vfw_private_1_port:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vsn.instance_vsn:
+          properties:
+            unit: instance
+            description: Existence of instance
+            type: Gauge
+            category: compute
+        abstract_vsn.network.outpoing.packets_vsn_vsn_private_1_port:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vfw.network.incoming.bytes.rate_vfw_vfw_private_2_port:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vpg.disk.device.allocation_vpg:
+          properties:
+            unit: B
+            description: The amount of disk per device occupied by the instance on the host machine
+            type: Gauge
+            category: disk
+        abstract_vsn.disk.write.requests_vsn:
+          properties:
+            unit: request
+            description: Number of write requests
+            type: Cumulative
+            category: compute
+        abstract_vsn.network.incoming.packets.rate_vsn_vsn_private_1_port:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vfw.disk.write.bytes_vfw:
+          properties:
+            unit: B
+            description: Volume of writes
+            type: Cumulative
+            category: compute
+        abstract_vsn.disk.device.read.bytes.rate_vsn:
+          properties:
+            unit: B/s
+            description: Average rate of reads
+            type: Gauge
+            category: disk
+        abstract_vsn.vcpus_vsn:
+          properties:
+            unit: vcpu
+            description: Number of virtual CPUs allocated to the instance
+            type: Gauge
+            category: compute
+        abstract_vfw.disk.device.write.bytes_vfw:
+          properties:
+            unit: B
+            description: Volume of writes
+            type: Cumulative
+            category: disk
+        abstract_vsn.cpu.delta_vsn:
+          properties:
+            unit: ns
+            description: CPU time used since previous datapoint
+            type: Delta
+            category: compute
+        abstract_vfw.network.incoming.bytes_vfw_vfw_private_1_port:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vfw.memory.resident_vfw:
+          properties:
+            unit: MB
+            description: Volume of RAM used by the instance on the physical machine
+            type: Gauge
+            category: compute
+        abstract_vsn.cpu_util_vsn:
+          properties:
+            unit: '%'
+            description: Average CPU utilization
+            type: Gauge
+            category: compute
+        abstract_vpg.disk.device.iops_vpg:
+          properties:
+            unit: count/s
+            description: Average disk iops per device
+            type: Gauge
+            category: disk
+        abstract_vsn.network.incoming.packets_vsn_vsn_private_0_port:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vsn.network.outgoing.bytes_vsn_vsn_private_0_port:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vsn.network.incoming.bytes.rate_vsn_vsn_private_1_port:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vpg.disk.latency_vpg:
+          properties:
+            unit: ms
+            description: Average disk latency
+            type: Gauge
+            category: disk
+        abstract_vpg.network.incoming.bytes.rate_vpg_vpg_private_1_port:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vpg.instance_vpg:
+          properties:
+            unit: instance
+            description: Existence of instance
+            type: Gauge
+            category: compute
+        abstract_vsn.network.outgoing.packets.rate_vsn_vsn_private_0_port:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vpg.network.outpoing.packets_vpg_vpg_private_0_port:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vfw.network.outpoing.packets_vfw_vfw_private_2_port:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vfw.network.outgoing.packets.rate_vfw_vfw_private_0_port:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vsn.disk.allocation_vsn:
+          properties:
+            unit: B
+            description: The amount of disk occupied by the instance on the host machine
+            type: Gauge
+            category: disk
+        abstract_vfw.network.outgoing.packets.rate_vfw_vfw_private_2_port:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vfw.network.incoming.packets.rate_vfw_vfw_private_2_port:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vsn.disk.capacity_vsn:
+          properties:
+            unit: B
+            description: The amount of disk that the instance can see
+            type: Gauge
+            category: disk
+        abstract_vsn.disk.device.capacity_vsn:
+          properties:
+            unit: B
+            description: The amount of disk per device that the instance can see
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.allocation_vpg:
+          properties:
+            unit: B
+            description: The amount of disk occupied by the instance on the host machine
+            type: Gauge
+            category: disk
+        abstract_vfw.disk.device.read.requests.rate_vfw:
+          properties:
+            unit: request/s
+            description: Average rate of read requests
+            type: Gauge
+            category: disk
+        abstract_vsn.disk.root.size_vsn:
+          properties:
+            unit: GB
+            description: Size of root disk
+            type: Gauge
+            category: compute
+        abstract_vsn.network.incoming.bytes_vsn_vsn_private_1_port:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vpg.network.outgoing.packets.rate_vpg_vpg_private_0_port:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vsn.disk.usage_vsn:
+          properties:
+            unit: B
+            description: The physical size in bytes of the image container on the host
+            type: Gauge
+            category: disk
+        abstract_vsn.disk.write.bytes.rate_vsn:
+          properties:
+            unit: B/s
+            description: Average rate of writes
+            type: Gauge
+            category: compute
+        abstract_vpg.network.outgoing.bytes.rate_vpg_vpg_private_1_port:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vpg.network.incoming.packets.rate_vpg_vpg_private_1_port:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vsn.endpoint_vsn:
+          properties:
+            secure: true
+        abstract_vpg.disk.read.bytes.rate_vpg:
+          properties:
+            unit: B/s
+            description: Average rate of reads
+            type: Gauge
+            category: compute
+        abstract_vfw.network.outgoing.bytes_vfw_vfw_private_0_port:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vpg.disk.device.read.requests_vpg:
+          properties:
+            unit: request
+            description: Number of read requests
+            type: Cumulative
+            category: disk
+        abstract_vpg.port_mirroring_vpg_vpg_private_1_port:
+          properties:
+            connection_point:
+              network_role:
+                get_input: port_vpg_private_1_port_network_role
+              nfc_naming_code: vpg
+        abstract_vsn.port_mirroring_vsn_vsn_private_1_port:
+          properties:
+            connection_point:
+              network_role:
+                get_input: port_vsn_private_1_port_network_role
+              nfc_naming_code: vsn
+        abstract_vfw.network.incoming.bytes_vfw_vfw_private_2_port:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vfw.disk.ephemeral.size_vfw:
+          properties:
+            unit: GB
+            description: Size of ephemeral disk
+            type: Gauge
+            category: compute
+        abstract_vpg.disk.read.requests_vpg:
+          properties:
+            unit: request
+            description: Number of read requests
+            type: Cumulative
+            category: compute
+        abstract_vfw.network.outgoing.packets.rate_vfw_vfw_private_1_port:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vsn.disk.device.write.bytes.rate_vsn:
+          properties:
+            unit: B/s
+            description: Average rate of writes
+            type: Gauge
+            category: disk
+        abstract_vpg.network.outpoing.packets_vpg_vpg_private_1_port:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vpg.network.outgoing.packets.rate_vpg_vpg_private_1_port:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vfw.network.incoming.packets_vfw_vfw_private_2_port:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vpg.disk.device.write.bytes_vpg:
+          properties:
+            unit: B
+            description: Volume of writes
+            type: Cumulative
+            category: disk
+        abstract_vfw.network.outgoing.bytes_vfw_vfw_private_1_port:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vsn.memory.usage_vsn:
+          properties:
+            unit: MB
+            description: Volume of RAM used by the instance from the amount of its allocated memory
+            type: Gauge
+            category: compute
+        abstract_vsn.network.incoming.bytes_vsn_vsn_private_0_port:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vpg.network.incoming.packets_vpg_vpg_private_1_port:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vsn.disk.device.iops_vsn:
+          properties:
+            unit: count/s
+            description: Average disk iops per device
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.device.write.bytes.rate_vpg:
+          properties:
+            unit: B/s
+            description: Average rate of writes
+            type: Gauge
+            category: disk
+        abstract_vfw.network.outgoing.bytes.rate_vfw_vfw_private_0_port:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vsn.disk.device.read.bytes_vsn:
+          properties:
+            unit: B
+            description: Volume of reads
+            type: Cumulative
+            category: disk
+        abstract_vfw.network.incoming.packets.rate_vfw_vfw_private_1_port:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vfw.disk.latency_vfw:
+          properties:
+            unit: ms
+            description: Average disk latency
+            type: Gauge
+            category: disk
+        abstract_vsn.disk.read.requests_vsn:
+          properties:
+            unit: request
+            description: Number of read requests
+            type: Cumulative
+            category: compute
+        abstract_vpg.endpoint_vpg:
+          properties:
+            secure: true
+        abstract_vsn.network.incoming.bytes.rate_vsn_vsn_private_0_port:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vsn.disk.device.read.requests_vsn:
+          properties:
+            unit: request
+            description: Number of read requests
+            type: Cumulative
+            category: disk
+        abstract_vsn.memory_vsn:
+          properties:
+            unit: MB
+            description: Volume of RAM allocated to the instance
+            type: Gauge
+            category: compute
+        abstract_vfw.disk.device.read.bytes.rate_vfw:
+          properties:
+            unit: B/s
+            description: Average rate of reads
+            type: Gauge
+            category: disk
+        abstract_vfw.disk.device.read.bytes_vfw:
+          properties:
+            unit: B
+            description: Volume of reads
+            type: Cumulative
+            category: disk
+        abstract_vfw.disk.read.bytes_vfw:
+          properties:
+            unit: B
+            description: Volume of reads
+            type: Cumulative
+            category: compute
+        abstract_vfw.disk.read.bytes.rate_vfw:
+          properties:
+            unit: B/s
+            description: Average rate of reads
+            type: Gauge
+            category: compute
+        abstract_vfw.endpoint_vfw:
+          properties:
+            secure: true
+        abstract_vfw.disk.device.write.requests_vfw:
+          properties:
+            unit: request
+            description: Number of write requests
+            type: Cumulative
+            category: disk
+        abstract_vpg.cpu_util_vpg:
+          properties:
+            unit: '%'
+            description: Average CPU utilization
+            type: Gauge
+            category: compute
+        abstract_vpg.network.outgoing.bytes.rate_vpg_vpg_private_0_port:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vpg.vcpus_vpg:
+          properties:
+            unit: vcpu
+            description: Number of virtual CPUs allocated to the instance
+            type: Gauge
+            category: compute
+        abstract_vpg.cpu_vpg:
+          properties:
+            unit: ns
+            description: CPU time used
+            type: Cumulative
+            category: compute
+        abstract_vsn.network.incoming.packets_vsn_vsn_private_1_port:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vpg.network.incoming.packets.rate_vpg_vpg_private_0_port:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vpg.network.outgoing.bytes_vpg_vpg_private_1_port:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vsn.network.outgoing.bytes_vsn_vsn_private_1_port:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vfw.network.outpoing.packets_vfw_vfw_private_0_port:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vfw.disk.write.requests.rate_vfw:
+          properties:
+            unit: request/s
+            description: Average rate of write requests
+            type: Gauge
+            category: compute
+        abstract_vsn.disk.write.requests.rate_vsn:
+          properties:
+            unit: request/s
+            description: Average rate of write requests
+            type: Gauge
+            category: compute
+        abstract_vpg.disk.root.size_vpg:
+          properties:
+            unit: GB
+            description: Size of root disk
+            type: Gauge
+            category: compute
+        abstract_vpg.disk.device.usage_vpg:
+          properties:
+            unit: B
+            description: The physical size in bytes of the image container on the host per device
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.device.write.requests.rate_vpg:
+          properties:
+            unit: request/s
+            description: Average rate of write requests
+            type: Gauge
+            category: disk
+        abstract_vfw.disk.device.capacity_vfw:
+          properties:
+            unit: B
+            description: The amount of disk per device that the instance can see
+            type: Gauge
+            category: disk
+        abstract_vfw.network.outgoing.bytes_vfw_vfw_private_2_port:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vfw.cpu_util_vfw:
+          properties:
+            unit: '%'
+            description: Average CPU utilization
+            type: Gauge
+            category: compute
+        abstract_vfw.cpu.delta_vfw:
+          properties:
+            unit: ns
+            description: CPU time used since previous datapoint
+            type: Delta
+            category: compute
+        abstract_vfw.vcpus_vfw:
+          properties:
+            unit: vcpu
+            description: Number of virtual CPUs allocated to the instance
+            type: Gauge
+            category: compute
+        abstract_vsn.disk.iops_vsn:
+          properties:
+            unit: count/s
+            description: Average disk iops
+            type: Gauge
+            category: disk
+        abstract_vfw.network.incoming.bytes_vfw_vfw_private_0_port:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vsn.network.outgoing.packets.rate_vsn_vsn_private_1_port:
+          properties:
+            unit: packet/s
+            description: Average rate of outgoing packets
+            type: Gauge
+            category: network
+        abstract_vfw.disk.iops_vfw:
+          properties:
+            unit: count/s
+            description: Average disk iops
+            type: Gauge
+            category: disk
+        abstract_vfw.disk.write.bytes.rate_vfw:
+          properties:
+            unit: B/s
+            description: Average rate of writes
+            type: Gauge
+            category: compute
+        abstract_vfw.scalable_vfw:
+          properties:
+            min_instances: 1
+            max_instances: 1
+        abstract_vpg.memory_vpg:
+          properties:
+            unit: MB
+            description: Volume of RAM allocated to the instance
+            type: Gauge
+            category: compute
+        abstract_vpg.disk.ephemeral.size_vpg:
+          properties:
+            unit: GB
+            description: Size of ephemeral disk
+            type: Gauge
+            category: compute
+        abstract_vpg.network.incoming.bytes.rate_vpg_vpg_private_0_port:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vsn.network.outpoing.packets_vsn_vsn_private_0_port:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vfw.network.incoming.packets_vfw_vfw_private_0_port:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vfw.memory.usage_vfw:
+          properties:
+            unit: MB
+            description: Volume of RAM used by the instance from the amount of its allocated memory
+            type: Gauge
+            category: compute
+        abstract_vpg.network.incoming.packets_vpg_vpg_private_0_port:
+          properties:
+            unit: packet
+            description: Number of incoming packets
+            type: Cumulative
+            category: network
+        abstract_vfw.network.outgoing.bytes.rate_vfw_vfw_private_1_port:
+          properties:
+            unit: B/s
+            description: Average rate of outgoing bytes
+            type: Gauge
+            category: network
+        abstract_vfw.network.outpoing.packets_vfw_vfw_private_1_port:
+          properties:
+            unit: packet
+            description: Number of outgoing packets
+            type: Cumulative
+            category: network
+        abstract_vpg.disk.device.read.requests.rate_vpg:
+          properties:
+            unit: request/s
+            description: Average rate of read requests
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.device.write.requests_vpg:
+          properties:
+            unit: request
+            description: Number of write requests
+            type: Cumulative
+            category: disk
+        abstract_vpg.disk.device.latency_vpg:
+          properties:
+            unit: ms
+            description: Average disk latency per device
+            type: Gauge
+            category: disk
+        abstract_vfw.disk.device.usage_vfw:
+          properties:
+            unit: B
+            description: The physical size in bytes of the image container on the host per device
+            type: Gauge
+            category: disk
+        abstract_vpg.network.outgoing.bytes_vpg_vpg_private_0_port:
+          properties:
+            unit: B
+            description: Number of outgoing bytes
+            type: Cumulative
+            category: network
+        abstract_vfw.disk.device.write.bytes.rate_vfw:
+          properties:
+            unit: B/s
+            description: Average rate of writes
+            type: Gauge
+            category: disk
+        abstract_vfw.network.incoming.packets.rate_vfw_vfw_private_0_port:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vpg.cpu.delta_vpg:
+          properties:
+            unit: ns
+            description: CPU time used since previous datapoint
+            type: Delta
+            category: compute
+        abstract_vpg.network.incoming.bytes_vpg_vpg_private_1_port:
+          properties:
+            unit: B
+            description: Number of incoming bytes
+            type: Cumulative
+            category: network
+        abstract_vfw.instance_vfw:
+          properties:
+            unit: instance
+            description: Existence of instance
+            type: Gauge
+            category: compute
+        abstract_vsn.disk.latency_vsn:
+          properties:
+            unit: ms
+            description: Average disk latency
+            type: Gauge
+            category: disk
+        abstract_vfw.network.incoming.bytes.rate_vfw_vfw_private_1_port:
+          properties:
+            unit: B/s
+            description: Average rate of incoming bytes
+            type: Gauge
+            category: network
+        abstract_vpg.disk.write.bytes.rate_vpg:
+          properties:
+            unit: B/s
+            description: Average rate of writes
+            type: Gauge
+            category: compute
+        abstract_vsn.network.incoming.packets.rate_vsn_vsn_private_0_port:
+          properties:
+            unit: packet/s
+            description: Average rate of incoming packets
+            type: Gauge
+            category: network
+        abstract_vfw.disk.device.write.requests.rate_vfw:
+          properties:
+            unit: request/s
+            description: Average rate of write requests
+            type: Gauge
+            category: disk
+        abstract_vpg.disk.write.requests_vpg:
+          properties:
+            unit: request
+            description: Number of write requests
+            type: Cumulative
+            category: compute
+        abstract_vsn.disk.read.bytes.rate_vsn:
+          properties:
+            unit: B/s
+            description: Average rate of reads
+            type: Gauge
+            category: compute
+        abstract_vsn.disk.device.usage_vsn:
+          properties:
+            unit: B
+            description: The physical size in bytes of the image container on the host per device
+            type: Gauge
+            category: disk
+  groups:
+    vfirewall0..Vfirewall..base_vfw..module-0:
+      type: org.openecomp.groups.VfModule
+      metadata:
+        vfModuleModelName: Vfirewall..base_vfw..module-0
+        vfModuleModelInvariantUUID: d8b6b8b5-bdae-469e-a19b-2e70bab40e0f
+        vfModuleModelUUID: d2fc28cf-912e-46c4-832e-88c719f2e23f
+        vfModuleModelVersion: '1'
+        vfModuleModelCustomizationUUID: 78e7cb9c-071b-4ec3-9cac-585521cde800
+      properties:
+        min_vf_module_instances: 1
+        vf_module_label: base_vfw
+        max_vf_module_instances: 1
+        vf_module_type: Base
+        isBase: true
+        initial_count: 1
+        volume_group: false
+  substitution_mappings:
+    node_type: org.openecomp.service.Vfirewall0911
+    capabilities:
+      vfirewall0.abstract_vsn.network.incoming.packets_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.network.incoming.packets_vsn_vsn_private_1_port
+      vfirewall0.abstract_vsn.disk.device.allocation_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.allocation_vsn
+      vfirewall0.abstract_vfw.disk.write.bytes.rate_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.write.bytes.rate_vfw
+      vfirewall0.abstract_vpg.attachment_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.attachment_vpg_vpg_private_0_port
+      vfirewall0.abstract_vfw.disk.ephemeral.size_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.ephemeral.size_vfw
+      vfirewall0.abstract_vpg.memory_vpg:
+      - vfirewall0
+      - abstract_vpg.memory_vpg
+      vfirewall0.abstract_vfw.binding_vfw:
+      - vfirewall0
+      - abstract_vfw.binding_vfw
+      vfirewall0.abstract_vsn.disk.device.iops_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.iops_vsn
+      vfirewall0.abstract_vfw.instance_vfw:
+      - vfirewall0
+      - abstract_vfw.instance_vfw
+      vfirewall0.abstract_vsn.network.outpoing.packets_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.network.outpoing.packets_vsn_vsn_private_1_port
+      vfirewall0.abstract_vfw.network.outgoing.packets.rate_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.network.outgoing.packets.rate_vfw_vfw_private_2_port
+      vfirewall0.abstract_vfw.forwarder_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.forwarder_vfw_vfw_private_1_port
+      vfirewall0.abstract_vfw.network.outgoing.bytes.rate_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.network.outgoing.bytes.rate_vfw_vfw_private_0_port
+      vfirewall0.abstract_vsn.feature_vsn:
+      - vfirewall0
+      - abstract_vsn.feature_vsn
+      vfirewall0.abstract_vfw.disk.write.bytes_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.write.bytes_vfw
+      vfirewall0.abstract_vsn.os_vsn:
+      - vfirewall0
+      - abstract_vsn.os_vsn
+      vfirewall0.abstract_vpg.feature_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.feature_vpg_vpg_private_1_port
+      vfirewall0.abstract_vpg.disk.device.allocation_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.allocation_vpg
+      vfirewall0.abstract_vsn.network.incoming.bytes.rate_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.network.incoming.bytes.rate_vsn_vsn_private_1_port
+      vfirewall0.abstract_vpg.network.outgoing.bytes.rate_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.network.outgoing.bytes.rate_vpg_vpg_private_0_port
+      vfirewall0.abstract_vpg.forwarder_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.forwarder_vpg_vpg_private_0_port
+      vfirewall0.abstract_vpg.network.outgoing.packets.rate_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.network.outgoing.packets.rate_vpg_vpg_private_1_port
+      vfirewall0.protected_private_network.feature:
+      - vfirewall0
+      - protected_private_network.feature
+      vfirewall0.abstract_vpg.memory.usage_vpg:
+      - vfirewall0
+      - abstract_vpg.memory.usage_vpg
+      vfirewall0.abstract_vfw.disk.device.read.bytes.rate_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.read.bytes.rate_vfw
+      vfirewall0.abstract_vsn.network.incoming.bytes_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.network.incoming.bytes_vsn_vsn_private_1_port
+      vfirewall0.abstract_vfw.network.outgoing.packets.rate_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.network.outgoing.packets.rate_vfw_vfw_private_0_port
+      vfirewall0.abstract_vpg.disk.device.write.bytes_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.write.bytes_vpg
+      vfirewall0.abstract_vpg.disk.read.requests_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.read.requests_vpg
+      vfirewall0.abstract_vpg.disk.device.read.requests.rate_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.read.requests.rate_vpg
+      vfirewall0.abstract_vfw.feature_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.feature_vfw_vfw_private_2_port
+      vfirewall0.abstract_vfw.disk.device.read.requests.rate_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.read.requests.rate_vfw
+      vfirewall0.abstract_vpg.disk.write.bytes.rate_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.write.bytes.rate_vpg
+      vfirewall0.abstract_vsn.cpu_vsn:
+      - vfirewall0
+      - abstract_vsn.cpu_vsn
+      vfirewall0.abstract_vpg.disk.device.iops_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.iops_vpg
+      vfirewall0.abstract_vpg.feature_vpg:
+      - vfirewall0
+      - abstract_vpg.feature_vpg
+      vfirewall0.abstract_vsn.scalable_vsn:
+      - vfirewall0
+      - abstract_vsn.scalable_vsn
+      vfirewall0.abstract_vsn.cpu_util_vsn:
+      - vfirewall0
+      - abstract_vsn.cpu_util_vsn
+      vfirewall0.abstract_vfw.disk.latency_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.latency_vfw
+      vfirewall0.abstract_vfw.network.outpoing.packets_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.network.outpoing.packets_vfw_vfw_private_1_port
+      vfirewall0.abstract_vfw.disk.device.capacity_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.capacity_vfw
+      vfirewall0.abstract_vsn.feature_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.feature_vsn_vsn_private_1_port
+      vfirewall0.abstract_vfw.disk.write.requests_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.write.requests_vfw
+      vfirewall0.abstract_vpg.network.incoming.packets.rate_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.network.incoming.packets.rate_vpg_vpg_private_0_port
+      vfirewall0.abstract_vfw.os_vfw:
+      - vfirewall0
+      - abstract_vfw.os_vfw
+      vfirewall0.abstract_vfw.disk.device.allocation_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.allocation_vfw
+      vfirewall0.abstract_vpg.scalable_vpg:
+      - vfirewall0
+      - abstract_vpg.scalable_vpg
+      vfirewall0.abstract_vpg.disk.write.bytes_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.write.bytes_vpg
+      vfirewall0.abstract_vfw.disk.device.read.bytes_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.read.bytes_vfw
+      vfirewall0.abstract_vsn.disk.read.bytes.rate_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.read.bytes.rate_vsn
+      vfirewall0.abstract_vpg.network.outgoing.bytes_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.network.outgoing.bytes_vpg_vpg_private_1_port
+      vfirewall0.abstract_vpg.disk.device.write.bytes.rate_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.write.bytes.rate_vpg
+      vfirewall0.abstract_vsn.host_vsn:
+      - vfirewall0
+      - abstract_vsn.host_vsn
+      vfirewall0.abstract_vpg.disk.write.requests_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.write.requests_vpg
+      vfirewall0.abstract_vfw.network.incoming.packets_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.network.incoming.packets_vfw_vfw_private_0_port
+      vfirewall0.abstract_vsn.network.outgoing.bytes.rate_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.network.outgoing.bytes.rate_vsn_vsn_private_1_port
+      vfirewall0.abstract_vfw.cpu.delta_vfw:
+      - vfirewall0
+      - abstract_vfw.cpu.delta_vfw
+      vfirewall0.abstract_vpg.disk.device.capacity_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.capacity_vpg
+      vfirewall0.abstract_vfw.disk.device.iops_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.iops_vfw
+      vfirewall0.abstract_vfw.attachment_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.attachment_vfw_vfw_private_0_port
+      vfirewall0.abstract_vpg.disk.device.usage_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.usage_vpg
+      vfirewall0.abstract_vpg.os_vpg:
+      - vfirewall0
+      - abstract_vpg.os_vpg
+      vfirewall0.abstract_vpg.network.incoming.packets_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.network.incoming.packets_vpg_vpg_private_0_port
+      vfirewall0.abstract_vfw.feature_vfw:
+      - vfirewall0
+      - abstract_vfw.feature_vfw
+      vfirewall0.unprotected_private_network.end_point:
+      - vfirewall0
+      - unprotected_private_network.end_point
+      vfirewall0.abstract_vsn.disk.root.size_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.root.size_vsn
+      vfirewall0.abstract_vfw.disk.device.write.bytes_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.write.bytes_vfw
+      vfirewall0.abstract_vpg.disk.device.read.bytes_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.read.bytes_vpg
+      vfirewall0.abstract_vsn.attachment_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.attachment_vsn_vsn_private_1_port
+      vfirewall0.abstract_vfw.attachment_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.attachment_vfw_vfw_private_1_port
+      vfirewall0.abstract_vpg.network.incoming.bytes.rate_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.network.incoming.bytes.rate_vpg_vpg_private_0_port
+      vfirewall0.abstract_vfw.feature_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.feature_vfw_vfw_private_0_port
+      vfirewall0.abstract_vfw.cpu_vfw:
+      - vfirewall0
+      - abstract_vfw.cpu_vfw
+      vfirewall0.abstract_vsn.network.incoming.packets.rate_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.network.incoming.packets.rate_vsn_vsn_private_0_port
+      vfirewall0.abstract_vfw.disk.read.requests_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.read.requests_vfw
+      vfirewall0.abstract_vfw.network.incoming.bytes_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.network.incoming.bytes_vfw_vfw_private_1_port
+      vfirewall0.abstract_vfw.host_vfw:
+      - vfirewall0
+      - abstract_vfw.host_vfw
+      vfirewall0.abstract_vfw.network.outgoing.bytes.rate_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.network.outgoing.bytes.rate_vfw_vfw_private_2_port
+      vfirewall0.abstract_vpg.memory.resident_vpg:
+      - vfirewall0
+      - abstract_vpg.memory.resident_vpg
+      vfirewall0.abstract_vsn.disk.ephemeral.size_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.ephemeral.size_vsn
+      vfirewall0.abstract_vsn.network.incoming.packets.rate_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.network.incoming.packets.rate_vsn_vsn_private_1_port
+      vfirewall0.abstract_vsn.feature_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.feature_vsn_vsn_private_0_port
+      vfirewall0.abstract_vfw.memory_vfw:
+      - vfirewall0
+      - abstract_vfw.memory_vfw
+      vfirewall0.abstract_vfw.disk.device.write.requests_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.write.requests_vfw
+      vfirewall0.abstract_vpg.network.outgoing.bytes_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.network.outgoing.bytes_vpg_vpg_private_0_port
+      vfirewall0.abstract_vsn.disk.write.bytes.rate_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.write.bytes.rate_vsn
+      vfirewall0.abstract_vfw.disk.usage_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.usage_vfw
+      vfirewall0.abstract_vsn.network.incoming.bytes.rate_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.network.incoming.bytes.rate_vsn_vsn_private_0_port
+      vfirewall0.abstract_vfw.network.incoming.bytes.rate_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.network.incoming.bytes.rate_vfw_vfw_private_2_port
+      vfirewall0.abstract_vfw.network.incoming.bytes_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.network.incoming.bytes_vfw_vfw_private_2_port
+      vfirewall0.abstract_vfw.disk.capacity_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.capacity_vfw
+      vfirewall0.abstract_vpg.disk.device.read.requests_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.read.requests_vpg
+      vfirewall0.abstract_vsn.disk.write.requests.rate_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.write.requests.rate_vsn
+      vfirewall0.abstract_vfw.disk.write.requests.rate_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.write.requests.rate_vfw
+      vfirewall0.abstract_vsn.disk.device.read.bytes.rate_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.read.bytes.rate_vsn
+      vfirewall0.abstract_vsn.network.outgoing.bytes.rate_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.network.outgoing.bytes.rate_vsn_vsn_private_0_port
+      vfirewall0.abstract_vfw.feature_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.feature_vfw_vfw_private_1_port
+      vfirewall0.abstract_vpg.disk.read.bytes_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.read.bytes_vpg
+      vfirewall0.abstract_vpg.disk.write.requests.rate_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.write.requests.rate_vpg
+      vfirewall0.abstract_vsn.network.outgoing.bytes_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.network.outgoing.bytes_vsn_vsn_private_1_port
+      vfirewall0.abstract_vpg.network.incoming.bytes.rate_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.network.incoming.bytes.rate_vpg_vpg_private_1_port
+      vfirewall0.abstract_vsn.vcpus_vsn:
+      - vfirewall0
+      - abstract_vsn.vcpus_vsn
+      vfirewall0.abstract_vsn.disk.write.requests_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.write.requests_vsn
+      vfirewall0.abstract_vpg.network.outgoing.packets.rate_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.network.outgoing.packets.rate_vpg_vpg_private_0_port
+      vfirewall0.abstract_vfw.network.incoming.packets.rate_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.network.incoming.packets.rate_vfw_vfw_private_1_port
+      vfirewall0.abstract_vfw.disk.allocation_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.allocation_vfw
+      vfirewall0.abstract_vpg.network.outgoing.bytes.rate_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.network.outgoing.bytes.rate_vpg_vpg_private_1_port
+      vfirewall0.abstract_vsn.network.outgoing.bytes_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.network.outgoing.bytes_vsn_vsn_private_0_port
+      vfirewall0.abstract_vpg.forwarder_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.forwarder_vpg_vpg_private_1_port
+      vfirewall0.abstract_vfw.disk.read.bytes.rate_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.read.bytes.rate_vfw
+      vfirewall0.abstract_vsn.network.outpoing.packets_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.network.outpoing.packets_vsn_vsn_private_0_port
+      vfirewall0.abstract_vsn.disk.device.usage_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.usage_vsn
+      vfirewall0.unprotected_private_network.link:
+      - vfirewall0
+      - unprotected_private_network.link
+      vfirewall0.abstract_vsn.disk.usage_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.usage_vsn
+      vfirewall0.abstract_vfw.forwarder_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.forwarder_vfw_vfw_private_2_port
+      vfirewall0.abstract_vfw.network.outgoing.packets.rate_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.network.outgoing.packets.rate_vfw_vfw_private_1_port
+      vfirewall0.abstract_vpg.feature_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.feature_vpg_vpg_private_0_port
+      vfirewall0.abstract_vfw.network.outgoing.bytes_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.network.outgoing.bytes_vfw_vfw_private_2_port
+      vfirewall0.abstract_vsn.network.incoming.packets_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.network.incoming.packets_vsn_vsn_private_0_port
+      vfirewall0.abstract_vpg.instance_vpg:
+      - vfirewall0
+      - abstract_vpg.instance_vpg
+      vfirewall0.abstract_vsn.disk.read.requests_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.read.requests_vsn
+      vfirewall0.abstract_vpg.attachment_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.attachment_vpg_vpg_private_1_port
+      vfirewall0.abstract_vpg.disk.latency_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.latency_vpg
+      vfirewall0.abstract_vfw.network.outgoing.bytes_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.network.outgoing.bytes_vfw_vfw_private_0_port
+      vfirewall0.abstract_vfw.network.incoming.packets.rate_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.network.incoming.packets.rate_vfw_vfw_private_2_port
+      vfirewall0.protected_private_network.attachment:
+      - vfirewall0
+      - protected_private_network.attachment
+      vfirewall0.abstract_vfw.network.incoming.packets.rate_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.network.incoming.packets.rate_vfw_vfw_private_0_port
+      vfirewall0.abstract_vpg.binding_vpg:
+      - vfirewall0
+      - abstract_vpg.binding_vpg
+      vfirewall0.unprotected_private_network.feature:
+      - vfirewall0
+      - unprotected_private_network.feature
+      vfirewall0.abstract_vsn.port_mirroring_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.port_mirroring_vsn_vsn_private_1_port
+      vfirewall0.abstract_vfw.network.outgoing.bytes.rate_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.network.outgoing.bytes.rate_vfw_vfw_private_1_port
+      vfirewall0.abstract_vpg.network.incoming.packets.rate_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.network.incoming.packets.rate_vpg_vpg_private_1_port
+      vfirewall0.protected_private_network.link:
+      - vfirewall0
+      - protected_private_network.link
+      vfirewall0.abstract_vsn.forwarder_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.forwarder_vsn_vsn_private_1_port
+      vfirewall0.abstract_vfw.network.outpoing.packets_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.network.outpoing.packets_vfw_vfw_private_2_port
+      vfirewall0.abstract_vsn.network.incoming.bytes_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.network.incoming.bytes_vsn_vsn_private_0_port
+      vfirewall0.abstract_vfw.attachment_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.attachment_vfw_vfw_private_2_port
+      vfirewall0.abstract_vpg.disk.capacity_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.capacity_vpg
+      vfirewall0.abstract_vsn.network.outgoing.packets.rate_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.network.outgoing.packets.rate_vsn_vsn_private_1_port
+      vfirewall0.abstract_vsn.memory.resident_vsn:
+      - vfirewall0
+      - abstract_vsn.memory.resident_vsn
+      vfirewall0.abstract_vsn.disk.device.read.requests.rate_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.read.requests.rate_vsn
+      vfirewall0.abstract_vpg.endpoint_vpg:
+      - vfirewall0
+      - abstract_vpg.endpoint_vpg
+      vfirewall0.abstract_vfw.network.incoming.bytes_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.network.incoming.bytes_vfw_vfw_private_0_port
+      vfirewall0.abstract_vsn.disk.device.write.requests.rate_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.write.requests.rate_vsn
+      vfirewall0.abstract_vfw.disk.device.latency_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.latency_vfw
+      vfirewall0.abstract_vfw.disk.iops_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.iops_vfw
+      vfirewall0.abstract_vpg.binding_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.binding_vpg_vpg_private_0_port
+      vfirewall0.abstract_vpg.cpu.delta_vpg:
+      - vfirewall0
+      - abstract_vpg.cpu.delta_vpg
+      vfirewall0.abstract_vfw.network.incoming.bytes.rate_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.network.incoming.bytes.rate_vfw_vfw_private_1_port
+      vfirewall0.abstract_vpg.network.incoming.packets_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.network.incoming.packets_vpg_vpg_private_1_port
+      vfirewall0.abstract_vpg.disk.ephemeral.size_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.ephemeral.size_vpg
+      vfirewall0.abstract_vsn.disk.read.bytes_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.read.bytes_vsn
+      vfirewall0.abstract_vfw.binding_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.binding_vfw_vfw_private_0_port
+      vfirewall0.abstract_vfw.forwarder_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.forwarder_vfw_vfw_private_0_port
+      vfirewall0.abstract_vsn.instance_vsn:
+      - vfirewall0
+      - abstract_vsn.instance_vsn
+      vfirewall0.abstract_vsn.attachment_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.attachment_vsn_vsn_private_0_port
+      vfirewall0.abstract_vsn.disk.allocation_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.allocation_vsn
+      vfirewall0.abstract_vfw.network.incoming.bytes.rate_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.network.incoming.bytes.rate_vfw_vfw_private_0_port
+      vfirewall0.abstract_vsn.disk.capacity_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.capacity_vsn
+      vfirewall0.abstract_vfw.vcpus_vfw:
+      - vfirewall0
+      - abstract_vfw.vcpus_vfw
+      vfirewall0.abstract_vsn.binding_vsn:
+      - vfirewall0
+      - abstract_vsn.binding_vsn
+      vfirewall0.abstract_vpg.disk.usage_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.usage_vpg
+      vfirewall0.abstract_vpg.network.incoming.bytes_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.network.incoming.bytes_vpg_vpg_private_1_port
+      vfirewall0.abstract_vsn.disk.iops_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.iops_vsn
+      vfirewall0.abstract_vfw.port_mirroring_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.port_mirroring_vfw_vfw_private_2_port
+      vfirewall0.abstract_vfw.disk.read.bytes_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.read.bytes_vfw
+      vfirewall0.abstract_vsn.disk.device.read.bytes_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.read.bytes_vsn
+      vfirewall0.abstract_vpg.disk.device.write.requests_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.write.requests_vpg
+      vfirewall0.protected_private_network.end_point:
+      - vfirewall0
+      - protected_private_network.end_point
+      vfirewall0.abstract_vpg.network.outpoing.packets_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.network.outpoing.packets_vpg_vpg_private_0_port
+      vfirewall0.abstract_vfw.cpu_util_vfw:
+      - vfirewall0
+      - abstract_vfw.cpu_util_vfw
+      vfirewall0.abstract_vfw.network.incoming.packets_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.network.incoming.packets_vfw_vfw_private_1_port
+      vfirewall0.abstract_vpg.disk.device.read.bytes.rate_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.read.bytes.rate_vpg
+      vfirewall0.abstract_vsn.disk.latency_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.latency_vsn
+      vfirewall0.abstract_vfw.endpoint_vfw:
+      - vfirewall0
+      - abstract_vfw.endpoint_vfw
+      vfirewall0.abstract_vsn.network.outgoing.packets.rate_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.network.outgoing.packets.rate_vsn_vsn_private_0_port
+      vfirewall0.abstract_vpg.disk.iops_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.iops_vpg
+      vfirewall0.abstract_vsn.memory.usage_vsn:
+      - vfirewall0
+      - abstract_vsn.memory.usage_vsn
+      vfirewall0.abstract_vpg.cpu_util_vpg:
+      - vfirewall0
+      - abstract_vpg.cpu_util_vpg
+      vfirewall0.abstract_vsn.disk.write.bytes_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.write.bytes_vsn
+      vfirewall0.abstract_vsn.endpoint_vsn:
+      - vfirewall0
+      - abstract_vsn.endpoint_vsn
+      vfirewall0.abstract_vsn.binding_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.binding_vsn_vsn_private_1_port
+      vfirewall0.abstract_vpg.disk.device.latency_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.latency_vpg
+      vfirewall0.abstract_vpg.binding_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.binding_vpg_vpg_private_1_port
+      vfirewall0.abstract_vfw.binding_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.binding_vfw_vfw_private_1_port
+      vfirewall0.abstract_vsn.disk.device.write.bytes_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.write.bytes_vsn
+      vfirewall0.abstract_vpg.cpu_vpg:
+      - vfirewall0
+      - abstract_vpg.cpu_vpg
+      vfirewall0.abstract_vfw.disk.device.write.bytes.rate_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.write.bytes.rate_vfw
+      vfirewall0.abstract_vsn.disk.device.write.requests_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.write.requests_vsn
+      vfirewall0.abstract_vfw.disk.device.usage_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.usage_vfw
+      vfirewall0.abstract_vsn.disk.device.read.requests_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.read.requests_vsn
+      vfirewall0.unprotected_private_network.attachment:
+      - vfirewall0
+      - unprotected_private_network.attachment
+      vfirewall0.abstract_vpg.host_vpg:
+      - vfirewall0
+      - abstract_vpg.host_vpg
+      vfirewall0.abstract_vfw.binding_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.binding_vfw_vfw_private_2_port
+      vfirewall0.abstract_vpg.disk.read.bytes.rate_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.read.bytes.rate_vpg
+      vfirewall0.abstract_vpg.network.outpoing.packets_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.network.outpoing.packets_vpg_vpg_private_1_port
+      vfirewall0.abstract_vsn.forwarder_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.forwarder_vsn_vsn_private_0_port
+      vfirewall0.abstract_vsn.binding_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.binding_vsn_vsn_private_0_port
+      vfirewall0.abstract_vfw.disk.device.read.requests_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.read.requests_vfw
+      vfirewall0.abstract_vsn.memory_vsn:
+      - vfirewall0
+      - abstract_vsn.memory_vsn
+      vfirewall0.abstract_vsn.disk.device.capacity_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.capacity_vsn
+      vfirewall0.abstract_vpg.vcpus_vpg:
+      - vfirewall0
+      - abstract_vpg.vcpus_vpg
+      vfirewall0.abstract_vsn.disk.device.latency_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.latency_vsn
+      vfirewall0.abstract_vpg.port_mirroring_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.port_mirroring_vpg_vpg_private_1_port
+      vfirewall0.abstract_vpg.disk.root.size_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.root.size_vpg
+      vfirewall0.abstract_vpg.disk.device.write.requests.rate_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.device.write.requests.rate_vpg
+      vfirewall0.abstract_vsn.disk.device.write.bytes.rate_vsn:
+      - vfirewall0
+      - abstract_vsn.disk.device.write.bytes.rate_vsn
+      vfirewall0.abstract_vsn.cpu.delta_vsn:
+      - vfirewall0
+      - abstract_vsn.cpu.delta_vsn
+      vfirewall0.abstract_vfw.memory.resident_vfw:
+      - vfirewall0
+      - abstract_vfw.memory.resident_vfw
+      vfirewall0.abstract_vfw.network.incoming.packets_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.network.incoming.packets_vfw_vfw_private_2_port
+      vfirewall0.abstract_vfw.scalable_vfw:
+      - vfirewall0
+      - abstract_vfw.scalable_vfw
+      vfirewall0.abstract_vfw.network.outpoing.packets_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.network.outpoing.packets_vfw_vfw_private_0_port
+      vfirewall0.abstract_vpg.network.incoming.bytes_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.network.incoming.bytes_vpg_vpg_private_0_port
+      vfirewall0.abstract_vpg.disk.allocation_vpg:
+      - vfirewall0
+      - abstract_vpg.disk.allocation_vpg
+      vfirewall0.abstract_vfw.disk.root.size_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.root.size_vfw
+      vfirewall0.abstract_vfw.disk.device.write.requests.rate_vfw:
+      - vfirewall0
+      - abstract_vfw.disk.device.write.requests.rate_vfw
+      vfirewall0.abstract_vfw.network.outgoing.bytes_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.network.outgoing.bytes_vfw_vfw_private_1_port
+      vfirewall0.abstract_vfw.memory.usage_vfw:
+      - vfirewall0
+      - abstract_vfw.memory.usage_vfw
+    requirements:
+      vfirewall0.abstract_vsn.dependency_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.dependency_vsn_vsn_private_1_port
+      vfirewall0.abstract_vsn.local_storage_vsn:
+      - vfirewall0
+      - abstract_vsn.local_storage_vsn
+      vfirewall0.abstract_vfw.dependency_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.dependency_vfw_vfw_private_2_port
+      vfirewall0.unprotected_private_network.dependency:
+      - vfirewall0
+      - unprotected_private_network.dependency
+      vfirewall0.abstract_vsn.dependency_vsn:
+      - vfirewall0
+      - abstract_vsn.dependency_vsn
+      vfirewall0.abstract_vfw.dependency_vfw:
+      - vfirewall0
+      - abstract_vfw.dependency_vfw
+      vfirewall0.abstract_vfw.link_vfw_vfw_private_2_port:
+      - vfirewall0
+      - abstract_vfw.link_vfw_vfw_private_2_port
+      vfirewall0.abstract_vpg.dependency_vpg:
+      - vfirewall0
+      - abstract_vpg.dependency_vpg
+      vfirewall0.abstract_vfw.local_storage_vfw:
+      - vfirewall0
+      - abstract_vfw.local_storage_vfw
+      vfirewall0.abstract_vsn.link_vsn_vsn_private_1_port:
+      - vfirewall0
+      - abstract_vsn.link_vsn_vsn_private_1_port
+      vfirewall0.abstract_vfw.link_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.link_vfw_vfw_private_1_port
+      vfirewall0.abstract_vsn.link_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.link_vsn_vsn_private_0_port
+      vfirewall0.protected_private_network.dependency:
+      - vfirewall0
+      - protected_private_network.dependency
+      vfirewall0.abstract_vpg.dependency_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.dependency_vpg_vpg_private_1_port
+      vfirewall0.abstract_vpg.local_storage_vpg:
+      - vfirewall0
+      - abstract_vpg.local_storage_vpg
+      vfirewall0.abstract_vpg.link_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.link_vpg_vpg_private_0_port
+      vfirewall0.abstract_vfw.link_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.link_vfw_vfw_private_0_port
+      vfirewall0.abstract_vpg.link_vpg_vpg_private_1_port:
+      - vfirewall0
+      - abstract_vpg.link_vpg_vpg_private_1_port
+      vfirewall0.abstract_vfw.dependency_vfw_vfw_private_0_port:
+      - vfirewall0
+      - abstract_vfw.dependency_vfw_vfw_private_0_port
+      vfirewall0.abstract_vfw.dependency_vfw_vfw_private_1_port:
+      - vfirewall0
+      - abstract_vfw.dependency_vfw_vfw_private_1_port
+      vfirewall0.abstract_vsn.dependency_vsn_vsn_private_0_port:
+      - vfirewall0
+      - abstract_vsn.dependency_vsn_vsn_private_0_port
+      vfirewall0.abstract_vpg.dependency_vpg_vpg_private_0_port:
+      - vfirewall0
+      - abstract_vpg.dependency_vpg_vpg_private_0_port
