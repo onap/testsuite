@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_be4df99b",
+        "filename": "robot/resources/portal-sdk/portalDef.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-09-18T14:51:56Z",
+      "side": 1,
+      "message": "This part should be some sort of GLOBAL_INJECTED_ variable.",
+      "range": {
+        "startLine": 19,
+        "startChar": 55,
+        "endLine": 19,
+        "endChar": 85
+      },
+      "revId": "2d7319968219e7ae588d50650f6f69d91326777a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
