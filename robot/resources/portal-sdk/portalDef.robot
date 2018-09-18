@@ -15,8 +15,9 @@ Library		String
 Resource	../json_templater.robot
 
 *** Variables ***
-${PORTAL_URL}		http://portal.api.simpledemo.onap.org:8989
-${PORTAL_ENV}            /ONAPPORTAL
+#${PORTAL_URL}      http://portal.api.simpledemo.onap.org:8989
+${PORTAL_URL}       ${GLOBAL_PORTAL_SERVER_PROTOCOL}://portal.api.simpledemo.onap.org:${GLOBAL_PORTAL_SERVER_PORT}
+${PORTAL_ENV}       /ONAPPORTAL
 ${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/login.htm
 ${PORTAL_HOME_PAGE}        ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
 ${PORTAL_MICRO_ENDPOINT}    ${PORTAL_URL}${PORTAL_ENV}/commonWidgets
