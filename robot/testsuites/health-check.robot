@@ -26,7 +26,7 @@ Resource          ../resources/log_interface.robot
 Resource          ../resources/oof_interface.robot
 Resource          ../resources/sms_interface.robot
 Resource          ../resources/dr_interface.robot
-
+Resource          ../resources/pomba_interface.robot
 
 *** Test Cases ***
 Basic A&AI Health Check
@@ -112,6 +112,18 @@ Basic OOF-SNIRO Health Check
 Basic Policy Health Check
     [Tags]    health    core
     Run Policy Health Check
+
+Basic Pomba AAI-context-builder Health Check
+    [Tags]    health    core
+    Run Pomba Aai Context Builder Health Check
+
+Basic Pomba SDC-context-builder Health Check
+    [Tags]    health    core
+    Run Pomba Sdc Context Builder Health Check
+
+Basic Pomba Network-discovery-context-builder Health Check
+    [Tags]    health    core
+    Run Pomba Network Discovery Context Builder Health Check
 
 Basic Portal Health Check
     [Tags]    health    core
