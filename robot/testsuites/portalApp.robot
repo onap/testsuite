@@ -9,19 +9,19 @@ Login into Portal URL
     [TAGS]  portal
     Portal admin Login To Portal GUI  
 
-Portal Change REST URL Of X-DemoApp
-    [TAGS]  portal
-    [Documentation]    Portal Change REST URL Of X-DemoApp
-    Portal Change REST URL
+#Portal Change REST URL Of X-DemoApp
+#    [TAGS]  portal
+#    [Documentation]    Portal Change REST URL Of X-DemoApp
+#    Portal Change REST URL
     
-Portal R1 Release for AAF
-    [TAGS]  portal
-    [Documentation]    ONAP Portal R1 functionality for AAF test
-    Portal AAF new fields
+#Portal R1 Release for AAF
+#    [TAGS]  portal
+#    [Documentation]    ONAP Portal R1 functionality for AAF test
+#    Portal AAF new fields
 	  
-Create Microse service onboarding
-    [TAGS]  portal
-	Portal admin Microservice Onboarding
+#Create Microse service onboarding
+#    [TAGS]  portal
+#	Portal admin Microservice Onboarding
 
 EP Admin widget layout reset
     [TAGS]  portal
@@ -39,15 +39,15 @@ Edit Functional Menu
     [TAGS]  portal
 	Portal admin Edit Functional menu
     
-Broadbond Notification functionality
-    [TAGS]  portal
-	${AdminBroadCastMsg}=    Portal Admin Broadcast Notifications
-	set global variable    ${AdminBroadCastMsg}
+#Broadbond Notification functionality
+#    [TAGS]  portal
+#	${AdminBroadCastMsg}=    Portal Admin Broadcast Notifications
+#	set global variable    ${AdminBroadCastMsg}
    
-Category Notification functionality
-    [TAGS]  portal
-	${AdminCategoryMsg}=   Portal Admin Category Notifications
-	set global variable    ${AdminCategoryMsg}
+#Category Notification functionality
+#    [TAGS]  portal
+#	${AdminCategoryMsg}=   Portal Admin Category Notifications
+#	set global variable    ${AdminCategoryMsg}
          
 Create a Test user for Application Admin -Test
     [TAGS]  portal
@@ -73,17 +73,17 @@ Delete Application Admin for Exisitng User
     [TAGS]  portal
 	Portal admin Delete Application Admin Existing User
     
-Add Standard User Role for Existing user
-    [TAGS]  portal
-	Portal admin Add Standard User Existing user
+#Add Standard User Role for Existing user
+#    [TAGS]  portal
+#	Portal admin Add Standard User Existing user
     
-Edit Standard User Role for Existing user
-    [TAGS]  portal
-	Portal admin Edit Standard User Existing user
+#Edit Standard User Role for Existing user
+#    [TAGS]  portal
+#	Portal admin Edit Standard User Existing user
     
-Delete Standard User Role for Existing user
-    [TAGS]  portal
-	Portal admin Delete Standard User Existing user
+#Delete Standard User Role for Existing user
+#    [TAGS]  portal
+#	Portal admin Delete Standard User Existing user
 
 Logout from Portal GUI as Portal Admin
     [TAGS]  portal
@@ -95,17 +95,17 @@ Login To Portal GUI as APP Admin
     [TAGS]  portal
 	Application admin Login To Portal GUI
 
-Add Standard User Role for Existing user as APP Admin
-    [TAGS]  portal
-	Application admin Add Standard User Existing user
+#Add Standard User Role for Existing user as APP Admin
+#    [TAGS]  portal
+#	Application admin Add Standard User Existing user
     
-Edit Standard User Role for Existing user as APP Admin
-    [TAGS]  portal
-	Application admin Edit Standard User Existing user
+#Edit Standard User Role for Existing user as APP Admin
+#    [TAGS]  portal
+#	Application admin Edit Standard User Existing user
     
-Delete Standard User Role for Existing user as APP Admin
-    [TAGS]  portal
-	Application admin Delete Standard User Existing user
+#Delete Standard User Role for Existing user as APP Admin
+#    [TAGS]  portal
+#	Application admin Delete Standard User Existing user
 
 Logout from Portal GUI as APP Admin
     [TAGS]  portal

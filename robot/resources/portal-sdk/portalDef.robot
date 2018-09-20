@@ -13,6 +13,7 @@ Library		String
 #Library	XvfbRobot
 
 Resource	../json_templater.robot
+Resource        ../browser_setup.robot
 
 *** Variables ***
 #${PORTAL_URL}      http://portal.api.simpledemo.onap.org:8989
@@ -60,30 +61,14 @@ ${download_link_id}    0
     
 *** Keywords ***
 
-Setup Browser
-    [Documentation]   Sets up browser based upon the value of ${GLOBAL_SELENIUM_BROWSER}
-    #Run Keyword If    '${GLOBAL_SELENIUM_BROWSER}' == 'firefox'    Setup Browser Firefox
-    Run Keyword If    '${GLOBAL_SELENIUM_BROWSER}' == 'chrome'    Setup Browser Chrome
-    Log    Running with ${GLOBAL_SELENIUM_BROWSER}   
-          
-Setup Browser Chrome
-    ${os}=   Get Normalized Os 
-    Log    Normalized OS=${os}
-    ${chrome options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
-    Call Method    ${chrome options}    add_argument    no-sandbox
-    ${dc}   Evaluate    sys.modules['selenium.webdriver'].DesiredCapabilities.CHROME  sys, selenium.webdriver
-    Set To Dictionary   ${dc}   elementScrollBehavior    1
-    Create Webdriver    Chrome   chrome_options=${chrome_options}    desired_capabilities=${dc}  
-    Set Global Variable    ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}    ${dc}
-
 Portal admin Login To Portal GUI
     [Documentation]   Logs into Portal GUI
     ## Setup Browser Now being managed by test case
     Setup Browser
     #Start Virtual Display    1920    1080
-	Open Browser    ${PORTAL_LOGIN_URL}    chrome
-	#Go To    ${PORTAL_LOGIN_URL}
-    Maximize Browser Window
+    #Open Browser    ${PORTAL_LOGIN_URL}    chrome
+	Go To    ${PORTAL_LOGIN_URL}
+    #Maximize Browser Window
     Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
     Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
