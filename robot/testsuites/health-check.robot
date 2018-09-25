@@ -115,15 +115,15 @@ Basic Policy Health Check
     Run Policy Health Check
 
 Basic Pomba AAI-context-builder Health Check
-    [Tags]    health    core
+    [Tags]    health    core    oom
     Run Pomba Aai Context Builder Health Check
 
 Basic Pomba SDC-context-builder Health Check
-    [Tags]    health    core
+    [Tags]    health    core    oom
     Run Pomba Sdc Context Builder Health Check
 
 Basic Pomba Network-discovery-context-builder Health Check
-    [Tags]    health    core
+    [Tags]    health    core    oom
     Run Pomba Network Discovery Context Builder Health Check
 
 Basic Portal Health Check
