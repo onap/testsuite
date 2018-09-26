@@ -27,7 +27,6 @@ Resource          ../resources/oof_interface.robot
 Resource          ../resources/sms_interface.robot
 Resource          ../resources/dr_interface.robot
 Resource          ../resources/pomba_interface.robot
-Resource          ../resources/prh_interface.robot
 
 *** Test Cases ***
 Basic A&AI Health Check
@@ -130,10 +129,6 @@ Basic Portal Health Check
     [Tags]    health    core
     Run Portal Health Check
 
-Basic PRH Health Check
-    [Tags]    health    api    prh
-    Run PRH Health Check
-
 Basic SDC Health Check
     [Tags]    health    core
     Run ASDC Health Check
@@ -149,10 +144,6 @@ Basic SO Health Check
 Basic UseCaseUI API Health Check
      [Tags]    health    api
      Run MSB Get Request  /iui/usecaseui/
-
-Basic VES-HV Health Check
-    [Tags]    health    api     hv-ves
-    Run VES-HV Health Check
 
 Basic VFC catalog API Health Check
     [Tags]    health    api
