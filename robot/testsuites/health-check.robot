@@ -1,5 +1,5 @@
 *** Settings ***
-Test Timeout    1 minute
+Test Timeout    10 second
 Documentation    Testing ecomp components are available via calls.
 ...
 ...                Testing ecomp components are available via calls.
