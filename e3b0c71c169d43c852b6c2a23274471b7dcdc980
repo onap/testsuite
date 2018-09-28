@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_93b47dd2",
+        "filename": "robot/resources/portal-sdk/portalDef.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-09-28T19:51:58Z",
+      "side": 1,
+      "message": "sleeps severely slow down tests. Please do a wait until page contains element or something similar instead.",
+      "revId": "e3b0c71c169d43c852b6c2a23274471b7dcdc980",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
