@@ -45,7 +45,8 @@ Execute Heatbridge
     ${openstack_identity_url}=    Catenate    ${url}${path}
     ${region}=   Get Openstack Region
     ${user}   ${pass}=   Get Openstack Credentials
-    Init Bridge    ${openstack_identity_url}    ${user}    ${pass}    ${tenant_id}    ${region}   ${GLOBAL_AAI_CLOUD_OWNER}
+    Run Keyword If   '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'=='v2.0'    Init Bridge    ${openstack_identity_url}    ${user}    ${pass}    ${tenant_id}    ${region}   ${GLOBAL_AAI_CLOUD_OWNER}
+    ...    ELSE    Init Bridge    ${openstack_identity_url}    ${user}    ${pass}    ${tenant_id}    ${region}   ${GLOBAL_AAI_CLOUD_OWNER}    ${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}    ${GLOBAL_INJECTED_OPENSTACK_PROJECT_NAME}
     ${request}=    Bridge Data    ${stack_id}
     Log    ${request}
     ${resp}=    Run A&AI Put Request    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request}  

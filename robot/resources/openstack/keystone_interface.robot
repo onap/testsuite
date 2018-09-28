@@ -11,9 +11,12 @@ Resource    ../json_templater.robot
 Resource    openstack_common.robot
 
 *** Variables ***
-${OPENSTACK_KEYSTONE_API_VERSION}    /v2.0
-${OPENSTACK_KEYSTONE_AUTH_PATH}    /tokens
-${OPENSTACK_KEYSTONE_AUTH_BODY_FILE}    robot/assets/templates/keystone_get_auth.template
+${OPENSTACK_KEYSTONE_API_v3_VERSION}   /v3
+${OPENSTACK_KEYSTONE_API_v2_VERSION}   /v2.0
+${OPENSTACK_KEYSTONE_AUTH_v3_PATH}    /auth/tokens
+${OPENSTACK_KEYSTONE_AUTH_v2_PATH}    /tokens
+${OPENSTACK_KEYSTONE_AUTH_v2_BODY_FILE}    robot/assets/templates/keystone_get_v2_auth.template
+${OPENSTACK_KEYSTONE_AUTH_v3_BODY_FILE}    robot/assets/templates/keystone_get_v3_auth.template
 ${OPENSTACK_KEYSTONE_TENANT_PATH}    /tenants
 
 *** Keywords ***
@@ -24,16 +27,36 @@ Run Openstack Auth Request
     ${url}   ${path}=   Get Keystone Url And Path
     ${session}=    Create Session 	keystone 	${url}    verify=True
     ${uuid}=    Generate UUID
-    ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_KEYSTONE_AUTH_BODY_FILE}
-    ${arguments}=    Create Dictionary    username=${username}    password=${password}   tenantId=${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
-    ${data}=	Fill JSON Template    ${data_template}    ${arguments}
-    ${data_path}=    Catenate    ${path}${OPENSTACK_KEYSTONE_AUTH_PATH}
+    ${data_path}   ${data}=   Run Keyword If   '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'=='v2.0'   Get KeyStoneAuthv2 Data   ${username}    ${password}    ${path}
+    ...   ELSE   Get KeyStoneAuthv3 Data   ${username}    ${password}   ${path}  
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     Log    Sending authenticate post request ${data_path} with headers ${headers} and data ${data}
     ${resp}= 	Post Request 	keystone 	${data_path}     data=${data}    headers=${headers}
     Should Be True    200 <= ${resp.status_code} < 300
-    Save Openstack Auth    ${alias}    ${resp.text}
+    ${auth_token}=  Evaluate   ''
+    ${auth_token}=    Run Keyword If    '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'=='v3'   Get From Dictionary    ${resp.headers}    X-Subject-Token
+    ${keystone_api_version}=    Set Variable    ${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}   
+    Log    Keystone API Version is ${keystone_api_version}
+    Save Openstack Auth    ${alias}    ${resp.text}    ${auth_token}    ${keystone_api_version}
     Log    Received response from keystone ${resp.text}
+
+Get KeyStoneAuthv2 Data
+    [Documentation]    Returns all the data for keystone auth v2 api
+    [Arguments]    ${username}    ${password}    ${path}
+    ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_KEYSTONE_AUTH_v2_BODY_FILE}
+    ${arguments}=    Create Dictionary    username=${username}    password=${password}   tenantId=${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
+    ${data}=    Fill JSON Template    ${data_template}    ${arguments}
+    ${data_path}=    Catenate    ${path}${OPENSTACK_KEYSTONE_AUTH_v2_PATH}
+    [Return]    ${data_path}    ${data}
+
+Get KeyStoneAuthv3 Data
+    [Documentation]    Returns all the data for keystone auth v3 api
+    [Arguments]    ${username}    ${password}    ${path}
+    ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_KEYSTONE_AUTH_v3_BODY_FILE}
+    ${arguments}=    Create Dictionary    username=${username}    password=${password}   domain_id=${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}    project_name=${GLOBAL_INJECTED_OPENSTACK_PROJECT_NAME}
+    ${data}=    Fill JSON Template    ${data_template}    ${arguments}
+    ${data_path}=    Catenate    ${path}${OPENSTACK_KEYSTONE_AUTH_v3_PATH}
+    [Return]    ${data_path}    ${data}
 
 Get Openstack Tenants
     [Documentation]    Returns all the openstack tenant info
@@ -61,9 +84,17 @@ Get Openstack Credentials
 
 Get Keystone Url And Path
     [Documentation]    Handle arbitrary keystone identiit url. Add v2.0 if not present.
+    ${url}   ${path}=   Run Keyword If   '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'=='v2.0'   Set API Version   ${OPENSTACK_KEYSTONE_API_v2_VERSION}
+    ...    ELSE   Set API Version    ${OPENSTACK_KEYSTONE_API_v3_VERSION}
+    Log    Path is ${url} ${path}
+    [Return]   ${url}   ${path}
+
+Set API Version
+    [Documentation]    Decides the API version to be used
+    [Arguments]    ${openstack_version}
     ${pieces}=   Url Parse   ${GLOBAL_INJECTED_KEYSTONE}
     ${url}=      Catenate   ${pieces.scheme}://${pieces.netloc}
     ${version}=  Evaluate   ''
-    ${version}=  Set Variable If   '${OPENSTACK_KEYSTONE_API_VERSION}' not in '${pieces.path}'   ${OPENSTACK_KEYSTONE_API_VERSION}   ${version}
+    ${version}=  Set Variable If   '${openstack_version}' not in '${pieces.path}'   ${openstack_version}   ${version}
     ${path}=     Catenate   ${pieces.path}${version}
     [Return]   ${url}   ${path}
