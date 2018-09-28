@@ -77,6 +77,8 @@ Portal admin Login To Portal GUI
     Input Text    xpath=//input[@ng-model='loginId']    ${GLOBAL_PORTAL_ADMIN_USER}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Link    xpath=//a[@id='loginBtn']
+    Sleep    45s
+    Go To    ${PORTAL_HOME_URL}
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
 	#Execute Javascript    document.getElementById('w-ecomp-footer').style.display = 'none'
 	Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}
@@ -655,6 +657,8 @@ Application admin Login To Portal GUI
     Input Text    xpath=//input[@ng-model='loginId']    ${App_LoginID}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Link    xpath=//a[@id='loginBtn']
+    Sleep    45s
+    Go To    ${PORTAL_HOME_URL}
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
     Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}    
     
@@ -764,6 +768,8 @@ Standared user Login To Portal GUI
     Input Text    xpath=//input[@ng-model='loginId']    ${Sta_LoginID}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Link    xpath=//a[@id='loginBtn']
+    Sleep    45s
+    Go To    ${PORTAL_HOME_URL}
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
     Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}       
      
