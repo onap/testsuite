@@ -16,6 +16,24 @@
       "revId": "a829d337bd3db4d1b1d9b2f1a8f9ba1fa8d924a7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_7636a805",
+        "filename": "robot/resources/heatbridge.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4839
+      },
+      "writtenOn": "2018-10-02T08:51:31Z",
+      "side": 1,
+      "message": "There is one endpoint https://\u003copenstack IP\u003e:5000, which gives supported keystone API versions. \nExample:\n[root@localhost ~(keystone_admin)]# curl http://10.237.166.212:5000\n{\"versions\": {\"values\": [{\"status\": \"stable\", \"updated\": \"2018-02-28T00:00:00Z\", \"media-types\": [{\"base\": \"application/json\", \"type\": \"application/vnd.openstack.identity-v3+json\"}], \"id\": \"v3.10\", \"links\": [{\"href\": \"http://10.237.166.212:5000/v3/\", \"rel\": \"self\"}]}, {\"status\": \"deprecated\", \"updated\": \"2016-08-04T00:00:00Z\", \"media-types\": [{\"base\": \"application/json\", \"type\": \"application/vnd.openstack.identity-v2.0+json\"}], \"id\": \"v2.0\", \"links\": [{\"href\": \"http://10.237.166.212:5000/v2.0/\", \"rel\": \"self\"}, {\"href\": \"https://docs.openstack.org/\", \"type\": \"text/html\", \"rel\": \"describedby\"}]}]}}[root@localhost ~(keystone_admin)]#\n\nBut there is no way to determine what user prefers.\nExample: Openstack Ocata supports both v2.0 and v3.\nIf the keystone API version is configurable, then user can configure preferred keystone version.\nAnother issue with the above endpoint is, it says v2.0 status as deprecated even though Ocata supports it. Hence it is not reliable.",
+      "parentUuid": "1a76adc5_d8a532b6",
+      "revId": "a829d337bd3db4d1b1d9b2f1a8f9ba1fa8d924a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
