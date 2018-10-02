@@ -42,7 +42,7 @@ ${GLOBAL_SELENIUM_BROWSER}        chrome
 ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}        Create Dictionary
 ${GLOBAL_SELENIUM_DELAY}          0
 ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}        5
-${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}        45
+${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}        120
 ${GLOBAL_OPENSTACK_HEAT_SERVICE_TYPE}    orchestration
 ${GLOBAL_OPENSTACK_CINDER_SERVICE_TYPE}    volume
 ${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    compute
@@ -77,6 +77,7 @@ Portal admin Login To Portal GUI
     Input Text    xpath=//input[@ng-model='loginId']    ${GLOBAL_PORTAL_ADMIN_USER}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Link    xpath=//a[@id='loginBtn']
+    Go To    ${PORTAL_HOME_URL}
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
 	#Execute Javascript    document.getElementById('w-ecomp-footer').style.display = 'none'
 	Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}
@@ -85,7 +86,6 @@ Portal admin Go To Portal HOME
     [Documentation]    Naviage to Portal Home
     Go To    ${PORTAL_HOME_URL}
     Wait Until Page Contains Element    xpath=//div[@class='applicationWindow']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}   
-    
 Portal admin User Notifications 
     [Documentation]    Naviage to User notification tab
     Click Link    xpath=//a[@id='parent-item-User-Notifications']
@@ -655,6 +655,7 @@ Application admin Login To Portal GUI
     Input Text    xpath=//input[@ng-model='loginId']    ${App_LoginID}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Link    xpath=//a[@id='loginBtn']
+    Go To    ${PORTAL_HOME_URL}
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
     Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}    
     
@@ -764,6 +765,7 @@ Standared user Login To Portal GUI
     Input Text    xpath=//input[@ng-model='loginId']    ${Sta_LoginID}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Link    xpath=//a[@id='loginBtn']
+    Go To    ${PORTAL_HOME_URL}
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
     Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}       
      
