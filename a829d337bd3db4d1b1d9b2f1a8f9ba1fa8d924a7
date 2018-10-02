@@ -34,6 +34,24 @@
       "revId": "a829d337bd3db4d1b1d9b2f1a8f9ba1fa8d924a7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_654d8c72",
+        "filename": "robot/resources/heatbridge.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-10-02T13:14:17Z",
+      "side": 1,
+      "message": "i think we should take the latest version that is available. We do this for all other apis",
+      "parentUuid": "bada0100_7636a805",
+      "revId": "a829d337bd3db4d1b1d9b2f1a8f9ba1fa8d924a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
