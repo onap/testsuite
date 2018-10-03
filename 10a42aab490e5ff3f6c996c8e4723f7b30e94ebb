@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_2b8672ba",
+        "filename": "robot/resources/openstack/keystone_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-10-03T18:33:45Z",
+      "side": 1,
+      "message": "if its v2 then auth_token is null ?",
+      "range": {
+        "startLine": 40,
+        "startChar": 54,
+        "endLine": 40,
+        "endChar": 68
+      },
+      "revId": "10a42aab490e5ff3f6c996c8e4723f7b30e94ebb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
