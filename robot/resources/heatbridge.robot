@@ -41,11 +41,14 @@ Execute Heatbridge
     ${KeyIsPresent}=    Run Keyword And Return Status       Dictionary Should Contain Key       ${stack_info}      ${ipv4_oam_address}
     ${ipv4_vnf_address}=   Run Keyword If      ${KeyIsPresent}     Get From Dictionary  ${stack_info}      ${ipv4_oam_address}
     Run Set VNF Params  ${vnf_id}  ${ipv4_vnf_address}  PROV  Active
-    ${url}   ${path}=   Get Keystone Url And Path
+    ${keystone_api_version}=    Run Keyword If    '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'==''    Get KeystoneAPIVersion 
+    ...    ELSE    Set Variable   ${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}
+    ${url}   ${path}=   Get Keystone Url And Path   ${keystone_api_version}  
     ${openstack_identity_url}=    Catenate    ${url}${path}
     ${region}=   Get Openstack Region
     ${user}   ${pass}=   Get Openstack Credentials
-    Init Bridge    ${openstack_identity_url}    ${user}    ${pass}    ${tenant_id}    ${region}   ${GLOBAL_AAI_CLOUD_OWNER}
+    Run Keyword If   '${keystone_api_version}'=='v2.0'    Init Bridge    ${openstack_identity_url}    ${user}    ${pass}    ${tenant_id}    ${region}   ${GLOBAL_AAI_CLOUD_OWNER}
+    ...    ELSE    Init Bridge    ${openstack_identity_url}    ${user}    ${pass}    ${tenant_id}    ${region}   ${GLOBAL_AAI_CLOUD_OWNER}    ${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}    ${GLOBAL_INJECTED_OPENSTACK_PROJECT_NAME}
     ${request}=    Bridge Data    ${stack_id}
     Log    ${request}
     ${resp}=    Run A&AI Put Request    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request}  
