@@ -34,27 +34,27 @@ Basic A&AI Health Check
     Run A&AI Health Check
 
 Basic AAF Health Check
-    [Tags]    health    core
+    [Tags]    health    small
     Run AAF Health Check
 
 Basic AAF SMS Health Check
-    [Tags]    health    core
+    [Tags]    health    small
     Run SMS Health Check
 
 Basic APPC Health Check
-    [Tags]    health    core
+    [Tags]    health    small
     Run APPC Health Check
 
 Basic CLI Health Check
-    [Tags]    health    core
+    [Tags]    health    small
     Run CLI Health Check
 
 Basic CLAMP Health Check
-    [Tags]    health    core
+    [Tags]    health    medium
     Run CLAMP Health Check
 
 Basic DCAE Health Check
-    [Tags]    health    dcae
+    [Tags]    health    medium
     Run DCAE Health Check
 
 Basic DMAAP Data Router Health Check
@@ -66,63 +66,63 @@ Basic DMAAP Message Router Health Check
     Run MR Health Check
 
 Basic External API NBI Health Check
-    [Tags]    health    externalapi    api
+    [Tags]    health    externalapi    api    small
     Run NBI Health Check
 
 Basic Log Elasticsearch Health Check
-    [Tags]    health    core    oom
+    [Tags]    health    small    oom
     Run Log Elasticsearch Health Check
 
 Basic Log Kibana Health Check
-    [Tags]    health    core    oom
+    [Tags]    health    small    oom
     Run Log Kibana Health Check
 
 Basic Log Logstash Health Check
-    [Tags]    health    core   oom
+    [Tags]    health    small   oom
     Run Log Logstash Health Check
 
 Basic Microservice Bus Health Check
-    [Tags]    health    core
+    [Tags]    health    small
     Run MSB Health Check
 
 Basic Multicloud API Health Check
-    [Tags]    health    multicloud
+    [Tags]    health    multicloud   small
     Run MSB Get Request  /api/multicloud/v0/swagger.json
 
 Basic Multicloud-ocata API Health Check
-    [Tags]    health    multicloud
+    [Tags]    health    multicloud    small
     Run MSB Get Request  /api/multicloud-ocata/v0/swagger.json
 
 Basic Multicloud-titanium_cloud API Health Check
-    [Tags]    health    multicloud
+    [Tags]    health    multicloud    small
     Run MSB Get Request  /api/multicloud-titaniumcloud/v1/swagger.json
 
 Basic Multicloud-vio API Health Check
-     [Tags]    health    multicloud
+     [Tags]    health    multicloud    small
      Run MSB Get Request  /api/multicloud-vio/v0/swagger.json
 
 Basic OOF-Homing Health Check
-    [Tags]    health    core
+    [Tags]    health    medium
     Run OOF-Homing Health Check
 
 Basic OOF-SNIRO Health Check
-    [Tags]    health    core
+    [Tags]    health    medium
     Run OOF-SNIRO Health Check
 
 Basic Policy Health Check
-    [Tags]    health    core
+    [Tags]    health    medium
     Run Policy Health Check
 
 Basic Pomba AAI-context-builder Health Check
-    [Tags]    health    core    oom
+    [Tags]    health    oom
     Run Pomba Aai Context Builder Health Check
 
 Basic Pomba SDC-context-builder Health Check
-    [Tags]    health    core    oom
+    [Tags]    health    oom
     Run Pomba Sdc Context Builder Health Check
 
 Basic Pomba Network-discovery-context-builder Health Check
-    [Tags]    health    core    oom
+    [Tags]    health    oom
     Run Pomba Network Discovery Context Builder Health Check
 
 Basic Portal Health Check
@@ -142,7 +142,7 @@ Basic SO Health Check
     Run SO Global Health Check
 
 Basic UseCaseUI API Health Check
-     [Tags]    health    api
+     [Tags]    health    api    medium
      Run MSB Get Request  /iui/usecaseui/
 
 Basic VFC catalog API Health Check
@@ -210,11 +210,11 @@ Basic VFC ztevnfmdriver API Health Check
      Run MSB Get Request  /api/ztevnfmdriver/v1/swagger.json
 
 Basic VID Health Check
-    [Tags]    health    core
+    [Tags]    health    small
     Run VID Health Check
 
 Basic VNFSDK Health Check
-    [Tags]    health    core
+    [Tags]    health
     Run VNFSDK Health Check
 
 Health Distribution Test
