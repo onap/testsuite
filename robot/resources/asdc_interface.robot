@@ -68,7 +68,7 @@ Distribute Model From ASDC
     # on certify it gets a new id
     ${catalog_service_id}=    Certify ASDC Catalog Service    ${catalog_service_id}
     Approve ASDC Catalog Service    ${catalog_service_id}
-        : FOR   ${DIST_INDEX}    IN RANGE   2
+        : FOR   ${DIST_INDEX}    IN RANGE   1
         \   Log     Distribution Attempt ${DIST_INDEX}
         \   Distribute ASDC Catalog Service    ${catalog_service_id}
         \   ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
@@ -80,6 +80,7 @@ Distribute Model From ASDC
 
 Loop Over Check Catalog Service Distributed
     [Arguments]    ${catalog_service_id}
+    # SO watchdog timeout is 300 seconds
     : FOR     ${CHECK_INDEX}  IN RANGE   15
     \   ${status}   ${_} =   Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}
     \   Sleep     20s
