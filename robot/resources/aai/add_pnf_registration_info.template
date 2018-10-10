@@ -1,0 +1,12 @@
+{
+  "pnf-name": "${correlation_id}",
+  "pnf-name2": "example-pnf-name2-val-78244",
+  "pnf-name2-source": "example-pnf-name2-source-val-99275",
+  "pnf-id": "example-pnf-id-val-7989",
+  "equip-type": "example-equip-type-val-20348",
+  "equip-vendor": "example-equip-vendor-val-52182",
+  "equip-model": "example-equip-model-val-8370",
+  "management-option": "example-management-option-val-72881",
+  "ipaddress-v4-oam": "",
+  "ipaddress-v6-oam": ""
+}

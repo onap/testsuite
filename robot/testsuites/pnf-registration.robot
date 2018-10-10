@@ -1,0 +1,25 @@
+*** Settings ***
+Documentation     Executes the PNF registration  test cases including setup and teardown
+...
+
+Resource         ../resources/test_templates/pnf_registration_without_SO_template.robot
+
+
+*** Test Cases ***
+
+Create A&AI antry without SO and succesfully registrate PNF, PNF entry contains: correlation ID, PNF_IPv4_address and PNF_IPv6_address
+     [Documentation]  This test is checking creation A&AI entry without SO and succesfull PNF registration
+     [Tags]   pnf_registrate
+     [Setup]    Initialize PNF entry with correlation ID, PNF_IPv4_address and PNF_IPv6_address
+     Create A&AI antry without SO and succesfully registrate PNF  ${PNF_entry_dict}
+     [Teardown]  Cleanup PNF entry in A&AI  ${PNF_entry_dict}
+
+
+*** Keyword ***
+
+Initialize PNF entry with correlation ID, PNF_IPv4_address and PNF_IPv6_address
+    [Documentation]  Setup test case variable
+    ${PNF_entry_dict}=  Create Dictionary  correlation_id=ABCDEFG1234567  PNF_IPv4_address=13.13.13.13  PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
+    Set Test Variable  ${PNF_entry_dict}
+    Log  Initial PNF entry ${PNF_entry_dict}
+
