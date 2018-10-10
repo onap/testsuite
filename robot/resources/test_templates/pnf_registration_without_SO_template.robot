@@ -25,8 +25,8 @@ Create A&AI antry without SO and succesfully registrate PNF
     [Arguments]   ${PNF_entry_dict}
     Create PNF initial entry in A&AI  ${PNF_entry_dict}
     Send VES integration request  ${PNF_entry_dict}
-    Verifi PNF Integration Request in A&AI  ${PNF_entry_dict}
-    Verifi PNF Integration Request in MR  ${PNF_entry_dict}
+    Verify PNF Integration Request in A&AI  ${PNF_entry_dict}
+    Verify PNF Integration Request in MR  ${PNF_entry_dict}
 
 Create PNF initial entry in A&AI
     [Documentation]   Creates PNF initial entry in A&AI registry. Entry contains only correlation id (pnf-name)
@@ -47,14 +47,14 @@ Send VES integration request
     Should Be Equal As Strings  ${post_resp.status_code}        202
     Log  VES integration request has been send
 
-Verifi PNF integration request in A&AI
-    [Documentation]   Verifi if PNF integration request entries are present in A&AI
+Verify PNF integration request in A&AI
+    [Documentation]   Verify if PNF integration request entries are present in A&AI
     [Arguments]  ${PNF_entry_dict}
     Wait Until Keyword Succeeds  10x  1s  Query PNF A&AI updated entry  ${PNF_entry_dict}
     Log  PNF integration request in A&AI has been verified and contains all necessary entries
 
-Verifi PNF integration request in MR
-    [Documentation]   Verifi if PNF integration request entries are present in MR unauthenticated.PNF_READY/ topic
+Verify PNF integration request in MR
+    [Documentation]   Verify if PNF integration request entries are present in MR unauthenticated.PNF_READY/ topic
     [Arguments]  ${PNF_entry_dict}
     ${get_resp}=  Run MR Get Request  ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH}
     Should Be Equal As Strings  ${get_resp.status_code}        200
