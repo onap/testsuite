@@ -36,5 +36,5 @@ ${GLOBAL_AAI_ZONE_CONTEXT}    labs
 ${GLOBAL_DNS_HV_VES_NAME}      dcae-hv-ves-collector
 ${GLOBAL_HV_VES_SERVER_PORT}     6061
 ${GLOBAL_DNS_VES_NAME}      dcae-ves-collector
-${GLOBAL_VES_SERVER_PORT}        8080:
+${GLOBAL_VES_SERVER_PORT}        8080
 
