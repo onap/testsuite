@@ -10,15 +10,15 @@ Login into Portal URL
     [TAGS]  portal
     Portal admin Login To Portal GUI  
 
-#Portal Change REST URL Of X-DemoApp
-#    [TAGS]  portal
-#    [Documentation]    Portal Change REST URL Of X-DemoApp
-#    Portal Change REST URL
+Portal Change REST URL Of X-DemoApp
+    [TAGS]  portal
+    [Documentation]    Portal Change REST URL Of X-DemoApp
+    Portal Change REST URL
     
-#Portal R1 Release for AAF
-#    [TAGS]  portal
-#    [Documentation]    ONAP Portal R1 functionality for AAF test
-#    Portal AAF new fields
+Portal R1 Release for AAF
+    [TAGS]  portal
+    [Documentation]    ONAP Portal R1 functionality for AAF test
+    Portal AAF new fields
 	  
 #Create Microse service onboarding
 #    [TAGS]  portal
