@@ -1,9 +1,8 @@
 *** Settings ***
-Test Timeout    10 second
-Documentation    Testing ecomp components are available via calls.
+Documentation     Testing ecomp components are available via calls.
 ...
-...                Testing ecomp components are available via calls.
-
+...               Testing ecomp components are available via calls.
+Test Timeout      10 second
 Resource          ../resources/dcae_interface.robot
 Resource          ../resources/sdngc_interface.robot
 Resource          ../resources/aai/aai_interface.robot
@@ -27,6 +26,7 @@ Resource          ../resources/oof_interface.robot
 Resource          ../resources/sms_interface.robot
 Resource          ../resources/dr_interface.robot
 Resource          ../resources/pomba_interface.robot
+Resource          ../resources/holmes_interface.robot
 
 *** Test Cases ***
 Basic A&AI Health Check
@@ -58,7 +58,7 @@ Basic DCAE Health Check
     Run DCAE Health Check
 
 Basic DMAAP Data Router Health Check
-    [Tags]    health    core  datarouter
+    [Tags]    health    core    datarouter
     Run DR Health Check
 
 Basic DMAAP Message Router Health Check
@@ -78,7 +78,7 @@ Basic Log Kibana Health Check
     Run Log Kibana Health Check
 
 Basic Log Logstash Health Check
-    [Tags]    health    small   oom
+    [Tags]    health    small    oom
     Run Log Logstash Health Check
 
 Basic Microservice Bus Health Check
@@ -86,24 +86,24 @@ Basic Microservice Bus Health Check
     Run MSB Health Check
 
 Basic Multicloud API Health Check
-    [Tags]    health    multicloud   small
-    Run MSB Get Request  /api/multicloud/v0/swagger.json
+    [Tags]    health    multicloud    small
+    Run MSB Get Request    /api/multicloud/v0/swagger.json
 
 Basic Multicloud-ocata API Health Check
     [Tags]    health    multicloud    small
-    Run MSB Get Request  /api/multicloud-ocata/v0/swagger.json
+    Run MSB Get Request    /api/multicloud-ocata/v0/swagger.json
 
 Basic Multicloud-pike API Health Check
     [Tags]    health    multicloud    small
-    Run MSB Get Request  /api/multicloud-pike/v0/swagger.json
+    Run MSB Get Request    /api/multicloud-pike/v0/swagger.json
 
 Basic Multicloud-titanium_cloud API Health Check
     [Tags]    health    multicloud    small
-    Run MSB Get Request  /api/multicloud-titaniumcloud/v1/swagger.json
+    Run MSB Get Request    /api/multicloud-titaniumcloud/v1/swagger.json
 
 Basic Multicloud-vio API Health Check
-     [Tags]    health    multicloud    small
-     Run MSB Get Request  /api/multicloud-vio/v0/swagger.json
+    [Tags]    health    multicloud    small
+    Run MSB Get Request    /api/multicloud-vio/v0/swagger.json
 
 Basic OOF-Homing Health Check
     [Tags]    health    medium
@@ -146,72 +146,72 @@ Basic SO Health Check
     Run SO Global Health Check
 
 Basic UseCaseUI API Health Check
-     [Tags]    health    api    medium
-     Run MSB Get Request  /iui/usecaseui/
+    [Tags]    health    api    medium
+    Run MSB Get Request    /iui/usecaseui/
 
 Basic VFC catalog API Health Check
     [Tags]    health    api
-    Run MSB Get Request  /api/catalog/v1/swagger.json
+    Run MSB Get Request    /api/catalog/v1/swagger.json
 
 Basic VFC emsdriver API Health Check
     [Tags]    health    3rdparty
-    Run MSB Get Request  /api/emsdriver/v1/swagger.json
+    Run MSB Get Request    /api/emsdriver/v1/swagger.json
 
 Basic VFC gvnfmdriver API Health Check
     [Tags]    health    3rdparty
-    Run MSB Get Request  /api/gvnfmdriver/v1/swagger.json
+    Run MSB Get Request    /api/gvnfmdriver/v1/swagger.json
 
 Basic VFC huaweivnfmdriver API Health Check
     [Tags]    health    3rdparty
-    Run MSB Get Request  /api/huaweivnfmdriver/v1/swagger.json
+    Run MSB Get Request    /api/huaweivnfmdriver/v1/swagger.json
 
 Basic VFC jujuvnfmdriver API Health Check
     [Tags]    health    3rdparty
-    Run MSB Get Request  /api/jujuvnfmdriver/v1/swagger.json
+    Run MSB Get Request    /api/jujuvnfmdriver/v1/swagger.json
 
 Basic VFC multivimproxy API Health Check
     [Tags]    health    3rdparty
-    Run MSB Get Request  /api/multivimproxy/v1/swagger.json
+    Run MSB Get Request    /api/multivimproxy/v1/swagger.json
 
 Basic VFC nokiavnfmdriver API Health Check
-     [Tags]    health    3rdparty
-     Run MSB Get Request  /api/nokiavnfmdriver/v1/swagger.json
+    [Tags]    health    3rdparty
+    Run MSB Get Request    /api/nokiavnfmdriver/v1/swagger.json
 
 Basic VFC nokiav2driver API Health Check
-     [Tags]    health    3rdparty
-     Run MSB Get Request  /api/NokiaSVNFM/v1/swagger.json
+    [Tags]    health    3rdparty
+    Run MSB Get Request    /api/NokiaSVNFM/v1/swagger.json
 
 Basic VFC nslcm API Health Check
-     [Tags]    health    api
-     Run MSB Get Request  /api/nslcm/v1/swagger.json
+    [Tags]    health    api
+    Run MSB Get Request    /api/nslcm/v1/swagger.json
 
 Basic VFC resmgr API Health Check
-     [Tags]    health    api
-     Run MSB Get Request  /api/resmgr/v1/swagger.json
+    [Tags]    health    api
+    Run MSB Get Request    /api/resmgr/v1/swagger.json
 
 Basic VFC vnflcm API Health Check
-     [Tags]    health    api
-     Run MSB Get Request  /api/vnflcm/v1/swagger.json
+    [Tags]    health    api
+    Run MSB Get Request    /api/vnflcm/v1/swagger.json
 
 Basic VFC vnfmgr API Health Check
-     [Tags]    health    api
-     Run MSB Get Request  /api/vnfmgr/v1/swagger.json
+    [Tags]    health    api
+    Run MSB Get Request    /api/vnfmgr/v1/swagger.json
 
 Basic VFC vnfres API Health Check
-     [Tags]    health    api
-     Run MSB Get Request  /api/vnfres/v1/swagger.json
+    [Tags]    health    api
+    Run MSB Get Request    /api/vnfres/v1/swagger.json
 
 Basic VFC workflow API Health Check
-     [Tags]    health    api
-     Run MSB Get Request  /api/workflow/v1/swagger.json
+    [Tags]    health    api
+    Run MSB Get Request    /api/workflow/v1/swagger.json
 
 Basic VFC ztesdncdriver API Health Check
-     [Tags]    health    3rdparty
-     Run MSB Get Request  /api/ztesdncdriver/v1/swagger.json
+    [Tags]    health    3rdparty
+    Run MSB Get Request    /api/ztesdncdriver/v1/swagger.json
 
 Basic VFC ztevnfmdriver API Health Check
-     [Tags]    health    3rdparty
-     Run MSB Get Request  /api/ztevnfmdriver/v1/swagger.json
+    [Tags]    health    3rdparty
+    Run MSB Get Request    /api/ztevnfmdriver/v1/swagger.json
 
 Basic VID Health Check
     [Tags]    health    small
@@ -223,7 +223,7 @@ Basic VNFSDK Health Check
 
 Health Distribution Test
     [Tags]    healthdist
-    [Timeout]   600
+    [Timeout]    600
     Model Distribution For Directory    vFW
 
 Portal Login Tests
@@ -232,5 +232,13 @@ Portal Login Tests
 
 Portal Application Access Tests
     [Tags]    healthportalapp
-    [Timeout]   180
+    [Timeout]    180
     Run Portal Application Access Tests
+
+Basic Holmes Rule Management API Health Check
+    [Tags]    health    small
+    Run Holmes Rule Mgmt Health Check
+
+Basic Holmes Engine Management API Health Check
+    [Tags]    health    small
+    Run Holmes Engine Mgmt Health Check
