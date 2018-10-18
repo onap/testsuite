@@ -101,4 +101,7 @@ do
 	fi
 done
 
+# Blindly clean up all outstanding chrome processes
+pkill chrome
+
 exit $RET_CODE
