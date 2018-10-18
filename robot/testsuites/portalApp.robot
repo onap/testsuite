@@ -8,6 +8,7 @@ Resource	../resources/portal-sdk/portalSdkDef.robot
      
 Login into Portal URL
     [TAGS]  portal
+    Close All Browsers
     Portal admin Login To Portal GUI  
 
 Portal Change REST URL Of X-DemoApp
