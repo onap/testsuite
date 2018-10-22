@@ -34,6 +34,52 @@
       "revId": "56a83356809f9d29450e325d0137a822777c85e9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_e39ff1b2",
+        "filename": "robot/testsuites/create-cloud-config.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-10-22T20:45:33Z",
+      "side": 1,
+      "message": "or this one ?",
+      "range": {
+        "startLine": 12,
+        "startChar": 206,
+        "endLine": 12,
+        "endChar": 222
+      },
+      "revId": "56a83356809f9d29450e325d0137a822777c85e9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_036315dd",
+        "filename": "robot/testsuites/create-cloud-config.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-10-22T20:45:33Z",
+      "side": 1,
+      "message": "is this the encrypted apikey or the plain text one ?",
+      "range": {
+        "startLine": 12,
+        "startChar": 146,
+        "endLine": 12,
+        "endChar": 170
+      },
+      "revId": "56a83356809f9d29450e325d0137a822777c85e9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
