@@ -80,6 +80,54 @@
       "revId": "56a83356809f9d29450e325d0137a822777c85e9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_43b03d43",
+        "filename": "robot/testsuites/create-cloud-config.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 63
+      },
+      "writtenOn": "2018-10-22T20:46:49Z",
+      "side": 1,
+      "message": "probably just a copy/paste error",
+      "parentUuid": "bada0100_e39ff1b2",
+      "range": {
+        "startLine": 12,
+        "startChar": 206,
+        "endLine": 12,
+        "endChar": 222
+      },
+      "revId": "56a83356809f9d29450e325d0137a822777c85e9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_a3a9e9e0",
+        "filename": "robot/testsuites/create-cloud-config.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 63
+      },
+      "writtenOn": "2018-10-22T20:46:49Z",
+      "side": 1,
+      "message": "it would expect encrypted",
+      "parentUuid": "bada0100_036315dd",
+      "range": {
+        "startLine": 12,
+        "startChar": 146,
+        "endLine": 12,
+        "endChar": 170
+      },
+      "revId": "56a83356809f9d29450e325d0137a822777c85e9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
