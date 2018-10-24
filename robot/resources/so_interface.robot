@@ -113,6 +113,30 @@ Run MSO Post request
 	Log    Received response from mso ${resp.text}
 	[Return]  ${resp}
 
+Run SO Catalog Post request
+    [Documentation]    Runs an SO post request
+    [Arguments]  ${data_path}  ${data}   ${so_port}=
+    ${auth}=  Create List  ${GLOBAL_MSO_CATDB_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    Log    Creating session ${SO_CATDB_ENDPOINT}
+    ${session}=    Create Session       so_catdb     ${SO_CATDB_ENDPOINT}    auth=${auth}
+    ${uuid}=    Generate UUID
+    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
+    ${resp}=        Post Request    so_catdb     ${data_path}     data=${data}   headers=${headers}
+    Log    Received response from so_catdb ${resp.text}
+    [Return]  ${resp}
+
+Run SO Catalog Put request
+    [Documentation]    Runs an SO put request
+    [Arguments]  ${data_path}  ${data}   ${so_port}=
+    ${auth}=  Create List  ${GLOBAL_MSO_CATDB_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    Log    Creating session ${SO_CATDB_ENDPOINT}
+    ${session}=    Create Session       so_catdb     ${SO_CATDB_ENDPOINT}    auth=${auth}
+    ${uuid}=    Generate UUID
+    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
+    ${resp}=        Put Request    so_catdb     ${data_path}     data=${data}   headers=${headers}
+    Log    Received response from so_catdb ${resp.text}
+    [Return]  ${resp}
+
 Run MSO Delete request
     [Documentation]    Runs an MSO Delete request
     [Arguments]  ${data_path}  ${data}

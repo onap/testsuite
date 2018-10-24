@@ -80,11 +80,13 @@ Distribute Model From ASDC
 
 Loop Over Check Catalog Service Distributed
     [Arguments]    ${catalog_service_id}
-    # SO watchdog timeout is 300 seconds
-    : FOR     ${CHECK_INDEX}  IN RANGE   15
-    \   ${status}   ${_} =   Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}
+    # SO watchdog timeout is 300 seconds need buffer
+    ${dist_status}=   Set Variable    FAIL
+    : FOR     ${CHECK_INDEX}  IN RANGE   20
+    \   ${status}   ${_} =   Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}    ${dist_status}
     \   Sleep     20s
     \   Return From Keyword If   '${status}'=='PASS'
+    \   Exit For Loop If   '${dist_status}'=='EXIT'
     Should Be Equal As Strings  ${status}   PASS 
 
 Setup ASDC Catalog Resource
@@ -398,7 +400,7 @@ Get Catalog Service Distribution
     [Return]    ${resp.json()}
 Check Catalog Service Distributed
     [Documentation]    gets an asdc catalog Service distrbution
-    [Arguments]    ${catalog_service_uuid}
+    [Arguments]    ${catalog_service_uuid}    ${dist_status}
     ${dist_resp}=    Get Catalog Service Distribution    ${catalog_service_uuid}
     Should Be Equal As Strings 	${dist_resp['distributionStatusOfServiceList'][0]['deployementStatus']} 	Distributed
     ${det_resp}=    Get Catalog Service Distribution Details    ${dist_resp['distributionStatusOfServiceList'][0]['distributionID']}
@@ -411,6 +413,8 @@ Check Catalog Service Distributed
     \    ${SO_COMPLETE}   Set Variable If   (('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_OK')) or ('${SO_COMPLETE}'=='TRUE')  TRUE
     \    Exit For Loop If   ('${SO_COMPLETE}'=='TRUE')
     \    Exit For Loop If   ('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_ERROR')
+    \    ${dist_status}=  Set Variable If   (('${ELEMENT['status']}' == 'COMPONENT_DONE_ERROR') and ('${ELEMENT['omfComponentID']}' == 'aai-ml'))  EXIT
+    \    Exit For Loop If   (('${ELEMENT['status']}' == 'COMPONENT_DONE_ERROR') and ('${ELEMENT['omfComponentID']}' == 'aai-ml'))
     Should Be True   ( '${SO_COMPLETE}'=='TRUE')   SO Test
 Get Catalog Service Distribution Details
     [Documentation]    gets an asdc catalog Service distrbution details
@@ -424,13 +428,14 @@ Run ASDC Health Check
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	asdc 	${ASDC_HEALTH_CHECK_PATH}     headers=${headers}
+    # only test for HTTP 200 to determine SDC Health. SDC_DE_HEALTH is informational
     Should Be Equal As Strings 	${resp.status_code} 	200    SDC DOWN
     ${SDC_DE_HEALTH}=    Catenate   DOWN
     @{ITEMS}=    Copy List    ${resp.json()['componentsInfo']}
     :FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['healthCheckStatus']}
     \    ${SDC_DE_HEALTH}  Set Variable If   (('DE' in '${ELEMENT['healthCheckComponent']}') and ('${ELEMENT['healthCheckStatus']}' == 'UP')) or ('${SDC_DE_HEALTH}'=='UP')  UP
-    Should Be Equal As Strings    ${SDC_DE_HEALTH}     UP     SDC_DE DOWN
+    Log Console   SDC DMaaP Interface Health: ${SDC_DE_HEALTH}
 Run ASDC Get Request
     [Documentation]    Runs an ASDC get request
     [Arguments]    ${data_path}    ${user}=${ASDC_DESIGNER_USER_ID}  ${MY_ASDC_BE_ENDPOINT}=${ASDC_BE_ENDPOINT}
