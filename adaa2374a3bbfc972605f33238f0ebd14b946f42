@@ -34,6 +34,24 @@
       "revId": "adaa2374a3bbfc972605f33238f0ebd14b946f42",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_29b873e4",
+        "filename": "robot/resources/vid/create_vid_vnf.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-10-24T17:33:51Z",
+      "side": 1,
+      "message": "corect this is the timing stuff - for some reason selenium is being pesky",
+      "parentUuid": "bada0100_a9ec63f4",
+      "revId": "adaa2374a3bbfc972605f33238f0ebd14b946f42",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
