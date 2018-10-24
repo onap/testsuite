@@ -109,6 +109,8 @@ Create VID VNF module
     Input Text 	  xpath=//input[@parameter-id='instanceName']    ${vf_module_name}
     Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region}
     Select From List By Label    xpath=//select[@parameter-id='tenant']    ${tenant}
+    Wait Until Element Is Visible    xpath=//input[@parameter-id='sdncPreload']       ${GLOBAL_VID_UI_TIMEOUT_SHORT}
+    Wait Until Element Is Enabled    xpath=//input[@parameter-id='sdncPreload']       ${GLOBAL_VID_UI_TIMEOUT_SHORT}
     Select Checkbox    xpath=//input[@parameter-id='sdncPreload']
     Click Element    button=Confirm
  	Wait Until Element Contains    xpath=//pre[@class = 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
