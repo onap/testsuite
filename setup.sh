@@ -18,7 +18,8 @@ pip install --no-cache-dir --target="$path/robot/library" 'selenium<=3.0.0' 'req
 'robotframework-databaselibrary==0.8.1' 'robotframework-extendedselenium2library==0.9.1' 'robotframework-requests==0.4.5' \
 'robotframework-sshlibrary==2.1.2' \
 'robotframework-sudslibrary==0.8' 'robotframework-ftplibrary==1.3' 'robotframework-rammbock==0.4.0.1' \
-'deepdiff==2.5.1' 'dnspython==1.15.0' 'robotframework-httplibrary==0.4.2' 'robotframework-archivelibrary==0.3.2' 'PyYAML==3.12'
+'deepdiff==2.5.1' 'dnspython==1.15.0' 'robotframework-httplibrary==0.4.2' 'robotframework-archivelibrary==0.3.2' 'PyYAML==3.12' \
+'robotframework-kafkalibrary==0.0.2'
 
 
 # get the git for the eteutils you will need to add a private key to your ssh before this
@@ -96,3 +97,15 @@ else
     curl $CHROMEDRIVER_URL/$CHROMEDRIVER_ZIP -o chromedriver.zip
 	unzip chromedriver.zip
 fi
+
+
+#
+# Install kafkacat : https://github.com/edenhill/kafkacat
+#
+OS=`uname -s`
+case $OS in
+	Darwin)
+		brew install kafkacat ;;
+	Linux)
+		apt-get -y install kafkacat
+esac
