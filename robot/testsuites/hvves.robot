@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation   HV-VES 'Sunny Scenario' Robot Framwork test - message is sent to the collector and Kafka topic is checked if the message has been published.
 Default Tags    HVVES
-Test Timeout    3 minute
+Test Timeout    30s
 Resource    ${EXECDIR}/robot/resources/global_properties.robot
 Resource    ${EXECDIR}/robot/resources/test_templates/hvves_template.robot
 Suite Teardown  Reset Rammbock

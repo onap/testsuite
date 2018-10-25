@@ -15,8 +15,9 @@ Check Number Of Messages On Topic
     [Arguments]     ${kafka_server}     ${kafka_port}   ${kafka_topic}
     [Teardown]      Close
     Connect Consumer    bootstrap_servers=${kafka_server}:${kafka_port}
-    ${msg_number}=      Get Number Of Messages In Topics    ${kafka_topic}
-    [Return]    ${msg_number}
+    ${status}   ${msg_number}=      Run Keyword And Ignore Error        Get Number Of Messages In Topics    ${kafka_topic}
+    Run Keyword If      '${status}' == 'FAIL'   Return From Keyword     0
+    Run Keyword If      '${status}' == 'PASS'   Return From Keyword     ${msg_number}
 
 Define WTP Protocol
     [Documentation]     Defines Wire Transfer Protocol.
