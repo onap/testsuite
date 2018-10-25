@@ -40,6 +40,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 # Copy the robot code
 COPY / /var/opt/OpenECOMP_ETE/
 COPY lighttpd.conf /etc/lighttpd/lighttpd.conf
+COPY authorization /etc/lighttpd/authorization
 RUN chmod 777 /var/opt/OpenECOMP_ETE/setup.sh && \
     chmod 777 /var/opt/OpenECOMP_ETE/runTags.sh && \
     chmod 777 /var/opt/OpenECOMP_ETE/dnstraffic.sh && \
