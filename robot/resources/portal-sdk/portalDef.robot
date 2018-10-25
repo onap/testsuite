@@ -23,20 +23,12 @@ ${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/login.htm
 ${PORTAL_HOME_PAGE}        ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
 ${PORTAL_MICRO_ENDPOINT}    ${PORTAL_URL}${PORTAL_ENV}/commonWidgets
 ${PORTAL_HOME_URL}                ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
-${App_LoginID}     demoapp
-${App_Email_Address}    demoapp@onap.com
-${Sta_LoginID}    demosta
-${Sta_Email_Address}    demosta@onap.com
-${Test_LoginID}    portal
-${Test_Email_Address}    portal@onap.com
 ${PORTAL_HEALTH_CHECK_PATH}        /ONAPPORTAL/portalApi/healthCheck
 ${PORTAL_XDEMPAPP_REST_URL}        http://portal-sdk:8080/ONAPPORTALSDK/api/v2
 ${PORTAL_ASSETS_DIRECTORY}    ../../assets/widgets/
 ${GLOBAL_APPLICATION_ID}           robot-functional
 ${GLOBAL_PORTAL_ADMIN_USER}		demo
 ${GLOBAL_PORTAL_ADMIN_PWD}		demo123456!
-${AppUserName}           testApp
-${AppPassword}           testApp123!
 ${GLOBAL_MSO_STATUS_PATH}    /ecomp/mso/infra/orchestrationRequests/v2/
 ${GLOBAL_SELENIUM_BROWSER}        chrome
 ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}        Create Dictionary
@@ -60,6 +52,26 @@ ${td_id}    0
 ${download_link_id}    0
     
 *** Keywords ***
+
+Generate Random User Name
+    ${RAND}    Generate Random String    4    [NUMBERS]
+    ${App_LoginID}=     Set Variable    demoapp${RAND}
+    ${App_Email_Address}=    Set Variable    demoapp${RAND}@onap.com
+    ${Sta_LoginID}=    Set Variable    demosta${RAND}
+    ${Sta_Email_Address}=    Set Variable    demosta${RAND}@onap.com
+    ${Test_LoginID}=    Set Variable    portal${RAND}
+    ${Test_Email_Address}=    Set Variable    portal${RAND}@onap.com
+    ${AppUserName}=           Set Variable    testApp${RAND}
+    ${AppPassword}=           Set Variable    testApp${RAND}123!
+    Set Suite Variable  ${App_LoginID}
+    Set Suite Variable  ${App_Email_Address}
+    Set Suite Variable  ${Sta_LoginID}
+    Set Suite Variable  ${Sta_Email_Address}
+    Set Suite Variable  ${Test_LoginID}
+    Set Suite Variable  ${Test_Email_Address}
+    Set Suite Variable  ${AppUserName}
+    Set Suite Variable  ${AppPassword}
+
 
 Portal admin Login To Portal GUI
     [Documentation]   Logs into Portal GUI
