@@ -3,6 +3,7 @@ Test Timeout    3 minute
 Documentation    This is RobotFrame work script
 Resource	../resources/portal-sdk/portalDef.robot
 Resource	../resources/portal-sdk/portalSdkDef.robot
+Suite Setup     Generate Random User Name
 
 *** Test Cases ***
      
