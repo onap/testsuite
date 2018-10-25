@@ -150,7 +150,8 @@ APPC Mount Point
     ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=public
     ${vpg_oam_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_1
     #${appc}=    Create Mount Point In APPC    ${vpg_name_0}    ${vpg_oam_ip}
-    ${appc}=    Create Mount Point In APPC    ${vnf_id}    ${vpg_oam_ip}
+    #${appc}=    Create Mount Point In APPC    ${vnf_id}    ${vpg_oam_ip}
+    ${appc}=    Create Mount Point In APPC    ${vnf_id}    ${vpg_public_ip}
 
 Instantiate VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL

@@ -37,7 +37,7 @@ Create APPC Mount Point
 
 Instantiate VFW
     [Tags]   instantiateVFW
-    Instantiate VNF   vFW
+    Instantiate VNF   vFW   base_vfw
 
 Instantiate VFWCL
     [Tags]   instantiateVFWCL
