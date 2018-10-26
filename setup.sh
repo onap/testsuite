@@ -109,3 +109,15 @@ case $OS in
 	Linux)
 		apt-get -y install kafkacat
 esac
+
+
+#
+# Install protobuf
+#
+OS=`uname -s`
+case $OS in
+        Darwin)
+                brew install protobuf ;;
+        Linux)
+                apt-get -y install protobuf-compiler
+esac
