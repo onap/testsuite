@@ -7,7 +7,6 @@ Resource        ../aai/service_instance.robot
 Resource        ../vid/create_vid_vnf.robot
 Resource        ../vid/teardown_vid.robot
 Resource        ../sdngc_interface.robot
-Resource        ../mso_interface.robot
 Resource        model_test_template.robot
 
 Resource        ../aai/create_zone.robot
@@ -18,6 +17,9 @@ Resource        ../aai/create_service.robot
 Resource        ../openstack/neutron_interface.robot
 Resource        ../heatbridge.robot
 
+Resource    	../global_properties.robot
+Resource    	../json_templater.robot
+Resource    	../so_interface.robot
 
 Library         OpenstackLibrary
 Library 	    ExtendedSelenium2Library
@@ -30,14 +32,13 @@ Library    OperatingSystem
 Library    HEATUtils
 Library    StringTemplater
 Library    Collections
-Resource    ../global_properties.robot
-Resource    ../json_templater.robot
 
 *** Variables ***
 ${service_template}    robot/assets/cds/service-Vfirewall0911-template.yml
 ${env}      robot/assets/cds/env.yml
 ${so_request_template}    robot/assets/cds/template_so_request.json    
-${vnf_template} 	robot/assets/cds/template_vnf.json
+${vnf_template_name} 	robot/assets/cds/template_vnf.json
+${vfmodule_template_name} 	robot/assets/cds/template_vfmodule.json
 ${so_uri_path}		/onap/so/infra/serviceInstantiation/v7/serviceInstances
 *** Variables ***
 
@@ -94,9 +95,10 @@ Orchestrate VNF With CDS
     \	 ${vf_modules}=    Get From Dictionary   ${jsondata['topology_template']}    groups
     \    ${value}= 	Evaluate 	"${key}".replace("-","").replace(" ","")
     \    ${value}= 	Convert To Lowercase 	${value}
-    \    Get VFModule Info	 ${jsondata}	${value}	  ${dict}
-    \	 ${vnf_template_payload}= 	OperatingSystem.Get File    ${vnf_template}
-    \    ${vnf_payload}= 	Template String		${vnf_template_payload}		${dict}
+    \    ${vfmodules}=	Get VFModule Info	 ${jsondata}	${value}	  ${dict}
+    \	 Set To Dictionary	${dict}	  vf_modules=${vfmodules}
+    \	 ${vnf_template}= 	OperatingSystem.Get File    ${vnf_template_name}
+    \    ${vnf_payload}= 	Template String		${vnf_template}		${dict}
     \	 ${data}= 	Catenate	[${vnf_payload}]
    
     Set To Dictionary 		${dict}		vnfs=${data}
@@ -109,7 +111,11 @@ Orchestrate VNF With CDS
     Log To Console 	--------response-------
     ${json_string}=    Evaluate    json.dumps(${resp.json()})    json
     Log To Console	${json_string}
+    Log To Console    instanceId=${resp.json()['requestReferences']['instanceId']}
+    ${requestId}=    Catenate    ${resp.json()['requestReferences']['requestId']}
+    Log To Console    requestId=${requestId}
     Log To Console	-------end response-------
+    # Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
 
 
 Get VNF Info
@@ -128,11 +134,18 @@ Get VFModule Info
     [Arguments]   ${jsondata}	${vnf}   ${dict}
     ${vfModules}=   Get From Dictionary    ${jsondata['topology_template']}   groups
     ${keys}=   Get Dictionary Keys    ${vfModules}
+    ${data}=   Catenate
+    ${delim}=   Catenate
     :for   ${key}  in  @{keys}
     \    ${module}=   Get From Dictionary    ${vfModules}   ${key}
     \    Log to console 	${vnf} ${key}
     \    Run keyword if 	"${vnf}" in "${key}"	set vfmodule param	${key}	  ${module}	${dict}
-
+    \	 ${vfmodule_template}=       OperatingSystem.Get File    ${vfmodule_template_name}
+    \    ${vfmodule_payload}= 	Template String		${vfmodule_template}		${dict}
+    \	 ${data}= 	Catenate    ${data}   ${delim}   ${vfmodule_payload}
+    \	 ${delim}= 	Catenate	,
+    Log To Console 	${data}
+    [Return] 	${data}
 
 set vfmodule param
     [Documentation]    Set vfmodule parameters
