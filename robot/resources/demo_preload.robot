@@ -164,9 +164,18 @@ Instantiate VNF
     Log to Console   ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
-    
-    
-    
+
+Instantiate Demo VNF
+    [Arguments]   ${service}   ${vf_module_label}=NULL
+    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
+    ${vf_module_name}    ${service}=    Orchestrate Demo VNF    Demonstration    ${service}   ${service}    ${TENANT_NAME}
+    #Save For Delete
+    Log to Console   Customer Name=${CUSTOMER_NAME}
+    Log to Console   VNF Module Name=${vf_module_name}
+    ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
+    Log to Console   ModelInvariantID=${model_invariant_id}
+    ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
+    ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
 
 
 Save For Delete
