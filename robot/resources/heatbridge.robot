@@ -40,10 +40,10 @@ Execute Heatbridge
     ${vnf_id}=    Get From Dictionary    ${stack_info}    vnf_id
     ${KeyIsPresent}=    Run Keyword And Return Status       Dictionary Should Contain Key       ${stack_info}      ${ipv4_oam_address}
     ${ipv4_vnf_address}=   Run Keyword If      ${KeyIsPresent}     Get From Dictionary  ${stack_info}      ${ipv4_oam_address}
-    Run Set VNF Params  ${vnf_id}  ${ipv4_vnf_address}  PROV  Active
-    ${keystone_api_version}=    Run Keyword If    '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'==''    Get KeystoneAPIVersion 
+    Run Set VNF Params  ${vnf_id}  ${ipv4_vnf_address}  ACTIVE  Active
+    ${keystone_api_version}=    Run Keyword If    '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'==''    Get KeystoneAPIVersion
     ...    ELSE    Set Variable   ${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}
-    ${url}   ${path}=   Get Keystone Url And Path   ${keystone_api_version}  
+    ${url}   ${path}=   Get Keystone Url And Path   ${keystone_api_version}
     ${openstack_identity_url}=    Catenate    ${url}${path}
     ${region}=   Get Openstack Region
     ${user}   ${pass}=   Get Openstack Credentials
@@ -51,7 +51,7 @@ Execute Heatbridge
     ...    ELSE    Init Bridge    ${openstack_identity_url}    ${user}    ${pass}    ${tenant_id}    ${region}   ${GLOBAL_AAI_CLOUD_OWNER}    ${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}    ${GLOBAL_INJECTED_OPENSTACK_PROJECT_NAME}
     ${request}=    Bridge Data    ${stack_id}
     Log    ${request}
-    ${resp}=    Run A&AI Put Request    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request}  
+    ${resp}=    Run A&AI Put Request    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request}
     ${status_string}=    Convert To String    ${resp.status_code}
     Should Match Regexp    ${status_string} 	^(201|200)$
     ${reverse_heatbridge}=   Generate Reverse Heatbridge From Stack Info   ${stack_info}
@@ -79,7 +79,7 @@ Run Vserver Query
 
 Run Set VNF Params
     [Documentation]  Run A&A GET and PUT to set prov-status, orchestration status, and ipv4-oam-address
-    [Arguments]   ${vnf_id}  ${ipv4_vnf_address}  ${prov_status}=PROV  ${orch_status}=Active
+    [Arguments]   ${vnf_id}  ${ipv4_vnf_address}  ${prov_status}=ACTIVE  ${orch_status}=Active
     ${payload}=  Run Get Generic VNF by VnfId   ${vnf_id}
 
     #${payload_json}=    evaluate    json.loads('''${payload}''')    json
