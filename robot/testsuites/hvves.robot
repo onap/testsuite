@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation   HV-VES 'Sunny Scenario' Robot Framwork test - message is sent to the collector and Kafka topic is checked if the message has been published.
 Default Tags    HVVES
-Test Timeout    30s
+Test Timeout    10s
 Resource    ${EXECDIR}/robot/resources/global_properties.robot
 Resource    ${EXECDIR}/robot/resources/test_templates/hvves_template.robot
 Suite Teardown  Reset Rammbock
@@ -13,6 +13,7 @@ HV-VES test case
     ${msg_number_initial}=  Check Number Of Messages On Topic   ${GLOBAL_DNS_MESSAGE_ROUTER_KAFKA_NAME}  ${GLOBAL_MESSAGE_ROUTER_KAFKA_PORT}  ${hvves_kafka_topic}
     Define WTP Protocol
     Start HV-VES TCP Client And Send Message     ${GLOBAL_DNS_HV_VES_NAME}   ${GLOBAL_HV_VES_SERVER_PORT}
+    Wait Until Keyword Succeeds      5s      1s      Check If Topic Exists     ${GLOBAL_DNS_MESSAGE_ROUTER_KAFKA_NAME}      ${GLOBAL_MESSAGE_ROUTER_KAFKA_PORT}      ${hvves_kafka_topic}
     ${msg_number_after}=    Check Number Of Messages On Topic   ${GLOBAL_DNS_MESSAGE_ROUTER_KAFKA_NAME}  ${GLOBAL_MESSAGE_ROUTER_KAFKA_PORT}  ${hvves_kafka_topic}
     Should Not Be Equal As Integers     ${msg_number_initial}   ${msg_number_after}
     Download VesEvent Proto File    ${EXECDIR}

@@ -4,6 +4,7 @@ Library     OperatingSystem
 Library     Rammbock
 Library     KafkaLibrary
 Library     BuiltIn
+Library     Collections
 
 *** Variables ***
 ${hvves_message}    0x0a94020a0e73616d706c652d76657273696f6e12087065726633677070180120012a0a70657266334750503232321173616d706c652d6576656e742d6e616d653a1173616d706c652d6576656e742d7479706540f19afddd0548f19afddd05521573616d706c652d6e662d6e616d696e672d636f64655a1673616d706c652d6e66632d6e616d696e672d636f6465621573616d706c652d6e662d76656e646f722d6e616d656a1a73616d706c652d7265706f7274696e672d656e746974792d6964721c73616d706c652d7265706f7274696e672d656e746974792d6e616d657a1073616d706c652d736f757263652d696482010f73616d706c652d786e662d6e616d658a01095554432b30323a3030920105372e302e32120e7465737420746573742074657374
@@ -18,6 +19,14 @@ Check Number Of Messages On Topic
     ${status}   ${msg_number}=      Run Keyword And Ignore Error        Get Number Of Messages In Topics    ${kafka_topic}
     Run Keyword If      '${status}' == 'FAIL'   Return From Keyword     0
     Run Keyword If      '${status}' == 'PASS'   Return From Keyword     ${msg_number}
+
+Check If Topic Exists
+    [Documentation]      Checks if specific topic exists on kafka.
+    [Arguments]      ${kafka_server}      ${kafka_port}      ${kafka_topic}
+    [Teardown]      Close
+    Connect Consumer      bootstrap_servers=${kafka_server}:${kafka_port}
+    ${topics}=      Get Kafka Topics
+    List Should Contain Value      ${topics}      ${kafka_topic}
 
 Define WTP Protocol
     [Documentation]     Defines Wire Transfer Protocol.
