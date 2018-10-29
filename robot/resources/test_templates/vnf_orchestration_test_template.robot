@@ -86,6 +86,68 @@ Orchestrate VNF
     [Return]     ${vf_module_name}    ${service}
 
 
+Orchestrate Demo VNF
+    [Documentation]   Use ONAP to Orchestrate a service from Demonstration Models.
+    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}  ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
+    ${service_model_type}=   Set Variable If
+    ...                      '${service}'=='vFWCL'     demoVFWCL
+    ...                      '${service}'=='vFW'       demoVFW
+    ...                      '${service}'=='vLB'       demoVLB
+    ${lcp_region}=   Get Openstack Region
+    ${uuid}=    Generate UUID
+    Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
+    Set Test Variable    ${SERVICE}    ${service}
+    ${list}=    Create List
+    Set Test Variable    ${STACK_NAMES}   ${list}
+    ${service_name}=    Catenate    Service_Ete_Name${uuid}
+    ${service_type}=    Set Variable    ${service}
+    #${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=    Model Distribution For Directory    ${service}
+    #${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=    Get Demonstration Model Data    ${service_model_type}
+    ${vnf_json_resources}      OperatingSystem.Get File    /tmp/config/vnf_resources.json
+    #  need dictionary for service with vnf_type  vf_module 
+    Set Suite Variable    ${SUITE_SERVICE_MODEL_NAME}   ${service_model_type}
+    Setup Browser
+    Login To VID GUI
+    ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
+    Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
+    Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
+    ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
+    :for   ${vnf}   in   @{vnflist}
+    \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
+    \   ${vf_module_name}=    Catenate    Vfmodule_Demo_${vnf}_${uuid}
+    \   ${vnf_type}=   Get Demo VNF Type    ${vnf_json_resources}   ${vnf}
+    \   ${vf_module}=    Get Demo VF Module    ${vnf_json_resources}     ${vnf}
+    \   Append To List   ${STACK_NAMES}   ${vf_module_name}
+    \   Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant}    ${vnf_type}   ${CUSTOMER_NAME}
+    \   ${vf_module_entry}=   Create Dictionary    name=${vf_module}
+    \   ${vf_modules}=   Create List    ${vf_module_entry}
+    \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}
+    \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
+    \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
+    \   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
+    \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
+    \   Append To List   ${STACK_NAMES}   ${STACK_NAME}
+    #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
+    \   Run Keyword and Ignore Error   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
+    \   Run Keyword and Ignore Error   Validate VF Module      ${vf_module_name}    ${vnf}
+    [Return]     ${vf_module_name}    ${service}
+
+
+Get Demo VNF Type
+    [Documentation]   Get vnf_type from json demo vnf data
+    [Arguments]   ${json_resources}   ${vnf}
+    ${vnf_type}=    Get Json Value   ${json_resources}   /${vnf}/vnf_type
+    ${vnf_type}=    Remove String   ${vnf_type}   "
+    [Return]    ${vnf_type}
+
+Get Demo VF Module
+    [Documentation]   Get vf_module from json demo vnf data
+    [Arguments]   ${json_resources}   ${vnf}
+    ${vf_module}=    Get Json Value   ${json_resources}   /${vnf}/vf_module
+    ${vf_module}=   Remove String   ${vf_module}   "
+    [Return]    ${vf_module}
+
+
 Get VNF Type
     [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
     [Arguments]   ${resources}   ${vnf}
