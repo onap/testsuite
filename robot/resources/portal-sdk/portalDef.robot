@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation    This is RobotFrame work script
-Library		ExtendedSelenium2Library
+Library		ExtendedSelenium2Library    browser_breath_delay=1
 Library		OperatingSystem
 Library		../../library/eteutils/RequestsClientCert.py
 Library		RequestsLibrary
@@ -32,9 +32,9 @@ ${GLOBAL_PORTAL_ADMIN_PWD}		demo123456!
 ${GLOBAL_MSO_STATUS_PATH}    /ecomp/mso/infra/orchestrationRequests/v2/
 ${GLOBAL_SELENIUM_BROWSER}        chrome
 ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}        Create Dictionary
-${GLOBAL_SELENIUM_DELAY}          0
-${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}        10
-${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}        180
+${GLOBAL_SELENIUM_DELAY}          1
+${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}        30
+${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}        10
 ${GLOBAL_OPENSTACK_HEAT_SERVICE_TYPE}    orchestration
 ${GLOBAL_OPENSTACK_CINDER_SERVICE_TYPE}    volume
 ${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    compute
@@ -76,12 +76,11 @@ Generate Random User Name
 Portal admin Login To Portal GUI
     [Documentation]   Logs into Portal GUI
     ## Setup Browser Now being managed by test case
-    Setup Browser
-    #Start Virtual Display    1920    1080
-    #Open Browser    ${PORTAL_LOGIN_URL}    chrome
-	Go To    ${PORTAL_LOGIN_URL}
-    #Maximize Browser Window
     Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
+    Setup Browser
+    # Open Browser    ${PORTAL_LOGIN_URL}    chrome
+    Go To    ${PORTAL_LOGIN_URL}
+    Maximize Browser Window
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
     Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
     #Handle Proxy Warning
@@ -89,6 +88,7 @@ Portal admin Login To Portal GUI
     Input Text    xpath=//input[@ng-model='loginId']    ${GLOBAL_PORTAL_ADMIN_USER}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Link    xpath=//a[@id='loginBtn']
+    Sleep    5s
     Go To    ${PORTAL_HOME_URL}
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
 	#Execute Javascript    document.getElementById('w-ecomp-footer').style.display = 'none'
@@ -656,7 +656,8 @@ Portal Admin Category Notifications
 Portal admin Logout from Portal GUI
     [Documentation]   Logout from Portal GUI
     Click Element    xpath=//div[@id='header-user-icon']
-    Click Button    xpath=//button[contains(.,'Log out')]
+    Run Keyword And Ignore Error    Click Button    xpath=//button[contains(.,'Log out')]
+    Sleep    5s
     Title Should Be    Login
     
 Application admin Login To Portal GUI
@@ -667,6 +668,7 @@ Application admin Login To Portal GUI
     Input Text    xpath=//input[@ng-model='loginId']    ${App_LoginID}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Link    xpath=//a[@id='loginBtn']
+    Sleep    5s
     Go To    ${PORTAL_HOME_URL}
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
     Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}    
@@ -759,8 +761,9 @@ Application admin Logout from Portal GUI
     [Documentation]   Logout from Portal GUI
     Click Element    xpath=//div[@id='header-user-icon']
 	#Set Selenium Implicit Wait    3000
-    Click Button    xpath=//button[contains(text(),'Log out')]
+    Run Keyword And Ignore Error    Click Button    xpath=//button[contains(text(),'Log out')]
 	#Set Selenium Implicit Wait    3000
+    Sleep    5s
     Title Should Be    Login  
     
 Standared user Login To Portal GUI
@@ -777,6 +780,7 @@ Standared user Login To Portal GUI
     Input Text    xpath=//input[@ng-model='loginId']    ${Sta_LoginID}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Link    xpath=//a[@id='loginBtn']
+    Sleep    5s
     Go To    ${PORTAL_HOME_URL}
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
     Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}       
@@ -819,8 +823,9 @@ Standared user Category Notifications
 Standared user Logout from Portal GUI
     [Documentation]   Logout from Portal GUI
     Click Element    xpath=//div[@id='header-user-icon']
-    Click Button    xpath=//button[contains(.,'Log out')]
-    #Confirm Action	
+    Run Keyword And Ignore Error    Click Button    xpath=//button[contains(.,'Log out')]
+    #Confirm Action
+    Sleep    5s
     Title Should Be    Login     
         
 Portal admin Add New Account

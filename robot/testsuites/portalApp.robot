@@ -1,5 +1,5 @@
 *** Settings ***
-Test Timeout    3 minute
+Test Timeout    5 minute
 Documentation    This is RobotFrame work script
 Resource	../resources/portal-sdk/portalDef.robot
 Resource	../resources/portal-sdk/portalSdkDef.robot
