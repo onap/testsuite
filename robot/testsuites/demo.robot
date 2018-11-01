@@ -4,6 +4,7 @@ Documentation	  Executes the VNF Orchestration Test cases including setup and te
 Library   Collections
 Library    HTTPUtils
 Resource         ../resources/demo_preload.robot
+Resource         ../resources/asdc_interface.robot
 *** Variables ***
 
 ${VNF_NAME}       DemoVNF
@@ -70,4 +71,10 @@ Preload APPC CDT GUI
     Setup Browser
     Preload APPC CDT GUI
 #    Preload APPC CDT GUI   demo   reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json   ${EXECDIR}/robot/assets/templates/appc/reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json   ${EXECDIR}/robot/assets/templates/appc/template_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.xml   ${EXECDIR}/robot/assets/templates/appc/pd_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.yaml
+
+Distribute vFWNG CDS Model
+    [Documentation]    Distribute vFWNG for CDS
+    [Tags]    DistributeVFWNG
+    [Timeout]    600
+    Model Distribution For Directory    service=vFWNG    cds=vfwng
 

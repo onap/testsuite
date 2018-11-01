@@ -22,7 +22,7 @@ ${CATALOG_SERVICE_ID}
 *** Keywords ***
 
 Model Distribution For Directory
-    [Arguments]    ${service}   ${catalog_service_name}=
+    [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=
     ${directory_list}=    Get From Dictionary    ${GLOBAL_SERVICE_FOLDER_MAPPING}    ${service}
     ${ziplist}=    Create List
     ${uuid}=    Get Current Date
@@ -36,7 +36,7 @@ Model Distribution For Directory
     \    OperatingSystem.Create Directory    ${ASDC_ASSETS_DIRECTORY}/temp
     \    Create Zip From Files In Directory        ${folder}    ${zip}
     \    Append To List    ${ziplist}    ${zip}
-    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute Model From ASDC    ${ziplist}    ${catalog_service_name}
+    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute Model From ASDC    ${ziplist}    ${catalog_service_name}    ${cds}
     Set Test Variable   ${CATALOG_RESOURCE_IDS}   ${catalog_resource_ids}
     Set Test Variable   ${CATALOG_SERVICE_ID}   ${catalog_service_id}
     Set Test Variable   ${CATALOG_RESOURCES}   ${catalog_resources}

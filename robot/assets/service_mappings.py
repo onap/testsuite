@@ -6,6 +6,7 @@ GLOBAL_SERVICE_FOLDER_MAPPING = {"vFW" : ['vFW'], \
                                  "vVG" : ['vVG'], \
                                  "vCPE" : ['vCPE/infra', 'vCPE/vbng', 'vCPE/vbrgemu', 'vCPE/vgmux', 'vCPE/vgw'],
                                  "vFWCL" : ['vFWCL/vFWSNK', 'vFWCL/vPKG'],
+                                 "vFWNG" : ['vFW_NextGen/templates'],
                                  }
 
 '''
@@ -17,6 +18,7 @@ GLOBAL_SERVICE_VNF_MAPPING = {
     "vVG"  : ['vVG'],
     "vCPE" : ['vCPE'],
     "vFWCL"  : ['vFWSNK', 'vPKG'],
+    "vFWNG"  : ['vFWNG'],
                                  }
 
 '''

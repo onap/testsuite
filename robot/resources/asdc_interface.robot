@@ -23,6 +23,7 @@ ${ASDC_VENDOR_FEATURE_GROUP_PATH}    /feature-groups
 ${ASDC_VENDOR_LICENSE_AGREEMENT_PATH}    /license-agreements
 ${ASDC_VENDOR_ACTIONS_PATH}    /actions
 ${ASDC_VENDOR_SOFTWARE_UPLOAD_PATH}    /orchestration-template-candidate
+${ASDC_FE_CATALOG_RESOURCES_PATH}    /sdc1/feProxy/rest/v1/catalog/resources
 ${ASDC_CATALOG_RESOURCES_PATH}    /sdc2/rest/v1/catalog/resources
 ${ASDC_CATALOG_SERVICES_PATH}    /sdc2/rest/v1/catalog/services
 ${ASDC_CATALOG_INACTIVE_RESOURCES_PATH}    /sdc2/rest/v1/inactiveComponents/resource
@@ -44,6 +45,8 @@ ${ASDC_CATALOG_RESOURCE_TEMPLATE}    robot/assets/templates/asdc/catalog_resourc
 ${ASDC_USER_REMARKS_TEMPLATE}    robot/assets/templates/asdc/user_remarks.template
 ${ASDC_CATALOG_SERVICE_TEMPLATE}    robot/assets/templates/asdc/catalog_service.template
 ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    robot/assets/templates/asdc/resource_instance.template
+${ASDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    robot/assets/templates/asdc/catalog_vnf_properties.template
+${ASDC_RESOURCE_INSTANCE_VNF_INPUTS_TEMPLATE}    robot/assets/templates/asdc/catalog_vnf_inputs.template
 ${ASDC_FE_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_FE_IP_ADDR}:${GLOBAL_ASDC_FE_PORT}
 ${ASDC_BE_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_BE_IP_ADDR}:${GLOBAL_ASDC_BE_PORT}
 ${ASDC_BE_ONBOARD_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_BE_ONBOARD_IP_ADDR}:${GLOBAL_ASDC_BE_ONBOARD_PORT}
@@ -51,12 +54,12 @@ ${ASDC_BE_ONBOARD_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECT
 *** Keywords ***
 Distribute Model From ASDC
     [Documentation]    goes end to end creating all the asdc objects based ona  model and distributing it to the systems. it then returns the service name, vf name and vf module name
-    [Arguments]    ${model_zip_path}   ${catalog_service_name}=
+    [Arguments]    ${model_zip_path}   ${catalog_service_name}=    ${cds}=
     ${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
     ${catalog_resource_ids}=    Create List
     ${catalog_resources}=   Create Dictionary
     : FOR    ${zip}     IN     @{model_zip_path}
-    \    ${loop_catalog_resource_id}=    Setup ASDC Catalog Resource    ${zip}
+    \    ${loop_catalog_resource_id}=    Setup ASDC Catalog Resource    ${zip}    ${cds}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
     \    Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
@@ -91,7 +94,7 @@ Loop Over Check Catalog Service Distributed
 
 Setup ASDC Catalog Resource
     [Documentation]    Creates all the steps a vf needs for an asdc catalog resource and returns the id
-    [Arguments]    ${model_zip_path}
+    [Arguments]    ${model_zip_path}    ${cds}=
     ${license_model_id}   ${license_model_version_id}=    Add ASDC License Model
     ${key_group_id}=    Add ASDC License Group    ${license_model_id}   ${license_model_version_id}
     ${pool_id}=    Add ASDC Entitlement Pool    ${license_model_id}   ${license_model_version_id}
@@ -106,8 +109,45 @@ Setup ASDC Catalog Resource
     Package ASDC Software Product    ${software_product_id}   ${software_product_version_id}
     ${software_product_resp}=    Get ASDC Software Product    ${software_product_id}    ${software_product_version_id}
     ${catalog_resource_id}=    Add ASDC Catalog Resource     ${license_agreement_id}    ${software_product_resp['name']}    ${license_model_resp['vendorName']}    ${software_product_id}  
+    # Check if need to set up CDS properties
+    Run Keyword If    '${cds}' == 'vfwng'    Setup ASDC Catalog Resource CDS Properties    ${catalog_resource_id}
+    
     ${catalog_resource_id}=   Certify ASDC Catalog Resource    ${catalog_resource_id}  ${ASDC_DESIGNER_USER_ID}
     [Return]    ${catalog_resource_id}
+Setup ASDC Catalog Resource CDS Properties
+    [Documentation]    Set up vfwng VNF properties and inputs for CDS
+    [Arguments]    ${catalog_resource_id} 
+    # Set vnf module properties
+    ${resp}=    Get ASDC Catalog Resource Component Instances   ${catalog_resource_id}
+    :FOR    ${comp}    in    @{resp['componentInstances']}
+    \    ${name}    Set Variable   ${comp['name']}
+    \    ${uniqueId}    Set Variable    ${comp['uniqueId']}
+    \    ${actualComponentUid}    Set Variable    ${comp['actualComponentUid']}
+    \    ${test}    ${v}=    Run Keyword and Ignore Error    Should Contain    ${name}    abstract_
+    \    Run Keyword If    '${test}' == 'FAIL'    Continue For Loop
+    \    ${response}=    Get ASDC Catalog Resource Component Instance Properties    ${catalog_resource_id}    ${uniqueId}    ${actualComponentUid}
+    \    ${dict}=    Create Dictionary    parent_id=${response[6]['parentUniqueId']}
+    \    Run Keyword If   '${name}'=='abstract_vfw'   Set To Dictionary    ${dict}    nfc_function=vfw    nfc_naming_policy=SDNC_Policy.ONAP_VFW_NAMING_TIMESTAMP
+    \    Run Keyword If   '${name}'=='abstract_vpg'   Set To Dictionary    ${dict}    nfc_function=vpg    nfc_naming_policy=SDNC_Policy.ONAP_VPG_NAMING_TIMESTAMP
+    \    Run Keyword If   '${name}'=='abstract_vsn'   Set To Dictionary    ${dict}    nfc_function=vsn    nfc_naming_policy=SDNC_Policy.ONAP_VSN_NAMING_TIMESTAMP
+    \    ${data}=   Fill JSON Template File    ${ASDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    ${dict} 
+    \    ${response}=    Set ASDC Catalog Resource Component Instance Properties    ${catalog_resource_id}    ${uniqueId}    ${data}
+    \    Log To Console    resp=${response}
+
+    # Set vnf inputs
+    ${resp}=    Get ASDC Catalog Resource Inputs    ${catalog_resource_id}
+    ${dict}=    Create Dictionary
+    :FOR    ${comp}    in    @{resp['inputs']} 
+    \    ${name}    Set Variable    ${comp['name']}
+    \    ${uid}    Set Variable    ${comp['uniqueId']}
+    \    Run Keyword If    '${name}'=='nf_function'    Set To Dictionary    ${dict}    nf_function=ONAP-FIREWALL    nf_function_uid=${uid}
+    \    Run Keyword If    '${name}'=='nf_type'    Set To Dictionary    ${dict}    nf_type=FIREWALL    nf_type_uid=${uid}
+    \    Run Keyword If    '${name}'=='nf_naming_code'    Set To Dictionary    ${dict}    nf_naming_code=vfw    nf_naming_code_uid=${uid}
+    \    Run Keyword If    '${name}'=='nf_role'    Set To Dictionary    ${dict}    nf_role=vFW    nf_role_uid=${uid}
+    \    Run Keyword If    '${name}'=='cloud_env'    Set To Dictionary    ${dict}    cloud_env=openstack    cloud_env_uid=${uid}
+    ${data}=   Fill JSON Template File    ${ASDC_RESOURCE_INSTANCE_VNF_INPUTS_TEMPLATE}    ${dict} 
+    ${response}=    Set ASDC Catalog Resource VNF Inputs    ${catalog_resource_id}    ${data}
+
 Add ASDC License Model
     [Documentation]    Creates an asdc license model and returns its id
     ${uuid}=    Generate UUID
@@ -272,6 +312,31 @@ Get ASDC Catalog Resource
     [Documentation]    gets an asdc Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}    ${ASDC_DESIGNER_USER_ID} 
+    [Return]    ${resp.json()}
+Get ASDC Catalog Resource Component Instances
+    [Documentation]    gets asdc Catalog Resource Component Instances by its id
+    [Arguments]    ${catalog_resource_id}
+    ${resp}=    Run ASDC Get Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstances    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
+    [Return]    ${resp.json()}
+Get ASDC Catalog Resource Inputs
+    [Documentation]    gets asdc Catalog Inputs by its id
+    [Arguments]    ${catalog_resource_id}
+    ${resp}=    Run ASDC Get Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=inputs    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
+    [Return]    ${resp.json()}
+Get ASDC Catalog Resource Component Instance Properties
+    [Documentation]    gets an asdc Catalog Resource properties by its id
+    [Arguments]    ${catalog_resource_id}    ${component_instance_id}    ${component_id}
+    ${resp}=    Run ASDC Get Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/componentInstances/${component_instance_id}/${component_id}/inputs    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
+    [Return]    ${resp.json()}
+Set ASDC Catalog Resource Component Instance Properties
+    [Documentation]    sets an asdc Catalog Resource by its id
+    [Arguments]    ${catalog_resource_id}    ${component_instance_id}    ${data}
+    ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/resourceInstance/${component_instance_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
+    [Return]    ${resp.json()}
+Set ASDC Catalog Resource VNF Inputs
+    [Documentation]    sets an asdc Catalog Resource by its id
+    [Arguments]    ${catalog_resource_id}    ${data}
+    ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/update/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]    ${resp.json()}
 Checkin ASDC Catalog Resource
     [Documentation]    checksin an asdc Catalog Resource by its id
