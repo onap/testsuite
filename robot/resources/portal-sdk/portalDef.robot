@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation    This is RobotFrame work script
-Library		ExtendedSelenium2Library    browser_breath_delay=1
+Library		ExtendedSelenium2Library
 Library		OperatingSystem
 Library		../../library/eteutils/RequestsClientCert.py
 Library		RequestsLibrary
@@ -30,17 +30,6 @@ ${GLOBAL_APPLICATION_ID}           robot-functional
 ${GLOBAL_PORTAL_ADMIN_USER}		demo
 ${GLOBAL_PORTAL_ADMIN_PWD}		demo123456!
 ${GLOBAL_MSO_STATUS_PATH}    /ecomp/mso/infra/orchestrationRequests/v2/
-${GLOBAL_SELENIUM_BROWSER}        chrome
-${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}        Create Dictionary
-${GLOBAL_SELENIUM_DELAY}          1
-${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}        30
-${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}        10
-${GLOBAL_OPENSTACK_HEAT_SERVICE_TYPE}    orchestration
-${GLOBAL_OPENSTACK_CINDER_SERVICE_TYPE}    volume
-${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    compute
-${GLOBAL_OPENSTACK_NEUTRON_SERVICE_TYPE}    network
-${GLOBAL_OPENSTACK_GLANCE_SERVICE_TYPE}    image
-${GLOBAL_OPENSTACK_KEYSTONE_SERVICE_TYPE}    identity
 ${GLOBAL_BUILD_NUMBER}    0
 ${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/robot_ssh_private_key.pvt
 ${jira}    jira
@@ -50,7 +39,10 @@ ${portal_Template}    ${CURDIR}/portal.template
 ${Result}    FALSE
 ${td_id}    0
 ${download_link_id}    0
-    
+
+${HEADLESS}   False
+
+
 *** Keywords ***
 
 Generate Random User Name
@@ -80,7 +72,7 @@ Portal admin Login To Portal GUI
     Setup Browser
     # Open Browser    ${PORTAL_LOGIN_URL}    chrome
     Go To    ${PORTAL_LOGIN_URL}
-    Maximize Browser Window
+    # Maximize Browser Window
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
     Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
     #Handle Proxy Warning
@@ -90,7 +82,7 @@ Portal admin Login To Portal GUI
     Click Link    xpath=//a[@id='loginBtn']
     Sleep    5s
     Go To    ${PORTAL_HOME_URL}
-    Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}    
+    Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
 	#Execute Javascript    document.getElementById('w-ecomp-footer').style.display = 'none'
 	Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}
 
