@@ -95,17 +95,15 @@ Orchestrate Demo VNF
     ...                      '${service}'=='vLB'       demoVLB
     ${lcp_region}=   Get Openstack Region
     ${uuid}=    Generate UUID
-    Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
+    Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
     Set Test Variable    ${SERVICE}    ${service}
     ${list}=    Create List
     Set Test Variable    ${STACK_NAMES}   ${list}
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
     ${service_type}=    Set Variable    ${service}
-    #${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=    Model Distribution For Directory    ${service}
-    #${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=    Get Demonstration Model Data    ${service_model_type}
-    ${vnf_json_resources}      OperatingSystem.Get File    /tmp/config/vnf_resources.json
-    #  need dictionary for service with vnf_type  vf_module 
+    ${vnf_json_resources}=   Get SDC Demo Vnf Catalog Resource      ${service_model_type}
     Set Suite Variable    ${SUITE_SERVICE_MODEL_NAME}   ${service_model_type}
+    Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}
     Setup Browser
     Login To VID GUI
     ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
@@ -115,8 +113,8 @@ Orchestrate Demo VNF
     :for   ${vnf}   in   @{vnflist}
     \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
     \   ${vf_module_name}=    Catenate    Vfmodule_Demo_${vnf}_${uuid}
-    \   ${vnf_type}=   Get Demo VNF Type    ${vnf_json_resources}   ${vnf}
-    \   ${vf_module}=    Get Demo VF Module    ${vnf_json_resources}     ${vnf}
+    \   ${vnf_type}=    Set Variable  ${vnf_json_resources['${vnf}']['vnf_type']}
+    \   ${vf_module}=   Set Variable  ${vnf_json_resources['${vnf}']['vf_module']}
     \   Append To List   ${STACK_NAMES}   ${vf_module_name}
     \   Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant}    ${vnf_type}   ${CUSTOMER_NAME}
     \   ${vf_module_entry}=   Create Dictionary    name=${vf_module}
@@ -131,21 +129,6 @@ Orchestrate Demo VNF
     \   Run Keyword and Ignore Error   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
     \   Run Keyword and Ignore Error   Validate VF Module      ${vf_module_name}    ${vnf}
     [Return]     ${vf_module_name}    ${service}
-
-
-Get Demo VNF Type
-    [Documentation]   Get vnf_type from json demo vnf data
-    [Arguments]   ${json_resources}   ${vnf}
-    ${vnf_type}=    Get Json Value   ${json_resources}   /${vnf}/vnf_type
-    ${vnf_type}=    Remove String   ${vnf_type}   "
-    [Return]    ${vnf_type}
-
-Get Demo VF Module
-    [Documentation]   Get vf_module from json demo vnf data
-    [Arguments]   ${json_resources}   ${vnf}
-    ${vf_module}=    Get Json Value   ${json_resources}   /${vnf}/vf_module
-    ${vf_module}=   Remove String   ${vf_module}   "
-    [Return]    ${vf_module}
 
 
 Get VNF Type

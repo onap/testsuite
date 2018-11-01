@@ -338,6 +338,30 @@ Set ASDC Catalog Resource VNF Inputs
     [Arguments]    ${catalog_resource_id}    ${data}
     ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/update/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]    ${resp.json()}
+Get SDC Demo Vnf Catalog Resource
+    [Documentation]  gets resource id's for demonstration VNFs for instantiate
+    [Arguments]    ${service_name}
+    ${resp}=   Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/serviceName/${service_name}/serviceVersion/1.0
+    @{ITEMS}=    Copy List    ${resp.json()['componentInstances']}
+    ${demo_catalog_resource}=   Create Dictionary
+    :FOR    ${ELEMENT}    IN    @{ITEMS}
+    \    Log    ${ELEMENT['name']}
+    \    Log    ${ELEMENT['groupInstances'][0]['groupName']}
+    \    ${vnf}=   Get VNF From Group Name     ${ELEMENT['groupInstances'][0]['groupName']}     ${service_name}
+    \    ${vnf_data}=    Create Dictionary    vnf_type=${ELEMENT['name']}  vf_module=${ELEMENT['groupInstances'][0]['groupName']}
+    \    LOG     ${vnf_data}
+    \    Set To Dictionary    ${demo_catalog_resource}    ${vnf}=${vnf_data}
+    \    LOG     ${demo_catalog_resource}
+    [Return]    ${demo_catalog_resource}
+
+Get VNF From Group Name
+    [Documentation]   looks up vnf key from service mapping for a regex on groupName and service_name
+    [Arguments]   ${group_name}    ${service_name}
+    ${vnf}=   Set Variable If
+    ...                      ('${service_name}'=='demoVFWCL') and ('base_vfw' in '${group_name}')   vFWSNK
+    ...                      ('${service_name}'=='demoVFWCL') and ('base_vpkg' in '${group_name}')   vPKG
+    ...                      ('${service_name}'=='demoVLB') and ('base_vlb' in '${group_name}')   vLB
+    [Return]   ${vnf}
 Checkin ASDC Catalog Resource
     [Documentation]    checksin an asdc Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
