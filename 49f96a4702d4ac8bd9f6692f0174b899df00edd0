@@ -16,6 +16,24 @@
       "revId": "49f96a4702d4ac8bd9f6692f0174b899df00edd0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_d8af812a",
+        "filename": "robot/resources/portal-sdk/portalDef.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 35
+      },
+      "writtenOn": "2018-11-01T18:15:19Z",
+      "side": 0,
+      "message": "Yes",
+      "parentUuid": "9adffdf1_781775a4",
+      "revId": "49f96a4702d4ac8bd9f6692f0174b899df00edd0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
