@@ -114,7 +114,7 @@ Basic OOF-SNIRO Health Check
     Run OOF-SNIRO Health Check
 
 Basic OOF-CMSO Health Check
-    [Tags]    health    medium
+    [Tags]    health_not_yet    medium
     Run OOF-CMSO Health Check
 
 Basic Policy Health Check
