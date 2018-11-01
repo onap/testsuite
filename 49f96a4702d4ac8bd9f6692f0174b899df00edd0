@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_781775a4",
+        "filename": "robot/resources/portal-sdk/portalDef.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2018-11-01T18:12:58Z",
+      "side": 0,
+      "message": "did you want to delete all of these?",
+      "revId": "49f96a4702d4ac8bd9f6692f0174b899df00edd0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
