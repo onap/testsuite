@@ -8,10 +8,10 @@ Test Teardown    Teardown Closed Loop
 *** Test Cases ***
 
 VFW Closed Loop Test
-    [TAGS]    ete    closedloop
+    [TAGS]    ete    closedloop    vfwcl
     VFW Policy
 VDNS Closed Loop Test
-    [TAGS]    ete    closedloop
+    [TAGS]    ete    closedloop    vdnscl
     VDNS Policy
 VFWCL Closed Loop Test
     [TAGS]    vfwclosedloop
