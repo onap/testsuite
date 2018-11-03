@@ -22,6 +22,30 @@
       "revId": "2ec8038ba2535a4fba0744bf7d883e46ebed4b84",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_1bdade78",
+        "filename": "robot/resources/asdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 333
+      },
+      "writtenOn": "2018-11-03T02:09:24Z",
+      "side": 1,
+      "message": "Create policy rules and push to Drools? any reference?",
+      "parentUuid": "9adffdf1_c41c7cc4",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 161
+      },
+      "revId": "2ec8038ba2535a4fba0744bf7d883e46ebed4b84",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
