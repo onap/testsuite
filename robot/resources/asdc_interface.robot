@@ -524,7 +524,7 @@ Run ASDC Health Check
     :FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['healthCheckStatus']}
     \    ${SDC_DE_HEALTH}  Set Variable If   (('DE' in '${ELEMENT['healthCheckComponent']}') and ('${ELEMENT['healthCheckStatus']}' == 'UP')) or ('${SDC_DE_HEALTH}'=='UP')  UP
-    Log To Console   SDC DMaaP Interface Health: ${SDC_DE_HEALTH}
+    Log To Console   (DMaaP:${SDC_DE_HEALTH})    no_newline=true
 Run ASDC Get Request
     [Documentation]    Runs an ASDC get request
     [Arguments]    ${data_path}    ${user}=${ASDC_DESIGNER_USER_ID}  ${MY_ASDC_BE_ENDPOINT}=${ASDC_BE_ENDPOINT}
