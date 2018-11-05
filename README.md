@@ -76,12 +76,12 @@ ProjectName - robot
 ```    
 
 ### Tag Strucutre
-Robot uses tags to seperate out test cases to run. below are the tags we use
+Robot uses tags to separate out test cases to run. below are the tags we use
 
 * garbage - use this for test cases that should be cleaned up before go live date
 * health - use this for test cases that perform a health check of the environment
 * smoke - use this for test cases that perform a basic check of a component
-* ete - use this for the test cases that are perofrming an end to end test
+* ete - use this for the test cases that are performing an end to end test
 
 ## Branching Structure
 ### Overview
@@ -96,7 +96,7 @@ Branching strategy:
 
 ## Executing ETE Testcases
 ### Overview
-Two scripts have been provided in the root of the ete-testsuite project to enable test exectution
+Two scripts have been provided in the root of the ete-testsuite project to enable test execution
 
 * runTags.sh - This shell uses Robot [Tags] to drive which tests are executed and is designed for automated testing.
 * oneTest.sh - This shell is designed for unit testing of individual .robot files. It accepts a single argument identifying the .robot file in robot/testsuites to execute.
