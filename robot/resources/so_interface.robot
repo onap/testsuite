@@ -41,7 +41,7 @@ Run SO Container Health Check
     Should Be Equal As Strings 	${resp.status_code} 	200
 
 Run MSO Get ModelInvariantId
-    [Documentation]    Runs an MSO Get ModelInvariantID for ClosedLoop Polieis 
+    [Documentation]    Runs an MSO Get ModelInvariantID for ClosedLoop Policies
     [Arguments]    ${service_model_name}   ${vf_module_label}=NULL
     ${param_dict}=    Create Dictionary    serviceModelName    ${service_model_name}
     ${param}=   Evaluate   urllib.urlencode(${param_dict})    urllib
@@ -55,8 +55,9 @@ Run MSO Get ModelInvariantId
     \    Log    ${ELEMENT['vfModules']}
     \    ${model_invariant_id}  Set Variable If   ('${vf_module_label}' in '${ELEMENT['vfModules'][0]['vfModuleLabel']}')   ${ELEMENT['modelInfo']['modelInvariantUuid']}  NULL
     \    Exit For Loop If  '${model_invariant_id}' != 'NULL'
+    Should Not Be Equal As Strings    ${model_invariant_id}    NULL
     [Return]   ${model_invariant_id}
-    
+
 Run MSO Get Request
     [Documentation]    Runs an MSO get request
     [Arguments]    ${data_path}    ${accept}=application/json
