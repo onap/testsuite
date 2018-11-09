@@ -27,6 +27,7 @@ Resource          ../resources/sms_interface.robot
 Resource          ../resources/dr_interface.robot
 Resource          ../resources/pomba_interface.robot
 Resource          ../resources/holmes_interface.robot
+Resource          ../resources/vvp_interface.robot
 
 *** Test Cases ***
 Basic A&AI Health Check
@@ -246,3 +247,44 @@ Basic Holmes Rule Management API Health Check
 Basic Holmes Engine Management API Health Check
     [Tags]    health    small
     Run Holmes Engine Mgmt Health Check
+
+Basic VVP ICE CI Container (Automat Testing) Health Check
+    [Tags]    health    oom
+    Run VVP ICE CI Container (Automat Testing) Health Check
+
+Basic VVP CMS Health Check
+    [Tags]    health    oom
+    Run VVP CMS Health Check
+
+Basic VVP Engagement Manager Health Check
+    [Tags]    health    oom
+    Run VVP Engagement Manager Health Check
+
+Basic VVP Ext HA Proxy Health Check
+    [Tags]    health    oom
+    Run VVP Ext HA Proxy Health Check
+
+Basic VVP Health Check
+    [Tags]    health    oom
+    Run VVP Health Check
+
+Basic VVP Gitlab Health Check
+    [Tags]    health    oom
+    Run VVP Gitlab Health Check
+
+Basic VVP Image Scanner Health Check
+    [Tags]    health    oom
+    Run VVP Image Scanner Health Check
+
+Basic VVP Int HA Proxy Health Check
+    [Tags]    health    oom
+    Run VVP Int HA Proxy Health Check
+
+Basic VVP Jenkins Health Check
+    [Tags]    health    oom
+    Run VVP Jenkins Health Check
+
+Basic VVP Postgresql Health Check
+    [Tags]    health    oom
+    Run VVP Postgresql Health Check
+
