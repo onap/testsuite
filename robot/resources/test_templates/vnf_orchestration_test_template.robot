@@ -67,6 +67,7 @@ Orchestrate VNF
     Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
     ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
+    ${generic_vnfs}=    Create Dictionary
     :for   ${vnf}   in   @{vnflist}
     \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
     \   ${vf_module_name}=    Catenate    Vfmodule_Ete_${vnf}_${uuid}
@@ -77,13 +78,13 @@ Orchestrate VNF
     \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}
     \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
-    \   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
+    \   Set To Dictionary    ${generic_vnfs}    ${vf_module}    ${generic_vnf}
+    \   Run Keyword If   '${service}' == 'vLB'   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
     \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
-    \   Append To List   ${STACK_NAMES}   ${STACK_NAME}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
-    \   Run Keyword and Ignore Error   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
-    \   Run Keyword and Ignore Error   Validate VF Module      ${vf_module_name}    ${vnf}
-    [Return]     ${vf_module_name}    ${service}
+    \   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
+    \   Validate VF Module      ${vf_module_name}    ${vnf}
+    [Return]     ${vf_module_name}    ${service}    ${generic_vnfs}
 
 
 Orchestrate Demo VNF
@@ -110,6 +111,7 @@ Orchestrate Demo VNF
     Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
     ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
+    ${generic_vnfs}=    Create Dictionary
     :for   ${vnf}   in   @{vnflist}
     \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
     \   ${vf_module_name}=    Catenate    Vfmodule_Demo_${vnf}_${uuid}
@@ -122,13 +124,13 @@ Orchestrate Demo VNF
     \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}
     \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
-    \   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
+    \   Set To Dictionary    ${generic_vnfs}    ${vf_module}    ${generic_vnf}
+    \   Run Keyword If   '${service}' == 'vLB'   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
     \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
-    \   Append To List   ${STACK_NAMES}   ${STACK_NAME}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
-    \   Run Keyword and Ignore Error   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
-    \   Run Keyword and Ignore Error   Validate VF Module      ${vf_module_name}    ${vnf}
-    [Return]     ${vf_module_name}    ${service}
+    \   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
+    \   Validate VF Module      ${vf_module_name}    ${vnf}
+    [Return]     ${vf_module_name}    ${service}    ${generic_vnfs}
 
 
 Get VNF Type
