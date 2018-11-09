@@ -47,7 +47,7 @@ Load OwningEntity
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${GLOBAL_VID_USERNAME}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	vid 	${data_path}   data=${vid_data}    headers=${headers}
-	
+
 Load Customer
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
@@ -156,11 +156,16 @@ APPC Mount Point
 Instantiate VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
     Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-    ${vf_module_name}    ${service}=    Orchestrate VNF    DemoCust    ${service}   ${service}    ${TENANT_NAME}
+    ${vf_module_name}    ${service}    ${generic_vnfs}=    Orchestrate VNF    DemoCust    ${service}   ${service}    ${TENANT_NAME}
     Save For Delete
     Log to Console   Customer Name=${CUSTOMER_NAME}
     Log to Console   VNF Module Name=${vf_module_name}
-    ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
+    # Don't get from MSO for now due to SO-1186
+    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
+    ${model_invariant_id}=   Set Variable   ${EMPTY}
+    :for    ${vf_module}    in    @{generic_vnfs}
+    \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
+    \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'    ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
     Log to Console   ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
@@ -168,11 +173,16 @@ Instantiate VNF
 Instantiate Demo VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
     Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-    ${vf_module_name}    ${service}=    Orchestrate Demo VNF    Demonstration    ${service}   ${service}    ${TENANT_NAME}
+    ${vf_module_name}    ${service}    ${generic_vnfs}=    Orchestrate Demo VNF    Demonstration    ${service}   ${service}    ${TENANT_NAME}
     #Save For Delete
     Log to Console   Customer Name=${CUSTOMER_NAME}
     Log to Console   VNF Module Name=${vf_module_name}
-    ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
+    # Don't get from MSO for now due to SO-1186
+    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
+    ${model_invariant_id}=   Set Variable   ${EMPTY}
+    :for    ${vf_module}    in    @{generic_vnfs}
+    \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
+    \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'    ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
     Log to Console   ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
