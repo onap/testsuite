@@ -78,7 +78,7 @@ Orchestrate VNF
     \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}
     \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
-    \   Set To Dictionary    ${generic_vnfs}    ${vf_module}    ${generic_vnf}
+    \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
     \   Run Keyword If   '${service}' == 'vLB'   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
     \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
@@ -124,7 +124,7 @@ Orchestrate Demo VNF
     \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}
     \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
-    \   Set To Dictionary    ${generic_vnfs}    ${vf_module}    ${generic_vnf}
+    \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
     \   Run Keyword If   '${service}' == 'vLB'   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
     \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
