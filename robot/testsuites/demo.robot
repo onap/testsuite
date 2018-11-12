@@ -23,6 +23,7 @@ Initialize Customer And Models
 Initialize Customer
     [Tags]   InitCustomer
     Load Customer   Demonstration
+    Load Customer   SDN-ETHERNET-INTERNET
 
 Initialize Models
     [Tags]   InitDistribution
