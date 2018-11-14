@@ -249,41 +249,41 @@ Basic Holmes Engine Management API Health Check
     Run Holmes Engine Mgmt Health Check
 
 Basic VVP ICE CI Container (Automat Testing) Health Check
-    [Tags]    health    oom
+    [Tags]    oom
     Run VVP ICE CI Container (Automat Testing) Health Check
 
 Basic VVP CMS Health Check
-    [Tags]    health    oom
+    [Tags]    oom
     Run VVP CMS Health Check
 
 Basic VVP Engagement Manager Health Check
-    [Tags]    health    oom
+    [Tags]    oom
     Run VVP Engagement Manager Health Check
 
 Basic VVP Ext HA Proxy Health Check
-    [Tags]    health    oom
+    [Tags]    oom
     Run VVP Ext HA Proxy Health Check
 
 Basic VVP Gitlab Health Check
-    [Tags]    health    oom
+    [Tags]    oom
     Run VVP Gitlab Health Check
 
 Basic VVP Image Scanner Health Check
-    [Tags]    health    oom
+    [Tags]    oom
     Run VVP Image Scanner Health Check
 
 Basic VVP Int HA Proxy Health Check
-    [Tags]    health    oom
+    [Tags]    oom
     Run VVP Int HA Proxy Health Check
 
 Basic VVP Jenkins Health Check
-    [Tags]    health    oom
+    [Tags]    oom
     Run VVP Jenkins Health Check
 
 Basic VVP Postgresql Health Check
-    [Tags]    health    oom
+    [Tags]    oom
     Run VVP Postgresql Health Check
 
 Basic VVP Redis Health Check
-    [Tags]    health    oom
+    [Tags]    oom
     Run VVP Redis Health Check
