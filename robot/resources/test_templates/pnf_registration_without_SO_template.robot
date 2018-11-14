@@ -56,14 +56,7 @@ Verify PNF integration request in A&AI
 Verify PNF integration request in MR
     [Documentation]   Verify if PNF integration request entries are present in MR unauthenticated.PNF_READY/ topic
     [Arguments]  ${PNF_entry_dict}
-    ${get_resp}=  Run MR Get Request  ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH}
-    Should Be Equal As Strings  ${get_resp.status_code}        200
-    ${json_resp_item}=  Get From List  ${get_resp.json()}  0
-    ${json}=    evaluate    json.loads('${json_resp_item}')    json
-    Log  JSON recieved from MR ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH} endpoint ${json}
-    Should Be Equal As Strings  ${json["ipaddress-v4-oam"]}      ${PNF_entry_dict.PNF_IPv4_address}
-    Should Be Equal As Strings  ${json["ipaddress-v6-oam"]}       ${PNF_entry_dict.PNF_IPv6_address}
-    Should Be Equal As Strings  ${json["correlationId"]}       ${PNF_entry_dict.correlation_id}
+    Wait Until Keyword Succeeds  10x  1s  Query PNF MR entry  ${PNF_entry_dict}
     Log  PNF integration request in MR has been verified and contains all necessary entries
 
 Query PNF A&AI updated entry
@@ -77,6 +70,19 @@ Query PNF A&AI updated entry
     Should Be Equal As Strings  ${json_resp["ipaddress-v6-oam"]}       ${PNF_entry_dict.PNF_IPv6_address}
     Should Be Equal As Strings  ${json_resp["pnf-name"]}       ${PNF_entry_dict.correlation_id}
     Log  PNF integration request in A&AI has been verified and contains all necessary entries
+
+Query PNF MR entry
+    [Documentation]   Query PNF MR updated entry
+    [Arguments]  ${PNF_entry_dict}
+    ${get_resp}=  Run MR Get Request  ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH}
+    Should Be Equal As Strings  ${get_resp.status_code}        200
+    ${json_resp_item}=  Get From List  ${get_resp.json()}  0
+    ${json}=    evaluate    json.loads('${json_resp_item}')    json
+    Log  JSON recieved from MR ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH} endpoint ${json}
+    Should Be Equal As Strings  ${json["ipaddress-v4-oam"]}      ${PNF_entry_dict.PNF_IPv4_address}
+    Should Be Equal As Strings  ${json["ipaddress-v6-oam"]}       ${PNF_entry_dict.PNF_IPv6_address}
+    Should Be Equal As Strings  ${json["correlationId"]}       ${PNF_entry_dict.correlation_id}
+    Log  PNF integration request in MR has been verified and contains all necessary entries
 
 Run VES HTTP Post Request
     [Documentation]    Runs a VES Post request
