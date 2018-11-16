@@ -1,7 +1,7 @@
 {
   "uniqueId": "${catalog_resource_id}${milli_timestamp}",
-  "posX": 406,
-  "posY": 248,
+  "posX": ${posX},
+  "posY": ${posY},
   "name": "${catalog_resource_name}",
   "componentVersion": "1.0",
   "originType": "VF",
