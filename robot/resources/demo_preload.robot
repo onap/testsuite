@@ -47,7 +47,7 @@ Load OwningEntity
     ${uuid}=    Generate UUID
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${GLOBAL_VID_USERNAME}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	vid 	${data_path}   data=${vid_data}    headers=${headers}
-
+	
 Load Customer
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
@@ -55,15 +55,28 @@ Load Customer
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
     ${region}=   Get Openstack Region
     Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${TENANT_ID}
+    Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    RegionTlab  50b190410b2a4c229d8a6044a80ab7c1 
 
 Load Models
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
+    Log To Console   Distibuting vFWCL
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFWCL   ${DEMO_PREFIX}VFWCL
+    Log To Console   Distibuting vLB
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB   ${DEMO_PREFIX}VLB
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPE   ${DEMO_PREFIX}VCPE
+    ##${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPE   ${DEMO_PREFIX}VCPE
     ##${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vIMS   ${DEMO_PREFIX}VIMS
+    Log To Console   Distibuting vCPEInfra
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEInfra   ${DEMO_PREFIX}VCPEInfra
+    Log To Console   Distibuting vCPEvBNG
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvBNG   ${DEMO_PREFIX}VCPEvBNG
+    Log To Console   Distibuting vCPEvBRGEMU
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvBRGEMU   ${DEMO_PREFIX}VCPEvBRGEMU 
+    Log To Console   Distibuting vCPEvGMUX
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvGMUX    ${DEMO_PREFIX}VCPEvGMUX
+    Log To Console   Distibuting vCPEvGW (this is not vCPEResCust service)
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvGW    ${DEMO_PREFIX}VCPEvGW
 
 Distribute Model
     [Arguments]   ${service}   ${modelName}
@@ -156,16 +169,11 @@ APPC Mount Point
 Instantiate VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
     Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-    ${vf_module_name}    ${service}    ${generic_vnfs}=    Orchestrate VNF    DemoCust    ${service}   ${service}    ${TENANT_NAME}
+    ${vf_module_name}    ${service}=    Orchestrate VNF    DemoCust    ${service}   ${service}    ${TENANT_NAME}
     Save For Delete
     Log to Console   Customer Name=${CUSTOMER_NAME}
     Log to Console   VNF Module Name=${vf_module_name}
-    # Don't get from MSO for now due to SO-1186
-    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
-    ${model_invariant_id}=   Set Variable   ${EMPTY}
-    :for    ${vf_module}    in    @{generic_vnfs}
-    \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
-    \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'    ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
+    ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
     Log to Console   ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
@@ -173,16 +181,11 @@ Instantiate VNF
 Instantiate Demo VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
     Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-    ${vf_module_name}    ${service}    ${generic_vnfs}=    Orchestrate Demo VNF    Demonstration    ${service}   ${service}    ${TENANT_NAME}
+    ${vf_module_name}    ${service}=    Orchestrate Demo VNF    Demonstration    ${service}   ${service}    ${TENANT_NAME}
     #Save For Delete
     Log to Console   Customer Name=${CUSTOMER_NAME}
     Log to Console   VNF Module Name=${vf_module_name}
-    # Don't get from MSO for now due to SO-1186
-    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
-    ${model_invariant_id}=   Set Variable   ${EMPTY}
-    :for    ${vf_module}    in    @{generic_vnfs}
-    \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
-    \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'    ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
+    ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
     Log to Console   ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}

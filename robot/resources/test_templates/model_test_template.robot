@@ -36,7 +36,7 @@ Model Distribution For Directory
     \    OperatingSystem.Create Directory    ${ASDC_ASSETS_DIRECTORY}/temp
     \    Create Zip From Files In Directory        ${folder}    ${zip}
     \    Append To List    ${ziplist}    ${zip}
-    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute Model From ASDC    ${ziplist}    ${catalog_service_name}    ${cds}
+    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute Model From ASDC    ${ziplist}    ${catalog_service_name}    ${cds}   ${service}
     Set Test Variable   ${CATALOG_RESOURCE_IDS}   ${catalog_resource_ids}
     Set Test Variable   ${CATALOG_SERVICE_ID}   ${catalog_service_id}
     Set Test Variable   ${CATALOG_RESOURCES}   ${catalog_resources}
