@@ -104,6 +104,20 @@ Distribute Model From ASDC
         Should Be Equal As Strings  ${status}  PASS
     [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
 
+Download CSAR
+   [Documentation]   Download CSAR 
+   [Arguments]    ${catalog_service_id}    ${save_directory}=/tmp/csar
+   # get meta data
+   ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/filteredDataByParams?include=toscaArtifacts    ${ASDC_DESIGNER_USER_ID}    ${ASDC_BE_ENDPOINT}
+   ${csar_resource_id}=    Set Variable   ${resp.json()['toscaArtifacts']['assettoscacsar']['uniqueId']}
+   ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/artifacts/${csar_resource_id}
+   ${csar_file_name}=   Set Variable    ${resp.json()['artifactName']}
+   ${base64Obj}=   Set Variable    ${resp.json()['base64Contents']}
+   ${binObj}=   Evaluate   base64.b64decode("${base64Obj}")   modules=base64
+   Create Binary File  ${save_directory}/${csar_file_name}  ${binObj}
+   Log To Console      Downloaded:${csar_file_name} 
+   [Return]
+
 
 Get Generic NeutronNet UUID
    [Documentation]   Lookoup the UUID of the Generic NeutronNetwork Resource
