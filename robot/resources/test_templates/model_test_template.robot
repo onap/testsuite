@@ -40,6 +40,7 @@ Model Distribution For Directory
     Set Test Variable   ${CATALOG_RESOURCE_IDS}   ${catalog_resource_ids}
     Set Test Variable   ${CATALOG_SERVICE_ID}   ${catalog_service_id}
     Set Test Variable   ${CATALOG_RESOURCES}   ${catalog_resources}
+    Download CSAR    ${catalog_service_id}   
     [Return]    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}
 
 

@@ -61,7 +61,7 @@ Load Models
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
-    Log To Console   Distibuting vFWCL
+    Log To Console   ${\n}Distributing vFWCL
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFWCL   ${DEMO_PREFIX}VFWCL
     Log To Console   Distibuting vLB
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB   ${DEMO_PREFIX}VLB
