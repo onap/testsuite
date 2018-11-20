@@ -16,7 +16,7 @@ Distribute vLB Model    vLB
     [Tags]    ete    distribute
 Distribute vFW Model    vFW
     [Tags]    ete    distribute
-Distribute vVG Model    vVG
+Distribute vFWCL Model    vFWCL
     [Tags]    ete    distribute
-Distribute vCPE Model    vCPE
+Distribute vVG Model    vVG
     [Tags]    ete    distribute
