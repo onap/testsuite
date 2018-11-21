@@ -196,7 +196,6 @@ Instantiate Demo VNF
     :for    ${vf_module}    in    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
     \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'   ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
-    ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
     Log to Console   ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
