@@ -86,6 +86,7 @@ GLOBAL_VALIDATE_NAME_MAPPING = {"vFW" : 'vfw_name_0',
                                  "vCPEvAAA" : 'vaaa_name_0',
                                  "vCPEvWEB" : 'vweb_name_0',
                                  "vCPEvDHCP" : 'vdhcp_name_0',
+                                 "vCPEvGMUX" : 'vgmux_name_0',
                                  "vFWSNK" : 'vfw_name_0',
                                  "vPKG" : 'vpg_name_0',
                                  }
