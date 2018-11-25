@@ -44,12 +44,14 @@ ${ASDC_LICENSE_AGREEMENT_TEMPLATE}    robot/assets/templates/asdc/license_agreem
 ${ASDC_ACTION_TEMPLATE}    robot/assets/templates/asdc/action.template
 ${ASDC_SOFTWARE_PRODUCT_TEMPLATE}    robot/assets/templates/asdc/software_product.template
 ${ASDC_CATALOG_RESOURCE_TEMPLATE}    robot/assets/templates/asdc/catalog_resource.template
+${ASDC_ALLOTTED_RESOURCE_CATALOG_RESOURCE_TEMPLATE}    robot/assets/templates/asdc/catalog_resource_alloted_resource.template
 ${ASDC_USER_REMARKS_TEMPLATE}    robot/assets/templates/asdc/user_remarks.template
 ${ASDC_CATALOG_SERVICE_TEMPLATE}    robot/assets/templates/asdc/catalog_service.template
 ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    robot/assets/templates/asdc/resource_instance.template
 ${ASDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    robot/assets/templates/asdc/catalog_vnf_properties.template
 ${ASDC_RESOURCE_INSTANCE_VNF_INPUTS_TEMPLATE}    robot/assets/templates/asdc/catalog_vnf_inputs.template
 ${SDC_CATALOG_NET_RESOURCE_INPUT_TEMPLATE}    robot/assets/templates/asdc/catalog_net_input_properties.template
+${SDC_CATALOG_ALLOTTED_RESOURCE_INPUT_TEMPLATE}    robot/assets/templates/asdc/catalog_allotted_input_properties.template
 ${ASDC_FE_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_FE_IP_ADDR}:${GLOBAL_ASDC_FE_PORT}
 ${ASDC_BE_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_BE_IP_ADDR}:${GLOBAL_ASDC_BE_PORT}
 ${ASDC_BE_ONBOARD_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_BE_ONBOARD_IP_ADDR}:${GLOBAL_ASDC_BE_ONBOARD_PORT}
@@ -58,6 +60,7 @@ ${ASDC_BE_ONBOARD_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECT
 Distribute Model From ASDC
     [Documentation]    goes end to end creating all the asdc objects based ona  model and distributing it to the systems. it then returns the service name, vf name and vf module name
     [Arguments]    ${model_zip_path}   ${catalog_service_name}=    ${cds}=    ${service}=
+    # For Testing use random service names
     #${random}=    Get Current Date
     #${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}_${random}
     ${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
@@ -81,13 +84,11 @@ Distribute Model From ASDC
     \    ${loop_catalog_resource_id}=   Set Variable    ${generic_neutron_net_uuid}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
-    #
     \    ${loop_catalog_resource_id}=   Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${network}    ${xoffset}      ${0}
     \    ${nf_role}=   Convert To Lowercase   ${network}
     \    Setup SDC Catalog Resource GenericNeutronNet Properties      ${catalog_service_id}    ${nf_role}   ${loop_catalog_resource_id}
     \    ${xoffset}=   Set Variable   ${xoffset+100}
     \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
-    #
     ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
     Checkin ASDC Catalog Service    ${catalog_service_id}
     Request Certify ASDC Catalog Service    ${catalog_service_id}
@@ -103,6 +104,64 @@ Distribute Model From ASDC
 	\   Exit For Loop If   '${status}'=='PASS'
         Should Be Equal As Strings  ${status}  PASS
     [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
+
+Distribute vCPEResCust Model From ASDC
+    [Documentation]    goes end to end creating all the asdc objects for the vCPE ResCust Service model and distributing it to the systems. it then returns the service name, vf name and vf module name
+    [Arguments]    ${model_zip_path}   ${catalog_service_name}=    ${cds}=    ${service}=
+    # For testing use random service name
+    ${random}=    Get Current Date
+    ${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}_${random}
+    Log To Console    ServiceName: ${catalog_service_name}_${random}
+    #${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
+    ${catalog_resource_ids}=    Create List
+    ${catalog_resources}=   Create Dictionary
+    : FOR    ${zip}     IN     @{model_zip_path}
+    \    ${loop_catalog_resource_id}=    Setup ASDC Catalog Resource    ${zip}    ${cds}
+    \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
+    \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
+    \    Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
+    \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
+    #
+    # do this here because the loop_catalog_resource_resp is different format after adding networks
+    ${vf_module}=   Find Element In Array    ${loop_catalog_resource_resp['groups']}    type    org.openecomp.groups.VfModule
+    #
+    #  do allottedresource
+    ${allottedresource_list}=   Create List    TunnelXConn     BRG
+    #  test data
+    ${tunnelxconn_dict}=   Create Dictionary      invariantUUID=8ac029e7-77aa-40d4-b28a-d17c02d5fd82    UUID=2ddc1b37-d7da-4aab-b645-ed7db34a5d03    node_type=org.openecomp.service.Demovcpevgmux
+    ${brg_dict}=   Create Dictionary      invariantUUID=ff0337b9-dbe2-4d88-bb74-18bf027ae586   UUID=1b6974f1-4aed-47f4-b962-816aa1261927    node_type=org.openecomp.service.Demovcpevbrgemu
+
+    ${xoffset}=    Set Variable    ${100}
+    ${allottedresource_uuid}=   Get AllottedResource UUID
+    ${random}=    Get Current Date
+    :FOR   ${allottedresource}   in   @{allottedresource_list}
+    \    ${loop_catalog_resource_id}=   Set Variable    ${allottedresource_uuid}
+    \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
+    \    ${loop_catalog_resource_id}=    Add ASDC Allotted Resource Catalog Resource     00000    ${allottedresource}_${random}    ONAP     ${loop_catalog_resource_id}   ${allottedresource}
+    \    ${loop_catalog_resource_id2}=   Add ASDC Resource Instance To Resource     ${loop_catalog_resource_id}    ${allottedresource_uuid}    ${allottedresource}    ${xoffset}      ${0}
+    \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
+    \    Run Keyword If   '${allottedresource}'=='TunnelXConn'    Setup SDC Catalog Resource AllottedResource Properties      ${catalog_service_id}    ${allottedresource}   ${loop_catalog_resource_id}   ${tunnelxconn_dict['invariantUUID']}   ${tunnelxconn_dict['UUID']}   ${tunnelxconn_dict['node_type']}
+    \    Run Keyword If   '${allottedresource}'=='BRG'   Setup SDC Catalog Resource AllottedResource Properties      ${catalog_service_id}    ${allottedresource}   ${loop_catalog_resource_id}   ${brg_dict['invariantUUID']}   ${brg_dict['UUID']}   ${brg_dict['node_type']}
+    \    ${loop_catalog_resource_id}=   Certify ASDC Catalog Resource    ${loop_catalog_resource_id}  ${ASDC_DESIGNER_USER_ID}
+    \    Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
+    \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
+    ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
+    Checkin ASDC Catalog Service    ${catalog_service_id}
+    Request Certify ASDC Catalog Service    ${catalog_service_id}
+    Start Certify ASDC Catalog Service    ${catalog_service_id}
+    # on certify it gets a new id
+    ${catalog_service_id}=    Certify ASDC Catalog Service    ${catalog_service_id}
+    Approve ASDC Catalog Service    ${catalog_service_id}
+        : FOR   ${DIST_INDEX}    IN RANGE   1
+        \   Log     Distribution Attempt ${DIST_INDEX}
+        \   Distribute ASDC Catalog Service    ${catalog_service_id}
+        \   ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
+        \   ${status}   ${_} =   Run Keyword And Ignore Error   Loop Over Check Catalog Service Distributed       ${catalog_service_resp['uuid']}
+	\   Exit For Loop If   '${status}'=='PASS'
+	#\   Exit For Loop If   '${dist_status}'=='EXIT'
+        Should Be Equal As Strings  ${status}  PASS
+    [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
+
 
 Download CSAR
    [Documentation]   Download CSAR 
@@ -121,21 +180,27 @@ Download CSAR
 
 Get Generic NeutronNet UUID
    [Documentation]   Lookoup the UUID of the Generic NeutronNetwork Resource
-   # http://137.117.87.170:30205/sdc2/rest/v1/catalog/resources/resourceName/Generic%20NeutronNet/resourceVersion/1.0
-   #  411edcfd-c290-41dc-bd2c-5600f9f0af05
    ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_RESOURCES_QUERY_PATH}/Generic%20NeutronNet/resourceVersion/1.0   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ENDPOINT}
+   [Return]    ${resp.json()['allVersions']['1.0']}
+
+Get AllottedResource UUID
+   [Documentation]   Lookoup the UUID of the Allotted Resource
+   # if this fails then the AllottedResource template got deleted from SDC by mistake
+   ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_RESOURCES_QUERY_PATH}/AllottedResource/resourceVersion/1.0   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ENDPOINT}
    [Return]    ${resp.json()['allVersions']['1.0']}
 
 Loop Over Check Catalog Service Distributed
     [Arguments]    ${catalog_service_id}
     # SO watchdog timeout is 300 seconds need buffer
-    ${dist_status}=   Set Variable    FAIL
-    : FOR     ${CHECK_INDEX}  IN RANGE   20
+    ${dist_status}=   Set Variable    CONTINUE
+    : FOR  ${CHECK_INDEX}  IN RANGE   20
     \   ${status}   ${_} =   Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}    ${dist_status}
     \   Sleep     20s
     \   Return From Keyword If   '${status}'=='PASS'
-    \   Exit For Loop If   '${dist_status}'=='EXIT'
-    Should Be Equal As Strings  ${status}   PASS 
+    # need a way to exit the loop early on DISTRIBUTION_COMPLETE_ERROR  ${dist_status} doesnt work
+    #\   Exit For Loop If   '${dist_status}'=='EXIT'
+    Should Be Equal As Strings  ${status}   PASS
+    [Return]
 
 Setup ASDC Catalog Resource
     [Documentation]    Creates all the steps a vf needs for an asdc catalog resource and returns the id
@@ -161,11 +226,9 @@ Setup ASDC Catalog Resource
     [Return]    ${catalog_resource_id}
 
 Setup SDC Catalog Resource GenericNeutronNet Properties
-    [Documentation]    Set up GenericNeutronNet properties and inputs 
+    [Documentation]    Set up GenericNeutronNet properties and inputs
     [Arguments]    ${catalog_service_id}    ${nf_role}    ${catalog_parent_service_id}
-    # Set component instances properties 
     ${resp}=    Get ASDC Catalog Resource Component Instances Properties  ${catalog_service_id}
-    #${resp}=    Get ASDC Catalog Resource Component Instances    ${catalog_service_id}
     ${componentInstances}  Set Variable   @{resp['componentInstancesProperties']}
     # componentInstances can have 1 or more than 1 entry
     ${passed}=    Run Keyword And Return Status   Evaluate    type(${componentInstances})
@@ -187,10 +250,47 @@ Setup SDC Catalog Resource GenericNeutronNet Properties
     \    ${ownerId}    Set Variable    ${comp['ownerId']}
     \    ${dict}=    Create Dictionary    parentUniqueId=${parentUniqueId}   ownerId=${ownerId}  uniqueId=${uniqueId}    description=${description}
     \    Run Keyword If   '${name}'=='network_role'   Set To Dictionary    ${dict}    name=${name}    value=${nf_role}
-    \    ${data}=   Fill JSON Template File    ${SDC_CATALOG_NET_RESOURCE_INPUT_TEMPLATE}    ${dict} 
+    \    ${data}=   Fill JSON Template File    ${SDC_CATALOG_NET_RESOURCE_INPUT_TEMPLATE}    ${dict}
     \    ${response}=    Set ASDC Catalog Resource Component Instance Properties    ${catalog_parent_service_id}    ${catalog_service_id}    ${data}
     #\    Log To Console    resp=${response}
     [Return]
+
+
+Setup SDC Catalog Resource AllottedResource Properties
+    [Documentation]    Set up Allotted Resource properties and inputs
+    [Arguments]    ${catalog_service_id}    ${nf_role}    ${catalog_resource_id}   ${invariantUUID}   ${UUID}     ${node_type}
+    # Set component instances properties
+    ${nf_role_lc}=   Convert To Lowercase   ${nf_role}
+    ${resp}=    Get ASDC Catalog Resource Component Instances Properties For Resource     ${catalog_resource_id}
+    ${componentInstances}  Set Variable   @{resp['componentInstancesProperties']}
+    # componentInstances can have 1 or more than 1 entry
+    ${passed}=    Run Keyword And Return Status   Evaluate    type(${componentInstances})
+    ${type}=      Run Keyword If     ${passed}    Evaluate    type(${componentInstances})
+    ${componentInstancesList}=    Run Keyword If   "${type}"!="<type 'list'>"    Create List  ${componentInstances}
+    ...    ELSE   Set Variable    ${componentInstances}
+    :FOR   ${item}  IN   @{componentInstancesList}
+    \    ${test}    ${v}=    Run Keyword and Ignore Error    Should Contain    ${item}     ${nf_role_lc}
+    \    Run Keyword If    '${test}' == 'FAIL'    Continue For Loop
+    \    ${componentInstance1}=   Set Variable    ${item}
+    ${dict}=    Create Dictionary
+    :FOR    ${comp}    IN    @{resp['componentInstancesProperties']["${componentInstance1}"]}
+    \    ${name}    Set Variable   ${comp['name']}
+    \    ${test}    ${v}=    Run Keyword and Ignore Error    Should Contain Any     ${name}    network_role  providing_service_invariant_uuid  providing_service_uuid  providing_service_name   uniqueId
+    \    Run Keyword If    '${test}' == 'FAIL'    Continue For Loop
+    \    ${parentUniqueId}    Set Variable    ${comp['parentUniqueId']}
+    \    ${ownerId}    Set Variable    ${comp['ownerId']}
+    \    Set To Dictionary     ${dict}    parentUniqueId=${parentUniqueId}   ownerId=${ownerId}
+    \    Run Keyword If   '${name}'=='providing_service_invariant_uuid'   Set To Dictionary    ${dict}    providing_service_invariant_uuid=${invariantUUID}
+    \    Run Keyword If   '${name}'=='providing_service_uuid'   Set To Dictionary    ${dict}    providing_service_uuid=${UUID}
+    \    Run Keyword If   '${name}'=='providing_service_name'   Set To Dictionary    ${dict}    providing_service_name=${node_type}
+    #    Sets it for each loop but should be one
+    \    ${uniqueId}    Set Variable     ${comp['uniqueId']}
+    \    ${uniqueId}   Fetch From Left   ${uniqueId}   .
+    \    Set To Dictionary    ${dict}    uniqueId=${uniqueId}
+    ${data}=   Fill JSON Template File    ${SDC_CATALOG_ALLOTTED_RESOURCE_INPUT_TEMPLATE}    ${dict}
+    ${response}=    Set ASDC Catalog Resource Component Instance Properties For Resource    ${catalog_resource_id}    ${componentInstance1}    ${data}
+    Log To Console    resp=${response}
+    [Return]    ${response}
 
 Setup ASDC Catalog Resource CDS Properties
     [Documentation]    Set up vfwng VNF properties and inputs for CDS
@@ -367,14 +467,25 @@ Get ASDC Software Product
     [Arguments]    ${software_product_id}   ${version_id}=0.1
     ${resp}=    Run ASDC Get Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${software_product_id}/versions/${version_id}   ${ASDC_DESIGNER_USER_ID}  ${ASDC_BE_ONBOARD_ENDPOINT} 
     [Return]    ${resp.json()}
+
 Add ASDC Catalog Resource
     [Documentation]    Creates an asdc Catalog Resource and returns its id
     [Arguments]    ${license_agreement_id}    ${software_product_name}    ${license_model_name}    ${software_product_id}
     ${map}=    Create Dictionary    software_product_id=${software_product_id}    software_product_name=${software_product_name}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}
     ${data}=   Fill JSON Template File    ${ASDC_CATALOG_RESOURCE_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   
+    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings 	${resp.status_code} 	201
     [Return]    ${resp.json()['uniqueId']}
+
+Add ASDC Allotted Resource Catalog Resource
+    [Documentation]    Creates an asdc Allotted Resource Catalog Resource and returns its id
+    [Arguments]    ${license_agreement_id}    ${software_product_name}    ${license_model_name}    ${software_product_id}   ${subcategory}
+    ${map}=    Create Dictionary    software_product_id=${software_product_id}    software_product_name=${software_product_name}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}   subcategory=${subcategory}
+    ${data}=   Fill JSON Template File    ${ASDC_ALLOTTED_RESOURCE_CATALOG_RESOURCE_TEMPLATE}    ${map}
+    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
+    Should Be Equal As Strings 	${resp.status_code} 	201
+    [Return]    ${resp.json()['uniqueId']}
+
 Mark ASDC Catalog Resource Inactive
     [Documentation]    deletes an asdc Catalog Resource
     [Arguments]    ${catalog_resource_id}
@@ -397,6 +508,7 @@ Get ASDC Catalog Resource Component Instances
     [Arguments]    ${catalog_resource_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstances    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]    ${resp.json()}
+
 Get ASDC Catalog Resource Component Instances Properties
     [Documentation]    gets asdc Catalog Resource Component Instances Properties by its id
     [Arguments]    ${catalog_resource_id}
@@ -404,6 +516,11 @@ Get ASDC Catalog Resource Component Instances Properties
     ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstancesProperties    ${ASDC_DESIGNER_USER_ID}    ${ASDC_BE_ENDPOINT}
     [Return]    ${resp.json()}
 
+Get ASDC Catalog Resource Component Instances Properties For Resource
+    [Documentation]    gets asdc Catalog Resource Component Instances Properties for  a Resource (VF) by its id
+    [Arguments]    ${catalog_resource_id}
+    ${resp}=    Run ASDC Get Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstancesProperties    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
+    [Return]    ${resp.json()}
 
 Get ASDC Catalog Resource Inputs
     [Documentation]    gets asdc Catalog Inputs by its id
@@ -416,12 +533,20 @@ Get ASDC Catalog Resource Component Instance Properties
     [Arguments]    ${catalog_resource_id}    ${component_instance_id}    ${component_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/componentInstances/${component_instance_id}/${component_id}/inputs    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]    ${resp.json()}
+
 Set ASDC Catalog Resource Component Instance Properties
     [Documentation]    sets an asdc Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}    ${component_parent_service_id}    ${data}
     #${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${component_parent_service_id}/resourceInstance/${catalog_resource_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_SERVICES_PATH}/${component_parent_service_id}/resourceInstance/${catalog_resource_id}/properties    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
-    [Return]    ${resp.json()}
+    [Return]   ${resp.json()}
+
+Set ASDC Catalog Resource Component Instance Properties For Resource
+    [Documentation]    sets an asdc Catalog Resource by its id
+    [Arguments]    ${catalog_parent_resource_id}    ${catalog_resource_id}    ${data}
+    #${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_parent_resource_id}/resourceInstance/${catalog_resource_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
+    ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_parent_resource_id}/resourceInstance/${catalog_resource_id}/properties   ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
+    [Return]   ${resp.json()}
 
 Set ASDC Catalog Resource VNF Inputs
     [Documentation]    sets an asdc Catalog Resource by its id
@@ -562,6 +687,7 @@ Distribute ASDC Catalog Service
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_DISTRIBUTION_ACTIVATE_PATH}    ${None}    ${ASDC_OPS_USER_ID}
     Should Be Equal As Strings 	${resp.status_code} 	200
     [Return]    ${resp.json()}
+
 Add ASDC Resource Instance
     [Documentation]    Creates an asdc Resource Instance and returns its id
     [Arguments]    ${catalog_service_id}    ${catalog_resource_id}    ${catalog_resource_name}  ${xoffset}=${0}   ${yoffset}=${0}
@@ -571,6 +697,18 @@ Add ASDC Resource Instance
     ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}
     ${data}=   Fill JSON Template File    ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
+    Should Be Equal As Strings 	${resp.status_code} 	201
+    [Return]    ${resp.json()['uniqueId']}
+
+Add ASDC Resource Instance To Resource
+    [Documentation]    Creates an asdc Resource Instance in a Resource (VF) and returns its id
+    [Arguments]    ${parent_catalog_resource_id}    ${catalog_resource_id}    ${catalog_resource_name}  ${xoffset}=${0}   ${yoffset}=${0}
+    ${milli_timestamp}=    Generate MilliTimestamp UUID
+    ${xoffset}=    Set Variable   ${xoffset+306}
+    ${yoffset}=    Set Variable   ${yoffset+248}
+    ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}
+    ${data}=   Fill JSON Template File    ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
+    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${parent_catalog_resource_id}${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings 	${resp.status_code} 	201
     [Return]    ${resp.json()['uniqueId']}
 
@@ -589,6 +727,8 @@ Check Catalog Service Distributed
     @{ITEMS}=    Copy List    ${det_resp['distributionStatusList']}
     Should Not Be Empty   ${ITEMS}
     ${SO_COMPLETE}   Set Variable   FALSE
+    ${dist_status}   Set Variable   CONTINUE
+    Should Not Be Empty   ${ITEMS}
     :FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['omfComponentID']}
     \    Log    ${ELEMENT['status']}
@@ -598,6 +738,8 @@ Check Catalog Service Distributed
     \    ${dist_status}=  Set Variable If   (('${ELEMENT['status']}' == 'COMPONENT_DONE_ERROR') and ('${ELEMENT['omfComponentID']}' == 'aai-ml'))  EXIT
     \    Exit For Loop If   (('${ELEMENT['status']}' == 'COMPONENT_DONE_ERROR') and ('${ELEMENT['omfComponentID']}' == 'aai-ml'))
     Should Be True   ( '${SO_COMPLETE}'=='TRUE')   SO Test
+    [Return]
+
 Get Catalog Service Distribution Details
     [Documentation]    gets an asdc catalog Service distrbution details
     [Arguments]    ${catalog_service_distribution_id}
