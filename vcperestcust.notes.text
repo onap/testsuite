@@ -1,0 +1,9 @@
+Notes on how to setup for vCPEResCust automated onboarding
+
+1. Run the ./demo-k8s.sh onap distribute to load the other vCPE Models
+2. In the robot container the CSARs are downloaded into /tmp/csar
+3. Create directory and unzip the brgemul and gmux CSArs into a subdirectory
+4. Copy the 3 parameters (invariant uuid, uuid , node_type) into the vcpe_allotted_resourse_data.json
+5. Put the vcpe_allotted_rsource-data.json into /tmp on the docker conatiner
+
+
