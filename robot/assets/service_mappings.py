@@ -12,6 +12,7 @@ GLOBAL_SERVICE_FOLDER_MAPPING = {"vFW" : ['vFW'], \
                                  "vCPEvBRGEMU" : ['vCPE/vbrgemu'],
                                  "vCPEvGMUX" : ['vCPE/vgmux'],
                                  "vCPEvGW" : ['vCPE/vgw'],
+                                 "vCPEResCust" : ['vCPE/vgw'],
                                  }
 
 '''
@@ -29,6 +30,7 @@ GLOBAL_SERVICE_VNF_MAPPING = {
     "vCPEvBRGEMU" : ['vCPEvBRGEMU'],
     "vCPEvGMUX" : ['vCPEvGMUX'],
     "vCPEvGW" : ['vCPEvGW'],
+    "vCPERestCust" : ['vCPEvGW'],
                                  }
 
 '''
@@ -42,6 +44,7 @@ GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING = {
     "vCPEvGMUX" : ['MUX_GW'],
     "vCPEvBRGEMU" :[],
     "vCPEvGW" :[],
+    "vCPERestCust" :[],
     "vFW" :[],
     "vLB" :[],
     "vVG" :[],
@@ -72,6 +75,7 @@ GLOBAL_SERVICE_TEMPLATE_MAPPING = {
     "vCPEvBRGEMU" : [{"isBase" : "true",  "template" : "vcpe_vbrgemu_preload.template", "name_pattern": "base_vbrgemu"}],
     "vCPEvGMUX" : [{"isBase" : "true",  "template" : "vcpe_vgmux_preload.template", "name_pattern": "base_vgmux"}],
     "vCPEvGW" : [{"isBase" : "true",  "template" : "vcpe_vgw_preload.template", "name_pattern": "base_vgw"}],
+    "vCPEResCust" : [{"isBase" : "true",  "template" : "vcpe_vgw_preload.template", "name_pattern": "base_vgw"}],
 }
 
 '''
@@ -82,6 +86,7 @@ GLOBAL_VALIDATE_NAME_MAPPING = {"vFW" : 'vfw_name_0',
                                  "vVG" : '',
                                  "vCPE" : 'vgw_name_0',
                                  "vCPEvGW" : 'vgw_name_0',
+                                 "vCPEResCust" : 'vgw_name_0',
                                  "vCPEvDNS" : 'vdns_name_0',
                                  "vCPEvAAA" : 'vaaa_name_0',
                                  "vCPEvWEB" : 'vweb_name_0',

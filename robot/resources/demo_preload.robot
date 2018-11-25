@@ -82,6 +82,11 @@ Distribute Model
     [Arguments]   ${service}   ${modelName}
     ${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=   Model Distribution For Directory    ${service}   ${modelName}
 
+Distribute vCPEResCust Model
+    [Arguments]   ${service}   ${modelName}
+    ${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=   Model Distribution For vCPEResCust Directory    ${service}   ${modelName}
+
+
 Create Customer For VNF Demo
     [Documentation]    Create demo customer for the demo
     [Arguments]    ${customer_name}   ${customer_id}   ${customer_type}    ${clouder_owner}    ${cloud_region_id}    ${tenant_id}
