@@ -111,8 +111,10 @@ Distribute vCPEResCust Model From ASDC
     [Documentation]    goes end to end creating all the asdc objects for the vCPE ResCust Service model and distributing it to the systems. it then returns the service name, vf name and vf module name
     [Arguments]    ${model_zip_path}   ${catalog_service_name}=    ${cds}=    ${service}=
     # For testing use random service name
-    ${random}=    Get Current Date
-    ${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}_${random}
+    #${random}=    Get Current Date
+    #${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}_${random}
+    #   catalog_service_name already 
+    ${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
     Log To Console    ${\n}ServiceName: ${catalog_service_name}_${random}
     #${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
     ${catalog_resource_ids}=    Create List
@@ -236,7 +238,10 @@ Setup ASDC Catalog Resource
     ${license_agreement_id}=    Add ASDC License Agreement    ${license_model_id}    ${feature_group_id}   ${license_model_version_id}
     Submit ASDC License Model    ${license_model_id}   ${license_model_version_id}
     ${license_model_resp}=    Get ASDC License Model    ${license_model_id}   ${license_model_version_id}
-    ${software_product_id}   ${software_product_version_id}=    Add ASDC Software Product    ${license_agreement_id}    ${feature_group_id}    ${license_model_resp['vendorName']}    ${license_model_id}    ${license_model_version_id}
+    # /var/opt/OpenECOMP_ETE/demo/heat/temp/vCPE_infra.zip
+    ${matches}=   Get Regexp Matches  ${model_zip_path}  temp/(.*)\.zip  1
+    ${software_product_name_prefix}=    Set Variable   ${matches[0]}
+    ${software_product_id}   ${software_product_version_id}=    Add ASDC Software Product    ${license_agreement_id}    ${feature_group_id}    ${license_model_resp['vendorName']}    ${license_model_id}    ${license_model_version_id}    ${software_product_name_prefix}
     Upload ASDC Heat Package    ${software_product_id}    ${model_zip_path}   ${software_product_version_id}
     Validate ASDC Software Product    ${software_product_id}  ${software_product_version_id}
     Submit ASDC Software Product    ${software_product_id}  ${software_product_version_id}
@@ -493,10 +498,11 @@ Get ASDC License Agreement
     [Return]    ${resp.json()}
 Add ASDC Software Product
     [Documentation]    Creates an asdc Software Product and returns its id
-    [Arguments]    ${license_agreement_id}    ${feature_group_id}    ${license_model_name}    ${license_model_id}   ${license_model_version_id}
+    [Arguments]    ${license_agreement_id}    ${feature_group_id}    ${license_model_name}    ${license_model_id}   ${license_model_version_id}  ${name_prefix}
     ${uuid}=    Generate UUID
-    ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
-    ${map}=    Create Dictionary    software_product_name=${shortened_uuid}    feature_group_id=${feature_group_id}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}    vendor_id=${license_model_id}    version_id=${license_model_version_id}
+    ${shortened_uuid}=     Evaluate    str("${uuid}")[:13]
+    ${software_product_name}=  Catenate   ${name_prefix}   ${shortened_uuid}
+    ${map}=    Create Dictionary    software_product_name=${software_product_name}    feature_group_id=${feature_group_id}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}    vendor_id=${license_model_id}    version_id=${license_model_version_id}
     ${data}=   Fill JSON Template File    ${ASDC_SOFTWARE_PRODUCT_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT} 
     Should Be Equal As Strings 	${resp.status_code} 	200

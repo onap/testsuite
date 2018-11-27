@@ -1,9 +1,10 @@
 Notes on how to setup for vCPEResCust automated onboarding
 
-1. Run the ./demo-k8s.sh onap distribute to load the other vCPE Models
-2. In the robot container the CSARs are downloaded into /tmp/csar
-3. Create directory and unzip the brgemul and gmux CSArs into a subdirectory
-4. Copy the 3 parameters (invariant uuid, uuid , node_type) into the vcpe_allotted_resourse_data.json
-5. Put the vcpe_allotted_rsource-data.json into /tmp on the docker conatiner
-
+1. In SDC as demo create the BRG subcategory under Allotted Resources
+	a. if you do not the vcpe csar distribution will fail 
+2. Run the ./demo-k8s.sh onap distribute to load the initial vCPE Models (infra, gmux, bng, brgemu)
+3. In the robot container the CSARs are downloaded into /tmp/csar
+4. Create sub-directories and unzip the brgemul and gmux CSArs into the brg and gmux subdirectories
+5. Copy vcpe_allotted_resource_data.json.example to /tmp/vcel_allotted_resource_data.json
+5. Copy the 3 parameters (invariant uuid, uuid , node_type) into /tmp/vcpe_allotted_resourse_data.json for both the tunnelxconn (gmux) and brg (brgemu) 
 

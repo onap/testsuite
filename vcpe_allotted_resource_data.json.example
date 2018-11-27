@@ -5,7 +5,7 @@
          "node_type": "org.openecomp.service.Demovcpevgmux"
      },
      "brg": {
-         "invariantUUID": "ff0337b9-dbe2-4d88-bb74-18bf027ae586"
+         "invariantUUID": "ff0337b9-dbe2-4d88-bb74-18bf027ae586",
          "UUID": "1b6974f1-4aed-47f4-b962-816aa1261927",
          "node_type": "org.openecomp.service.Demovcpevbrgemu"
      }
