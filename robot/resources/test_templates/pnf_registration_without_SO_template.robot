@@ -26,7 +26,6 @@ Create A&AI antry without SO and succesfully registrate PNF
     Create PNF initial entry in A&AI  ${PNF_entry_dict}
     Send VES integration request  ${PNF_entry_dict}
     Verify PNF Integration Request in A&AI  ${PNF_entry_dict}
-    Verify PNF Integration Request in MR  ${PNF_entry_dict}
 
 Create PNF initial entry in A&AI
     [Documentation]   Creates PNF initial entry in A&AI registry. Entry contains only correlation id (pnf-name)
