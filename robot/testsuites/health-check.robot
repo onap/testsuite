@@ -66,6 +66,11 @@ Basic DMAAP Message Router Health Check
     [Tags]    health    core
     Run MR Health Check
 
+Basic DMAAP Message Router PubSub Health Check
+    [Tags]    healthmr
+    [Timeout]   30
+    Run MR PubSub Health Check
+
 Basic External API NBI Health Check
     [Tags]    health    externalapi    api    small
     Run NBI Health Check
