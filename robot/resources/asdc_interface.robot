@@ -353,7 +353,7 @@ Setup ASDC Catalog Resource CDS Properties
     \    Run Keyword If   '${name}'=='abstract_vpg'   Set To Dictionary    ${dict}    nfc_function=vpg    nfc_naming_policy=SDNC_Policy.ONAP_VPG_NAMING_TIMESTAMP
     \    Run Keyword If   '${name}'=='abstract_vsn'   Set To Dictionary    ${dict}    nfc_function=vsn    nfc_naming_policy=SDNC_Policy.ONAP_VSN_NAMING_TIMESTAMP
     \    ${data}=   Fill JSON Template File    ${ASDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    ${dict} 
-    \    ${response}=    Set ASDC Catalog Resource Component Instance Properties    ${catalog_resource_id}    ${uniqueId}    ${data}
+    \    ${response}=    Set CDS Catalog Resource Component Instance Properties    ${catalog_resource_id}    ${uniqueId}    ${data}
     \    Log To Console    resp=${response}
 
     # Set vnf inputs
@@ -592,6 +592,12 @@ Set ASDC Catalog Resource Component Instance Properties For Resource
     #${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_parent_resource_id}/resourceInstance/${catalog_resource_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_parent_resource_id}/resourceInstance/${catalog_resource_id}/properties   ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]   ${resp.json()}
+
+Set CDS Catalog Resource Component Instance Properties
+    [Documentation]    sets an asdc Catalog Resource by its id
+    [Arguments]    ${catalog_resource_id}    ${component_instance_id}    ${data}
+    ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/resourceInstance/${component_instance_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
+    [Return]    ${resp.json()}
 
 Set ASDC Catalog Resource VNF Inputs
     [Documentation]    sets an asdc Catalog Resource by its id
