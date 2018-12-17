@@ -28,7 +28,7 @@ RUN apt-get --assume-yes install wget
 RUN apt-get --assume-yes install xvfb
 RUN apt-get --assume-yes install xxd
 RUN pip install --upgrade pip
-RUN pip install robotframework
+RUN pip install robotframework==3.0.4
 RUN python --version
 
 # Install chrome
