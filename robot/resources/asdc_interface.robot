@@ -1,12 +1,14 @@
 *** Settings ***
 Documentation     The main interface for interacting with ASDC. It handles low level stuff like managing the http request library and DCAE required fields
-Library 	      RequestsLibrary
+Library 	  RequestsLibrary
 Library	          UUID
 Library	          JSONUtils
 Library           OperatingSystem
 Library           Collections
-Library 	      ExtendedSelenium2Library
+Library 	  ExtendedSelenium2Library
 Library           HttpLibrary.HTTP
+Library           ArchiveLibrary
+Library           HEATUtils
 Resource          global_properties.robot
 Resource          browser_setup.robot
 Resource          json_templater.robot
@@ -132,6 +134,8 @@ Distribute vCPEResCust Model From ASDC
     #  Example data
     #${tunnelxconn_dict}=   Create Dictionary      invariantUUID=8ac029e7-77aa-40d4-b28a-d17c02d5fd82    UUID=2ddc1b37-d7da-4aab-b645-ed7db34a5d03    node_type=org.openecomp.service.Demovcpevgmux
     #${brg_dict}=   Create Dictionary      invariantUUID=ff0337b9-dbe2-4d88-bb74-18bf027ae586   UUID=1b6974f1-4aed-47f4-b962-816aa1261927    node_type=org.openecomp.service.Demovcpevbrgemu
+    # Create /tmp/vcpe_allotted_resource_data.json with demo vgmux and brgemu CSARs
+    Create Allotted Resource Data File
     ${vcpe_ar_data_file}    Get File    /tmp/vcpe_allotted_resource_data.json
     ${tunnelxconn_invariant_uuid}    Get Json Value    ${vcpe_ar_data_file}    /tunnelxconn/invariantUUID
     ${tunnelxconn_uuid}    Get Json Value    ${vcpe_ar_data_file}    /tunnelxconn/UUID
@@ -186,6 +190,31 @@ Distribute vCPEResCust Model From ASDC
         Should Be Equal As Strings  ${status}  PASS
     [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
 
+
+Create Allotted Resource Data File
+   [Documentation]    Create alloted resource json data file
+   [Arguments]
+   ${allotted_resource}=    Create Dictionary
+   ${allotted_csar_map}=    Create Dictionary
+   Set To Dictionary    ${allotted_csar_map}    tunnelxconn=service-Demovcpevgmux-csar.csar
+   Set To Dictionary    ${allotted_csar_map}    brg=service-Demovcpevbrgemu-csar.csar
+   ${keys}=    Get Dictionary Keys    ${allotted_csar_map}
+   :for   ${key}   in   @{keys}
+   \    ${csar}=    Get From Dictionary    ${allotted_csar_map}    ${key}
+   \    ${dir}    ${ext}=    Split String From Right    ${csar}    -    1
+   \    Extract Zip File    /tmp/csar/${csar}    /tmp/csar/${dir}
+   \    ${template}=    Catenate    /tmp/csar/${dir}/Definitions/${dir}-template.yml
+   \    ${json_str}=    Template Yaml To Json    ${template}
+   \    ${json_obj}=    To Json   ${json_str}
+   \    ${attrs}=    Create Dictionary
+   \    Set To Dictionary    ${attrs}    invariantUUID=${json_obj['metadata']['invariantUUID']}
+   \    Set To Dictionary    ${attrs}    UUID=${json_obj['metadata']['UUID']}
+   \    Set To Dictionary    ${attrs}    node_type=${json_obj['topology_template']['substitution_mappings']['node_type']}
+   \    Set To Dictionary    ${allotted_resource}    ${key}=${attrs}
+   ${result_str}=   Evaluate    json.dumps(${allotted_resource}, indent=2)    json
+   Log To Console    ${result_str}
+   Create File    /tmp/vcpe_allotted_resource_data.json    ${result_str}
+    
 
 Download CSAR
    [Documentation]   Download CSAR 
