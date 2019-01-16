@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_65db974f",
+        "filename": "robot/testsuites/clamp.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-01-16T14:43:58Z",
+      "side": 1,
+      "message": "where do these come from?",
+      "revId": "cc84e48d6b9a1d5a16efa59fe9b6cf43aca5fbfe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
