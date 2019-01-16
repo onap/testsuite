@@ -13,10 +13,16 @@ ${CLAMP_CLIENT_CERT}   robot/assets/keys/org.onap.clamp.cert.pem
 
 
 *** Keywords ***
+Run CLAMP Get Properties
+     [Documentation]   get CLAMP Control Loop properties
+     [Arguments]   ${property_id}
+     ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/properties/${property_id}
+     ${resp}=   Run Clamp HTTPS Get Request    ${data_path}
+
 Run CLAMP Get Control Loop
      [Documentation]   runs CLAMP Open Control Loop based on model name
      [Arguments]   ${model_name}
-     ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model-names
+     ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model/${model_name}
      ${resp}=   Run Clamp HTTPS Get Request    ${data_path}
 
 Run CLAMP Get Model Names
@@ -36,7 +42,7 @@ Run CLAMP HTTPS Get Request
      ${session}=   Create Client Cert Session  session   ${CLAMP_ENDPOINT}     client_certs=@{client_certs}
      ${resp}=   Get Request     session         ${data_path}
      Should Be Equal As Integers        ${resp.status_code}     200
-     Log    Received response from CLAMP ${resp.text}
+     Log    ${resp.json()}
      [Return]    ${resp}
 
 Run CLAMP Get Request
@@ -47,4 +53,3 @@ Run CLAMP Get Request
      Should Be Equal As Integers        ${resp.status_code}     200
      Log    Received response from CLAMP ${resp.text}
      [Return]    ${resp}
-
