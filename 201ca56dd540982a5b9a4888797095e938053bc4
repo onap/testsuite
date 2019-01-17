@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_1d9f7bb6",
+        "filename": "robot/resources/clamp_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-01-17T17:08:09Z",
+      "side": 1,
+      "message": "i think you can just return this and the next line can use it. suite variables will make it confusing if we run more than 1 test case in the same test suite",
+      "revId": "201ca56dd540982a5b9a4888797095e938053bc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
