@@ -1,6 +1,8 @@
 *** Settings ***
 Documentation     The main interface for interacting with Microservice Bus.
 Library           RequestsLibrary
+Library           Collections
+Library           String
 
 Resource          global_properties.robot
 
@@ -24,11 +26,17 @@ Run CLAMP Get Control Loop
      [Arguments]   ${model_name}
      ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model/${model_name}
      ${resp}=   Run Clamp HTTPS Get Request    ${data_path}
+     # propText value is a string
+     # propText': u '{"global":[{"name":"service","value":["5fcdb3b7-5a5b-45da-83f6-14cce29181c8"]}
+     Log    ${resp.json()['propText']}
+     ${control_loop_id}=    Get Regexp Matches    ${resp.json()['propText']}     \\"service\\",\\"value\\":\\[\\"([0-9a-f\-]{36})\\"     1
+     Set Suite Variable   ${CURRENT_CONTROL_LOOP_ID}   ${control_loop_id[0]}
 
 Run CLAMP Get Model Names
      [Documentation]   runs CLAMP Get Model Names
      ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model-names
      ${resp}=   Run Clamp HTTPS Get Request    ${data_path}
+     Set Suite Variable   ${CURRENT_MODEL_ID}   ${resp.json()[0]['value']}
 
 Run CLAMP Health Check
      [Documentation]    Runs CLAMP Health check

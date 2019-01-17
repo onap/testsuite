@@ -2,6 +2,8 @@
 Documentation     Testing CLAMP
 ...
 ...               Testing ecomp components are available via calls.
+...               ${CURRENT_MODEL_ID} is a testsuite variable used for the context of the test
+...               ${CURRENT_CONTROL_LOOP_ID} is a testsuite variable used for the context of the test
 Test Timeout      120 second
 Resource          ../resources/clamp_interface.robot
 
@@ -9,5 +11,5 @@ Resource          ../resources/clamp_interface.robot
 Basic CLAMP Health Check
     [Tags]    clamp
     Run CLAMP Get Model Names
-    Run CLAMP Get Control Loop    CLAMPT2VLB_v2_0_vLB0605c122-90f10
-    Run CLAMP Get Properties    5fcdb3b7-5a5b-45da-83f6-14cce29181c8
+    Run CLAMP Get Control Loop    ${CURRENT_MODEL_ID}
+    Run CLAMP Get Properties    ${CURRENT_CONTROL_LOOP_ID}
