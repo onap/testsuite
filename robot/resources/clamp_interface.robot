@@ -27,6 +27,27 @@ Run CLAMP Create Model
      ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model/${model_name}
      ${resp}=   Run CLAMP HTTPS Put Request    ${data_path}    ${data}
      Should Be Equal As Strings  ${resp.status_code}     200
+     ${random}=    Generate Random String    4    [LOWER][NUMBERS]
+     ${policy_name}=    Catenate    PolicyTest    ${random}
+     Run CLAMP Save vLB Model   ${model_name}    ${template_name}   ${policy_name}
+
+Run CLAMP Save vLB Model
+     [Documentation]   Save CLAMP Model
+     [Arguments]   ${model_name}   ${template_name}   ${policy_name}
+     ${dict}=   Create Dictionary   MODEL_NAME=${model_name}      TEMPLATE_NAME=${template_name}   POLICY_NAME=${policy_name}   DOLLAR_SIGN=$
+     ${data}=   Fill JSON Template File    ${CLAMP_TEMPLATE_PATH}/save_model_vlb.template    ${dict}
+     ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model/${model_name}
+     ${resp}=   Run CLAMP HTTPS Put Request    ${data_path}    ${data}
+     Should Be Equal As Strings  ${resp.status_code}     200
+     Run CLAMP Validation Test   ${model_name}   ${data}
+
+Run CLAMP Validation Test
+     [Documentation]   Validate CLAMP Control Loop CLAMP Model
+     [Arguments]   ${model_name}   ${model_data}
+     ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/action/submit/${model_name}?test=true
+     ${resp}=   Run CLAMP HTTPS Put Request    ${data_path}    ${model_data}
+     Should Be Equal As Strings  ${resp.status_code}     200
+
 
 Run CLAMP Get Properties
      [Documentation]   get CLAMP Control Loop properties
