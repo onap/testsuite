@@ -3,8 +3,10 @@ Documentation     The main interface for interacting with Microservice Bus.
 Library           RequestsLibrary
 Library           Collections
 Library           String
+Library           JSONUtils
 
 Resource          global_properties.robot
+Resource          json_templater.robot
 
 *** Variables ***
 ${CLAMP_HEALTH_CHECK_PATH}        /restservices/clds/v1/healthcheck
@@ -13,8 +15,19 @@ ${CLAMP_BASE_PATH}   /restservices/clds/v1
 ${CLAMP_CLIENT_KEY}   robot/assets/keys/org.onap.clamp.key.clear.pem
 ${CLAMP_CLIENT_CERT}   robot/assets/keys/org.onap.clamp.cert.pem
 
+${CLAMP_TEMPLATE_PATH}        robot/assets/templates/clamp
+
 
 *** Keywords ***
+Run CLAMP Create Model
+     [Documentation]   Create a new CLAMP Model
+     [Arguments]   ${model_name}   ${template_name}
+     ${dict}=   Create Dictionary   MODEL_NAME=${model_name}      TEMPLATE_NAME=${template_name}
+     ${data}=   Fill JSON Template File    ${CLAMP_TEMPLATE_PATH}/create_model.template    ${dict}
+     ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model/${model_name}
+     ${resp}=   Run CLAMP HTTPS Put Request    ${data_path}    ${data}
+     Should Be Equal As Strings  ${resp.status_code}     200
+
 Run CLAMP Get Properties
      [Documentation]   get CLAMP Control Loop properties
      [Arguments]   ${property_id}
@@ -45,6 +58,17 @@ Run CLAMP Health Check
      ${resp}=    Run CLAMP Get Request    ${CLAMP_HEALTH_CHECK_PATH}
      Should Be Equal As Integers        ${resp.status_code}     200
 
+Run CLAMP HTTPS Put Request
+     [Documentation]    Runs CLAMP HTTPS Put request
+     [Arguments]    ${data_path}    ${data}
+     @{client_certs}=    Create List     ${CLAMP_CLIENT_CERT}   ${CLAMP_CLIENT_KEY}
+     ${session}=   Create Client Cert Session  session   ${CLAMP_ENDPOINT}     client_certs=@{client_certs}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}=   Put Request     session   ${data_path}   data=${data}  headers=${headers}
+     Should Be Equal As Integers        ${resp.status_code}     200
+     Log    ${resp.json()}
+     [Return]    ${resp}
+
 Run CLAMP HTTPS Get Request
      [Documentation]    Runs CLAMP HTTPS Get request
      [Arguments]    ${data_path}
@@ -63,4 +87,3 @@ Run CLAMP Get Request
      Should Be Equal As Integers        ${resp.status_code}     200
      Log    Received response from CLAMP ${resp.text}
      [Return]    ${resp}
-
