@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_2aaeaa98",
+        "filename": "robot/resources/asdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-01-23T14:43:45Z",
+      "side": 0,
+      "message": "are we not using this?",
+      "revId": "75f5ad1f10a344c04229e82320277d16d83bb486",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}

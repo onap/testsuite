@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_0aaba689",
+        "filename": "robot/resources/asdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-01-23T14:43:45Z",
+      "side": 1,
+      "message": "are we supposed to be changing to this whitespace?",
+      "revId": "4cd21a41bc4e5bcfa676793a49b4b26f713c9910",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
