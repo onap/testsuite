@@ -1,0 +1,4 @@
+{
+"availability-zone-name":"${availability_zone_name}",
+"hypervisor-type": "hypervisor"
+}

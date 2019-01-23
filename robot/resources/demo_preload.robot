@@ -6,7 +6,8 @@ Resource        test_templates/vnf_orchestration_test_template.robot
 Resource        asdc_interface.robot
 Resource        so_interface.robot
 Resource        vid/vid_interface.robot
-Resource	policy_interface.robot
+Resource	    policy_interface.robot
+Resource        aai/create_availability_zone.robot
 
 Library	        UUID
 Library	        Collections
@@ -56,6 +57,7 @@ Load Customer
     ${region}=   Get Openstack Region
     Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${TENANT_ID}
     Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    RegionTlab  50b190410b2a4c229d8a6044a80ab7c1 
+    Create Availability Zone If Not Exists    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${GLOBAL_AAI_AVAILABILITY_ZONE_NAME}
 
 Load Models
     [Documentation]   Use openECOMP to Orchestrate a service.
