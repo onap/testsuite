@@ -16,6 +16,23 @@
       "revId": "75f5ad1f10a344c04229e82320277d16d83bb486",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_cacd9e67",
+        "filename": "robot/resources/asdc_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-01-23T15:11:06Z",
+      "side": 0,
+      "message": "one more missing method?",
+      "revId": "75f5ad1f10a344c04229e82320277d16d83bb486",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
