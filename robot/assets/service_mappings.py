@@ -53,6 +53,24 @@ GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING = {
 }
 '''
 
+Map the service to the list of Deployment Artifacts for Closed Loop Control
+
+'''
+GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING = {
+    "vCPEInfra" : [],
+    "vCPEvBNG" : [],
+    "vCPEvGMUX" : [],
+    "vCPEvBRGEMU" :[],
+    "vCPEvGW" :[],
+    "vCPERestCust" :[],
+    "vFW" :[],
+    "vLB" :['tca_docker_k8s_v4.yaml'],
+    "vVG" :[],
+    "vFWCL" :[],
+    "vFWNG" :[],
+}
+'''
+
 
 
 This metadata identifes the preloads that need to be done for a VNF as there may be more than one (vLB)
@@ -61,7 +79,7 @@ This metadata identifes the preloads that need to be done for a VNF as there may
     i.e. GLOBAL_PRELOAD_PARAMETERS['Demo'][dnsscaling_preload.template']
 '''
 GLOBAL_SERVICE_TEMPLATE_MAPPING = {
-	"vFW"  : [{"isBase" : "true", "template" : "vfw_preload.template", "name_pattern": "base_vfw"}],
+        "vFW"  : [{"isBase" : "true", "template" : "vfw_preload.template", "name_pattern": "base_vfw"}],
     "vLB"  : [{"isBase" : "true",   "template" : "vlb_preload.template", "name_pattern": "base_vlb"},
               {"isBase" : "false",  "template" : "dnsscaling_preload.template", "name_pattern": "dnsscaling", "prefix" : "vDNS_"}],
     "vVG"  : [{"isBase" : "true",   "template" : "vvg_preload.template", "name_pattern": "base_vvg"}],

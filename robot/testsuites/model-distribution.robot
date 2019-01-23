@@ -13,7 +13,7 @@ Test Teardown    Teardown Model Distribution
 
 *** Test Cases ***
 Distribute vLB Model    vLB
-    [Tags]    ete    distribute
+    [Tags]    ete    distribute   distributeVLB
 Distribute vFW Model    vFW
     [Tags]    ete    distribute
 Distribute vVG Model    vVG
