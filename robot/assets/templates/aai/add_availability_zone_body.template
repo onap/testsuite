@@ -1,4 +1,5 @@
 {
 "availability-zone-name":"${availability_zone_name}",
-"hypervisor-type": "hypervisor"
+"hypervisor-type": "KVM",
+"operational-status": "Active
 }
