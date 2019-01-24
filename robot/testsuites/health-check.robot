@@ -103,6 +103,10 @@ Basic Multicloud-pike API Health Check
     [Tags]    health    multicloud    small
     Run MSB Get Request    /api/multicloud-pike/v0/swagger.json
 
+Basic Multicloud-starlingx API Health Check
+    [Tags]    health    multicloud    small
+    Run MSB Get Request    /api/multicloud-starlingx/v0/swagger.json
+
 Basic Multicloud-titanium_cloud API Health Check
     [Tags]    health    multicloud    small
     Run MSB Get Request    /api/multicloud-titaniumcloud/v1/swagger.json
