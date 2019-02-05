@@ -49,6 +49,10 @@ Instantiate VFWCL
     [Tags]   instantiateVFWCL
     Instantiate VNF   vFWCL  base_vpkg
 
+Instantiate VFWDT
+    [Tags]   instantiateVFWDT
+    Instantiate VNF   vFWDT  base_vpkg
+
 
 Delete Instantiated VNF
     [Documentation]   This test assumes all necessary variables are loaded via the variable file create in  Save For Delete
@@ -78,4 +82,10 @@ Distribute vFWNG CDS Model
     [Tags]    DistributeVFWNG
     [Timeout]    600
     Model Distribution For Directory    service=vFWNG    cds=vfwng
+
+Distribute Demo vFWDT Model
+    [Documentation]    Distribute Demo vFWDT  (does not delete model after distribution)
+    [Tags]    DistributeDemoVFWDT
+    [Timeout]    600
+    Model Distribution For Directory    service=vFWDT   
 

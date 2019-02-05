@@ -1,3 +1,7 @@
+import json
+import os.path
+
+
 '''
 This metadata identifies the folders to be zipped and uploaded to SDC for model distribution for a given VNF
 '''
@@ -114,3 +118,43 @@ GLOBAL_VALIDATE_NAME_MAPPING = {"vFW" : 'vfw_name_0',
                                  "vPKG" : 'vpg_name_0',
                                  }
 
+
+
+# Create dictionaries for new MAPPING data to join to original MAPPING data
+GLOBAL_SERVICE_FOLDER_MAPPING2 = {}
+GLOBAL_SERVICE_VNF_MAPPING2 = {}
+GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING2 = {}
+GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING2 = {}
+GLOBAL_SERVICE_TEMPLATE_MAPPING2 = {}
+GLOBAL_VALIDATE_NAME_MAPPING2 = {} 
+
+
+
+folder=os.path.join('./demo/service_mapping')
+subfolders = [d for d in os.listdir(folder) if os.path.isdir(os.path.join(folder, d))]
+
+for service in subfolders:
+    filepath=os.path.join('./demo/service_mapping', service, 'service_mapping.json')
+    with open(filepath, 'r') as f:
+        service_mappings = json.load(f)
+    for mapping in service_mappings:
+        if mapping == 'GLOBAL_SERVICE_FOLDER_MAPPING':
+           GLOBAL_SERVICE_FOLDER_MAPPING2[service]=service_mappings[mapping][service]
+        if mapping == 'GLOBAL_SERVICE_VNF_MAPPING':
+           GLOBAL_SERVICE_VNF_MAPPING2[service]=service_mappings[mapping][service]
+        if mapping == 'GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING':
+           GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING2[service]=service_mappings[mapping][service]
+        if mapping == 'GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING':
+           GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING2[service]=service_mappings[mapping][service] 
+        if mapping == 'GLOBAL_SERVICE_TEMPLATE_MAPPING':
+           GLOBAL_SERVICE_TEMPLATE_MAPPING2[service]=service_mappings[mapping][service] 
+        if mapping == 'GLOBAL_VALIDATE_NAME_MAPPING':
+           GLOBAL_VALIDATE_NAME_MAPPING2[service]=service_mappings[mapping][service]  
+
+# Merge dictionaries
+GLOBAL_SERVICE_FOLDER_MAPPING =  dict(GLOBAL_SERVICE_FOLDER_MAPPING.items() + GLOBAL_SERVICE_FOLDER_MAPPING2.items())
+GLOBAL_SERVICE_VNF_MAPPING =  dict(GLOBAL_SERVICE_VNF_MAPPING.items() + GLOBAL_SERVICE_VNF_MAPPING2.items())
+GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING =  dict(GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING.items() + GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING2.items())   
+GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING =  dict(GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING.items() + GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING2.items()) 
+GLOBAL_SERVICE_TEMPLATE_MAPPING =  dict(GLOBAL_SERVICE_TEMPLATE_MAPPING.items() + GLOBAL_SERVICE_TEMPLATE_MAPPING2.items()) 
+GLOBAL_VALIDATE_NAME_MAPPING =  dict(GLOBAL_VALIDATE_NAME_MAPPING.items() + GLOBAL_VALIDATE_NAME_MAPPING2.items()) 

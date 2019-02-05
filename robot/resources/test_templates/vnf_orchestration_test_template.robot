@@ -68,9 +68,11 @@ Orchestrate VNF
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
     ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
     ${generic_vnfs}=    Create Dictionary
+    ${vnf_name_index}=   Set Variable  0
     :for   ${vnf}   in   @{vnflist}
-    \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
-    \   ${vf_module_name}=    Catenate    Vfmodule_Ete_${vnf}_${uuid}
+    \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}_${vnf_name_index}
+    \   ${vf_module_name}=    Catenate    Vfmodule_Ete_${vnf}_${uuid}_${vnf_name_index}
+    \   ${vnf_name_index}=   Evaluate   ${vnf_name_index} + 1
     \   ${vnf_type}=   Get VNF Type   ${catalog_resources}   ${vnf}
     \   ${vf_module}=    Get VF Module    ${catalog_resources}   ${vnf}
     \   Append To List   ${STACK_NAMES}   ${vf_module_name}

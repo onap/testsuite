@@ -18,3 +18,5 @@ Distribute vFW Model    vFW
     [Tags]    ete    distribute
 Distribute vVG Model    vVG
     [Tags]    ete    distribute
+Distribute vFWDT Model    vFWDT
+    [Tags]    distributeVFWDT

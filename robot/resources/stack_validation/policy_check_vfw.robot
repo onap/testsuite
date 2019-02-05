@@ -39,8 +39,8 @@ Policy Check FirewallCL Stack
     ${invariantUUID}   Get From Dictionary  ${generic_vnf}   persona-model-id
     Update vVFWCL Policy   ${invariantUUID}
 
-    ${vpg_unprotected_ip}=    Get From Dictionary    ${vpkg_stack_info}    vpg_private_ip_0
-    ${vsn_protected_ip}=    Get From Dictionary    ${vsnk_stack_info}    vsn_private_ip_0
+    ${vpg_unprotected_ip}=    Get From Dictionary    ${vpkg_stack_info}    vpg_int_unprotected_private_ip_0
+    ${vsn_protected_ip}=    Get From Dictionary    ${vsnk_stack_info}    vsn_int_protected_private_ip_0
     ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${vpkg_stack_info}   vpg_name_0    network_name=public
     ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${vsnk_stack_info}   vsn_name_0    network_name=public
     ${upper_bound}=    Evaluate    ${policy_rate}*2

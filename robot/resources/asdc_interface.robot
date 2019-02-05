@@ -76,19 +76,42 @@ Distribute Model From ASDC
     ${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
     ${catalog_resource_ids}=    Create List
     ${catalog_resources}=   Create Dictionary
+    #####  TODO: Support for Multiple resources of one type in a service  ######
+    #   The zip list is the resources - no mechanism to indicate more than 1 of the items in the zip list
+    #   GLOBAL_SERVICE_VNF_MAPPING  has the logical mapping but its not the same key as model_zip_path
+    #   ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
+    #   Save the resource_id in a dictionary keyed byt the resource NAme in the zipfile name (vFWDT_vFWSNK.zip or vFWDT_vPKG.zip)
+    #   Create the resources but dont immediately add resource
+    #   Add Resource to Service in a separate FOR loop
+    #  TODO: CHECK vCPE models to make sure they aren't broken with the split
+    ${resource_types}=   Create Dictionary
+
     : FOR    ${zip}     IN     @{model_zip_path}
     \    ${loop_catalog_resource_id}=    Setup ASDC Catalog Resource    ${zip}    ${cds}
+    #     zip can be vFW.zip or vFWDT_VFWSNK.zip 
+    \    ${resource_type_match}=    Get Regexp Matches    ${zip}   ${service}_(.*)\.zip    1
+    \    ${resource_type_string}=   Set Variable If   '${resource_type_match}' is '[]'    ${service}    ${resource_type_match[0]}
+    \    Set To Dictionary    ${resource_types}    ${resource_type_string}    ${loop_catalog_resource_id}   
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
-    \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
-    \    ${catalog_resource_unique_name}=   Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
-    \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
+
+
+    ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
+
+    # Spread the icons on the pallette starting on the left
+    ${xoffset}=    Set Variable    ${0} 
+
+    : FOR  ${vnf}   IN   @{vnflist}
+    #\    ${catalog_resource_unique_name}=   Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
+    \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource      ${resource_types['${vnf}']}
+    \    Set To Dictionary    ${catalog_resources}   ${resource_types['${vnf}']}=${loop_catalog_resource_resp}
+    \    ${catalog_resource_unique_name}=   Add ASDC Resource Instance    ${catalog_service_id}    ${resource_types['${vnf}']}    ${loop_catalog_resource_resp['name']}    ${xoffset}
+    \    ${xoffset}=   Set Variable   ${xoffset+100}
     #
     # do this here because the loop_catalog_resource_resp is different format after adding networks
     ${vf_module}=   Find Element In Array    ${loop_catalog_resource_resp['groups']}    type    org.openecomp.groups.VfModule
     #
     #  do network
     ${networklist}=   Get From Dictionary    ${GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING}    ${service}
-    ${xoffset}=    Set Variable    ${100}
     ${generic_neutron_net_uuid}=   Get Generic NeutronNet UUID
     :FOR   ${network}   in   @{networklist}
     \    ${loop_catalog_resource_id}=   Set Variable    ${generic_neutron_net_uuid}
