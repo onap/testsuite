@@ -90,7 +90,7 @@ Distribute Model From ASDC
     \    ${loop_catalog_resource_id}=    Setup ASDC Catalog Resource    ${zip}    ${cds}
     #     zip can be vFW.zip or vFWDT_VFWSNK.zip 
     \    ${resource_type_match}=    Get Regexp Matches    ${zip}   ${service}_(.*)\.zip    1
-    \    ${resource_type_string}=   Set Variable If   '${resource_type_match}' is '[]'    ${service}    ${resource_type_match[0]}
+    \    ${resource_type_string}=   Set Variable If   len(${resource_type_match})==0    ${service}    ${resource_type_match[0]}
     \    Set To Dictionary    ${resource_types}    ${resource_type_string}    ${loop_catalog_resource_id}   
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
 
