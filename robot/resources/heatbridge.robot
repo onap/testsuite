@@ -10,6 +10,7 @@ Resource    openstack/heat_interface.robot
 Resource    openstack/nova_interface.robot
 Resource    openstack/neutron_interface.robot
 Resource    aai/aai_interface.robot
+Resource    aai/create_vnfc.robot
 
 *** Variables ***
 ${MULTIPART_PATH}  /bulkadd
@@ -21,6 +22,7 @@ ${IMAGE_URI}   ${BASE_URI}/images/image/\${image_id}
 ${FLAVOR_URI}   ${BASE_URI}/flavors/flavor/\${flavor}
 ${VSERVER_URI}   ${BASE_URI}/tenants/tenant/\${tenant}/vservers/vserver/\${vserver_id}
 ${L_INTERFACE_URI}   ${VSERVER_URI}/l-interfaces/l-interface/\${linterface_id}
+${VSERVER_NAME}    \${vserver_name}
 
 #******************** Test Case Variables ****************
 ${REVERSE_HEATBRIDGE}
@@ -41,6 +43,11 @@ Execute Heatbridge
     ${KeyIsPresent}=    Run Keyword And Return Status       Dictionary Should Contain Key       ${stack_info}      ${ipv4_oam_address}
     ${ipv4_vnf_address}=   Run Keyword If      ${KeyIsPresent}     Get From Dictionary  ${stack_info}      ${ipv4_oam_address}
     Run Set VNF Params  ${vnf_id}  ${ipv4_vnf_address}  ACTIVE  Active
+    ### Create a vnfc for each vServer ###
+    ${stack_resources}=    Get Stack Resources    auth    ${stack_name}    ${stack_id}
+    ${resource_list}=    Get From Dictionary    ${stack_resources}    resources
+    :FOR   ${resource}    in    @{resource_list}
+    \    Run Keyword If    '${resource['resource_type']}' == 'OS::Nova::Server'    Run Create VNFC    auth    ${resource['physical_resource_id']}    ${service}
     ${keystone_api_version}=    Run Keyword If    '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'==''    Get KeystoneAPIVersion
     ...    ELSE    Set Variable   ${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}
     ${url}   ${path}=   Get Keystone Url And Path   ${keystone_api_version}
@@ -58,6 +65,18 @@ Execute Heatbridge
     Set Test Variable   ${REVERSE_HEATBRIDGE}   ${reverse_heatbridge}
     Run Validation Query    ${stack_info}    ${service}
 
+Run Create VNFC
+    [Documentation]    Create a VNFC for a vServer
+    [Arguments]    ${alias}     ${vserver_id}    ${service}
+    ${resp}=    Get Openstack Server By Id   ${alias}     ${vserver_id}
+    Return From Keyword If   '${resp.status_code}' != '200'
+    ${info}=   Set Variable   ${resp.json()}
+    ${keys}=    Create Dictionary
+    Set To Dictionary   ${keys}   vserver_name=${info['server']['name']}
+    ${vnfc_name}=   Template String    ${VSERVER_NAME}    ${keys}
+    ${vnfc_nc}=    Set Variable  ${service}
+    ${vnfc_func}=    Set Variable  ${service}
+    Create VNFC If Not Exists    ${vnfc_name}     ${vnfc_nc}     ${vnfc_func}
 
 Run Validation Query
     [Documentation]    Run A&AI query to validate the bulk add
