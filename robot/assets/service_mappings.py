@@ -27,7 +27,7 @@ GLOBAL_SERVICE_VNF_MAPPING = {
     "vLB"  : ['vLB'],
     "vVG"  : ['vVG'],
     "vCPE" : ['vCPE'],
-    "vFWCL"  : ['vFWSNK', 'vPKG'],
+    "vFWCL"  : ['vFWCLvFWSNK', 'vFWCLvPKG'],
     "vFWNG"  : ['vFWNG'],
     "vCPEInfra" : ['vCPEInfra'],
     "vCPEvBNG" : ['vCPEvBNG'],
@@ -92,6 +92,8 @@ GLOBAL_SERVICE_TEMPLATE_MAPPING = {
     "vPKG"   : [{"isBase" : "true",  "template" : "vpkg_preload.template", "name_pattern": "base_vpkg"}],
     "vFWCL"   : [{"isBase" : "true",   "template" : "vfwsnk_preload.template", "name_pattern": "base_vfw"},
                  {"isBase" : "true",  "template" : "vpkg_preload.template", "name_pattern": "base_vpkg"}],
+    "vFWCLvFWSNK"   : [{"isBase" : "true",   "template" : "vfwsnk_preload.template", "vnf_index": "0", "name_pattern": "base_vfw"}],
+    "vFWCLvPKG"   : [{"isBase" : "true",  "template" : "vpkg_preload.template", "vnf_index": "1" , "name_pattern": "base_vpkg"}],
     "vCPEInfra" : [{"isBase" : "true",  "template" : "vcpe_infra_preload.template", "name_pattern": "base_infra"}],
     "vCPEvBNG" : [{"isBase" : "true",  "template" : "vcpe_vbng_preload.template", "name_pattern": "base_vbng"}],
     "vCPEvBRGEMU" : [{"isBase" : "true",  "template" : "vcpe_vbrgemu_preload.template", "name_pattern": "base_vbrgemu"}],
@@ -116,6 +118,8 @@ GLOBAL_VALIDATE_NAME_MAPPING = {"vFW" : 'vfw_name_0',
                                  "vCPEvGMUX" : 'vgmux_name_0',
                                  "vFWSNK" : 'vfw_name_0',
                                  "vPKG" : 'vpg_name_0',
+                                 "vFWCLvFWSNK" : 'vfw_name_0',
+                                 "vFWCLvPKG" : 'vpg_name_0',
                                  }
 
 
@@ -145,11 +149,17 @@ for service in subfolders:
         if mapping == 'GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING':
            GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING2[service]=service_mappings[mapping][service]
         if mapping == 'GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING':
-           GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING2[service]=service_mappings[mapping][service] 
+           GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING2[service]=service_mappings[mapping][service]
         if mapping == 'GLOBAL_SERVICE_TEMPLATE_MAPPING':
-           GLOBAL_SERVICE_TEMPLATE_MAPPING2[service]=service_mappings[mapping][service] 
+        #  service changes for complex vnf
+           #GLOBAL_SERVICE_TEMPLATE_MAPPING2[service]=service_mappings[mapping][service]
+           for vnftype   in service_mappings[mapping]:
+               GLOBAL_SERVICE_TEMPLATE_MAPPING2[vnftype]=service_mappings[mapping][vnftype]
         if mapping == 'GLOBAL_VALIDATE_NAME_MAPPING':
-           GLOBAL_VALIDATE_NAME_MAPPING2[service]=service_mappings[mapping][service]  
+        #  service changes for complex vnf
+           #GLOBAL_VALIDATE_NAME_MAPPING2[service]=service_mappings[mapping][service]
+           for vnftype   in service_mappings[mapping]:
+               GLOBAL_VALIDATE_NAME_MAPPING2[vnftype]=service_mappings[mapping][vnftype]
 
 # Merge dictionaries
 GLOBAL_SERVICE_FOLDER_MAPPING =  dict(GLOBAL_SERVICE_FOLDER_MAPPING.items() + GLOBAL_SERVICE_FOLDER_MAPPING2.items())

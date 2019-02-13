@@ -88,7 +88,11 @@ Preload Vnf
     ${templates}=    Get From Dictionary    ${GLOBAL_SERVICE_TEMPLATE_MAPPING}    ${service}
     :for    ${vf_module}    in      @{vf_modules}
     \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
-    \       ${dict}   Get From Mapping    ${templates}    ${vf_module}
+    #     need to pass in vnf_index if non-zero
+    \       ${dict}   Run Keyword If    "${generic_vnf_name}".endswith('0')      Get From Mapping With Index    ${templates}    ${vf_module}   0
+    \       ...    ELSE IF  "${generic_vnf_name}".endswith('1')      Get From Mapping With Index    ${templates}    ${vf_module}   1
+    \       ...    ELSE IF  "${generic_vnf_name}".endswith('2')      Get From Mapping With Index    ${templates}    ${vf_module}   2
+    \       ...    ELSE   Get From Mapping    ${templates}    ${vf_module}
     \       ${filename}=    Get From Dictionary    ${dict}    template
     \       ${base_vf_module_type}=   Set Variable If    '${dict['isBase']}' == 'true'     ${vf_module_type}    ${base_vf_module_type}
     \       ${closedloop_vf_module}=   Set Variable If    '${dict['isBase']}' == 'false'     ${vf_module}    ${closedloop_vf_module}
@@ -104,6 +108,14 @@ Update Module Name
     Return From Keyword If    '${dict['prefix']}' == ''    ${vf_module_name}
     ${name}=    Replace String   ${vf_module_name}   Vfmodule_    ${dict['prefix']}
     [Return]    ${name}
+
+Get From Mapping With Index
+    [Documentation]    Retrieve the appropriate prelad template entry for the passed vf_module
+    [Arguments]    ${templates}    ${vf_module}   ${vnf_index}=0
+    ${vf_module_name}=    Get From DIctionary    ${vf_module}    name
+    :for    ${template}   in   @{templates}
+    \    Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}' and ('${template['vnf_index']}' == '${vnf_index}')     ${template}
+    [Return]    None
 
 Get From Mapping
     [Documentation]    Retrieve the appropriate prelad template entry for the passed vf_module

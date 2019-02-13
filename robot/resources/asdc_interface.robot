@@ -90,7 +90,8 @@ Distribute Model From ASDC
     \    ${loop_catalog_resource_id}=    Setup ASDC Catalog Resource    ${zip}    ${cds}
     #     zip can be vFW.zip or vFWDT_VFWSNK.zip 
     \    ${resource_type_match}=    Get Regexp Matches    ${zip}   ${service}_(.*)\.zip    1
-    \    ${resource_type_string}=   Set Variable If   len(${resource_type_match})==0    ${service}    ${resource_type_match[0]}
+    #  Need to be able to distribute preload for vFWCL vFWSNK and vFWDT vFWSNK to prepend service to vnf_type
+    \    ${resource_type_string}=   Set Variable If   len(${resource_type_match})==0    ${service}    ${service}${resource_type_match[0]}
     \    Set To Dictionary    ${resource_types}    ${resource_type_string}    ${loop_catalog_resource_id}   
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
 
@@ -101,7 +102,6 @@ Distribute Model From ASDC
     ${xoffset}=    Set Variable    ${0} 
 
     : FOR  ${vnf}   IN   @{vnflist}
-    #\    ${catalog_resource_unique_name}=   Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource      ${resource_types['${vnf}']}
     \    Set To Dictionary    ${catalog_resources}   ${resource_types['${vnf}']}=${loop_catalog_resource_resp}
     \    ${catalog_resource_unique_name}=   Add ASDC Resource Instance    ${catalog_service_id}    ${resource_types['${vnf}']}    ${loop_catalog_resource_resp['name']}    ${xoffset}
