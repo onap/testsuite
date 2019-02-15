@@ -13,12 +13,25 @@ exec 2> >(tee -a ${LOG_FILE} >&2)
 
 # get the path
 path=$(pwd)
-
-pip install --no-cache-dir --target="$path/robot/library" 'selenium<=3.0.0' 'requests==2.11.1' 'robotframework-selenium2library==1.8.0' \
-'robotframework-databaselibrary==0.8.1' 'robotframework-extendedselenium2library==0.9.1' 'robotframework-requests==0.5.0' \
+pip install \
+--no-cache-dir \
+--exists-action s \
+--target="$path/robot/library" \
+'selenium<=3.0.0' \
+'requests==2.11.1' \
+'robotframework-selenium2library==1.8.0' \
+'robotframework-databaselibrary==0.8.1' \
+'robotframework-extendedselenium2library==0.9.1' \
+'robotframework-requests==0.5.0' \
 'robotframework-sshlibrary==2.1.2' \
-'robotframework-sudslibrary==0.8' 'robotframework-ftplibrary==1.3' 'robotframework-rammbock==0.4.0.1' \
-'deepdiff==2.5.1' 'dnspython==1.15.0' 'robotframework-httplibrary==0.4.2' 'robotframework-archivelibrary==0.3.2' 'PyYAML==3.12' \
+'robotframework-sudslibrary==0.8' \
+'robotframework-ftplibrary==1.3' \
+'robotframework-rammbock==0.4.0.1' \
+'deepdiff==2.5.1' \
+'dnspython==1.15.0' \
+'robotframework-httplibrary==0.4.2' \
+'robotframework-archivelibrary==0.3.2' \
+'PyYAML==3.12' \
 'robotframework-kafkalibrary==0.0.2'
 
 
@@ -39,7 +52,12 @@ else
 		cd python-testing-utils
 	fi
 fi
-pip install --no-cache-dir --upgrade --target="$path/robot/library" .
+
+pip install \
+--no-cache-dir \
+--upgrade \
+--exists-action s \
+--target="$path/robot/library" .
 
 
 if [ -d $path/testsuite/heatbridge ]
@@ -58,46 +76,62 @@ else
 		cd heatbridge
 	fi
 fi
-pip install --no-cache-dir --upgrade --target="$path/robot/library" ./heatbridge
+
+pip install \
+--no-cache-dir \
+--upgrade \
+--exists-action s \
+--target="$path/robot/library" \
+./heatbridge
 
 
 # NOTE: Patch to incude explicit install of paramiko to 2.0.2 to work with sshlibrary 2.1.2
 # This should be removed on new release of paramiko (2.1.2) or sshlibrary
 # https://github.com/robotframework/SSHLibrary/issues/157
-pip install --no-cache-dir --target="$path/robot/library" -U 'paramiko==2.0.2'
+pip install \
+--no-cache-dir \
+--target="$path/robot/library" \
+-U 'paramiko==2.0.2'
 
 
 # Go back to execution folder
 cd $path
 
-
-#
-# Get the appropriate chromedriver. Default to linux64
-#
-CHROMEDRIVER_URL=http://chromedriver.storage.googleapis.com/2.43
-CHROMEDRIVER_ZIP=chromedriver_linux64.zip
-
-# Handle mac and windows
-OS=`uname -s`
-case $OS in
-  MINGW*_NT*)
-  	CHROMEDRIVER_ZIP=chromedriver_win32.zip
-  	;;
-  Darwin*)
-  	CHROMEDRIVER_ZIP=chromedriver_mac64.zip
-  	;;
-  *) echo "Defaulting to Linux 64" ;;
-esac
-
-if [ $CHROMEDRIVER_ZIP == 'chromedriver_linux64.zip' ]
+# if the script is running during the image build skip the rest of it
+# as required software is installed already.
+if $BUILDTIME
 then
-    wget -O chromedriver.zip $CHROMEDRIVER_URL/$CHROMEDRIVER_ZIP
-	unzip chromedriver.zip -d /usr/local/bin
-else
-    curl $CHROMEDRIVER_URL/$CHROMEDRIVER_ZIP -o chromedriver.zip
-	unzip chromedriver.zip
-fi
+	echo "Skipping desktop steps, building container image..."
+else	
+	#
+	# Get the appropriate chromedriver. Default to linux64
+	#
+	CHROMEDRIVER_URL=http://chromedriver.storage.googleapis.com/2.43
+	CHROMEDRIVER_ZIP=chromedriver_linux64.zip
+	CHROMEDRIVER_TARGET=chromedriver.zip
 
+	# Handle mac and windows
+	OS=`uname -s`
+	case $OS in
+	  MINGW*_NT*)
+	  	CHROMEDRIVER_ZIP=chromedriver_win32.zip
+	  	;;
+	  Darwin*)
+	  	CHROMEDRIVER_ZIP=chromedriver_mac64.zip
+	  	;;
+	  *) echo "Defaulting to Linux 64" ;;
+	esac
+
+	if [ $CHROMEDRIVER_ZIP == 'chromedriver_linux64.zip' ]
+	then
+	    curl $CHROMEDRIVER_URL/$CHROMEDRIVER_ZIP -o $CHROMEDRIVER_TARGET
+		unzip chromedriver.zip -d /usr/local/bin
+	else
+	    curl $CHROMEDRIVER_URL/$CHROMEDRIVER_ZIP -o $CHROMEDRIVER_TARGET
+		unzip $CHROMEDRIVER_TARGET
+	fi
+	rm -rf $CHROMEDRIVER_TARGET
+fi
 
 #
 # Install kafkacat : https://github.com/edenhill/kafkacat
@@ -109,8 +143,6 @@ case $OS in
 	Linux)
 		apt-get -y install kafkacat
 esac
-
-
 #
 # Install protobuf
 #
