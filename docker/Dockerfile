@@ -1,9 +1,9 @@
 FROM ubuntu
 ## Be careful of Windows newlines
 
-MAINTAINER "OpenECOMP"
+MAINTAINER "ONAP"
 
-LABEL name="Docker image for the OpenECOMP Robot Testing Framework"
+LABEL name="Docker image for the ONAP Robot Testing Framework"
 LABEL usage="docker run -e ROBOT_TEST=<testname> -ti openecompete"
 
 # Install Python Pip, Robot framework, firefox, lighttpd web server, wget
@@ -38,20 +38,20 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     apt-get --assume-yes install google-chrome-stable
 
 # Copy the robot code
-COPY / /var/opt/OpenECOMP_ETE/
+COPY / /var/opt/ONAP/
 COPY lighttpd.conf /etc/lighttpd/lighttpd.conf
 COPY authorization /etc/lighttpd/authorization
-RUN chmod 777 /var/opt/OpenECOMP_ETE/setup.sh && \
-    chmod 777 /var/opt/OpenECOMP_ETE/runTags.sh && \
-    chmod 777 /var/opt/OpenECOMP_ETE/dnstraffic.sh && \
-    chmod 777 /var/opt/OpenECOMP_ETE/runSoak.sh && \
-    chmod 777 /var/opt/OpenECOMP_ETE/runEteTag.sh
+RUN chmod 777 /var/opt/ONAP/setup.sh && \
+    chmod 777 /var/opt/ONAP/runTags.sh && \
+    chmod 777 /var/opt/ONAP/dnstraffic.sh && \
+    chmod 777 /var/opt/ONAP/runSoak.sh && \
+    chmod 777 /var/opt/ONAP/runEteTag.sh
 
 # Set mode for the SSH keys
-RUN chmod 600 /var/opt/OpenECOMP_ETE/robot/assets/keys/* 
+RUN chmod 600 /var/opt/ONAP/robot/assets/keys/* 
 
 # Update the ssh library so that it will run properly in the docker env
-RUN cd /var/opt/OpenECOMP_ETE && ./setup.sh && apt-get clean
+RUN cd /var/opt/ONAP && ./setup.sh && apt-get clean
 
 CMD ["lighttpd", "-D", "-f",  "/etc/lighttpd/lighttpd.conf"]
 

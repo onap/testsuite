@@ -1,5 +1,5 @@
 #!/bin/bash
-INSTALL_DIR=/var/opt/OpenECOMP_ETE
+INSTALL_DIR=/var/opt/ONAP
 
 #####################################################################
 # Start display on 256 if it has not already been started...
@@ -70,7 +70,7 @@ export DBUS_SESSION_BUS_ADDRESS=/dev/null
 RES="1280x1024x24"
 OUTPUT_FOLDER=/share/logs/${SOAKSUBFOLDER}runEteTag_$TEST_NUMBER
 mkdir -p $OUTPUT_FOLDER
-INSTALL_DIR="/var/opt/OpenECOMP_ETE"
+INSTALL_DIR="/var/opt/ONAP"
 
 ROBOT_LIBS=./robot/library:./robot/library/eteutils:./robot/library/heatbridge
 VARIABLEFILES="-V /share/config/vm_properties.py -V /share/config/integration_robot_properties.py -V /share/config/integration_preload_parameters.py"

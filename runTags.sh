@@ -5,7 +5,7 @@ DEFAULT_LOG_LEVEL="TRACE" # Available levels: TRACE, DEBUG, INFO (default), WARN
 DEFAULT_RES="1280x1024x24"
 DEFAULT_DISPLAY=":99"
 DEFAULT_ROBOT_TEST="-i health"
-INSTALL_NAME="OpenECOMP_ETE"
+INSTALL_NAME="ONAP"
 DEFAULT_OUTPUT_FOLDER=./
 
 # To mitigate the chromedriver hanging issue
