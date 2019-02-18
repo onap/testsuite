@@ -68,7 +68,7 @@ ProjectName - robot
     |-- assets - put anything you need as input like json files, cert keys, heat templates
     |   |-- templates - put any json templates in here, you can include subfolders for each component
     |-- library - put any python libraries need to run tests in here
-    |   |-- OpenECOMP - put any python code libraries we write in here
+    |   |-- eteutils - put any python code libraries we write in here
     |-- resources - put any robot resource files aka libraries we write in here
     |   |-- aai
     |   `-- vid

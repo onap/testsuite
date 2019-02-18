@@ -297,7 +297,6 @@ Setup ASDC Catalog Resource
     ${license_agreement_id}=    Add ASDC License Agreement    ${license_model_id}    ${feature_group_id}   ${license_model_version_id}
     Submit ASDC License Model    ${license_model_id}   ${license_model_version_id}
     ${license_model_resp}=    Get ASDC License Model    ${license_model_id}   ${license_model_version_id}
-    # /var/opt/OpenECOMP_ETE/demo/heat/temp/vCPE_infra.zip
     ${matches}=   Get Regexp Matches  ${model_zip_path}  temp/(.*)\.zip  1
     ${software_product_name_prefix}=    Set Variable   ${matches[0]}
     ${software_product_id}   ${software_product_version_id}=    Add ASDC Software Product    ${license_agreement_id}    ${feature_group_id}    ${license_model_resp['vendorName']}    ${license_model_id}    ${license_model_version_id}    ${software_product_name_prefix}

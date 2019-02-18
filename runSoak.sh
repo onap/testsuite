@@ -1,5 +1,5 @@
 #!/bin/bash
-INSTALL_DIR=/var/opt/OpenECOMP_ETE
+INSTALL_DIR=/var/opt/ONAP
 #
 # Execute tags built to support the hands on demo,
 #
