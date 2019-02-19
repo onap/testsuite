@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4ad394b_899a67fd",
+        "filename": "robot/resources/aai/create_availability_zone.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-02-19T19:19:56Z",
+      "side": 1,
+      "message": "i think it would be best to have one version for all of aai otherwise it will be hard to keep track of them. globabl_properties already has some things like this",
+      "revId": "2987474eb3db178aa74eb1cca5b7ff743a8d2707",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
