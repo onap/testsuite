@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a06c4686_fd1e70f8",
+        "filename": "robot/testsuites/selftest.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-02-20T14:23:11Z",
+      "side": 1,
+      "message": "this test may not work if there is not internet access, i think we can use one of the vid tests to accomplish the same thing",
+      "revId": "cff79da37a3d23e844ed1ad7d9d9788dea1ee4f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e62c7c55_fc1d03b6",
+        "filename": "setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-02-20T14:23:11Z",
+      "side": 1,
+      "message": "you should end the if here",
+      "revId": "cff79da37a3d23e844ed1ad7d9d9788dea1ee4f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
