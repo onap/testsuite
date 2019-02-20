@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7f633cb5_0beaa373",
+        "filename": "robot/testsuites/selftest.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2019-02-20T15:38:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a06c4686_fd1e70f8",
+      "revId": "cff79da37a3d23e844ed1ad7d9d9788dea1ee4f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e62c7c55_fc1d03b6",
         "filename": "setup.sh",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-02-20T14:23:11Z",
       "side": 1,
       "message": "you should end the if here",
+      "revId": "cff79da37a3d23e844ed1ad7d9d9788dea1ee4f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af67869_ca26bf14",
+        "filename": "setup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2019-02-20T15:38:45Z",
+      "side": 1,
+      "message": "I agree. Fixed, also removed install steps from Dockerfile.",
+      "parentUuid": "e62c7c55_fc1d03b6",
       "revId": "cff79da37a3d23e844ed1ad7d9d9788dea1ee4f4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
