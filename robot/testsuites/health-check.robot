@@ -241,11 +241,11 @@ Portal Application Access Tests
     Run Portal Application Access Tests
 
 Basic Holmes Rule Management API Health Check
-    [Tags]    health    small
+    [Tags]    health    medium
     Run Holmes Rule Mgmt Health Check
 
 Basic Holmes Engine Management API Health Check
-    [Tags]    health    small
+    [Tags]    health    medium
     Run Holmes Engine Mgmt Health Check
 
 Basic VVP ICE CI Container (Automat Testing) Health Check
