@@ -176,7 +176,7 @@ Distribute vCPEResCust Model From ASDC
     #${brg_dict}=   Create Dictionary      invariantUUID=ff0337b9-dbe2-4d88-bb74-18bf027ae586   UUID=1b6974f1-4aed-47f4-b962-816aa1261927    node_type=org.openecomp.service.Demovcpevbrgemu
     # Create /tmp/vcpe_allotted_resource_data.json with demo vgmux and brgemu CSARs
     Create Allotted Resource Data File
-    ${vcpe_ar_data_file}    Get File    /tmp/vcpe_allotted_resource_data.json
+    ${vcpe_ar_data_file}    OperatingSystem.Get File    /tmp/vcpe_allotted_resource_data.json
     ${tunnelxconn_invariant_uuid}    Get Json Value    ${vcpe_ar_data_file}    /tunnelxconn/invariantUUID
     ${tunnelxconn_uuid}    Get Json Value    ${vcpe_ar_data_file}    /tunnelxconn/UUID
     ${tunnelxconn_node_type}    Get Json Value    ${vcpe_ar_data_file}    /tunnelxconn/node_type
@@ -318,7 +318,7 @@ Setup SDC Catalog Resource Deployment Artifact Properties
     [Arguments]    ${catalog_service_id}    ${catalog_parent_service_id}   ${catalog_resource_unique_id}  ${blueprint_file}
     ${resp}=    Get ASDC Catalog Resource Component Instances Properties  ${catalog_service_id}
     #${resp}=    Get ASDC Catalog Resource Deployment Artifact Properties  ${catalog_service_id}
-    ${blueprint_data}    Get File    ${SDC_CATALOG_DEPLOYMENT_ARTIFACT_PATH}${blueprint_file}
+    ${blueprint_data}    OperatingSystem.Get File    ${SDC_CATALOG_DEPLOYMENT_ARTIFACT_PATH}${blueprint_file}
     ${payloadData}=   Evaluate   base64.b64encode('''${blueprint_data}'''.encode('utf-8'))   modules=base64
     ${dict}=    Create Dictionary  artifactLabel=blueprint  artifactName=${blueprint_file}   artifactType=DCAE_INVENTORY_BLUEPRINT  artifactGroupType=DEPLOYMENT  description=${blueprint_file}   payloadData=${payloadData}
     ${data}=   Fill JSON Template File    ${ASDC_ARTIFACT_UPLOAD_TEMPLATE}    ${dict}

@@ -23,11 +23,15 @@ Run MR Health Check
 
 Run MR PubSub Health Check
      [Documentation]    Runs MR PubSub Health check
-     ${resp}=    Run MR Get Request    ${MR_SUB_HEALTH_CHECK_PATH}
+     #${resp}=    Run MR Get Request    ${MR_SUB_HEALTH_CHECK_PATH}
      # topic may not be created which is a 400 error
+
      ${resp}=    Run MR Post Request    ${MR_PUB_HEALTH_CHECK_PATH}
      Should Be Equal As Strings         ${resp.status_code}     200
      Should Contain    ${resp.json()}    serverTimeMs    Failed to Write Data
+     ${resp}=    Run MR Get Request    ${MR_SUB_HEALTH_CHECK_PATH}
+     # Always Write twice to catch lost first message
+     ${resp}=    Run MR Post Request    ${MR_PUB_HEALTH_CHECK_PATH}
      ${resp}=    Run MR Get Request    ${MR_SUB_HEALTH_CHECK_PATH}
      # ${resp} is an array
      Should Be Equal As Strings         ${resp.status_code}     200
