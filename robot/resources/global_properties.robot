@@ -31,6 +31,10 @@ ${GLOBAL_VID_UI_TIMEOUT_LONG}    120s
 ${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/robot_ssh_private_key.pvt
 ${GLOBAL_ONAP_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/onap_dev.pvt
 ${GLOBAL_AAI_INDEX_PATH}    /aai/v14
+${GLOBAL_AAI_AMSTERDAM_INDEX_PATH}    /aai/v11
+${GLOBAL_AAI_BEIJING_INDEX_PATH}    /aai/v13
+${GLOBAL_AAI_CASABLANCA_INDEX_PATH}    /aai/v14
+${GLOBAL_AAI_DUBLIN_INDEX_PATH}    /aai/v16
 ${GLOBAL_AAI_ZONE_ID}    nova1
 ${GLOBAL_AAI_ZONE_NAME}    nova
 ${GLOBAL_AAI_DESIGN_TYPE}    integration
