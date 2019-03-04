@@ -101,6 +101,10 @@ cd $path
 # as required software is installed already.
 if $BUILDTIME
 then
+	# we need to update PATH with chromium-chromedriver
+	echo "Adding in-container chromedriver to PATH"
+	ln -s /usr/lib/chromium-browser/chromedriver /usr/local/bin/chromedriver
+	
 	echo "Skipping desktop steps, building container image..."
 else	
 	#
