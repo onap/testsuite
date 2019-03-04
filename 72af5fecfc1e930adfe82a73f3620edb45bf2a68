@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fafad666_c1cf1cbb",
+        "filename": "robot/resources/global_properties.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-03-04T14:57:29Z",
+      "side": 1,
+      "message": "There are already a mixture of AAI versions encoded into various testsuites and resources.",
+      "parentUuid": "f5b8ca0e_f015b2c0",
+      "revId": "72af5fecfc1e930adfe82a73f3620edb45bf2a68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc204c89_d7495340",
         "filename": "robot/resources/global_properties.robot",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2019-03-04T14:51:59Z",
       "side": 1,
       "message": "generally we shouldn\u0027t use a dublin testsuite to test an amsterdam AAI. The only time this might be needed is for a backwards compatible API issue like pnf-id/pnf-name where in El Alto or Dublin we might have all but one query use v16 and one query using v14 becuase of the API change - both are valid latest release APIs but I wouldnt want to go back to v11/v13\nI would only do it to support the specific backwards compatibility issue which right now is only pnf-id/pnf-name",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 34
+      },
+      "revId": "72af5fecfc1e930adfe82a73f3620edb45bf2a68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17ead7b7_8d49a82f",
+        "filename": "robot/resources/global_properties.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-03-04T14:57:29Z",
+      "side": 1,
+      "message": "This is the first step of expanding AAI robot test cases.\nTesting backwards compatibility is likely to be one set of the test cases.\nShould these be put somewhere else?",
+      "parentUuid": "dc204c89_d7495340",
       "range": {
         "startLine": 36,
         "startChar": 0,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "ea08f3d7_f049357c",
+        "filename": "robot/testsuites/aai-casablanca-ccvpn.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-03-04T14:57:29Z",
+      "side": 1,
+      "message": "This is only the first step of writing more Robot test cases for AAI. Should these testsuites be put somewhere else?",
+      "parentUuid": "4e89dd89_4728373b",
+      "revId": "72af5fecfc1e930adfe82a73f3620edb45bf2a68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d553c2c9_f740da08",
         "filename": "robot/testsuites/aai-casablanca-ccvpn.robot",
         "patchSetId": 2
@@ -70,6 +130,24 @@
       "writtenOn": "2019-03-04T14:26:53Z",
       "side": 1,
       "message": "i dont think you need to check this twice?",
+      "revId": "72af5fecfc1e930adfe82a73f3620edb45bf2a68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7285f684_d1ed4586",
+        "filename": "robot/testsuites/aai-casablanca-ccvpn.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-03-04T14:57:29Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure if it should be a Setup step or just a regular test step. I think there is some difference in the handling of test step failures?",
+      "parentUuid": "d553c2c9_f740da08",
       "revId": "72af5fecfc1e930adfe82a73f3620edb45bf2a68",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
