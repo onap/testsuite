@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "dc204c89_d7495340",
+        "filename": "robot/resources/global_properties.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-03-04T14:51:59Z",
+      "side": 1,
+      "message": "generally we shouldn\u0027t use a dublin testsuite to test an amsterdam AAI. The only time this might be needed is for a backwards compatible API issue like pnf-id/pnf-name where in El Alto or Dublin we might have all but one query use v16 and one query using v14 becuase of the API change - both are valid latest release APIs but I wouldnt want to go back to v11/v13\nI would only do it to support the specific backwards compatibility issue which right now is only pnf-id/pnf-name",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 34
+      },
+      "revId": "72af5fecfc1e930adfe82a73f3620edb45bf2a68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e89dd89_4728373b",
         "filename": "robot/testsuites/aai-casablanca-ccvpn.robot",
         "patchSetId": 2
