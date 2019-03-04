@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a4ad2b1_fc36385f",
+        "filename": "robot/resources/aai/ccvpn-connectivities.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-03-04T15:35:29Z",
+      "side": 1,
+      "message": "is there a reason you dont call this v14 connectivity ?\nTechnically even Amsterdam had a mixture of versions supported so it seems like you may want to be testing by version not by release package name ?",
+      "range": {
+        "startLine": 57,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "72af5fecfc1e930adfe82a73f3620edb45bf2a68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5b8ca0e_f015b2c0",
         "filename": "robot/resources/global_properties.robot",
         "patchSetId": 2
