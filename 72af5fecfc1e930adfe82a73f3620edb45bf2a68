@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e89dd89_4728373b",
+        "filename": "robot/testsuites/aai-casablanca-ccvpn.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-03-04T14:26:53Z",
+      "side": 1,
+      "message": "this seems to be just testing aai create? unless this is doing an ete test, this might make more sense as an aai specific test.",
+      "revId": "72af5fecfc1e930adfe82a73f3620edb45bf2a68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d553c2c9_f740da08",
+        "filename": "robot/testsuites/aai-casablanca-ccvpn.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-03-04T14:26:53Z",
+      "side": 1,
+      "message": "i dont think you need to check this twice?",
+      "revId": "72af5fecfc1e930adfe82a73f3620edb45bf2a68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
