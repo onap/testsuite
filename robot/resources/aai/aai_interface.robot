@@ -68,12 +68,12 @@ Run A&AI Delete Request
 Delete A&AI Entity
     [Documentation]    Deletes an entity in A&AI
     [Arguments]    ${uri}
-    ${get_resp}=    Run A&AI Get Request     ${VERSIONED_INDEX PATH}${uri}
+    ${get_resp}=    Run A&AI Get Request     ${VERSIONED_INDEX_PATH}${uri}
 	Run Keyword If    '${get_resp.status_code}' == '200'    Delete A&AI Entity Exists    ${uri}    ${get_resp.json()['resource-version']}
 
 Delete A&AI Entity Exists
     [Documentation]    Deletes an  A&AI	entity
     [Arguments]    ${uri}    ${resource_version_id}
-    ${put_resp}=    Run A&AI Delete Request    ${VERSIONED_INDEX PATH}${uri}    ${resource_version_id}
+    ${put_resp}=    Run A&AI Delete Request    ${VERSIONED_INDEX_PATH}${uri}    ${resource_version_id}
     Should Be Equal As Strings 	${put_resp.status_code} 	204
 
