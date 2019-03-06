@@ -60,7 +60,7 @@ Basic DCAE Health Check
     Run DCAE Health Check
 
 Basic DMAAP Data Router Health Check
-    [Tags]    health    core    datarouter
+    [Tags]    health    datarouter
     Run DR Health Check
 
 Basic DMAAP Message Router Health Check
