@@ -16,6 +16,24 @@
       "revId": "3a5d947fa699385b8180c890e96fe67e4a5c1905",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce396910_1ac6810b",
+        "filename": "robot/testsuites/aai/aai-regression-test-v14.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-03-12T04:31:14Z",
+      "side": 1,
+      "message": "Hi Daniel, is the \"Default Tags\" from the Settings section enough, or does it need to be mentioned again in Test Cases section?",
+      "parentUuid": "36d06ecd_1b15835d",
+      "revId": "3a5d947fa699385b8180c890e96fe67e4a5c1905",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
