@@ -17,22 +17,24 @@ ${SO_OPENSTACK_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_S
 ${SO_REQDB_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_REQDB_IP_ADDR}:${GLOBAL_MSO_REQDB_SERVER_PORT}
 ${SO_SDNC_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_SDNC_IP_ADDR}:${GLOBAL_MSO_SDNC_SERVER_PORT}
 ${SO_VFC_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_VFC_IP_ADDR}:${GLOBAL_MSO_VFC_SERVER_PORT}
+${SO_VNFM_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_VNFM_IP_ADDR}:${GLOBAL_MSO_VNFM_SERVER_PORT}
 
 *** Keywords ***
 Run SO Global Health Check
-    Run SO Container Health Check    API_HANDLER  ${SO_APIHAND_ENDPOINT}     
-    Run SO Container Health Check    ASDC_HANDLER  ${SO_ASDCHAND_ENDPOINT}     
-    Run SO Container Health Check    BPMN_INFRA    ${SO_BPMN_ENDPOINT}     
-    Run SO Container Health Check    CATALOG_DB    ${SO_CATDB_ENDPOINT}     
-    Run SO Container Health Check    OPENSTACK_INFRA   ${SO_OPENSTACK_ENDPOINT}     
-    Run SO Container Health Check    REQUEST_DB    ${SO_REQDB_ENDPOINT}     
-    Run SO Container Health Check    SDNC_INFRA  ${SO_SDNC_ENDPOINT}     
-    Run SO Container Health Check    VFC_INFRA  ${SO_VFC_ENDPOINT}     
+    Run SO Container Health Check    API_HANDLER  ${SO_APIHAND_ENDPOINT}
+    Run SO Container Health Check    ASDC_HANDLER  ${SO_ASDCHAND_ENDPOINT}
+    Run SO Container Health Check    BPMN_INFRA    ${SO_BPMN_ENDPOINT}
+    Run SO Container Health Check    CATALOG_DB    ${SO_CATDB_ENDPOINT}
+    Run SO Container Health Check    OPENSTACK_INFRA   ${SO_OPENSTACK_ENDPOINT}
+    Run SO Container Health Check    REQUEST_DB    ${SO_REQDB_ENDPOINT}
+    Run SO Container Health Check    SDNC_INFRA  ${SO_SDNC_ENDPOINT}
+    Run SO Container Health Check    VFC_INFRA  ${SO_VFC_ENDPOINT}
+    Run SO Container Health Check    VNFM_INFRA  ${SO_VNFM_ENDPOINT}
 
 
 Run SO Container Health Check
     [Documentation]    Runs an MSO global health check
-    [Arguments]    ${so_endpoint_label}    ${so_endpoint}  
+    [Arguments]    ${so_endpoint_label}    ${so_endpoint}
     ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
     ${session}=    Create Session 	mso 	${so_endpoint}
     ${uuid}=    Generate UUID
