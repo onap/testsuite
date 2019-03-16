@@ -83,23 +83,23 @@ This metadata identifes the preloads that need to be done for a VNF as there may
     i.e. GLOBAL_PRELOAD_PARAMETERS['Demo'][dnsscaling_preload.template']
 '''
 GLOBAL_SERVICE_TEMPLATE_MAPPING = {
-        "vFW"  : [{"isBase" : "true", "template" : "vfw_preload.template", "name_pattern": "base_vfw"}],
-    "vLB"  : [{"isBase" : "true",   "template" : "vlb_preload.template", "name_pattern": "base_vlb"},
-              {"isBase" : "false",  "template" : "dnsscaling_preload.template", "name_pattern": "dnsscaling", "prefix" : "vDNS_"}],
-    "vVG"  : [{"isBase" : "true",   "template" : "vvg_preload.template", "name_pattern": "base_vvg"}],
-    "vCPE" : [{"isBase" : "true",  "template" : "vcpe_preload.template", "name_pattern": "base_clearwater"}],
-    "vFWSNK" : [{"isBase" : "true",   "template" : "vfwsnk_preload.template", "name_pattern": "base_vfw"}],
-    "vPKG"   : [{"isBase" : "true",  "template" : "vpkg_preload.template", "name_pattern": "base_vpkg"}],
-    "vFWCL"   : [{"isBase" : "true",   "template" : "vfwsnk_preload.template", "name_pattern": "base_vfw"},
-                 {"isBase" : "true",  "template" : "vpkg_preload.template", "name_pattern": "base_vpkg"}],
+        "vFW"  : [{"isBase" : "true", "template" : "vfw_preload.template", "vnf_index": "0", "name_pattern": "base_vfw"}],
+    "vLB"  : [{"isBase" : "true",   "template" : "vlb_preload.template", "vnf_index": "0", "name_pattern": "base_vlb"},
+              {"isBase" : "false",  "template" : "dnsscaling_preload.template", "vnf_index": "1", "name_pattern": "dnsscaling", "prefix" : "vDNS_"}],
+    "vVG"  : [{"isBase" : "true",   "template" : "vvg_preload.template", "vnf_index": "0", "name_pattern": "base_vvg"}],
+    "vCPE" : [{"isBase" : "true",  "template" : "vcpe_preload.template", "vnf_index": "0", "name_pattern": "base_clearwater"}],
+    "vFWSNK" : [{"isBase" : "true",   "template" : "vfwsnk_preload.template", "vnf_index": "0", "name_pattern": "base_vfw"}],
+    "vPKG"   : [{"isBase" : "true",  "template" : "vpkg_preload.template", "vnf_index": "0", "name_pattern": "base_vpkg"}],
+    "vFWCL"   : [{"isBase" : "true",   "template" : "vfwsnk_preload.template", "vnf_index": "0", "name_pattern": "base_vfw"},
+                 {"isBase" : "true",  "template" : "vpkg_preload.template", "vnf_index": "1", "name_pattern": "base_vpkg"}],
     "vFWCLvFWSNK"   : [{"isBase" : "true",   "template" : "vfwsnk_preload.template", "vnf_index": "0", "name_pattern": "base_vfw"}],
     "vFWCLvPKG"   : [{"isBase" : "true",  "template" : "vpkg_preload.template", "vnf_index": "1" , "name_pattern": "base_vpkg"}],
-    "vCPEInfra" : [{"isBase" : "true",  "template" : "vcpe_infra_preload.template", "name_pattern": "base_infra"}],
-    "vCPEvBNG" : [{"isBase" : "true",  "template" : "vcpe_vbng_preload.template", "name_pattern": "base_vbng"}],
-    "vCPEvBRGEMU" : [{"isBase" : "true",  "template" : "vcpe_vbrgemu_preload.template", "name_pattern": "base_vbrgemu"}],
-    "vCPEvGMUX" : [{"isBase" : "true",  "template" : "vcpe_vgmux_preload.template", "name_pattern": "base_vgmux"}],
-    "vCPEvGW" : [{"isBase" : "true",  "template" : "vcpe_vgw_preload.template", "name_pattern": "base_vgw"}],
-    "vCPEResCust" : [{"isBase" : "true",  "template" : "vcpe_vgw_preload.template", "name_pattern": "base_vgw"}],
+    "vCPEInfra" : [{"isBase" : "true",  "template" : "vcpe_infra_preload.template", "vnf_index": "0", "name_pattern": "base_infra"}],
+    "vCPEvBNG" : [{"isBase" : "true",  "template" : "vcpe_vbng_preload.template", "vnf_index": "0", "name_pattern": "base_vbng"}],
+    "vCPEvBRGEMU" : [{"isBase" : "true",  "template" : "vcpe_vbrgemu_preload.template", "vnf_index": "0", "name_pattern": "base_vbrgemu"}],
+    "vCPEvGMUX" : [{"isBase" : "true",  "template" : "vcpe_vgmux_preload.template", "vnf_index": "0", "name_pattern": "base_vgmux"}],
+    "vCPEvGW" : [{"isBase" : "true",  "template" : "vcpe_vgw_preload.template", "vnf_index": "0", "name_pattern": "base_vgw"}],
+    "vCPEResCust" : [{"isBase" : "true",  "template" : "vcpe_vgw_preload.template", "vnf_index": "0", "name_pattern": "base_vgw"}],
 }
 
 '''
