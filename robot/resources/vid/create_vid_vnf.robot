@@ -40,7 +40,9 @@ Create VID VNF
     Sleep    10s
     Input Text 	  xpath=//input[@parameter-id='instanceName']    ${service_instance_name}
     Select From List By Label     xpath=//select[@parameter-id='productFamily']    ${product_family}
-    Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region}
+    # Fix for Dublin
+    ${cloud_owner_uc}=   Convert To Uppercase   ${GLOBAL_AAI_CLOUD_OWNER}
+    Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region} (${cloud_owner_uc})
     Select From List By Label    xpath=//select[@parameter-id='tenant']    ${tenant}
     Sleep    5s
     Click Element   xpath=//multiselect[@parameter-id='lineOfBusiness']
@@ -73,7 +75,8 @@ Delete VID VNF
     Wait Until Page Contains Element    xpath=//div[@class='statusLine']    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Wait Until Element Is Not Visible    xpath=//div[@class='statusLine aaiHidden']    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click On Element When Visible    xpath=//li/div[contains(.,'${vnf_instance_id}')]/a/span[@class='glyphicon glyphicon-remove']    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
-    Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region}
+    ${cloud_owner_uc}=   Convert To Uppercase   ${GLOBAL_AAI_CLOUD_OWNER}
+    Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region} (${cloud_owner_uc})
     Select From List By Label    xpath=//select[@parameter-id='tenant']    ${tenant}
     Click Element    xpath=//div[@class='buttonRow']/button[@ngx-enabled='true']
     #//*[@id="mContent"]/div/div/div/div/table/tbody/tr/td/div/div[2]/div/div[1]/div[5]/button[1]
@@ -107,7 +110,8 @@ Create VID VNF module
     ## Wait Until Angular Ready just sleeps for its timeout value
     Sleep    10s
     Input Text 	  xpath=//input[@parameter-id='instanceName']    ${vf_module_name}
-    Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region}
+    ${cloud_owner_uc}=   Convert To Uppercase   ${GLOBAL_AAI_CLOUD_OWNER}
+    Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region} (${cloud_owner_uc})
     Select From List By Label    xpath=//select[@parameter-id='tenant']    ${tenant}
     Wait Until Element Is Visible    xpath=//input[@parameter-id='sdncPreload']       ${GLOBAL_VID_UI_TIMEOUT_SHORT}
     Wait Until Element Is Enabled    xpath=//input[@parameter-id='sdncPreload']       ${GLOBAL_VID_UI_TIMEOUT_SHORT}
