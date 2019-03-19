@@ -4,6 +4,7 @@ Documentation     Operations on connectivities in AAI for CCVPN use case, using 
 Resource    ../json_templater.robot
 Resource    aai_interface.robot
 Resource    api_version_properties.robot
+Resource    add-relationship-list.robot
 Library    OperatingSystem
 Library    Collections
 
@@ -53,6 +54,13 @@ Get Connectivity
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]  ${resp.json()}
 
+Get Valid Connectivity URL
+    [Documentation]   Return Valid Connectivity URL
+    [Arguments]    ${connectivity_id}
+    ${resp}=    Run A&AI Get Request     ${AAI_CONN_API_IMPL_INDEX_PATH}${AAI_CONN_ROOT_PATH}/${connectivity_id}
+    Should Be Equal As Strings  ${resp.status_code}     200
+    [Return]  ${AAI_CONN_API_IMPL_INDEX_PATH}${AAI_CONN_ROOT_PATH}/${connectivity_id}
+
 Get Nodes Query Connectivity
     [Documentation]   Return Nodes query Connectivity
     [Arguments]    ${connectivity_id}
@@ -77,4 +85,21 @@ Confirm API Not Implemented Connectivity
     [Arguments]    ${connectivity_id}
     ${resp}=    Run A&AI Get Request     ${AAI_CONN_API_NA_INDEX_PATH}${AAI_CONN_ROOT_PATH}/${connectivity_id}
     Should Be Equal As Strings  ${resp.status_code}     400
+
+Add Connectivity Relationship
+    [Documentation]    Adds Relationship to existing Connectivity in AAI
+    [Arguments]    ${connectivity_id}  ${related_class_name}  ${related_object_url}
+    ${put_resp}=    Add Relationship     ${AAI_CONN_API_IMPL_INDEX_PATH}${AAI_CONN_ROOT_PATH}/${connectivity_id}  ${related_class_name}  ${related_object_url}
+
+Get Connectivity RelationshipList
+    [Documentation]   Return relationship-list from Connectivity
+    [Arguments]    ${connectivity_id}
+    ${resp}=    Get RelationshipList     ${AAI_CONN_API_IMPL_INDEX_PATH}${AAI_CONN_ROOT_PATH}/${connectivity_id}
+    [Return]  ${resp}
+
+Get Connectivity With RelationshipList
+    [Documentation]   Return Connectivity with relationship-list
+    [Arguments]    ${connectivity_id}
+    ${resp}=    Get Object With Depth     ${AAI_CONN_API_IMPL_INDEX_PATH}${AAI_CONN_ROOT_PATH}/${connectivity_id}
+    [Return]  ${resp}
 
