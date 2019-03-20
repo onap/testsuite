@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de89cbd9_abcb0d48",
+        "filename": "robot/resources/pomba_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2019-03-20T21:47:52Z",
+      "side": 1,
+      "message": "Please avoid long lines",
+      "revId": "d1ff3717f6fa68452321d6fd3df86cf45a51206e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "806f6100_8f9648c7",
+        "filename": "robot/resources/pomba_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 269
+      },
+      "writtenOn": "2019-03-20T21:47:52Z",
+      "side": 1,
+      "message": "tab to be removed",
+      "revId": "d1ff3717f6fa68452321d6fd3df86cf45a51206e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
