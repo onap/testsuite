@@ -144,6 +144,14 @@ Basic Pomba Network-discovery-context-builder Health Check
     [Tags]    health    oom
     Run Pomba Network Discovery Context Builder Health Check
 
+Basic Pomba Service-Decomposition Health Check
+    [Tags]    health    oom
+    Run Pomba Service Decomposition Health Check
+
+Basic Pomba Sdnc-Context-Builder Health Check
+    [Tags]    health    oom
+    Run Pomba Sdnc Context Builder Health Check
+
 Basic Portal Health Check
     [Tags]    health    core
     Run Portal Health Check

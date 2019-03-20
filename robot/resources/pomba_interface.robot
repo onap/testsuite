@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Tests the health of the POMBA containers: aai-context-builder, sdc-context-builder and network-discovery-context-builder.
+Documentation     Tests the health of the POMBA containers: aai-context-builder, sdc-context-builder, service-decomposition, sdnc-context-builder and network-discovery-context-builder.
 Library    Collections
 Library         String
 Library 	      RequestsLibrary
