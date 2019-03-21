@@ -9,7 +9,7 @@ Resource         ../resources/test_templates/pnf_registration_without_SO_templat
 
 Create A&AI antry without SO and succesfully registrate PNF, PNF entry contains: correlation ID, PNF_IPv4_address and PNF_IPv6_address
      [Documentation]  This test is checking creation A&AI entry without SO and succesfull PNF registration
-     [Tags]   pnf_registrate
+     [Tags]   pnf_registrate   ete
      [Setup]    Initialize PNF entry with correlation ID, PNF_IPv4_address and PNF_IPv6_address
      Create A&AI antry without SO and succesfully registrate PNF  ${PNF_entry_dict}
      [Teardown]  Cleanup PNF entry in A&AI  ${PNF_entry_dict}
