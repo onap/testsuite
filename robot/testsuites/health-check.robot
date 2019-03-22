@@ -148,9 +148,21 @@ Basic Pomba Service-Decomposition Health Check
     [Tags]    health    oom
     Run Pomba Service Decomposition Health Check
 
-Basic Pomba Sdnc-Context-Builder Health Check
+Basic Pomba Network-Discovery-MicroService Health Check
     [Tags]    health    oom
-    Run Pomba Sdnc Context Builder Health Check
+    Run Pomba Network Discovery MicroService Health Check
+
+Basic Pomba Validation-Service Health Check
+    [Tags]    health    oom
+    Run Pomba Validation Service Health Check
+
+Basic Pomba Pomba-Kibana Health Check
+    [Tags]    health    oom
+    Run Pomba Kibana Health Check
+
+Basic Pomba Elastic-Search Health Check
+    [Tags]    health    oom
+    Run Pomba Elastic Search Health Check
 
 Basic Portal Health Check
     [Tags]    health    core
