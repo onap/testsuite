@@ -11,6 +11,7 @@ Library           String
 Library           StringTemplater
 Library           ArchiveLibrary
 Library           HEATUtils
+Library           DateTime
 Resource          global_properties.robot
 Resource          browser_setup.robot
 Resource          json_templater.robot
@@ -291,8 +292,14 @@ Setup ASDC Catalog Resource
     [Documentation]    Creates all the steps a vf needs for an asdc catalog resource and returns the id
     [Arguments]    ${model_zip_path}    ${cds}=
     ${license_model_id}   ${license_model_version_id}=    Add ASDC License Model
-    ${key_group_id}=    Add ASDC License Group    ${license_model_id}   ${license_model_version_id}
-    ${pool_id}=    Add ASDC Entitlement Pool    ${license_model_id}   ${license_model_version_id}
+
+
+    ${license_temp_date}=   Get Current Date
+    ${license_start_date}=   Get Current Date     result_format=%m/%d/%Y
+    ${license_end_date}=     Add Time To Date   ${license_temp_date}    365 days    result_format=%m/%d/%Y
+    ${key_group_id}=    Add ASDC License Group    ${license_model_id}   ${license_model_version_id}  ${license_start_date}  ${license_end_date}
+    ${pool_id}=    Add ASDC Entitlement Pool    ${license_model_id}   ${license_model_version_id}  ${license_start_date}  ${license_end_date}
+
     ${feature_group_id}=    Add ASDC Feature Group    ${license_model_id}    ${key_group_id}    ${pool_id}  ${license_model_version_id}
     ${license_agreement_id}=    Add ASDC License Agreement    ${license_model_id}    ${feature_group_id}   ${license_model_version_id}
     Submit ASDC License Model    ${license_model_id}   ${license_model_version_id}
@@ -513,10 +520,10 @@ Package ASDC Software Product
     [Return]    ${resp.json()}
 Add ASDC Entitlement Pool
     [Documentation]    Creates an asdc Entitlement Pool and returns its id
-    [Arguments]    ${license_model_id}   ${version_id}=0.1
+    [Arguments]    ${license_model_id}   ${version_id}=0.1     ${license_start_date}="01/01/1960"   ${license_end_date}="01/01/1961"
     ${uuid}=    Generate UUID
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
-    ${map}=    Create Dictionary    entitlement_pool_name=${shortened_uuid}
+    ${map}=    Create Dictionary    entitlement_pool_name=${shortened_uuid}  license_start_date=${license_start_date}  license_end_date=${license_end_date}
     ${data}=   Fill JSON Template File    ${ASDC_ENTITLEMENT_POOL_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_ENTITLEMENT_POOL_PATH}     ${data}   ${ASDC_DESIGNER_USER_ID}  ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -528,10 +535,10 @@ Get ASDC Entitlement Pool
     [Return]    ${resp.json()}
 Add ASDC License Group
     [Documentation]    Creates an asdc license group and returns its id
-    [Arguments]    ${license_model_id}   ${version_id}=1.0
+    [Arguments]    ${license_model_id}   ${version_id}=1.0   ${license_start_date}="01/01/1960"   ${license_end_date}="01/01/1961"
     ${uuid}=    Generate UUID
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
-    ${map}=    Create Dictionary    key_group_name=${shortened_uuid}
+    ${map}=    Create Dictionary    key_group_name=${shortened_uuid}   license_start_date=${license_start_date}  license_end_date=${license_end_date}
     ${data}=   Fill JSON Template File    ${ASDC_KEY_GROUP_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_KEY_GROUP_PATH}     ${data}   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
