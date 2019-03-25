@@ -13,7 +13,6 @@ ${POMBA_AAICB_PATH}   /aaicontextbuilder/health
 ${POMBA_SDCCB_PATH}   /sdccontextbuilder/health
 ${POMBA_NDCB_PATH}    /ndcontextbuilder/health
 ${POMBA_NDMS_PATH}   /health
-${POMBA_VALIDATIONSERVICE_PATH}   /health
 ${POMBA_KIBANA_PATH}   /
 ${POMBA_ELASTICSEARCH_PATH}   /
 
@@ -23,8 +22,7 @@ ${POMBA_SDCCONTEXTBUILDER_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}://${
 ${POMBA_NETWORKDISCCONTEXTBUILDER_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}://${GLOBAL_INJECTED_POMBA_NETWORK_DISC_CONTEXTBUILDER_IP_ADDR}:${GLOBAL_POMBA_NETWORKDISCCONTEXTBUILDER_PORT}
 ${POMBA_SERVICEDECOMPOSITION_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}://${GLOBAL_INJECTED_POMBA_SERVICE_DECOMPOSITION_IP_ADDR}:${GLOBAL_POMBA_SERVICEDECOMPOSITION_PORT}
 ${POMBA_NETWORKDISCOVERY_MICROSERVICE_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTPS}://${GLOBAL_INJECTED_POMBA_NETWORKDISCOVERY_MICROSERVICE_IP_ADDR}:${GLOBAL_POMBA_NETWORKDISCOVERY_MICROSERVICE_PORT}
-${POMBA_VALIDATIONSERVICE_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}://${GLOBAL_INJECTED_POMBA_VALIDATION_SERVICE_IP_ADDR}:${GLOBAL_POMBA_VALIDATIONSERVICE_PORT}
-${POMBA_KIBANA_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}://${GLOBAL_INJECTED_POMBA_KIBANA_IP_ADDR}:${GLOBAL_POMBA_KIBANA_PORT}
+${POMBA_KIBANA_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTPS}://${GLOBAL_INJECTED_POMBA_KIBANA_IP_ADDR}:${GLOBAL_POMBA_KIBANA_PORT}
 ${POMBA_ELASTICSEARCH_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}://${GLOBAL_INJECTED_POMBA_ELASTIC_SEARCH_IP_ADDR}:${GLOBAL_POMBA_ELASTICSEARCH_PORT}
 
 *** Keywords ***
@@ -96,20 +94,6 @@ Run Pomba Network Discovery MicroService Get Request
     ${session}=    Create Session 	pomba-networkdiscovery 	${POMBA_NETWORKDISCOVERY_MICROSERVICE_ENDPOINT}
     ${resp}= 	Get Request 	pomba-networkdiscovery 	${data_path}
     Log    Received response from pomba-networkdiscovery ${resp.text}
-    [Return]    ${resp}
-
-Run Pomba Validation Service Health Check
-    [Documentation]   Tests Pomba Validation Service interface
-    ${resp}=    Run Pomba Validation Service Get Request    ${POMBA_VALIDATIONSERVICE_PATH}
-    Should Be Equal As Strings 	${resp.status_code} 	200
-
-Run Pomba Validation Service Get Request
-    [Documentation]    Runs a Pomba Validation Service request
-    [Arguments]    ${data_path}
-    Log    Creating session ${POMBA_VALIDATIONSERVICE_ENDPOINT}
-    ${session}=    Create Session 	pomba-validation-service 	${POMBA_VALIDATIONSERVICE_ENDPOINT}
-    ${resp}= 	Get Request 	pomba-validation-service 	${data_path}
-    Log    Received response from pomba-validation-service ${resp.text}
     [Return]    ${resp}
 
 Run Pomba Kibana Health Check

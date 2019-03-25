@@ -152,10 +152,6 @@ Basic Pomba Network-Discovery-MicroService Health Check
     [Tags]    health    oom
     Run Pomba Network Discovery MicroService Health Check
 
-Basic Pomba Validation-Service Health Check
-    [Tags]    health    oom
-    Run Pomba Validation Service Health Check
-
 Basic Pomba Pomba-Kibana Health Check
     [Tags]    health    oom
     Run Pomba Kibana Health Check
