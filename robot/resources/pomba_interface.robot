@@ -15,8 +15,9 @@ ${POMBA_NDCB_PATH}    /ndcontextbuilder/health
 ${POMBA_NDMS_PATH}   /health
 ${POMBA_KIBANA_PATH}   /
 ${POMBA_ELASTICSEARCH_PATH}   /
-
 ${POMBA_SERVICEDECOMPOSITION_PATH}   /service-decomposition/health
+${POMBA_SDNCCTXBUILDER_PATH}   /sdnccontextbuilder/health
+
 ${POMBA_AAICONTEXTBUILDER_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}://${GLOBAL_INJECTED_POMBA_AAI_CONTEXT_BUILDER_IP_ADDR}:${GLOBAL_POMBA_AAICONTEXTBUILDER_PORT}
 ${POMBA_SDCCONTEXTBUILDER_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}://${GLOBAL_INJECTED_POMBA_SDC_CONTEXT_BUILDER_IP_ADDR}:${GLOBAL_POMBA_SDCCONTEXTBUILDER_PORT}
 ${POMBA_NETWORKDISCCONTEXTBUILDER_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}://${GLOBAL_INJECTED_POMBA_NETWORK_DISC_CONTEXTBUILDER_IP_ADDR}:${GLOBAL_POMBA_NETWORKDISCCONTEXTBUILDER_PORT}
@@ -24,6 +25,7 @@ ${POMBA_SERVICEDECOMPOSITION_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}:/
 ${POMBA_NETWORKDISCOVERY_MICROSERVICE_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTPS}://${GLOBAL_INJECTED_POMBA_NETWORKDISCOVERY_MICROSERVICE_IP_ADDR}:${GLOBAL_POMBA_NETWORKDISCOVERY_MICROSERVICE_PORT}
 ${POMBA_KIBANA_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTPS}://${GLOBAL_INJECTED_POMBA_KIBANA_IP_ADDR}:${GLOBAL_POMBA_KIBANA_PORT}
 ${POMBA_ELASTICSEARCH_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}://${GLOBAL_INJECTED_POMBA_ELASTIC_SEARCH_IP_ADDR}:${GLOBAL_POMBA_ELASTICSEARCH_PORT}
+${POMBA_SDNCCONTEXTBUILDER_ENDPOINT}    ${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}://${GLOBAL_INJECTED_POMBA_SDNC_CTX_BUILDER_IP_ADDR}:${GLOBAL_POMBA_SDNCCXTBUILDER_PORT}
 
 *** Keywords ***
 Run Pomba Aai Context Builder Health Check
@@ -122,4 +124,18 @@ Run Pomba Elastic Search Get Request
     ${session}=    Create Session 	pomba-es 	${POMBA_ELASTICSEARCH_ENDPOINT}
     ${resp}= 	Get Request 	pomba-es 	${data_path}
     Log    Received response from pomba-es ${resp.text}
+    [Return]    ${resp}
+
+Run Pomba Sdnc Context Builder Health Check
+    [Documentation]   Tests Pomba Sdnc Context Builder interface
+    ${resp}=    Run Pomba Sdnc Context Builder Get Request    ${POMBA_SDNCCTXBUILDER_PATH}
+    Should Be Equal As Strings 	${resp.status_code} 	200
+
+Run Pomba Sdnc Context Builder Get Request
+    [Documentation]    Runs a Pomba Sdnc Context Builder request
+    [Arguments]    ${data_path}
+    Log    Creating session ${POMBA_SDNCCONTEXTBUILDER_ENDPOINT}
+    ${session}=    Create Session 	pomba-sdncctxbuilder 	${POMBA_SDNCCONTEXTBUILDER_ENDPOINT}
+    ${resp}= 	Get Request 	pomba-sdncctxbuilder 	${data_path}
+    Log    Received response from pomba-sdncctxbuilder ${resp.text}
     [Return]    ${resp}

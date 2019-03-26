@@ -160,6 +160,10 @@ Basic Pomba Elastic-Search Health Check
     [Tags]    health    oom
     Run Pomba Elastic Search Health Check
 
+Basic Pomba Sdnc-Context-Builder Health Check
+    [Tags]    health    oom
+    Run Pomba Sdnc Context Builder Health Check
+
 Basic Portal Health Check
     [Tags]    health    core
     Run Portal Health Check
