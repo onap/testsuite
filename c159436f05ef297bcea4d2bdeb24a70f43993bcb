@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1d33cee_e0616d9a",
+        "filename": "robot/assets/templates/aai/add-customer.template",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-04-04T12:54:00Z",
+      "side": 1,
+      "message": "there is already an add customer template, why 2?",
+      "revId": "c159436f05ef297bcea4d2bdeb24a70f43993bcb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2ca1f21_d7d138ea",
+        "filename": "robot/assets/templates/aai/add-pnf.template",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-04-04T12:54:00Z",
+      "side": 1,
+      "message": "theres already an add pnf template, whats the difference?",
+      "revId": "c159436f05ef297bcea4d2bdeb24a70f43993bcb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcd48706_5c619964",
+        "filename": "robot/resources/aai/bbs-customer.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-04-04T12:54:00Z",
+      "side": 1,
+      "message": "most of the methods already exist somewhere else, why so little reuse? for example customer methods in  create_customer.robot",
+      "revId": "c159436f05ef297bcea4d2bdeb24a70f43993bcb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f86174f_436390a8",
+        "filename": "robot/resources/aai/bbs-pnf.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-04-04T12:54:00Z",
+      "side": 1,
+      "message": "seems to be heavily duplicated by pnf_registration_without_SO_template.robot",
+      "revId": "c159436f05ef297bcea4d2bdeb24a70f43993bcb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
