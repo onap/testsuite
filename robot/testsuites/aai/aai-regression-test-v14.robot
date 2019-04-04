@@ -14,6 +14,7 @@ ${vpn_class}=  vpn-binding
 Connectivity test case
     [Tags]    aai  csit  ccvpn  connectivity
     Confirm API Not Implemented Connectivity  ${connectivity_id}
+    Get Example Connectivity
     Confirm No Connectivity  ${connectivity_id}
     Create Connectivity If Not Exists  ${connectivity_id}
     Get Connectivity  ${connectivity_id}
@@ -21,6 +22,7 @@ Connectivity test case
 
 VPN Binding test case
     [Tags]    aai  csit  ccvpn  vpn-binding
+    Get Example VPN Binding
     Confirm No VPN Binding  ${vpn_id}
     Create VPN Binding If Not Exists  ${vpn_id}
     Get VPN Binding  ${vpn_id}
