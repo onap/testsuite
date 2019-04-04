@@ -1,8 +1,8 @@
 *** Settings ***
 Documentation   AAI CSIT-style regression tests for CCVPN - new schema elements introduced in Casablanca release for CCVPN use case
 Test Timeout    20s
-Resource    ${EXECDIR}/robot/resources/aai/ccvpn-connectivities.robot
-Resource    ${EXECDIR}/robot/resources/aai/ccvpn-vpn-bindings.robot
+Resource    ${EXECDIR}/robot/resources/aai/csit-connectivities.robot
+Resource    ${EXECDIR}/robot/resources/aai/csit-vpn-bindings.robot
 
 *** Variables ***
 ${connectivity_id}=  robot-connectivity-test-1
@@ -12,22 +12,24 @@ ${vpn_class}=  vpn-binding
 
 *** Test Cases ***
 Connectivity test case
-    [Tags]    aai  csit  ccvpn  connectivity
+    [Tags]    aai  csit  ccvpn  connectivity  csit_aai_ccvpn_connectivity
     Confirm API Not Implemented Connectivity  ${connectivity_id}
+    Get Example Connectivity
     Confirm No Connectivity  ${connectivity_id}
     Create Connectivity If Not Exists  ${connectivity_id}
     Get Connectivity  ${connectivity_id}
     [Teardown]  Run Keywords  Delete Connectivity If Exists  ${connectivity_id}  AND  Confirm No Connectivity  ${connectivity_id}
 
 VPN Binding test case
-    [Tags]    aai  csit  ccvpn  vpn-binding
+    [Tags]    aai  csit  ccvpn  vpn-binding  csit_aai_ccvpn_vpn-binding
+    Get Example VPN Binding
     Confirm No VPN Binding  ${vpn_id}
     Create VPN Binding If Not Exists  ${vpn_id}
     Get VPN Binding  ${vpn_id}
     [Teardown]  Run Keywords  Delete VPN Binding If Exists  ${vpn_id}  AND  Confirm No VPN Binding  ${vpn_id}
 
 Connectivity to VPN Binding Relationship test case
-    [Tags]    aai  csit  ccvpn  connectivity  vpn-binding  relationship
+    [Tags]    aai  csit  ccvpn  connectivity  vpn-binding  relationship  csit_aai_ccvpn_connectivity_vpn-binding_relationship
     Confirm No Connectivity  ${connectivity_id}
     Confirm No VPN Binding  ${vpn_id}
     Create Connectivity If Not Exists  ${connectivity_id}
@@ -44,7 +46,7 @@ Connectivity to VPN Binding Relationship test case
     [Teardown]  Run Keywords  Delete Connectivity If Exists  ${connectivity_id}  AND  Delete VPN Binding If Exists  ${vpn_id}
 
 VPN Binding Relationship to Connectivity test case
-    [Tags]    aai  csit  ccvpn  connectivity  vpn-binding  relationship
+    [Tags]    aai  csit  ccvpn  connectivity  vpn-binding  relationship  csit_aai_ccvpn_vpn-binding_connectivity_relationship
     Confirm No Connectivity  ${connectivity_id}
     Confirm No VPN Binding  ${vpn_id}
     Create Connectivity If Not Exists  ${connectivity_id}
@@ -61,7 +63,7 @@ VPN Binding Relationship to Connectivity test case
     [Teardown]  Run Keywords  Delete Connectivity If Exists  ${connectivity_id}  AND  Delete VPN Binding If Exists  ${vpn_id}
 
 All Teardowns test case
-    [Tags]    teardowns
+    [Tags]    teardowns  csit_aai_ccvpn_teardowns
     Delete Connectivity If Exists  ${connectivity_id}
     Delete VPN Binding If Exists  ${vpn_id}
     Confirm No Connectivity  ${connectivity_id}

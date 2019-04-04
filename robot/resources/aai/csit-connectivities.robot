@@ -3,8 +3,8 @@ Documentation     Operations on connectivities in AAI for CCVPN use case, using 
 
 Resource    ../json_templater.robot
 Resource    aai_interface.robot
-Resource    api_version_properties.robot
-Resource    add-relationship-list.robot
+Resource    csit-api-version-properties.robot
+Resource    csit-relationship-list.robot
 Library    OperatingSystem
 Library    Collections
 
@@ -13,7 +13,7 @@ Library    Collections
 ${AAI_CONN_ROOT_PATH}      /network/connectivities/connectivity
 ${AAI_CONN_EXAMPLES_PATH}      /examples/connectivities
 ${AAI_CONN_NODES_PATH}      /nodes/connectivities
-${AAI_ADD_CONNECTIVITY_BODY}=    robot/assets/templates/aai/add-connectivity.template
+${AAI_CSIT_CONNECTIVITY_BODY}=    robot/assets/templates/aai/csit-connectivity.template
 ${AAI_CONN_API_NA_INDEX_PATH}=  ${AAI_BEIJING_INDEX_PATH}
 ${AAI_CONN_API_IMPL_INDEX_PATH}=  ${AAI_CASABLANCA_INDEX_PATH}
 
@@ -29,7 +29,7 @@ Create Connectivity
     [Documentation]    Creates Connectivity in AAI
     [Arguments]    ${connectivity_id}
     ${arguments}=    Create Dictionary     connectivity_id=${connectivity_id}
-    ${data}=    Fill JSON Template File    ${AAI_ADD_CONNECTIVITY_BODY}    ${arguments}
+    ${data}=    Fill JSON Template File    ${AAI_CSIT_CONNECTIVITY_BODY}    ${arguments}
     ${put_resp}=    Run A&AI Put Request     ${AAI_CONN_API_IMPL_INDEX_PATH}${AAI_CONN_ROOT_PATH}/${connectivity_id}     ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}     ^(201|200)$
