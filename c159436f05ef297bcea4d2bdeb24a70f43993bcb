@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "836eef36_8df41629",
+        "filename": "robot/assets/templates/aai/add-customer.template",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-04-04T23:58:12Z",
+      "side": 1,
+      "message": "The existing customer template is demo-focussed.\nIt contains hard-coded values, sub-objects and relationships that are not suitable for general-purpose usage in other use cases.\nI would eventually refactor out the demo-specific parts, but for now, I would not touch the demo files.",
+      "parentUuid": "f1d33cee_e0616d9a",
+      "revId": "c159436f05ef297bcea4d2bdeb24a70f43993bcb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2ca1f21_d7d138ea",
         "filename": "robot/assets/templates/aai/add-pnf.template",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-04-04T12:54:00Z",
       "side": 1,
       "message": "theres already an add pnf template, whats the difference?",
+      "revId": "c159436f05ef297bcea4d2bdeb24a70f43993bcb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26088001_7a4d2512",
+        "filename": "robot/assets/templates/aai/add-pnf.template",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-04-04T23:58:12Z",
+      "side": 1,
+      "message": "The existing pnf template is demo-focussed.\nIt contains hard-coded values, sub-objects and relationships that are not suitable for general-purpose usage in other use cases.\nI would eventually refactor out the demo-specific parts, but for now, I would not touch the demo files.",
+      "parentUuid": "e2ca1f21_d7d138ea",
       "revId": "c159436f05ef297bcea4d2bdeb24a70f43993bcb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7ad4c754_3e59ee62",
+        "filename": "robot/resources/aai/bbs-customer.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-04-04T23:58:12Z",
+      "side": 1,
+      "message": "The existing customer template is demo-focussed and testing the wrong API version.\nIt is not suitable for general-purpose usage in other use cases.\nI would eventually refactor out the demo-specific parts, but for now, I would not touch the demo files.",
+      "parentUuid": "dcd48706_5c619964",
+      "revId": "c159436f05ef297bcea4d2bdeb24a70f43993bcb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f86174f_436390a8",
         "filename": "robot/resources/aai/bbs-pnf.robot",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2019-04-04T12:54:00Z",
       "side": 1,
       "message": "seems to be heavily duplicated by pnf_registration_without_SO_template.robot",
+      "revId": "c159436f05ef297bcea4d2bdeb24a70f43993bcb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0398dcf8_fb8576db",
+        "filename": "robot/resources/aai/bbs-pnf.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4341
+      },
+      "writtenOn": "2019-04-04T23:58:12Z",
+      "side": 1,
+      "message": "The existing test_templates is demo-focussed.\nIt contains hard-coded values, sub-objects and relationships that are not suitable for general-purpose usage in other use cases.\nI would eventually refactor out the demo-specific parts, but for now, I would not touch the demo files.",
+      "parentUuid": "6f86174f_436390a8",
       "revId": "c159436f05ef297bcea4d2bdeb24a70f43993bcb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
