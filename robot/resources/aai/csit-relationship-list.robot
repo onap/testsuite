@@ -5,7 +5,7 @@ Documentation     Operations on relationship-list sub-object in AAI,
 
 Resource    ../json_templater.robot
 Resource    aai_interface.robot
-Resource    api_version_properties.robot
+Resource    csit-api-version-properties.robot
 Library    OperatingSystem
 Library    Collections
 
@@ -13,7 +13,7 @@ Library    Collections
 *** Variables ***
 ${AAI_RELATIONSHIPLIST_PATH}=      relationship-list
 ${AAI_RELATIONSHIP_PATH}=      ${AAI_RELATIONSHIPLIST_PATH}/relationship
-${AAI_ADD_RELATIONSHIP_BODY}=    robot/assets/templates/aai/add-relationship.template
+${AAI_CSIT_RELATIONSHIP_BODY}=    robot/assets/templates/aai/csit-relationship.template
 ${AAI_RELATIONSHIP_DEPTH}=    ?depth=1
 
 *** Keywords ***
@@ -21,8 +21,9 @@ Add Relationship
     [Documentation]    Adds Relationship sub-object to existing object in AAI
     [Arguments]    ${api_version_base_object_url}  ${related_class_name}  ${related_object_url}
     ${arguments}=    Create Dictionary     related_class_name=${related_class_name}  related_object_url=${related_object_url}
-    ${data}=    Fill JSON Template File    ${AAI_ADD_RELATIONSHIP_BODY}    ${arguments}
+    ${data}=    Fill JSON Template File    ${AAI_CSIT_RELATIONSHIP_BODY}    ${arguments}
     ${put_resp}=    Run A&AI Put Request     ${api_version_base_object_url}/${AAI_RELATIONSHIP_PATH}     ${data}
+    Log    Put response ${put_resp.text}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}     ^(201|200)$
 

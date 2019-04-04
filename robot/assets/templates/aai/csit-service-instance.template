@@ -1,0 +1,21 @@
+{
+  "service-instance-id": "${service_instance_id}",
+  "service-instance-name": "",
+  "service-type": "",
+  "service-role": "",
+  "environment-context": "",
+  "workload-context": "",
+  "created-at": "",
+  "updated-at": "",
+  "description": "",
+  "widget-model-id": "",
+  "widget-model-version": "",
+  "bandwidth-total": "",
+  "vhn-portal-url": "",
+  "service-instance-location-id": "",
+  "selflink": "",
+  "orchestration-status": "",
+  "input-parameters": "",
+  "resource-version": ""
+}
+
