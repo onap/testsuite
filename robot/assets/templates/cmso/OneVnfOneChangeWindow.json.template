@@ -1,0 +1,30 @@
+{
+	"domain" : "ChangeManagement",
+	"scheduleId" : "${uuid}",
+	"scheduleName" : "${uuid}",
+	"userId" : "${userId}",
+	"domainData" : [{
+			"CallbackUrl" : "${callbackUrl}",
+			"CallbackData" : "${callbackData}",
+			"WorkflowName" : "${workflow}"
+		}
+	],
+	"schedulingInfo" : {
+		"normalDurationInSeconds" : 3600,
+		"additionalDurationInSeconds" : 0,
+		"concurrencyLimit" : 10,
+		"policyId" : "AllDayEveryDay",
+		"vnfDetails" : [{
+				"groupId" : "group",
+				"node" : [
+					"${node1}"
+				],
+				"changeWindow" : [{
+						"startTime" : "${start_time1}",
+						"endTime" : "${end_time1}"
+					}
+				]
+			}
+		]
+	}
+}

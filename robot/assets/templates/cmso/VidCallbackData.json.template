@@ -1,0 +1,36 @@
+{
+	"vnfName" : "${vnfName}",
+	"vnfInstanceId" : "dummy-vnfinstance-id",
+	"modelInfo" : {
+		"modelType" : "vnf",
+		"modelInvariantId" : "dummy-id",
+		"modelVersionId" : "dummy-id",
+		"modelName" : "dummy",
+		"modelCustomizationId" : "dummy-id"
+	},
+	"cloudConfiguration" : {
+		"lcpCloudRegionId" : "dummy",
+		"tenantId" : "dummy-id"
+	},
+	"requestInfo" : {
+		"source" : "VID",
+		"suppressRollback" : false,
+		"requestorId" : "az2016"
+	},
+	"relatedInstanceList" : [{
+			"relatedInstance" : {
+				"instanceId" : "dummy-id",
+				"modelInfo" : {
+					"modelType" : "service",
+					"modelInvariantId" : "dummy-id",
+					"modelVersionId" : "dummy-id",
+					"modelName" : "dummy-id",
+					"modelVersion" : "4.0"
+				}
+			}
+		}
+	],
+	"requestParameters" : {
+		"usePreload" : true
+	}
+}
