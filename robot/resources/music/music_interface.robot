@@ -24,3 +24,14 @@ Run MUSIC Cassandra Connection Check
      ${resp}=    Run MUSIC Get Request    ${MUSIC_CASSA_HEALTH_CHECK_PATH}    
      Should Be Equal As Strings 	${resp.status_code} 	200
      Should Be Equal As Strings 	${resp.json()['Cassandra']} 	Active
+     
+     
+Run MUSIC Get Request
+     [Documentation]    Runs MUSIC Get request
+     [Arguments]    ${data_path}
+     ${session}=    Create Session 	music	${MUSIC_ENDPOINT}
+     ${uuid}=    Generate UUID
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
+     ${resp}= 	Get Request 	music 	${data_path}     headers=${headers}
+     Log    Received response from music ${resp.text}
+     [Return]    ${resp}
