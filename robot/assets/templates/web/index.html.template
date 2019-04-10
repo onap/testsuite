@@ -41,6 +41,7 @@ ${sdnc} sdnc
 ${openo} multi-service
 ${dcae_controller} dcae
 ${message_router} message-router
+${bus_controller} dmaap-bc
 ${clamp} clamp
 
 ${portal} ${prefix}-portal
@@ -89,6 +90,7 @@ GLOBAL_INJECTED_APPC_IP_ADDR = "${appc}"
 GLOBAL_INJECTED_DCAE_IP_ADDR = "${dcae_controller}"
 GLOBAL_INJECTED_SO_IP_ADDR = "${mso}"
 GLOBAL_INJECTED_MR_IP_ADDR = "${message_router}"
+GLOBAL_INJECTED_BC_IP_ADDR = "${bus_controller}"
 GLOBAL_INJECTED_POLICY_IP_ADDR = "${policy}"
 GLOBAL_INJECTED_PORTAL_IP_ADDR = "${portal}"
 GLOBAL_INJECTED_SDC_IP_ADDR = "${sdc}"

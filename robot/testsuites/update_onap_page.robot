@@ -35,6 +35,7 @@ Update ONAP Page
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_DCAE_IP_ADDR}=dcae_controller
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_SO_IP_ADDR}=mso
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_MR_IP_ADDR}=message_router
+    Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_BC_IP_ADDR}=bus_controller
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_POLICY_IP_ADDR}=policy
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_PORTAL_IP_ADDR}=portal
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_SDC_IP_ADDR}=sdc
