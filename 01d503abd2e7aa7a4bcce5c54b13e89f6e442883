@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dc84bed_cc1c204a",
+        "filename": "eteHelm-k8s.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-04-10T19:57:15Z",
+      "side": 1,
+      "message": "we are starting to get a lot of these :)",
+      "revId": "01d503abd2e7aa7a4bcce5c54b13e89f6e442883",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
