@@ -32,6 +32,7 @@ pip install \
 'robotframework-httplibrary==0.4.2' \
 'robotframework-archivelibrary==0.3.2' \
 'PyYAML==3.12' \
+'json5==0.7.0' \
 'robotframework-kafkalibrary==0.0.2'
 
 

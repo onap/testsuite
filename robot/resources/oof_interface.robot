@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation     The main interface for interacting with OOF: SNIRO and Homing Service
+Library           json5
 Library           RequestsLibrary
 Library	          UUID
 Library	          String
@@ -16,10 +17,13 @@ ${OOF_CMSO_HEALTH_CHECK_PATH}        /cmso/v1/health?checkInterfaces=true
 
 ${OOF_CMSO_TEMPLATE_FOLDER}   robot/assets/templates/cmso
 ${OOF_CMSO_UTC}   %Y-%m-%dT%H:%M:%SZ
+${OOF_HOMING_PLAN_FOLDER}    robot/assets/templates/optf-has
 
 ${OOF_HOMING_ENDPOINT}    ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_HOMING_IP_ADDR}:${GLOBAL_OOF_HOMING_SERVER_PORT}
 ${OOF_SNIRO_ENDPOINT}     ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_SNIRO_IP_ADDR}:${GLOBAL_OOF_SNIRO_SERVER_PORT}
 ${OOF_CMSO_ENDPOINT}      ${GLOBAL_OOF_CMSO_PROTOCOL}://${GLOBAL_INJECTED_OOF_CMSO_IP_ADDR}:${GLOBAL_OOF_CMSO_SERVER_PORT}
+
+${OOF_HOMING_AUTH}       Basic YWRtaW4xOnBsYW4uMTU=
 
 *** Keywords ***
 Run OOF-Homing Health Check
@@ -35,6 +39,22 @@ Run OOF-Homing Get Request
      Should Be Equal As Integers   ${resp.status_code}   200
      Log    Received response from OOF-Homing ${resp.text}
      [Return]    ${resp}
+
+RUN OOF-Homing SendPlanWithWrongVersion
+    [Documentation]    It sends a POST request to conductor
+    ${session}=    Create Session   optf-cond      ${OOF_HOMING_ENDPOINT}
+    ${data}=         Get Binary File     ${OOF_HOMING_PLAN_FOLDER}${/}plan_with_wrong_version.json
+    &{headers}=      Create Dictionary    Authorization=${OOF_HOMING_Auth}    Content-Type=application/json  Accept=application/json
+    ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
+    Log               *********************
+    Log               response = ${resp}
+    Log               body = ${resp.text}
+    ${response_json}    json5.Loads    ${resp.content}
+    ${generatedPlanId}=    Convert To String      ${response_json['id']}
+    Set Global Variable     ${generatedPlanId}
+    Log              generatedPlanId = ${generatedPlanId}
+    Should Be Equal As Integers    ${resp.status_code}    201
+    Sleep    10s    Wait Plan Resolution
 
 Run OOF-SNIRO Health Check
      [Documentation]    Runs OOF-SNIRO Health check
