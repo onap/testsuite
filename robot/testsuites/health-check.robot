@@ -13,6 +13,7 @@ Resource          ../resources/asdc_interface.robot
 Resource          ../resources/appc_interface.robot
 Resource          ../resources/portal_interface.robot
 Resource          ../resources/mr_interface.robot
+Resource          ../resources/bc_interface.robot
 Resource          ../resources/aaf_interface.robot
 Resource          ../resources/msb_interface.robot
 Resource          ../resources/clamp_interface.robot
@@ -71,6 +72,14 @@ Basic DMAAP Message Router PubSub Health Check
     [Tags]    healthmr    dev-dmaap
     [Timeout]   30
     Run MR PubSub Health Check
+
+Basic DMAAP Bus Controller Health Check
+    [Tags]    health    core    dev-dmaap
+    Run BC Health Check
+
+Basic DMAAP Bus Controller Health Check With Basic Auth
+    [Tags]    health    core    dev-dmaap
+    Run BC Health Check With Basic Auth
 
 Basic External API NBI Health Check
     [Tags]    health    externalapi    api    small
