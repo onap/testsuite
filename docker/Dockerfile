@@ -32,7 +32,8 @@ RUN apt-get update \
             x11-utils \
             x11-xserver-utils \
             xvfb \
-            xxd
+            xxd  \
+            vim
             
 
 RUN pip install robotframework==3.0.4 \
