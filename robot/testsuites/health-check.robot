@@ -220,10 +220,6 @@ Basic VFC multivimproxy API Health Check
     [Tags]    health    3rdparty   dev-vfc
     Run MSB Get Request    /api/multivimproxy/v1/swagger.json
 
-Basic VFC nokiavnfmdriver API Health Check
-    [Tags]    health    3rdparty   dev-vfc
-    Run MSB Get Request    /api/nokiavnfmdriver/v1/swagger.json
-
 Basic VFC nokiav2driver API Health Check
     [Tags]    health    3rdparty   dev-vfc
     Run MSB Get Request    /api/NokiaSVNFM/v1/swagger.json
