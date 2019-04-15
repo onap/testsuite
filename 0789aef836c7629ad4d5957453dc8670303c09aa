@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c20fd25_bb6d857f",
+        "filename": "robot/testsuites/create-cloud-config.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-04-15T22:14:19Z",
+      "side": 1,
+      "message": "are we really using a different region for different tests? ie not the same region just v2 or v3 depending on use case?",
+      "revId": "0789aef836c7629ad4d5957453dc8670303c09aa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
