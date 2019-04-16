@@ -285,3 +285,7 @@ Basic Holmes Rule Management API Health Check
 Basic Holmes Engine Management API Health Check
     [Tags]    health    medium   dev-dcae
     Run Holmes Engine Mgmt Health Check
+
+Basic Multicloud-fcaps API Health Check
+    [Tags]    health    multicloud   dev-multicloud
+    Run MSB Get Request    /api/multicloud-fcaps/healthcheck
