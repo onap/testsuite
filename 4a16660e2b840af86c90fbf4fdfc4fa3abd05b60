@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02a4ef34_e2991909",
+        "filename": "robot/resources/bc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 2729
+      },
+      "writtenOn": "2019-04-17T07:05:50Z",
+      "side": 1,
+      "message": "are these globals somewhere defined?",
+      "revId": "4a16660e2b840af86c90fbf4fdfc4fa3abd05b60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
