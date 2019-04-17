@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76d2717d_d5a6a504",
+        "filename": "vm_properties2.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-04-17T21:23:21Z",
+      "side": 1,
+      "message": "same as other properties",
+      "revId": "9d85d0b33ade6b633e6654593b5d5da9e5a75536",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
