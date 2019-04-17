@@ -34,6 +34,23 @@
       "revId": "4a16660e2b840af86c90fbf4fdfc4fa3abd05b60",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c54d517_0cb9eec4",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-04-17T15:34:15Z",
+      "side": 1,
+      "message": "generally health check is 1 per component, so i dont think you need both. which do you feel is better applicable to your applications health?",
+      "revId": "4a16660e2b840af86c90fbf4fdfc4fa3abd05b60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
