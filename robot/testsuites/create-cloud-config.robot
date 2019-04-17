@@ -4,6 +4,7 @@ Test Timeout    1 minute
 
 
 Resource          ../resources/so/create_cloud_config.robot
+Resource          ../resources/aai/create_tenant.robot
 
 
 *** Test Cases ***
@@ -14,12 +15,16 @@ Create Cloud Config Test
 
 Create Cloud Config RegionThree V3 Test
     [TAGS]    mso    cloudconfig  cloudconfigv3
-    #     [Arguments]    ${site_name}    ${region_id}   ${clli}   ${identity_id}   ${identity_url}   ${mso_id}    ${mso_pass}    ${admin_tenant}    ${member_role}    ${identity_server_type}    ${authentication_type}    ${project_domain_name}    ${user_domain_Name}
-    # ${region_id} in openstack is set up by cloud administration and does not have to be same as ONAP ${site_name}
-    # In Windriver/Intel test labs the os_region_id's are all set to "RegionOne"
-    # clli by testing team convention is same as onap site_name
-    #  KEYSTONE URL should end in /v3 SO will put /auth when KEYSTONE_V3 is the identity_server_type
+    [Documentation]   Create Keystone V3 in Region 3
+    ...  [Arguments]    ${site_name}    ${region_id}   ${clli}   ${identity_id}   ${identity_url}   ${mso_id}    ${mso_pass}    
+    ...      ${admin_tenant}    ${member_role}    ${identity_server_type}    ${authentication_type}    ${project_domain_name}    ${user_domain_Name}
+    ...  ${region_id} in openstack is set up by cloud administration and does not have to be same as ONAP ${site_name}
+    ...  In Windriver/Intel test labs the os_region_id's are all set to "RegionOne"
+    ...  clli by testing team convention is same as onap site_name
+    ...  KEYSTONE URL should end in /v3 SO will put /auth when KEYSTONE_V3 is the identity_server_type
     Create Cloud Configuration v3    ${GLOBAL_INJECTED_REGION_THREE}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_REGION_THREE}   REGION_THREE_KEYSTONE    ${GLOBAL_INJECTED_KEYSTONE_REGION_THREE}/${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION_REGION_THREE}     ${GLOBAL_INJECTED_OPENSTACK_USERNAME_REGION_THREE}   ${GLOBAL_INJECTED_OPENSTACK_MSO_ENCRYPTED_PASSWORD_REGION_THREE}    ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID_REGION_THREE}     admin    KEYSTONE_V3    USERNAME_PASSWORD  ${GLOBAL_INJECTED_OPENSTACK_PROJECT_DOMAIN__REGION_THREE}  ${GLOBAL_INJECTED_OPENSTACK_USER_DOMAIN__REGION_THREE}
+    Inventory Tenant If Not Exists    CloudOwner   ${GLOBAL_INJECTED_REGION_THREE}  SharedNode  OwnerType  v1  CloudZone  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID_REGION_THREE}  ${GLOBAL_INJECTED_OPENSTACK_PROJECT_DOMAIN__REGION_THREE}
+
 
 Get Cloud Config Test
     [TAGS]    mso    cloudconfig

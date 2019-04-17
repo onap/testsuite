@@ -40,10 +40,14 @@ Instantiate Service Direct To SO
     ${tmp_key2}=   Catenate  \$  {   GLOBAL_INJECTED_UBUNTU_1404_IMAGE  }
     ${tmp_key2}=     Evaluate  '${tmp_key2}'.replace(' ','')
     # ecompnet  13 , 14, 15
-    Set To Dictionary   ${template}    ${tmp_key1}     14      ${tmp_key2}     ${GLOBAL_INJECTED_UBUNTU_1404_IMAGE}
+    # use same method as sdnc preload robot script
+    ${ecompnet}=    Evaluate    str((${GLOBAL_BUILD_NUMBER}%128)+128)
+
+    Set To Dictionary   ${template}    ${tmp_key1}     ${ecompnet}     ${tmp_key2}     ${GLOBAL_INJECTED_UBUNTU_1404_IMAGE}
 
     Log    ${preload_dict}  
     Log    ${template}  
-    Create Entire Service   ${csar_file}    ${vnf_template_file}   ${template}   ${name_suffix}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}  ${heatbridge}
-
+    ${service_instance_id}=   Create Entire Service   ${csar_file}    ${vnf_template_file}   ${template}   ${name_suffix}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}  ${heatbridge}
+    Log To Console     ServiceInstanceId:${service_instance_id}
+    Should Not Be Equal As Strings  ${service_instance_id}   None
 
