@@ -51,6 +51,23 @@
       "revId": "4a16660e2b840af86c90fbf4fdfc4fa3abd05b60",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "969b5000_9dfbccf4",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4401
+      },
+      "writtenOn": "2019-04-18T05:54:52Z",
+      "side": 1,
+      "message": "ok, I removed \u0027Basic DMAAP Bus Controller Health Check\u0027",
+      "revId": "4a16660e2b840af86c90fbf4fdfc4fa3abd05b60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
