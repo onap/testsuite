@@ -34,7 +34,7 @@
 # Note: Do not run multiple concurrent ete.sh as the --display is not parameterized and tests will collide
 #
 if [ "$1" == "" ] || [ "$2" == "" ]; then
-   echo "Usage: ete-k8s.sh [namespace] [ health | healthdist | distribute | instantiate | instantiateVFWCL | instantiateDemoVFWCL |  | portal ]"
+   echo "Usage: ete-k8s.sh [namespace] [ health | healthdist | distribute | instantiate | instantiateVFWCL | instantiateDemoVFWCL | portal ]"
    exit
 fi
 
