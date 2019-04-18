@@ -97,7 +97,8 @@ Preload Vnf
     \       ${base_vf_module_type}=   Set Variable If    '${dict['isBase']}' == 'true'     ${vf_module_type}    ${base_vf_module_type}
     \       ${closedloop_vf_module}=   Set Variable If    '${dict['isBase']}' == 'false'     ${vf_module}    ${closedloop_vf_module}
     \       ${vf_name}=     Update Module Name    ${dict}    ${vf_module_name}
-    \       Preload Vnf Profile    ${vf_module_type}
+    #    Admin portal update no longer 
+    #\       Preload Vnf Profile    ${vf_module_type}
     \       Preload One Vnf Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}
     [Return]    ${base_vf_module_type}   ${closedloop_vf_module}
 
