@@ -93,6 +93,9 @@ Preload Vnf
     \       ...    ELSE IF  "${generic_vnf_name}".endswith('1')      Get From Mapping With Index    ${templates}    ${vf_module}   1
     \       ...    ELSE IF  "${generic_vnf_name}".endswith('2')      Get From Mapping With Index    ${templates}    ${vf_module}   2
     \       ...    ELSE   Get From Mapping    ${templates}    ${vf_module}
+    #     skip this iteration if no template 
+    \       ${test_dict_length} =  Get Length  ${dict}
+    \       Continue For Loop If   ${test_dict_length} == 0
     \       ${filename}=    Get From Dictionary    ${dict}    template
     \       ${base_vf_module_type}=   Set Variable If    '${dict['isBase']}' == 'true'     ${vf_module_type}    ${base_vf_module_type}
     \       ${closedloop_vf_module}=   Set Variable If    '${dict['isBase']}' == 'false'     ${vf_module}    ${closedloop_vf_module}
