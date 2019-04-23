@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb19885e_8ca89682",
+        "filename": "robot/resources/sdngc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-04-23T19:37:36Z",
+      "side": 1,
+      "message": "what is all this trying to test? determining if something exists in the preload data?",
+      "revId": "67f13c432193ce54e083a8757c2d6dec71e4c283",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
