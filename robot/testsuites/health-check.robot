@@ -40,8 +40,8 @@ Basic AAF Health Check
     [Tags]    health    small  dev-aaf
     Run AAF Health Check
 
-Basic AAF SMS Health Check    dev-aaf
-    [Tags]    health    small
+Basic AAF SMS Health Check
+    [Tags]    health    small  dev-aaf
     Run SMS Health Check
 
 Basic APPC Health Check
