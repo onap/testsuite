@@ -58,7 +58,7 @@ pip install \
 --no-cache-dir \
 --upgrade \
 --exists-action s \
---target="$path/robot/library" .
+--target="$path/robot/library" ./robotframework-onap
 
 
 if [ -d $path/testsuite/heatbridge ]
