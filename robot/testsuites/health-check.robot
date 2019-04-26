@@ -74,7 +74,7 @@ Basic DMAAP Message Router PubSub Health Check
     Run MR PubSub Health Check
 
 Basic DMAAP Bus Controller Health Check With Basic Auth
-    [Tags]    health    core    dev-dmaap
+    [Tags]    health    dev-dmaap
     Run BC Health Check With Basic Auth
 
 Basic External API NBI Health Check
