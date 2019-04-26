@@ -119,7 +119,8 @@ Get From Mapping With Index
     ${vf_module_name}=    Get From DIctionary    ${vf_module}    name
     :for    ${template}   in   @{templates}
     \    Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}' and ('${template['vnf_index']}' == '${vnf_index}')     ${template}
-    [Return]    None
+    ${result}=    Create Dictionary
+    [Return]    ${result}
 
 Get From Mapping
     [Documentation]    Retrieve the appropriate prelad template entry for the passed vf_module
@@ -127,7 +128,8 @@ Get From Mapping
     ${vf_module_name}=    Get From DIctionary    ${vf_module}    name
     :for    ${template}   in   @{templates}
     \    Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}'     ${template}
-    [Return]    None
+    ${result}=    Create Dictionary
+    [Return]    ${result}
 
 Preload One Vnf Topology
     [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}       ${vf_module_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}
