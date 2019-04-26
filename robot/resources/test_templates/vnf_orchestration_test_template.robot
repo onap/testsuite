@@ -81,7 +81,7 @@ Orchestrate VNF
     \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
-    \   Run Keyword If   '${service}' == 'vLB'   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
+    #\   Run Keyword If   '${service}' == 'vLB'   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
     \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
     \   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
@@ -127,7 +127,7 @@ Orchestrate Demo VNF
     \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
-    \   Run Keyword If   '${service}' == 'vLB'   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
+    #\   Run Keyword If   '${service}' == 'vLB'   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
     \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
     \   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
@@ -242,7 +242,7 @@ Delete VNF
     :for   ${stack}   in   @{sorted_stack_names}
     \     Get Stack Keypairs   ${stack}
     Teardown VVG Server
-    Teardown VLB Closed Loop Hack
+    #Teardown VLB Closed Loop Hack
     Run Keyword and Ignore Error   Teardown VID   ${SERVICE_INSTANCE_ID}   ${lcp_region}   ${TENANT_NAME}   ${CUSTOMER_NAME}
     #
     :for   ${stack}   in   @{sorted_stack_names}

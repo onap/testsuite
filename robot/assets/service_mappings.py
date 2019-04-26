@@ -6,7 +6,7 @@ import os.path
 This metadata identifies the folders to be zipped and uploaded to SDC for model distribution for a given VNF
 '''
 GLOBAL_SERVICE_FOLDER_MAPPING = {"vFW" : ['vFW'], \
-                                 "vLB" : ['vLB'], \
+                                 "vLB" : ['vLBMS'], \
                                  "vVG" : ['vVG'], \
                                  "vCPE" : ['vCPE/infra', 'vCPE/vbng', 'vCPE/vbrgemu', 'vCPE/vgmux', 'vCPE/vgw'],
                                  "vFWCL" : ['vFWCL/vFWSNK', 'vFWCL/vPKG'],
