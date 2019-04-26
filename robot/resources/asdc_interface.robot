@@ -694,6 +694,7 @@ Set ASDC Catalog Resource VNF Inputs
     [Arguments]    ${catalog_resource_id}    ${data}
     ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/update/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]    ${resp.json()}
+
 Get SDC Demo Vnf Catalog Resource
     [Documentation]  gets resource id's for demonstration VNFs for instantiate
     [Arguments]    ${service_name}
@@ -714,8 +715,8 @@ Get VNF From Group Name
     [Documentation]   looks up vnf key from service mapping for a regex on groupName and service_name
     [Arguments]   ${group_name}    ${service_name}
     ${vnf}=   Set Variable If
-    ...                      ('${service_name}'=='demoVFWCL') and ('base_vfw' in '${group_name}')   vFWSNK
-    ...                      ('${service_name}'=='demoVFWCL') and ('base_vpkg' in '${group_name}')   vPKG
+    ...                      ('${service_name}'=='demoVFWCL') and ('base_vfw' in '${group_name}')   vFWCLvFWSNK
+    ...                      ('${service_name}'=='demoVFWCL') and ('base_vpkg' in '${group_name}')   vFWCLvPKG
     ...                      ('${service_name}'=='demoVLB') and ('base_vlb' in '${group_name}')   vLB
     [Return]   ${vnf}
 Checkin ASDC Catalog Resource
