@@ -121,14 +121,6 @@ Basic Multicloud-vio API Health Check
     [Tags]    health    multicloud   dev-multicloud
     Run MSB Get Request    /api/multicloud-vio/v0/swagger.json
 
-Basic MUSIC Health Check
-    [Tags]    health    music   dev-common
-    Run MUSIC Health Check
-
-Basic MUSIC Cassa Check
-    [Tags]    health    music   dev-common
-    Run MUSIC Cassandra Connection Check
-
 Basic OOF-Homing Health Check
     [Tags]    health    medium   dev-oof
     Run OOF-Homing Health Check
