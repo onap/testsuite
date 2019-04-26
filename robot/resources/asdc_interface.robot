@@ -714,8 +714,8 @@ Get VNF From Group Name
     [Documentation]   looks up vnf key from service mapping for a regex on groupName and service_name
     [Arguments]   ${group_name}    ${service_name}
     ${vnf}=   Set Variable If
-    ...                      ('${service_name}'=='demoVFWCL') and ('base_vfw' in '${group_name}')   vFWSNK
-    ...                      ('${service_name}'=='demoVFWCL') and ('base_vpkg' in '${group_name}')   vPKG
+    ...                      ('${service_name}'=='demoVFWCL') and ('base_vfw' in '${group_name}')   vFWCLvFWSNK
+    ...                      ('${service_name}'=='demoVFWCL') and ('base_vpkg' in '${group_name}')   vFWCLvPKG
     ...                      ('${service_name}'=='demoVLB') and ('base_vlb' in '${group_name}')   vLB
     [Return]   ${vnf}
 Checkin ASDC Catalog Resource
