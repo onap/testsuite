@@ -121,6 +121,10 @@ Basic Multicloud-vio API Health Check
     [Tags]    health    multicloud   health-multicloud
     Run MSB Get Request    /api/multicloud-vio/v0/swagger.json
 
+Basic Multicloud-thinkcloud API Health Check
+    [Tags]    health    multicloud    small   health-multicloud
+    Run MSB Get Request    /api/multicloud-thinkcloud/v0/swagger.json
+
 Basic OOF-Homing Health Check
     [Tags]    health    medium   health-oof
     Run OOF-Homing Health Check
