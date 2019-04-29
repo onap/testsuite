@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8af086ac_05d489e4",
+        "filename": "robot/assets/templates/policy/vFirewall_policy_monitoring_input_tosca.template",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-04-29T21:23:42Z",
+      "side": 1,
+      "message": "seems like this should be vFW not vLoadBalancer ?",
+      "range": {
+        "startLine": 17,
+        "startChar": 36,
+        "endLine": 17,
+        "endChar": 64
+      },
+      "revId": "e14d257db3c028af381ca277e6559d01262524af",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
