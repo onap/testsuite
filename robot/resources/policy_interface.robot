@@ -52,6 +52,16 @@ Run Policy Put Request
      ${resp}= 	Put Request 	policy 	${data_path}     data=${data}    headers=${headers}
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
+
+Run Policy Post Request
+     [Documentation]    Runs Policy Post request
+     [Arguments]    ${data_path}  ${data}
+     Log    Creating session ${POLICY_ENDPOINT}
+     ${session}=    Create Session 	policy 	${POLICY_ENDPOINT}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    Authorization=Basic ${GLOBAL_POLICY_AUTH}   ClientAuth=${GLOBAL_POLICY_CLIENTAUTH}    Environment=TEST
+     ${resp}= 	Post Request 	policy   ${data_path}     data=${data}    headers=${headers}
+     Log    Received response from policy ${resp.text}
+     [Return]    ${resp}
      
 Run Policy Delete Request
      [Documentation]    Runs Policy Delete request
@@ -129,3 +139,26 @@ Validate the vFWCL Policy
     Should Be Equal As Strings 	${resp.status_code} 	200
     ${resp}=   Run Drools Get Request   /policy/pdp/engine/controllers/amsterdam/drools/facts/closedloop-amsterdam/org.onap.policy.controlloop.Params
     Should Be Equal As Strings 	${resp.status_code} 	200
+
+
+Create vFirewall Monitoring Policy
+     ${dict}=   Create Dictionary
+     ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/vFirewall_policy_monitoring_input_tosca.template    ${dict}
+     ${resp}=   Run Policy Post Request    /policy/api/v1/policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app/versions/1.0.0/policies     ${data}
+     Should Be Equal As Strings 	${resp.status_code} 	200
+
+
+Create vFirewall Operational Policy
+     [Arguments]   ${resource_id}
+     ${dict}=   Create Dictionary   RESOURCE_ID=${resource_id}
+     ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/vFirewall_policy_operational_input.template    ${dict}
+     ${resp}=   Run Policy Post Request    /policy/api/v1/policytypes/onap.policies.controlloop.Operational/versions/1.0.0/policies    ${data}
+     Should Be Equal As Strings 	${resp.status_code} 	200
+
+
+Push vFirewall Policies To PDP Group
+     ${dict}=   Create Dictionary
+     ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/vFirewall_push.template    ${dict}
+     ${resp}=   Run Policy Post Request    /policy/pap/v1/pdps/policies   ${data}
+     Should Be Equal As Strings 	${resp.status_code} 	200
+

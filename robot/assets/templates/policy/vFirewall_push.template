@@ -1,0 +1,12 @@
+{
+  "policies": [
+    {
+      "policy-id": "onap.vfirewall.tca",
+      "policy-version": 1
+    },
+    {
+      "policy-id": "operational.modifyconfig",
+      "policy-version": 1
+    }
+  ]
+}

@@ -260,7 +260,7 @@ Download CSAR
    ${base64Obj}=   Set Variable    ${resp.json()['base64Contents']}
    ${binObj}=   Evaluate   base64.b64decode("${base64Obj}")   modules=base64
    Create Binary File  ${save_directory}/${csar_file_name}  ${binObj}
-   Log To Console      Downloaded:${csar_file_name}
+   Log To Console      ${\n}Downloaded:${csar_file_name}
    [Return]
 
 
