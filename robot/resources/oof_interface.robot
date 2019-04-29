@@ -18,6 +18,7 @@ ${OOF_CMSO_HEALTH_CHECK_PATH}        /cmso/v1/health?checkInterfaces=true
 ${OOF_CMSO_TEMPLATE_FOLDER}   robot/assets/templates/cmso
 ${OOF_CMSO_UTC}   %Y-%m-%dT%H:%M:%SZ
 ${OOF_HOMING_PLAN_FOLDER}    robot/assets/templates/optf-has
+${OOF_OSDF_TEMPLATE_FOLDER}   robot/assets/templates/optf-osdf
 
 ${OOF_HOMING_ENDPOINT}    ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_HOMING_IP_ADDR}:${GLOBAL_OOF_HOMING_SERVER_PORT}
 ${OOF_SNIRO_ENDPOINT}     ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_SNIRO_IP_ADDR}:${GLOBAL_OOF_SNIRO_SERVER_PORT}
@@ -164,3 +165,28 @@ OOF-CMSO Json Escape
     ${json_string}=    Evaluate    json.dumps(${json})    json
     ${escaped}=   Replace String    ${json_string}   "   \\"
     [Return]   ${escaped}
+
+Run OOF-OSDF Post Request
+    [Documentation]    Runs a scheduler POST request
+    [Arguments]   ${data_path}   ${data}={} ${auth}
+
+    ${session}=    Create Session   session   ${OOF_OSDF_ENDPOINT}   auth=${auth}
+    ${headers}=  Create Dictionary   Accept=application/json    Content-Type=application/json
+    ${resp}= 	Post Request 	session 	${data_path}     headers=${headers}   data=${data}
+    Log    Received response from osdf ${resp.text}
+    [Return]    ${resp}
+
+
+Run OOF-OSDF Post Homing
+   [Documentation]    Runs a osdf homing request
+    ${auth}=  Create List  ${GLOBAL_OOF_OSDF_USERNAME}    ${GLOBAL_OOF_OSDF_PASSWORD}
+    ${data}=         Get Binary File     ${OOF_OSDF_TEMPLATE_FOLDER}${/}placement_request.json
+    ${resp}=   Run OOF-OSDF Post Request  /api/oof/placement/v1   data=${data}    auth=${auth}
+    Should Be Equal As Strings    ${resp.status_code}   204
+
+Run OOF-OSDF Post PCI-OPT
+    [Documentation]    Runs a osdf PCI-OPT request
+    ${auth}=  Create List  ${GLOBAL_OOF_PCI_USERNAME}    ${GLOBAL_OOF_PCI_PASSWORD}
+    ${data}=         Get Binary File     ${OOF_OSDF_TEMPLATE_FOLDER}${/}pci-opt-request.json
+    ${resp}=   Run OOF-OSDF Post Request  /api/oof/pci/v1   data=${data}    auth=${auth}
+    Should Be Equal As Strings    ${resp.status_code}   204
