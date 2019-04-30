@@ -53,6 +53,15 @@ Run Policy Put Request
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
 
+Run Policy Get Request
+     [Documentation]    Runs Policy Get request
+     [Arguments]    ${data_path}
+     Log    Creating session ${POLICY_ENDPOINT}
+     ${session}=    Create Session 	policy 	${POLICY_ENDPOINT}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    Authorization=Basic ${GLOBAL_POLICY_AUTH}   ClientAuth=${GLOBAL_POLICY_CLIENTAUTH}    Environment=TEST
+     ${resp}= 	Get Request 	policy   ${data_path}     headers=${headers}
+     Log    Received response from policy ${resp.text}
+
 Run Policy Post Request
      [Documentation]    Runs Policy Post request
      [Arguments]    ${data_path}  ${data}
@@ -62,7 +71,7 @@ Run Policy Post Request
      ${resp}= 	Post Request 	policy   ${data_path}     data=${data}    headers=${headers}
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
-     
+
 Run Policy Delete Request
      [Documentation]    Runs Policy Delete request
      [Arguments]    ${data_path}  ${data}
@@ -85,7 +94,7 @@ Run Policy Get Configs Request
 
 
 
-Update vVFWCL Policy
+Update vVFWCL Policy Old
     [Arguments]   ${resource_id}
     Run Keyword and Ignore Error    Delete vFWCL Policy
     Sleep    20s
@@ -99,7 +108,22 @@ Update vVFWCL Policy
     Reboot Drools
     Sleep    20s
     Log To Console   Validate vFWCL Policy
+    Validate the vFWCL Policy Old
+
+Update vVFWCL Policy
+    [Arguments] ${resource_id}
+    Log To Console Create vFWCL Monitoring Policy
+    Create vFirewall Monitoring Policy
+    Sleep   5s
+    Log To Console Create vFWCL Operational Policy
+    Create vFirewall Operational Policy ${resource_id}
+    Sleep   5s
+    Log To Console Push vFWCL To PDP Group
+    Push vFirewall Policies To PDP Group
+    Sleep    20s
+    Log To Console   Validate vFWCL Policy
     Validate the vFWCL Policy
+
 
 Delete vFWCL Policy
      ${data}=   OperatingSystem.Get File    ${POLICY_TEMPLATES}/FirewallPolicy_delete.template
@@ -134,12 +158,16 @@ Reboot Drools
     Log   stdout=${stdout}
     Should Contain     ${stdout}    is running
 
-Validate the vFWCL Policy
+Validate the vFWCL Policy Old
     ${resp}=   Run Drools Get Request   /policy/pdp/engine/controllers/amsterdam/drools
     Should Be Equal As Strings 	${resp.status_code} 	200
     ${resp}=   Run Drools Get Request   /policy/pdp/engine/controllers/amsterdam/drools/facts/closedloop-amsterdam/org.onap.policy.controlloop.Params
     Should Be Equal As Strings 	${resp.status_code} 	200
 
+Validate the vFWCL Policy 
+    ${resp}=   Run Policy Get Request   /policy/pap/v1/pdps
+    Log    Received response from policy ${resp.text}
+    Should Be Equal As Strings         ${resp.status_code}     200
 
 Create vFirewall Monitoring Policy
      ${dict}=   Create Dictionary

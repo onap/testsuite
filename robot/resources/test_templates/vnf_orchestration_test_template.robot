@@ -69,6 +69,7 @@ Orchestrate VNF
     ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
     ${generic_vnfs}=    Create Dictionary
     ${vnf_name_index}=   Set Variable  0
+    ${vf_module_name_list}=    Create List
     ${uuid}=    Evaluate    str("${uuid}")[:8]
     :for   ${vnf}   in   @{vnflist}
     # APPC max is 50 characters
@@ -88,7 +89,8 @@ Orchestrate VNF
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
     \   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
     \   Validate VF Module      ${vf_module_name}    ${vnf}
-    [Return]     ${vf_module_name}    ${service}    ${generic_vnfs}
+    \   Append To List   ${vf_module_name_list}    ${vf_module_name}
+    [Return]     ${vf_module_name_list}    ${service}    ${generic_vnfs}
 
 
 Orchestrate Demo VNF
