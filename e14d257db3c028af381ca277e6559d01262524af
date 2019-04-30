@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "67b01bd5_43dc3100",
+        "filename": "robot/assets/templates/policy/vFirewall_policy_monitoring_input_tosca.template",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-04-30T13:16:32Z",
+      "side": 1,
+      "message": "Policy doesn\u0027t care anymore - these 3 fields should be re-visited at another point. policyScope, policyName (now located in both metadata and tosca name section) and policyVersion (located in metadata section upon success of POST call).",
+      "parentUuid": "a55d0ccc_e44aaf2a",
+      "range": {
+        "startLine": 19,
+        "startChar": 52,
+        "endLine": 19,
+        "endChar": 93
+      },
+      "revId": "e14d257db3c028af381ca277e6559d01262524af",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecaa300a_cd1ed10d",
         "filename": "robot/assets/templates/policy/vFirewall_policy_monitoring_input_tosca.template",
         "patchSetId": 1
