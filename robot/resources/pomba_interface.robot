@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     Tests the health of the POMBA containers: aai-context-builder, sdc-context-builder,
-Documentation     network-discovery-micro-service, Context-Aggregator, pomba-kibana, pomba-elasticsearch,
-Documentation     service-decomposition, sdnc-context-builder and network-discovery-context-builder.
+...    network-discovery-micro-service, Context-Aggregator, pomba-kibana, pomba-elasticsearch,
+...    service-decomposition, sdnc-context-builder and network-discovery-context-builder.
 Library    Collections
 Library         String
 Library 	      RequestsLibrary
