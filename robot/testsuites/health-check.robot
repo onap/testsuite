@@ -73,6 +73,11 @@ Basic DMAAP Message Router PubSub Health Check
     [Timeout]   30
     Run MR PubSub Health Check
 
+Basic DMAAP Message Router ACL Update Test 
+    [Tags]    dmaapacl
+    [Timeout]   30
+    Run MR Update Topic Acl
+
 Basic DMAAP Bus Controller Health Check With Basic Auth
     [Tags]    health    health-dmaap
     Run BC Health Check With Basic Auth
