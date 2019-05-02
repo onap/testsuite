@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c1b50a9_a73dbb51",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-05-02T20:37:47Z",
+      "side": 1,
+      "message": "health-dmaap health should be the tags for this if this is truly a health check. if not, please put in a seperate file",
+      "revId": "d52914dd2a40a86fe819989c7baeace83ac359d6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
