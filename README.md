@@ -2,6 +2,8 @@
 ## Prerequisites
 This guide assumes you have run git clone on https://gerrit.onap.org/r/p/testsuite.git
 
+For more info please see the [Development Guide](https://wiki.onap.org/display/DW/Robot+Framework+Development+Guide)
+
 ## Development Environment Setup
 ### Python Installation
 You should install 2.7.12: [https://www.python.org/downloads/release/python-2712](https://www.python.org/downloads/release/python-2712)
@@ -58,41 +60,6 @@ Note that this script will download the chromedriver for the current OS. The def
 Windows and Mac hosts will download into the current working directory. Windows and MAC users will need to ensure that the driver is 
 in the execution PATH.
 
-
-## Robot Project Structure
-### Overview
-ProjectName - robot
-
-```
-`-- robot
-    |-- assets - put anything you need as input like json files, cert keys, heat templates
-    |   |-- templates - put any json templates in here, you can include subfolders for each component
-    |-- library - put any python libraries need to run tests in here
-    |   |-- eteutils - put any python code libraries we write in here
-    |-- resources - put any robot resource files aka libraries we write in here
-    |   |-- aai
-    |   `-- vid
-    `-- testsuites - put any robot test suites we write in here
-```    
-
-### Tag Strucutre
-Robot uses tags to separate out test cases to run. below are the tags we use
-
-* garbage - use this for test cases that should be cleaned up before go live date
-* health - use this for test cases that perform a health check of the environment
-* smoke - use this for test cases that perform a basic check of a component
-* ete - use this for the test cases that are performing an end to end test
-
-## Branching Structure
-### Overview
-Repository Name: testsuite
-
-Branching strategy:
-```
-`-- testsuite
-    |-- master - the main branch and always the latest deployable code. Send a pull to here from feature and Dan or Jerry will approve.
-    |-- feature-[XXXXXX] - when you want to make changes you make them here, when you are satisfied send pull request to master
-```    
 
 ## Executing ETE Testcases
 ### Overview
