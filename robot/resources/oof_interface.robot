@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     The main interface for interacting with OOF: SNIRO and Homing Service
-Library           json5
 Library           RequestsLibrary
 Library	          UUID
 Library	          String
@@ -50,8 +49,7 @@ RUN OOF-Homing SendPlanWithWrongVersion
     Log               *********************
     Log               response = ${resp}
     Log               body = ${resp.text}
-    ${response_json}    json5.Loads    ${resp.content}
-    ${generatedPlanId}=    Convert To String      ${response_json['id']}
+    ${generatedPlanId}=    Convert To String      ${${resp.json()['id']}['id']}
     Set Global Variable     ${generatedPlanId}
     Log              generatedPlanId = ${generatedPlanId}
     Should Be Equal As Integers    ${resp.status_code}    201

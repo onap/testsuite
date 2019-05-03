@@ -18,7 +18,6 @@ pip install \
 --exists-action s \
 --target="$path/robot/library" \
 'selenium<=3.0.0' \
-'requests==2.11.1' \
 'robotframework-selenium2library==1.8.0' \
 'robotframework-databaselibrary==0.8.1' \
 'robotframework-extendedselenium2library==0.9.1' \
@@ -27,12 +26,8 @@ pip install \
 'robotframework-sudslibrary==0.8' \
 'robotframework-ftplibrary==1.3' \
 'robotframework-rammbock==0.4.0.1' \
-'deepdiff==2.5.1' \
-'dnspython==1.15.0' \
 'robotframework-httplibrary==0.4.2' \
 'robotframework-archivelibrary==0.3.2' \
-'PyYAML==3.12' \
-'json5==0.7.0' \
 'robotframework-kafkalibrary==0.0.2'
 
 
