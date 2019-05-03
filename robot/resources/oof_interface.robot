@@ -49,7 +49,7 @@ RUN OOF-Homing SendPlanWithWrongVersion
     Log               *********************
     Log               response = ${resp}
     Log               body = ${resp.text}
-    ${generatedPlanId}=    Convert To String      ${${resp.json()['id']}['id']}
+    ${generatedPlanId}=    Convert To String      ${resp.json()['id']}
     Set Global Variable     ${generatedPlanId}
     Log              generatedPlanId = ${generatedPlanId}
     Should Be Equal As Integers    ${resp.status_code}    201
