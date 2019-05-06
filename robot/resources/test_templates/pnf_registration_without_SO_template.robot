@@ -49,7 +49,7 @@ Send VES integration request
 Verify PNF integration request in A&AI
     [Documentation]   Verify if PNF integration request entries are present in A&AI
     [Arguments]  ${PNF_entry_dict}
-    Wait Until Keyword Succeeds  10x  1s  Query PNF A&AI updated entry  ${PNF_entry_dict}
+    Wait Until Keyword Succeeds  10x  5s  Query PNF A&AI updated entry  ${PNF_entry_dict}
     Log  PNF integration request in A&AI has been verified and contains all necessary entries
 
 Verify PNF integration request in MR
