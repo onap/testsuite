@@ -15,6 +15,7 @@
     <referencedLibrary type="PYTHON" name="StringTemplater" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="OpenstackLibrary" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="TemplatingEngine" path="testsuite/robot/library/eteutils"/>
+    <referencedLibrary type="PYTHON" name="SoUtils" path="testsuite/robot/library/vcpeutils"/>
     <referencedLibrary type="PYTHON" name="HEATUtils" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="OSUtils" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="DNSUtils" path="testsuite/robot/library/eteutils"/>
