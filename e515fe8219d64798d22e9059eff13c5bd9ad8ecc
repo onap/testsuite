@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "19447201_0148deee",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-05-06T19:12:26Z",
+      "side": 1,
+      "message": "should make the credentials a variable in vm_properties.py i \nintegration_robot_properties.py:GLOBAL_POLICY_PASSWORD \u003d \"{{ .Values.policyPassword }}\" is it different then the one already in integration_robot_properties.py ?",
+      "parentUuid": "8179516a_2028ba1e",
+      "revId": "e515fe8219d64798d22e9059eff13c5bd9ad8ecc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92c784e1_44d89439",
         "filename": "robot/resources/policy_interface.robot",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2019-05-06T18:25:16Z",
       "side": 1,
       "message": "you should refactor this method to do whatever checks you do need to do, rather then calling everything here",
+      "revId": "e515fe8219d64798d22e9059eff13c5bd9ad8ecc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c66fb0e_3c8d4f84",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-05-06T19:12:26Z",
+      "side": 1,
+      "message": "we agreed with this approach for Dublin with Pam.",
+      "parentUuid": "eed7f97a_5c840f28",
       "revId": "e515fe8219d64798d22e9059eff13c5bd9ad8ecc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
