@@ -86,6 +86,24 @@
       "revId": "e515fe8219d64798d22e9059eff13c5bd9ad8ecc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c7f80b3_de023843",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2019-05-06T19:21:42Z",
+      "side": 1,
+      "message": "Hi Dan, yes those are legacy components. We need to add the new policy components in. As Brian indicated, we will consolidate the new components into one healthcheck call for El Alto. And eventually remove legacy components in Frankfurt. Thanks!",
+      "parentUuid": "4c66fb0e_3c8d4f84",
+      "revId": "e515fe8219d64798d22e9059eff13c5bd9ad8ecc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
