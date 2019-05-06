@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8179516a_2028ba1e",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-05-06T18:25:16Z",
+      "side": 1,
+      "message": "should not hard code user name, password, protocol or port",
+      "revId": "e515fe8219d64798d22e9059eff13c5bd9ad8ecc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92c784e1_44d89439",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-05-06T18:25:16Z",
+      "side": 1,
+      "message": "run policy health check already does this above?",
+      "revId": "e515fe8219d64798d22e9059eff13c5bd9ad8ecc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eed7f97a_5c840f28",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-05-06T18:25:16Z",
+      "side": 1,
+      "message": "you should refactor this method to do whatever checks you do need to do, rather then calling everything here",
+      "revId": "e515fe8219d64798d22e9059eff13c5bd9ad8ecc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
