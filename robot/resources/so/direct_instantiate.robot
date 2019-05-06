@@ -20,7 +20,6 @@ Instantiate Service Direct To SO
     ${name_suffix}=   Get Current Date     exclude_millis=True
     ${name_suffix}=       Evaluate    '${name_suffix}'.replace(' ','')
     ${name_suffix}=       Evaluate    '${name_suffix}'.replace(':','')
-    ${heatbridge}=    Set Variable   false
     ${preload_dict}=       Copy Dictionary  ${GLOBAL_PRELOAD_PARAMETERS['defaults']}
     ${template}=   Create Dictionary
     @{keys}=    Get Dictionary Keys    ${preload_dict}
@@ -47,7 +46,7 @@ Instantiate Service Direct To SO
 
     Log    ${preload_dict}  
     Log    ${template}  
-    ${service_instance_id}=   Create Entire Service   ${csar_file}    ${vnf_template_file}   ${template}   ${name_suffix}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}  ${heatbridge}
+    ${service_instance_id}=   Create Entire Service   ${csar_file}    ${vnf_template_file}   ${template}   ${name_suffix}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
     Log To Console     ServiceInstanceId:${service_instance_id}
     Should Not Be Equal As Strings  ${service_instance_id}   None
 
