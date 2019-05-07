@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9844ccc1_3f5d3eb0",
+        "filename": "robot/resources/global_properties.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-05-07T16:13:53Z",
+      "side": 1,
+      "message": "hosts should not be in this file",
+      "revId": "dc7cd9a454d397d52ce770f897f5c74b51b147c6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a1472e_ef4170db",
+        "filename": "robot/resources/global_properties.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-05-07T16:13:53Z",
+      "side": 1,
+      "message": "ports should not be in this file",
+      "revId": "dc7cd9a454d397d52ce770f897f5c74b51b147c6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19eb1584_9ba92e06",
+        "filename": "robot/resources/test_templates/hvves_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-05-07T16:13:53Z",
+      "side": 1,
+      "message": "no passwords or user names should be in this file",
+      "revId": "dc7cd9a454d397d52ce770f897f5c74b51b147c6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
