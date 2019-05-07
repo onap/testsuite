@@ -5,28 +5,30 @@ Library     Rammbock
 Library     KafkaLibrary
 Library     BuiltIn
 Library     Collections
+Library     HttpLibrary.HTTP
 
 *** Variables ***
 ${hvves_message}    0x0a94020a0e73616d706c652d76657273696f6e12087065726633677070180120012a0a70657266334750503232321173616d706c652d6576656e742d6e616d653a1173616d706c652d6576656e742d7479706540f19afddd0548f19afddd05521573616d706c652d6e662d6e616d696e672d636f64655a1673616d706c652d6e66632d6e616d696e672d636f6465621573616d706c652d6e662d76656e646f722d6e616d656a1a73616d706c652d7265706f7274696e672d656e746974792d6964721c73616d706c652d7265706f7274696e672d656e746974792d6e616d657a1073616d706c652d736f757263652d696482010f73616d706c652d786e662d6e616d658a01095554432b30323a3030920105372e302e32120e7465737420746573742074657374
 ${hvves_kafka_topic}    HV_VES_PERF3GPP
+${security_protocol}    SASL_PLAINTEXT
+${sasl_mechanisms}    PLAIN
 
 *** Keywords ***
-Check Number Of Messages On Topic
-    [Documentation]     Checks number of messages published on kafka topic.
-    [Arguments]     ${kafka_server}     ${kafka_port}   ${kafka_topic}
-    [Teardown]      Close
-    Connect Consumer    bootstrap_servers=${kafka_server}:${kafka_port}
-    ${status}   ${msg_number}=      Run Keyword And Ignore Error        Get Number Of Messages In Topics    ${kafka_topic}
-    Run Keyword If      '${status}' == 'FAIL'   Return From Keyword     0
-    Run Keyword If      '${status}' == 'PASS'   Return From Keyword     ${msg_number}
+Check Message Via Message Router Api
+    [Documentation]    Checks message via message router API.
+    [Arguments]    ${message_router}    ${message_router_port}    ${topic}    ${state}
+    ${response}=    GET    http://${message_router}:${message_router_port}/events/${topic}/1/1
+    ${body}=    Get Response Body
+    Run Keyword If    '${state}'=='before'    Should Be Equal    ${body}    []
+    Run Keyword If    '${state}'=='after'    Should Not Be Equal    ${body}    []
 
 Check If Topic Exists
     [Documentation]      Checks if specific topic exists on kafka.
-    [Arguments]      ${kafka_server}      ${kafka_port}      ${kafka_topic}
-    [Teardown]      Close
-    Connect Consumer      bootstrap_servers=${kafka_server}:${kafka_port}
-    ${topics}=      Get Kafka Topics
-    List Should Contain Value      ${topics}      ${kafka_topic}
+    [Arguments]      ${message_router}      ${message_router_port}      ${topic}
+    ${response}=    GET    http://${message_router}:${message_router_port}/topics
+    ${body}=    Get Response Body
+    ${value}=    Get Json Value    ${body}    /topics
+    Should Contain    ${value}    ${topic}
 
 Define WTP Protocol
     [Documentation]     Defines Wire Transfer Protocol.
@@ -55,7 +57,7 @@ Download VesEvent Proto File
 
 Decode Last Message From Topic
     [Documentation]     Decode last message from Kafka topic.
-    [Arguments]     ${kafka_server}     ${kafka_port}     ${kafka_topic}    ${proto_file_dir}
-    ${msg}=     Run     kafkacat -C -b ${kafka_server}:${kafka_port} -t ${kafka_topic} -D "" -o -1 -c 1 | protoc --decode_raw --proto_path=${proto_file_dir}
+    [Arguments]     ${kafka_server}     ${kafka_port}     ${kafka_topic}    ${sec_protocol}    ${mechanisms}    ${username}    ${password}
+    ${msg}=     Run     kafkacat -C -b ${kafka_server}:${kafka_port} -t ${kafka_topic} -X security.protocol=${sec_protocol} -X sasl.mechanisms=${mechanisms} -X sasl.username=${username} -X sasl.password=${password} -D "" -o -1 -c 1 | protoc --decode_raw
     [Return]    ${msg}
 
