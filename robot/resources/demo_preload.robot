@@ -179,7 +179,8 @@ Instantiate VNF
     ${vf_module_name_list}    ${service}     ${generic_vnfs}=    Orchestrate VNF    DemoCust    ${service}   ${service}    ${TENANT_NAME}
     Save For Delete
     Log to Console   Customer Name=${CUSTOMER_NAME}
-    Log to Console   VNF Module Name=${vf_module_name}
+    :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
+    \   Log to Console   VNF Module Name=${vf_module_name}
     # Don't get from MSO for now due to SO-1186
     # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
