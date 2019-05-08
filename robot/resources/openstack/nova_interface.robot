@@ -142,7 +142,7 @@ Delete Server
 
 Get Id For Name
     [Arguments]    ${list}    ${name}
-    :for   ${item}   in   @{list}
+    :FOR   ${item}   IN   @{list}
     \    ${id}=    Get From Dictionary    ${item}    id
     \    ${n}=    Get From Dictionary    ${item}    name
     \    Return from Keyword If   '${n}' == '${name}'   ${id}

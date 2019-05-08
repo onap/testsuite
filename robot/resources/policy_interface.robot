@@ -5,7 +5,12 @@ Library 	      RequestsLibrary
 Library           String
 Library           JSONUtils
 Library           Collections
+Library           Collections    
+Library           SSHLibrary
+Library           OperatingSystem
+Resource          json_templater.robot
 Resource          global_properties.robot
+Resource          ssh/files.robot
 
 *** Variables ***
 ${POLICY_HEALTH_CHECK_PATH}        /healthcheck

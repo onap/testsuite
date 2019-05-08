@@ -49,7 +49,7 @@ Update ONAP Page
 
     ${values}=   Create Dictionary
     ${keys}=    Get Dictionary Keys    ${oam_ip_map}
-    :for   ${oam_ip}   in    @{keys}
+    :FOR   ${oam_ip}   IN    @{keys}
     \    ${value_name}=   Get From Dictionary    ${oam_ip_map}   ${oam_ip}
     \    Set Public Ip    ${server_map}    ${oam_ip}   ${value_name}   ${values}
     Log    ${values}
@@ -82,7 +82,7 @@ Set Public Ip
 Get Public Ip
     [Arguments]   ${server_map}    ${oam_ip}
     ${servers}   Get Dictionary Values    ${server_map}
-    :for   ${server}   in   @{servers}
+    :FOR   ${server}   IN   @{servers}
     \    ${status}   ${public_ip}   Run Keyword And Ignore Error   Search Addresses   ${server}   ${oam_ip}
     \    Return From Keyword If   '${status}'=='PASS'   ${public_ip}
     Fail  ${oam_ip} Server Not Found
@@ -124,7 +124,7 @@ Find Openstack 2
 
 Get V4 IP
     [Arguments]   ${ipmaps}
-    :for   ${ipmap}   in   @{ipmaps}
+    :FOR   ${ipmap}   IN   @{ipmaps}
     \    ${ip}   Get From Dictionary   ${ipmap}   addr
     \    ${version}   Get From Dictionary   ${ipmap}   version
     \    Return from Keyword if   '${version}' == '4'   ${ip}
@@ -133,7 +133,7 @@ Get V4 IP
 Get V4 IP Openstack
     [Arguments]   ${addresses}   ${testtype}
     ${ipmaps}=   Get From Dictionary   ${addresses}   ${testtype}
-    :for   ${ipmap}   in   @{ipmaps}
+    :FOR   ${ipmap}   IN   @{ipmaps}
     \    ${ip}   Get From Dictionary   ${ipmap}   addr
     \    ${version}   Get From Dictionary   ${ipmap}   version
     \    Return from Keyword if   '${version}'=='4'   ${ip}
@@ -141,7 +141,7 @@ Get V4 IP Openstack
 
 Get V4 IP Openstack 2
     [Arguments]   ${ipmaps}   ${testtype}
-    :for   ${ipmap}   in   @{ipmaps}
+    :FOR   ${ipmap}   IN   @{ipmaps}
     \    ${type}   Get From Dictionary   ${ipmap}   OS-EXT-IPS:type
     \    ${ip}   Get From Dictionary   ${ipmap}   addr
     \    ${version}   Get From Dictionary   ${ipmap}   version

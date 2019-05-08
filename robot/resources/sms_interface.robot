@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation	  The main interface for interacting with SMS.
-Library	          RequestsClientCert
 Library 	      RequestsLibrary
 Library	          UUID
 

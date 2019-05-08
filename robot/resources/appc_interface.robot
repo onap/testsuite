@@ -3,8 +3,10 @@ Documentation     The main interface for interacting with APP-C. It handles low 
 Library 	      RequestsLibrary
 Library	          UUID
 Library           OperatingSystem
+Library           SeleniumLibrary
 Library           StringTemplater
 Resource          global_properties.robot
+Resource          browser_setup.robot
 
 *** Variables ***
 ${APPC_INDEX_PATH}    /restconf

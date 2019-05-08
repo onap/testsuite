@@ -1,6 +1,7 @@
 *** Settings ***
 Documentation     The main interface for interacting with External API/NBI
 Library           RequestsLibrary
+Library            Collections
 
 Resource          global_properties.robot
 

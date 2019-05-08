@@ -1,59 +1,9 @@
 *** Settings ***
 Documentation    This is RobotFrame work script
-Library    ExtendedSelenium2Library
-Library    OperatingSystem
-#Library     	XvfbRobot
+Library    SeleniumLibrary
 
-
-*** Variables ***
-${PORTAL_SDK_URL}		http://portal.api.simpledemo.onap.org:8990
-${PORTAL_SDK_ENV}            /ONAPPORTALSDK
-${PORTAL_SDK_LOGIN_URL}                ${PORTAL_SDK_URL}${PORTAL_ENV}/login.htm
-${PORTAL_SDK_HOME_PAGE}        ${PORTAL_SDK_URL}${PORTAL_ENV}/welcome
-${PORTAL_SDK_MICRO_ENDPOINT}    ${PORTAL_SDK_URL}${PORTAL_ENV}/commonWidgets
-${PORTAL_SDK_HOME_URL}                ${PORTAL_SDK_URL}${PORTAL_ENV}/applicationsHome
-${GLOBAL_APPLICATION_ID}           robot-functional
-${GLOBAL_PORTAL_ADMIN_USER}		demo
-${GLOBAL_PORTAL_ADMIN_PWD}		demo
-${GLOBAL_SELENIUM_BROWSER}        chrome
-${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}        Create Dictionary
-${GLOBAL_SELENIUM_DELAY}          0
-${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}        5
-${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}        15
-${GLOBAL_BUILD_NUMBER}    0
-${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/robot_ssh_private_key.pvt
-
-#*** Test Cases ***
 
 *** Keywords ***
-
-SDKPortal admin Login To Portal GUI
-    [Documentation]    Logs into Portal GUI
-    #    Setup Browser
-    #    Start Virtual Display    1920    1080
-    Open Browser    ${PORTAL_SDK_LOGIN_URL}    chrome
-    #    Go To    ${PORTAL_SDK_LOGIN_URL}
-    Maximize Browser Window
-    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
-    Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    Log    Logging in to ${PORTAL_SDK_URL}${PORTAL_SDK_ENV}
-    # Handle Proxy Warning
-    Title Should Be    Login
-    Input Text    xpath=//input[@id='loginId']    ${GLOBAL_PORTAL_ADMIN_USER}
-    Input Password    xpath=//input[@id='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
-    Click Element    //*[@id="loginBtn"]
-    Wait Until Page Contains Element    xpath=//img[@src='app/fusionapp/icons/logo_onap_transbg.png']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
-    Log    Logged in to ${PORTAL_SDK_URL}${PORTAL_SDK_ENV}
-
-SDKPortalAdmin Navigation Application Link Tab
-    [Documentation]    Logs into Portal GUI as Portal admin
-    Comment    Click Element    xpath=.//h3[contains(text(),'xDemo App')]/following::div[1]
-    Comment    Go To    ${PORTAL_SDK_HOME_PAGE}
-    Comment    Dismiss Alert    accept=false
-    #Scroll Element Into View    xpath=//span[@id='tab-Home']
-    #Click Element    xpath=//span[@id='tab-Home']
-    #Click Element    xpath=(//span[@id='tab-xDemo-App']/following::i[@class='ion-close-round'])[1]
-    Comment    Click Element    xpath=.//h3[contains(text(),'xDemo App')]/following::div[1]
 
 Validate SDK Sub Menu
     [Documentation]    Logs into SDK GUI as Portal admin
@@ -133,5 +83,3 @@ Click Admin and validate sub Menu
     Click Link    xpath=//a[@id='parent-item-Admin']
     Click Link    xpath=//a[contains(@title,'Usage')]
     Page Should Contain    Current Usage
-
-

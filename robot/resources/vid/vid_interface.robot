@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     The main interface for interacting with VID. It handles low level stuff like managing the selenium request library and VID required steps
-Library 	    ExtendedSelenium2Library
+Library 	    SeleniumLibrary
 Library    Collections
 Library         String
 Library 	      RequestsLibrary
@@ -110,7 +110,7 @@ Get Model UUID from VID
     ${resp}=   Get Text   xpath=//body/pre
     ${json}=   To Json    ${resp}
     ${services}=   Get From Dictionary    ${json}   services
-    :for   ${dict}  in  @{services}
+    :FOR   ${dict}  IN  @{services}
     \    ${uuid}=   Get From DIctionary   ${dict}   uuid
     \    ${inv}=   Get From DIctionary   ${dict}    invariantUUID
     \    Return From Keyword If   "${invariantUUID}" == "${inv}"   ${uuid}
@@ -128,7 +128,7 @@ Get Module Names from VID
     ${modules}=   Create List
     ${vnfs}=   Get From Dictionary    ${json}   vnfs
     ${keys}=   Get Dictionary Keys    ${vnfs}
-    :for   ${key}  in  @{keys}
+    :FOR   ${key}  IN  @{keys}
     \    Add VFModule   ${vnfs['${key}']}   ${modules}
     [Return]    ${modules}
 
@@ -137,7 +137,7 @@ Add VFModule
     [Arguments]   ${vnf}   ${modules}
     ${vfModules}=   Get From Dictionary    ${vnf}   vfModules
     ${keys}=   Get Dictionary Keys    ${vfModules}
-    :for   ${key}  in  @{keys}
+    :FOR   ${key}  IN  @{keys}
     \    ${module}=   Get From Dictionary    ${vfModules}   ${key}
     \    ${dict}=    Create Dictionary   name=${module['name']}
     \    Append to List   ${modules}   ${dict}

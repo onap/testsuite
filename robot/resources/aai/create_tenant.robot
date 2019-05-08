@@ -89,7 +89,7 @@ Get Cloud Region
 Update Tenant Dictionary
     [Arguments]    ${dict}    ${json}
     ${list}=    Evaluate    ${json}['tenant']
-    :for   ${map}    in    @{list}
+    :FOR   ${map}    IN    @{list}
     \    ${status}    ${tenant_id}=     Run Keyword And Ignore Error    Get From Dictionary    ${map}    tenant-id
     \    Run Keyword If    '${status}' == 'PASS'    Set To Dictionary    ${dict}    ${tenant_id}=${map}
     Log    ${dict}

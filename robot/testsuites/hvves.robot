@@ -1,7 +1,9 @@
 *** Settings ***
-Documentation   HV-VES 'Sunny Scenario' Robot Framwork test - message is sent to the collector and Kafka topic is checked if the message has been published.
-Default Tags    HVVES   ete
-Test Timeout    10s
+Documentation   HV-VES 'Sunny Scenario' Robot Framwork test - message is sent to the collector and Kafka topic is checked if the message has been published. 
+
+
+Library    Rammbock
+Library    OperatingSystem
 Resource    ${EXECDIR}/robot/resources/global_properties.robot
 Resource    ${EXECDIR}/robot/resources/test_templates/hvves_template.robot
 Suite Teardown  Reset Rammbock
@@ -10,6 +12,8 @@ Suite Teardown  Reset Rammbock
 
 *** Test Cases ***
 HV-VES test case
+    [Tags]    HVVES   ete
+    [Timeout]     10s
     ${msg_number_initial}=  Check Number Of Messages On Topic   ${GLOBAL_DNS_MESSAGE_ROUTER_KAFKA_NAME}  ${GLOBAL_MESSAGE_ROUTER_KAFKA_PORT}  ${hvves_kafka_topic}
     Define WTP Protocol
     Start HV-VES TCP Client And Send Message     ${GLOBAL_DNS_HV_VES_NAME}   ${GLOBAL_HV_VES_SERVER_PORT}

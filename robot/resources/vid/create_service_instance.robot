@@ -3,7 +3,7 @@ Documentation	  Creates VID Service Instance
 ...
 ...	              Creates VID Service Instance
 
-Library 	    ExtendedSelenium2Library
+Library 	    SeleniumLibrary
 Library	        UUID
 Library         String
 Library        DateTime
@@ -26,8 +26,8 @@ Create VID Service Instance
     Select From List When Enabled    //select[@prompt='Select Project Name']     ${project_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Select From List When Enabled    //select[@prompt='Select Owning Entity']     ${owning_entity}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Capture Page Screenshot
-    Xpath Should Match X Times    //input[@parameter-name='Instance Name']    1
-    Focus   //input[@parameter-name='Instance Name']
+    Page Should Contain Element 	//input[@parameter-name='Instance Name'] 	limit=1
+    Set Focus To Element   //input[@parameter-name='Instance Name']
     Wait Until Keyword Succeeds   120s  5s    Input Text When Enabled    //input[@parameter-name='Instance Name']    ${service_name}   timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Capture Page Screenshot
     Click On Button When Enabled    //div[@class = 'buttonRow']/button[text() = 'Confirm']

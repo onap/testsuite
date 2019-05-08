@@ -3,7 +3,7 @@ Documentation     The main interface for interacting with VID. It handles low le
 Library           Collections
 Library           OSUtils
 Library           OperatingSystem
-Library           ExtendedSelenium2Library
+Library           SeleniumLibrary
 Resource          global_properties.robot
 
 *** Variables ***
@@ -21,8 +21,6 @@ Setup Browser Firefox
     ${caps}=   Evaluate   sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX   sys
     Set To Dictionary   ${caps}   marionette=
     Set To Dictionary   ${caps}   elementScrollBehavior    1
-    # TODO
-    # Figure out how to run FF headless without Xvfb
     ${wd}=   Create WebDriver   Firefox   capabilities=${caps}
     Set Global Variable    ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}    ${caps}
 
@@ -39,9 +37,9 @@ Setup Browser Firefox
 
 Handle Proxy Warning
     [Documentation]    Handle Intermediate Warnings from Proxies
-    ${status}    ${data}=    Run Keyword And Ignore Error   Variable Should Exist    \${GLOBAL_PROXY_WARNING_TITLE}
+    ${status}    ${data}=    Run Keyword And Ignore Error   Variable Should Exist    ${GLOBAL_PROXY_WARNING_TITLE}
     Return From Keyword if    '${status}' != 'PASS'
-    ${status}    ${data}=    Run Keyword And Ignore Error   Variable Should Exist    \${GLOBAL_PROXY_WARNING_CONTINUE_XPATH}
+    ${status}    ${data}=    Run Keyword And Ignore Error   Variable Should Exist    ${GLOBAL_PROXY_WARNING_CONTINUE_XPATH}
     Return From Keyword if    '${status}' != 'PASS'
     Return From Keyword if    "${GLOBAL_PROXY_WARNING_TITLE}" == ''
     Return From Keyword if    "${GLOBAL_PROXY_WARNING_CONTINUE_XPATH}" == ''

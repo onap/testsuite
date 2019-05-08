@@ -57,7 +57,7 @@ Get KeystoneAPIVersion
     ${json}=    Parse Json    ${resp.content}
     ${versions}=   Get From Dictionary    ${json}   versions
     ${values}=   Get From Dictionary    ${versions}   values
-    : FOR    ${value}    IN    @{values}
+    :FOR    ${value}    IN    @{values}
        \  ${status}=    Get Variable Value    ${value["status"]}
        \  Run Keyword If    '${status}'=='stable'   Exit For Loop
     ${href}=  Set Variable     ${value["links"][0]["href"]}

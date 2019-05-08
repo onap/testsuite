@@ -3,7 +3,6 @@ Documentation	  Testing asdc.
 Library    OperatingSystem
 Library    RequestsLibrary
 Library    Collections
-Library 	      ExtendedSelenium2Library
 Resource          ../resources/test_templates/model_test_template.robot
 
 Test Template         Model Distribution For Directory

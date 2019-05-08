@@ -286,11 +286,11 @@ Portal Application Access Tests
 
 Basic Holmes Rule Management API Health Check
     [Tags]    health    medium   health-dcae
-    Run Holmes Rule Mgmt Health Check
+    Run Holmes Rule Mgmt Healthcheck
 
 Basic Holmes Engine Management API Health Check
     [Tags]    health    medium   health-dcae
-    Run Holmes Engine Mgmt Health Check
+    Run Holmes Engine Mgmt Healthcheck
 
 Basic Multicloud-fcaps API Health Check
     [Tags]    health    multicloud   health-multicloud

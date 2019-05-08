@@ -8,16 +8,16 @@ Library    JSONUtils
 Library    OpenstackLibrary
 Library    HEATUtils
 Library    Collections
-LIbrary    String
-Resource          ../../resources/openstack/keystone_interface.robot
-Resource          ../../resources/openstack/nova_interface.robot
-Resource          ../../resources/openstack/heat_interface.robot
-Resource          ../../resources/ssh/files.robot
-Resource          ../../resources/ssh/processes.robot
+Library    String
+Resource          ../openstack/keystone_interface.robot
+Resource          ../openstack/nova_interface.robot
+Resource          ../openstack/heat_interface.robot
+Resource          ../ssh/files.robot
+Resource          ../ssh/processes.robot
+Resource          ../demo_preload.robot
 Resource          packet_generator_interface.robot
-Resource          darkstat_interface.robot
 Resource          validate_common.robot
-Resource          ../../resources/test_templates/vnf_orchestration_test_template.robot
+Resource          ../test_templates/vnf_orchestration_test_template.robot
 
 
 *** Variables ***
@@ -92,7 +92,7 @@ Policy Check vLB Stack
 
 Get DNSScaling Prefix
     ${mapping}=    Get From Dictionary   ${GLOBAL_SERVICE_TEMPLATE_MAPPING}   vLB
-    :for   ${dict}    in   @{mapping}
+    :FOR   ${dict}    IN   @{mapping}
     \    Return From Keyword If    '${dict['isBase']}' == 'false'    ${dict['prefix']}
     [Return]   None
 

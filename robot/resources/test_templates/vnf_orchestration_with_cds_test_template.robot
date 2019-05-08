@@ -22,9 +22,9 @@ Resource    	../json_templater.robot
 Resource    	../so_interface.robot
 
 Library         OpenstackLibrary
-Library 	    ExtendedSelenium2Library
 Library	        UUID
 Library	        Collections
+Library         String
 Library         JSONUtils
 
 Library         RequestsLibrary
@@ -89,7 +89,7 @@ Orchestrate VNF With CDS
     ${list}=   	Create List
     ${vnfs}=   Get From Dictionary    ${jsondata['topology_template']}   node_templates
     ${keys}=   Get Dictionary Keys    ${vnfs}
-    :for   ${key}  in  @{keys}
+    :FOR   ${key}  IN  @{keys}
     \	 ${vnf}=   Get From Dictionary	  ${vnfs}   ${key}
     \    Get VNF Info	${key} 	${vnf}	${dict}
     \	 ${vf_modules}=    Get From Dictionary   ${jsondata['topology_template']}    groups
@@ -136,7 +136,7 @@ Get VFModule Info
     ${keys}=   Get Dictionary Keys    ${vfModules}
     ${data}=   Catenate
     ${delim}=   Catenate
-    :for   ${key}  in  @{keys}
+    :FOR   ${key}  IN  @{keys}
     \    ${module}=   Get From Dictionary    ${vfModules}   ${key}
     \    Log to console 	${vnf} ${key}
     \    Run keyword if 	"${vnf}" in "${key}"	set vfmodule param	${key}	  ${module}	${dict}
