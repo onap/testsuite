@@ -13,6 +13,13 @@ ${POLICY_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLI
 ${POLICY_HEALTHCHECK_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_HEALTHCHECK_IP_ADDR}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
 ${POLICY_TEMPLATES}        robot/assets/templates/policy
 ${DROOLS_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_IP_ADDR}:${GLOBAL_DROOLS_SERVER_PORT}
+${POLICY_API_IP}    ${GLOBAL_INJECTED_POLICY_API_IP_ADDR}
+${POLICY_PAP_IP}    ${GLOBAL_INJECTED_POLICY_PAP_IP_ADDR}
+${POLICY_DISTRIBUTION_IP}   ${GLOBAL_INJECTED_POLICY_DISTRIBUTION_IP_ADDR}
+${POLICY_PDPX_IP}       ${GLOBAL_INJECTED_POLICY_PDPX_IP_ADDR}
+${POLICY_APEX_PDP_IP}       ${GLOBAL_INJECTED_POLICY_APEX_PDP_IP_ADDR}
+${POLICY_HEALTHCHECK_USERNAME}		${GLOBAL_POLICY_HEALTHCHECK_USERNAME}
+${POLICY_HEALTHCHECK_PASSWORD}		${GLOBAL_POLICY_HEALTHCHECK_PASSWORD}
 
 *** Keywords ***
 
@@ -189,4 +196,59 @@ Push vFirewall Policies To PDP Group
      ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/vFirewall_push.template    ${dict}
      ${resp}=   Run Policy Post Request    /policy/pap/v1/pdps/policies   ${data}
      Should Be Equal As Strings 	${resp.status_code} 	200
+
+Run Policy API Healthcheck
+     [Documentation]    Runs Policy Api Health check
+     ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}=   Get Request     policy  /policy/api/v1/healthcheck     headers=${headers}
+     Log    Received response from policy ${resp.text}
+     Should Be Equal As Strings    ${resp.status_code}     200
+     Should Be Equal As Strings    ${resp.json()['code']}  200
+
+Run Policy PAP Healthcheck
+     [Documentation]    Runs Policy PAP Health check
+     ${auth}=    Create List   ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}=   Get Request     policy  /policy/pap/v1/healthcheck     headers=${headers}
+     Log    Received response from policy ${resp.text}
+     Should Be Equal As Strings    ${resp.status_code}     200
+     Should Be Equal As Strings    ${resp.json()['code']}  200
+
+Run Policy Distribution Healthcheck
+     [Documentation]    Runs Policy Distribution Health check
+     ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_DISTRIBUTION_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_DISTRIBUTION_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}=   Get Request     policy  /healthcheck     headers=${headers}
+     Log    Received response from policy ${resp.text}
+     Should Be Equal As Strings    ${resp.status_code}     200
+     Should Be Equal As Strings    ${resp.json()['code']}  200
+
+Run Policy XACML PDP Healthcheck
+     [Documentation]    Runs Policy Xacml PDP Health check
+     ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PDPX_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PDPX_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}=   Get Request     policy  /policy/pdpx/v1/healthcheck     headers=${headers}
+     Log    Received response from policy ${resp.text}
+     Should Be Equal As Strings    ${resp.status_code}     200
+     Should Be Equal As Strings    ${resp.json()['code']}  200
+
+Run Policy APEX PDP Healthcheck
+     [Documentation]    Runs Policy Apex PDP Health check
+     ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_APEX_PDP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_APEX_PDP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}=   Get Request     policy  /policy/apex-pdp/v1/healthcheck     headers=${headers}
+     Log    Received response from policy ${resp.text}
+     Should Be Equal As Strings    ${resp.status_code}     200
+     Should Be Equal As Strings    ${resp.json()['code']}  200
 
