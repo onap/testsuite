@@ -1,0 +1,26 @@
+{
+        "global-customer-id": "{{global_customer_id}}",
+        "subscriber-name": "{{subscriber_name}}",
+        "subscriber-type": "{{subscriber_type}}",
+        {% if service1 %}
+            "service-subscriptions": {
+                    "service-subscription": [{
+                            "service-type": "{{service1}}",
+                            "relationship-list": {
+                                    "relationship": [{
+                                            "related-to": "tenant",
+                                            "relationship-data": [
+                                                {%- for relationship in relationships -%}
+                                                    {% if not loop.first %},{% endif %}
+                                                    {
+                                                             "relationship-key": "{{relationship.0}}",
+                                                             "relationship-value": "{{relationship.1}}"
+                                                    }
+                                                {%- endfor %}
+                                            ]
+                                    }]
+                            }
+                    }]
+            }
+        {% endif %}
+}
