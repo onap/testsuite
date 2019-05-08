@@ -1,32 +1,31 @@
 *** Settings ***
-Documentation     Instantiate VNF 
+Documentation     Instantiate VNF
 
 Library    OperatingSystem
 Library    Collections
 Library    String
 Library    DateTime
-Library    SoUtils 
+Library    SoUtils
 
 
 *** Variables ***
 
 
 *** Keywords ***
-Instantiate Service Direct To SO 
+Instantiate Service Direct To SO
     [Documentation]    Creates an entire service from a CSAR
-    [Arguments]    ${service}   ${csar_file}   ${vnf_template_file} 
+    [Arguments]    ${service}   ${csar_file}   ${vnf_template_file}
     # Example: ${csar_file}=  Set Variable   /tmp/csar/service-Vfw20190413133734-csar.csar
     # Example: ${vnf_template_file}=  Set Variable   /var/opt/ONAP/testsuite/eteutils/vcpeutils/preload_templates/template.vfw_vfmodule.json
     ${name_suffix}=   Get Current Date     exclude_millis=True
     ${name_suffix}=       Evaluate    '${name_suffix}'.replace(' ','')
     ${name_suffix}=       Evaluate    '${name_suffix}'.replace(':','')
-    ${heatbridge}=    Set Variable   false
     ${preload_dict}=       Copy Dictionary  ${GLOBAL_PRELOAD_PARAMETERS['defaults']}
     ${template}=   Create Dictionary
     @{keys}=    Get Dictionary Keys    ${preload_dict}
     :for   ${key}   in   @{keys}
     \    ${value}=   Get From Dictionary    ${preload_dict}    ${key}
-    \    ${tmp_value}=   Set Variable If   'GLOBAL_' in $value     ${value}  
+    \    ${tmp_value}=   Set Variable If   'GLOBAL_' in $value     ${value}
     \    ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    \$      ${EMPTY}
     \    ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    {      ${EMPTY}
     \    ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    }      ${EMPTY}
@@ -45,9 +44,9 @@ Instantiate Service Direct To SO
 
     Set To Dictionary   ${template}    ${tmp_key1}     ${ecompnet}     ${tmp_key2}     ${GLOBAL_INJECTED_UBUNTU_1404_IMAGE}
 
-    Log    ${preload_dict}  
-    Log    ${template}  
-    ${service_instance_id}=   Create Entire Service   ${csar_file}    ${vnf_template_file}   ${template}   ${name_suffix}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}  ${heatbridge}
+    Log    ${preload_dict}
+    Log    ${template}
+    ${service_instance_id}=   Create Entire Service   ${csar_file}    ${vnf_template_file}   ${template}   ${name_suffix}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
     Log To Console     ServiceInstanceId:${service_instance_id}
     Should Not Be Equal As Strings  ${service_instance_id}   None
 
