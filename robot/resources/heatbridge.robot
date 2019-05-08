@@ -46,7 +46,7 @@ Execute Heatbridge
     ### Create a vnfc for each vServer ###
     ${stack_resources}=    Get Stack Resources    auth    ${stack_name}    ${stack_id}
     ${resource_list}=    Get From Dictionary    ${stack_resources}    resources
-    :FOR   ${resource}    in    @{resource_list}
+    :FOR   ${resource}    IN    @{resource_list}
     \    Run Keyword If    '${resource['resource_type']}' == 'OS::Nova::Server'    Run Create VNFC    auth    ${resource['physical_resource_id']}    ${service}
     ${keystone_api_version}=    Run Keyword If    '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'==''    Get KeystoneAPIVersion
     ...    ELSE    Set Variable   ${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}
@@ -122,7 +122,7 @@ Run Get Generic VNF By VnfId
 Execute Reverse Heatbridge
     [Documentation]   VID has already torn down the stack, reverse HB
     Return From Keyword If   len(${REVERSE_HEATBRIDGE}) == 0
-    :for   ${uri}    in   @{REVERSE_HEATBRIDGE}
+    :FOR   ${uri}    IN   @{REVERSE_HEATBRIDGE}
     \    Run Keyword And Ignore Error    Delete A&AI Entity   ${uri}
 
 Generate Reverse Heatbridge From Stack Name
@@ -142,10 +142,10 @@ Generate Reverse Heatbridge From Stack Info
     ${keys}=    Create Dictionary   region=${region}   cloud=${GLOBAL_AAI_CLOUD_OWNER}   tenant=${tenant_id}
     ${stack_resources}=    Get Stack Resources    auth    ${stack_name}    ${stack_id}
     ${resource_list}=    Get From Dictionary    ${stack_resources}    resources
-    :FOR   ${resource}    in    @{resource_list}
+    :FOR   ${resource}    IN    @{resource_list}
     \    Log     ${resource}
     \    Run Keyword If    '${resource['resource_type']}' == 'OS::Neutron::Port'    Generate Linterface Uri    auth    ${resource['physical_resource_id']}   ${reverse_heatbridge}   ${keys}
-    :FOR   ${resource}    in    @{resource_list}
+    :FOR   ${resource}    IN    @{resource_list}
     \    Log     ${resource}
     \    Run Keyword If    '${resource['resource_type']}' == 'OS::Nova::Server'    Generate Vserver Uri    auth    ${resource['physical_resource_id']}  ${reverse_heatbridge}   ${keys}   ${resource_list}
     [Return]    ${reverse_heatbridge}

@@ -47,7 +47,7 @@ Enable Streams
     ${streams}=    Set Variable
     ${comma}=      Set Variable
     ${stream_count}=    Evaluate    ${stream_count}+1        
-    :for    ${i}    in Range     1    ${stream_count}
+    :FOR    ${i}    IN RANGE     1    ${stream_count}
     \    ${name}=    Catenate    ${prefix}${i}
     \    ${map}=    Create Dictionary    stream=${name}
     \    ${one}=   Fill JSON Template File    ${PGN_ENABLE_STREAM_TEMPLATE}    ${map}

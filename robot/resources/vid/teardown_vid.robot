@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     The main interface for interacting with VID. It handles low level stuff like managing the selenium request library and VID required steps
-Library 	    ExtendedSelenium2Library
+Library 	    SeleniumLibrary
 Library            Collections
 Library         String
 Library 	      StringTemplater
@@ -8,6 +8,7 @@ Library	          UUID
 Resource        vid_interface.robot
 Resource        create_vid_vnf.robot
 Resource        create_service_instance.robot
+Resource         ../heatbridge.robot
 
 *** Variables ***
 ${VID_ENV}            /vid
@@ -54,10 +55,10 @@ Delete Next VID Entity
     Select From List By Label    //select[@ng-model='selectedCustomer']    ${customer}
     Click Button    button=Submit
 
-    # When Handle alert detects a pop-up. it will return FAIL and we are done
+    # When Handle VID Alert detects a pop-up. it will return FAIL and we are done
     # Return from Keyword is required because FAIL is inored during teardown
     Set Test Variable   ${TEARDOWN_STATUS}   PASS
-    ${status}   ${value}   Run Keyword And Ignore Error    Handle Alert
+    ${status}   ${value}   Run Keyword And Ignore Error    Handle VID Alert
     Return From Keyword If   '${status}' == 'FAIL'   ${status}
     ${status}   ${value}   Run Keyword And Ignore Error    Wait Until Page Contains Element    link=View/Edit    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Return From Keyword If   '${status}' == 'FAIL'   ${status}
@@ -68,7 +69,7 @@ Delete Next VID Entity
     Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Wait Until Element Is Visible    xpath=//a/span[@class='glyphicon glyphicon-remove']    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
 
-    :for   ${remove_first}    in    @{remove_order}
+    :FOR   ${remove_first}    IN    @{remove_order}
     \    ${remove_xpath}=    Set Variable   //li/div[contains(.,'${remove_first}')]/a/span[@class='glyphicon glyphicon-remove']
     \    ${status}    ${data}=   Run Keyword And Ignore Error    Page Should Contain Element     xpath=${remove_xpath}
     \    Exit For Loop If    '${status}' == 'PASS'
@@ -88,10 +89,10 @@ Delete Next VID Entity
     Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
     [Return]   ${vfmodule}
 
-Handle Alert
+Handle VID Alert
     [Documentation]   When service instance has been deleted, an alert will be triggered on the search to end the loop
     ...   The various Alert keywords did not prevent the alert exception on the Click ELement, hence this roundabout way of handling the alert
     Run Keyword And Ignore Error    Click Element    button=Submit
-    ${status}   ${t}=    Run Keyword And Ignore Error    Get Alert Message
+    ${status}   ${t}=    Run Keyword And Ignore Error    Handle Alert 
     Return From Keyword If   '${status}' == 'FAIL'
     Fail    ${t}

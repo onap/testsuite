@@ -4,8 +4,12 @@ Library	          RequestsClientCert
 Library 	      RequestsLibrary
 Library           String
 Library           JSONUtils
-Library           Collections      
+Library           Collections    
+Library           SSHLibrary
+Library           OperatingSystem
+Resource          json_templater.robot
 Resource          global_properties.robot
+Resource          ssh/files.robot
 
 *** Variables ***
 ${POLICY_HEALTH_CHECK_PATH}        /healthcheck
@@ -118,14 +122,14 @@ Update vVFWCL Policy Old
     Validate the vFWCL Policy Old
 
 Update vVFWCL Policy
-    [Arguments] ${resource_id}
-    Log To Console Create vFWCL Monitoring Policy
+    [Arguments]     ${resource_id}
+    Log To Console     Create vFWCL Monitoring Policy
     Create vFirewall Monitoring Policy
     Sleep   5s
-    Log To Console Create vFWCL Operational Policy
-    Create vFirewall Operational Policy ${resource_id}
+    Log To Console     Create vFWCL Operational Policy
+    Create vFirewall Operational Policy    ${resource_id}
     Sleep   5s
-    Log To Console Push vFWCL To PDP Group
+    Log To Console     Push vFWCL To PDP Group
     Push vFirewall Policies To PDP Group
     Sleep    20s
     Log To Console   Validate vFWCL Policy

@@ -5,7 +5,7 @@ Library           UUID
 Library           JSONUtils
 Library           OperatingSystem
 Library           Collections
-Library            ExtendedSelenium2Library
+Library           SeleniumLibrary
 Library           HttpLibrary.HTTP
 Library           String
 Library           StringTemplater
@@ -87,7 +87,7 @@ Distribute Model From ASDC
     #  TODO: CHECK vCPE models to make sure they aren't broken with the split
     ${resource_types}=   Create Dictionary
 
-    : FOR    ${zip}     IN     @{model_zip_path}
+    :FOR    ${zip}     IN     @{model_zip_path}
     \    ${loop_catalog_resource_id}=    Setup ASDC Catalog Resource    ${zip}    ${cds}
     #     zip can be vFW.zip or vFWDT_VFWSNK.zip 
     \    ${resource_type_match}=    Get Regexp Matches    ${zip}   ${service}_(.*)\.zip    1
@@ -102,7 +102,7 @@ Distribute Model From ASDC
     # Spread the icons on the pallette starting on the left
     ${xoffset}=    Set Variable    ${0} 
 
-    : FOR  ${vnf}   IN   @{vnflist}
+    :FOR  ${vnf}   IN   @{vnflist}
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource      ${resource_types['${vnf}']}
     \    Set To Dictionary    ${catalog_resources}   ${resource_types['${vnf}']}=${loop_catalog_resource_resp}
     \    ${catalog_resource_unique_name}=   Add ASDC Resource Instance    ${catalog_service_id}    ${resource_types['${vnf}']}    ${loop_catalog_resource_resp['name']}    ${xoffset}
@@ -114,7 +114,7 @@ Distribute Model From ASDC
     #  do network
     ${networklist}=   Get From Dictionary    ${GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING}    ${service}
     ${generic_neutron_net_uuid}=   Get Generic NeutronNet UUID
-    :FOR   ${network}   in   @{networklist}
+    :FOR   ${network}   IN   @{networklist}
     \    ${loop_catalog_resource_id}=   Set Variable    ${generic_neutron_net_uuid}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
@@ -137,7 +137,7 @@ Distribute Model From ASDC
     # on certify it gets a new id
     ${catalog_service_id}=    Certify ASDC Catalog Service    ${catalog_service_id}
     Approve ASDC Catalog Service    ${catalog_service_id}
-        : FOR   ${DIST_INDEX}    IN RANGE   1
+        :FOR   ${DIST_INDEX}    IN RANGE   1
         \   Log     Distribution Attempt ${DIST_INDEX}
         \   Distribute ASDC Catalog Service    ${catalog_service_id}
         \   ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
@@ -160,7 +160,7 @@ Distribute vCPEResCust Model From ASDC
     #${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
     ${catalog_resource_ids}=    Create List
     ${catalog_resources}=   Create Dictionary
-    : FOR    ${zip}     IN     @{model_zip_path}
+    :FOR    ${zip}     IN     @{model_zip_path}
     \    ${loop_catalog_resource_id}=    Setup ASDC Catalog Resource    ${zip}    ${cds}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
@@ -189,7 +189,7 @@ Distribute vCPEResCust Model From ASDC
     ${xoffset}=    Set Variable    ${100}
     ${allottedresource_uuid}=   Get AllottedResource UUID
     ${random}=    Get Current Date
-    :FOR   ${allottedresource}   in   @{allottedresource_list}
+    :FOR   ${allottedresource}   IN   @{allottedresource_list}
     \    ${loop_catalog_resource_id}=   Set Variable    ${allottedresource_uuid}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
     \    ${loop_catalog_resource_id}=    Add ASDC Allotted Resource Catalog Resource     00000    ${allottedresource}_${random}    ONAP     ${loop_catalog_resource_id}   ${allottedresource}
@@ -215,7 +215,7 @@ Distribute vCPEResCust Model From ASDC
     # on certify it gets a new id
     ${catalog_service_id}=    Certify ASDC Catalog Service    ${catalog_service_id}
     Approve ASDC Catalog Service    ${catalog_service_id}
-        : FOR   ${DIST_INDEX}    IN RANGE   1
+        :FOR   ${DIST_INDEX}    IN RANGE   1
         \   Log     Distribution Attempt ${DIST_INDEX}
         \   Distribute ASDC Catalog Service    ${catalog_service_id}
         \   ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
@@ -227,13 +227,12 @@ Distribute vCPEResCust Model From ASDC
 
 Create Allotted Resource Data File
    [Documentation]    Create alloted resource json data file
-   [Arguments]
    ${allotted_resource}=    Create Dictionary
    ${allotted_csar_map}=    Create Dictionary
    Set To Dictionary    ${allotted_csar_map}    tunnelxconn=service-Demovcpevgmux-csar.csar
    Set To Dictionary    ${allotted_csar_map}    brg=service-Demovcpevbrgemu-csar.csar
    ${keys}=    Get Dictionary Keys    ${allotted_csar_map}
-   :for   ${key}   in   @{keys}
+   :FOR   ${key}   IN   @{keys}
    \    ${csar}=    Get From Dictionary    ${allotted_csar_map}    ${key}
    \    ${dir}    ${ext}=    Split String From Right    ${csar}    -    1
    \    Extract Zip File    /tmp/csar/${csar}    /tmp/csar/${dir}
@@ -261,7 +260,6 @@ Download CSAR
    ${binObj}=   Evaluate   base64.b64decode("${base64Obj}")   modules=base64
    Create Binary File  ${save_directory}/${csar_file_name}  ${binObj}
    Log To Console      ${\n}Downloaded:${csar_file_name}
-   [Return]
 
 
 Get Generic NeutronNet UUID
@@ -279,14 +277,13 @@ Loop Over Check Catalog Service Distributed
     [Arguments]    ${catalog_service_id}
     # SO watchdog timeout is 300 seconds need buffer
     ${dist_status}=   Set Variable    CONTINUE
-    : FOR  ${CHECK_INDEX}  IN RANGE   20
+    :FOR  ${CHECK_INDEX}  IN RANGE   20
     \   ${status}   ${_} =   Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}    ${dist_status}
     \   Sleep     20s
     \   Return From Keyword If   '${status}'=='PASS'
     # need a way to exit the loop early on DISTRIBUTION_COMPLETE_ERROR  ${dist_status} doesnt work
     #\   Exit For Loop If   '${dist_status}'=='EXIT'
     Should Be Equal As Strings  ${status}   PASS
-    [Return]
 
 Setup ASDC Catalog Resource
     [Documentation]    Creates all the steps a vf needs for an asdc catalog resource and returns the id
@@ -363,8 +360,6 @@ Setup SDC Catalog Resource GenericNeutronNet Properties
     \    Run Keyword If   '${name}'=='network_role'   Set To Dictionary    ${dict}    name=${name}    value=${nf_role}
     \    ${data}=   Fill JSON Template File    ${SDC_CATALOG_NET_RESOURCE_INPUT_TEMPLATE}    ${dict}
     \    ${response}=    Set ASDC Catalog Resource Component Instance Properties    ${catalog_parent_service_id}    ${catalog_service_id}    ${data}
-    #\    Log To Console    resp=${response}
-    [Return]
 
 
 Setup SDC Catalog Resource AllottedResource Properties
@@ -409,7 +404,7 @@ Setup SDC Catalog Resource AllottedResource Inputs
     # Set vnf inputs
     ${resp}=    Get ASDC Catalog Resource Inputs    ${catalog_resource_id}
     ${dict}=    Create Dictionary
-    :FOR    ${comp}    in    @{resp['inputs']}
+    :FOR    ${comp}    IN    @{resp['inputs']}
     \    ${name}    Set Variable    ${comp['name']}
     \    ${uid}    Set Variable    ${comp['uniqueId']}
     \    Run Keyword If    '${name}'=='nf_type'    Set To Dictionary    ${dict}    nf_type=${nf_role}    nf_type_uid=${uid}
@@ -423,7 +418,7 @@ Setup ASDC Catalog Resource CDS Properties
     [Arguments]    ${catalog_resource_id}
     # Set vnf module properties
     ${resp}=    Get ASDC Catalog Resource Component Instances   ${catalog_resource_id}
-    :FOR    ${comp}    in    @{resp['componentInstances']}
+    :FOR    ${comp}    IN    @{resp['componentInstances']}
     \    ${name}    Set Variable   ${comp['name']}
     \    ${uniqueId}    Set Variable    ${comp['uniqueId']}
     \    ${actualComponentUid}    Set Variable    ${comp['actualComponentUid']}
@@ -441,7 +436,7 @@ Setup ASDC Catalog Resource CDS Properties
     # Set vnf inputs
     ${resp}=    Get ASDC Catalog Resource Inputs    ${catalog_resource_id}
     ${dict}=    Create Dictionary
-    :FOR    ${comp}    in    @{resp['inputs']}
+    :FOR    ${comp}    IN    @{resp['inputs']}
     \    ${name}    Set Variable    ${comp['name']}
     \    ${uid}    Set Variable    ${comp['uniqueId']}
     \    Run Keyword If    '${name}'=='nf_function'    Set To Dictionary    ${dict}    nf_function=ONAP-FIREWALL    nf_function_uid=${uid}
@@ -879,7 +874,6 @@ Check Catalog Service Distributed
     \    ${dist_status}=  Set Variable If   (('${ELEMENT['status']}' == 'COMPONENT_DONE_ERROR') and ('${ELEMENT['omfComponentID']}' == 'aai-ml'))  EXIT
     \    Exit For Loop If   (('${ELEMENT['status']}' == 'COMPONENT_DONE_ERROR') and ('${ELEMENT['omfComponentID']}' == 'aai-ml'))
     Should Be True   ( '${SO_COMPLETE}'=='TRUE')   SO Test
-    [Return]
 
 Get Catalog Service Distribution Details
     [Documentation]    gets an asdc catalog Service distrbution details

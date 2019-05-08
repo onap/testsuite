@@ -43,7 +43,7 @@ Delete Complex If Exists
     [Documentation]    Removes a complex
     [Arguments]    ${physical_location_id}
     ${get_resp}=    Run A&AI Get Request     ${COMPLEX_INDEX_PATH}${ROOT_COMPLEX_PATH}/${physical_location_id}
-    Run Keyword If    '${get_resp.status_code}' == '200'    Delete Zone Exists    ${physical_location_id}   ${get_resp.json()}
+    Run Keyword If    '${get_resp.status_code}' == '200'    Delete Complex    ${physical_location_id}   ${get_resp.json()}
 
 Delete Complex
     [Arguments]    ${physical_location_id}    ${json}

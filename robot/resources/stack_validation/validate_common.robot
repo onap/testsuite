@@ -77,7 +77,7 @@ Find Openstack 2
 
 Get V4 IP
     [Arguments]   ${ipmaps}
-    :for   ${ipmap}   in   @{ipmaps}
+    :FOR   ${ipmap}   IN   @{ipmaps}
     \    ${ip}   Get From Dictionary   ${ipmap}   addr
     \    ${version}   Get From Dictionary   ${ipmap}   version
     \    Return from Keyword if   '${version}' == '4'   ${ip}
@@ -86,7 +86,7 @@ Get V4 IP
 Get V4 IP Openstack
     [Arguments]   ${addresses}   ${testtype}
     ${ipmaps}=   Get From Dictionary   ${addresses}   ${testtype}
-    :for   ${ipmap}   in   @{ipmaps}
+    :FOR   ${ipmap}   IN   @{ipmaps}
     \    ${ip}   Get From Dictionary   ${ipmap}   addr
     \    ${version}   Get From Dictionary   ${ipmap}   version
     \    Return from Keyword if   '${version}'=='4'   ${ip}
@@ -94,7 +94,7 @@ Get V4 IP Openstack
 
 Get V4 IP Openstack 2
     [Arguments]   ${ipmaps}   ${testtype}
-    :for   ${ipmap}   in   @{ipmaps}
+    :FOR   ${ipmap}   IN   @{ipmaps}
     \    ${type}   Get From Dictionary   ${ipmap}   OS-EXT-IPS:type
     \    ${ip}   Get From Dictionary   ${ipmap}   addr
     \    ${version}   Get From Dictionary   ${ipmap}   version

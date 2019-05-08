@@ -19,7 +19,7 @@ Resource        ../heatbridge.robot
 
 
 Library         OpenstackLibrary
-Library 	    ExtendedSelenium2Library
+Library 	    SeleniumLibrary
 Library	        UUID
 Library	        Collections
 Library         JSONUtils
@@ -71,7 +71,7 @@ Orchestrate VNF
     ${vnf_name_index}=   Set Variable  0
     ${vf_module_name_list}=    Create List
     ${uuid}=    Evaluate    str("${uuid}")[:8]
-    :for   ${vnf}   in   @{vnflist}
+    :FOR   ${vnf}   IN   @{vnflist}
     # APPC max is 50 characters
     \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}_${vnf_name_index}
     \   ${vf_module_name}=    Catenate    Vfmodule_Ete_${vnf}_${uuid}_${vnf_name_index}
@@ -118,7 +118,7 @@ Orchestrate Demo VNF
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
     ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
     ${generic_vnfs}=    Create Dictionary
-    :for   ${vnf}   in   @{vnflist}
+    :FOR   ${vnf}   IN   @{vnflist}
     \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
     \   ${vf_module_name}=    Catenate    Vfmodule_Demo_${vnf}_${uuid}
     \   ${vnf_type}=    Set Variable  ${vnf_json_resources['${vnf}']['vnf_type']}
@@ -160,7 +160,7 @@ Get Catalog Resource
     ${base_name}=  Get Name Pattern   ${vnf}
     ${keys}=    Get Dictionary Keys    ${resources}
 
-    :for   ${key}   in    @{keys}
+    :FOR   ${key}   IN    @{keys}
     \    ${cr}=   Get From Dictionary    ${resources}    ${key}
     \    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat1']['artifactDisplayName']}'    ${cr}
     \    Run Keyword If    'heat2' in ${cr['allArtifacts']}    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat2']['artifactDisplayName']}'    ${cr}
@@ -170,7 +170,7 @@ Get Name Pattern
     [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
     [Arguments]   ${vnf}
     ${list}=   Get From Dictionary    ${GLOBAL_SERVICE_TEMPLATE_MAPPING}   ${vnf}
-    :for    ${dict}   in   @{list}
+    :FOR    ${dict}   IN   @{list}
     \   ${base_name}=   Get From Dictionary    ${dict}    name_pattern
     \   Return From Keyword If   '${dict['isBase']}' == 'true'   ${base_name}
     Fail  Unable to locate base name pattern
@@ -237,23 +237,23 @@ Delete VNF
     [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
     ${lcp_region}=   Get Openstack Region
     ${list}=    Create List
-    Set Test Variable    ${KEYPAIRS}   ${list}
     # remove duplicates, sort vFW-> vPKG , revers to get vPKG > vFWSNK
     ${sorted_stack_names}=    Create List
     ${sorted_stack_names}=  Remove Duplicates   ${STACK_NAMES}
     Sort List   ${sorted_stack_names}
     Reverse List   ${sorted_stack_names}
-    :for   ${stack}   in   @{sorted_stack_names}
-    \     Get Stack Keypairs   ${stack}
+    :FOR   ${stack}   IN   @{sorted_stack_names}
+    \     ${keypair_name}=    Get Stack Keypairs   ${stack}
+    \     Append To List   ${list}   ${keypair_name}
     Teardown VVG Server
     #Teardown VLB Closed Loop Hack
     Run Keyword and Ignore Error   Teardown VID   ${SERVICE_INSTANCE_ID}   ${lcp_region}   ${TENANT_NAME}   ${CUSTOMER_NAME}
     #
-    :for   ${stack}   in   @{sorted_stack_names}
+    :FOR   ${stack}   IN   @{sorted_stack_names}
     \    Run Keyword and Ignore Error    Teardown Stack    ${stack}
     \    Log    Stack Deleted ${stack}
     # only needed if stack deleted but not keypair
-    :for   ${key_pair}   in   @{KEYPAIRS}
+    :FOR   ${key_pair}   IN   @{list}
     \    Run Keyword and Ignore Error    Delete Stack Keypair  ${key_pair}
     \    Log    Key pair Deleted ${key_pair}
     Log    VNF Deleted
@@ -282,7 +282,7 @@ Get Stack Keypairs
     Log    ${stack_info}
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${key_pair_status}   ${keypair_name}=   Run Keyword And Ignore Error   Get From Dictionary    ${stack_info}    key_name
-    Append To List   ${KEYPAIRS}   ${keypair_name}
+    [Return]   ${keypair_name}
 
 Delete Stack Keypair
     [Documentation]  Delete keypairs from openstack

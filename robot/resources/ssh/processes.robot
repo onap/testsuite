@@ -28,7 +28,7 @@ Create Process Map
     [Arguments]    ${input} 
     @{lines}=    Split To Lines    ${input}
     ${map}=    Create Dictionary
-    :for    ${line}    in    @{lines}
+    :FOR    ${line}    IN    @{lines}
     \    @{parts}=    Split String    ${line}    max_split=7 
     \    ${pid}=    Catenate    ${parts[1]}
     \    ${name}=   Catenate   ${parts[7]}
@@ -57,7 +57,7 @@ Is Process on Host
    ${pass}    ${map}=    Run Keyword and Ignore Error    Grep Processes    ${process_name}
    @{pids}=    Get Dictionary Keys    ${map}
    ${foundpid}=    Catenate    ""
-   :for    ${pid}    in    @{pids}
+   :FOR    ${pid}    IN    @{pids}
    \    ${process_cmd}=    Get From Dictionary    ${map}    ${pid}
    \    ${status}    ${value}=    Run Keyword And Ignore Error    Should Match Regexp    ${process_cmd}    ${process_name}    
    \    Run Keyword If   '${status}' == 'PASS'    Set Test Variable    ${foundpid}    ${pid}             

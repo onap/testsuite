@@ -2,6 +2,7 @@
 Documentation	  This test template encapsulates the VNF Orchestration use case.
 
 Resource        test_templates/model_test_template.robot
+Resource        test_templates/model_test_template_vcperescust.robot
 Resource        test_templates/vnf_orchestration_test_template.robot
 Resource        asdc_interface.robot
 Resource        so_interface.robot
@@ -13,7 +14,7 @@ Library	        UUID
 Library	        Collections
 Library         OperatingSystem
 Library         HttpLibrary.HTTP
-Library         ExtendedSelenium2Library
+Library         SeleniumLibrary
 Library         RequestsLibrary
 
 *** Variables ***
@@ -116,7 +117,7 @@ Preload User Model
     ${relationships}=   Set Variable   ${generic_vnf['relationship-list']['relationship']}
     ${relationship_data}=    Get Relationship Data   ${relationships}
     ${customer_id}=   Catenate
-    :for    ${r}   in   @{relationship_data}
+    :FOR    ${r}   IN   @{relationship_data}
     \   ${service}=   Set Variable If    '${r['relationship-key']}' == 'service-subscription.service-type'   ${r['relationship-value']}    ${service}
     \   ${service_instance_id}=   Set Variable If    '${r['relationship-key']}' == 'service-instance.service-instance-id'   ${r['relationship-value']}   ${service_instance_id}
     \   ${customer_id}=    Set Variable If   '${r['relationship-key']}' == 'customer.global-customer-id'   ${r['relationship-value']}   ${customer_id}
@@ -134,7 +135,7 @@ Preload User Model
 
 Get Relationship Data
     [Arguments]   ${relationships}
-    :for    ${r}   in   @{relationships}
+    :FOR    ${r}   IN   @{relationships}
     \     ${status}   ${relationship_data}   Run Keyword And Ignore Error    Set Variable   ${r['relationship-data']}
     \     Return From Keyword If    '${status}' == 'PASS'   ${relationship_data}
 
@@ -184,7 +185,7 @@ Instantiate VNF
     # Don't get from MSO for now due to SO-1186
     # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
-    :for    ${vf_module}    in    @{generic_vnfs}
+    :FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
     \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'   ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
     Log to Console   Update old vFWCL Policy for ModelInvariantID=${model_invariant_id}
@@ -203,7 +204,7 @@ Instantiate Demo VNF
     # Don't get from MSO for now due to SO-1186
     # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
-    :for    ${vf_module}    in    @{generic_vnfs}
+    :FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
     \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'   ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
     Log to Console   ModelInvariantID=${model_invariant_id}
@@ -229,13 +230,13 @@ Save For Delete
 
     ${vars}=    Catenate
     ${keys}=   Get Dictionary Keys    ${dict}
-    :for   ${key}   in   @{keys}
+    :FOR   ${key}   IN   @{keys}
     \    ${value}=   Get From Dictionary   ${dict}   ${key}
     \    ${vars}=   Catenate   ${vars}${key} = "${value}"\n
 
     ${comma}=   Catenate
     ${vars}=    Catenate   ${vars}CATALOG_RESOURCE_IDS = [
-    :for   ${id}   in    @{CATALOG_RESOURCE_IDS}
+    :FOR   ${id}   IN    @{CATALOG_RESOURCE_IDS}
     \    ${vars}=    Catenate  ${vars}${comma} "${id}"
     \    ${comma}=   Catenate   ,
     ${vars}=    Catenate  ${vars}]\n

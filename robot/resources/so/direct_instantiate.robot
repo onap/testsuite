@@ -6,10 +6,7 @@ Library    Collections
 Library    String
 Library    DateTime
 Library    SoUtils 
-
-
-*** Variables ***
-
+Resource       ../global_properties.robot
 
 *** Keywords ***
 Instantiate Service Direct To SO 
@@ -23,7 +20,7 @@ Instantiate Service Direct To SO
     ${preload_dict}=       Copy Dictionary  ${GLOBAL_PRELOAD_PARAMETERS['defaults']}
     ${template}=   Create Dictionary
     @{keys}=    Get Dictionary Keys    ${preload_dict}
-    :for   ${key}   in   @{keys}
+    :FOR   ${key}   IN   @{keys}
     \    ${value}=   Get From Dictionary    ${preload_dict}    ${key}
     \    ${tmp_value}=   Set Variable If   'GLOBAL_' in $value     ${value}  
     \    ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    \$      ${EMPTY}

@@ -67,7 +67,7 @@ Get Services
 Update Service Dictionary
     [Arguments]    ${dict}    ${json}
     ${list}=    Evaluate    ${json}['service']
-    :for   ${map}    in    @{list}
+    :FOR   ${map}    IN    @{list}
     \    ${status}    ${service_type}=     Run Keyword And Ignore Error    Get From Dictionary    ${map}    service-description
     \    Run Keyword If    '${status}' == 'PASS'    Set To Dictionary    ${dict}    ${service_type}=${map}
     Log    ${dict}

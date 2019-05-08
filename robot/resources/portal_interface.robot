@@ -3,7 +3,7 @@ Documentation	  The main interface for interacting with Portal. It handles low l
 Library	        RequestsClientCert
 Library 	RequestsLibrary
 Library	        UUID      
-Library 	ExtendedSelenium2Library
+Library 	SeleniumLibrary
 Library         Collections
 Library         String
 
@@ -59,6 +59,12 @@ Run Portal Application Access Tests
      Run Portal Application Login Test   demo    demo123456!  gridster-Policy-icon-link   tabframe-Policy    Policy Editor
      Close All Browsers
 
+Login To Portal GUI And Go Home
+    [Documentation]   Logs in to Portal GUI
+    [Arguments]     ${loginId}    ${password}
+    Login To Portal GUI    ${loginId}    ${password}
+    Go To Portal HOME
+
 Login To Portal GUI
     [Documentation]   Logs in to Portal GUI
     [Arguments]     ${loginId}    ${password}
@@ -66,7 +72,6 @@ Login To Portal GUI
     ### revert to local Setup Browser for Login test
     Setup Browser
     Go To    ${PORTAL_LOGIN_URL}
-    #Maximize Browser Window
     Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
     Log    Logging in to ${PORTAL_ENDPOINT}${PORTAL_ENV}
@@ -74,11 +79,17 @@ Login To Portal GUI
     Title Should Be    Login
     Input Text    xpath=//input[@ng-model='loginId']    ${loginId}
     Input Password    xpath=//input[@ng-model='password']    ${password}
-    #Click Button    xpath=//a[@ng-click='loginExternal();']
     Click Element    xpath=//a[@id='loginBtn']
     Wait Until Page Contains  Applications   ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Log    Logged in to ${PORTAL_ENDPOINT}${PORTAL_ENV}
     Log To Console  ${loginId} SUCCESS
+    
+Logout From Portal GUI
+    [Documentation]   Logs out of Portal GUI
+    Go To    ${PORTAL_LOGIN_URL}
+    Click Element    xpath=//div[@id='header-user-icon']
+    Run Keyword And Ignore Error    Click Button    xpath=//button[contains(.,'Log out')]
+    Log    Logged out of ${PORTAL_ENDPOINT}${PORTAL_ENV}
 
 Run Portal Application Login Test
     [Documentation]    Login to Portal Application

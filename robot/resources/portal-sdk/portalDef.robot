@@ -1,16 +1,14 @@
 *** Settings ***
 Documentation    This is RobotFrame work script
-Library		ExtendedSelenium2Library
+Library		SeleniumLibrary
 Library		OperatingSystem
-Library		../../library/eteutils/RequestsClientCert.py
 Library		RequestsLibrary
-Library		../../library/eteutils/UUID.py
-Library		../../library/robot/libraries/DateTime.py
+Library		UUID
+Library		DateTime
 Library		Collections
-Library		../../library/eteutils/OSUtils.py
-Library		../../library/eteutils/StringTemplater.py
+Library		OSUtils
+Library		StringTemplater
 Library		String
-#Library	XvfbRobot
 
 Resource	../json_templater.robot
 Resource        ../browser_setup.robot
@@ -23,8 +21,8 @@ ${PORTAL_LOGIN_URL}                ${PORTAL_URL}${PORTAL_ENV}/login.htm
 ${PORTAL_HOME_PAGE}        ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
 ${PORTAL_MICRO_ENDPOINT}    ${PORTAL_URL}${PORTAL_ENV}/commonWidgets
 ${PORTAL_HOME_URL}                ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
-${PORTAL_HEALTH_CHECK_PATH}        /ONAPPORTAL/portalApi/healthCheck
-${PORTAL_XDEMPAPP_REST_URL}        http://portal-sdk:8080/ONAPPORTALSDK/api/v2
+${PORTAL_HEALTH_CHECK_PATH}        ${PORTAL_ENV}/portalApi/healthCheck
+${PORTAL_XDEMPAPP_REST_URL}        ${PORTAL_URL}/ONAPPORTALSDK/api/v2
 ${PORTAL_ASSETS_DIRECTORY}    ../../assets/widgets/
 ${GLOBAL_APPLICATION_ID}           robot-functional
 ${GLOBAL_PORTAL_ADMIN_USER}		demo
@@ -33,14 +31,11 @@ ${GLOBAL_MSO_STATUS_PATH}    /ecomp/mso/infra/orchestrationRequests/v2/
 ${GLOBAL_BUILD_NUMBER}    0
 ${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/robot_ssh_private_key.pvt
 ${jira}    jira
-${RESOURCE_PATH}    ONAPPORTAL/auxapi/ticketevent
+${RESOURCE_PATH}    ${PORTAL_URL}/auxapi/ticketevent
 ${portal_Template}    ${CURDIR}/portal.template
 
-${Result}    FALSE
-${td_id}    0
-${download_link_id}    0
 
-${HEADLESS}   False
+${download_link_id}    0
 
 
 *** Keywords ***
@@ -165,8 +160,7 @@ Portal admin Add Application admin User New user
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwd']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwdCheck']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Button    xpath=//button[@ng-click='searchUsers.addNewUserFun()']
-	
-    ${Result}=    Get Matching XPath Count     xpath=//*[contains(text(),'User with same loginId already exists')]
+    ${Result}=    Get Element Count     xpath=//*[contains(text(),'User with same loginId already exists')]
 
     #log ${Result}
     #${type_result}= Evaluate type(${Result})
@@ -212,7 +206,7 @@ Portal admin Add Standard User New user
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwdCheck']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Button    xpath=//button[@ng-click='searchUsers.addNewUserFun()']
 	
-    ${Result}=    Get Matching XPath Count     xpath=//*[contains(text(),'User with same loginId already exists')]
+    ${Result}=    Get Element Count     xpath=//*[contains(text(),'User with same loginId already exists')]
 
     #log ${Result}
     #${type_result}= Evaluate type(${Result})
@@ -907,7 +901,7 @@ Admin widget download
 	Wait until page contains Element    xpath=//a[@title='Widget Onboarding']     ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Click Link  xpath=//a[@title='Widget Onboarding']
     Wait until page contains Element    xpath=//table[@class='ng-scope']
-    ${td_id}=  get element attribute    xpath=//*[contains(text(),'Events')]@id
+    ${td_id}=  get element attribute    xpath=//*[contains(text(),'Events')]    id
     log    ${td_id}
     ${test}=    Get Substring     ${td_id}   -1
     log    ${test}

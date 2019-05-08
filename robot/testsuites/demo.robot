@@ -13,6 +13,7 @@ ${MODULE_NAME}    DemoModuleName
 ${HB_STACK}
 ${HB_SERVICE_INSTANCE_ID}
 ${HB_SERVICE}
+${HB_IPV4_OAM_ADDRESS}
 
 
 *** Test Cases ***

@@ -5,6 +5,7 @@ Resource        ../mr_interface.robot
 Resource        ../json_templater.robot
 Library         OpenstackLibrary
 Library         OperatingSystem
+Library         RequestsLibrary
 Library         UUID
 Library         Collections
 Library         JSONUtils

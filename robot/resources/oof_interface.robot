@@ -2,6 +2,7 @@
 Documentation     The main interface for interacting with OOF: SNIRO and Homing Service
 Library           RequestsLibrary
 Library	          UUID
+Library           OperatingSystem
 Library	          String
 Library           DateTime
 Library           Collections
@@ -116,7 +117,7 @@ OOF-CMSO Create Schedule
 	${nodelist}=   Create List   node1   node2   node3   node4
 	${nn}=    Catenate    1
     # Support up to 4 ChangeWindows
-    : For   ${i}   IN RANGE   1    4
+    :FOR   ${i}   IN RANGE   1    4
     \  ${today}=    Evaluate   ((${i}-1)*1440)+${minutesFromNow}
     \  ${tomorrow}   Evaluate   ${today}+1440
     \  ${last_time}   Evaluate  ${today}+30
@@ -124,7 +125,7 @@ OOF-CMSO Create Schedule
     \  ${end_time}=    Get Current Date   UTC   + ${tomorrow} minutes   result_format=${OOF_CMSO_UTC}
     \  Set To Dictionary    ${map}   start_time${i}=${start_time}   end_time${i}=${end_time}
     ${requestList}=   Create List
-	: For   ${vnf}   IN    @{nodelist}
+	:FOR   ${vnf}   IN    @{nodelist}
 	\   Set To Dictionary    ${map}   node${nn}   ${vnf}
 	\   ${nn}=   Evaluate    ${nn}+1
 	\   Set To DIctionary   ${dict}   vnfName=${vnf}
@@ -166,7 +167,7 @@ OOF-CMSO Json Escape
 
 Run OOF-OSDF Post Request
     [Documentation]    Runs a scheduler POST request
-    [Arguments]   ${data_path}   ${data}={} ${auth}
+    [Arguments]   ${data_path}   ${auth}    ${data}={}     
 
     ${session}=    Create Session   session   ${OOF_OSDF_ENDPOINT}   auth=${auth}
     ${headers}=  Create Dictionary   Accept=application/json    Content-Type=application/json
@@ -179,12 +180,12 @@ Run OOF-OSDF Post Homing
    [Documentation]    Runs a osdf homing request
     ${auth}=  Create List  ${GLOBAL_OOF_OSDF_USERNAME}    ${GLOBAL_OOF_OSDF_PASSWORD}
     ${data}=         Get Binary File     ${OOF_OSDF_TEMPLATE_FOLDER}${/}placement_request.json
-    ${resp}=   Run OOF-OSDF Post Request  /api/oof/placement/v1   data=${data}    auth=${auth}
+    ${resp}=   Run OOF-OSDF Post Request  /api/oof/placement/v1       auth=${auth}    data=${data}
     Should Be Equal As Strings    ${resp.status_code}   204
 
 Run OOF-OSDF Post PCI-OPT
     [Documentation]    Runs a osdf PCI-OPT request
     ${auth}=  Create List  ${GLOBAL_OOF_PCI_USERNAME}    ${GLOBAL_OOF_PCI_PASSWORD}
     ${data}=         Get Binary File     ${OOF_OSDF_TEMPLATE_FOLDER}${/}pci-opt-request.json
-    ${resp}=   Run OOF-OSDF Post Request  /api/oof/pci/v1   data=${data}    auth=${auth}
+    ${resp}=   Run OOF-OSDF Post Request  /api/oof/pci/v1   auth=${auth}    data=${data}    
     Should Be Equal As Strings    ${resp.status_code}   204

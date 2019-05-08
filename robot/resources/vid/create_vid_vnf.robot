@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation	  Creates VID VNF Instance
 
-Library    ExtendedSelenium2Library    60
+Library    SeleniumLibrary    60
 Library	        UUID
 Library         String
 Library        DateTime

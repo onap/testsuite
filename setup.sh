@@ -17,17 +17,15 @@ pip install \
 --no-cache-dir \
 --exists-action s \
 --target="$path/robot/library" \
-'selenium<=3.0.0' \
-'robotframework-selenium2library==1.8.0' \
+'robotframework-seleniumlibrary==3.3.1' \
 'robotframework-databaselibrary==0.8.1' \
-'robotframework-extendedselenium2library==0.9.1' \
+'robotframework-angularjs==0.0.9' \
 'robotframework-requests==0.5.0' \
-'robotframework-sshlibrary==2.1.2' \
-'robotframework-sudslibrary==0.8' \
+'robotframework-sshlibrary==3.3.0' \
 'robotframework-ftplibrary==1.3' \
 'robotframework-rammbock==0.4.0.1' \
 'robotframework-httplibrary==0.4.2' \
-'robotframework-archivelibrary==0.3.2' \
+'robotframework-archivelibrary==0.4' \
 'robotframework-kafkalibrary==0.0.2'
 
 
@@ -79,16 +77,6 @@ pip install \
 --exists-action s \
 --target="$path/robot/library" \
 ./heatbridge
-
-
-# NOTE: Patch to incude explicit install of paramiko to 2.0.2 to work with sshlibrary 2.1.2
-# This should be removed on new release of paramiko (2.1.2) or sshlibrary
-# https://github.com/robotframework/SSHLibrary/issues/157
-pip install \
---no-cache-dir \
---target="$path/robot/library" \
--U 'paramiko==2.0.2'
-
 
 # Go back to execution folder
 cd $path

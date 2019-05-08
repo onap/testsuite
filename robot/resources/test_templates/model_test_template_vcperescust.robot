@@ -29,7 +29,7 @@ Model Distribution For vCPEResCust Directory
     ${service_name}=    Catenate    ${service}    ${uuid}
     ${shortened_uuid}=     Evaluate    str("${service_name}")[:23]
     ${catalog_service_name}=   Set Variable If   '${catalog_service_name}' ==''   ${shortened_uuid}   ${catalog_service_name}
-    :for   ${directory}    in    @{directory_list}
+    :FOR   ${directory}    IN    @{directory_list}
     \    ${zipname}=   Replace String    ${directory}    /    _
     \    ${zip}=    Catenate    ${ASDC_ZIP_DIRECTORY}/${zipname}.zip
     \    ${folder}=    Catenate    ${ASDC_ASSETS_DIRECTORY}/${directory}
@@ -56,7 +56,7 @@ Teardown Models
     [Documentation]    Clean up at the end of the test
     [Arguments]     ${catalog_service_id}    ${catalog_resource_ids}
     Return From Keyword If    '${catalog_service_id}' == ''
-    :for    ${catalog_resource_id}   in   @{catalog_resource_ids}
+    :FOR    ${catalog_resource_id}   IN   @{catalog_resource_ids}
     \   ${resourece_json}=   Mark ASDC Catalog Resource Inactive    ${catalog_resource_id}
     ${service_json}=   Mark ASDC Catalog Service Inactive    ${catalog_service_id}
     ${services_json}=   Delete Inactive ASDC Catalog Services

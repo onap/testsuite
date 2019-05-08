@@ -34,11 +34,11 @@ Run ICE CI Container (Automat Testing) Get Request
     [Return]    ${resp}
 
 Run VVP CMS Health Check
-    [Documentation] Tests interface for container with purpose: backend uwsgi server which hosts django application
+    [Documentation]     Tests interface for container with purpose: backend uwsgi server which hosts django application
     ${resp}=     Run VVP CMS Get Request    ${VVP_PATH}
     Should Be Equal As Strings 	${resp.status_code} 	200
 
-Run VVP CMS Get Request    ${VVP_PATH}
+Run VVP CMS Get Request
     [Documentation]   Runs request in container with purpose: backend uwsgi server which hosts django application
     [Arguments]    ${data_path}
     Log    Creating session ${VVP_CMS_UWSGI_ENDPOINT}

@@ -88,7 +88,7 @@ Get Openstack Subnet By Name
     ${resp}=    Get Openstack Subnets    ${alias}
     @{list}=    Get From Dictionary    ${resp}    subnets
     ${returnnet}=    Set Variable
-    :for    ${net}    in    @{list}
+    :FOR    ${net}    IN    @{list}
     \    ${name}=   Get From Dictionary    ${net}    name
     \    ${cidr}=   Get From Dictionary    ${net}    cidr
     \    ${returnnet}=    Set Variable    ${net}
@@ -100,7 +100,7 @@ Get Openstack IP By Name
     [Arguments]    ${alias}    ${network_name}    ${cidr}    ${ip}
     ${ports}=    Get Openstack Ports For Subnet    ${alias}    ${network_name}    ${cidr}
     Log    ${ports}
-    :for    ${port}   in   @{ports}
+    :FOR    ${port}   IN   @{ports}
     \    Return From Keyword If    '${port['fixed_ips'][0]['ip_address']}' == '${ip}'    ${port}
     [Return]    None
 
@@ -109,7 +109,7 @@ Get Openstack Ports For Subnet
     ${net}=    Get Openstack Subnet By Name    ${alias}    ${network_name}    ${cidr}
     ${ports}=    Get Openstack Ports     ${alias}
     ${net_ports}=    Create List
-    :for    ${port}    in    @{ports['ports']}
+    :FOR    ${port}    IN    @{ports['ports']}
     \    Run Keyword If   '${net['network_id']}' == '${port['network_id']}'    Append To List    ${net_ports}   ${port}
     [Return]   ${net_ports}
 

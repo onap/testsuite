@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation	  The main interface for interacting with MUSIC. It handles low level stuff like managing the http request library and MUSIC required fields
-Library	          RequestsClientCert
 Library 	      RequestsLibrary
 Library	          UUID      
 

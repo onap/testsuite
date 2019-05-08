@@ -3,7 +3,7 @@ Documentation     The main interface for interacting with SDN-GC. It handles low
 Library 	      RequestsLibrary
 Library	          UUID
 Library    OperatingSystem
-Library 	    ExtendedSelenium2Library
+Library 	    SeleniumLibrary
 Library         Collections
 Library      String
 Library      StringTemplater
@@ -86,7 +86,7 @@ Preload Vnf
     ${base_vf_module_type}=    Catenate
     ${closedloop_vf_module}=    Create Dictionary
     ${templates}=    Get From Dictionary    ${GLOBAL_SERVICE_TEMPLATE_MAPPING}    ${service}
-    :for    ${vf_module}    in      @{vf_modules}
+    :FOR    ${vf_module}    IN      @{vf_modules}
     \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
     #     need to pass in vnf_index if non-zero
     \       ${dict}   Run Keyword If    "${generic_vnf_name}".endswith('0')      Get From Mapping With Index    ${templates}    ${vf_module}   0
@@ -117,7 +117,7 @@ Get From Mapping With Index
     [Documentation]    Retrieve the appropriate prelad template entry for the passed vf_module
     [Arguments]    ${templates}    ${vf_module}   ${vnf_index}=0
     ${vf_module_name}=    Get From DIctionary    ${vf_module}    name
-    :for    ${template}   in   @{templates}
+    :FOR    ${template}   IN   @{templates}
     \    Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}' and ('${template['vnf_index']}' == '${vnf_index}')     ${template}
     ${result}=    Create Dictionary
     [Return]    ${result}
@@ -126,7 +126,7 @@ Get From Mapping
     [Documentation]    Retrieve the appropriate prelad template entry for the passed vf_module
     [Arguments]    ${templates}    ${vf_module}
     ${vf_module_name}=    Get From DIctionary    ${vf_module}    name
-    :for    ${template}   in   @{templates}
+    :FOR    ${template}   IN   @{templates}
     \    Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}'     ${template}
     ${result}=    Create Dictionary
     [Return]    ${result}
@@ -176,7 +176,7 @@ Get Template Parameters
     ${defaults}=    Get From Dictionary    ${GLOBAL_PRELOAD_PARAMETERS}    defaults
     # add all of the defaults to template...
     @{keys}=    Get Dictionary Keys    ${defaults}
-    :for   ${key}   in   @{keys}
+    :FOR   ${key}   IN   @{keys}
     \    ${value}=   Get From Dictionary    ${defaults}    ${key}
     \    Set To Dictionary    ${template}  ${key}    ${value}
 
@@ -191,7 +191,7 @@ Get Template Parameters
 Resolve Values Into Dictionary
     [Arguments]   ${valuemap}    ${from}    ${to}
     ${keys}=    Get Dictionary Keys    ${from}
-    :for   ${key}   in  @{keys}
+    :FOR   ${key}   IN  @{keys}
     \    ${value}=    Get From Dictionary    ${from}   ${key}
     \    ${value}=    Template String    ${value}    ${valuemap}
     \    Set To Dictionary    ${to}    ${key}    ${value}
@@ -200,7 +200,7 @@ Resolve VNF Parameters Into Array
     [Arguments]   ${valuemap}    ${from}
     ${vnf_parameters}=   Create List
     ${keys}=    Get Dictionary Keys    ${from}
-    :for   ${key}   in  @{keys}
+    :FOR   ${key}   IN  @{keys}
     \    ${value}=    Get From Dictionary    ${from}   ${key}
     \    ${value}=    Template String    ${value}    ${valuemap}
     \    ${parameter}=   Create Dictionary   vnf-parameter-name=${key}    vnf-parameter-value=${value}
