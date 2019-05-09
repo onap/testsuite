@@ -49,7 +49,7 @@ else
 		cd python-testing-utils
 		git pull origin master
 	else
-		git clone https://gerrit.onap.org/r/testsuite/python-testing-utils.git
+		git clone  -b dublin https://gerrit.onap.org/r/testsuite/python-testing-utils.git
 		cd python-testing-utils
 	fi
 fi
