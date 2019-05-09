@@ -24,7 +24,7 @@
                                             "closedLoopControlName": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",
                                             "closedLoopEventStatus": "ONSET",
                                             "version": "1.0.2",
-                                            "fieldPath": "$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedTotalPacketsDelta",
+                                            "fieldPath": "$$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedTotalPacketsDelta",
                                             "thresholdValue": 300,
                                             "direction": "LESS_OR_EQUAL",
                                             "severity": "MAJOR"
@@ -33,7 +33,7 @@
                                             "closedLoopControlName": "ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a",
                                             "closedLoopEventStatus": "ONSET",
                                             "version": "1.0.2",
-                                            "fieldPath": "$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedTotalPacketsDelta",
+                                            "fieldPath": "$$.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedTotalPacketsDelta",
                                             "thresholdValue": 700,
                                             "direction": "GREATER_OR_EQUAL",
                                             "severity": "CRITICAL"
