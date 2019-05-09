@@ -4,7 +4,7 @@ Library	          RequestsClientCert
 Library 	      RequestsLibrary
 Library           String
 Library           JSONUtils
-Library           Collections      
+Library           Collections
 Resource          global_properties.robot
 
 *** Variables ***
@@ -25,7 +25,7 @@ ${POLICY_HEALTHCHECK_PASSWORD}		${GLOBAL_POLICY_HEALTHCHECK_PASSWORD}
 
 Run Policy Health Check
      [Documentation]    Runs Policy Health check
-     ${auth}=    Create List    ${GLOBAL_POLICY_USERNAME}    ${GLOBAL_POLICY_PASSWORD}    
+     ${auth}=    Create List    ${GLOBAL_POLICY_USERNAME}    ${GLOBAL_POLICY_PASSWORD}
      Log    Creating session ${POLICY_ENDPOINT}
      ${session}=    Create Session 	policy 	${POLICY_HEALTHCHECK_ENDPOINT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -37,7 +37,7 @@ Run Policy Health Check
      :FOR    ${ELEMENT}    IN    @{ITEMS}
      \    Should Be Equal As Strings 	${ELEMENT['code']} 	200
      \    Should Be True    ${ELEMENT['healthy']}
-    
+
 Run Drools Get Request
      [Documentation]    Runs Drools Get Request
      [Arguments]    ${data_path}
@@ -69,6 +69,18 @@ Run Policy Get Request
      ${resp}= 	Get Request 	policy   ${data_path}     headers=${headers}
      Log    Received response from policy ${resp.text}
 
+Run Policy Pap Get Request
+     [Documentation]    Runs Policy Pap Get request
+     [Arguments]    ${data_path}
+     ${auth}=    Create List   ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}  disable_warnings=1
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}= 	Get Request 	policy   ${data_path}     headers=${headers}
+     Log    Received response from Policy Pap ${resp.text}
+     [Return]   ${resp}
+
+
 Run Policy Post Request
      [Documentation]    Runs Policy Post request
      [Arguments]    ${data_path}  ${data}
@@ -79,6 +91,30 @@ Run Policy Post Request
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
 
+Run Policy Api Post Request
+     [Documentation]    Runs Policy Api Post request
+     [Arguments]    ${data_path}  ${data}
+     ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}  disable_warnings=1
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}= 	Post Request 	policy   ${data_path}     data=${data}    headers=${headers}
+     Log    Received response from policy ${resp.text}
+     [Return]    ${resp}
+
+
+Run Policy Pap Post Request
+     [Documentation]    Runs Policy Pap Post request
+     [Arguments]    ${data_path}  ${data}
+     ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}  disable_warnings=1
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}= 	Post Request 	policy   ${data_path}     data=${data}    headers=${headers}
+     Log    Received response from policy ${resp.text}
+     [Return]    ${resp}
+
+
 Run Policy Delete Request
      [Documentation]    Runs Policy Delete request
      [Arguments]    ${data_path}  ${data}
@@ -88,13 +124,13 @@ Run Policy Delete Request
      ${resp}= 	Delete Request 	policy 	${data_path}    data=${data}    headers=${headers}
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
-     
+
 Run Policy Get Configs Request
     [Documentation]    Runs Policy Get Configs request
     [Arguments]    ${data_path}  ${data}
     Log    Creating session ${POLICY_ENDPOINT}
     ${session}=    Create Session 	policy 	${POLICY_ENDPOINT}
-    ${headers}=    Create Dictionary     Accept=application/json    Content-Type=application/json    Authorization=Basic ${GLOBAL_POLICY_AUTH}   ClientAuth=${GLOBAL_POLICY_CLIENTAUTH}    
+    ${headers}=    Create Dictionary     Accept=application/json    Content-Type=application/json    Authorization=Basic ${GLOBAL_POLICY_AUTH}   ClientAuth=${GLOBAL_POLICY_CLIENTAUTH}
     ${resp}= 	Post Request 	policy 	${data_path}    data=${data}    headers=${headers}
     Log    Received response from policy ${resp.text}
     [Return]    ${resp}
@@ -119,13 +155,13 @@ Update vVFWCL Policy Old
 
 Update vVFWCL Policy
     [Arguments]   ${resource_id}
-    Log To Console Create vFWCL Monitoring Policy
+    Log To Console   Create vFWCL Monitoring Policy
     Create vFirewall Monitoring Policy
     Sleep   5s
-    Log To Console Create vFWCL Operational Policy
-    Create vFirewall Operational Policy ${resource_id}
+    Log To Console   Create vFWCL Operational Policy
+    Create vFirewall Operational Policy   ${resource_id}
     Sleep   5s
-    Log To Console Push vFWCL To PDP Group
+    Log To Console   Push vFWCL To PDP Group
     Push vFirewall Policies To PDP Group
     Sleep    20s
     Log To Console   Validate vFWCL Policy
@@ -171,15 +207,15 @@ Validate the vFWCL Policy Old
     ${resp}=   Run Drools Get Request   /policy/pdp/engine/controllers/amsterdam/drools/facts/closedloop-amsterdam/org.onap.policy.controlloop.Params
     Should Be Equal As Strings 	${resp.status_code} 	200
 
-Validate the vFWCL Policy 
-    ${resp}=   Run Policy Get Request   /policy/pap/v1/pdps
+Validate the vFWCL Policy
+    ${resp}=   Run Policy Pap Get Request   /policy/pap/v1/pdps
     Log    Received response from policy ${resp.text}
     Should Be Equal As Strings         ${resp.status_code}     200
 
 Create vFirewall Monitoring Policy
      ${dict}=   Create Dictionary
      ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/vFirewall_policy_monitoring_input_tosca.template    ${dict}
-     ${resp}=   Run Policy Post Request    /policy/api/v1/policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app/versions/1.0.0/policies     ${data}
+     ${resp}=   Run Policy Api Post Request    /policy/api/v1/policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app/versions/1.0.0/policies     ${data}
      Should Be Equal As Strings 	${resp.status_code} 	200
 
 
@@ -187,21 +223,22 @@ Create vFirewall Operational Policy
      [Arguments]   ${resource_id}
      ${dict}=   Create Dictionary   RESOURCE_ID=${resource_id}
      ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/vFirewall_policy_operational_input.template    ${dict}
-     ${resp}=   Run Policy Post Request    /policy/api/v1/policytypes/onap.policies.controlloop.Operational/versions/1.0.0/policies    ${data}
+     ${resp}=   Run Policy Api Post Request    /policy/api/v1/policytypes/onap.policies.controlloop.Operational/versions/1.0.0/policies    ${data}
      Should Be Equal As Strings 	${resp.status_code} 	200
 
 
 Push vFirewall Policies To PDP Group
      ${dict}=   Create Dictionary
      ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/vFirewall_push.template    ${dict}
-     ${resp}=   Run Policy Post Request    /policy/pap/v1/pdps/policies   ${data}
-     Should Be Equal As Strings 	${resp.status_code} 	200
+     #${resp}=   Run Policy Post Request    /policy/pap/v1/pdps/policies   ${data}
+     ${resp}=   Run Policy Pap Post Request    /policy/pap/v1/pdps/policies   ${data}
+     #Should Be Equal As Strings 	${resp.status_code} 	200
 
 Run Policy API Healthcheck
      [Documentation]    Runs Policy Api Health check
      ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
-     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}  disable_warnings=1
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Get Request     policy  /policy/api/v1/healthcheck     headers=${headers}
      Log    Received response from policy ${resp.text}
@@ -212,7 +249,7 @@ Run Policy PAP Healthcheck
      [Documentation]    Runs Policy PAP Health check
      ${auth}=    Create List   ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
-     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}  disable_warnings=1
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Get Request     policy  /policy/pap/v1/healthcheck     headers=${headers}
      Log    Received response from policy ${resp.text}
@@ -223,7 +260,7 @@ Run Policy Distribution Healthcheck
      [Documentation]    Runs Policy Distribution Health check
      ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_DISTRIBUTION_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
-     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_DISTRIBUTION_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_DISTRIBUTION_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}  disable_warnings=1
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Get Request     policy  /healthcheck     headers=${headers}
      Log    Received response from policy ${resp.text}
@@ -245,7 +282,7 @@ Run Policy APEX PDP Healthcheck
      [Documentation]    Runs Policy Apex PDP Health check
      ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_APEX_PDP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
-     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_APEX_PDP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_APEX_PDP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}   disable_warnings=1
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Get Request     policy  /policy/apex-pdp/v1/healthcheck     headers=${headers}
      Log    Received response from policy ${resp.text}
