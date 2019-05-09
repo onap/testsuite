@@ -118,7 +118,7 @@ Update vVFWCL Policy Old
     Validate the vFWCL Policy Old
 
 Update vVFWCL Policy
-    [Arguments] ${resource_id}
+    [Arguments]   ${resource_id}
     Log To Console Create vFWCL Monitoring Policy
     Create vFirewall Monitoring Policy
     Sleep   5s
