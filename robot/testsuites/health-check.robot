@@ -295,7 +295,7 @@ Basic Holmes Engine Management API Health Check
 
 Basic Multicloud-fcaps API Health Check
     [Tags]    health    multicloud   health-multicloud
-    Run MSB Get Request    /api/multicloud-fcaps/healthcheck
+    Run MSB Get Request    /api/multicloud-fcaps/v1/healthcheck
 
 Basic Modeling genericparser API Health Check
     [Tags]    health    api   health-modeling
