@@ -24,7 +24,7 @@
 				"thresholds": [{
 					"closedLoopControlName": "ControlLoop-vDNS-6f37f56d-a87d-4b85-b6a9-cc953cf779b3",
 					"version": "1.0.2",
-					"fieldPath": "$.event.measurementsForVfScalingFields.vNicUsageArray[*].receivedTotalPacketsDelta",
+					"fieldPath": "$$.event.measurementsForVfScalingFields.vNicUsageArray[*].receivedTotalPacketsDelta",
 					"thresholdValue": 300,
 					"direction": "GREATER_OR_EQUAL",
 					"severity": "CRITICAL",
