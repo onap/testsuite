@@ -29,12 +29,11 @@
 #################################################################
 
 #
-# Run the testsuite for the passed tag. Valid tags are ete, health, closedloop, instantiate
+# Run the testsuite for the passed robot tag.
 # Please clean up logs when you are done...
-# Note: Do not run multiple concurrent ete.sh as the --display is not parameterized and tests will collide
 #
 if [ "$1" == "" ] || [ "$2" == "" ]; then
-   echo "Usage: ete-k8s.sh [namespace] [ health | healthdist | distribute | instantiate | instantiateVFWCL | instantiateDemoVFWCL | portal ]"
+   echo "Usage: ete-k8s2.sh [namespace] [tag]"
    exit
 fi
 
