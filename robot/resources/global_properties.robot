@@ -35,9 +35,5 @@ ${GLOBAL_AAI_ZONE_ID}    nova1
 ${GLOBAL_AAI_ZONE_NAME}    nova
 ${GLOBAL_AAI_DESIGN_TYPE}    integration
 ${GLOBAL_AAI_ZONE_CONTEXT}    labs
-${GLOBAL_DNS_HV_VES_NAME}      dcae-hv-ves-collector
-${GLOBAL_HV_VES_SERVER_PORT}     6061
 ${GLOBAL_DNS_VES_NAME}      dcae-ves-collector
 ${GLOBAL_VES_SERVER_PORT}        8080
-${GLOBAL_DNS_MESSAGE_ROUTER_KAFKA_NAME}  message-router-kafka
-${GLOBAL_MESSAGE_ROUTER_KAFKA_PORT}  9092
