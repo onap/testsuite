@@ -17,41 +17,18 @@ pip install \
 --no-cache-dir \
 --exists-action s \
 --target="$path/robot/library" \
+--extra-index-url="https://nexus3.onap.org/repository/PyPi.staging/simple" \
 'robotframework-seleniumlibrary==3.3.1' \
-'robotframework-databaselibrary==0.8.1' \
+'robotframework-databaselibrary==1.2' \
 'robotframework-angularjs==0.0.9' \
 'robotframework-requests==0.5.0' \
 'robotframework-sshlibrary==3.3.0' \
-'robotframework-ftplibrary==1.3' \
+'robotframework-ftplibrary==1.6' \
 'robotframework-rammbock==0.4.0.1' \
 'robotframework-httplibrary==0.4.2' \
-'robotframework-archivelibrary==0.4' \
-'robotframework-kafkalibrary==0.0.2'
-
-
-# get the git for the eteutils you will need to add a private key to your ssh before this
-if [ -d $path/testsuite/eteutils ]
-then
-    # Support LF build location
-	cd $path/testsuite/eteutils
-else
-	cd ~
-	git config --global http.sslVerify false
-	if [ -d ~/python-testing-utils ]
-	then
-		cd python-testing-utils
-		git pull origin master
-	else
-		git clone https://gerrit.onap.org/r/testsuite/python-testing-utils.git
-		cd python-testing-utils
-	fi
-fi
-
-pip install \
---no-cache-dir \
---upgrade \
---exists-action s \
---target="$path/robot/library" ./robotframework-onap
+'robotframework-archivelibrary==0.4.0' \
+'robotframework-kafkalibrary==0.0.2' \
+'robotframework-onap==0.4'
 
 
 if [ -d $path/testsuite/heatbridge ]
@@ -120,24 +97,3 @@ else
 	fi
 	rm -rf $CHROMEDRIVER_TARGET
 fi
-
-#
-# Install kafkacat : https://github.com/edenhill/kafkacat
-#
-OS=`uname -s`
-case $OS in
-	Darwin)
-		brew install kafkacat ;;
-	Linux)
-		apt-get -y install kafkacat
-esac
-#
-# Install protobuf
-#
-OS=`uname -s`
-case $OS in
-        Darwin)
-                brew install protobuf ;;
-        Linux)
-                apt-get -y install protobuf-compiler
-esac
