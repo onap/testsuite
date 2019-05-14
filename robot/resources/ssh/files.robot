@@ -2,7 +2,6 @@
 Documentation     Some handy Keywords for accessing log files over SSH.  Assumptions are that logs will belong to users other than the currently logged in user and that sudo will be required
 Library           OperatingSystem
 Library 	      SSHLibrary
-Library           HttpLibrary.HTTP
 Library           String
 Library           Collections
 

@@ -13,7 +13,6 @@ Resource        aai/create_availability_zone.robot
 Library	        UUID
 Library	        Collections
 Library         OperatingSystem
-Library         HttpLibrary.HTTP
 Library         SeleniumLibrary
 Library         RequestsLibrary
 

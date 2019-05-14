@@ -6,7 +6,6 @@ Library           JSONUtils
 Library           OperatingSystem
 Library           Collections
 Library           SeleniumLibrary
-Library           HttpLibrary.HTTP
 Library           String
 Library           StringTemplater
 Library           ArchiveLibrary
@@ -84,7 +83,6 @@ Distribute Model From ASDC
     #   Save the resource_id in a dictionary keyed byt the resource NAme in the zipfile name (vFWDT_vFWSNK.zip or vFWDT_vPKG.zip)
     #   Create the resources but dont immediately add resource
     #   Add Resource to Service in a separate FOR loop
-    #  TODO: CHECK vCPE models to make sure they aren't broken with the split
     ${resource_types}=   Create Dictionary
 
     :FOR    ${zip}     IN     @{model_zip_path}
@@ -178,12 +176,12 @@ Distribute vCPEResCust Model From ASDC
     # Create /tmp/vcpe_allotted_resource_data.json with demo vgmux and brgemu CSARs
     Create Allotted Resource Data File
     ${vcpe_ar_data_file}    OperatingSystem.Get File    /tmp/vcpe_allotted_resource_data.json
-    ${tunnelxconn_invariant_uuid}    Get Json Value    ${vcpe_ar_data_file}    /tunnelxconn/invariantUUID
-    ${tunnelxconn_uuid}    Get Json Value    ${vcpe_ar_data_file}    /tunnelxconn/UUID
-    ${tunnelxconn_node_type}    Get Json Value    ${vcpe_ar_data_file}    /tunnelxconn/node_type
-    ${brg_invariant_uuid}    Get Json Value    ${vcpe_ar_data_file}    /brg/invariantUUID
-    ${brg_uuid}    Get Json Value    ${vcpe_ar_data_file}    /brg/UUID
-    ${brg_node_type}    Get Json Value    ${vcpe_ar_data_file}    /brg/node_type
+    ${tunnelxconn_invariant_uuid}=    Catenate    ${vcpe_ar_data_file.json()['tunnelxconn']['invariantUUID']}
+    ${tunnelxconn_uuid}=    Catenate    ${vcpe_ar_data_file.json()['tunnelxconn']['UUID']}
+    ${tunnelxconn_node_type}=    Catenate    ${vcpe_ar_data_file.json()['tunnelxconn']['node_type']}
+    ${brg_invariant_uuid}=    Catenate    ${vcpe_ar_data_file.json()['brg']['invariantUUID']}
+    ${brg_uuid}=    Catenate    ${vcpe_ar_data_file.json()['brg']['UUID']}
+    ${brg_node_type}=    Catenate    ${vcpe_ar_data_file.json()['brg']['node_type']}
     ${tunnelxconn_dict}=   Create Dictionary      invariantUUID=${tunnelxconn_invariant_uuid}  UUID=${tunnelxconn_uuid}  node_type=${tunnelxconn_node_type}
     ${brg_dict}=   Create Dictionary      invariantUUID=${brg_invariant_uuid}   UUID=${brg_uuid}  node_type=${brg_node_type}
     ${xoffset}=    Set Variable    ${100}

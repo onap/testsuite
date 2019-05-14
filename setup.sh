@@ -25,9 +25,7 @@ pip install \
 'robotframework-sshlibrary==3.3.0' \
 'robotframework-ftplibrary==1.6' \
 'robotframework-rammbock==0.4.0.1' \
-'robotframework-httplibrary==0.4.2' \
 'robotframework-archivelibrary==0.4.0' \
-'robotframework-kafkalibrary==0.0.2' \
 'robotframework-onap==0.4'
 
 
@@ -97,3 +95,14 @@ else
 	fi
 	rm -rf $CHROMEDRIVER_TARGET
 fi
+
+#
+# Install kafkacat : https://github.com/edenhill/kafkacat
+#
+OS=`uname -s`
+case $OS in
+	Darwin)
+		brew install kafkacat ;;
+	Linux)
+		apt-get -y install kafkacat
+esac

@@ -44,7 +44,6 @@ GLOBAL_SERVICE_TEMPLATE_MAPPING2 = {}
 GLOBAL_VALIDATE_NAME_MAPPING2 = {} 
 
 
-
 folder=os.path.join('./demo/service_mapping')
 subfolders = [d for d in os.listdir(folder) if os.path.isdir(os.path.join(folder, d))]
 

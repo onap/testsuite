@@ -7,7 +7,6 @@ Library	          UUID
 Library	          Collections
 Library    OperatingSystem
 Library    String
-Library    HttpLibrary.HTTP
 Resource    ../global_properties.robot
 Resource    ../json_templater.robot
 Resource    openstack_common.robot
@@ -54,8 +53,7 @@ Get KeystoneAPIVersion
     ${resp}=    Get Request    keystone  /   headers=${headers}
     Log    Received response from keystone ${resp.text}
     Should Be Equal As Strings    ${resp.status_code}    300
-    ${json}=    Parse Json    ${resp.content}
-    ${versions}=   Get From Dictionary    ${json}   versions
+    ${versions}=   Get From Dictionary    ${resp.json()}   versions
     ${values}=   Get From Dictionary    ${versions}   values
     :FOR    ${value}    IN    @{values}
        \  ${status}=    Get Variable Value    ${value["status"]}

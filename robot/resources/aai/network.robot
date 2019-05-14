@@ -8,7 +8,6 @@ Library    Collections
 Library    OperatingSystem
 Library    RequestsLibrary
 Library    JSONUtils
-Library    HttpLibrary.HTTP
 
 Resource          ../json_templater.robot
 
