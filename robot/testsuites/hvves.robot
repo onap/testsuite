@@ -4,9 +4,8 @@ Default Tags    hvves   ete
 Test Timeout    3m
 Resource    ${EXECDIR}/robot/resources/global_properties.robot
 Resource    ${EXECDIR}/robot/resources/test_templates/hvves_template.robot
-Suite Teardown  Reset Rammbock
-
-*** Variables ***
+Library    Rammbock
+Library    OperatingSystem
 
 *** Test Cases ***
 HV-VES test case
@@ -18,3 +17,4 @@ HV-VES test case
     ${msg_decoded}=    Decode Last Message From Topic    ${GLOBAL_DMAAP_KAFKA_SERVER_NAME}    ${GLOBAL_DMAAP_KAFKA_SERVER_PORT}    ${hvves_kafka_topic}    ${security_protocol}    ${sasl_mechanisms}    ${GLOBAL_DMAAP_KAFKA_JAAS_USERNAME}    ${GLOBAL_DMAAP_KAFKA_JAAS_PASSWORD}
     ${msg_decoded_template}=    Get File    ${EXECDIR}/robot/assets/templates/hvves/hvves_decoded_msg.template
     Should Be Equal As Strings  ${msg_decoded}  ${msg_decoded_template}
+    [Teardown]    Reset Rammbock

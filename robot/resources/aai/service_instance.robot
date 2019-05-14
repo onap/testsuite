@@ -8,7 +8,6 @@ Library    Collections
 Library    OperatingSystem
 Library    RequestsLibrary
 Library    JSONUtils
-Library    HttpLibrary.HTTP
 Library    StringTemplater
 Resource          ../json_templater.robot
 Resource          ../stack_validation/validate_vlb.robot

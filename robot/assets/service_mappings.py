@@ -44,7 +44,7 @@ GLOBAL_SERVICE_TEMPLATE_MAPPING2 = {}
 GLOBAL_VALIDATE_NAME_MAPPING2 = {} 
 
 
-
+'''
 folder=os.path.join('./demo/service_mapping')
 subfolders = [d for d in os.listdir(folder) if os.path.isdir(os.path.join(folder, d))]
 
@@ -71,7 +71,7 @@ for service in subfolders:
            #GLOBAL_VALIDATE_NAME_MAPPING2[service]=service_mappings[mapping][service]
            for vnftype   in service_mappings[mapping]:
                GLOBAL_VALIDATE_NAME_MAPPING2[vnftype]=service_mappings[mapping][vnftype]
-
+'''
 # Merge dictionaries
 GLOBAL_SERVICE_FOLDER_MAPPING =  dict(GLOBAL_SERVICE_FOLDER_MAPPING.items() + GLOBAL_SERVICE_FOLDER_MAPPING2.items())
 GLOBAL_SERVICE_VNF_MAPPING =  dict(GLOBAL_SERVICE_VNF_MAPPING.items() + GLOBAL_SERVICE_VNF_MAPPING2.items())
