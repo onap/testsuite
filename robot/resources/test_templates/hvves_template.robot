@@ -2,7 +2,6 @@
 Documentation   Template contains stuff for HV-VES use case.
 Library     OperatingSystem
 Library     Rammbock
-Library     KafkaLibrary
 Library     BuiltIn
 Library     Collections
 Library     HttpLibrary.HTTP
@@ -14,13 +13,16 @@ ${security_protocol}    SASL_PLAINTEXT
 ${sasl_mechanisms}    PLAIN
 
 *** Keywords ***
-Check Message Via Message Router Api
+Check Message Router Api
     [Documentation]    Checks message via message router API.
-    [Arguments]    ${message_router}    ${message_router_port}    ${topic}    ${state}
-    ${response}=    GET    http://${message_router}:${message_router_port}/events/${topic}/1/1
-    ${body}=    Get Response Body
-    Run Keyword If    '${state}'=='before'    Should Be Equal    ${body}    []
-    Run Keyword If    '${state}'=='after'    Should Not Be Equal    ${body}    []
+    [Arguments]    ${message_router}    ${message_router_port}    ${topic}
+    ${status}    ${response}=    Run Keyword And Ignore Error    GET    http://${message_router}:${message_router_port}/events/${topic}/1/1
+    ${response_code}=    Get Response Status
+    ${response_body}=    Get Response Body
+    Run Keyword If    '${status}'=='FAIL'    Should Start With    ${response_code}    404
+    Run Keyword If    '${status}'=='FAIL'    Log    Topic ${topic} does not exist.
+    Run Keyword If    '${status}'=='PASS'    Should Start With    ${response_code}    200
+    Run Keyword If    '${status}'=='PASS'    Log    Topic ${topic} exists.
 
 Check If Topic Exists
     [Documentation]      Checks if specific topic exists on kafka.
@@ -49,11 +51,6 @@ Start HV-VES TCP Client And Send Message
     Connect     ${hvves_server_ip}  ${hvves_server_port}
     New Message     HvVesMessage    protocol=WireTransferProtocol
     Client Sends Message
-
-Download VesEvent Proto File
-    [Documentation]     Download proto file.
-    [Arguments]     ${path}
-    Run     wget "https://gerrit.onap.org/r/gitweb?p=dcaegen2/collectors/hv-ves.git;a=blob_plain;f=hv-collector-domain/src/main/proto/event/VesEvent.proto;hb=HEAD" -O ${path}/VesEvent.proto
 
 Decode Last Message From Topic
     [Documentation]     Decode last message from Kafka topic.
