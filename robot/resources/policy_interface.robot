@@ -164,10 +164,10 @@ Update vVFWCL Policy
     Create vFirewall Monitoring Policy
     Sleep   5s
     Log To Console   Create vFWCL Operational Policy
-    Create vFirewall Operational Policy   ${resource_id}
+    ${op_policy_version}=   Create vFirewall Operational Policy   ${resource_id}
     Sleep   5s
     Log To Console   Push vFWCL To PDP Group
-    Push vFirewall Policies To PDP Group
+    Push vFirewall Policies To PDP Group    ${op_policy_version}
     Sleep    20s
     Log To Console   Validate vFWCL Policy
     Validate the vFWCL Policy
@@ -230,10 +230,12 @@ Create vFirewall Operational Policy
      ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/vFirewall_policy_operational_input.template    ${dict}
      ${resp}=   Run Policy Api Post Request    /policy/api/v1/policytypes/onap.policies.controlloop.Operational/versions/1.0.0/policies    ${data}
      Should Be Equal As Strings 	${resp.status_code} 	200
+     [Return]    ${resp.json()['policy-version']}
 
 
 Push vFirewall Policies To PDP Group
-     ${dict}=   Create Dictionary
+     [Arguments]    ${op_policy_version}
+     ${dict}=   Create Dictionary    OP_POLICY_VERSION=${op_policy_version}
      ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/vFirewall_push.template    ${dict}
      #${resp}=   Run Policy Post Request    /policy/pap/v1/pdps/policies   ${data}
      ${resp}=   Run Policy Pap Post Request    /policy/pap/v1/pdps/policies   ${data}

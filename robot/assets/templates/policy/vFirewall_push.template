@@ -6,7 +6,7 @@
     },
     {
       "policy-id": "operational.modifyconfig",
-      "policy-version": 1
+      "policy-version": ${OP_POLICY_VERSION}
     }
   ]
 }
