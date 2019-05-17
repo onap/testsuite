@@ -74,7 +74,7 @@ Run Policy Pap Get Request
      [Arguments]    ${data_path}
      ${auth}=    Create List   ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
-     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}  disable_warnings=1
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}= 	Get Request 	policy   ${data_path}     headers=${headers}
      Log    Received response from Policy Pap ${resp.text}
@@ -95,7 +95,7 @@ Run Policy Api Post Request
      [Documentation]    Runs Policy Api Post request
      [Arguments]    ${data_path}  ${data}
      ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
-     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}  disable_warnings=1
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}= 	Post Request 	policy   ${data_path}     data=${data}    headers=${headers}
@@ -107,7 +107,7 @@ Run Policy Pap Post Request
      [Documentation]    Runs Policy Pap Post request
      [Arguments]    ${data_path}  ${data}
      ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
-     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}  disable_warnings=1
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}= 	Post Request 	policy   ${data_path}     data=${data}    headers=${headers}
@@ -240,7 +240,7 @@ Run Policy API Healthcheck
      [Documentation]    Runs Policy Api Health check
      ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
-     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}  disable_warnings=1
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Get Request     policy  /policy/api/v1/healthcheck     headers=${headers}
      Log    Received response from policy ${resp.text}
@@ -251,7 +251,7 @@ Run Policy PAP Healthcheck
      [Documentation]    Runs Policy PAP Health check
      ${auth}=    Create List   ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
-     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}  disable_warnings=1
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Get Request     policy  /policy/pap/v1/healthcheck     headers=${headers}
      Log    Received response from policy ${resp.text}
@@ -262,7 +262,7 @@ Run Policy Distribution Healthcheck
      [Documentation]    Runs Policy Distribution Health check
      ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_DISTRIBUTION_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
-     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_DISTRIBUTION_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}  disable_warnings=1
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_DISTRIBUTION_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Get Request     policy  /healthcheck     headers=${headers}
      Log    Received response from policy ${resp.text}
@@ -284,7 +284,7 @@ Run Policy APEX PDP Healthcheck
      [Documentation]    Runs Policy Apex PDP Health check
      ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_APEX_PDP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
-     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_APEX_PDP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}   disable_warnings=1
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_APEX_PDP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Get Request     policy  /policy/apex-pdp/v1/healthcheck     headers=${headers}
      Log    Received response from policy ${resp.text}
