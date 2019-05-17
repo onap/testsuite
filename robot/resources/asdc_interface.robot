@@ -116,7 +116,7 @@ Distribute Model From ASDC
     \    ${loop_catalog_resource_id}=   Set Variable    ${generic_neutron_net_uuid}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
-    \    ${loop_catalog_resource_id}=   Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${network}    ${xoffset}      ${0}
+    \    ${loop_catalog_resource_id}=   Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${network}    ${xoffset}      ${0}    VL
     \    ${nf_role}=   Convert To Lowercase   ${network}
     \    Setup SDC Catalog Resource GenericNeutronNet Properties      ${catalog_service_id}    ${nf_role}   ${loop_catalog_resource_id}
     \    ${xoffset}=   Set Variable   ${xoffset+100}
@@ -824,11 +824,11 @@ Distribute ASDC Catalog Service
 
 Add ASDC Resource Instance
     [Documentation]    Creates an asdc Resource Instance and returns its id
-    [Arguments]    ${catalog_service_id}    ${catalog_resource_id}    ${catalog_resource_name}  ${xoffset}=${0}   ${yoffset}=${0}
+    [Arguments]    ${catalog_service_id}    ${catalog_resource_id}    ${catalog_resource_name}  ${xoffset}=${0}   ${yoffset}=${0}   ${resourceType}=VF
     ${milli_timestamp}=    Generate MilliTimestamp UUID
     ${xoffset}=    Set Variable   ${xoffset+306}
     ${yoffset}=    Set Variable   ${yoffset+248}
-    ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}
+    ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}    originType=${resourceType}
     ${data}=   Fill JSON Template File    ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     201
@@ -836,11 +836,11 @@ Add ASDC Resource Instance
 
 Add ASDC Resource Instance To Resource
     [Documentation]    Creates an asdc Resource Instance in a Resource (VF) and returns its id
-    [Arguments]    ${parent_catalog_resource_id}    ${catalog_resource_id}    ${catalog_resource_name}  ${xoffset}=${0}   ${yoffset}=${0}
+    [Arguments]    ${parent_catalog_resource_id}    ${catalog_resource_id}    ${catalog_resource_name}  ${xoffset}=${0}   ${yoffset}=${0}    ${resourceType}=VF
     ${milli_timestamp}=    Generate MilliTimestamp UUID
     ${xoffset}=    Set Variable   ${xoffset+306}
     ${yoffset}=    Set Variable   ${yoffset+248}
-    ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}
+    ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}    originType=${resourceType}
     ${data}=   Fill JSON Template File    ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${parent_catalog_resource_id}${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     201
