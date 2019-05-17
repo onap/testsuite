@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9343244a_04d22ad8",
+        "filename": "robot/resources/test_templates/pnf_registration_without_SO_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-05-17T14:20:49Z",
+      "side": 0,
+      "message": "this method is used why did you delete it?",
+      "revId": "edac8b3e49537f793cb13d0f98d2af64ce9b8576",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
