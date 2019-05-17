@@ -15,7 +15,7 @@
                             "metricsPerEventName": [
                                 {
                                     "eventName": "vFirewallBroadcastPackets",
-                                    "controlLoopSchemaType": "VNF",
+                                    "controlLoopSchemaType": "VM",
                                     "policyScope": "DCAE",
                                     "policyName": "DCAE.Config_tca-hi-lo",
                                     "policyVersion": "v0.0.1",

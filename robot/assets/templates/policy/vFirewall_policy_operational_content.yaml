@@ -1,0 +1,25 @@
+controlLoop:
+    version: 2.0.0
+    controlLoopName: ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a
+    trigger_policy: unique-policy-id-1-modifyConfig
+    timeout: 1200
+    abatement: false
+policies:
+    - id: unique-policy-id-1-modifyConfig
+      name: modify_packet_gen_config
+      description:
+      actor: APPC
+      recipe: ModifyConfig
+      target:
+          resourceID: __RESOURCE_ID__
+          type: VNF
+      payload:
+          streams: '{"active-streams":5}'
+      retry: 0
+      timeout: 300
+      success: final_success
+      failure: final_failure
+      failure_timeout: final_failure_timeout
+      failure_retries: final_failure_retries
+      failure_exception: final_failure_exception
+      failure_guard: final_failure_guard
