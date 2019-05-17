@@ -4,7 +4,7 @@
   "posY": ${posY},
   "name": "${catalog_resource_name}",
   "componentVersion": "1.0",
-  "originType": "VF",
+  "originType": "${originType}",
   "icon": "defaulticon",
   "componentUid": "${catalog_resource_id}"
 }
