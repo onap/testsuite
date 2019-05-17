@@ -2,8 +2,8 @@
 Documentation   HV-VES 'Sunny Scenario' Robot Framework test - message is sent to the collector and Kafka topic is checked if the message has been published. Content is decoded and checked.
 Default Tags    hvves   ete
 Test Timeout    3m
-Resource    ${EXECDIR}/robot/resources/global_properties.robot
-Resource    ${EXECDIR}/robot/resources/test_templates/hvves_template.robot
+Resource    ../resources/global_properties.robot
+Resource    ../resources/dcae/hvves.robot
 Library    Rammbock
 Library    OperatingSystem
 
