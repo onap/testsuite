@@ -5,7 +5,6 @@ Resource        ../mr_interface.robot
 Resource        ../json_templater.robot
 Library         OpenstackLibrary
 Library         OperatingSystem
-Library         RequestsLibrary
 Library         UUID
 Library         Collections
 Library         JSONUtils
@@ -15,7 +14,7 @@ Library         HTTPUtils
 *** Variables ***
 ${aai_so_registration_entry_template}=  robot/assets/templates/aai/add_pnf_registration_info.template
 ${pnf_ves_integration_request}=  robot/assets/templates/ves/pnf_registration_request.template
-${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH}  /events/unauthenticated.PNF_READY/2/1
+${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_VES_PNFREG_OUTPUT_PATH}  /events/unauthenticated.VES_PNFREG_OUTPUT/2/1
 ${VES_ENDPOINT}     http://${GLOBAL_DNS_VES_NAME}:${GLOBAL_VES_SERVER_PORT}
 ${VES_data_path}   /eventListener/v7
 
@@ -24,6 +23,8 @@ ${VES_data_path}   /eventListener/v7
 Create A&AI antry without SO and succesfully registrate PNF
     [Documentation]   Test case template for create A&AI antry without SO and succesfully registrate PNF
     [Arguments]   ${PNF_entry_dict}
+    Send VES integration request  ${PNF_entry_dict}
+    Wait Until Keyword Succeeds  10x  5s  Check VES_PNFREG_OUTPUT topic presence in MR
     Create PNF initial entry in A&AI  ${PNF_entry_dict}
     Send VES integration request  ${PNF_entry_dict}
     Verify PNF Integration Request in A&AI  ${PNF_entry_dict}
@@ -71,18 +72,12 @@ Query PNF A&AI updated entry
     Should Be Equal As Strings  ${json_resp["pnf-name"]}       ${PNF_entry_dict.correlation_id}
     Log  PNF integration request in A&AI has been verified and contains all necessary entries
 
-Query PNF MR entry
-    [Documentation]   Query PNF MR updated entry
-    [Arguments]  ${PNF_entry_dict}
-    ${get_resp}=  Run MR Get Request  ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH}
+Check VES_PNFREG_OUTPUT topic presence in MR
+    [Documentation]   Verify if unauthenticated.VES_PNFREG_OUTPUT topic is present in MR
+    [Arguments]  
+    ${get_resp}=  Run MR Get Request  ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_VES_PNFREG_OUTPUT_PATH}
     Should Be Equal As Strings  ${get_resp.status_code}        200
-    ${json_resp_item}=  Get From List  ${get_resp.json()}  0
-    ${json}=    evaluate    json.loads('${json_resp_item}')    json
-    Log  JSON recieved from MR ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH} endpoint ${json}
-    Should Be Equal As Strings  ${json["ipaddress-v4-oam"]}      ${PNF_entry_dict.PNF_IPv4_address}
-    Should Be Equal As Strings  ${json["ipaddress-v6-oam"]}       ${PNF_entry_dict.PNF_IPv6_address}
-    Should Be Equal As Strings  ${json["correlationId"]}       ${PNF_entry_dict.correlation_id}
-    Log  PNF integration request in MR has been verified and contains all necessary entries
+    Log  unauthenticated.VES_PNFREG_OUTPUT topic is present in MR 
 
 Run VES HTTP Post Request
     [Documentation]    Runs a VES Post request
