@@ -68,7 +68,7 @@ GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING = {
     "vCPEvGW" :[],
     "vCPERestCust" :[],
     "vFW" :[],
-    "vLB" :['tca_docker_k8s_v4.yaml'],
+    "vLB" :['k8s-tca-clamp-policy-05082019.yaml'],
     "vVG" :[],
     "vFWCL" :[],
     "vFWNG" :[],
@@ -120,6 +120,7 @@ GLOBAL_VALIDATE_NAME_MAPPING = {"vFW" : 'vfw_name_0',
                                  "vPKG" : 'vpg_name_0',
                                  "vFWCLvFWSNK" : 'vfw_name_0',
                                  "vFWCLvPKG" : 'vpg_name_0',
+                                 "vDNS" : 'vdns_name_0'
                                  }
 
 
