@@ -2,7 +2,7 @@
 Documentation     Testing ecomp components are available via calls.
 ...
 ...               Testing ecomp components are available via calls.
-Test Timeout      15 second
+Test Timeout      20 second
 Resource          ../resources/dcae_interface.robot
 Resource          ../resources/sdngc_interface.robot
 Resource          ../resources/aai/aai_interface.robot
