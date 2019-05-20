@@ -23,7 +23,7 @@ description: >
 
 imports:
   - http://www.getcloudify.org/spec/cloudify/3.4/types.yaml
-  - https://nexus.onap.org/service/local/repositories/raw/content/org.onap.dcaegen2.platform.plugins/R4/k8splugin/1.4.12/k8splugin_types.yaml
+  - https://nexus.onap.org/service/local/repositories/raw/content/org.onap.dcaegen2.platform.plugins/R4/k8splugin/1.4.13/k8splugin_types.yaml
 #  - https://nexus.onap.org/service/local/repositories/raw/content/org.onap.dcaegen2.platform.plugins/R4/dcaepolicyplugin/2.3.0/dcaepolicyplugin_types.yaml
   - https://nexus.onap.org/service/local/repositories/raw/content/org.onap.dcaegen2.platform.plugins/R4/clamppolicyplugin/1.0.0/clamppolicyplugin_types.yaml
 inputs:
@@ -59,7 +59,7 @@ inputs:
     default: "8500"
   cbs_host:
     type: string
-    default: "config-binding-servicel"
+    default: "config-binding-service"
   cbs_port:
     type: string
     default: "10000"
