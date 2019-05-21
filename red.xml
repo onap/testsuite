@@ -22,8 +22,8 @@
     <referencedLibrary type="PYTHON" name="ArchiveLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="HeatBridge" path="testsuite/robot/library/heatbridge"/>
     <referencedLibrary type="PYTHON" name="KafkaLibrary" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="Rammbock" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="DateTime" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="SocketUtils" path="testsuite/robot/library/eteutils"/>
     <pythonpath>
         <path location="robot/library"/>
     </pythonpath>

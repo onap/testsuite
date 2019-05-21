@@ -24,9 +24,9 @@ pip install \
 'robotframework-requests==0.5.0' \
 'robotframework-sshlibrary==3.3.0' \
 'robotframework-ftplibrary==1.6' \
-'robotframework-rammbock==0.4.0.1' \
+'robotframework-pykafka==0.10' \
 'robotframework-archivelibrary==0.4.0' \
-'robotframework-onap==0.4'
+'robotframework-onap==0.5'
 
 
 if [ -d $path/testsuite/heatbridge ]
