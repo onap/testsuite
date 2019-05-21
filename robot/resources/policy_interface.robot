@@ -219,23 +219,6 @@ Create vFirewall Monitoring Policy
      ${resp}=   Run Policy Api Post Request    /policy/api/v1/policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app/versions/1.0.0/policies     ${data}
      Should Be Equal As Strings 	${resp.status_code} 	200
 
-
-Create vFirewall Operational Policy
-     [Arguments]   ${resource_id}
-     ${dict}=   Create Dictionary   RESOURCE_ID=${resource_id}
-     #vFirewall_policy_operational_content.yaml
-     #vFirewall_policy_operational_url_enc_content_input.template
-     ${content_data}    OperatingSystem.Get File    ${POLICY_TEMPLATES}/vFirewall_policy_operational_content.yaml
-     ${content_data}=    Replace String Using Regexp   ${content_data} 	  ${RESOURCE_ID}     ${resource_id}
-     ${encoded_content_data}=    Evaluate    urllib.urlencode('''${content_data}''')   urllib
-     ${content_dictionary}=   Create Dictionary    URL_ENCODED_CONTENT    {$encoded_content_data}
-     ${data_2}=   Fill JSON Template File    ${POLICY_TEMPLATES}/vFirewall_policy_operational_url_enc_content_input.template   ${dict_2}
-     Log To Console    ${data_2}
-     ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/vFirewall_policy_operational_input.template    ${dict}
-     ${resp}=   Run Policy Api Post Request    /policy/api/v1/policytypes/onap.policies.controlloop.Operational/versions/1.0.0/policies    ${data}
-     Should Be Equal As Strings 	${resp.status_code} 	200
-     [Return]    ${resp.json()['policy-version']}
-
 Create vFirewall Operational Policy
      [Arguments]   ${resource_id}
      ${dict}=   Create Dictionary   RESOURCE_ID=${resource_id}
@@ -253,10 +236,6 @@ Create vFirewall Operational Policy
      #
      Should Be Equal As Strings         ${resp.status_code}     200
      [Return]    ${resp.json()['policy-version']}
-
-
-
-
 
 Push vFirewall Policies To PDP Group
      [Arguments]    ${op_policy_version}
