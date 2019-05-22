@@ -23,6 +23,7 @@ Library 	    SeleniumLibrary
 Library	        UUID
 Library	        Collections
 Library         JSONUtils
+Library         ONAPLibrary.ServiceMapping
 
 
 
@@ -66,7 +67,8 @@ Orchestrate VNF
     ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
     Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
-    ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
+    Set Directory    default    ./demo/service_mapping
+    ${vnflist}=    Get Service Vnf Mapping    default    ${service}
     ${generic_vnfs}=    Create Dictionary
     ${vnf_name_index}=   Set Variable  0
     ${vf_module_name_list}=    Create List
@@ -76,8 +78,8 @@ Orchestrate VNF
     \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}_${vnf_name_index}
     \   ${vf_module_name}=    Catenate    Vfmodule_Ete_${vnf}_${uuid}_${vnf_name_index}
     \   ${vnf_name_index}=   Evaluate   ${vnf_name_index} + 1
-    \   ${vnf_type}=   Get VNF Type   ${catalog_resources}   ${vnf}
-    \   ${vf_module}=    Get VF Module    ${catalog_resources}   ${vnf}
+    \   ${vnf_type}=   Get VNF Type   ${catalog_resources}   ${vnf}    ${service}
+    \   ${vf_module}=    Get VF Module    ${catalog_resources}   ${vnf}    ${service}
     \   Append To List   ${STACK_NAMES}   ${vf_module_name}
     \   Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant}    ${vnf_type}   ${CUSTOMER_NAME}
     \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}
@@ -116,7 +118,8 @@ Orchestrate Demo VNF
     ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
     Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
-    ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
+    Set Directory    default    ./demo/service_mapping
+    ${vnflist}=    Get Service Vnf Mapping    default    ${service}
     ${generic_vnfs}=    Create Dictionary
     :FOR   ${vnf}   IN   @{vnflist}
     \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
@@ -141,23 +144,23 @@ Orchestrate Demo VNF
 
 Get VNF Type
     [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
-    [Arguments]   ${resources}   ${vnf}
-    ${cr}=   Get Catalog Resource    ${resources}    ${vnf}
+    [Arguments]   ${resources}   ${vnf}    ${service}
+    ${cr}=   Get Catalog Resource    ${resources}    ${vnf}    ${service}
     ${vnf_type}=   Get From Dictionary   ${cr}   name
     [Return]   ${vnf_type}
 
 Get VF Module
     [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
-    [Arguments]   ${resources}   ${vnf}
-    ${cr}=   Get Catalog Resource    ${resources}    ${vnf}
+    [Arguments]   ${resources}   ${vnf}    ${service}
+    ${cr}=   Get Catalog Resource    ${resources}    ${vnf}    ${service}
     ${vf_module}=    Find Element In Array    ${cr['groups']}    type    org.openecomp.groups.VfModule
     [Return]  ${vf_module}
 
 Get Catalog Resource
     [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
-    [Arguments]   ${resources}   ${vnf}
+    [Arguments]   ${resources}   ${vnf}    ${service}
 
-    ${base_name}=  Get Name Pattern   ${vnf}
+    ${base_name}=  Get Name Pattern   ${vnf}    ${service}
     ${keys}=    Get Dictionary Keys    ${resources}
 
     :FOR   ${key}   IN    @{keys}
@@ -168,8 +171,9 @@ Get Catalog Resource
 
 Get Name Pattern
     [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
-    [Arguments]   ${vnf}
-    ${list}=   Get From Dictionary    ${GLOBAL_SERVICE_TEMPLATE_MAPPING}   ${vnf}
+    [Arguments]   ${vnf}    ${service}
+    Set Directory    default    ./demo/service_mapping
+    ${list}=    Get Service Template Mapping    default    ${service}    ${vnf}
     :FOR    ${dict}   IN   @{list}
     \   ${base_name}=   Get From Dictionary    ${dict}    name_pattern
     \   Return From Keyword If   '${dict['isBase']}' == 'true'   ${base_name}

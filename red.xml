@@ -10,8 +10,6 @@
     <referencedLibrary type="PYTHON" name="SSHLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="HTTPUtils" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="JSONUtils" path="testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="HttpLibrary" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="HttpLibrary.HTTP" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="StringTemplater" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="OpenstackLibrary" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="TemplatingEngine" path="testsuite/robot/library/eteutils"/>
@@ -24,6 +22,7 @@
     <referencedLibrary type="PYTHON" name="KafkaLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="DateTime" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="SocketUtils" path="testsuite/robot/library/eteutils"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.ServiceMapping" path="testsuite/robot/library"/>
     <pythonpath>
         <path location="robot/library"/>
     </pythonpath>
@@ -31,7 +30,6 @@
     <variableFiles path="../oom/kubernetes/robot/resources/config/eteshare/config/integration_preload_parameters.py"/>
     <variableFiles path="../oom/kubernetes/robot/resources/config/eteshare/config/integration_robot_properties.py"/>
     <variableFiles path="../oom/kubernetes/robot/resources/config/eteshare/config/vm_properties.py"/>
-    <variableFiles path="testsuite/robot/assets/service_mappings.py"/>
     <excludedForValidation/>
     <isValidatedFileSizeCheckingEnabled>true</isValidatedFileSizeCheckingEnabled>
     <validatedFileMaxSize>1024</validatedFileMaxSize>

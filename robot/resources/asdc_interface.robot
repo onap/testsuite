@@ -11,6 +11,7 @@ Library           StringTemplater
 Library           ArchiveLibrary
 Library           HEATUtils
 Library           DateTime
+Library           ONAPLibrary.ServiceMapping
 Resource          global_properties.robot
 Resource          browser_setup.robot
 Resource          json_templater.robot
@@ -78,8 +79,8 @@ Distribute Model From ASDC
     ${catalog_resources}=   Create Dictionary
     #####  TODO: Support for Multiple resources of one type in a service  ######
     #   The zip list is the resources - no mechanism to indicate more than 1 of the items in the zip list
-    #   GLOBAL_SERVICE_VNF_MAPPING  has the logical mapping but it is not the same key as model_zip_path
-    #   ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
+    #   Get Service Vnf Mapping  has the logical mapping but it is not the same key as model_zip_path
+    #   ${vnflist}=   Get Service Vnf Mapping    alias    ${service}
     #   Save the resource_id in a dictionary keyed by the resource name in the zipfile name (vFWDT_vFWSNK.zip or vFWDT_vPKG.zip)
     #   Create the resources but do not immediately add resource
     #   Add Resource to Service in a separate FOR loop
@@ -94,8 +95,8 @@ Distribute Model From ASDC
     \    Set To Dictionary    ${resource_types}    ${resource_type_string}    ${loop_catalog_resource_id}   
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
 
-
-    ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
+    Set Directory    default    ./demo/service_mapping
+    ${vnflist}=    Get Service Vnf Mapping    default    ${service}
 
     # Spread the icons on the pallette starting on the left
     ${xoffset}=    Set Variable    ${0}
@@ -110,7 +111,7 @@ Distribute Model From ASDC
     ${vf_module}=   Find Element In Array    ${loop_catalog_resource_resp['groups']}    type    org.openecomp.groups.VfModule
     #
     #  do network
-    ${networklist}=   Get From Dictionary    ${GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING}    ${service}
+    ${networklist}=    Get Service Neutron Mapping    default    ${service}
     ${generic_neutron_net_uuid}=   Get Generic NeutronNet UUID
     :FOR   ${network}   IN   @{networklist}
     \    ${loop_catalog_resource_id}=   Set Variable    ${generic_neutron_net_uuid}
@@ -125,7 +126,7 @@ Distribute Model From ASDC
     #
     # do deployment artifacts
     #
-    ${deploymentlist}=   Get From Dictionary    ${GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING}    ${service}
+    ${deploymentlist}=    Get Service Deployment Artifact Mapping    default    ${service}
     :FOR  ${deployment}  IN   @{deploymentlist}
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
     \    Setup SDC Catalog Resource Deployment Artifact Properties      ${catalog_service_id}   ${loop_catalog_resource_resp}  ${catalog_resource_unique_name}  ${deployment}

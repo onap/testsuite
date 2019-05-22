@@ -4,6 +4,7 @@ Library     Collections
 Library     StringTemplater
 Library     OperatingSystem
 Library     UUID
+Library         ONAPLibrary.ServiceMapping
 
 Resource    openstack/keystone_interface.robot
 Resource    openstack/heat_interface.robot
@@ -63,7 +64,7 @@ Execute Heatbridge
     Should Match Regexp    ${status_string} 	^(201|200)$
     ${reverse_heatbridge}=   Generate Reverse Heatbridge From Stack Info   ${stack_info}
     Set Test Variable   ${REVERSE_HEATBRIDGE}   ${reverse_heatbridge}
-    Run Validation Query    ${stack_info}    ${service}
+    Run Validation Query    ${stack_info}    ${service}    ${vnf_id}
 
 Run Create VNFC
     [Documentation]    Create a VNFC for a vServer
@@ -80,9 +81,12 @@ Run Create VNFC
 
 Run Validation Query
     [Documentation]    Run A&AI query to validate the bulk add
-    [Arguments]    ${stack_info}    ${service}
+    [Arguments]    ${stack_info}    ${service}    ${vnf_id}
     Return from Keyword If    '${service}' == ''
-    ${server_name_parameter}=    Get From Dictionary    ${GLOBAL_VALIDATE_NAME_MAPPING}    ${service}
+    Set Directory    default    ./demo/service_mapping
+    ${payload}=  Run Get Generic VNF by VnfId       ${vnf_id}
+    ${vnf_type}=    Catenate    ${payload.json()[vnf-type]}
+    ${server_name_parameter}=    Get Validate Name Mapping    default    ${service}    ${vnf_type}
     ${vserver_name}=    Get From Dictionary    ${stack_info}   ${server_name_parameter}
     Run Vserver Query   ${vserver_name}
 
@@ -100,9 +104,9 @@ Run Set VNF Params
     [Documentation]  Run A&A GET and PUT to set prov-status, orchestration status, and ipv4-oam-address
     [Arguments]   ${vnf_id}  ${ipv4_vnf_address}  ${prov_status}=ACTIVE  ${orch_status}=Active
     ${payload}=  Run Get Generic VNF by VnfId   ${vnf_id}
-
+    ${vnf_type}=    Catenate    ${payload.json()[vnf-type]}
     #${payload_json}=    evaluate    json.loads('''${payload}''')    json
-    set to dictionary    ${payload}    prov-status    ${prov_status}
+    set to dictionary    ${payload}    vnf-type    ${prov_status}
     set to dictionary    ${payload}    orchestration-status   ${orch_status}
     set to dictionary    ${payload}    ipv4-oam-address  ${ipv4_vnf_address}
     ${payload_string}=    evaluate    json.dumps(${payload})    json

@@ -7,11 +7,12 @@ Library 	    SeleniumLibrary
 Library         Collections
 Library      String
 Library      StringTemplater
+Library           ONAPLibrary.ServiceMapping
+
 Resource          global_properties.robot
 Resource          ../resources/json_templater.robot
 Resource        browser_setup.robot
 
-Variables    ../assets/service_mappings.py
 
 *** Variables ***
 ${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}  /operations/VNF-API:preload-vnf-topology-operation
@@ -85,7 +86,8 @@ Preload Vnf
     [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_module_name}    ${vf_modules}    ${service}   ${uuid}
     ${base_vf_module_type}=    Catenate
     ${closedloop_vf_module}=    Create Dictionary
-    ${templates}=    Get From Dictionary    ${GLOBAL_SERVICE_TEMPLATE_MAPPING}    ${service}
+    Set Directory    default    ./demo/service_mapping
+    ${templates}=    Get Service Template Mapping    default    ${service}    ${generic_vnf_type}
     :FOR    ${vf_module}    IN      @{vf_modules}
     \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
     #     need to pass in vnf_index if non-zero

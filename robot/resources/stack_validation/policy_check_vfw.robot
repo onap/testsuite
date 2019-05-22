@@ -9,6 +9,8 @@ Library    OpenstackLibrary
 Library    HEATUtils
 Library    Collections
 Library    String
+Library           ONAPLibrary.ServiceMapping
+
 Resource          ../openstack/keystone_interface.robot
 Resource          ../openstack/nova_interface.robot
 Resource          ../openstack/heat_interface.robot
@@ -91,7 +93,8 @@ Policy Check vLB Stack
     [Return]    ${dnsscaling}
 
 Get DNSScaling Prefix
-    ${mapping}=    Get From Dictionary   ${GLOBAL_SERVICE_TEMPLATE_MAPPING}   vLB
+    Set Directory    default    ./demo/service_mapping
+    ${mapping}=    Get Service Template Mapping    default    vLB    vLB
     :FOR   ${dict}    IN   @{mapping}
     \    Return From Keyword If    '${dict['isBase']}' == 'false'    ${dict['prefix']}
     [Return]   None

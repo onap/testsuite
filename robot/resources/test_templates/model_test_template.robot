@@ -5,9 +5,8 @@ Library            ArchiveLibrary
 Library           Collections
 Library           String
 Library           DateTime
+Library           ONAPLibrary.ServiceMapping
 Resource          ../asdc_interface.robot
-
-Variables       ../../assets/service_mappings.py
 
 *** Variables ***
 ${ASDC_BASE_PATH}    /sdc1
@@ -23,7 +22,8 @@ ${CATALOG_SERVICE_ID}
 
 Model Distribution For Directory
     [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=
-    ${directory_list}=    Get From Dictionary    ${GLOBAL_SERVICE_FOLDER_MAPPING}    ${service}
+    Set Directory    default    ./demo/service_mapping
+    ${directory_list}=    Get Service Folder Mapping    default    ${service}
     ${ziplist}=    Create List
     ${uuid}=    Get Current Date
     ${service_name}=    Catenate    ${service}    ${uuid}
