@@ -68,7 +68,7 @@ ${ASDC_BE_ONBOARD_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECT
 
 *** Keywords ***
 Distribute Model From ASDC
-    [Documentation]    goes end to end creating all the asdc objects based ona  model and distributing it to the systems. it then returns the service name, vf name and vf module name
+    [Documentation]    Goes end to end creating all the ASDC objects based ONAP model and distributing it to the systems. It then returns the service name, VF name and VF module name
     [Arguments]    ${model_zip_path}   ${catalog_service_name}=    ${cds}=    ${service}=
     # For Testing use random service names
     #${random}=    Get Current Date
@@ -78,16 +78,16 @@ Distribute Model From ASDC
     ${catalog_resources}=   Create Dictionary
     #####  TODO: Support for Multiple resources of one type in a service  ######
     #   The zip list is the resources - no mechanism to indicate more than 1 of the items in the zip list
-    #   GLOBAL_SERVICE_VNF_MAPPING  has the logical mapping but its not the same key as model_zip_path
+    #   GLOBAL_SERVICE_VNF_MAPPING  has the logical mapping but it is not the same key as model_zip_path
     #   ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
-    #   Save the resource_id in a dictionary keyed byt the resource NAme in the zipfile name (vFWDT_vFWSNK.zip or vFWDT_vPKG.zip)
-    #   Create the resources but dont immediately add resource
+    #   Save the resource_id in a dictionary keyed by the resource name in the zipfile name (vFWDT_vFWSNK.zip or vFWDT_vPKG.zip)
+    #   Create the resources but do not immediately add resource
     #   Add Resource to Service in a separate FOR loop
     ${resource_types}=   Create Dictionary
 
     :FOR    ${zip}     IN     @{model_zip_path}
     \    ${loop_catalog_resource_id}=    Setup ASDC Catalog Resource    ${zip}    ${cds}
-    #     zip can be vFW.zip or vFWDT_VFWSNK.zip 
+    #     zip can be vFW.zip or vFWDT_VFWSNK.zip
     \    ${resource_type_match}=    Get Regexp Matches    ${zip}   ${service}_(.*)\.zip    1
     #  Need to be able to distribute preload for vFWCL vFWSNK and vFWDT vFWSNK to prepend service to vnf_type
     \    ${resource_type_string}=   Set Variable If   len(${resource_type_match})==0    ${service}    ${service}${resource_type_match[0]}
@@ -98,7 +98,7 @@ Distribute Model From ASDC
     ${vnflist}=   Get From Dictionary    ${GLOBAL_SERVICE_VNF_MAPPING}    ${service}
 
     # Spread the icons on the pallette starting on the left
-    ${xoffset}=    Set Variable    ${0} 
+    ${xoffset}=    Set Variable    ${0}
 
     :FOR  ${vnf}   IN   @{vnflist}
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource      ${resource_types['${vnf}']}
@@ -145,7 +145,7 @@ Distribute Model From ASDC
     [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
 
 Distribute vCPEResCust Model From ASDC
-    [Documentation]    goes end to end creating all the asdc objects for the vCPE ResCust Service model and distributing it to the systems. it then returns the service name, vf name and vf module name
+    [Documentation]    Goes end to end creating all the ASDC objects for the vCPE ResCust Service model and distributing it to the systems. It then returns the service name, VF name and VF module name
     [Arguments]    ${model_zip_path}   ${catalog_service_name}=    ${cds}=    ${service}=
     # For testing use random service name
     #${random}=    Get Current Date
@@ -224,7 +224,7 @@ Distribute vCPEResCust Model From ASDC
 
 
 Create Allotted Resource Data File
-   [Documentation]    Create alloted resource json data file
+   [Documentation]    Create Allotted Resource json data file
    ${allotted_resource}=    Create Dictionary
    ${allotted_csar_map}=    Create Dictionary
    Set To Dictionary    ${allotted_csar_map}    tunnelxconn=service-Demovcpevgmux-csar.csar
@@ -261,12 +261,12 @@ Download CSAR
 
 
 Get Generic NeutronNet UUID
-   [Documentation]   Lookoup the UUID of the Generic NeutronNetwork Resource
+   [Documentation]   Look up the UUID of the Generic NeutronNetwork Resource
    ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_RESOURCES_QUERY_PATH}/Generic%20NeutronNet/resourceVersion/1.0   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ENDPOINT}
    [Return]    ${resp.json()['allVersions']['1.0']}
 
 Get AllottedResource UUID
-   [Documentation]   Lookoup the UUID of the Allotted Resource
+   [Documentation]   Look up the UUID of the Allotted Resource
    # if this fails then the AllottedResource template got deleted from SDC by mistake
    ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_RESOURCES_QUERY_PATH}/AllottedResource/resourceVersion/1.0   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ENDPOINT}
    [Return]    ${resp.json()['allVersions']['1.0']}
@@ -284,7 +284,7 @@ Loop Over Check Catalog Service Distributed
     Should Be Equal As Strings  ${status}   PASS
 
 Setup ASDC Catalog Resource
-    [Documentation]    Creates all the steps a vf needs for an asdc catalog resource and returns the id
+    [Documentation]    Creates all the steps a VF needs for an ASDC Catalog Resource and returns the id
     [Arguments]    ${model_zip_path}    ${cds}=
     ${license_model_id}   ${license_model_version_id}=    Add ASDC License Model
 
@@ -446,7 +446,7 @@ Setup ASDC Catalog Resource CDS Properties
     ${response}=    Set ASDC Catalog Resource VNF Inputs    ${catalog_resource_id}    ${data}
 
 Add ASDC License Model
-    [Documentation]    Creates an asdc license model and returns its id
+    [Documentation]    Creates an ASDC License Model and returns its id
     ${uuid}=    Generate UUID
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    vendor_name=${shortened_uuid}
@@ -459,60 +459,67 @@ Get ASDC License Model
     [Arguments]    ${id}   ${version_id}=0.1
     ${resp}=    Run ASDC Get Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${id}/versions/${version_id}   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     [Return]    ${resp.json()}
-Get ASDC License Models
-    [Documentation]    gets an asdc license model by its id
-    ${resp}=    Run ASDC Get Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
 
+Get ASDC License Models
+    [Documentation]    Gets all ASDC License Models
+    ${resp}=    Run ASDC Get Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     [Return]    ${resp.json()}
+
 Checkin ASDC License Model
-    [Documentation]    checksin an asdc license model by its id
+    [Documentation]    Checks in an ASDC License Model by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Checkin
     ${data}=   Fill JSON Template File    ${ASDC_ACTION_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Put Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}   ${ASDC_DESIGNER_USER_ID}  ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Submit ASDC License Model
-    [Documentation]    submits an asdc license model by its id
+    [Documentation]    Submits an ASDC License Model by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Submit
     ${data}=   Fill JSON Template File    ${ASDC_ACTION_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Put Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Checkin ASDC Software Product
-    [Documentation]    checksin an asdc Software Product by its id
+    [Documentation]    Checks in an ASDC Software Product by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Checkin
     ${data}=   Fill JSON Template File    ${ASDC_ACTION_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Put Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}  ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Validate ASDC Software Product
-    [Documentation]    checksin an asdc Software Product by its id
+    [Documentation]    Validates an ASDC Software Product by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${data}=   Catenate
     ${resp}=    Run ASDC Put Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}/orchestration-template-candidate/process    ${data}    ${ASDC_DESIGNER_USER_ID}  ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Submit ASDC Software Product
-    [Documentation]    submits an asdc Software Product by its id
+    [Documentation]    Submits an ASDC Software Product by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Submit
     ${data}=   Fill JSON Template File    ${ASDC_ACTION_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Put Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Package ASDC Software Product
-    [Documentation]    creates_package on an asdc Software Product by its id
+    [Documentation]    Creates a package of an ASDC Software Product by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Create_Package
     ${data}=   Fill JSON Template File    ${ASDC_ACTION_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Put Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}   ${ASDC_DESIGNER_USER_ID}  ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Add ASDC Entitlement Pool
-    [Documentation]    Creates an asdc Entitlement Pool and returns its id
+    [Documentation]    Creates an ASDC Entitlement Pool and returns its id
     [Arguments]    ${license_model_id}   ${version_id}=0.1     ${license_start_date}="01/01/1960"   ${license_end_date}="01/01/1961"
     ${uuid}=    Generate UUID
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
@@ -521,13 +528,15 @@ Add ASDC Entitlement Pool
     ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_ENTITLEMENT_POOL_PATH}     ${data}   ${ASDC_DESIGNER_USER_ID}  ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['value']}
+
 Get ASDC Entitlement Pool
-    [Documentation]    gets an asdc Entitlement Pool by its id
+    [Documentation]    Gets an ASDC Entitlement Pool by its id
     [Arguments]    ${license_model_id}    ${pool_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}${ASDC_VENDOR_ENTITLEMENT_POOL_PATH}/${pool_id}  ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     [Return]    ${resp.json()}
+
 Add ASDC License Group
-    [Documentation]    Creates an asdc license group and returns its id
+    [Documentation]    Creates an ASDC License Group and returns its id
     [Arguments]    ${license_model_id}   ${version_id}=1.0   ${license_start_date}="01/01/1960"   ${license_end_date}="01/01/1961"
     ${uuid}=    Generate UUID
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
@@ -536,13 +545,15 @@ Add ASDC License Group
     ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_KEY_GROUP_PATH}     ${data}   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['value']}
+
 Get ASDC License Group
-    [Documentation]    gets an asdc license group by its id
+    [Documentation]    Gets an ASDC License Group by its id
     [Arguments]    ${license_model_id}    ${group_id}      ${version_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_KEY_GROUP_PATH}/${group_id}   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     [Return]    ${resp.json()}
+
 Add ASDC Feature Group
-    [Documentation]    Creates an asdc Feature Group and returns its id
+    [Documentation]    Creates an ASDC Feature Group and returns its id
     [Arguments]    ${license_model_id}    ${key_group_id}    ${entitlement_pool_id}      ${version_id}=0.1
     ${uuid}=    Generate UUID
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
@@ -551,13 +562,15 @@ Add ASDC Feature Group
     ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_FEATURE_GROUP_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['value']}
+
 Get ASDC Feature Group
-    [Documentation]    gets an asdc Feature Group by its id
+    [Documentation]    Gets an ASDC Feature Group by its id
     [Arguments]    ${license_model_id}    ${group_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}${ASDC_VENDOR_FEATURE_GROUP_PATH}/${group_id}   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     [Return]    ${resp.json()}
+
 Add ASDC License Agreement
-    [Documentation]    Creates an asdc License Agreement and returns its id
+    [Documentation]    Creates an ASDC License Agreement and returns its id
     [Arguments]    ${license_model_id}    ${feature_group_id}      ${version_id}=0.1
     ${uuid}=    Generate UUID
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
@@ -566,13 +579,15 @@ Add ASDC License Agreement
     ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_LICENSE_AGREEMENT_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['value']}
+
 Get ASDC License Agreement
-    [Documentation]    gets an asdc License Agreement by its id
+    [Documentation]    Gets an ASDC License Agreement by its id
     [Arguments]    ${license_model_id}    ${agreement_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}${ASDC_VENDOR_LICENSE_AGREEMENT_PATH}/${agreement_id}   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     [Return]    ${resp.json()}
+
 Add ASDC Software Product
-    [Documentation]    Creates an asdc Software Product and returns its id
+    [Documentation]    Creates an ASDC Software Product and returns its id
     [Arguments]    ${license_agreement_id}    ${feature_group_id}    ${license_model_name}    ${license_model_id}   ${license_model_version_id}  ${name_prefix}
     ${uuid}=    Generate UUID
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:13]
@@ -582,14 +597,15 @@ Add ASDC Software Product
     ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['itemId']}   ${resp.json()['version']['id']}
+
 Get ASDC Software Product
-    [Documentation]    gets an asdc Software Product by its id
+    [Documentation]    Gets an ASDC Software Product by its id
     [Arguments]    ${software_product_id}   ${version_id}=0.1
     ${resp}=    Run ASDC Get Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${software_product_id}/versions/${version_id}   ${ASDC_DESIGNER_USER_ID}  ${ASDC_BE_ONBOARD_ENDPOINT}
     [Return]    ${resp.json()}
 
 Add ASDC Catalog Resource
-    [Documentation]    Creates an asdc Catalog Resource and returns its id
+    [Documentation]    Creates an ASDC Catalog Resource and returns its id
     [Arguments]    ${license_agreement_id}    ${software_product_name}    ${license_model_name}    ${software_product_id}
     ${map}=    Create Dictionary    software_product_id=${software_product_id}    software_product_name=${software_product_name}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}
     ${data}=   Fill JSON Template File    ${ASDC_CATALOG_RESOURCE_TEMPLATE}    ${map}
@@ -598,7 +614,7 @@ Add ASDC Catalog Resource
     [Return]    ${resp.json()['uniqueId']}
 
 Add ASDC Allotted Resource Catalog Resource
-    [Documentation]    Creates an asdc Allotted Resource Catalog Resource and returns its id
+    [Documentation]    Creates an ASDC Allotted Resource Catalog Resource and returns its id
     [Arguments]    ${license_agreement_id}    ${software_product_name}    ${license_model_name}    ${software_product_id}   ${subcategory}
     ${map}=    Create Dictionary    software_product_id=${software_product_id}    software_product_name=${software_product_name}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}   subcategory=${subcategory}
     ${data}=   Fill JSON Template File    ${ASDC_ALLOTTED_RESOURCE_CATALOG_RESOURCE_TEMPLATE}    ${map}
@@ -607,30 +623,32 @@ Add ASDC Allotted Resource Catalog Resource
     [Return]    ${resp.json()['uniqueId']}
 
 Mark ASDC Catalog Resource Inactive
-    [Documentation]    deletes an asdc Catalog Resource
+    [Documentation]    Marks ASDC Catalog Resource as inactive
     [Arguments]    ${catalog_resource_id}
     ${resp}=    Run ASDC Delete Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}     ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     204
     [Return]    ${resp}
+
 Delete Inactive ASDC Catalog Resources
-    [Documentation]    delete all asdc Catalog Resources that are inactive
+    [Documentation]    Delete all ASDC Catalog Resources that are inactive
     ${resp}=    Run ASDC Delete Request    ${ASDC_CATALOG_INACTIVE_RESOURCES_PATH}     ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Get ASDC Catalog Resource
-    [Documentation]    gets an asdc Catalog Resource by its id
+    [Documentation]    Gets an ASDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}    ${ASDC_DESIGNER_USER_ID}
     [Return]    ${resp.json()}
 
 Get ASDC Catalog Resource Component Instances
-    [Documentation]    gets asdc Catalog Resource Component Instances by its id
+    [Documentation]    Gets component instances of an ASDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstances    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]    ${resp.json()}
 
 Get ASDC Catalog Resource Deployment Artifact Properties
-    [Documentation]    gets asdc Catalog Resource Deployment Artiface Properties by its id
+    [Documentation]    Gets deployment artifact properties of an ASDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
     #${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstances    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_resource_id}/filteredDataByParams?include=deploymentArtifacts    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
@@ -638,57 +656,58 @@ Get ASDC Catalog Resource Deployment Artifact Properties
 
 
 Get ASDC Catalog Resource Component Instances Properties
-    [Documentation]    gets asdc Catalog Resource Component Instances Properties by its id
+    [Documentation]    Gets ASDC Catalog Resource component instances properties by its id
     [Arguments]    ${catalog_resource_id}
     #${resp}=    Run ASDC Get Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstancesProperties    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstancesProperties    ${ASDC_DESIGNER_USER_ID}    ${ASDC_BE_ENDPOINT}
     [Return]    ${resp.json()}
 
 Get ASDC Catalog Resource Component Instances Properties For Resource
-    [Documentation]    gets asdc Catalog Resource Component Instances Properties for  a Resource (VF) by its id
+    [Documentation]    Gets ASDC Catalog Resource component instances properties for a Resource (VF) by its id
     [Arguments]    ${catalog_resource_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstancesProperties    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]    ${resp.json()}
 
 Get ASDC Catalog Resource Inputs
-    [Documentation]    gets asdc Catalog Inputs by its id
+    [Documentation]    Gets ASDC Catalog Resource inputs by its id
     [Arguments]    ${catalog_resource_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=inputs    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]    ${resp.json()}
 
 Get ASDC Catalog Resource Component Instance Properties
-    [Documentation]    gets an asdc Catalog Resource properties by its id
+    [Documentation]    Gets component instance properties of an ASDC Catalog Resource by their ids
     [Arguments]    ${catalog_resource_id}    ${component_instance_id}    ${component_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/componentInstances/${component_instance_id}/${component_id}/inputs    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]    ${resp.json()}
 
 Set ASDC Catalog Resource Component Instance Properties
-    [Documentation]    sets an asdc Catalog Resource by its id
+    [Documentation]    Sets ASDC Catalog Resource component instance properties by ids
     [Arguments]    ${catalog_resource_id}    ${component_parent_service_id}    ${data}
     #${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${component_parent_service_id}/resourceInstance/${catalog_resource_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_SERVICES_PATH}/${component_parent_service_id}/resourceInstance/${catalog_resource_id}/properties    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]   ${resp.json()}
 
 Set ASDC Catalog Resource Component Instance Properties For Resource
-    [Documentation]    sets an asdc Catalog Resource by its id
+    [Documentation]    Sets ASDC Resource component instance properties by ids
     [Arguments]    ${catalog_parent_resource_id}    ${catalog_resource_id}    ${data}
     #${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_parent_resource_id}/resourceInstance/${catalog_resource_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_parent_resource_id}/resourceInstance/${catalog_resource_id}/properties   ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]   ${resp.json()}
 
 Set CDS Catalog Resource Component Instance Properties
-    [Documentation]    sets an asdc Catalog Resource by its id
+    [Documentation]    Sets CDS Catalog Resource component instance properties by ids
     [Arguments]    ${catalog_resource_id}    ${component_instance_id}    ${data}
     ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/resourceInstance/${component_instance_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]    ${resp.json()}
 
 Set ASDC Catalog Resource VNF Inputs
-    [Documentation]    sets an asdc Catalog Resource by its id
+    [Documentation]    Sets VNF Inputs for an ASDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}    ${data}
     ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/update/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]    ${resp.json()}
+
 Get SDC Demo Vnf Catalog Resource
-    [Documentation]  gets resource id's for demonstration VNFs for instantiate
+    [Documentation]  Gets Resource ids of demonstration VNFs for instantiation
     [Arguments]    ${service_name}
     ${resp}=   Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/serviceName/${service_name}/serviceVersion/1.0
     @{ITEMS}=    Copy List    ${resp.json()['componentInstances']}
@@ -704,37 +723,41 @@ Get SDC Demo Vnf Catalog Resource
     [Return]    ${demo_catalog_resource}
 
 Get VNF From Group Name
-    [Documentation]   looks up vnf key from service mapping for a regex on groupName and service_name
+    [Documentation]   Looks up VNF key from service mapping for a regex on group_name and service_name
     [Arguments]   ${group_name}    ${service_name}
     ${vnf}=   Set Variable If
     ...                      ('${service_name}'=='demoVFWCL') and ('base_vfw' in '${group_name}')   vFWCLvFWSNK
     ...                      ('${service_name}'=='demoVFWCL') and ('base_vpkg' in '${group_name}')   vFWCLvPKG
     ...                      ('${service_name}'=='demoVLB') and ('base_vlb' in '${group_name}')   vLB
     [Return]   ${vnf}
+
 Checkin ASDC Catalog Resource
-    [Documentation]    checksin an asdc Catalog Resource by its id
+    [Documentation]    Checks in an ASDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     ${data}=   Fill JSON Template File    ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Request Certify ASDC Catalog Resource
-    [Documentation]    requests certify on an asdc Catalog Resource by its id
+    [Documentation]    Requests certification of an ASDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     ${data}=   Fill JSON Template File    ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Start Certify ASDC Catalog Resource
-    [Documentation]    start certify an asdc Catalog Resource by its id
+    [Documentation]    Start certification of an ASDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${ASDC_TESTER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Certify ASDC Catalog Resource
-    [Documentation]    start certify an asdc Catalog Resource by its id and returns the new id
+    [Documentation]    Certifies an ASDC Catalog Resource by its id and returns the new id
     [Arguments]    ${catalog_resource_id}    ${user_id}=${ASDC_TESTER_USER_ID}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     ${data}=   Fill JSON Template File    ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
@@ -743,7 +766,7 @@ Certify ASDC Catalog Resource
     [Return]    ${resp.json()['uniqueId']}
 
 Upload ASDC Heat Package
-    [Documentation]    Creates an asdc Software Product and returns its id
+    [Documentation]    Creates an ASDC Software Product and returns its id
     [Arguments]    ${software_product_id}    ${file_path}   ${version_id}=0.1
      ${files}=     Create Dictionary
      Create Multi Part     ${files}  upload  ${file_path}    contentType=application/zip
@@ -751,7 +774,7 @@ Upload ASDC Heat Package
         Should Be Equal As Strings      ${resp.status_code}     200
 
 Add ASDC Catalog Service
-    [Documentation]    Creates an asdc Catalog Service and returns its id
+    [Documentation]    Creates an ASDC Catalog Service and returns its id
     [Arguments]   ${catalog_service_name}
     ${uuid}=    Generate UUID
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
@@ -761,54 +784,62 @@ Add ASDC Catalog Service
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
+
 Mark ASDC Catalog Service Inactive
-    [Documentation]    Deletes an asdc Catalog Service
+    [Documentation]    Deletes an ASDC Catalog Service
     [Arguments]    ${catalog_service_id}
     ${resp}=    Run ASDC Delete Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}     ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     204
     [Return]    ${resp}
+
 Delete Inactive ASDC Catalog Services
-    [Documentation]    delete all asdc Catalog Serivces that are inactive
+    [Documentation]    Delete all ASDC Catalog Services that are inactive
     ${resp}=    Run ASDC Delete Request    ${ASDC_CATALOG_INACTIVE_SERVICES_PATH}     ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Get ASDC Catalog Service
-    [Documentation]    gets an asdc Catalog Service by its id
+    [Documentation]    Gets an ASDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}    ${ASDC_DESIGNER_USER_ID}
     [Return]    ${resp.json()}
+
 Checkin ASDC Catalog Service
-    [Documentation]    checksin an asdc Catalog Service by its id
+    [Documentation]    Checks in an ASDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     ${data}=   Fill JSON Template File    ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Request Certify ASDC Catalog Service
-    [Documentation]    requests certify on an asdc Catalog Service by its id
+    [Documentation]    Requests certification of an ASDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     ${data}=   Fill JSON Template File    ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Start Certify ASDC Catalog Service
-    [Documentation]    start certify an asdc Catalog Service by its id
+    [Documentation]    Start certification of an ASDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${ASDC_TESTER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Certify ASDC Catalog Service
-    [Documentation]    start certify an asdc Catalog Service by its id and returns the new id
+    [Documentation]    Certifies an ASDC Catalog Service by its id and returns the new id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     ${data}=   Fill JSON Template File    ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${ASDC_TESTER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['uniqueId']}
+
 Approve ASDC Catalog Service
-    [Documentation]    approve an asdc Catalog Service by its id
+    [Documentation]    Approves an ASDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     ${data}=   Fill JSON Template File    ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
@@ -823,7 +854,7 @@ Distribute ASDC Catalog Service
     [Return]    ${resp.json()}
 
 Add ASDC Resource Instance
-    [Documentation]    Creates an asdc Resource Instance and returns its id
+    [Documentation]    Creates an ASDC Resource Instance and returns its id
     [Arguments]    ${catalog_service_id}    ${catalog_resource_id}    ${catalog_resource_name}  ${xoffset}=${0}   ${yoffset}=${0}   ${resourceType}=VF
     ${milli_timestamp}=    Generate MilliTimestamp UUID
     ${xoffset}=    Set Variable   ${xoffset+306}
@@ -835,7 +866,7 @@ Add ASDC Resource Instance
     [Return]    ${resp.json()['uniqueId']}
 
 Add ASDC Resource Instance To Resource
-    [Documentation]    Creates an asdc Resource Instance in a Resource (VF) and returns its id
+    [Documentation]    Creates an ASDC Resource Instance in a Resource (VF) and returns its id
     [Arguments]    ${parent_catalog_resource_id}    ${catalog_resource_id}    ${catalog_resource_name}  ${xoffset}=${0}   ${yoffset}=${0}    ${resourceType}=VF
     ${milli_timestamp}=    Generate MilliTimestamp UUID
     ${xoffset}=    Set Variable   ${xoffset+306}
@@ -847,13 +878,14 @@ Add ASDC Resource Instance To Resource
     [Return]    ${resp.json()['uniqueId']}
 
 Get Catalog Service Distribution
-    [Documentation]    gets an asdc catalog Service distrbution
+    [Documentation]    Gets an ASDC Catalog Service distribution
     [Arguments]    ${catalog_service_uuid}
     ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_uuid}${ASDC_CATALOG_SERVICE_DISTRIBUTION_PATH}    ${ASDC_OPS_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Check Catalog Service Distributed
-    [Documentation]    gets an asdc catalog Service distrbution
+    [Documentation]    Checks if an ASDC Catalog Service is distributed
     [Arguments]    ${catalog_service_uuid}    ${dist_status}
     ${dist_resp}=    Get Catalog Service Distribution    ${catalog_service_uuid}
     Should Be Equal As Strings  ${dist_resp['distributionStatusOfServiceList'][0]['deployementStatus']}         Distributed
@@ -874,7 +906,7 @@ Check Catalog Service Distributed
     Should Be True   ( '${SO_COMPLETE}'=='TRUE')   SO Test
 
 Get Catalog Service Distribution Details
-    [Documentation]    gets an asdc catalog Service distrbution details
+    [Documentation]    Gets ASDC Catalog Service distribution details
     [Arguments]    ${catalog_service_distribution_id}
     ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}${ASDC_CATALOG_SERVICE_DISTRIBUTION_PATH}/${catalog_service_distribution_id}    ${ASDC_OPS_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
