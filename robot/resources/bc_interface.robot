@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     The main interface for interacting with Bus Controller.
-Library           RequestsClientCert
 Library           RequestsLibrary
 Library           UUID
 

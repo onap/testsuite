@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation     The main interface for interacting with Message router. It handles low level stuff like managing the http request library and message router required fields
-Library           RequestsClientCert
 Library           RequestsLibrary
 Library           UUID
 Library           DateTime

@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation      The main interface for interacting with VNFSDK.
-Library              RequestsClientCert
 Library           RequestsLibrary
 
 Resource          global_properties.robot

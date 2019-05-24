@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation      The main interface for interacting with CLI.
-Library              RequestsClientCert
 Library           RequestsLibrary
 
 Resource          global_properties.robot
