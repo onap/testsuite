@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation	  The main interface for interacting with AAF. It handles low level stuff like managing the http request library and AAF required fields
-Library	          RequestsClientCert
 Library 	      RequestsLibrary
 Library	          UUID      
 
@@ -21,7 +20,6 @@ Run AAF Get Request
      [Arguments]    ${data_path}
      ${auth}=  Create List  ${GLOBAL_AAF_USERNAME}    ${GLOBAL_AAF_PASSWORD}
      ${session}=    Create Session 	aaf	${GLOBAL_AAF_SERVER}    auth=${auth}
-     #${session_client}=    Add Client Cert    ${session}    cert
      ${uuid}=    Generate UUID
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
      ${resp}= 	Get Request 	aaf 	${data_path}     headers=${headers}

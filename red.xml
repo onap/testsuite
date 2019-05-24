@@ -3,7 +3,6 @@
     <configVersion>1.0</configVersion>
     <relativeTo>PROJECT</relativeTo>
     <referencedLibrary type="PYTHON" name="RequestsLibrary" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="RequestsClientCert" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="UUID" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="SeleniumLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="AngularJSLibrary" path="testsuite/robot/library"/>

@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation	  The main interface for interacting with Portal. It handles low level stuff like managing the http request library and Portal required fields
-Library	        RequestsClientCert
 Library 	RequestsLibrary
 Library	        UUID      
 Library 	SeleniumLibrary

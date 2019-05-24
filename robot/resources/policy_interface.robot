@@ -1,6 +1,5 @@
 *** Settings ***
 Documentation	  The main interface for interacting with Policy. It handles low level stuff like managing the http request library and Policy required fields
-Library	          RequestsClientCert
 Library 	      RequestsLibrary
 Library           String
 Library           JSONUtils
