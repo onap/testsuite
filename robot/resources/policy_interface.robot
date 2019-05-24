@@ -248,7 +248,7 @@ Push vFirewall Policies To PDP Group
      ${data}=   Fill JSON Template File    ${POLICY_TEMPLATES}/vFirewall_push.template    ${dict}
      #${resp}=   Run Policy Post Request    /policy/pap/v1/pdps/policies   ${data}
      ${resp}=   Run Policy Pap Post Request    /policy/pap/v1/pdps/policies   ${data}
-     #Should Be Equal As Strings 	${resp.status_code} 	200
+     Should Be Equal As Strings    ${resp.status_code}     200
 
 Run Policy API Healthcheck
      [Documentation]    Runs Policy Api Health check
