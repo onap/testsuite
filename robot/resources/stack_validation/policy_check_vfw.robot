@@ -83,7 +83,7 @@ Policy Check vLB Stack
     [Return]    ${dnsscaling}
 
 Get DNSScaling Prefix
-    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${mapping}=    ServiceMapping.Get Service Template Mapping    default    vLB    vLB
     :FOR   ${dict}    IN   @{mapping}
     \    Return From Keyword If    '${dict['isBase']}' == 'false'    ${dict['prefix']}

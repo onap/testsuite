@@ -3,7 +3,7 @@ Documentation	  SO Cloud Config Test Cases
 Test Timeout    1 minute
 
 
-Resource          ../resources/so/create_cloud_config.robot
+Resource          ../resources/so_interface.robot
 Resource          ../resources/aai/create_tenant.robot
 
 

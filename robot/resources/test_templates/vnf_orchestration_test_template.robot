@@ -50,7 +50,7 @@ Orchestrate VNF
     Login To VID GUI
     ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
-    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${vnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
     ${generic_vnfs}=    Create Dictionary
     ${vnf_name_index}=   Set Variable  0
@@ -95,7 +95,7 @@ Orchestrate Demo VNF
     Login To VID GUI
     ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
-    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${vnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
     ${generic_vnfs}=    Create Dictionary
     :FOR   ${vnf}   IN   @{vnflist}
@@ -147,7 +147,7 @@ Get Catalog Resource
 Get Name Pattern
     [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
     [Arguments]   ${vnf}    ${service}
-    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${list}=    ServiceMapping.Get Service Template Mapping    default    ${service}    ${vnf}
     :FOR    ${dict}   IN   @{list}
     \   ${base_name}=   Get From Dictionary    ${dict}    name_pattern

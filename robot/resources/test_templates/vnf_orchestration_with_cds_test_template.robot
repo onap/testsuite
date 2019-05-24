@@ -18,7 +18,6 @@ Resource        ../openstack/neutron_interface.robot
 Resource        ../heatbridge.robot
 
 Resource    	../global_properties.robot
-Resource    	../so_interface.robot
 
 Library         ONAPLibrary.Openstack
 Library	        ONAPLibrary.Utilities
@@ -29,6 +28,7 @@ Library         ONAPLibrary.JSON
 
 Library         RequestsLibrary
 Library         Collections
+Library        ONAPLibrary.SO    WITH NAME    SO
 
 *** Variables ***
 ${service_template}    robot/assets/cds/service-Vfirewall0911-template.yml
@@ -85,7 +85,8 @@ Orchestrate VNF With CDS
     Log     --------request--------
     Log     ${request}
     Log     --------end request--------
-    ${resp}=	Run MSO Post Request	${so_uri_path}		${request}
+    ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    ${resp}=    SO.Run Post Request  ${GLOBAL_SO_ENDPOINT}    ${so_uri_path}   ${data}    auth=${auth} 
     Log 	--------response-------
     ${json_string}=    Evaluate    json.dumps(${resp.json()})    json
     Log	${json_string}
@@ -93,8 +94,8 @@ Orchestrate VNF With CDS
     ${requestId}=    Catenate    ${resp.json()['requestReferences']['requestId']}
     Log    requestId=${requestId}
     Log	-------end response-------
-    # Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
-
+    # ${auth}=	Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    # Run Polling Get Request    ${MSO_ENDPOINT}    ${GLOBAL_MSO_STATUS_PATH}${request_id}    auth=${auth}
 
 Get VNF Info
     [Documentation] 	Get VNF Info

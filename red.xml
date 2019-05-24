@@ -22,6 +22,7 @@
     <referencedLibrary type="PYTHON" name="ONAPLibrary.SDC" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.PreloadData" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.AAI" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.SO" path="testsuite/robot/library"/>
     <pythonpath>
         <path location="robot/library"/>
     </pythonpath>

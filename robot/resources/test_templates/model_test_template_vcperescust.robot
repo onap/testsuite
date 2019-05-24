@@ -15,7 +15,7 @@ ${ASDC_ZIP_DIRECTORY}    ${ASDC_ASSETS_DIRECTORY}/temp
 *** Keywords ***
 Model Distribution For vCPEResCust Directory
     [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=
-    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${directory_list}=    ServiceMapping.Get Service Folder Mapping    default    ${service}
     ${ziplist}=    Create List
     ${uuid}=    Get Current Date

@@ -80,7 +80,7 @@ Run Validation Query
     [Documentation]    Run A&AI query to validate the bulk add
     [Arguments]    ${stack_info}    ${service}    ${vnf_id}
     Return from Keyword If    '${service}' == ''
-    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${payload}=  Run Get Generic VNF by VnfId       ${vnf_id}
     ${vnf_type}=    Catenate    ${payload.json()[vnf-type]}
     ${server_name_parameter}=    ServiceMapping.Get Validate Name Mapping    default    ${service}    ${vnf_type}

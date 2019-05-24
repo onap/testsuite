@@ -1,14 +1,13 @@
 *** Settings ***
 Documentation	  Creates VID Service Instance
-...
-...	              Creates VID Service Instance
 
 Library 	    SeleniumLibrary
 Library	          ONAPLibrary.Utilities
 Library         String
 Library        DateTime
+Library        ONAPLibrary.SO    WITH NAME    SO
 
-Resource          ../so_interface.robot
+Resource          ../global_properties.robot
 Resource          vid_interface.robot
 
 *** Keywords ***
@@ -37,7 +36,8 @@ Create VID Service Instance
     Click On Button When Enabled    //div[@class = 'buttonRow']/button[text() = 'Close']
     ${request_id}=    Parse Request Id    ${response text}
     ${service_instance_id}=    Parse Instance Id     ${response text}
-    Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
+    ${auth}=	Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    SO.Run Polling Get Request    ${GLOBAL_SO_ENDPOINT}    ${GLOBAL_MSO_STATUS_PATH}${request_id}    auth=${auth}
     [return]    ${service_instance_id}
 
 Wait For Model
@@ -58,8 +58,8 @@ Delete Service Instance By GUI
     Wait Until Element Contains    xpath=//div[@ng-controller='deletionDialogController']//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']   requestId    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     ${response text}=    Get Text    xpath=//div[@ng-controller='deletionDialogController']//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']
     ${request_id}=    Parse Request Id     ${response text}
-    Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
-
+    ${auth}=	Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    SO.Run Polling Get Request    ${GLOBAL_SO_ENDPOINT}    ${GLOBAL_MSO_STATUS_PATH}${request_id}    auth=${auth}
 
 Search Service Instance
     [Arguments]    ${service_instance_id}
