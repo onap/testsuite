@@ -5,6 +5,7 @@ Library            Collections
 Library         String
 Library 	      StringTemplater
 Library	          UUID
+Library    ONAPLibrary.SO
 Resource        vid_interface.robot
 Resource        create_vid_vnf.robot
 Resource        create_service_instance.robot
@@ -86,7 +87,8 @@ Delete Next VID Entity
     ${response text}=    Get Text    xpath=//div[@ng-controller='deletionDialogController']//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']
     ${request_id}=    Parse Request Id     ${response text}
     Click Element    xpath=//div[@class='ng-scope']/div[@class = 'buttonRow']/button[text() = 'Close']
-    Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
+    ${auth}=	Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    ${resp}=	ONAPLibrary.SO.Run Polling Get Request    ${MSO_ENDPOINT}    ${GLOBAL_MSO_STATUS_PATH}${request_id}    auth=${auth}
     [Return]   ${vfmodule}
 
 Handle VID Alert

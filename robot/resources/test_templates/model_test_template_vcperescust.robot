@@ -22,7 +22,7 @@ ${CATALOG_SERVICE_ID}
 
 Model Distribution For vCPEResCust Directory
     [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=
-    Set Directory    default    ./demo/service_mapping
+    Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${directory_list}=    Get Service Folder Mapping    default    ${service}
     ${ziplist}=    Create List
     ${uuid}=    Get Current Date

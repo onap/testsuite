@@ -12,7 +12,6 @@
     <referencedLibrary type="PYTHON" name="JSONUtils" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="StringTemplater" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="OpenstackLibrary" path="testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="TemplatingEngine" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="SoUtils" path="testsuite/robot/library/vcpeutils"/>
     <referencedLibrary type="PYTHON" name="HEATUtils" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="OSUtils" path="testsuite/robot/library/eteutils"/>
@@ -23,6 +22,8 @@
     <referencedLibrary type="PYTHON" name="DateTime" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="SocketUtils" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.ServiceMapping" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.Templating" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.SO" path="testsuite/robot/library"/>
     <pythonpath>
         <path location="robot/library"/>
     </pythonpath>

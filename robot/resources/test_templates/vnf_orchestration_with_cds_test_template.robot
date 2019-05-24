@@ -19,7 +19,6 @@ Resource        ../heatbridge.robot
 
 Resource    	../global_properties.robot
 Resource    	../json_templater.robot
-Resource    	../so_interface.robot
 
 Library         OpenstackLibrary
 Library	        UUID
@@ -32,6 +31,7 @@ Library    OperatingSystem
 Library    HEATUtils
 Library    StringTemplater
 Library    Collections
+Library    ONAPLibrary.SO
 
 *** Variables ***
 ${service_template}    robot/assets/cds/service-Vfirewall0911-template.yml
@@ -107,7 +107,8 @@ Orchestrate VNF With CDS
     Log To Console     --------request--------
     Log to console     ${request}
     Log To Console     --------end request--------
-    ${resp}=	Run MSO Post Request	${so_uri_path}		${request}
+    ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    ${resp}=    Run Post Request  ${GLOBAL_SO_ENDPOINT}    ${so_uri_path}   ${data}    auth=${auth} 
     Log To Console 	--------response-------
     ${json_string}=    Evaluate    json.dumps(${resp.json()})    json
     Log To Console	${json_string}
@@ -115,8 +116,8 @@ Orchestrate VNF With CDS
     ${requestId}=    Catenate    ${resp.json()['requestReferences']['requestId']}
     Log To Console    requestId=${requestId}
     Log To Console	-------end response-------
-    # Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
-
+    # ${auth}=	Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    # Run Polling Get Request    ${MSO_ENDPOINT}    ${GLOBAL_MSO_STATUS_PATH}${request_id}    auth=${auth}
 
 Get VNF Info
     [Documentation] 	Get VNF Info

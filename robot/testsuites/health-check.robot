@@ -28,6 +28,8 @@ Resource          ../resources/sms_interface.robot
 Resource          ../resources/dr_interface.robot
 Resource          ../resources/pomba_interface.robot
 Resource          ../resources/holmes_interface.robot
+Library           ONAPLibrary.SO
+
 # Remove other references after a soak period
 #Resource          ../resources/vvp_interface.robot
 

@@ -5,7 +5,6 @@ Resource        test_templates/model_test_template.robot
 Resource        test_templates/model_test_template_vcperescust.robot
 Resource        test_templates/vnf_orchestration_test_template.robot
 Resource        asdc_interface.robot
-Resource        so_interface.robot
 Resource        vid/vid_interface.robot
 Resource	    policy_interface.robot
 Resource        aai/create_availability_zone.robot

@@ -95,7 +95,7 @@ Distribute Model From ASDC
     \    Set To Dictionary    ${resource_types}    ${resource_type_string}    ${loop_catalog_resource_id}   
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
 
-    Set Directory    default    ./demo/service_mapping
+    Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${vnflist}=    Get Service Vnf Mapping    default    ${service}
 
     # Spread the icons on the pallette starting on the left
