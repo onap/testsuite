@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "414c2841_81c68aa9",
+        "filename": "robot/resources/test_templates/closedloop_test_template.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-05-31T15:07:08Z",
+      "side": 1,
+      "message": "missed one",
+      "revId": "3ec05679abb16e29d9e2404b6b570222c9f7313e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8df3b75f_ffa76244",
+        "filename": "robot/testsuites/closed-loop.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-05-31T15:07:08Z",
+      "side": 1,
+      "message": "whats this do?",
+      "revId": "3ec05679abb16e29d9e2404b6b570222c9f7313e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
