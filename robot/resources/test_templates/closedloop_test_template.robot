@@ -80,7 +80,7 @@ Get Configs VFW Policy
     ${configpolicy_name}=    Create Dictionary    config_policy_name=${getconfigpolicy}
     ${output} =     Fill JSON Template File     ${GECONFIG_VFW_TEMPLATE}    ${configpolicy_name}
     ${get_resp} =    Run Policy Get Configs Request    ${RESOURCE_PATH_GET_CONFIG}   ${output}
-	Should Be Equal As Strings 	${get_resp.status_code} 	200
+    Should Be Equal As Strings 	 ${get_resp.status_code}  200
     ${config}=    Catenate    ${get_resp.json()[0]["config"]}
     ${thresholds}=    Get Variable Value      ${config["content"]["tca_policy"]["metricsPerEventName"][0]["thresholds"]}
 
@@ -101,7 +101,8 @@ Get Configs VDNS Policy
     ${output} =     Fill JSON Template File     ${GECONFIG_VFW_TEMPLATE}    ${configpolicy_name}
     ${get_resp} =    Run Policy Get Configs Request    ${RESOURCE_PATH_GET_CONFIG}   ${output}
 	Should Be Equal As Strings 	${get_resp.status_code} 	200
-    ${config}=    Catenate    ${get_resp.json()[0]["config"]}
+    ${json}=    Parse Json    ${get_resp.content}
+    ${config}=    Parse Json    ${json[0]["config"]}
     ${thresholds}=    Get Variable Value      ${config["content"]["tca_policy"]["metricsPerEventName"][0]["thresholds"]}
 
     # Extract object1 from Array
@@ -196,12 +197,12 @@ Orchestrate VNF vFW closedloop
 VFWCL High Test
 	[Documentation]    Test Control Loop for High Traffic
         [Arguments]    ${pkg_host}
-	Enable Streams    ${pkg_host}   10
+	Enable Streams V2    ${pkg_host}   10
         Log To Console   Set number of streams to 10
 	:FOR    ${i}    IN RANGE    12
 	\   Sleep  15s
-	\   ${resp}=   Get List Of Enabled Streams   ${pkg_host}
-        \   ${stream_count}=   Evaluate  len(${resp['sample-plugin']['pg-streams']['pg-stream']})
+	\   ${resp}=   Get List Of Enabled Streams V2   ${pkg_host}
+        \   ${stream_count}=   Set Variable   ${resp['stream-count']['streams']['active-streams']}
         \   Log To Console   Number of streams: ${stream_count}
         \   Exit For Loop If   '${stream_count}'=='5'
         Should Be Equal As Integers  ${stream_count}   5
@@ -209,13 +210,12 @@ VFWCL High Test
 VFWCL Low Test
 	[Documentation]    Test Control Loop for Low Traffic
         [Arguments]    ${pkg_host}
-	Enable Streams    ${pkg_host}   1
+	Enable Streams V2     ${pkg_host}   1
         Log To Console   Set number of streams to 1
-	Get List Of Enabled Streams   ${pkg_host}
 	:FOR    ${i}    IN RANGE    12
 	\   Sleep  15s
-	\   ${resp}=   Get List Of Enabled Streams   ${pkg_host}
-        \   ${stream_count}=   Evaluate  len(${resp['sample-plugin']['pg-streams']['pg-stream']})
+	\   ${resp}=   Get List Of Enabled Streams V2   ${pkg_host}
+        \   ${stream_count}=   Set Variable   ${resp['stream-count']['streams']['active-streams']}
         \   Log To Console   Number of streams: ${stream_count}
         \   Exit For Loop If   '${stream_count}'=='5'
         Should Be Equal As Integers  ${stream_count}   5
