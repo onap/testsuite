@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b29ecaa3_94a4535a",
+        "filename": "robot/resources/stack_validation/packet_generator_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-05-31T14:43:16Z",
+      "side": 1,
+      "message": "this emits a warning in 3.1 and will fail in 3.2 so should keep upper case",
+      "revId": "f95dcc535bff4fd68529209db9b30eab4024734c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
