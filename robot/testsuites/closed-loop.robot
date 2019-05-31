@@ -15,5 +15,6 @@ VDNS Closed Loop Test
     VDNS Policy
 VFWCL Closed Loop Test
     [TAGS]    vfwclosedloop
+    Log To Console    ${EMPTY}
     VFWCL High Test   ${pkg_host}
     VFWCL Low Test   ${pkg_host}
