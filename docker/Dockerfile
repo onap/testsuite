@@ -36,7 +36,7 @@ RUN apt-get update \
             vim
             
 
-RUN pip install robotframework==3.1.1 \
+RUN pip install robotframework==3.1.2 \
     && python --version
 
 # Copy the robot code

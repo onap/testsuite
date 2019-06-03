@@ -41,6 +41,6 @@ Decode Last Message From Topic
     [Documentation]     Decode last message from Kafka topic.
     [Arguments]     ${kafka_server}     ${kafka_port}     ${kafka_topic}    ${sec_protocol}    ${mechanisms}    ${username}    ${password}
     #Catenate    http://message-router.onap:3904/events/${kafka_topic}/group1/C1?timeout=5000?limit=1
-    ${msg}=     Run     kafkacat -C -b ${kafka_server}:${kafka_port} -t ${kafka_topic} -X security.protocol=${sec_protocol} -X sasl.mechanisms=${mechanisms} -X sasl.username=${username} -X sasl.password=${password} -D "" -o -1 -c 1 | protoc --decode_raw
+    ${msg}=     Run     kafkacat -C -b ${kafka_server}:${kafka_port} -t ${kafka_topic} -X security.protocol=${sec_protocol} -X sasl.mechanisms=${mechanisms} -X sasl.username=${username} -X sasl.password=${password} -D "" -o -1 -c 1
     [Return]    ${msg}
 
