@@ -2,8 +2,6 @@
 Documentation	  The main interface for interacting with Policy. It handles low level stuff like managing the http request library and Policy required fields
 Library 	      RequestsLibrary
 Library           String
-Library           JSONUtils
-Library           Collections
 Library           Collections
 Library           SSHLibrary
 Library           OperatingSystem

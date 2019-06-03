@@ -8,7 +8,7 @@ Library         OperatingSystem
 Library         RequestsLibrary
 Library         UUID
 Library         Collections
-Library         JSONUtils
+Library         ONAPLibrary.JSON
 Library         HTTPUtils
 
 

@@ -22,7 +22,7 @@ Library         OpenstackLibrary
 Library 	    SeleniumLibrary
 Library	        UUID
 Library	        Collections
-Library         JSONUtils
+Library         ONAPLibrary.JSON
 Library         ONAPLibrary.ServiceMapping
 
 

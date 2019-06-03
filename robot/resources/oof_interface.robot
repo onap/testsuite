@@ -6,7 +6,7 @@ Library           OperatingSystem
 Library	          String
 Library           DateTime
 Library           Collections
-Library           JSONUtils
+Library           ONAPLibrary.JSON
 Resource          global_properties.robot
 Resource          json_templater.robot
 

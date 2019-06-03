@@ -8,7 +8,6 @@
     <referencedLibrary type="PYTHON" name="AngularJSLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="SSHLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="HTTPUtils" path="testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="JSONUtils" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="StringTemplater" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="OpenstackLibrary" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="TemplatingEngine" path="testsuite/robot/library/eteutils"/>
@@ -22,6 +21,7 @@
     <referencedLibrary type="PYTHON" name="DateTime" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="SocketUtils" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.ServiceMapping" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.JSON" path="testsuite/robot/library"/>
     <pythonpath>
         <path location="robot/library"/>
     </pythonpath>

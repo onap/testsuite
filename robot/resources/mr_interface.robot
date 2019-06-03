@@ -4,7 +4,7 @@ Library           RequestsLibrary
 Library           UUID
 Library           DateTime
 Library           Process
-Library           JSONUtils
+Library           ONAPLibrary.JSON
 
 Resource          global_properties.robot
 Resource          ../resources/json_templater.robot

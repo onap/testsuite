@@ -4,7 +4,7 @@ Library    OperatingSystem
 Library    Process
 Library    SSHLibrary
 Library    RequestsLibrary
-Library    JSONUtils
+Library    ONAPLibrary.JSON
 Library    OpenstackLibrary
 Library    HEATUtils
 Library    Collections

@@ -3,7 +3,7 @@ Documentation     The main interface for interacting with Microservice Bus.
 Library           RequestsLibrary
 Library           Collections
 Library           String
-Library           JSONUtils
+Library           ONAPLibrary.JSON
 
 Resource          global_properties.robot
 Resource          json_templater.robot

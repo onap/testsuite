@@ -25,7 +25,7 @@ Library         OpenstackLibrary
 Library	        UUID
 Library	        Collections
 Library         String
-Library         JSONUtils
+Library         ONAPLibrary.JSON
 
 Library         RequestsLibrary
 Library    OperatingSystem

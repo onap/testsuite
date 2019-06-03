@@ -3,7 +3,7 @@ Documentation	  Testing openstack.
 Library    OperatingSystem
 Library    SSHLibrary
 Library    RequestsLibrary
-Library    JSONUtils
+Library    ONAPLibrary.JSON
 Library    OpenstackLibrary
 Library    HEATUtils
 Library    Collections

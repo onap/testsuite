@@ -2,7 +2,7 @@
 Documentation     The main interface for interacting with ASDC. It handles low level stuff like managing the http request library and DCAE required fields
 Library           RequestsLibrary
 Library           UUID
-Library           JSONUtils
+Library           ONAPLibrary.JSON
 Library           OperatingSystem
 Library           Collections
 Library           SeleniumLibrary

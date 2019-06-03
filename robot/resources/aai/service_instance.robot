@@ -7,7 +7,7 @@ Resource          aai_interface.robot
 Library    Collections
 Library    OperatingSystem
 Library    RequestsLibrary
-Library    JSONUtils
+Library    ONAPLibrary.JSON
 Library    StringTemplater
 Resource          ../json_templater.robot
 Resource          ../stack_validation/validate_vlb.robot
