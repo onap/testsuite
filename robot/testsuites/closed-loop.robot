@@ -18,3 +18,4 @@ VFWCL Closed Loop Test
     Log To Console    ${EMPTY}
     VFWCL High Test   ${pkg_host}
     VFWCL Low Test   ${pkg_host}
+    [Teardown]    VFWCL Set To Medium    ${pkg_host}
