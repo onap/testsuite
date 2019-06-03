@@ -219,4 +219,7 @@ VFWCL Low Test
         \   Exit For Loop If   '${stream_count}'=='5'
         Should Be Equal As Integers  ${stream_count}   5
 
-
+VFWCL Set To Medium
+	[Documentation]    Set flows to Medium to turn off control loop
+        [Arguments]    ${pkg_host}
+	Enable Streams V2    ${pkg_host}   5
