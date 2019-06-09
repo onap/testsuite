@@ -27,14 +27,16 @@ Create VID VNF
     Wait Until Page Contains Element    link=View/Edit    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click Element     xpath=//a[contains(text(), 'View/Edit')]
     Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
+    # in slower environment the background load of data from AAI takes time so that the button is not populated yet
+    Sleep   20s
     Click Element    button=Add node instance
     #01681d02-2304-4c91-ab2d 0
     # This is where firefox breaks. Th elink never becomes visible when run with the script.
     ${dataTestsId}=    Catenate   AddVNFOption-${vnf_type}
+    Sleep   10s
     Click Element    xpath=//a[contains(text(), '${vnf_type}')]
-    Wait Until Page Contains Element    xpath=//input[@parameter-id='instanceName']    ${GLOBAL_VID_UI_TIMEOUT_SHORT}
-    Wait Until Element Is Enabled    xpath=//input[@parameter-id='instanceName']    ${GLOBAL_VID_UI_TIMEOUT_SHORT}
-
+    Wait Until Page Contains Element    xpath=//input[@parameter-id='instanceName']    ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
+    Wait Until Element Is Enabled    xpath=//input[@parameter-id='instanceName']    ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     ## Without this sleep, the input text below gets immediately wiped out.
     ## Wait Until Angular Ready just sleeps for its timeout value
     Sleep    10s
