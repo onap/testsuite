@@ -3,7 +3,6 @@
     <configVersion>1.0</configVersion>
     <relativeTo>PROJECT</relativeTo>
     <referencedLibrary type="PYTHON" name="RequestsLibrary" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="UUID" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="SeleniumLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="AngularJSLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="SSHLibrary" path="testsuite/robot/library"/>
@@ -12,7 +11,6 @@
     <referencedLibrary type="PYTHON" name="OpenstackLibrary" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="SoUtils" path="testsuite/robot/library/vcpeutils"/>
     <referencedLibrary type="PYTHON" name="HEATUtils" path="testsuite/robot/library/eteutils"/>
-    <referencedLibrary type="PYTHON" name="OSUtils" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="ArchiveLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="HeatBridge" path="testsuite/robot/library/heatbridge"/>
     <referencedLibrary type="PYTHON" name="DateTime" path="testsuite/robot/library"/>
@@ -22,6 +20,7 @@
     <referencedLibrary type="PYTHON" name="ONAPLibrary.JSON" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.Kafka" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.Protobuf" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.Utilities" path="testsuite/robot/library"/>
     <pythonpath>
         <path location="robot/library"/>
     </pythonpath>

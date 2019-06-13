@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     The main interface for interacting with APP-C. It handles low level stuff like managing the http request library and APP-C required fields
 Library 	      RequestsLibrary
-Library	          UUID
+Library	          ONAPLibrary.Utilities
 Library           OperatingSystem
 Library           SeleniumLibrary
 Library           StringTemplater
@@ -35,7 +35,7 @@ Run APPC Post Request
     ${auth}=  Create List  ${GLOBAL_APPC_USERNAME}    ${GLOBAL_APPC_PASSWORD}
     Log    Creating session ${APPC_ENDPOINT}
     ${session}=    Create Session 	appc 	${APPC_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/${content}    Content-Type=application/${content}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	appc 	${data_path}     data=${data}    headers=${headers}
     Log    Received response from appc ${resp.text}
@@ -47,7 +47,7 @@ Run APPC Put Request
     ${auth}=  Create List  ${GLOBAL_APPC_USERNAME}    ${GLOBAL_APPC_PASSWORD}
     Log    Creating session ${APPC_ENDPOINT}
     ${session}=    Create Session 	appc 	${APPC_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/${content}    Content-Type=application/${content}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Put Request 	appc 	${data_path}     data=${data}    headers=${headers}
     Log    Received response from appc ${resp.text}

@@ -3,7 +3,6 @@ Documentation    This is RobotFrame work script
 Library		SeleniumLibrary
 Library		OperatingSystem
 Library		RequestsLibrary
-Library		UUID
 Library		DateTime
 Library		Collections
 Library		StringTemplater
@@ -33,9 +32,16 @@ ${jira}    jira
 ${RESOURCE_PATH}    ${PORTAL_URL}/auxapi/ticketevent
 ${portal_Template}    ${CURDIR}/portal.template
 
-
 ${download_link_id}    0
 
+${Test_LoginID}
+${App_LoginID}
+${Sta_LoginID}
+${App_Email_Address}
+${Test_Email_Address}
+${Sta_Email_Address}
+${AppUserName}
+${AppPassword}
 
 *** Keywords ***
 

@@ -7,7 +7,7 @@ Resource    ../json_templater.robot
 Resource    aai_interface.robot
 Library    OperatingSystem
 Library    Collections
-Library    UUID
+Library	          ONAPLibrary.Utilities
 
 
 
@@ -29,7 +29,7 @@ Create Service If Not Exists
 Create Service
     [Documentation]    Creates a service in A&AI
     [Arguments]    ${service_type}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${data_template}=    OperatingSystem.Get File    ${AAI_ADD_SERVICE_BODY}
     ${arguments}=    Create Dictionary    service_type=${service_type}    UUID=${uuid}
     ${data}=	Fill JSON Template    ${data_template}    ${arguments}

@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     The main interface for interacting with DCAE. It handles low level stuff like managing the http request library and DCAE required fields
 Library 	      RequestsLibrary
-Library	          UUID
+Library	          ONAPLibrary.Utilities
 Library           OperatingSystem
 Library           Collections
 Resource          global_properties.robot
@@ -16,7 +16,7 @@ Run DCAE Health Check
     ${auth}=  Create List  ${GLOBAL_DCAE_USERNAME}    ${GLOBAL_DCAE_PASSWORD}
     Log    Creating session ${DCAE_HEALTH_ENDPOINT}
     ${session}=    Create Session 	dcae 	${DCAE_HEALTH_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     X-ECOMP-Client-Version=ONAP-R2   action=getTable    Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	dcae 	${DCAE_HEALTH_CHECK_PATH}     headers=${headers}
     Log    Received response code from dcae ${resp}

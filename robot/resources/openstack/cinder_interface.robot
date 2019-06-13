@@ -2,7 +2,7 @@
 Documentation     The main interface for interacting with Openstack. It handles low level stuff like managing the authtoken and Openstack required fields
 Library           OpenstackLibrary
 Library 	      RequestsLibrary
-Library	          UUID
+Library	          ONAPLibrary.Utilities
 Library    OperatingSystem
 Resource    ../global_properties.robot
 Resource    ../json_templater.robot
@@ -34,7 +34,7 @@ Add Openstack Volume
     [Documentation]    Runs an Openstack Request to add a volume and returns that volume id of the created volume
     [Arguments]    ${alias}    ${name}	    ${size}
     ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_CINDER_VOLUMES_ADD_BODY_FILE}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${arguments}=    Create Dictionary    name=${name}     description=${GLOBAL_APPLICATION_ID}${uuid}	size=${size}    type=${OPENSTACK_CINDER_VOLUMES_TYPE}    availability_zone=${OPENSTACK_CINDER_AVAILABILITY_ZONE}
     ${data}=	Fill JSON Template    ${data_template}    ${arguments}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_CINDER_SERVICE_TYPE}   ${OPENSTACK_CINDER_VOLUMES_PATH}    data_path=    data=${data}

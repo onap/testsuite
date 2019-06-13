@@ -4,7 +4,6 @@ Library 	    SeleniumLibrary
 Library            Collections
 Library         String
 Library 	      StringTemplater
-Library	          UUID
 Resource        vid_interface.robot
 Resource        create_vid_vnf.robot
 Resource        create_service_instance.robot

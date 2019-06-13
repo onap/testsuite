@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     The main interface for interacting with OOF: SNIRO and Homing Service
 Library           RequestsLibrary
-Library	          UUID
+Library	          ONAPLibrary.Utilities
 Library           OperatingSystem
 Library	          String
 Library           DateTime
@@ -99,7 +99,7 @@ Run OOF-CMSO Post Scheduler
 Run OOF-CMSO Future Schedule
    [Documentation]   Runs CMSO Future Schedule ETE test. One VNF, One Change Window
    [Arguments]    ${request_file}=OneVnfOneChangeWindow.json.template   ${workflow}=Replace   ${minutesFromNow}=3
-   ${uuid}=   Generate UUID
+   ${uuid}=   Generate UUID4
    ${resp}=   OOF-CMSO Create Schedule   ${uuid}   ${request_file}   workflow=${workflow}   minutesFromNow=${minutesFromNow}
    Should Be Equal as Strings    ${resp.status_code}    202
    Wait Until Keyword Succeeds    600s    30s    OOF-CMSO Wait For Pending Approval   ${uuid}

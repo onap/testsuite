@@ -2,7 +2,7 @@
 Documentation     The main interface for interacting with A&AI. It handles low level stuff like managing the http request library and A&AI required fields
 Library 	      RequestsLibrary
 Library           StringTemplater
-Library	          UUID
+Library	          ONAPLibrary.Utilities
 Library	          OperatingSystem
 Resource          ../global_properties.robot
 Resource          ../json_templater.robot
@@ -118,6 +118,6 @@ Get List Of Enabled Streams V2
     [Return]    ${resp.json()}
 
 Create Headers
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     [Return]    ${headers}

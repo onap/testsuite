@@ -2,7 +2,6 @@
 Documentation     The main interface for interacting with Openstack. It handles low level stuff like managing the authtoken and Openstack required fields
 Library           OpenstackLibrary
 Library 	      RequestsLibrary
-Library	          UUID
 Library           OperatingSystem
 Library           Collections
 Resource    ../global_properties.robot

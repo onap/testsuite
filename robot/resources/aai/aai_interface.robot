@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     The main interface for interacting with A&AI. It handles low level stuff like managing the http request library and A&AI required fields
 Library 	      RequestsLibrary
-Library	          UUID
+Library	          ONAPLibrary.Utilities
 Library           HTTPUtils
 Resource            ../global_properties.robot
 
@@ -23,7 +23,7 @@ Run A&AI Get Request
     Disable Warnings
     ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
     ${session}=    Create Session 	aai 	${AAI_FRONTEND_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	aai 	${data_path}     headers=${headers}
     Log    Received response from aai ${resp.text}
@@ -35,7 +35,7 @@ Run A&AI Put Request
     Disable Warnings
     ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
     ${session}=    Create Session 	aai 	${AAI_FRONTEND_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Put Request 	aai 	${data_path}     data=${data}    headers=${headers}
     Log    Received response from aai ${resp.text}
@@ -47,7 +47,7 @@ Run A&AI Post Request
     Disable Warnings
     ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
     ${session}=    Create Session 	aai 	${AAI_FRONTEND_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	aai 	${data_path}     data=${data}    headers=${headers}
     Log    Received response from aai ${resp.text}
@@ -59,7 +59,7 @@ Run A&AI Delete Request
     Disable Warnings
     ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
     ${session}=    Create Session 	aai 	${AAI_FRONTEND_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Delete Request 	aai 	${data_path}?resource-version=${resource_version}       headers=${headers}
     Log    Received response from aai ${resp.text}

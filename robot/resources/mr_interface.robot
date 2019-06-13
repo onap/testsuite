@@ -1,10 +1,10 @@
 *** Settings ***
 Documentation     The main interface for interacting with Message router. It handles low level stuff like managing the http request library and message router required fields
 Library           RequestsLibrary
-Library           UUID
 Library           DateTime
 Library           Process
 Library           ONAPLibrary.JSON
+Library	          ONAPLibrary.Utilities
 
 Resource          global_properties.robot
 Resource          ../resources/json_templater.robot
@@ -99,7 +99,7 @@ Run MR Get Request
      [Documentation]    Runs MR Get request
      [Arguments]    ${data_path}
      ${session}=    Create Session      mr      ${MR_ENDPOINT}
-     ${uuid}=    Generate UUID
+     ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
      ${resp}=   Get Request     mr      ${data_path}     headers=${headers}
      Log    Received response from message router ${resp.text}
@@ -112,7 +112,7 @@ Run MR Post Request
      ${timestamp}=   Get Current Date
      ${dict}=    Create Dictionary    timestamp=${timestamp}
      ${data}=   Fill JSON Template File    ${MR_PUBLISH_TEMPLATE}    ${dict}
-     ${uuid}=    Generate UUID
+     ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
      ${resp}=   Post Request    mr      ${data_path}     data=${data}    headers=${headers}
      Log    Received response from message router ${resp.text}

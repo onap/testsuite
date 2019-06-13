@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation	  The main interface for interacting with AAF. It handles low level stuff like managing the http request library and AAF required fields
 Library 	      RequestsLibrary
-Library	          UUID      
+Library	          ONAPLibrary.Utilities   
 
 Resource          global_properties.robot
 
@@ -20,7 +20,7 @@ Run AAF Get Request
      [Arguments]    ${data_path}
      ${auth}=  Create List  ${GLOBAL_AAF_USERNAME}    ${GLOBAL_AAF_PASSWORD}
      ${session}=    Create Session 	aaf	${GLOBAL_AAF_SERVER}    auth=${auth}
-     ${uuid}=    Generate UUID
+     ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
      ${resp}= 	Get Request 	aaf 	${data_path}     headers=${headers}
      Log    Received response from aaf ${resp.text}

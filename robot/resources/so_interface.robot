@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     The main interface for interacting with MSO. It handles low level stuff like managing the http request library and MSO required fields
 Library 	      RequestsLibrary
-Library	          UUID
+Library	          ONAPLibrary.Utilities
 Library           OperatingSystem
 Library           Collections
 Resource          global_properties.robot
@@ -37,7 +37,7 @@ Run SO Container Health Check
     [Arguments]    ${so_endpoint_label}    ${so_endpoint}
     ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
     ${session}=    Create Session 	mso 	${so_endpoint}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json   X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	mso 	${MSO_HEALTH_CHECK_PATH}     headers=${headers}
     Should Be Equal As Strings 	${resp.status_code} 	200
@@ -66,7 +66,7 @@ Run MSO Get Request
     ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
     Log    Creating session ${MSO_ENDPOINT}
     ${session}=    Create Session 	mso 	${MSO_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=${accept}    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	mso 	${data_path}     headers=${headers}
     Log    Received response from mso ${resp.text}
@@ -78,7 +78,7 @@ Run MSO Catalog Get Request
     ${auth}=  Create List  ${GLOBAL_MSO_CATDB_USERNAME}    ${GLOBAL_MSO_PASSWORD}
     Log    Creating session ${SO_CATDB_ENDPOINT}
     ${session}=    Create Session 	so_catdb   ${SO_CATDB_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=${accept}    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	so_catdb  	${data_path}     headers=${headers}
     Log    Received response from so_catdb ${resp.text}
@@ -91,7 +91,7 @@ Poll MSO Get Request
     ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
     Log    Creating session ${MSO_ENDPOINT}
     ${session}=    Create Session 	mso 	${MSO_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     #do this until it is done
     :FOR    ${i}    IN RANGE    20
@@ -110,7 +110,7 @@ Run MSO Post request
     ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
     Log    Creating session ${MSO_ENDPOINT}
     ${session}=    Create Session 	mso 	${MSO_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
 	${resp}= 	Post Request 	mso 	${data_path}     data=${data}   headers=${headers}
 	Log    Received response from mso ${resp.text}
@@ -122,7 +122,7 @@ Run SO Catalog Post request
     ${auth}=  Create List  ${GLOBAL_MSO_CATDB_USERNAME}    ${GLOBAL_MSO_PASSWORD}
     Log    Creating session ${SO_CATDB_ENDPOINT}
     ${session}=    Create Session       so_catdb     ${SO_CATDB_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}=        Post Request    so_catdb     ${data_path}     data=${data}   headers=${headers}
     Log    Received response from so_catdb ${resp.text}
@@ -134,7 +134,7 @@ Run SO Catalog Put request
     ${auth}=  Create List  ${GLOBAL_MSO_CATDB_USERNAME}    ${GLOBAL_MSO_PASSWORD}
     Log    Creating session ${SO_CATDB_ENDPOINT}
     ${session}=    Create Session       so_catdb     ${SO_CATDB_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}=        Put Request    so_catdb     ${data_path}     data=${data}   headers=${headers}
     Log    Received response from so_catdb ${resp.text}
@@ -146,7 +146,7 @@ Run MSO Delete request
     ${auth}=    Create List    ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
     Log    Creating session ${MSO_ENDPOINT}
     ${session}=    Create Session    mso    ${MSO_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}=    Delete Request    mso    ${data_path}    ${data}    headers=${headers}
     Log    Received response from mso ${resp.text}

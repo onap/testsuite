@@ -4,7 +4,7 @@ Library 	    SeleniumLibrary
 Library    Collections
 Library         String
 Library 	      RequestsLibrary
-Library	          UUID
+Library	          ONAPLibrary.Utilities
 Resource        ../global_properties.robot
 Resource        ../browser_setup.robot
 
@@ -29,7 +29,7 @@ Run VID Get Request
     ${auth}=  Create List  ${GLOBAL_VID_HEALTH_USERNAME}    ${GLOBAL_VID_HEALTH_PASSWORD}
     Log    Creating session ${VID_ENDPOINT}
     ${session}=    Create Session 	vid 	${VID_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     username=${GLOBAL_VID_HEALTH_USERNAME}    password=${GLOBAL_VID_HEALTH_PASSWORD}    Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	vid 	${data_path}     headers=${headers}
     Log    Received response from vid ${resp.text}

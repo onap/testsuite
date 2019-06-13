@@ -4,7 +4,7 @@ Documentation	  Creates VID Service Instance
 ...	              Creates VID Service Instance
 
 Library 	    SeleniumLibrary
-Library	        UUID
+Library	          ONAPLibrary.Utilities
 Library         String
 Library        DateTime
 
@@ -17,7 +17,7 @@ Create VID Service Instance
     [Arguments]    ${customer_name}  ${service_model_type}    ${service_type}     ${service_name}  ${project_name}  ${owning_entity}
     Wait Until Keyword Succeeds    180s    15s    Wait For Model    ${service_model_type}
     Press Key    xpath=//tr[td/span/text() = '${service_model_type}']/td/button[text() = 'Deploy' and not(@disabled)]    \\13
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     Wait Until Page Contains Element    xpath=//input[@parameter-name='Instance Name']    ${GLOBAL_VID_UI_TIMEOUT_LONG}
     Wait Until Element Is Visible    xpath=//input[@parameter-name='Instance Name']    ${GLOBAL_VID_UI_TIMEOUT_LONG}
     Click On Element When Visible    //select[@prompt='Select Subscriber Name']

@@ -22,7 +22,7 @@ Resource    	../json_templater.robot
 Resource    	../so_interface.robot
 
 Library         OpenstackLibrary
-Library	        UUID
+Library	          ONAPLibrary.Utilities
 Library	        Collections
 Library         String
 Library         ONAPLibrary.JSON
@@ -63,7 +63,7 @@ Orchestrate VNF With CDS
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}  	${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
     ${lcp_region}=   Get Openstack Region
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
     Set Test Variable    ${SERVICE}    ${service}
     ${list}=    Create List

@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     The main interface for interacting with ASDC. It handles low level stuff like managing the http request library and DCAE required fields
 Library           RequestsLibrary
-Library           UUID
+Library           ONAPLibrary.Utilities
 Library           ONAPLibrary.JSON
 Library           OperatingSystem
 Library           Collections
@@ -150,7 +150,7 @@ Distribute vCPEResCust Model From ASDC
     [Arguments]    ${model_zip_path}   ${catalog_service_name}=    ${cds}=    ${service}=
     # For testing use random service name
     #${random}=    Get Current Date
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${random}=     Evaluate    str("${uuid}")[:4]
     ${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}_${random}
     #   catalog_service_name already
@@ -448,7 +448,7 @@ Setup ASDC Catalog Resource CDS Properties
 
 Add ASDC License Model
     [Documentation]    Creates an ASDC License Model and returns its id
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    vendor_name=${shortened_uuid}
     ${data}=   Fill JSON Template File    ${ASDC_LICENSE_MODEL_TEMPLATE}    ${map}
@@ -522,7 +522,7 @@ Package ASDC Software Product
 Add ASDC Entitlement Pool
     [Documentation]    Creates an ASDC Entitlement Pool and returns its id
     [Arguments]    ${license_model_id}   ${version_id}=0.1     ${license_start_date}="01/01/1960"   ${license_end_date}="01/01/1961"
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    entitlement_pool_name=${shortened_uuid}  license_start_date=${license_start_date}  license_end_date=${license_end_date}
     ${data}=   Fill JSON Template File    ${ASDC_ENTITLEMENT_POOL_TEMPLATE}    ${map}
@@ -539,7 +539,7 @@ Get ASDC Entitlement Pool
 Add ASDC License Group
     [Documentation]    Creates an ASDC License Group and returns its id
     [Arguments]    ${license_model_id}   ${version_id}=1.0   ${license_start_date}="01/01/1960"   ${license_end_date}="01/01/1961"
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    key_group_name=${shortened_uuid}   license_start_date=${license_start_date}  license_end_date=${license_end_date}
     ${data}=   Fill JSON Template File    ${ASDC_KEY_GROUP_TEMPLATE}    ${map}
@@ -556,7 +556,7 @@ Get ASDC License Group
 Add ASDC Feature Group
     [Documentation]    Creates an ASDC Feature Group and returns its id
     [Arguments]    ${license_model_id}    ${key_group_id}    ${entitlement_pool_id}      ${version_id}=0.1
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    feature_group_name=${shortened_uuid}    key_group_id=${key_group_id}    entitlement_pool_id=${entitlement_pool_id}   manufacturer_reference_number=mrn${shortened_uuid}
     ${data}=   Fill JSON Template File    ${ASDC_FEATURE_GROUP_TEMPLATE}    ${map}
@@ -573,7 +573,7 @@ Get ASDC Feature Group
 Add ASDC License Agreement
     [Documentation]    Creates an ASDC License Agreement and returns its id
     [Arguments]    ${license_model_id}    ${feature_group_id}      ${version_id}=0.1
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    license_agreement_name=${shortened_uuid}    feature_group_id=${feature_group_id}
     ${data}=   Fill JSON Template File    ${ASDC_LICENSE_AGREEMENT_TEMPLATE}    ${map}
@@ -590,7 +590,7 @@ Get ASDC License Agreement
 Add ASDC Software Product
     [Documentation]    Creates an ASDC Software Product and returns its id
     [Arguments]    ${license_agreement_id}    ${feature_group_id}    ${license_model_name}    ${license_model_id}   ${license_model_version_id}  ${name_prefix}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:13]
     ${software_product_name}=  Catenate   ${name_prefix}   ${shortened_uuid}
     ${map}=    Create Dictionary    software_product_name=${software_product_name}    feature_group_id=${feature_group_id}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}    vendor_id=${license_model_id}    version_id=${license_model_version_id}
@@ -777,7 +777,7 @@ Upload ASDC Heat Package
 Add ASDC Catalog Service
     [Documentation]    Creates an ASDC Catalog Service and returns its id
     [Arguments]   ${catalog_service_name}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${catalog_service_name}=   Set Variable If   '${catalog_service_name}' ==''   ${shortened_uuid}   ${catalog_service_name}
     ${map}=    Create Dictionary    service_name=${catalog_service_name}
@@ -857,7 +857,7 @@ Distribute ASDC Catalog Service
 Add ASDC Resource Instance
     [Documentation]    Creates an ASDC Resource Instance and returns its id
     [Arguments]    ${catalog_service_id}    ${catalog_resource_id}    ${catalog_resource_name}  ${xoffset}=${0}   ${yoffset}=${0}   ${resourceType}=VF
-    ${milli_timestamp}=    Generate MilliTimestamp UUID
+    ${milli_timestamp}=    Generate Timestamp
     ${xoffset}=    Set Variable   ${xoffset+306}
     ${yoffset}=    Set Variable   ${yoffset+248}
     ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}    originType=${resourceType}
@@ -869,7 +869,7 @@ Add ASDC Resource Instance
 Add ASDC Resource Instance To Resource
     [Documentation]    Creates an ASDC Resource Instance in a Resource (VF) and returns its id
     [Arguments]    ${parent_catalog_resource_id}    ${catalog_resource_id}    ${catalog_resource_name}  ${xoffset}=${0}   ${yoffset}=${0}    ${resourceType}=VF
-    ${milli_timestamp}=    Generate MilliTimestamp UUID
+    ${milli_timestamp}=    Generate Timestamp
     ${xoffset}=    Set Variable   ${xoffset+306}
     ${yoffset}=    Set Variable   ${yoffset+248}
     ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}    originType=${resourceType}
@@ -915,7 +915,7 @@ Get Catalog Service Distribution Details
 Run ASDC Health Check
     [Documentation]    Runs a ASDC health check
     ${session}=    Create Session       asdc    ${ASDC_FE_ENDPOINT}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}=    Get Request     asdc    ${ASDC_HEALTH_CHECK_PATH}     headers=${headers}
     # only test for HTTP 200 to determine SDC Health. SDC_DE_HEALTH is informational
@@ -932,7 +932,7 @@ Run ASDC Get Request
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     Log    Creating session ${MY_ASDC_BE_ENDPOINT}
     ${session}=    Create Session       asdc    ${MY_ASDC_BE_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${user}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}=    Get Request     asdc    ${data_path}     headers=${headers}
     Log    Received response from asdc ${resp.text}
@@ -943,7 +943,7 @@ Run ASDC Put Request
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     Log    Creating session ${MY_ASDC_BE_ENDPOINT}
     ${session}=    Create Session       asdc    ${MY_ASDC_BE_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${user}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}=    Put Request     asdc    ${data_path}     data=${data}    headers=${headers}
     Log    Received response from asdc ${resp.text}
@@ -955,7 +955,7 @@ Run ASDC Post Files Request
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     Log    Creating session ${MY_ASDC_BE_ENDPOINT}
     ${session}=    Create Session       asdc    ${MY_ASDC_BE_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=multipart/form-data    USER_ID=${user}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}=    Post Request    asdc    ${data_path}     files=${files}    headers=${headers}
     Log    Received response from asdc ${resp.text}
@@ -967,7 +967,7 @@ Run ASDC MD5 Post Request
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     Log    Creating session ${MY_ASDC_BE_ENDPOINT}
     ${session}=    Create Session       asdc    ${MY_ASDC_BE_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${data_string}=   Evaluate    json.dumps(${data})     json
     ${md5checksum}=   Evaluate    md5.new('''${data_string}''').hexdigest()   modules=md5
     ${base64md5checksum}=  Evaluate     base64.b64encode("${md5checksum}")     modules=base64
@@ -982,7 +982,7 @@ Run ASDC Post Request
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     Log    Creating session ${MY_ASDC_BE_ENDPOINT}
     ${session}=    Create Session       asdc    ${MY_ASDC_BE_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${user}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}=    Post Request    asdc    ${data_path}     data=${data}    headers=${headers}
     Log    Received response from asdc ${resp.text}
@@ -994,7 +994,7 @@ Run ASDC Delete Request
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     Log    Creating session ${MY_ASDC_BE_ENDPOINT}
     ${session}=    Create Session       asdc    ${MY_ASDC_BE_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${user}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}=    Delete Request  asdc    ${data_path}        headers=${headers}
     Log    Received response from asdc ${resp.text}

@@ -1,8 +1,6 @@
 *** Settings ***
 Documentation	  The main interface for interacting with SMS.
 Library 	      RequestsLibrary
-Library	          UUID
-
 Resource          global_properties.robot
 
 *** Variables ***

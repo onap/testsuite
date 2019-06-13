@@ -10,7 +10,7 @@ Resource        vid/vid_interface.robot
 Resource	    policy_interface.robot
 Resource        aai/create_availability_zone.robot
 
-Library	        UUID
+Library	        ONAPLibrary.Utilities
 Library	        Collections
 Library         OperatingSystem
 Library         SeleniumLibrary
@@ -45,7 +45,7 @@ Load OwningEntity
     ${auth}=  Create List  ${GLOBAL_VID_USERNAME}    ${GLOBAL_VID_PASSWORD}
     Log    Creating session ${data_path}
     ${session}=    Create Session       vid    ${VID_ENDPOINT}${VID_ENV}     auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${GLOBAL_VID_USERNAME}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	vid 	${data_path}   data=${vid_data}    headers=${headers}
 	

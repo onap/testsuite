@@ -2,7 +2,6 @@
 Documentation	  Creates VID VNF Instance
 
 Library    SeleniumLibrary    60
-Library	        UUID
 Library         String
 Library        DateTime
 Library 	      RequestsLibrary

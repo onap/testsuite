@@ -1,7 +1,6 @@
 *** Settings ***
 Documentation     The main interface for interacting with Bus Controller.
 Library           RequestsLibrary
-Library           UUID
 
 Resource          global_properties.robot
 

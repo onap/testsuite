@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     The main interface for interacting with SDN-GC. It handles low level stuff like managing the http request library and SDN-GC required fields
 Library 	      RequestsLibrary
-Library	          UUID
+Library	          ONAPLibrary.Utilities
 Library    OperatingSystem
 Library 	    SeleniumLibrary
 Library         Collections
@@ -39,7 +39,7 @@ Run SDNGC Get Request
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
     Log    Creating session ${SDNGC_REST_ENDPOINT}
     ${session}=    Create Session 	sdngc 	${SDNGC_REST_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Get Request 	sdngc 	${data_path}     headers=${headers}
     Log    Received response from sdngc ${resp.text}
@@ -51,7 +51,7 @@ Run SDNGC Put Request
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
     Log    Creating session ${SDNGC_REST_ENDPOINT}
     ${session}=    Create Session 	sdngc 	${SDNGC_REST_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Put Request 	sdngc 	${data_path}     data=${data}    headers=${headers}
     Log    Received response from sdngc ${resp.text}
@@ -63,7 +63,7 @@ Run SDNGC Post Request
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
     Log    Creating session ${SDNGC_REST_ENDPOINT}
     ${session}=    Create Session 	sdngc 	${SDNGC_REST_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	sdngc 	${data_path}     data=${data}    headers=${headers}
     Log    Received response from sdngc ${resp.text}
@@ -75,7 +75,7 @@ Run SDNGC Delete Request
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
     Log    Creating session ${SDNGC_REST_ENDPOINT}
     ${session}=    Create Session 	sdngc 	${SDNGC_REST_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Delete Request 	sdngc 	${data_path}        headers=${headers}
     Log    Received response from sdngc ${resp.text}
@@ -245,7 +245,7 @@ Login To SDNGC Admin GUI
     Log    Logging in to ${SDNGC_ADMIN_LOGIN_URL}
     Handle Proxy Warning
     Title Should Be    AdminPortal
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:12]
     ${email}=        Catenate    ${shortened_uuid}@robotete.com
     Input Text    xpath=//input[@id='nf_email']    ${email}

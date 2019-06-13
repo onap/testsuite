@@ -20,8 +20,8 @@ Resource        ../heatbridge.robot
 
 Library         OpenstackLibrary
 Library 	    SeleniumLibrary
-Library	        UUID
 Library	        Collections
+Library	        ONAPLibrary.Utilities
 Library         ONAPLibrary.JSON
 Library         ONAPLibrary.ServiceMapping
 
@@ -51,7 +51,7 @@ Orchestrate VNF
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}  ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
     ${lcp_region}=   Get Openstack Region
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
     Set Test Variable    ${SERVICE}    ${service}
     ${list}=    Create List
@@ -103,7 +103,7 @@ Orchestrate Demo VNF
     ...                      '${service}'=='vFW'       demoVFW
     ...                      '${service}'=='vLB'       demoVLB
     ${lcp_region}=   Get Openstack Region
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
     Set Test Variable    ${SERVICE}    ${service}
     ${list}=    Create List

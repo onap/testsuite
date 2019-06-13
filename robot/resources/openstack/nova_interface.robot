@@ -3,7 +3,6 @@ Documentation     The main interface for interacting with Openstack. It handles 
 Library           OpenstackLibrary
 Library 	      RequestsLibrary
 Library 	      ONAPLibrary.JSON
-Library	          UUID
 Library    OperatingSystem
 Library    Collections
 Resource    ../global_properties.robot

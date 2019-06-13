@@ -3,7 +3,7 @@ Documentation     The main interface for interacting with Openstack Keystone API
 Library           OpenstackLibrary
 Library 	      RequestsLibrary
 Library 	      HTTPUtils
-Library	          UUID
+Library	          ONAPLibrary.Utilities
 Library	          Collections
 Library    OperatingSystem
 Library    String
@@ -29,7 +29,7 @@ Run Openstack Auth Request
     ...    ELSE    Set Variable   ${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}
     ${url}   ${path}=   Get Keystone Url And Path   ${keystone_api_version}
     ${session}=    Create Session 	keystone 	${url}    verify=True
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${data_path}   ${data}=   Run Keyword If   '${keystone_api_version}'=='v2.0'   Get KeyStoneAuthv2 Data   ${username}    ${password}    ${path}
     ...   ELSE   Get KeyStoneAuthv3 Data   ${username}    ${password}   ${path}
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
@@ -48,7 +48,7 @@ Get KeystoneAPIVersion
     ${url}=    Catenate    ${pieces.scheme}://${pieces.netloc}
     Log   Keystone URL is ${url}
     ${session}=    Create Session    keystone    ${url}    verify=True
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json    
     ${resp}=    Get Request    keystone  /   headers=${headers}
     Log    Received response from keystone ${resp.text}

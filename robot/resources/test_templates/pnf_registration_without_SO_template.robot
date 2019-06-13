@@ -6,7 +6,6 @@ Resource        ../json_templater.robot
 Library         OpenstackLibrary
 Library         OperatingSystem
 Library         RequestsLibrary
-Library         UUID
 Library         Collections
 Library         ONAPLibrary.JSON
 Library         HTTPUtils

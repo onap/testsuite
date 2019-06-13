@@ -4,7 +4,7 @@ Documentation     The private interface for interacting with Openstack. It handl
 Library           Collections
 Library           OpenstackLibrary
 Library 	      RequestsLibrary
-Library	          UUID
+Library	          ONAPLibrary.Utilities
 Resource    ../global_properties.robot
 
 *** Variables ***
@@ -24,7 +24,7 @@ Internal Get Openstack With Region
     [Arguments]    ${alias}    ${service_type}    ${region}   ${url_ext}   ${data_path}=
     Log    Internal Get Openstack values alias=${alias} service_type=${service_type} region=${region} url_ext=${url_ext} data_path=${data_path}
     ${url}=    Get Openstack Service Url    ${alias}     ${service_type}    ${region}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${session_alias}=    Catenate    openstack-${uuid}
     ${session}=    Create Session 	${session_alias} 	${url}${url_ext}        verify=True
     ${token}=    Get Openstack Token    ${alias}
@@ -39,7 +39,7 @@ Internal Post Openstack
     ${region}=   Get Openstack Region
     Log    Internal Post Openstack values alias=${alias} service_type=${service_type} region=${region} url_ext=${url_ext} data_path=${data_path}
     ${url}=    Get Openstack Service Url    ${alias}     ${service_type}    ${region}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${session_alias}=    Catenate    openstack-${uuid}
     ${session}=    Create Session 	${session_alias} 	${url}${url_ext}        verify=True
     ${token}=    Get Openstack Token    ${alias}
@@ -54,7 +54,7 @@ Internal Delete Openstack
     ${region}=   Get Openstack Region
     Log    Internal Post Openstack values alias=${alias} service_type=${service_type} region=${region} url_ext=${url_ext} data_path=${data_path}
     ${url}=    Get Openstack Service Url    ${alias}     ${service_type}    ${region}
-    ${uuid}=    Generate UUID
+    ${uuid}=    Generate UUID4
     ${session_alias}=    Catenate    openstack-${uuid}
     ${session}=    Create Session 	${session_alias} 	${url}${url_ext}        verify=True
     ${token}=    Get Openstack Token    ${alias}

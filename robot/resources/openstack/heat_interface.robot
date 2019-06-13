@@ -2,7 +2,6 @@
 Documentation     The interface for interacting with Openstack Heat API.
 Library           OpenstackLibrary
 Library 	      RequestsLibrary
-Library	          UUID
 Library    OperatingSystem
 Library    HEATUtils
 Library    StringTemplater

@@ -3,7 +3,6 @@ Library     HeatBridge
 Library     Collections
 Library     StringTemplater
 Library     OperatingSystem
-Library     UUID
 Library         ONAPLibrary.ServiceMapping
 
 Resource    openstack/keystone_interface.robot
