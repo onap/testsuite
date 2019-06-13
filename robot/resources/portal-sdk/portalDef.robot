@@ -6,7 +6,6 @@ Library		RequestsLibrary
 Library		UUID
 Library		DateTime
 Library		Collections
-Library		OSUtils
 Library		StringTemplater
 Library		String
 

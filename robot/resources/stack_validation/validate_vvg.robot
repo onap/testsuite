@@ -1,7 +1,6 @@
 *** Settings ***
 Documentation	  Testing openstack.
 Library    String
-Library    DNSUtils
 Library    Collections
 Resource          validate_common.robot
 

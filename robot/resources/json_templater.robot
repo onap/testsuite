@@ -3,7 +3,6 @@ Documentation     This resource is filling out json string templates and returni
 Library 	      RequestsLibrary
 Library           StringTemplater
 Library           OperatingSystem
-Resource          global_properties.robot
 
 *** Keywords ***
 Fill JSON Template
