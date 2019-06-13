@@ -4,8 +4,9 @@ Library     OperatingSystem
 Library     RequestsLibrary
 Library     BuiltIn
 Library     Collections
-Library     SocketUtils
+Library     ONAPLibrary.Utilities    
 Library    String
+Library    ONAPLibrary.Kafka
 Resource    ../mr_interface.robot
 
 *** Variables ***
@@ -40,7 +41,10 @@ Start HV-VES TCP Client And Send Message
 Decode Last Message From Topic
     [Documentation]     Decode last message from Kafka topic.
     [Arguments]     ${kafka_server}     ${kafka_port}     ${kafka_topic}    ${sec_protocol}    ${mechanisms}    ${username}    ${password}
-    #Catenate    http://message-router.onap:3904/events/${kafka_topic}/group1/C1?timeout=5000?limit=1
+    Connect    kakfa    ${kafka_server}:${kafka_port}
+    Consume    kakfa    ${kafka_topic}
+    # TODO need to support sasl
+    #${msg}=     Run     kafkacat -X security.protocol=${sec_protocol} -X sasl.mechanisms=${mechanisms} -X sasl.username=${username} -X sasl.password=${password} -D "" -o -1 -c 1
     ${msg}=     Run     kafkacat -C -b ${kafka_server}:${kafka_port} -t ${kafka_topic} -X security.protocol=${sec_protocol} -X sasl.mechanisms=${mechanisms} -X sasl.username=${username} -X sasl.password=${password} -D "" -o -1 -c 1
     [Return]    ${msg}
 
