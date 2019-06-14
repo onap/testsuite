@@ -10,12 +10,14 @@ Test Teardown    Teardown Closed Loop
 VFW Closed Loop Test
     [TAGS]    closedloop    vfwcl
     VFW Policy
+    
 VDNS Closed Loop Test
     [TAGS]    closedloop    vdnscl
     VDNS Policy
+    
 VFWCL Closed Loop Test
     [TAGS]    vfwclosedloop
     Log To Console    ${EMPTY}
-    VFWCL High Test   ${pkg_host}
-    VFWCL Low Test   ${pkg_host}
-    [Teardown]    VFWCL Set To Medium    ${pkg_host}
+    VFWCL High Test   ${GLOBAL_INJECTED_PACKET_GENERATOR_HOST}
+    VFWCL Low Test   ${GLOBAL_INJECTED_PACKET_GENERATOR_HOST}
+    [Teardown]    VFWCL Set To Medium    ${GLOBAL_INJECTED_PACKET_GENERATOR_HOST}
