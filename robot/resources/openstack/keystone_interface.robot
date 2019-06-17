@@ -1,8 +1,7 @@
 *** Settings ***
 Documentation     The main interface for interacting with Openstack Keystone API. It handles low level stuff like managing the authtoken and Openstack required fields
-Library           OpenstackLibrary
+Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
-Library 	      HTTPUtils
 Library	          ONAPLibrary.Utilities
 Library	          Collections
 Library    OperatingSystem

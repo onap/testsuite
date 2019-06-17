@@ -2,7 +2,6 @@
 Documentation	  Executes the VNF Orchestration Test cases including setup and teardown
 ...
 Library   Collections
-Library    HTTPUtils
 Resource         ../resources/demo_preload.robot
 Resource         ../resources/asdc_interface.robot
 *** Variables ***

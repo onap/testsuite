@@ -2,7 +2,6 @@
 Documentation     The main interface for interacting with A&AI. It handles low level stuff like managing the http request library and A&AI required fields
 Library 	      RequestsLibrary
 Library	          ONAPLibrary.Utilities
-Library           HTTPUtils
 Resource            ../global_properties.robot
 
 *** Variables ***

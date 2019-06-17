@@ -18,7 +18,7 @@ Resource        ../openstack/neutron_interface.robot
 Resource        ../heatbridge.robot
 
 
-Library         OpenstackLibrary
+Library         ONAPLibrary.Openstack
 Library 	    SeleniumLibrary
 Library	        Collections
 Library	        ONAPLibrary.Utilities

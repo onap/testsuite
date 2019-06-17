@@ -21,7 +21,7 @@ Resource    	../global_properties.robot
 Resource    	../json_templater.robot
 Resource    	../so_interface.robot
 
-Library         OpenstackLibrary
+Library         ONAPLibrary.Openstack
 Library	          ONAPLibrary.Utilities
 Library	        Collections
 Library         String
@@ -29,7 +29,6 @@ Library         ONAPLibrary.JSON
 
 Library         RequestsLibrary
 Library    OperatingSystem
-Library    HEATUtils
 Library    StringTemplater
 Library    Collections
 

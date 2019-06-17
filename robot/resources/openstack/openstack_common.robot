@@ -2,7 +2,7 @@
 Documentation     The private interface for interacting with Openstack. It handles low level stuff like managing the authtoken and Openstack required fields
 
 Library           Collections
-Library           OpenstackLibrary
+Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
 Library	          ONAPLibrary.Utilities
 Resource    ../global_properties.robot

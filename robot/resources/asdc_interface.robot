@@ -9,7 +9,7 @@ Library           SeleniumLibrary
 Library           String
 Library           StringTemplater
 Library           ArchiveLibrary
-Library           HEATUtils
+Library           ONAPLibrary.Openstack
 Library           DateTime
 Library           ONAPLibrary.ServiceMapping
 Resource          global_properties.robot

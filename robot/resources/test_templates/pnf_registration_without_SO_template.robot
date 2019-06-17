@@ -3,12 +3,12 @@ Documentation     PNF Registration Handler (PRH) test cases
 Resource        ../aai/aai_interface.robot
 Resource        ../mr_interface.robot
 Resource        ../json_templater.robot
-Library         OpenstackLibrary
+Library         ONAPLibrary.Openstack
 Library         OperatingSystem
 Library         RequestsLibrary
 Library         Collections
 Library         ONAPLibrary.JSON
-Library         HTTPUtils
+Library         ONAPLibrary.Utilities
 
 
 *** Variables ***

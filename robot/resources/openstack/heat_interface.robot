@@ -1,9 +1,8 @@
 *** Settings ***
 Documentation     The interface for interacting with Openstack Heat API.
-Library           OpenstackLibrary
+Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
 Library    OperatingSystem
-Library    HEATUtils
 Library    StringTemplater
 Library    Collections
 Resource    ../global_properties.robot

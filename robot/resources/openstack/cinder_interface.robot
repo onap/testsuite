@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     The main interface for interacting with Openstack. It handles low level stuff like managing the authtoken and Openstack required fields
-Library           OpenstackLibrary
+Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
 Library	          ONAPLibrary.Utilities
 Library    OperatingSystem

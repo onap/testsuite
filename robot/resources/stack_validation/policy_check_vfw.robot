@@ -5,8 +5,7 @@ Library    Process
 Library    SSHLibrary
 Library    RequestsLibrary
 Library    ONAPLibrary.JSON
-Library    OpenstackLibrary
-Library    HEATUtils
+Library    ONAPLibrary.Openstack
 Library    Collections
 Library    String
 Library           ONAPLibrary.ServiceMapping
