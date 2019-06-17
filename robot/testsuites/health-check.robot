@@ -17,7 +17,6 @@ Resource          ../resources/bc_interface.robot
 Resource          ../resources/aaf_interface.robot
 Resource          ../resources/msb_interface.robot
 Resource          ../resources/clamp_interface.robot
-Resource          ../resources/music/music_interface.robot
 Resource          ../resources/test_templates/model_test_template.robot
 Resource          ../resources/nbi_interface.robot
 Resource          ../resources/cli_interface.robot
@@ -28,8 +27,7 @@ Resource          ../resources/sms_interface.robot
 Resource          ../resources/dr_interface.robot
 Resource          ../resources/pomba_interface.robot
 Resource          ../resources/holmes_interface.robot
-# Remove other references after a soak period
-#Resource          ../resources/vvp_interface.robot
+
 
 *** Test Cases ***
 Basic A&AI Health Check
