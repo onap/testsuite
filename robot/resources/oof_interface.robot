@@ -23,6 +23,7 @@ ${OOF_OSDF_TEMPLATE_FOLDER}   robot/assets/templates/optf-osdf
 ${OOF_HOMING_ENDPOINT}    ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_HOMING_IP_ADDR}:${GLOBAL_OOF_HOMING_SERVER_PORT}
 ${OOF_SNIRO_ENDPOINT}     ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_SNIRO_IP_ADDR}:${GLOBAL_OOF_SNIRO_SERVER_PORT}
 ${OOF_CMSO_ENDPOINT}      ${GLOBAL_OOF_CMSO_PROTOCOL}://${GLOBAL_INJECTED_OOF_CMSO_IP_ADDR}:${GLOBAL_OOF_CMSO_SERVER_PORT}
+${OOF_OSDF_ENDPOINT}      ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_HOMING_IP_ADDR}:${GLOBAL_OOF_HOMING_SERVER_PORT}
 
 ${OOF_HOMING_AUTH}       Basic YWRtaW4xOnBsYW4uMTU=
 
@@ -174,7 +175,6 @@ Run OOF-OSDF Post Request
     ${resp}= 	Post Request 	session 	${data_path}     headers=${headers}   data=${data}
     Log    Received response from osdf ${resp.text}
     [Return]    ${resp}
-
 
 Run OOF-OSDF Post Homing
    [Documentation]    Runs a osdf homing request
