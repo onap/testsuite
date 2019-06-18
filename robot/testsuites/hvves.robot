@@ -7,12 +7,15 @@ Resource    ../resources/dcae/hvves.robot
 Library    OperatingSystem
 Library    ONAPLibrary.Protobuf    
 
+*** Variable ***
+${HVVES_KAFKA_TOPIC}    HV_VES_PERF3GPP
+
 *** Test Cases ***
 HV-VES test case
-    Check Message Router Api    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_NAME}    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_PORT}    ${hvves_kafka_topic}
+    Check Message Router Api    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_NAME}    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_PORT}    ${HVVES_KAFKA_TOPIC}
     Start HV-VES TCP Client And Send Message     ${GLOBAL_DCAE_HVVES_SERVER_NAME}   ${GLOBAL_DCAE_HVVES_SERVER_PORT}
-    Wait Until Keyword Succeeds      30s      5s      Check If Topic Exists     ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_NAME}      ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_PORT}      ${hvves_kafka_topic}
-    Check Message Router Api    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_NAME}    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_PORT}    ${hvves_kafka_topic}
-    ${msg}=    Decode Last Message From Topic    ${GLOBAL_DMAAP_KAFKA_SERVER_NAME}    ${GLOBAL_DMAAP_KAFKA_SERVER_PORT}    ${hvves_kafka_topic}    ${security_protocol}    ${sasl_mechanisms}    ${GLOBAL_DMAAP_KAFKA_JAAS_USERNAME}    ${GLOBAL_DMAAP_KAFKA_JAAS_PASSWORD}
+    Wait Until Keyword Succeeds      30s      5s      Check If Topic Exists     ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_NAME}      ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_PORT}      ${HVVES_KAFKA_TOPIC}
+    Check Message Router Api    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_NAME}    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_PORT}    ${HVVES_KAFKA_TOPIC}
+    ${msg}=    Decode Last Message From Topic    ${GLOBAL_DMAAP_KAFKA_SERVER_NAME}    ${GLOBAL_DMAAP_KAFKA_SERVER_PORT}    ${HVVES_KAFKA_TOPIC}    ${GLOBAL_DMAAP_KAFKA_JAAS_USERNAME}    ${GLOBAL_DMAAP_KAFKA_JAAS_PASSWORD}
     ${results}=     Compare File To Message    ${EXECDIR}/robot/assets/dcae/hvves_msg.raw    ${msg}
     Should Be True    ${results}
