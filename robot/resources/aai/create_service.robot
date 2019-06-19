@@ -5,7 +5,6 @@ Documentation	  Create A&AI Customer API.
 
 Resource    ../json_templater.robot
 Resource    aai_interface.robot
-Library    OperatingSystem
 Library    Collections
 Library	          ONAPLibrary.Utilities
 
@@ -30,9 +29,8 @@ Create Service
     [Documentation]    Creates a service in A&AI
     [Arguments]    ${service_type}
     ${uuid}=    Generate UUID4
-    ${data_template}=    OperatingSystem.Get File    ${AAI_ADD_SERVICE_BODY}
     ${arguments}=    Create Dictionary    service_type=${service_type}    UUID=${uuid}
-    ${data}=	Fill JSON Template    ${data_template}    ${arguments}
+    ${data}=	Fill JSON Template File    ${AAI_ADD_SERVICE_BODY}    ${arguments}
     ${fullpath}=    Catenate         ${INDEX PATH}${ROOT_SERVICE_PATH}/service/${uuid}
 	${put_resp}=    Run A&AI Put Request     ${fullpath}    ${data}
     Should Be Equal As Strings 	${put_resp.status_code} 	201

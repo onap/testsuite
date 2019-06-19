@@ -2,7 +2,6 @@
 Documentation     The main interface for interacting with SDN-GC. It handles low level stuff like managing the http request library and SDN-GC required fields
 Library 	      RequestsLibrary
 Library	          ONAPLibrary.Utilities
-Library    OperatingSystem
 Library 	    SeleniumLibrary
 Library         Collections
 Library      String
@@ -136,10 +135,9 @@ Get From Mapping
 Preload One Vnf Topology
     [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}       ${vf_module_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}
     Return From Keyword If    '${filename}' == ''
-    ${data_template}=    OperatingSystem.Get File    ${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}/preload.template
     ${parameters}=    Get Template Parameters    ${generic_vnf_name}    ${filename}   ${uuid}
     Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
-    ${data}=	Fill JSON Template    ${data_template}    ${parameters}
+    ${data}=	Fill JSON Template File    ${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}/preload.template    ${parameters}
 	${put_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     ${data}
     Should Be Equal As Strings 	${put_resp.json()['output']['response-code']} 	200
     ${get_resp}=  Run SDNGC Get Request  ${SDNGC_INDEX_PATH}${PRELOAD_VNF_CONFIG_PATH}/${vf_module_name}/${vf_module_type}

@@ -31,10 +31,9 @@ Get Openstack Keypair
 Add Openstack Keypair
     [Documentation]    Runs an Openstack Request to add a keypair and returns the keypair name
     [Arguments]    ${alias}    ${name}
-    ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_NOVA_KEYPAIR_ADD_BODY_FILE}
     ${ssh_key}=    OperatingSystem.Get File     ${OPENSTACK_NOVA_KEYPAIR_SSH_KEY}
     ${arguments}=    Create Dictionary    name=${name}	    publickey=${ssh_key}
-    ${data}=	Fill JSON Template    ${data_template}    ${arguments}
+    ${data}=	Fill JSON Template File    ${OPENSTACK_NOVA_KEYPAIR_ADD_BODY_FILE}    ${arguments}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    ${OPENSTACK_NOVA_KEYPAIR_PATH}    data_path=    data=${data}
     Should Be Equal As Strings    200  ${resp.status_code}
     [Return]    ${resp.json()['keypair']['name']}

@@ -2,7 +2,6 @@
 Documentation     The main interface for interacting with Openstack. It handles low level stuff like managing the authtoken and Openstack required fields
 Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
-Library           OperatingSystem
 Library           Collections
 Resource    ../global_properties.robot
 Resource    ../json_templater.robot
@@ -44,9 +43,8 @@ Get Openstack Ports
 Add Openstack Network
     [Documentation]    Runs an Openstack Request to add a network and returns that network id of the created network
     [Arguments]    ${alias}    ${name}
-    ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_NEUTRON_NETWORK_ADD_BODY_FILE}
     ${arguments}=    Create Dictionary    name=${name}
-    ${data}=	Fill JSON Template    ${data_template}    ${arguments}
+    ${data}=	Fill JSON Template File    ${OPENSTACK_NEUTRON_NETWORK_ADD_BODY_FILE}    ${arguments}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NEUTRON_SERVICE_TYPE}    ${OPENSTACK_NEUTRON_NETWORK_PATH}    data_path=    data=${data}
     Should Be Equal As Strings    201  ${resp.status_code}
     [Return]    ${resp.json()['network']['id']}
@@ -74,9 +72,8 @@ Add Openstack Network With Subnet
     [Documentation]    Runs an Openstack Request to add a network and returns that network id of the created network
     [Arguments]    ${alias}    ${name}    ${cidr}
     ${network_id}=    Add Openstack Network    ${alias}    ${name}
-    ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_NEUTRON_SUBNET_ADD_BODY_FILE}
     ${arguments}=    Create Dictionary    network_id=${network_id}    cidr=${cidr}    subnet_name=${name}
-    ${data}=	Fill JSON Template    ${data_template}    ${arguments}
+    ${data}=	Fill JSON Template File    ${OPENSTACK_NEUTRON_SUBNET_ADD_BODY_FILE}    ${arguments}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NEUTRON_SERVICE_TYPE}    ${OPENSTACK_NEUTRON_SUBNET_PATH}    data_path=    data=${data}
     Should Be Equal As Strings    201  ${resp.status_code}
     [Return]     ${network_id}

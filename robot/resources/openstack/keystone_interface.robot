@@ -66,18 +66,16 @@ Get KeystoneAPIVersion
 Get KeyStoneAuthv2 Data
     [Documentation]    Returns all the data for keystone auth v2 api
     [Arguments]    ${username}    ${password}    ${path}
-    ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_KEYSTONE_AUTH_v2_BODY_FILE}
     ${arguments}=    Create Dictionary    username=${username}    password=${password}   tenantId=${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
-    ${data}=    Fill JSON Template    ${data_template}    ${arguments}
+    ${data}=    Fill JSON Template File    ${OPENSTACK_KEYSTONE_AUTH_v2_BODY_FILE}    ${arguments}
     ${data_path}=    Catenate    ${path}${OPENSTACK_KEYSTONE_AUTH_v2_PATH}
     [Return]    ${data_path}    ${data}
 
 Get KeyStoneAuthv3 Data
     [Documentation]    Returns all the data for keystone auth v3 api
     [Arguments]    ${username}    ${password}    ${path}
-    ${data_template}=    OperatingSystem.Get File    ${OPENSTACK_KEYSTONE_AUTH_v3_BODY_FILE}
     ${arguments}=    Create Dictionary    username=${username}    password=${password}   domain_id=${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}    project_name=${GLOBAL_INJECTED_OPENSTACK_PROJECT_NAME}
-    ${data}=    Fill JSON Template    ${data_template}    ${arguments}
+    ${data}=    Fill JSON Template File    ${OPENSTACK_KEYSTONE_AUTH_v3_BODY_FILE}    ${arguments}
     ${data_path}=    Catenate    ${path}${OPENSTACK_KEYSTONE_AUTH_v3_PATH}
     [Return]    ${data_path}    ${data}
 

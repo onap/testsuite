@@ -148,7 +148,7 @@ Push Ops Policy
     [Documentation]    Push Ops Policy
     [Arguments]    ${policyname}    ${policytype}
     ${dict}=     Create Dictionary     policy_name=${policyname}    policy_type=${policytype}
-	${output} =     Fill JSON Template     ${PUSH_POLICY_TEMPLATE}     ${dict}
+	${output} =     Fill JSON Template File     ${PUSH_POLICY_TEMPLATE}     ${dict}
     ${put_resp} =    Run Policy Put Request    ${RESOURCE_PATH_CREATE_PUSH}  ${output}
     Should Be Equal As Strings 	${put_resp.status_code} 	200
 
@@ -156,7 +156,7 @@ Push Config Policy
     [Documentation]    Push Config Policy
     [Arguments]    ${policyname}    ${policytype}
     ${dict}=     Create Dictionary     policy_name=${policyname}    policy_type=${policytype}
-	${output} =     Fill JSON Template     ${PUSH_POLICY_TEMPLATE}     ${dict}
+	${output} =     Fill JSON Template File     ${PUSH_POLICY_TEMPLATE}     ${dict}
     ${put_resp} =    Run Policy Put Request    ${RESOURCE_PATH_CREATE_PUSH}  ${output}
     Should Be Equal As Strings 	${put_resp.status_code} 	200
 
@@ -166,7 +166,7 @@ Delete Config Policy
     [Arguments]    ${policy_name}
     ${policyname3}=    Catenate   com.Config_BRMS_Param_${policyname}.1.xml
     ${dict}=     Create Dictionary     policy_name=${policyname3}
-	${output} =     Fill JSON Template     ${DEL_POLICY_TEMPLATE}     ${dict}
+	${output} =     Fill JSON Template File     ${DEL_POLICY_TEMPLATE}     ${dict}
     ${put_resp} =    Run Policy Delete Request    ${RESOURCE_PATH_CREATE_DELETE}  ${output}
     Should Be Equal As Strings 	${put_resp.status_code} 	200
 
@@ -175,7 +175,7 @@ Delete Ops Policy
     [Arguments]    ${policy_name}
     ${policyname3}=    Catenate   com.Config_MS_com.vFirewall.1.xml
     ${dict}=     Create Dictionary     policy_name=${policyname3}
-	${output} =     Fill JSON Template     ${DEL_POLICY_TEMPLATE}     ${dict}
+	${output} =     Fill JSON Template File     ${DEL_POLICY_TEMPLATE}     ${dict}
     ${put_resp} =    Run Policy Delete Request    ${RESOURCE_PATH_CREATE_DELETE}  ${output}
     Should Be Equal As Strings 	${put_resp.status_code} 	200
 

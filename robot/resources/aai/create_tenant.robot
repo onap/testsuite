@@ -5,7 +5,6 @@ Documentation	  Create A&AI Customer API.
 
 Resource    ../json_templater.robot
 Resource    aai_interface.robot
-Library    OperatingSystem
 Library    Collections
 
 
@@ -29,9 +28,8 @@ Inventory Tenant
     [Documentation]    Inventorys a Tenant in A&AI
     [Arguments]    ${cloud_owner}  ${cloud_region_id}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}    ${tenant_id}    ${tenant_name}
     ${json_resource_version}=   Get Resource Version If Exists   ${cloud_owner}  ${cloud_region_id}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}
-    ${data_template}=    OperatingSystem.Get File    ${AAI_ADD_TENANT_BODY}
     ${arguments}=    Create Dictionary     cloud_owner=${cloud_owner}  cloud_region_id=${cloud_region_id}  cloud_type=${cloud_type}    owner_defined_type=${owner_defined_type}    cloud_region_version=${cloud_region_version}    cloud_zone=${cloud_zone}    tenant_id=${tenant_id}    tenant_name=${tenant_name}   resource_version=${json_resource_version}
-    ${data}=	Fill JSON Template    ${data_template}    ${arguments}
+    ${data}=	Fill JSON Template File   ${AAI_ADD_TENANT_BODY}    ${arguments}
 	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}     ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string} 	^(201|200)$
