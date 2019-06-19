@@ -35,9 +35,9 @@ Library    Collections
 *** Variables ***
 ${service_template}    robot/assets/cds/service-Vfirewall0911-template.yml
 ${env}      robot/assets/cds/env.yml
-${so_request_template}    robot/assets/cds/template_so_request.json    
-${vnf_template_name} 	robot/assets/cds/template_vnf.json
-${vfmodule_template_name} 	robot/assets/cds/template_vfmodule.json
+${so_request_template}    robot/assets/templates/cds/so_request.template    
+${vnf_template_name} 	robot/assets/templates/cds/vnf.template
+${vfmodule_template_name} 	robot/assets/templates/cds/vfmodule.template
 ${so_uri_path}		/onap/so/infra/serviceInstantiation/v7/serviceInstances
 *** Variables ***
 
