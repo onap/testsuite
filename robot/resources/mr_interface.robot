@@ -5,9 +5,9 @@ Library           DateTime
 Library           Process
 Library           ONAPLibrary.JSON
 Library	          ONAPLibrary.Utilities
+Library	          ONAPLibrary.Templating    
 
 Resource          global_properties.robot
-Resource          ../resources/json_templater.robot
 
 *** Variables ***
 ${MR_HEALTH_CHECK_PATH}        /topics
@@ -16,8 +16,8 @@ ${MR_SUB_HEALTH_CHECK_PATH}        /events/TEST_TOPIC/g1/c4?timeout=5000
 ${MR_CREATE_TOPIC_PATH}        /topics/create
 ${MR_UPDATE_ACL_TOPIC_PATH}        /topics/TEST_TOPIC_ACL/producers
 ${MR_ENDPOINT}     ${GLOBAL_MR_SERVER_PROTOCOL}://${GLOBAL_INJECTED_MR_IP_ADDR}:${GLOBAL_MR_SERVER_PORT}
-${MR_PUBLISH_TEMPLATE}     robot/assets/templates/mr_publish.template
-${MR_PUT_ACL_TEMPLATE}    robot/assets/templates/mr_put_acl.template
+${MR_PUBLISH_TEMPLATE}     mr/mr_publish.jinja
+${MR_PUT_ACL_TEMPLATE}    mr/mr_put_acl.jinja
 
 
 *** Keywords ***
@@ -54,8 +54,8 @@ Run MR Update Topic Acl
      #   Appears to not care if topic already exists with the POST / PUT method
      #
      ${dict}=    Create Dictionary    TOPIC_NAME=TEST_TOPIC_ACL
-     ${data}=   Fill JSON Template File    ${MR_PUT_ACL_TEMPLATE}    ${dict}
-     #Log To Console    ${\n}Create TEST_TOPIC_ACL
+     Create Environment    mr    ${GLOBAL_TEMPLATE_FOLDER}
+     ${data}=   Apply Template    mr    ${MR_PUT_ACL_TEMPLATE}    ${dict}
      ${resp}=    Run MR Auth Post Request    ${MR_CREATE_TOPIC_PATH}   iPIxkpAMI8qTcQj8  Ehq3WyT4bkif4zwgEbvshGal   ${data}
      #Log To Console    Update Owner for TEST_TOPIC_ACL
      ${resp}=    Run MR Auth Put Request    ${MR_UPDATE_ACL_TOPIC_PATH}/iPIxkpAMI8qTcQj8  iPIxkpAMI8qTcQj8    Ehq3WyT4bkif4zwgEbvshGal    ${data}
@@ -111,7 +111,8 @@ Run MR Post Request
      ${session}=    Create Session      mr      ${MR_ENDPOINT}
      ${timestamp}=   Get Current Date
      ${dict}=    Create Dictionary    timestamp=${timestamp}
-     ${data}=   Fill JSON Template File    ${MR_PUBLISH_TEMPLATE}    ${dict}
+     Create Environment    mr    ${GLOBAL_TEMPLATE_FOLDER}
+     ${data}=   Apply Template    mr    ${MR_PUBLISH_TEMPLATE}    ${dict}
      ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
      ${resp}=   Post Request    mr      ${data_path}     data=${data}    headers=${headers}

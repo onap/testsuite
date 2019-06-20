@@ -15,7 +15,7 @@ Library         ONAPLibrary.Utilities
 ${aai_so_registration_entry_template}=  robot/assets/templates/aai/add_pnf_registration_info.template
 ${pnf_ves_integration_request}=  robot/assets/templates/ves/pnf_registration_request.template
 ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH}  /events/unauthenticated.PNF_READY/2/1
-${VES_ENDPOINT}     http://${GLOBAL_DNS_VES_NAME}:${GLOBAL_VES_SERVER_PORT}
+${VES_ENDPOINT}     ${GLOBAL_DCAE_VES_PROTOCOL}://${GLOBAL_INJECTED_DCAE_VES_HOST}:${GLOBAL_DCAE_VES_SERVER_PORT}
 ${VES_data_path}   /eventListener/v7
 
 

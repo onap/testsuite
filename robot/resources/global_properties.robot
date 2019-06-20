@@ -35,5 +35,4 @@ ${GLOBAL_AAI_ZONE_ID}    nova1
 ${GLOBAL_AAI_ZONE_NAME}    nova
 ${GLOBAL_AAI_DESIGN_TYPE}    integration
 ${GLOBAL_AAI_ZONE_CONTEXT}    labs
-${GLOBAL_DNS_VES_NAME}      dcae-ves-collector
-${GLOBAL_VES_SERVER_PORT}        8080
+${GLOBAL_TEMPLATE_FOLDER}    robot/assets/templates
