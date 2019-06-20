@@ -7,16 +7,15 @@ Library         Collections
 Library      String
 Library      StringTemplater
 Library           ONAPLibrary.ServiceMapping
-
+Library           ONAPLibrary.Templating
 Resource          global_properties.robot
-Resource          ../resources/json_templater.robot
 Resource        browser_setup.robot
 
 
 *** Variables ***
 ${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}  /operations/VNF-API:preload-vnf-topology-operation
 ${PRELOAD_VNF_CONFIG_PATH}  /config/VNF-API:preload-vnfs/vnf-preload-list
-${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}  robot/assets/templates/sdnc/
+${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}  sdnc
 ${SDNGC_INDEX_PATH}    /restconf
 ${SDNCGC_HEALTHCHECK_OPERATION_PATH}  /operations/SLI-API:healthcheck
 ${SDNGC_REST_ENDPOINT}    ${GLOBAL_SDNGC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDNC_IP_ADDR}:${GLOBAL_SDNGC_REST_PORT}
@@ -137,7 +136,8 @@ Preload One Vnf Topology
     Return From Keyword If    '${filename}' == ''
     ${parameters}=    Get Template Parameters    ${generic_vnf_name}    ${filename}   ${uuid}
     Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
-    ${data}=	Fill JSON Template File    ${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}/preload.template    ${parameters}
+    Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    sdnc   ${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}/preload.jinja    ${parameters}
 	${put_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     ${data}
     Should Be Equal As Strings 	${put_resp.json()['output']['response-code']} 	200
     ${get_resp}=  Run SDNGC Get Request  ${SDNGC_INDEX_PATH}${PRELOAD_VNF_CONFIG_PATH}/${vf_module_name}/${vf_module_type}

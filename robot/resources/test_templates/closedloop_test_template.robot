@@ -7,18 +7,19 @@ Resource        ../stack_validation/packet_generator_interface.robot
 Resource        vnf_orchestration_test_template.robot
 
 Library    String
-LIbrary    Process
+Library    Process
+Library    ONAPLibrary.Templating
 
 *** Variables ***
 ${RESOURCE_PATH_CREATE}        /pdp/createPolicy
 ${RESOURCE_PATH_CREATE_PUSH}        /pdp/pushPolicy
 ${RESOURCE_PATH_CREATE_DELETE}        /pdp/deletePolicy
 ${RESOURCE_PATH_GET_CONFIG}    /pdp/getConfig
-${CREATE_CONFIG_TEMPLATE}    robot/assets/templates/policy/closedloop_configpolicy.template
-${CREATE_OPS_TEMPLATE}    robot/assets/templates/policy/closedloop_opspolicy.template
-${PUSH_POLICY_TEMPLATE}   robot/assets/templates/policy/closedloop_pushpolicy.template
-${DEL_POLICY_TEMPLATE}   robot/assets/templates/policy/closedloop_deletepolicy.template
-${GECONFIG_VFW_TEMPLATE}    robot/assets/templates/policy/closedloop_getconfigpolicy.template
+${CREATE_CONFIG_TEMPLATE}    policy/closedloop_configpolicy.jinja
+${CREATE_OPS_TEMPLATE}    policy/closedloop_opspolicy.jinja
+${PUSH_POLICY_TEMPLATE}   policy/closedloop_pushpolicy.jinja
+${DEL_POLICY_TEMPLATE}   policy/closedloop_deletepolicy.jinja
+${GECONFIG_VFW_TEMPLATE}    policy/closedloop_getconfigpolicy.jinja
 
 # 'Normal' number of pg streams that will be set when policy is triggered
 ${VFWPOLICYRATE}    5
@@ -78,7 +79,8 @@ Get Configs VFW Policy
     [Documentation]    Get Config Policy for VFW
     ${getconfigpolicy}=    Catenate    .*${CONFIG_POLICY_NAME}*
     ${configpolicy_name}=    Create Dictionary    config_policy_name=${getconfigpolicy}
-    ${output} =     Fill JSON Template File     ${GECONFIG_VFW_TEMPLATE}    ${configpolicy_name}
+    Create Environment    cl    ${GLOBAL_TEMPLATE_FOLDER}
+    ${output}=   Apply Template    cl    ${GECONFIG_VFW_TEMPLATE}    ${configpolicy_name}
     ${get_resp} =    Run Policy Get Configs Request    ${RESOURCE_PATH_GET_CONFIG}   ${output}
     Should Be Equal As Strings 	 ${get_resp.status_code}  200
     ${config}=    Catenate    ${get_resp.json()[0]["config"]}
@@ -98,7 +100,8 @@ Get Configs VDNS Policy
     [Documentation]    Get Config Policy for VDNS
     ${getconfigpolicy}=    Catenate    .*MicroServicevDNS*
     ${configpolicy_name}=    Create Dictionary    config_policy_name=${getconfigpolicy}
-    ${output} =     Fill JSON Template File     ${GECONFIG_VFW_TEMPLATE}    ${configpolicy_name}
+    Create Environment    cl    ${GLOBAL_TEMPLATE_FOLDER}
+    ${output}=   Apply Template    cl    ${GECONFIG_VFW_TEMPLATE}    ${configpolicy_name}
     ${get_resp} =    Run Policy Get Configs Request    ${RESOURCE_PATH_GET_CONFIG}   ${output}
     Should Be Equal As Strings  ${get_resp.status_code}  200
     ${config}=    Catenate    ${get_resp.json()[0]["config"]}
@@ -121,7 +124,8 @@ Create Config Policy
     ${policyname1}=    Catenate   com.${randompolicyname}
     ${CONFIG_POLICY_NAME}=    Set Test Variable    ${policyname1}
     ${configpolicy}=    Create Dictionary    policy_name=${CONFIG_POLICY_NAME}
-    ${output} =     Fill JSON Template File     ${CREATE_CONFIG_TEMPLATE}    ${configpolicy}
+    Create Environment    cl    ${GLOBAL_TEMPLATE_FOLDER}
+    ${output}=   Apply Template    cl    ${CREATE_CONFIG_TEMPLATE}    ${configpolicy}
     ${put_resp} =    Run Policy Put Request    ${RESOURCE_PATH_CREATE}  ${output}
 	Should Be Equal As Strings 	${put_resp.status_code} 	200
 
@@ -138,8 +142,8 @@ Create Ops Policy
 	${policyname1}=    Catenate   com.${randompolicyname}
 	${OPS_POLICY_NAME}=    Set Test Variable    ${policyname1}
  	${dict}=     Create Dictionary    policy_name=${OPS_POLICY_NAME}
- 	#${NEWPOLICY1}=     Create Dictionary    policy_name=com.${OPS_POLICY_NAME}
-	${output} =     Fill JSON Template File     ${CREATE_OPS_TEMPLATE}    ${dict}
+    Create Environment    cl    ${GLOBAL_TEMPLATE_FOLDER}
+    ${output}=   Apply Template    cl    ${CREATE_OPS_TEMPLATE}    ${dict}
     ${put_resp} =    Run Policy Put Request    ${RESOURCE_PATH_CREATE}  ${output}
     Log    ${put_resp}
     Should Be Equal As Strings 	${put_resp.status_code} 	200
@@ -148,7 +152,8 @@ Push Ops Policy
     [Documentation]    Push Ops Policy
     [Arguments]    ${policyname}    ${policytype}
     ${dict}=     Create Dictionary     policy_name=${policyname}    policy_type=${policytype}
-	${output} =     Fill JSON Template File     ${PUSH_POLICY_TEMPLATE}     ${dict}
+    Create Environment    cl    ${GLOBAL_TEMPLATE_FOLDER}
+    ${output}=   Apply Template    cl    ${PUSH_POLICY_TEMPLATE}     ${dict}
     ${put_resp} =    Run Policy Put Request    ${RESOURCE_PATH_CREATE_PUSH}  ${output}
     Should Be Equal As Strings 	${put_resp.status_code} 	200
 
@@ -156,7 +161,8 @@ Push Config Policy
     [Documentation]    Push Config Policy
     [Arguments]    ${policyname}    ${policytype}
     ${dict}=     Create Dictionary     policy_name=${policyname}    policy_type=${policytype}
-	${output} =     Fill JSON Template File     ${PUSH_POLICY_TEMPLATE}     ${dict}
+    Create Environment    cl    ${GLOBAL_TEMPLATE_FOLDER}
+    ${output}=   Apply Template    cl    ${PUSH_POLICY_TEMPLATE}     ${dict}
     ${put_resp} =    Run Policy Put Request    ${RESOURCE_PATH_CREATE_PUSH}  ${output}
     Should Be Equal As Strings 	${put_resp.status_code} 	200
 
@@ -166,7 +172,8 @@ Delete Config Policy
     [Arguments]    ${policy_name}
     ${policyname3}=    Catenate   com.Config_BRMS_Param_${policyname}.1.xml
     ${dict}=     Create Dictionary     policy_name=${policyname3}
-	${output} =     Fill JSON Template File     ${DEL_POLICY_TEMPLATE}     ${dict}
+    Create Environment    cl    ${GLOBAL_TEMPLATE_FOLDER}
+    ${output}=   Apply Template    cl    ${DEL_POLICY_TEMPLATE}     ${dict}
     ${put_resp} =    Run Policy Delete Request    ${RESOURCE_PATH_CREATE_DELETE}  ${output}
     Should Be Equal As Strings 	${put_resp.status_code} 	200
 
@@ -175,7 +182,8 @@ Delete Ops Policy
     [Arguments]    ${policy_name}
     ${policyname3}=    Catenate   com.Config_MS_com.vFirewall.1.xml
     ${dict}=     Create Dictionary     policy_name=${policyname3}
-	${output} =     Fill JSON Template File     ${DEL_POLICY_TEMPLATE}     ${dict}
+    Create Environment    cl    ${GLOBAL_TEMPLATE_FOLDER}
+    ${output}=   Apply Template    cl    ${DEL_POLICY_TEMPLATE}     ${dict}
     ${put_resp} =    Run Policy Delete Request    ${RESOURCE_PATH_CREATE_DELETE}  ${output}
     Should Be Equal As Strings 	${put_resp.status_code} 	200
 

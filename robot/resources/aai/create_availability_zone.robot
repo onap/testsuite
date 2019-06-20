@@ -1,17 +1,16 @@
 *** Settings ***
 Documentation     Create availability zone in A&AI.
 
-Resource    ../json_templater.robot
 Resource    aai_interface.robot
 Library    OperatingSystem
 Library    Collections
-
+Library    ONAPLibrary.Templating
 
 *** Variables ***
 ${AZ_ROOT_PATH}      /cloud-infrastructure/cloud-regions/cloud-region
 ${AZ_ZONE_PATH}      /availability-zones/availability-zone
 
-${AAI_ADD_AVAILABILITY_ZONE_BODY}=    robot/assets/templates/aai/add_availability_zone_body.template
+${AAI_ADD_AVAILABILITY_ZONE_BODY}    aai/add_availability_zone_body.jinja
 
 *** Keywords ***
 Create Availability Zone If Not Exists
@@ -25,7 +24,8 @@ Create Availability Zone
     [Documentation]    Creates availability zone in A&AI
     [Arguments]    ${availability_zone_name}  ${cloud-owner}  ${cloud-region-id}
     ${arguments}=    Create Dictionary     availability_zone_name=${availability_zone_name}
-    ${data}=    Fill JSON Template File    ${AAI_ADD_AVAILABILITY_ZONE_BODY}    ${arguments}
+    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    aai   ${AAI_ADD_AVAILABILITY_ZONE_BODY}    ${arguments}
     ${put_resp}=    Run A&AI Put Request     ${GLOBAL_AAI_INDEX_PATH}${AZ_ROOT_PATH}/${cloud-owner}/${cloud-region-id}${AZ_ZONE_PATH}/${availability_zone_name}     ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}     ^(201|200)$

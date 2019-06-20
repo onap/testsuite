@@ -3,7 +3,8 @@ Library     HeatBridge
 Library     Collections
 Library     StringTemplater
 Library     OperatingSystem
-Library         ONAPLibrary.ServiceMapping
+Library     ONAPLibrary.ServiceMapping
+Library     ONAPLibrary.Templating
 
 Resource    openstack/keystone_interface.robot
 Resource    openstack/heat_interface.robot
@@ -15,7 +16,7 @@ Resource    aai/create_vnfc.robot
 *** Variables ***
 ${MULTIPART_PATH}  /bulkadd
 ${NAMED_QUERY_PATH}  /aai/search/named-query
-${NAMED_QUERY_TEMPLATE}    robot/assets/templates/aai/named_query.template
+${NAMED_QUERY_TEMPLATE}    aai/named_query.jinja
 
 ${BASE_URI}   /cloud-infrastructure/cloud-regions/cloud-region/\${cloud}/\${region}
 ${IMAGE_URI}   ${BASE_URI}/images/image/\${image_id}
@@ -93,8 +94,8 @@ Run Vserver Query
     [Documentation]    Run A&AI query to validate the bulk add
     [Arguments]    ${vserver_name}
     ${dict}=    Create Dictionary    vserver_name=${vserver_name}
-    ${request}=    OperatingSystem.Get File    ${NAMED_QUERY_TEMPLATE}
-    ${request}=    Template String    ${request}    ${dict}
+    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${request}=   Apply Template    aai   ${NAMED_QUERY_TEMPLATE}    ${dict}
     ${resp}=    Run A&AI Post Request    ${NAMED_QUERY_PATH}    ${request}
     Should Be Equal As Strings    ${resp.status_code}    200
 

@@ -3,17 +3,14 @@ Documentation     Operations on relationship-list sub-object in AAI,
 ...    using specified base URL path including API version where it is implemented,
 ...    relies on system to choose default EdgeRule for the pair of object classes
 
-Resource    ../json_templater.robot
 Resource    aai_interface.robot
-Resource    api_version_properties.robot
-Library    OperatingSystem
 Library    Collections
-
+Library    ONAPLibrary.Templating
 
 *** Variables ***
-${AAI_RELATIONSHIPLIST_PATH}=      relationship-list
+${AAI_RELATIONSHIPLIST_PATH}      relationship-list
 ${AAI_RELATIONSHIP_PATH}=      ${AAI_RELATIONSHIPLIST_PATH}/relationship
-${AAI_ADD_RELATIONSHIP_BODY}=    robot/assets/templates/aai/add-relationship.template
+${AAI_ADD_RELATIONSHIP_BODY}    aai/add-relationship.jinja
 ${AAI_RELATIONSHIP_DEPTH}=    ?depth=1
 
 *** Keywords ***
@@ -21,7 +18,8 @@ Add Relationship
     [Documentation]    Adds Relationship sub-object to existing object in AAI
     [Arguments]    ${api_version_base_object_url}  ${related_class_name}  ${related_object_url}
     ${arguments}=    Create Dictionary     related_class_name=${related_class_name}  related_object_url=${related_object_url}
-    ${data}=    Fill JSON Template File    ${AAI_ADD_RELATIONSHIP_BODY}    ${arguments}
+    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    aai   ${AAI_ADD_RELATIONSHIP_BODY}    ${arguments}
     ${put_resp}=    Run A&AI Put Request     ${api_version_base_object_url}/${AAI_RELATIONSHIP_PATH}     ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}     ^(201|200)$
@@ -40,4 +38,3 @@ Get Object With Depth
     Should Be Equal As Strings  ${resp.status_code}     200
     Log    Returning response ${resp.json()}
     [Return]  ${resp.json()}
-

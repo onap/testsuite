@@ -3,22 +3,22 @@ Documentation     The main interface for interacting with Openstack. It handles 
 Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
 Library 	      ONAPLibrary.JSON
+Library 	      ONAPLibrary.Templating
 Library    OperatingSystem
 Library    Collections
 Resource    ../global_properties.robot
-Resource    ../json_templater.robot
 Resource    openstack_common.robot
 
 *** Variables ***
 ${OPENSTACK_NOVA_API_VERSION}    /v2
 ${OPENSTACK_NOVA_KEYPAIR_PATH}    /os-keypairs
-${OPENSTACK_NOVA_KEYPAIR_ADD_BODY_FILE}    robot/assets/templates/nova_add_keypair.template
+${OPENSTACK_NOVA_KEYPAIR_ADD_BODY_FILE}    openstack/nova_add_keypair.jinja
 ${OPENSTACK_NOVA_KEYPAIR_SSH_KEY}    robot/assets/keys/robot_ssh_public_key.txt
 ${OPENSTACK_NOVA_FLAVORS_PATH}    /flavors
 ${OPENSTACK_NOVA_SERVERS_PATH}    /servers
 ${OPENSTACK_NOVA_IMAGES_PATH}    /images
 ${OPENSTACK_NOVA_SERVERS_REBOOT_BODY}    {"reboot" : { "type" : "SOFT" }}
-${OPENSTACK_NOVA_SERVER_ADD_BODY_FILE}    robot/assets/templates/nova_add_server.template
+${OPENSTACK_NOVA_SERVER_ADD_BODY_FILE}    openstack/nova_add_server.jinja
 
 
 *** Keywords ***
@@ -33,7 +33,8 @@ Add Openstack Keypair
     [Arguments]    ${alias}    ${name}
     ${ssh_key}=    OperatingSystem.Get File     ${OPENSTACK_NOVA_KEYPAIR_SSH_KEY}
     ${arguments}=    Create Dictionary    name=${name}	    publickey=${ssh_key}
-    ${data}=	Fill JSON Template File    ${OPENSTACK_NOVA_KEYPAIR_ADD_BODY_FILE}    ${arguments}
+    Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    openstack    ${OPENSTACK_NOVA_KEYPAIR_ADD_BODY_FILE}    ${arguments}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    ${OPENSTACK_NOVA_KEYPAIR_PATH}    data_path=    data=${data}
     Should Be Equal As Strings    200  ${resp.status_code}
     [Return]    ${resp.json()['keypair']['name']}
@@ -84,7 +85,8 @@ Add Server
     [Documentation]    Adds a server for the passed if
     [Arguments]    ${alias}    ${name}    ${imageRef}    ${flavorRef}
     ${dict}=    Create Dictionary   name=${name}   imageRef=${imageRef}   flavorRef=${flavorRef}
-    ${data}=    Fill JSON Template File    ${OPENSTACK_NOVA_SERVER_ADD_BODY_FILE}    ${dict}
+    Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    openstack   ${OPENSTACK_NOVA_SERVER_ADD_BODY_FILE}    ${dict}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    ${OPENSTACK_NOVA_SERVERS_PATH}   data_path=    data=${data}
     [Return]    ${resp}
 
@@ -98,7 +100,8 @@ Add Server For Image Name
     ${imageRef}=    Get Id For Name   ${images}    ${imageName}
     ${flavorRef}=   Get Id For Name   ${flavors}    ${flavorName}
     ${dict}=    Create Dictionary   name=${name}   imageRef=${imageRef}   flavorRef=${flavorRef}   public_net_id=${public_net_id}
-    ${data}=    Fill JSON Template File    ${OPENSTACK_NOVA_SERVER_ADD_BODY_FILE}    ${dict}
+    Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    openstack   ${OPENSTACK_NOVA_SERVER_ADD_BODY_FILE}    ${dict}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    ${OPENSTACK_NOVA_SERVERS_PATH}   data_path=    data=${data}
     ${status_string}=    Convert To String    ${resp.status_code}
     Should Match Regexp    ${status_string}    ^(202)$

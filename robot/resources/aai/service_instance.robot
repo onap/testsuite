@@ -8,8 +8,8 @@ Library    Collections
 Library    OperatingSystem
 Library    RequestsLibrary
 Library    ONAPLibrary.JSON
+Library    ONAPLibrary.Templating
 Library    StringTemplater
-Resource          ../json_templater.robot
 Resource          ../stack_validation/validate_vlb.robot
 Resource          ../stack_validation/validate_vfw.robot
 Resource          ../stack_validation/validate_vvg.robot
@@ -22,11 +22,11 @@ ${SYSTEM USER}    robot-ete
 ${CUSTOMER SPEC PATH}    /business/customers/customer/
 ${SERVICE SUBSCRIPTIONS}    /service-subscriptions/service-subscription/
 ${SERVICE INSTANCE}    /service-instances?service-instance-id=
-${SERVCE INSTANCE TEMPLATE}    robot/assets/templates/aai/service_subscription.template
+${SERVCE INSTANCE TEMPLATE}    aai/service_subscription.jinja
 
 ${GENERIC_VNF_PATH_TEMPLATE}   /network/generic-vnfs/generic-vnf/\${vnf_id}/vf-modules/vf-module/\${vf_module_id}
 ${GENERIC_VNF_QUERY_TEMPLATE}   /network/generic-vnfs/generic-vnf/\${vnf_id}/vf-modules/vf-module?vf-module-name=\${vf_module_name}
-${VLB_CLOSED_LOOP_HACK_BODY}    robot/assets/templates/aai/vlb_closed_loop_hack.template
+${VLB_CLOSED_LOOP_HACK_BODY}    aai/vlb_closed_loop_hack.jinja
 
 #*************** Test Case Variables *************
 ${VLB_CLOSED_LOOP_DELETE}
@@ -39,8 +39,6 @@ Validate Service Instance
     ${cust_resp}=    Run A&AI Get Request      ${INDEX PATH}/business/customers?subscriber-name=${customer_name}
 	${resp}=    Run A&AI Get Request      ${INDEX PATH}${CUSTOMER SPEC PATH}${cust_resp.json()['customer'][0]['global-customer-id']}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_name}
     Dictionary Should Contain Value	${resp.json()['service-instance'][0]}    ${service_instance_name}
-    #Dictionary Should Contain Key	${resp.json()['service-instance'][0]}    persona-model-id
-    #Dictionary Should Contain Key	${resp.json()['service-instance'][0]}    persona-model-version
 
 Validate Generic VNF
     [Documentation]    Query and Validates A&AI Service Instance
@@ -65,7 +63,8 @@ VLB Closed Loop Hack
     ${dummy}=    Catenate   dummy_${vnf_id}
     ${dict}=    Create Dictionary   vnf_id=${vnf_id}   vf_module_id=${dummy}   persona_model_id=${persona_model_id}   persona_model_version=${persona_model_version}
     ${datapath}=    Template String    ${GENERIC_VNF_PATH_TEMPLATE}    ${dict}
-    ${data}=	Fill JSON Template File    ${VLB_CLOSED_LOOP_HACK_BODY}    ${dict}
+    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    aai   ${VLB_CLOSED_LOOP_HACK_BODY}    ${dict}
 	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${datapath}   ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}    ^(201|412)$

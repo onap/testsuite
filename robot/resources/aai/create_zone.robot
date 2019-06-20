@@ -1,21 +1,17 @@
 *** Settings ***
 Documentation	  Create A&AI Customer API.
-...
-...	              Create A&AI Customer API
 
-Resource    ../json_templater.robot
 Resource    aai_interface.robot
 Library    OperatingSystem
 Library    Collections
-
+Library    ONAPLibrary.Templating    
 
 
 *** Variables ***
 ${ZONE_INDEX_PATH}     /aai/v11
 ${ROOT_ZONE_PATH}  /network/zones/zone
 
-${SYSTEM USER}    robot-ete
-${AAI_ADD_ZONE_BODY}=    robot/assets/templates/aai/add_zone_body.template
+${AAI_ADD_ZONE_BODY}=    aai/add_zone_body.jinja
 
 *** Keywords ***
 Inventory Zone If Not Exists
@@ -29,7 +25,8 @@ Inventory Zone
     [Documentation]    Inventorys a Tenant in A&AI
     [Arguments]    ${zone_id}  ${zone_name}  ${design_type}    ${zone_context}
     ${arguments}=    Create Dictionary     zone_id=${zone_id}  zone_name=${zone_name}  design_type=${design_type}    zone_context=${zone_context}
-    ${data}=	Fill JSON Template File    ${AAI_ADD_ZONE_BODY}    ${arguments}
+    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    aai   ${AAI_ADD_ZONE_BODY}    ${arguments}
 	${put_resp}=    Run A&AI Put Request     ${ZONE_INDEX_PATH}${ROOT_ZONE_PATH}/${zone_id}     ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string} 	^(201|200)$
@@ -52,8 +49,3 @@ Get Zone
 	${resp}=    Run A&AI Get Request     ${ZONE_INDEX_PATH}${ROOT_ZONE_PATH}/${zone_id}
     Should Be Equal As Strings 	${resp.status_code} 	200
 	[Return]  ${resp.json()}
-
-
-
-
-

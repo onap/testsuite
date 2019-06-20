@@ -4,10 +4,10 @@ Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
 Library	          ONAPLibrary.Utilities
 Library	          Collections
-Library    OperatingSystem
-Library    String
+Library           OperatingSystem
+Library           String
+Library	          ONAPLibrary.Templating
 Resource    ../global_properties.robot
-Resource    ../json_templater.robot
 Resource    openstack_common.robot
 
 *** Variables ***
@@ -15,8 +15,8 @@ ${OPENSTACK_KEYSTONE_API_v3_VERSION}   /v3
 ${OPENSTACK_KEYSTONE_API_v2_VERSION}   /v2.0
 ${OPENSTACK_KEYSTONE_AUTH_v3_PATH}    /auth/tokens
 ${OPENSTACK_KEYSTONE_AUTH_v2_PATH}    /tokens
-${OPENSTACK_KEYSTONE_AUTH_v2_BODY_FILE}    robot/assets/templates/keystone_get_v2_auth.template
-${OPENSTACK_KEYSTONE_AUTH_v3_BODY_FILE}    robot/assets/templates/keystone_get_v3_auth.template
+${OPENSTACK_KEYSTONE_AUTH_v2_BODY_FILE}    openstack/keystone_get_v2_auth.jinja
+${OPENSTACK_KEYSTONE_AUTH_v3_BODY_FILE}    openstack/keystone_get_v3_auth.jinja
 ${OPENSTACK_KEYSTONE_TENANT_PATH}    /tenants
 
 *** Keywords ***
@@ -67,7 +67,8 @@ Get KeyStoneAuthv2 Data
     [Documentation]    Returns all the data for keystone auth v2 api
     [Arguments]    ${username}    ${password}    ${path}
     ${arguments}=    Create Dictionary    username=${username}    password=${password}   tenantId=${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
-    ${data}=    Fill JSON Template File    ${OPENSTACK_KEYSTONE_AUTH_v2_BODY_FILE}    ${arguments}
+    Create Environment    keystone    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=    Apply Template    keystone    ${OPENSTACK_KEYSTONE_AUTH_v2_BODY_FILE}    ${arguments}
     ${data_path}=    Catenate    ${path}${OPENSTACK_KEYSTONE_AUTH_v2_PATH}
     [Return]    ${data_path}    ${data}
 
@@ -75,7 +76,8 @@ Get KeyStoneAuthv3 Data
     [Documentation]    Returns all the data for keystone auth v3 api
     [Arguments]    ${username}    ${password}    ${path}
     ${arguments}=    Create Dictionary    username=${username}    password=${password}   domain_id=${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}    project_name=${GLOBAL_INJECTED_OPENSTACK_PROJECT_NAME}
-    ${data}=    Fill JSON Template File    ${OPENSTACK_KEYSTONE_AUTH_v3_BODY_FILE}    ${arguments}
+    Create Environment    keystone    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=    Apply Template    keystone    ${OPENSTACK_KEYSTONE_AUTH_v3_BODY_FILE}    ${arguments}
     ${data_path}=    Catenate    ${path}${OPENSTACK_KEYSTONE_AUTH_v3_PATH}
     [Return]    ${data_path}    ${data}
 

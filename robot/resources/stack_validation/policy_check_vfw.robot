@@ -14,7 +14,6 @@ Resource          ../openstack/keystone_interface.robot
 Resource          ../openstack/nova_interface.robot
 Resource          ../openstack/heat_interface.robot
 Resource          ../ssh/files.robot
-Resource          ../ssh/processes.robot
 Resource          ../demo_preload.robot
 Resource          packet_generator_interface.robot
 Resource          validate_common.robot

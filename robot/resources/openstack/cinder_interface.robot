@@ -3,8 +3,8 @@ Documentation     The main interface for interacting with Openstack. It handles 
 Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
 Library	          ONAPLibrary.Utilities
+Library           ONAPLibrary.Templating
 Resource    ../global_properties.robot
-Resource    ../json_templater.robot
 Resource    openstack_common.robot
 
 
@@ -12,7 +12,7 @@ Resource    openstack_common.robot
 ${OPENSTACK_CINDER_API_VERSION}    /v1
 ${OPENSTACK_CINDER_TYPES_PATH}    /types
 ${OPENSTACK_CINDER_VOLUMES_PATH}    /volumes
-${OPENSTACK_CINDER_VOLUMES_ADD_BODY_FILE}        robot/assets/templates/cinder_add_volume.template
+${OPENSTACK_CINDER_VOLUMES_ADD_BODY_FILE}        openstack/cinder_add_volume.jinja
 ${OPENSTACK_CINDER_VOLUMES_TYPE}    SSD
 ${OPENSTACK_CINDER_AVAILABILITY_ZONE}    nova
 
@@ -34,7 +34,8 @@ Add Openstack Volume
     [Arguments]    ${alias}    ${name}	    ${size}
     ${uuid}=    Generate UUID4
     ${arguments}=    Create Dictionary    name=${name}     description=${GLOBAL_APPLICATION_ID}${uuid}	size=${size}    type=${OPENSTACK_CINDER_VOLUMES_TYPE}    availability_zone=${OPENSTACK_CINDER_AVAILABILITY_ZONE}
-    ${data}=	Fill JSON Template File   ${OPENSTACK_CINDER_VOLUMES_ADD_BODY_FILE}    ${arguments}
+    Create Environment    cinder    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    cinder    ${OPENSTACK_CINDER_VOLUMES_ADD_BODY_FILE}    ${arguments}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_CINDER_SERVICE_TYPE}   ${OPENSTACK_CINDER_VOLUMES_PATH}    data_path=    data=${data}
     Should Be Equal As Strings    200  ${resp.status_code}
     [Return]    ${resp.json()['volume']['id']}

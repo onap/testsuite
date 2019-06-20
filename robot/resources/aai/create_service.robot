@@ -1,13 +1,10 @@
 *** Settings ***
 Documentation	  Create A&AI Customer API.
-...
-...	              Create A&AI Customer API
 
-Resource    ../json_templater.robot
 Resource    aai_interface.robot
 Library    Collections
-Library	          ONAPLibrary.Utilities
-
+Library	   ONAPLibrary.Utilities
+Library	   ONAPLibrary.Templating    
 
 
 *** Variables ***
@@ -15,7 +12,7 @@ ${INDEX PATH}     /aai/v11
 ${ROOT_SERVICE_PATH}  /service-design-and-creation/services
 
 ${SYSTEM USER}    robot-ete
-${AAI_ADD_SERVICE_BODY}=    robot/assets/templates/aai/add_service_body.template
+${AAI_ADD_SERVICE_BODY}=    aai/add_service_body.jinja
 
 *** Keywords ***
 Create Service If Not Exists
@@ -30,7 +27,8 @@ Create Service
     [Arguments]    ${service_type}
     ${uuid}=    Generate UUID4
     ${arguments}=    Create Dictionary    service_type=${service_type}    UUID=${uuid}
-    ${data}=	Fill JSON Template File    ${AAI_ADD_SERVICE_BODY}    ${arguments}
+    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    aai   ${AAI_ADD_SERVICE_BODY}    ${arguments}
     ${fullpath}=    Catenate         ${INDEX PATH}${ROOT_SERVICE_PATH}/service/${uuid}
 	${put_resp}=    Run A&AI Put Request     ${fullpath}    ${data}
     Should Be Equal As Strings 	${put_resp.status_code} 	201

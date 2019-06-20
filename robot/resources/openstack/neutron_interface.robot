@@ -3,16 +3,16 @@ Documentation     The main interface for interacting with Openstack. It handles 
 Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
 Library           Collections
+Library           ONAPLibrary.Templating    
 Resource    ../global_properties.robot
-Resource    ../json_templater.robot
 Resource    openstack_common.robot
 
 *** Variables ***
 ${OPENSTACK_NEUTRON_API_VERSION}    /v2.0
 ${OPENSTACK_NEUTRON_NETWORK_PATH}    /networks
-${OPENSTACK_NEUTRON_NETWORK_ADD_BODY_FILE}    robot/assets/templates/neutron_add_network.template
+${OPENSTACK_NEUTRON_NETWORK_ADD_BODY_FILE}    openstack/neutron_add_network.jinja
 ${OPENSTACK_NEUTRON_SUBNET_PATH}    /subnets
-${OPENSTACK_NEUTRON_SUBNET_ADD_BODY_FILE}    robot/assets/templates/neutron_add_subnet.template
+${OPENSTACK_NEUTRON_SUBNET_ADD_BODY_FILE}    openstack/neutron_add_subnet.jinja
 ${OPENSTACK_NEUTRON_PORT_PATH}    /ports
 
 *** Keywords ***
@@ -44,7 +44,8 @@ Add Openstack Network
     [Documentation]    Runs an Openstack Request to add a network and returns that network id of the created network
     [Arguments]    ${alias}    ${name}
     ${arguments}=    Create Dictionary    name=${name}
-    ${data}=	Fill JSON Template File    ${OPENSTACK_NEUTRON_NETWORK_ADD_BODY_FILE}    ${arguments}
+    Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    openstack    ${OPENSTACK_NEUTRON_NETWORK_ADD_BODY_FILE}    ${arguments}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NEUTRON_SERVICE_TYPE}    ${OPENSTACK_NEUTRON_NETWORK_PATH}    data_path=    data=${data}
     Should Be Equal As Strings    201  ${resp.status_code}
     [Return]    ${resp.json()['network']['id']}
@@ -73,7 +74,8 @@ Add Openstack Network With Subnet
     [Arguments]    ${alias}    ${name}    ${cidr}
     ${network_id}=    Add Openstack Network    ${alias}    ${name}
     ${arguments}=    Create Dictionary    network_id=${network_id}    cidr=${cidr}    subnet_name=${name}
-    ${data}=	Fill JSON Template File    ${OPENSTACK_NEUTRON_SUBNET_ADD_BODY_FILE}    ${arguments}
+    Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    openstack    ${OPENSTACK_NEUTRON_SUBNET_ADD_BODY_FILE}    ${arguments}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NEUTRON_SERVICE_TYPE}    ${OPENSTACK_NEUTRON_SUBNET_PATH}    data_path=    data=${data}
     Should Be Equal As Strings    201  ${resp.status_code}
     [Return]     ${network_id}

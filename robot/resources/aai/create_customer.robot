@@ -1,25 +1,23 @@
 *** Settings ***
 Documentation	  Create A&AI Customer API.
-...
-...	              Create A&AI Customer API
 
 Resource   aai_interface.robot
-Resource   ../json_templater.robot
 Library    Collections
-
+Library    ONAPLibrary.Templating    
 
 *** Variables ***
 ${INDEX PATH}     /aai/v11
 ${ROOT_CUSTOMER_PATH}  /business/customers/customer/
 ${SYSTEM USER}    robot-ete
-${A&AI ADD CUSTOMER BODY}    robot/assets/templates/aai/add_customer.template
+${A&AI ADD CUSTOMER BODY}    aai/add_customer.jinja
 
 *** Keywords ***
 Create Customer
     [Documentation]    Creates a customer in A&AI
     [Arguments]    ${customer_name}  ${customer_id}  ${customer_type}    ${service_type}      ${clouder_owner}    ${cloud_region_id}    ${tenant_id}
     ${arguments}=    Create Dictionary    subscriber_name=${customer_name}    global_customer_id=${customer_id}    subscriber_type=${customer_type}     cloud_owner1=${clouder_owner}  cloud_region_id1=${cloud_region_id}    tenant_id1=${tenant_id}    service1=${service_type}
-    ${data}=	Fill JSON Template File    ${A&AI ADD CUSTOMER BODY}    ${arguments}
+    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    aai   ${A&AI ADD CUSTOMER BODY}    ${arguments}
 	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${data}
     Should Be Equal As Strings 	${put_resp.status_code} 	201
 	[Return]  ${put_resp.status_code}

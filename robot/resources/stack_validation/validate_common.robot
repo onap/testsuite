@@ -10,7 +10,6 @@ Resource          ../../resources/openstack/keystone_interface.robot
 Resource          ../../resources/openstack/nova_interface.robot
 Resource          ../../resources/openstack/heat_interface.robot
 Resource          ../../resources/ssh/files.robot
-Resource          ../../resources/ssh/processes.robot
 Resource          packet_generator_interface.robot
 
 

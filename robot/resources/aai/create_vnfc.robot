@@ -1,16 +1,15 @@
 *** Settings ***
 Documentation     Create VNFC in AAI
 
-Resource    ../json_templater.robot
 Resource    aai_interface.robot
 Library    OperatingSystem
 Library    Collections
-
+Library    ONAPLibrary.Templating
 
 *** Variables ***
 ${VNFC_ROOT_PATH}      /network/vnfcs/vnfc
 
-${AAI_ADD_VNFC_BODY}=    robot/assets/templates/aai/add_vnfc_body.template
+${AAI_ADD_VNFC_BODY}=    aai/add_vnfc_body.jinja
 
 *** Keywords ***
 Create VNFC If Not Exists
@@ -24,7 +23,8 @@ Create VNFC
     [Documentation]    Creates VNFC in A&AI
     [Arguments]    ${vnfc_name}    ${vnfc_nc}    ${vnfc_func}
     ${arguments}=    Create Dictionary     vnfc_name=${vnfc_name}    vnfc_nc=${vnfc_nc}    vnfc_func=${vnfc_func}
-    ${data}=    Fill JSON Template File    ${AAI_ADD_VNFC_BODY}    ${arguments}
+    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    aai   ${AAI_ADD_VNFC_BODY}    ${arguments}
     ${put_resp}=    Run A&AI Put Request     ${GLOBAL_AAI_INDEX_PATH}${VNFC_ROOT_PATH}/${vnfc_name}    ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}     ^(201|200)$

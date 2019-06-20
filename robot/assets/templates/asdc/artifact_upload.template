@@ -1,8 +1,0 @@
-{
-  "artifactLabel":"${artifactLabel}",
-  "artifactName": "${artifactName}",
-  "artifactType": "${artifactType}",
-  "artifactGroupType": "${artifactGroupType}",
-  "description": "${description}",
-  "payloadData": "${payloadData}"
-}

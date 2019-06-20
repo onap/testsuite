@@ -3,19 +3,18 @@ Documentation     Operations on vpn-bindings in AAI for CCVPN use case,
 ...     using earliest API version where changes are implemented and
 ...     latest API version where changes are not implemented
 
-Resource    ../json_templater.robot
 Resource    aai_interface.robot
 Resource    api_version_properties.robot
 Resource    add-relationship-list.robot
 Library    OperatingSystem
 Library    Collections
-
+Library    ONAPLibrary.Templating
 
 *** Variables ***
 ${AAI_VPNB_ROOT_PATH}      /network/vpn-bindings/vpn-binding
 ${AAI_VPNB_EXAMPLES_PATH}      /examples/vpn-bindings
 ${AAI_VPNB_NODES_PATH}      /nodes/vpn-bindings
-${AAI_ADD_VPNBINDING_BODY}=    robot/assets/templates/aai/add-vpn-binding.template
+${AAI_ADD_VPNBINDING_BODY}=    aai/add-vpn-binding.jinja
 ${AAI_VPNB_API_NA_INDEX_PATH}=  ${AAI_BEIJING_INDEX_PATH}
 ${AAI_VPNB_API_IMPL_INDEX_PATH}=  ${AAI_CASABLANCA_INDEX_PATH}
 
@@ -31,7 +30,8 @@ Create VPN Binding
     [Documentation]    Creates VPN Binding in AAI
     [Arguments]    ${vpn_id}
     ${arguments}=    Create Dictionary     vpn_id=${vpn_id}
-    ${data}=    Fill JSON Template File    ${AAI_ADD_VPNBINDING_BODY}    ${arguments}
+    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    aai   ${AAI_ADD_VPNBINDING_BODY}    ${arguments}
     ${put_resp}=    Run A&AI Put Request     ${AAI_VPNB_API_IMPL_INDEX_PATH}${AAI_VPNB_ROOT_PATH}/${vpn_id}     ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}     ^(201|200)$

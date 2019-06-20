@@ -1,0 +1,42 @@
+        {
+            "complex-name": "{{complex_name}}",
+            "physical-location-id": "{{physical_location_id}}",
+            "data-center-code": "example-data-center-code-val-5556",
+            "identity-url": "example-identity-url-val-56898",
+            "physical-location-type": "example-physical-location-type-val-7608",
+            "street1": "example-street1-val-34205",
+            "street2": "example-street2-val-99210",
+            "city": "example-city-val-27150",
+            "state": "example-state-val-59487",
+            "postal-code": "68871",
+            "country": "example-country-val-94173",
+            "region": "example-region-val-13893",
+            "latitude": "example-latitude-val-89101",
+            "longitude": "32.89948",
+            "elevation": "97.045443",
+            "lata": "example-lata-val-46073",
+            "relationship-list": {
+                "relationship": [
+                    {
+                        "related-to": "cloud-region",
+                        "related-link": "/aai/v11/cloud-infrastructure/cloud-regions/cloud-region/CloudOwner/{{region}}",
+                        "relationship-data": [
+                            {
+                                "relationship-key": "cloud-region.cloud-owner",
+                                "relationship-value": "{{cloud_owner}}"
+                            },
+                            {
+                                "relationship-key": "cloud-region.cloud-region-id",
+                                "relationship-value": "{{region}}"
+                            }
+                        ],
+                        "related-to-property": [
+                            {
+                                "property-key": "cloud-region.owner-defined-type",
+                                "property-value": "{{owner_defined_type}}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }

@@ -1,7 +1,0 @@
-{
-"vnfc-name": "${vnfc_name}",
-"nfc-naming-code": "${vnfc_nc}",
-"nfc-function": "${vnfc_func}",
-"in-maint": "false",
-"is-closed-loop-disabled": "false"
-}

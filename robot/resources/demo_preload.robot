@@ -15,10 +15,11 @@ Library	        Collections
 Library         OperatingSystem
 Library         SeleniumLibrary
 Library         RequestsLibrary
+Library	        ONAPLibrary.Templating
 
 *** Variables ***
 
-${ADD_DEMO_CUSTOMER_BODY}   robot/assets/templates/aai/add_demo_customer.template
+${ADD_DEMO_CUSTOMER_BODY}   aai/add_demo_customer.jinja
 ${AAI_INDEX_PATH}     /aai/v8
 ${VF_MODULES_NAME}     _Demo_VFModules.json
 ${FILE_CACHE}    /share/
@@ -100,7 +101,8 @@ Create Customer For VNF Demo
     Create Service If Not Exists    gNB
     ${arguments}=    Create Dictionary    subscriber_name=${customer_name}    global_customer_id=${customer_id}    subscriber_type=${customer_type}     cloud_owner=${clouder_owner}  cloud_region_id=${cloud_region_id}    tenant_id=${tenant_id}
     Set To Dictionary   ${arguments}       service1=vFWCL       service2=vLB   service3=vCPE   service4=vIMS  service5=gNB   service6=vFW
-    ${data}=	Fill JSON Template File    ${ADD_DEMO_CUSTOMER_BODY}    ${arguments}
+    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    aai   ${ADD_DEMO_CUSTOMER_BODY}    ${arguments}
     ${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${data}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}    ^(200|201|412)$

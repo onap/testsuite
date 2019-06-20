@@ -2,17 +2,16 @@
 Documentation     The interface for interacting with Openstack Heat API.
 Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
-Library    OperatingSystem
-Library    StringTemplater
-Library    Collections
+Library           OperatingSystem
+Library           Collections
+Library           ONAPLibrary.Templating
 Resource    ../global_properties.robot
-Resource    ../json_templater.robot
 Resource    openstack_common.robot
 
 *** Variables ***
 ${OPENSTACK_HEAT_API_VERSION}    /v1
 ${OPENSTACK_HEAT_STACK_PATH}    /stacks
-${OPENSTACK_HEAT_ADD_STACK_TEMPLATE}    robot/assets/templates/heat_add_stack.template
+${OPENSTACK_HEAT_ADD_STACK_TEMPLATE}    openstack/heat_add_stack.jinja
 
 
 *** Keywords ***
@@ -40,9 +39,9 @@ Make Add Stack Request
     ${templatedata}=    Template Yaml To Json    ${template}
     ${envdata}=    Env Yaml To Json    ${env}
     ${dict}=  Create Dictionary     template=${templatedata}    parameters=${envdata}    stack_name=${name}
-    ${resp}=    OperatingSystem.Get File    ${OPENSTACK_HEAT_ADD_STACK_TEMPLATE}
-    ${request}=     Template String    ${resp}    ${dict}
-    Log    $request
+    Create Environment    heat    ${GLOBAL_TEMPLATE_FOLDER}
+    ${request}=    Apply Template    heat    ${OPENSTACK_HEAT_ADD_STACK_TEMPLATE}    ${dict}
+    Log    ${request}
     [Return]    ${request}
 
 Delete Openstack Stack
