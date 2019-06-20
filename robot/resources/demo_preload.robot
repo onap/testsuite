@@ -19,7 +19,7 @@ Library         RequestsLibrary
 *** Variables ***
 
 ${ADD_DEMO_CUSTOMER_BODY}   robot/assets/templates/aai/add_demo_customer.template
-${AAI_INDEX_PATH}     /aai/v8
+${AAI_INDEX_PATH}     /aai/v14
 ${VF_MODULES_NAME}     _Demo_VFModules.json
 ${FILE_CACHE}    /share/
 ${DEMO_PREFIX}   demo
