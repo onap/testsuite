@@ -13,7 +13,7 @@ Instantiate Service Direct To SO
     [Documentation]    Creates an entire service from a CSAR
     [Arguments]    ${service}   ${csar_file}   ${vnf_template_file} 
     # Example: ${csar_file}=  Set Variable   /tmp/csar/service-Vfw20190413133734-csar.csar
-    # Example: ${vnf_template_file}=  Set Variable   /var/opt/ONAP/testsuite/eteutils/vcpeutils/preload_templates/template.vfw_vfmodule.json
+    # Example: ${vnf_template_file}=  Set Variable   /var/opt/ONAP/testsuite/vcpeutils/preload_templates/template.vfw_vfmodule.json
     ${name_suffix}=   Get Current Date     exclude_millis=True
     ${name_suffix}=       Evaluate    '${name_suffix}'.replace(' ','')
     ${name_suffix}=       Evaluate    '${name_suffix}'.replace(':','')

@@ -83,7 +83,7 @@ export DISPLAY=${DISPLAY}
 # Execute tests
 echo -e "Executing robot tests at log level ${LOG_LEVEL}"
 
-ROBOT_LIBS=./robot/library:./robot/library/eteutils:./robot/library/vcpeutils:./robot/library/heatbridge
+ROBOT_LIBS=./robot/library:./robot/library/ONAPLibrary:./robot/library/vcpeutils:./robot/library/heatbridge
 
 cd /var/opt/${INSTALL_NAME}
 python -m robot.run -L ${LOG_LEVEL} -d ${OUTPUT_FOLDER} ${VARIABLEFILES} ${VARIABLES} ${LISTENERS} -P ${ROBOT_LIBS} ${ROBOT_TAGS} /var/opt/${INSTALL_NAME}/robot/testsuites/

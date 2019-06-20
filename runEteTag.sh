@@ -72,7 +72,7 @@ OUTPUT_FOLDER=/share/logs/${SOAKSUBFOLDER}runEteTag_$TEST_NUMBER
 mkdir -p $OUTPUT_FOLDER
 INSTALL_DIR="/var/opt/ONAP"
 
-ROBOT_LIBS=./robot/library:./robot/library/eteutils:./robot/library/heatbridge
+ROBOT_LIBS=./robot/library:./robot/library/ONAPLibrary:./robot/library/heatbridge
 VARIABLEFILES="-V /share/config/vm_properties.py -V /share/config/integration_robot_properties.py -V /share/config/integration_preload_parameters.py"
 VARIABLES="-v GLOBAL_BUILD_NUMBER:$TEST_NUMBER"
 LISTENERS=

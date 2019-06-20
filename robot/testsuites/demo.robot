@@ -75,7 +75,6 @@ Preload APPC CDT GUI
     [Tags]   APPCCDTPreloadDemo
     Setup Browser
     Preload APPC CDT GUI
-#    Preload APPC CDT GUI   demo   reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json   ${EXECDIR}/robot/assets/templates/appc/reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json   ${EXECDIR}/robot/assets/templates/appc/template_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.xml   ${EXECDIR}/robot/assets/templates/appc/pd_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.yaml
 
 Distribute vFWNG CDS Model
     [Documentation]    Distribute vFWNG for CDS
