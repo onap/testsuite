@@ -2,7 +2,7 @@
 Documentation     Testing OOF-HAS
 ...
 ...               Testing OOF-HAS SEND PLANS
-Resource          ../resources/oof_interface.robot
+Resource          ../../resources/oof_interface.robot
 
 *** Test Cases ***
 Basic OOF-OSDF CSIT for Homing
