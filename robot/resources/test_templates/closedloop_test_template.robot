@@ -190,7 +190,7 @@ Orchestrate VNF vFW closedloop
 	${stack_name}    ${service}=  Orchestrate VNF   ETE_CLP    vFWCL      vFWCL   ${TENANT_NAME}
 	[Return]  ${stack_name}
 
- Orchestrate VNF vDNS closedloop
+Orchestrate VNF vDNS closedloop
 	[Documentation]    VNF Orchestration for vLB
 	Log    VNF Orchestration flow TEST NAME=${TEST NAME}
 	Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
@@ -202,8 +202,8 @@ VFWCL High Test
         [Arguments]    ${pkg_host}
 	Enable Streams V2    ${pkg_host}   10
         Log To Console   Set number of streams to 10
-	:FOR    ${i}    IN RANGE    12
-	\   Sleep  15s
+	:FOR    ${i}    IN RANGE    30
+	\   Sleep  10s
 	\   ${resp}=   Get List Of Enabled Streams V2   ${pkg_host}
         \   ${stream_count}=   Set Variable   ${resp['stream-count']['streams']['active-streams']}
         \   Log To Console   Number of streams: ${stream_count}
@@ -215,8 +215,8 @@ VFWCL Low Test
         [Arguments]    ${pkg_host}
 	Enable Streams V2     ${pkg_host}   1
         Log To Console   Set number of streams to 1
-	:FOR    ${i}    IN RANGE    12
-	\   Sleep  15s
+	:FOR    ${i}    IN RANGE    30
+	\   Sleep  10s
 	\   ${resp}=   Get List Of Enabled Streams V2   ${pkg_host}
         \   ${stream_count}=   Set Variable   ${resp['stream-count']['streams']['active-streams']}
         \   Log To Console   Number of streams: ${stream_count}
