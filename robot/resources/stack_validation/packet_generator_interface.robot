@@ -3,17 +3,17 @@ Documentation     The main interface for interacting with A&AI. It handles low l
 Library 	      RequestsLibrary
 Library           StringTemplater
 Library	          ONAPLibrary.Utilities
+Library	          ONAPLibrary.Templating    
 Library	          OperatingSystem
 Resource          ../global_properties.robot
-Resource          ../json_templater.robot
 
 *** Variables ***
 ${PGN_URL_TEMPLATE}     http://\${host}:\${port}
 ${PGN_PATH}    /restconf/config/sample-plugin:sample-plugin
 ${PGN_PATH_V2}    /restconf/config/stream-count:stream-count
-${PGN_ENABLE_STREAM_TEMPLATE}    robot/assets/templates/vfw_pg_stream_enable.template
-${PGN_ENABLE_STREAMS_TEMPLATE}    robot/assets/templates/vfw_pg_streams_enable.template
-${PGN_ENABLE_STREAMS_V2_TEMPLATE}    robot/assets/templates/vfw_pg_streams_v2.template
+${PGN_ENABLE_STREAM_TEMPLATE}    vfw/vfw_pg_stream_enable.jinja
+${PGN_ENABLE_STREAMS_TEMPLATE}    vfw/vfw_pg_streams_enable.jinja
+${PGN_ENABLE_STREAMS_V2_TEMPLATE}    vfw/vfw_pg_streams_v2.jinja
 
 *** Keywords ***
 Connect To Packet Generator
@@ -32,10 +32,11 @@ Enable Stream
     ${headers}=  Create Headers
     ${data_path}=    Catenate    ${PGN_PATH}/pg-streams
     ${map}=    Create Dictionary    stream=${stream}
-    ${streams}=   Fill JSON Template File    ${PGN_ENABLE_STREAM_TEMPLATE}    ${map}
+    Create Environment    pgi    ${GLOBAL_TEMPLATE_FOLDER}
+    ${streams}=   Apply Template    pgi    ${PGN_ENABLE_STREAM_TEMPLATE}   ${map}
     ${streams}=    evaluate    json.dumps(${streams})    json
     ${map}=    Create Dictionary    pgstreams=${streams}
-    ${data}=   Fill JSON Template File    ${PGN_ENABLE_STREAMS_TEMPLATE}    ${map}
+    ${data}=   Apply Template    pgi    ${PGN_ENABLE_STREAMS_TEMPLATE}   ${map}
     ${resp}= 	Put Request 	${alias} 	${data_path}     data=${data}     headers=${headers}
     Should Be Equal As Strings    ${resp.status_code}    200
     [Return]    ${resp}
@@ -49,15 +50,16 @@ Enable Streams
     ${streams}=    Set Variable
     ${comma}=      Set Variable
     ${stream_count}=    Evaluate    ${stream_count}+1
+    Create Environment    pgi    ${GLOBAL_TEMPLATE_FOLDER}
     :FOR    ${i}    IN RANGE     1    ${stream_count}
     \    ${name}=    Catenate    ${prefix}${i}
     \    ${map}=    Create Dictionary    stream=${name}
-    \    ${one}=   Fill JSON Template File    ${PGN_ENABLE_STREAM_TEMPLATE}    ${map}
+    \    ${one}=   Apply Template    pgi    ${PGN_ENABLE_STREAM_TEMPLATE}    ${map}
     \    ${one}=    evaluate    json.dumps(${one})    json
     \    ${streams}=    Set Variable    ${streams}${comma}${one}
     \    ${comma}=      Set Variable    ,
     ${map}=    Create Dictionary    pgstreams=${streams}
-    ${data}=   Fill JSON Template File    ${PGN_ENABLE_STREAMS_TEMPLATE}    ${map}
+    ${data}=   Apply Template    pgi    ${PGN_ENABLE_STREAMS_TEMPLATE}    ${map}
     ${resp}= 	Put Request 	${alias} 	${data_path}     data=${data}     headers=${headers}
     Should Be Equal As Strings    ${resp.status_code}    200
     [Return]    ${resp}
@@ -68,10 +70,11 @@ Enable Streams V2
     ...  Enable <stream_count> number of streams on the passed packet generator host IP
     [Arguments]    ${host}    ${stream_count}=5    ${alias}=pgn    ${prefix}=fw_udp
     Connect To Packet Generator    ${host}    alias=${alias}
+    Create Environment    pgi    ${GLOBAL_TEMPLATE_FOLDER}
     ${headers}=  Create Headers
     ${data_path}=    Catenate    ${PGN_PATH_V2}/streams
     ${map}=    Create Dictionary    number_streams=${stream_count}
-    ${data}=   Fill JSON Template File    ${PGN_ENABLE_STREAMS_V2_TEMPLATE}    ${map}
+    ${data}=   Apply Template    pgi    ${PGN_ENABLE_STREAMS_V2_TEMPLATE}    ${map}
     ${resp}= 	Put Request 	${alias} 	${data_path}     data=${data}     headers=${headers}
     Should Be Equal As Strings    ${resp.status_code}    200
 

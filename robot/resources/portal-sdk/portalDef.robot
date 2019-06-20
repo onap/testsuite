@@ -7,8 +7,8 @@ Library		DateTime
 Library		Collections
 Library		StringTemplater
 Library		String
+Library     ONAPLibrary.Templating    
 
-Resource	../json_templater.robot
 Resource        ../browser_setup.robot
 
 *** Variables ***
@@ -30,7 +30,7 @@ ${GLOBAL_BUILD_NUMBER}    0
 ${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/robot_ssh_private_key.pvt
 ${jira}    jira
 ${RESOURCE_PATH}    ${PORTAL_URL}/auxapi/ticketevent
-${portal_Template}    ${CURDIR}/portal.template
+${portal_Template}    portal/portal.jinja
 
 ${download_link_id}    0
 
@@ -859,7 +859,8 @@ Enhanced Notification on ONAP Portal
 Notification on ONAP Portal
     [Documentation]     Create Config portal
     ${configportal}=     Create Dictionary     jira_id=${jira}
-    ${output} =     Fill JSON Template File     ${portal_Template}     ${configportal}
+    Create Environment    portal    ${GLOBAL_TEMPLATE_FOLDER}
+    ${output} =     Apply Template     portal    ${portal_Template}     ${configportal}
     ${post_resp} =     Enhanced Notification on ONAP Portal     ${RESOURCE_PATH}     ${output}
     Should Be Equal As Strings     ${post_resp.status_code}     200
     

@@ -1,5 +1,0 @@
-{
-        "streams": {
-            "active-streams": ${number_streams}
-        }
-}

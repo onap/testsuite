@@ -2,18 +2,18 @@
 Documentation     PNF Registration Handler (PRH) test cases
 Resource        ../aai/aai_interface.robot
 Resource        ../mr_interface.robot
-Resource        ../json_templater.robot
 Library         ONAPLibrary.Openstack
 Library         OperatingSystem
 Library         RequestsLibrary
 Library         Collections
 Library         ONAPLibrary.JSON
 Library         ONAPLibrary.Utilities
+Library         ONAPLibrary.Templating
 
 
 *** Variables ***
-${aai_so_registration_entry_template}=  robot/assets/templates/aai/add_pnf_registration_info.template
-${pnf_ves_integration_request}=  robot/assets/templates/ves/pnf_registration_request.template
+${aai_so_registration_entry_template}=  aai/add_pnf_registration_info.jinja
+${pnf_ves_integration_request}=  ves/pnf_registration_request.jinja
 ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH}  /events/unauthenticated.PNF_READY/2/1
 ${VES_ENDPOINT}     ${GLOBAL_DCAE_VES_PROTOCOL}://${GLOBAL_INJECTED_DCAE_VES_HOST}:${GLOBAL_DCAE_VES_SERVER_PORT}
 ${VES_data_path}   /eventListener/v7
@@ -30,7 +30,8 @@ Create A&AI antry without SO and succesfully registrate PNF
 Create PNF initial entry in A&AI
     [Documentation]   Creates PNF initial entry in A&AI registry. Entry contains only correlation id (pnf-name)
     [Arguments]  ${PNF_entry_dict}
-    ${template}=  Fill Json Template File  ${aai_so_registration_entry_template}  ${PNF_entry_dict}
+    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${template}=   Apply Template    aai    ${aai_so_registration_entry_template}   ${PNF_entry_dict}
     Log  Filled A&AI entry template ${template}
     ${correlation_id}=  Get From Dictionary  ${PNF_entry_dict}  correlation_id
     ${del_resp}=  Delete A&AI Entity  /network/pnfs/pnf/${PNF_entry_dict.correlation_id}
@@ -41,7 +42,8 @@ Create PNF initial entry in A&AI
 Send VES integration request
     [Documentation]   Send VES integration request. Request contains correlation id (sourceName), oamV4IpAddress and oamV6IpAddress
     [Arguments]  ${PNF_entry_dict}
-    ${template}=  Fill Json Template File  ${pnf_ves_integration_request}  ${PNF_entry_dict}
+    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${template}=   Apply Template    aai    ${pnf_ves_integration_request}   ${PNF_entry_dict}
     ${post_resp}=  Run VES HTTP Post Request   ${template}
     Should Be Equal As Strings  ${post_resp.status_code}        202
     Log  VES integration request has been send
