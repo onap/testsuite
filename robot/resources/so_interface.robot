@@ -5,7 +5,6 @@ Library	          ONAPLibrary.Utilities
 Library           OperatingSystem
 Library           Collections
 Resource          global_properties.robot
-Resource          ../resources/json_templater.robot
 *** Variables ***
 ${MSO_HEALTH_CHECK_PATH}    /manage/health
 ${MSO_ENDPOINT}     ${GLOBAL_MSO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SO_IP_ADDR}:${GLOBAL_MSO_SERVER_PORT}

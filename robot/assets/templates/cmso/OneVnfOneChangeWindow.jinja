@@ -1,12 +1,12 @@
 {
 	"domain" : "ChangeManagement",
-	"scheduleId" : "${uuid}",
-	"scheduleName" : "${uuid}",
-	"userId" : "${userId}",
+	"scheduleId" : "{{uuid}}",
+	"scheduleName" : "{{uuid}}",
+	"userId" : "{{userId}}",
 	"domainData" : [{
-			"CallbackUrl" : "${callbackUrl}",
-			"CallbackData" : "${callbackData}",
-			"WorkflowName" : "${workflow}"
+			"CallbackUrl" : "{{callbackUrl}}",
+			"CallbackData" : "{{callbackData}}",
+			"WorkflowName" : "{{workflow}}"
 		}
 	],
 	"schedulingInfo" : {
@@ -17,11 +17,11 @@
 		"vnfDetails" : [{
 				"groupId" : "group",
 				"node" : [
-					"${node1}"
+					"{{node1}}"
 				],
 				"changeWindow" : [{
-						"startTime" : "${start_time1}",
-						"endTime" : "${end_time1}"
+						"startTime" : "{{start_time1}}",
+						"endTime" : "{{end_time1}}"
 					}
 				]
 			}

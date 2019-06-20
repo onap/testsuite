@@ -18,7 +18,6 @@ Resource        ../openstack/neutron_interface.robot
 Resource        ../heatbridge.robot
 
 Resource    	../global_properties.robot
-Resource    	../json_templater.robot
 Resource    	../so_interface.robot
 
 Library         ONAPLibrary.Openstack

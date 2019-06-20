@@ -7,46 +7,47 @@ Library	          String
 Library           DateTime
 Library           Collections
 Library           ONAPLibrary.JSON
+Library           ONAPLibrary.Templating    
 Resource          global_properties.robot
-Resource          json_templater.robot
 
 *** Variables ***
 ${OOF_HOMING_HEALTH_CHECK_PATH}       /v1/plans/healthcheck
 ${OOF_SNIRO_HEALTH_CHECK_PATH}        /api/oof/v1/healthcheck
 ${OOF_CMSO_HEALTH_CHECK_PATH}        /cmso/v1/health?checkInterfaces=true
 
-${OOF_CMSO_TEMPLATE_FOLDER}   robot/assets/templates/cmso
+${OOF_CMSO_TEMPLATE_FOLDER}   cmso
 ${OOF_CMSO_UTC}   %Y-%m-%dT%H:%M:%SZ
-${OOF_HOMING_PLAN_FOLDER}    robot/assets/templates/optf-has
-${OOF_OSDF_TEMPLATE_FOLDER}   robot/assets/templates/optf-osdf
+${OOF_HOMING_PLAN_FOLDER}    robot/assets/oof/optf-has
+${OOF_OSDF_TEMPLATE_FOLDER}   robot/assets/oof/optf-osdf
 
 ${OOF_HOMING_ENDPOINT}    ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_HOMING_IP_ADDR}:${GLOBAL_OOF_HOMING_SERVER_PORT}
 ${OOF_SNIRO_ENDPOINT}     ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_SNIRO_IP_ADDR}:${GLOBAL_OOF_SNIRO_SERVER_PORT}
 ${OOF_CMSO_ENDPOINT}      ${GLOBAL_OOF_CMSO_PROTOCOL}://${GLOBAL_INJECTED_OOF_CMSO_IP_ADDR}:${GLOBAL_OOF_CMSO_SERVER_PORT}
 ${OOF_OSDF_ENDPOINT}      ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_HOMING_IP_ADDR}:${GLOBAL_OOF_HOMING_SERVER_PORT}
 
-${OOF_HOMING_AUTH}       Basic YWRtaW4xOnBsYW4uMTU=
 
 *** Keywords ***
 Run OOF-Homing Health Check
-     [Documentation]    Runs OOF-Homing Health check
-     ${resp}=    Run OOF-Homing Get Request    ${OOF_HOMING_HEALTH_CHECK_PATH}
-     Should Be Equal As Integers   ${resp.status_code}   200
+	[Documentation]    Runs OOF-Homing Health check
+	${resp}=    Run OOF-Homing Get Request    ${OOF_HOMING_HEALTH_CHECK_PATH}
+	Should Be Equal As Integers   ${resp.status_code}   200
 
 Run OOF-Homing Get Request
-     [Documentation]    Runs OOF-Homing Get request
-     [Arguments]    ${data_path}
-     ${session}=    Create Session   session   ${OOF_HOMING_ENDPOINT}
-     ${resp}=   Get Request   session   ${data_path}
-     Should Be Equal As Integers   ${resp.status_code}   200
-     Log    Received response from OOF-Homing ${resp.text}
-     [Return]    ${resp}
+	[Documentation]    Runs OOF-Homing Get request
+	[Arguments]    ${data_path}
+	${session}=    Create Session   session   ${OOF_HOMING_ENDPOINT}
+	${resp}=   Get Request   session   ${data_path}
+	Should Be Equal As Integers   ${resp.status_code}   200
+	Log    Received response from OOF-Homing ${resp.text}
+	[Return]    ${resp}
 
 RUN OOF-Homing SendPlanWithWrongVersion
-    [Documentation]    It sends a POST request to conductor
+	[Documentation]    It sends a POST request to conductor
     ${session}=    Create Session   optf-cond      ${OOF_HOMING_ENDPOINT}
     ${data}=         Get Binary File     ${OOF_HOMING_PLAN_FOLDER}${/}plan_with_wrong_version.json
-    &{headers}=      Create Dictionary    Authorization=${OOF_HOMING_Auth}    Content-Type=application/json  Accept=application/json
+    ${auth}=  Create List  ${GLOBAL_OOF_HOMING_USERNAME}    ${GLOBAL_OOF_HOMING_PASSWORD}
+    ${session}=    Create Session   session   ${OOF_CMSO_ENDPOINT}   auth=${auth}
+    &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
     ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log               *********************
     Log               response = ${resp}
@@ -99,7 +100,7 @@ Run OOF-CMSO Post Scheduler
 
 Run OOF-CMSO Future Schedule
    [Documentation]   Runs CMSO Future Schedule ETE test. One VNF, One Change Window
-   [Arguments]    ${request_file}=OneVnfOneChangeWindow.json.template   ${workflow}=Replace   ${minutesFromNow}=3
+   [Arguments]    ${request_file}=OneVnfOneChangeWindow.jinja   ${workflow}=Replace   ${minutesFromNow}=3
    ${uuid}=   Generate UUID4
    ${resp}=   OOF-CMSO Create Schedule   ${uuid}   ${request_file}   workflow=${workflow}   minutesFromNow=${minutesFromNow}
    Should Be Equal as Strings    ${resp.status_code}    202
@@ -126,16 +127,17 @@ OOF-CMSO Create Schedule
     \  ${end_time}=    Get Current Date   UTC   + ${tomorrow} minutes   result_format=${OOF_CMSO_UTC}
     \  Set To Dictionary    ${map}   start_time${i}=${start_time}   end_time${i}=${end_time}
     ${requestList}=   Create List
+    Create Environment    oof    ${GLOBAL_TEMPLATE_FOLDER}
 	:FOR   ${vnf}   IN    @{nodelist}
 	\   Set To Dictionary    ${map}   node${nn}   ${vnf}
 	\   ${nn}=   Evaluate    ${nn}+1
-	\   Set To DIctionary   ${dict}   vnfName=${vnf}
-    \   ${requestInfo}=   Fill JSON Template File    ${OOF_CMSO_TEMPLATE_FOLDER}/VidCallbackData.json.template   ${dict}
+	\   Set To DIctionary   ${dict}   vnfName=${vnf} 
+    \   ${requestInfo}=   Apply Template    oof    ${OOF_CMSO_TEMPLATE_FOLDER}/VidCallbackData.jinja   ${dict}
     \   Append To List   ${requestList}   ${requestInfo}
     ${callBackDataMap}=  Create Dictionary   requestType=Update   requestDetails=${requestList}
     ${callbackDataString}=   OOF-CMSO Json Escape    ${callbackDataMap}
     Set To Dictionary   ${map}   callbackData=${callbackDataString}
-    ${data}=   Fill JSON Template File    ${OOF_CMSO_TEMPLATE_FOLDER}/${request_file}   ${map}
+    ${data}=   Apply Template    oof    ${OOF_CMSO_TEMPLATE_FOLDER}/${request_file}   ${map}
     ${resp}=   Run OOF-CMSO Post Scheduler   cmso/v1/schedules/${uuid}   data=${data}
     [Return]   ${resp}
 

@@ -4,9 +4,8 @@ Library           RequestsLibrary
 Library           Collections
 Library           String
 Library           ONAPLibrary.JSON
-
+Library           ONAPLibrary.Templating    
 Resource          global_properties.robot
-Resource          json_templater.robot
 
 *** Variables ***
 ${CLAMP_HEALTH_CHECK_PATH}        /restservices/clds/v1/healthcheck
@@ -15,7 +14,7 @@ ${CLAMP_BASE_PATH}   /restservices/clds/v1
 ${CLAMP_CLIENT_KEY}   robot/assets/keys/org.onap.clamp.key.clear.pem
 ${CLAMP_CLIENT_CERT}   robot/assets/keys/org.onap.clamp.cert.pem
 
-${CLAMP_TEMPLATE_PATH}        robot/assets/templates/clamp
+${CLAMP_TEMPLATE_PATH}        clamp
 
 
 *** Keywords ***
@@ -23,7 +22,8 @@ Run CLAMP Create Model
      [Documentation]   Create a new CLAMP Model
      [Arguments]   ${model_name}   ${template_name}
      ${dict}=   Create Dictionary   MODEL_NAME=${model_name}      TEMPLATE_NAME=${template_name}
-     ${data}=   Fill JSON Template File    ${CLAMP_TEMPLATE_PATH}/create_model.template    ${dict}
+     Create Environment    clamp    ${GLOBAL_TEMPLATE_FOLDER}
+     ${data}=   Apply Template    clamp    ${CLAMP_TEMPLATE_PATH}/create_model.jinja    ${dict}
      ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model/${model_name}
      ${resp}=   Run CLAMP HTTPS Put Request    ${data_path}    ${data}
      Should Be Equal As Strings  ${resp.status_code}     200
@@ -35,7 +35,8 @@ Run CLAMP Save vLB Model
      [Documentation]   Save CLAMP Model
      [Arguments]   ${model_name}   ${template_name}   ${policy_name}
      ${dict}=   Create Dictionary   MODEL_NAME=${model_name}      TEMPLATE_NAME=${template_name}   POLICY_NAME=${policy_name}   DOLLAR_SIGN=$
-     ${data}=   Fill JSON Template File    ${CLAMP_TEMPLATE_PATH}/save_model_vlb.template    ${dict}
+     Create Environment    clamp    ${GLOBAL_TEMPLATE_FOLDER}
+     ${data}=   Apply Template    clamp    ${CLAMP_TEMPLATE_PATH}/save_model_vlb.jinja    ${dict}
      ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model/${model_name}
      ${resp}=   Run CLAMP HTTPS Put Request    ${data_path}    ${data}
      Should Be Equal As Strings  ${resp.status_code}     200
