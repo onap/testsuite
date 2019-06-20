@@ -12,9 +12,9 @@ ${APPC_HEALTHCHECK_OPERATION_PATH}  /operations/SLI-API:healthcheck
 ${APPC_CREATE_MOUNTPOINT_PATH}  /config/network-topology:network-topology/topology/topology-netconf/node/
 ${APPC_MOUNT_XML}    appc/vnf_mount.jinja
 ${APPC_ENDPOINT}    ${GLOBAL_APPC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_APPC_IP_ADDR}:${GLOBAL_APPC_SERVER_PORT}
-${APPC_CDT_Config_Scaleout}    ${EXECDIR}/robot/assets/templates/appc/template_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.xml
-${APPC_CDT_Config_Scaleout_PD}    ${EXECDIR}/robot/assets/templates/appc/pd_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.yaml
-${APPC_CDT_Config_Scaleout_REF}    ${EXECDIR}/robot/assets/templates/appc/reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json
+${APPC_CDT_Config_Scaleout}    ${EXECDIR}/robot/assets/appc/template_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.xml
+${APPC_CDT_Config_Scaleout_PD}    ${EXECDIR}/robot/assets/appc/pd_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.yaml
+${APPC_CDT_Config_Scaleout_REF}    ${EXECDIR}/robot/assets/appc/reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json
 ${APPC_CDT_Config_Scaleout_REF_name}    reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json
 ${APPC_CDT_ENDPOINT}    ${GLOBAL_APPC_CDT_SERVER_PROTOCOL}://${GLOBAL_INJECTED_APPC_CDT_IP_ADDR}:${GLOBAL_APPC_CDT_SERVER_PORT}
 ${APPC_CDT_LOGIN_URL}                ${APPC_CDT_ENDPOINT}/index.html
