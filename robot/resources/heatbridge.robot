@@ -1,7 +1,6 @@
 *** Settings ***
 Library     HeatBridge
 Library     Collections
-Library     StringTemplater
 Library     OperatingSystem
 Library     ONAPLibrary.ServiceMapping
 Library     ONAPLibrary.Templating
@@ -73,8 +72,7 @@ Run Create VNFC
     Return From Keyword If   '${resp.status_code}' != '200'
     ${info}=   Set Variable   ${resp.json()}
     ${keys}=    Create Dictionary
-    Set To Dictionary   ${keys}   vserver_name=${info['server']['name']}
-    ${vnfc_name}=   Template String    ${VSERVER_NAME}    ${keys}
+    ${vnfc_name}=   Catenate    \    ${info['server']['name']}
     ${vnfc_nc}=    Set Variable  ${service}
     ${vnfc_func}=    Set Variable  ${service}
     Create VNFC If Not Exists    ${vnfc_name}     ${vnfc_nc}     ${vnfc_func}

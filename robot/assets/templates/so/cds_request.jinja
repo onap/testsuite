@@ -1,29 +1,29 @@
 {
    "requestDetails" : {
       "subscriberInfo" : {
-         "globalSubscriberId" : "${subscriber_id}"
+         "globalSubscriberId" : "{{subscriber_id}}"
       },
       "requestInfo" : {
          "suppressRollback" : true,
          "productFamilyId" : "a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb",
          "requestorId" : "ym9479",
-         "instanceName" : "${service_instance_name}",
+         "instanceName" : "{{service_instance_name}}",
          "source" : "VID"
       },
       "requestParameters" : {
-         "subscriptionServiceType" : "${subscription_service_type}",
+         "subscriptionServiceType" : "{{subscription_service_type}}",
          "userParams" : [
             {
                "service" : {
                   "instanceParams" : [],
-                  "instanceName" : "${service_instance_name}",
+                  "instanceName" : "{{service_instance_name}}",
                   "resources" : {
-                     "vnfs" : ${vnfs}
+                     "vnfs" : {{vnfs}
                   },
                   "modelInfo" : {
                      "modelType" : "service",
-                     "modelName" : "${service_model_name}",
-                     "modelVersionId" : "${service_model_UUID}"
+                     "modelName" : "{{service_model_name}}",
+                     "modelVersionId" : "{{service_model_UUID}}"
                   }
                }
             }
@@ -39,9 +39,9 @@
       },
       "modelInfo" : {
          "modelVersion" : "10.0",
-         "modelVersionId" : "${service_model_UUID}",
-         "modelInvariantId" : "${service_model_invariantUUID}",
-         "modelName" : "${service_model_name}",
+         "modelVersionId" : "{{service_model_UUID}}",
+         "modelInvariantId" : "{{service_model_invariantUUID}}",
+         "modelName" : "{{service_model_name}}",
          "modelType" : "service"
       }
    }

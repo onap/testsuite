@@ -3,7 +3,7 @@ Documentation	  Initializes ONAP Test Web Page and Password
 
 Library    Collections
 Library    OperatingSystem
-Library    StringTemplater
+Library    ONAPLibrary.Templating
 Resource          ../resources/openstack/keystone_interface.robot
 Resource          ../resources/openstack/nova_interface.robot
 
@@ -11,7 +11,7 @@ Resource          ../resources/openstack/nova_interface.robot
 Test Timeout    5 minutes
 
 *** Variables ***
-${URLS_HTML_TEMPLATE}   robot/assets/templates/web/index.html.template
+${URLS_HTML_TEMPLATE}   index.html.jinja
 
 ${HOSTS_PREFIX}   vm
 ${WEB_USER}       test
@@ -69,8 +69,8 @@ Update ONAP Page
 *** Keywords ***
 Create File From Template
     [Arguments]    ${template}   ${file}   ${values}
-    ${data}    OperatingSystem.Get File   ${template}
-    ${data}=   Template String   ${data}   ${values}
+    Create Environment    web    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    web   ${template}    ${values}
     Create File     ${file}   ${data}
 
 Set Public Ip

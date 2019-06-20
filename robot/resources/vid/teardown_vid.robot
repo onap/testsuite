@@ -1,13 +1,12 @@
 *** Settings ***
 Documentation     The main interface for interacting with VID. It handles low level stuff like managing the selenium request library and VID required steps
 Library 	    SeleniumLibrary
-Library            Collections
+Library         Collections
 Library         String
-Library 	      StringTemplater
 Resource        vid_interface.robot
 Resource        create_vid_vnf.robot
 Resource        create_service_instance.robot
-Resource         ../heatbridge.robot
+Resource        ../heatbridge.robot
 
 *** Variables ***
 ${VID_ENV}            /vid

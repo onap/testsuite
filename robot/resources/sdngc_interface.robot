@@ -5,7 +5,6 @@ Library	          ONAPLibrary.Utilities
 Library 	    SeleniumLibrary
 Library         Collections
 Library      String
-Library      StringTemplater
 Library           ONAPLibrary.ServiceMapping
 Library           ONAPLibrary.Templating
 Resource          global_properties.robot

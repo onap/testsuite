@@ -2,17 +2,15 @@
 Documentation     The main interface for interacting with APP-C. It handles low level stuff like managing the http request library and APP-C required fields
 Library 	      RequestsLibrary
 Library	          ONAPLibrary.Utilities
-Library           OperatingSystem
+Library	          ONAPLibrary.Templating
 Library           SeleniumLibrary
-Library           StringTemplater
-Resource          global_properties.robot
 Resource          browser_setup.robot
 
 *** Variables ***
 ${APPC_INDEX_PATH}    /restconf
 ${APPC_HEALTHCHECK_OPERATION_PATH}  /operations/SLI-API:healthcheck
 ${APPC_CREATE_MOUNTPOINT_PATH}  /config/network-topology:network-topology/topology/topology-netconf/node/
-${APPC_MOUNT_XML}    robot/assets/templates/appc/vnf_mount.template
+${APPC_MOUNT_XML}    appc/vnf_mount.jinja
 ${APPC_ENDPOINT}    ${GLOBAL_APPC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_APPC_IP_ADDR}:${GLOBAL_APPC_SERVER_PORT}
 ${APPC_CDT_Config_Scaleout}    ${EXECDIR}/robot/assets/templates/appc/template_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.xml
 ${APPC_CDT_Config_Scaleout_PD}    ${EXECDIR}/robot/assets/templates/appc/pd_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.yaml
@@ -57,8 +55,8 @@ Create Mount Point In APPC
     [Documentation]     Go tell APPC about the PGN we just spun up...
     [Arguments]    ${nodeid}    ${host}    ${port}=${GLOBAL_PGN_PORT}    ${username}=admin    ${password}=admin
     ${dict}=    Create Dictionary    nodeid=${nodeid}    host=${host}    port=${port}    username=${username}    password=${password}
-    ${template}=    OperatingSystem.Get File    ${APPC_MOUNT_XML}
-    ${data}=    Template String    ${template}    ${dict}
+    Create Environment    appc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    appc   ${APPC_MOUNT_XML}    ${dict}
     ${resp}=    Run APPC Put Request     ${APPC_INDEX PATH}${APPC_CREATE_MOUNTPOINT_PATH}${nodeid}     ${data}
     Should Be True	200    <= ${resp.status_code} < 300
     [Return]     ${resp}

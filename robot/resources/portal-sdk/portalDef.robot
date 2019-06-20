@@ -5,7 +5,6 @@ Library		OperatingSystem
 Library		RequestsLibrary
 Library		DateTime
 Library		Collections
-Library		StringTemplater
 Library		String
 Library     ONAPLibrary.Templating    
 

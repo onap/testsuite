@@ -9,7 +9,6 @@ Library    OperatingSystem
 Library    RequestsLibrary
 Library    ONAPLibrary.JSON
 Library    ONAPLibrary.Templating
-Library    StringTemplater
 Resource          ../stack_validation/validate_vlb.robot
 Resource          ../stack_validation/validate_vfw.robot
 Resource          ../stack_validation/validate_vvg.robot

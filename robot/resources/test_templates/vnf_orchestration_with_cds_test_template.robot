@@ -21,22 +21,21 @@ Resource    	../global_properties.robot
 Resource    	../so_interface.robot
 
 Library         ONAPLibrary.Openstack
-Library	          ONAPLibrary.Utilities
+Library	        ONAPLibrary.Utilities
+Library	        ONAPLibrary.Templating
 Library	        Collections
 Library         String
 Library         ONAPLibrary.JSON
 
 Library         RequestsLibrary
-Library    OperatingSystem
-Library    StringTemplater
-Library    Collections
+Library         Collections
 
 *** Variables ***
 ${service_template}    robot/assets/cds/service-Vfirewall0911-template.yml
 ${env}      robot/assets/cds/env.yml
-${so_request_template}    robot/assets/templates/cds/so_request.template    
-${vnf_template_name} 	robot/assets/templates/cds/vnf.template
-${vfmodule_template_name} 	robot/assets/templates/cds/vfmodule.template
+${so_request_template}    so/cds_request.jinja    
+${vnf_template_name} 	so/cds_vnf.jinja
+${vfmodule_template_name} 	so/cds_vfmodule.jinja
 ${so_uri_path}		/onap/so/infra/serviceInstantiation/v7/serviceInstances
 *** Variables ***
 
@@ -87,6 +86,7 @@ Orchestrate VNF With CDS
     ${list}=   	Create List
     ${vnfs}=   Get From Dictionary    ${jsondata['topology_template']}   node_templates
     ${keys}=   Get Dictionary Keys    ${vnfs}
+    Create Environment    cds    ${GLOBAL_TEMPLATE_FOLDER}
     :FOR   ${key}  IN  @{keys}
     \	 ${vnf}=   Get From Dictionary	  ${vnfs}   ${key}
     \    Get VNF Info	${key} 	${vnf}	${dict}
@@ -95,13 +95,11 @@ Orchestrate VNF With CDS
     \    ${value}= 	Convert To Lowercase 	${value}
     \    ${vfmodules}=	Get VFModule Info	 ${jsondata}	${value}	  ${dict}
     \	 Set To Dictionary	${dict}	  vf_modules=${vfmodules}
-    \	 ${vnf_template}= 	OperatingSystem.Get File    ${vnf_template_name}
-    \    ${vnf_payload}= 	Template String		${vnf_template}		${dict}
+    \    ${vnf_payload}=   Apply Template    cds		${vnf_template_name}		${dict}
     \	 ${data}= 	Catenate	[${vnf_payload}]
    
     Set To Dictionary 		${dict}		vnfs=${data}
-    ${resp}=    OperatingSystem.Get File    ${so_request_template}
-    ${request}=     Template String    ${resp}    ${dict}
+    ${request}=     Apply Template    cds    ${so_request_template}    ${dict}
     Log To Console     --------request--------
     Log to console     ${request}
     Log To Console     --------end request--------
@@ -134,12 +132,12 @@ Get VFModule Info
     ${keys}=   Get Dictionary Keys    ${vfModules}
     ${data}=   Catenate
     ${delim}=   Catenate
+    Create Environment    cds    ${GLOBAL_TEMPLATE_FOLDER}
     :FOR   ${key}  IN  @{keys}
     \    ${module}=   Get From Dictionary    ${vfModules}   ${key}
     \    Log to console 	${vnf} ${key}
     \    Run keyword if 	"${vnf}" in "${key}"	set vfmodule param	${key}	  ${module}	${dict}
-    \	 ${vfmodule_template}=       OperatingSystem.Get File    ${vfmodule_template_name}
-    \    ${vfmodule_payload}= 	Template String		${vfmodule_template}		${dict}
+    \    ${vfmodule_payload}= 	Apply Template		cds    ${vfmodule_template_name}		${dict}
     \	 ${data}= 	Catenate    ${data}   ${delim}   ${vfmodule_payload}
     \	 ${delim}= 	Catenate	,
     Log To Console 	${data}

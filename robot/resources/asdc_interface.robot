@@ -7,7 +7,6 @@ Library           OperatingSystem
 Library           Collections
 Library           SeleniumLibrary
 Library           String
-Library           StringTemplater
 Library           ArchiveLibrary
 Library           ONAPLibrary.Openstack
 Library           DateTime

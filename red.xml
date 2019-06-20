@@ -6,7 +6,6 @@
     <referencedLibrary type="PYTHON" name="SeleniumLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="AngularJSLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="SSHLibrary" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="StringTemplater" path="testsuite/robot/library/eteutils"/>
     <referencedLibrary type="PYTHON" name="SoUtils" path="testsuite/robot/library/vcpeutils"/>
     <referencedLibrary type="PYTHON" name="ArchiveLibrary" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="HeatBridge" path="testsuite/robot/library/heatbridge"/>

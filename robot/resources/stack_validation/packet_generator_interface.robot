@@ -1,7 +1,6 @@
 *** Settings ***
 Documentation     The main interface for interacting with A&AI. It handles low level stuff like managing the http request library and A&AI required fields
 Library 	      RequestsLibrary
-Library           StringTemplater
 Library	          ONAPLibrary.Utilities
 Library	          ONAPLibrary.Templating    
 Library	          OperatingSystem
@@ -19,7 +18,7 @@ ${PGN_ENABLE_STREAMS_V2_TEMPLATE}    vfw/vfw_pg_streams_v2.jinja
 Connect To Packet Generator
     [Documentation]    Enables packet generator for the passed stream on the passed host
     [Arguments]    ${host}    ${alias}=pgn
-    ${map}=  Create Dictionary     host=${host}    port=${GLOBAL_PACKET_GENERATOR_PORT}    path=${PGN_PATH}
+    ${map}=  Create Dictionary     host=${host}    port=${GLOBAL_PACKET_GENERATOR_PORT}
     ${url}=    Template String    ${PGN_URL_TEMPLATE}    ${map}
     ${auth}=  Create List     ${GLOBAL_PACKET_GENERATOR_USERNAME}    ${GLOBAL_PACKET_GENERATOR_PASSWORD}
     ${session}=    Create Session 	${alias} 	${url}    auth=${auth}
