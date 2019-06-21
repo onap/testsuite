@@ -205,7 +205,7 @@ Distribute vCPEResCust Model From ASDC
     #
     \    Run Keyword If   '${allottedresource}'=='TunnelXConn'    Setup SDC Catalog Resource AllottedResource Inputs  ${catalog_service_id}    ${allottedresource}   ${loop_catalog_resource_id}
     \    Run Keyword If   '${allottedresource}'=='BRG'    Setup SDC Catalog Resource AllottedResource Inputs  ${catalog_service_id}    ${allottedresource}   ${loop_catalog_resource_id}
-    \    ${loop_catalog_resource_id}=   Certify ASDC Catalog Resource    ${loop_catalog_resource_id}  ${ASDC_DESIGNER_USER_ID}
+    \    ${loop_catalog_resource_id}=   Wait Until Keyword Succeeds    600s    15s   Certify ASDC Catalog Resource    ${loop_catalog_resource_id}  ${ASDC_DESIGNER_USER_ID}
     \    Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
     \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
     ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
@@ -316,7 +316,7 @@ Setup ASDC Catalog Resource
     # Check if need to set up CDS properties
     Run Keyword If    '${cds}' == 'vfwng'    Setup ASDC Catalog Resource CDS Properties    ${catalog_resource_id}
 
-    ${catalog_resource_id}=   Certify ASDC Catalog Resource    ${catalog_resource_id}  ${ASDC_DESIGNER_USER_ID}
+    ${catalog_resource_id}=   Wait Until Keyword Succeeds    600s    15s   Certify ASDC Catalog Resource    ${catalog_resource_id}  ${ASDC_DESIGNER_USER_ID}
     [Return]    ${catalog_resource_id}
 
 
