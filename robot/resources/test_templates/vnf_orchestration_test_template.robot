@@ -282,7 +282,8 @@ Get Stack Keypairs
     [Documentation]  Get keypairs from openstack
     [Arguments]   ${stack}
     Run Openstack Auth Request    auth
-    ${stack_info}=    Get Stack Details    auth    ${stack}
+    # Openstack can be delayed in making stack available to API
+    ${stack_info}=    Wait Until Keyword Succeeds    300s    15s   Get Stack Details    auth    ${stack}
     Log    ${stack_info}
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${key_pair_status}   ${keypair_name}=   Run Keyword And Ignore Error   Get From Dictionary    ${stack_info}    key_name
