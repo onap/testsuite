@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb024a29_09f3f3d5",
+        "filename": "robot/resources/asdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-06-21T12:15:23Z",
+      "side": 1,
+      "message": "Wait Until Keyword Succeeds    600s    15s    Request Certify ASDC Catalog Service    ${catalog_service_id}",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 65
+      },
+      "revId": "f1621dea58fa5beb96356550918a7637d0133034",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
