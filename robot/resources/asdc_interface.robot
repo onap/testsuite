@@ -132,7 +132,7 @@ Distribute Model From ASDC
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
     \    Setup SDC Catalog Resource Deployment Artifact Properties      ${catalog_service_id}   ${loop_catalog_resource_resp}  ${catalog_resource_unique_name}  ${deployment}
     Checkin ASDC Catalog Service    ${catalog_service_id}
-    Request Certify ASDC Catalog Service    ${catalog_service_id}
+    Wait Until Keyword Succeeds    600s    15s    Request Certify ASDC Catalog Service    ${catalog_service_id}
     Start Certify ASDC Catalog Service    ${catalog_service_id}
     # on certify it gets a new id
     ${catalog_service_id}=    Certify ASDC Catalog Service    ${catalog_service_id}
@@ -740,6 +740,7 @@ Start Certify ASDC Catalog Resource
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${ASDC_TESTER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Certify ASDC Catalog Resource
     [Documentation]    start certify an asdc Catalog Resource by its id and returns the new id
     [Arguments]    ${catalog_resource_id}    ${user_id}=${ASDC_TESTER_USER_ID}
@@ -792,6 +793,7 @@ Checkin ASDC Catalog Service
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Request Certify ASDC Catalog Service
     [Documentation]    requests certify on an asdc Catalog Service by its id
     [Arguments]    ${catalog_service_id}
@@ -800,6 +802,7 @@ Request Certify ASDC Catalog Service
     ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${ASDC_DESIGNER_USER_ID}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+
 Start Certify ASDC Catalog Service
     [Documentation]    start certify an asdc Catalog Service by its id
     [Arguments]    ${catalog_service_id}
