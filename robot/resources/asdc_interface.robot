@@ -130,7 +130,7 @@ Distribute Model From ASDC
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
     \    Setup SDC Catalog Resource Deployment Artifact Properties      ${catalog_service_id}   ${loop_catalog_resource_resp}  ${catalog_resource_unique_name}  ${deployment}
     Checkin ASDC Catalog Service    ${catalog_service_id}
-    Request Certify ASDC Catalog Service    ${catalog_service_id}
+    Wait Until Keyword Succeeds    600s    15s    Request Certify ASDC Catalog Service    ${catalog_service_id}
     Start Certify ASDC Catalog Service    ${catalog_service_id}
     # on certify it gets a new id
     ${catalog_service_id}=    Certify ASDC Catalog Service    ${catalog_service_id}
