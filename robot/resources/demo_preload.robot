@@ -168,7 +168,7 @@ APPC Mount Point
     ${server_list}=    Get Openstack Servers    auth
     ${vpg_name_0}=    Get From Dictionary    ${stack_info}    vpg_name_0
     ${vnf_id}=    Get From Dictionary    ${stack_info}    vnf_id
-    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=public
+    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
  
     #  vpg_oam_ip is no longer needed - use vpg_public_ip
     #${vpg_oam_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_1

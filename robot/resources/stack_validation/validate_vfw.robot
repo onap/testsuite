@@ -30,9 +30,9 @@ Validate Firewall Stack
     ${vpg_unprotected_ip}=    Get From Dictionary    ${stack_info}    vpg_int_unprotected_private_ip_0
     ${vsn_protected_ip}=    Get From Dictionary    ${stack_info}    vsn_int_protected_private_ip_0
     ${vpg_name_0}=    Get From Dictionary    ${stack_info}    vpg_name_0
-    ${vfw_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vfw_name_0    network_name=public
-    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=public
-    ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vsn_name_0    network_name=public
+    ${vfw_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vfw_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
+    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
+    ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vsn_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
 
     Wait For Server    ${vfw_public_ip}
     Wait For Server    ${vpg_public_ip}

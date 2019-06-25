@@ -17,7 +17,7 @@ Validate vLB Stack
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${server_list}=    Get Openstack Servers    auth
     Log     Returned from Get Openstack Servers
-    ${vlb_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vlb_name_0    network_name=public
+    ${vlb_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vlb_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
     Log     Waiting for ${vlb_public_ip} to reconfigure
     # Server validations diabled due to issues with load balancer network reconfiguration
     # at startup hanging the robot scripts so just sleep

@@ -26,7 +26,7 @@ Validate Dns Scaling Stack
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${server_list}=    Get Openstack Servers    auth
     Log     ${server_list}
-    ${vdns_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vdns_name_0    network_name=public
+    ${vdns_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vdns_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
     Wait For Server    ${vdns_public_ip}
     Log    Accessed all servers
     #Wait for vDNS    ${vdns_public_ip}

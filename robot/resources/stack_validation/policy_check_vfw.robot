@@ -41,8 +41,8 @@ Policy Check FirewallCL Stack
 
     ${vpg_unprotected_ip}=    Get From Dictionary    ${vpkg_stack_info}    vpg_int_unprotected_private_ip_0
     ${vsn_protected_ip}=    Get From Dictionary    ${vsnk_stack_info}    vsn_int_protected_private_ip_0
-    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${vpkg_stack_info}   vpg_name_0    network_name=public
-    ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${vsnk_stack_info}   vsn_name_0    network_name=public
+    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${vpkg_stack_info}   vpg_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
+    ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${vsnk_stack_info}   vsn_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
     ${upper_bound}=    Evaluate    ${policy_rate}*2
     Wait Until Keyword Succeeds    30m    2s    Run VFW Policy Check    ${vpg_public_ip}   ${policy_rate}    ${upper_bound}    1
 
@@ -78,7 +78,7 @@ Policy Check vLB Stack
     ${stack_info}=    Wait for Stack to Be Deployed    auth    ${stack_name}
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${server_list}=    Get Openstack Servers    auth
-    ${vlb_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vlb_name_0    network_name=public
+    ${vlb_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vlb_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
     ${upper_bound}=    Evaluate    ${policy_rate}*2
     Start DNS Traffic    ${vlb_public_ip}    ${upper_bound}
 
