@@ -4,8 +4,8 @@
          {
             "cloudRegionId" : "RegionOne",
             "inventoryType" : "service",
-            "resourceModuleName" : "${tunnelxconn_ar_name}",
-            "serviceInstanceId" : "${vgmux_svc_instance_uuid}",
+            "resourceModuleName" : "{{tunnelxconn_ar_name}}",
+            "serviceInstanceId" : "{{vgmux_svc_instance_uuid}}",
             "serviceResourceId" : "TUNNEL-RESOURCE-ID-REPLACE",
             "isRehome" : "False",
 			"assignmentInfo": [ { "variableName": "cloudOwner", "variableValue": "CloudOwner"}, {"variableName": "vnfHostName", "variableValue": "vnfHostName" }] 
@@ -13,7 +13,7 @@
          {
             "cloudRegionId" : "RegionOne",
             "inventoryType" : "cloud",
-            "resourceModuleName" : "${vgw_name}",
+            "resourceModuleName" : "{{vgw_name}}",
             "serviceInstanceId" : "vG-service-instance-id",
             "serviceResourceId" : "VGW-RESOURCE-ID-REPLACE",
             "isRehome" : "False",
@@ -22,8 +22,8 @@
          {
             "cloudRegionId" : "RegionOne",
             "inventoryType" : "service",
-            "resourceModuleName" : "${brg_ar_name}",
-            "serviceInstanceId" : "${vbrg_svc_instance_uuid}",
+            "resourceModuleName" : "{{brg_ar_name}}",
+            "serviceInstanceId" : "{{vbrg_svc_instance_uuid}}",
             "serviceResourceId" : "BRG-RESOURCE-ID-REPLACE",
             "isRehome" : "False",
 			"assignmentInfo": [ { "variableName": "cloudOwner", "variableValue": "CloudOwner"}, {"variableName": "vnfHostName", "variableValue": "vnfHostName" }] 

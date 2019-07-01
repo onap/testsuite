@@ -255,7 +255,7 @@ Download CSAR
    ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/artifacts/${csar_resource_id}
    ${csar_file_name}=   Set Variable    ${resp.json()['artifactName']}
    ${base64Obj}=   Set Variable    ${resp.json()['base64Contents']}
-   ${binObj}=   Evaluate   base64.b64decode("${base64Obj}")   modules=base64
+   ${binObj}=   Base64 Decode   ${base64Obj}
    Create Binary File  ${save_directory}/${csar_file_name}  ${binObj}
    Log To Console      ${\n}Downloaded:${csar_file_name}
 
@@ -320,7 +320,7 @@ Setup SDC Catalog Resource Deployment Artifact Properties
     [Arguments]    ${catalog_service_id}    ${catalog_parent_service_id}   ${catalog_resource_unique_id}  ${blueprint_file}
     ${resp}=    Get ASDC Catalog Resource Component Instances Properties  ${catalog_service_id}
     ${blueprint_data}    OperatingSystem.Get File    ${SDC_CATALOG_DEPLOYMENT_ARTIFACT_PATH}${blueprint_file}
-    ${payloadData}=   Evaluate   base64.b64encode('''${blueprint_data}'''.encode('utf-8'))   modules=base64
+    ${payloadData}=      Base64 Encode   ${blueprint_data}
     ${dict}=    Create Dictionary  artifactLabel=blueprint  artifactName=${blueprint_file}   artifactType=DCAE_INVENTORY_BLUEPRINT  artifactGroupType=DEPLOYMENT  description=${blueprint_file}   payloadData=${payloadData}
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_ARTIFACT_UPLOAD_TEMPLATE}    ${dict}
@@ -997,7 +997,7 @@ Run ASDC MD5 Post Request
     ${uuid}=    Generate UUID4
     ${data_string}=   Evaluate    json.dumps(${data})     json
     ${md5checksum}=   Evaluate    md5.new('''${data_string}''').hexdigest()   modules=md5
-    ${base64md5checksum}=  Evaluate     base64.b64encode("${md5checksum}")     modules=base64
+    ${base64md5checksum}=  Base64 Encode    ${md5checksum}
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${user}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}   Content-MD5=${base64md5checksum}
     ${resp}=    Post Request    asdc    ${data_path}     data=${data}    headers=${headers}
     Log    Received response from asdc ${resp.text}

@@ -7,6 +7,7 @@ Library	          String
 Library           DateTime
 Library           Collections
 Library           ONAPLibrary.JSON
+Library           ONAPLibrary.OOF
 Library           ONAPLibrary.Templating    
 Resource          global_properties.robot
 
@@ -60,18 +61,7 @@ RUN OOF-Homing SendPlanWithWrongVersion
 
 Run OOF-SNIRO Health Check
      [Documentation]    Runs OOF-SNIRO Health check
-     ${resp}=    Run OOF-SNIRO Get Request    ${OOF_SNIRO_HEALTH_CHECK_PATH}
-     Should Be Equal As Integers   ${resp.status_code}   200
-
-Run OOF-SNIRO Get Request
-     [Documentation]    Runs OOF-SNIRO Get request
-     [Arguments]    ${data_path}
-     ${session}=    Create Session   session   ${OOF_SNIRO_ENDPOINT}
-     ${resp}=   Get Request   session   ${data_path}
-     Should Be Equal As Integers   ${resp.status_code}   200
-     Log    Received response from OOF-SNIRO ${resp.text}
-     [Return]    ${resp}
-
+     ${resp}=    Run SNIRO Get Request    ${OOF_SNIRO_ENDPOINT}    ${OOF_SNIRO_HEALTH_CHECK_PATH}
 
 Run OOF-CMSO Health Check
      [Documentation]    Runs OOF-CMSO Health check
@@ -140,8 +130,6 @@ OOF-CMSO Create Schedule
     ${data}=   Apply Template    oof    ${OOF_CMSO_TEMPLATE_FOLDER}/${request_file}   ${map}
     ${resp}=   Run OOF-CMSO Post Scheduler   cmso/v1/schedules/${uuid}   data=${data}
     [Return]   ${resp}
-
-
 
 OOF-CMSO Wait For Pending Approval
      [Documentation]    Gets the schedule identified by the uuid and checks if it is in the Pending Approval state
