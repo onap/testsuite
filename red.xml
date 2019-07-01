@@ -18,6 +18,7 @@
     <referencedLibrary type="PYTHON" name="ONAPLibrary.Protobuf" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.Utilities" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.OOF" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.SDNC" path="testsuite/robot/library"/>
     <pythonpath>
         <path location="robot/library"/>
     </pythonpath>

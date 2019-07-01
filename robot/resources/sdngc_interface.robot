@@ -3,18 +3,22 @@ Documentation     The main interface for interacting with SDN-GC. It handles low
 Library 	      RequestsLibrary
 Library	          ONAPLibrary.Utilities
 Library 	    SeleniumLibrary
+Library        OperatingSystem
 Library         Collections
 Library      String
 Library           ONAPLibrary.ServiceMapping
 Library           ONAPLibrary.Templating
+Library           ONAPLibrary.SDNC
 Resource          global_properties.robot
 Resource        browser_setup.robot
 
 
 *** Variables ***
 ${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}  /operations/VNF-API:preload-vnf-topology-operation
+${PRELOAD_NETWORK_TOPOLOGY_OPERATION_PATH}  /operations/VNF-API:preload-network-topology-operation
+${PRELOAD_GR_TOPOLOGY_OPERATION_PATH}     /operations/GENERIC-RESOURCE-API:preload-vf-module-topology-operation
 ${PRELOAD_VNF_CONFIG_PATH}  /config/VNF-API:preload-vnfs/vnf-preload-list
-${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}  sdnc
+${PRELOAD_TOPOLOGY_OPERATION_BODY}  sdnc
 ${SDNGC_INDEX_PATH}    /restconf
 ${SDNCGC_HEALTHCHECK_OPERATION_PATH}  /operations/SLI-API:healthcheck
 ${SDNGC_REST_ENDPOINT}    ${GLOBAL_SDNGC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDNC_IP_ADDR}:${GLOBAL_SDNGC_REST_PORT}
@@ -22,6 +26,7 @@ ${SDNGC_ADMIN_ENDPOINT}    ${GLOBAL_SDNGC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_S
 ${SDNGC_ADMIN_SIGNUP_URL}    ${SDNGC_ADMIN_ENDPOINT}/signup
 ${SDNGC_ADMIN_LOGIN_URL}    ${SDNGC_ADMIN_ENDPOINT}/login
 ${SDNGC_ADMIN_VNF_PROFILE_URL}    ${SDNGC_ADMIN_ENDPOINT}/mobility/getVnfProfile
+${VNF_KEYPAIR_SSH_KEY}    robot/assets/keys/onap_dev_public.txt
 
 *** Keywords ***
 Run SDNGC Health Check
@@ -34,51 +39,74 @@ Run SDNGC Get Request
     [Documentation]    Runs an SDNGC get request
     [Arguments]    ${data_path}
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
-    Log    Creating session ${SDNGC_REST_ENDPOINT}
-    ${session}=    Create Session 	sdngc 	${SDNGC_REST_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID4
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
-    ${resp}= 	Get Request 	sdngc 	${data_path}     headers=${headers}
-    Log    Received response from sdngc ${resp.text}
+    ${resp}= 	Run Get Request 	${SDNGC_REST_ENDPOINT}    ${data_path}     auth=${auth}
     [Return]    ${resp}
 
 Run SDNGC Put Request
     [Documentation]    Runs an SDNGC put request
     [Arguments]    ${data_path}    ${data}
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
-    Log    Creating session ${SDNGC_REST_ENDPOINT}
-    ${session}=    Create Session 	sdngc 	${SDNGC_REST_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID4
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
-    ${resp}= 	Put Request 	sdngc 	${data_path}     data=${data}    headers=${headers}
-    Log    Received response from sdngc ${resp.text}
+    ${resp}= 	Run Put Request 	${SDNGC_REST_ENDPOINT} 	${data_path}     data=${data}    auth=${auth}
     [Return]    ${resp}
 
 Run SDNGC Post Request
     [Documentation]    Runs an SDNGC post request
     [Arguments]    ${data_path}    ${data}
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
-    Log    Creating session ${SDNGC_REST_ENDPOINT}
-    ${session}=    Create Session 	sdngc 	${SDNGC_REST_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID4
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
-    ${resp}= 	Post Request 	sdngc 	${data_path}     data=${data}    headers=${headers}
-    Log    Received response from sdngc ${resp.text}
+    ${resp}= 	Run Post Request 	${SDNGC_REST_ENDPOINT} 	${data_path}     data=${data}    auth=${auth}
     [Return]    ${resp}
 
-Run SDNGC Delete Request
-    [Documentation]    Runs an SDNGC delete request
-    [Arguments]    ${data_path}
-    ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
-    Log    Creating session ${SDNGC_REST_ENDPOINT}
-    ${session}=    Create Session 	sdngc 	${SDNGC_REST_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID4
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
-    ${resp}= 	Delete Request 	sdngc 	${data_path}        headers=${headers}
-    Log    Received response from sdngc ${resp.text}
-    [Return]    ${resp}
+Preload Vcpe Networks
+    Preload Network    cpe_public    10.2.0.2	 10.2.0.1
+    Preload Network    cpe_signal    10.4.0.2    10.4.0.1
+    Preload Network    brg_bng    10.3.0.2    10.3.0.1
+    Preload Network    bng_mux    10.1.0.10    10.1.0.1
+    Preload Network    mux_gw    10.5.0.10    10.5.0.1
 
+Preload Network
+    [Arguments]    ${network_role}     ${subnet_start_ip}    ${subnet_gateway}
+    ${name_suffix}=    Generate Timestamp
+    ${network_name}=     Catenate    SEPARATOR=_    net	    ${network_role}	    ${name_suffix}
+    ${subnet_name}=     Catenate    SEPARATOR=_    net	    ${network_role}	    subnet    ${name_suffix}
+    ${parameters}=     Create Dictionary    network_role=${network_role}    service_type=vCPE    network_type=Generic NeutronNet    network_name=${network_name}    subnet_start_ip=${subnet_start_ip}    subnet_gateway=${subnet_gateway}
+    Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.network.jinja   ${parameters}
+	${post_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_NETWORK_TOPOLOGY_OPERATION_PATH}     ${data}
+    [Return]    ${network_name}   ${subnet_name}
 
+Preload Vcpe vGW
+    [Arguments]    ${brg_mac}    ${cpe_network_name}   ${cpe_subnet_name}    ${mux_gw_net}    ${mux_gw_subnet}
+    ${name_suffix}=    Generate Timestamp
+    ${ssh_key}=    OperatingSystem.Get File     ${VNF_KEYPAIR_SSH_KEY}
+    ${parameters}=     Create Dictionary    pub_key=${ssh_key}    brg_mac=${brg_mac}    cpe_public_net=${cpe_network_name}     cpe_public_subnet=${cpe_subnet_name}    mux_gw_net=${mux_gw_net}	mux_gw_subnet=${mux_gw_subnet}    suffix=${name_suffix}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2        public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
+    Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_vgw_vfmodule.jinja   ${parameters}
+	${post_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}   ${data}
+
+Preload Vcpe vGW Gra
+    [Arguments]    ${brg_mac}	${cpe_public_network_name}   ${cpe_public_subnet_name}    ${mux_gw_net}    ${mux_gw_subnet}
+    ${name_suffix}=    Generate Timestamp
+    ${ssh_key}=    OperatingSystem.Get File     ${VNF_KEYPAIR_SSH_KEY}
+    ${parameters}=     Create Dictionary    pub_key=${ssh_key}    brg_mac=${brg_mac}    cpe_public_net=${cpe_public_network_name}     cpe_public_subnet=${cpe_public_subnet_name}    mux_gw_net=${mux_gw_net}	mux_gw_subnet=${mux_gw_subnet}    suffix=${name_suffix}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2        public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
+    Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_gwgra_vfmodule.jinja   ${parameters}
+	${post_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_GR_TOPOLOGY_OPERATION_PATH}   ${data}
+
+Preload Generic VfModule
+    [Arguments]    ${service_instance_id}	${vnf_model}   ${model_customization_name}    ${short_model_customization_name}	    ${cpe_public_network_name}=None   ${cpe_public_subnet_name}=None   ${cpe_signal_network_name}=None   ${cpe_signal_subnet_name}=None
+    ${name_suffix}=    Generate Timestamp
+    ${ssh_key}=    OperatingSystem.Get File     ${VNF_KEYPAIR_SSH_KEY}
+    ${vfmodule_name}=     Catenate    SEPARATOR=_    vf	    ${short_model_customization_name}	    ${name_suffix}
+    #TODO this became a mess, need to fix
+    ${parameters}=     Create Dictionary    pub_key=${ssh_key}    suffix=${name_suffix}    mr_ip_addr=${GLOBAL_INJECTED_MR_IP_ADDR}    mr_ip_port=${GLOBAL_MR_SERVER_PORT}
+    Set To Dictionary    ${parameters}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2    cpe_public_net=${cpe_public_network_name}     cpe_public_subnet=${cpe_public_subnet_name}    
+    Set To Dictionary    ${parameters}    cpe_signal_subnet=${cpe_signal_subnet_name}    cpe_signal_net=${cpe_signal_network_name}    public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
+    # vnf_type and generic_vnf_type are identical
+    Set To Dictionary    ${parameters}    vnf_type=${model_customization_name}    generic_vnf_type=${model_customization_name}    generic_vnf_name=${model_customization_name}    vnf_name=${vfmodule_name}    
+    Set To Dictionary    ${parameters}    service_type=${service_instance_id}    sdnc_oam_ip=${GLOBAL_INJECTED_SDNC_IP_ADDR}
+	${post_resp}=    Preload Vfmodule    ${SDNGC_REST_ENDPOINT}    ${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}    ${GLOBAL_TEMPLATE_FOLDER}    ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_infra_vfmodule.jinja    ${parameters}
+    [Return]    ${post_resp}
+	    
 Preload Vnf
     [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_module_name}    ${vf_modules}    ${service}   ${uuid}
     ${base_vf_module_type}=    Catenate
@@ -103,7 +131,6 @@ Preload Vnf
     #\       Preload Vnf Profile    ${vf_module_type}
     \       Preload One Vnf Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}
     [Return]    ${base_vf_module_type}   ${closedloop_vf_module}
-
 
 Update Module Name
     [Arguments]    ${dict}    ${vf_module_name}
@@ -136,11 +163,10 @@ Preload One Vnf Topology
     ${parameters}=    Get Template Parameters    ${generic_vnf_name}    ${filename}   ${uuid}
     Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
     Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdnc   ${PRELOAD_VNF_TOPOLOGY_OPERATION_BODY}/preload.jinja    ${parameters}
+    ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/preload.jinja    ${parameters}
 	${put_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     ${data}
     Should Be Equal As Strings 	${put_resp.json()['output']['response-code']} 	200
     ${get_resp}=  Run SDNGC Get Request  ${SDNGC_INDEX_PATH}${PRELOAD_VNF_CONFIG_PATH}/${vf_module_name}/${vf_module_type}
-    Should Be Equal As Strings 	${get_resp.status_code} 	200
 
 Get Template Parameters
     [Arguments]   ${generic_vnf_name}    ${template}    ${uuid}

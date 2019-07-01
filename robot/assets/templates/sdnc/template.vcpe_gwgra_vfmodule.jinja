@@ -27,15 +27,15 @@
                                         },
 					{
 					    "name": "public_net_id", 
-					    "value": "${public_net_id}"
+					    "value": "{{public_net_id}}"
 					}, 
 					{
 					    "name": "mux_gw_private_net_id", 
-					    "value": "${mux_gw_net}"
+					    "value": "{{mux_gw_net}}"
 					}, 
 					{
 					    "name": "mux_gw_private_subnet_id", 
-					    "value": "${mux_gw_subnet}"
+					    "value": "{{mux_gw_subnet}}"
 					}, 
 					{
 					    "name": "mux_gw_private_net_cidr", 
@@ -43,11 +43,11 @@
 					}, 
 					{
 					    "name": "cpe_public_net_id", 
-					    "value": "${cpe_public_net}"
+					    "value": "{{cpe_public_net}}"
 					}, 
 					{
 					    "name": "cpe_public_subnet_id", 
-					    "value": "${cpe_public_subnet}"
+					    "value": "{{cpe_public_subnet}}"
 					}, 
 					{
 					    "name": "cpe_public_net_cidr", 
@@ -67,7 +67,7 @@
 					}, 
 					{
 					    "name": "vgw_name_0", 
-					    "value": "zdcpe1cpe01gw01_${suffix}"
+					    "value": "zdcpe1cpe01gw01_{{suffix}}"
 					}, 
 					{
 					    "name": "mux_ip_addr", 
@@ -79,11 +79,11 @@
 					}, 
 					{
 					    "name": "onap_private_net_id", 
-					    "value": "${oam_onap_net}"
+					    "value": "{{oam_onap_net}}"
 					}, 
 					{
 					    "name": "onap_private_subnet_id", 
-					    "value": "${oam_onap_subnet}"
+					    "value": "{{oam_onap_subnet}}"
 					}, 
 					{
 					    "name": "onap_private_net_cidr", 
@@ -111,7 +111,7 @@
 					}, 
 					{
 					    "name": "pub_key", 
-					    "value": "${pub_key}"
+					    "value": "{{pub_key}}"
 					}, 
 					{
 					    "name": "cloud_env", 
@@ -120,13 +120,13 @@
 				] },
 				"vf-module-assignments": {},
 				"vf-module-topology-identifier": {
-					"vf-module-name": "VGW2BRG-${brg_mac}"
+					"vf-module-name": "VGW2BRG-{{brg_mac}}"
 				}
 			},
 			"vnf-resource-assignments": {},
 			"vnf-topology-identifier-structure": {
 				"nf-type": "vgw",
-                                "vnf-id": "VGW2BRG-${brg_mac}" 
+                                "vnf-id": "VGW2BRG-{{brg_mac}}" 
 			}
 		}
 	}

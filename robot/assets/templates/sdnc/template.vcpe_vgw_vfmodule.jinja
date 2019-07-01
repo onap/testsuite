@@ -27,15 +27,15 @@
                 }, 
                 {
                     "vnf-parameter-name": "public_net_id", 
-                    "vnf-parameter-value": "${public_net_id}"
+                    "vnf-parameter-value": "{{public_net_id}}"
                 }, 
                 {
                     "vnf-parameter-name": "mux_gw_private_net_id", 
-                    "vnf-parameter-value": "${mux_gw_net}"
+                    "vnf-parameter-value": "{{mux_gw_net}}"
                 }, 
                 {
                     "vnf-parameter-name": "mux_gw_private_subnet_id", 
-                    "vnf-parameter-value": "${mux_gw_subnet}"
+                    "vnf-parameter-value": "{{mux_gw_subnet}}"
                 }, 
                 {
                     "vnf-parameter-name": "mux_gw_private_net_cidr", 
@@ -43,11 +43,11 @@
                 }, 
                 {
                     "vnf-parameter-name": "cpe_public_net_id", 
-                    "vnf-parameter-value": "${cpe_public_net}"
+                    "vnf-parameter-value": "{{cpe_public_net}}"
                 }, 
                 {
                     "vnf-parameter-name": "cpe_public_subnet_id", 
-                    "vnf-parameter-value": "${cpe_public_subnet}"
+                    "vnf-parameter-value": "{{cpe_public_subnet}}"
                 }, 
                 {
                     "vnf-parameter-name": "cpe_public_net_cidr", 
@@ -67,7 +67,7 @@
                 }, 
                 {
                     "vnf-parameter-name": "vgw_name_0", 
-                    "vnf-parameter-value": "zdcpe1cpe01gw01_${suffix}"
+                    "vnf-parameter-value": "zdcpe1cpe01gw01_{{suffix}}"
                 }, 
                 {
                     "vnf-parameter-name": "mux_ip_addr", 
@@ -79,11 +79,11 @@
                 }, 
                 {
                     "vnf-parameter-name": "onap_private_net_id", 
-                    "vnf-parameter-value": "${oam_onap_net}"
+                    "vnf-parameter-value": "{{oam_onap_net}}"
                 }, 
                 {
                     "vnf-parameter-name": "onap_private_subnet_id", 
-                    "vnf-parameter-value": "${oam_onap_subnet}"
+                    "vnf-parameter-value": "{{oam_onap_subnet}}"
                 }, 
                 {
                     "vnf-parameter-name": "onap_private_net_cidr", 
@@ -111,7 +111,7 @@
                 }, 
                 {
                     "vnf-parameter-name": "pub_key", 
-                    "vnf-parameter-value": "${pub_key}"
+                    "vnf-parameter-value": "{{pub_key}}"
                 }, 
                 {
                     "vnf-parameter-name": "cloud_env", 
@@ -122,7 +122,7 @@
                 "generic-vnf-name": "GENERIC-VGW-VNF-NAME0", 
                 "generic-vnf-type": "GENERIC-VGW-VNF-TYPE", 
                 "service-type": "VGW-SERVICE-TYPE", 
-                "vnf-name": "VGW2BRG-${brg_mac}", 
+                "vnf-name": "VGW2BRG-{{brg_mac}}", 
                 "vnf-type": "VGW-VNF-TYPE"
             }
         }

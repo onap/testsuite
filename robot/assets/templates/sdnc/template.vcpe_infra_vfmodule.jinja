@@ -16,11 +16,11 @@
      },
      "VNF-API:vnf-topology-information": {
              "vnf-topology-identifier": {
-               "service-type": "${service_type}",
-               "vnf-type": "${vnf_type}",
-               "generic-vnf-name": "${generic_vnf_name}",
-               "generic-vnf-type": "${generic_vnf_type}",
-               "vnf-name": "${vnf_name}"
+               "service-type": "{{service_type}}",
+               "vnf-type": "{{vnf_type}}",
+               "generic-vnf-name": "{{generic_vnf_name}}",
+               "generic-vnf-type": "{{generic_vnf_type}}",
+               "vnf-name": "{{vnf_name}}"
        },
        "VNF-API:vnf-parameters": [
 	{
@@ -33,31 +33,31 @@
 	},
 	{
 	"vnf-parameter-name": "public_net_id",
-	"vnf-parameter-value": "${public_net_id}"
+	"vnf-parameter-value": "{{public_net_id}}"
 	},
 	{
 	"vnf-parameter-name": "cpe_signal_net_id",
-	"vnf-parameter-value": "${cpe_signal_net}"
+	"vnf-parameter-value": "{{cpe_signal_net}}"
 	},
 	{
 	"vnf-parameter-name": "cpe_signal_subnet_id",
-	"vnf-parameter-value": "${cpe_signal_subnet}" 
+	"vnf-parameter-value": "{{cpe_signal_subnet}}" 
 	},
 	{
 	"vnf-parameter-name": "cpe_public_net_id",
-	"vnf-parameter-value": "${cpe_public_net}"
+	"vnf-parameter-value": "{{cpe_public_net}}"
 	},
 	{
 	"vnf-parameter-name": "cpe_public_subnet_id",
-	"vnf-parameter-value": "${cpe_public_subnet}"
+	"vnf-parameter-value": "{{cpe_public_subnet}}"
 	},
 	{
 	"vnf-parameter-name": "onap_private_net_id",
-	"vnf-parameter-value": "${oam_onap_net}"
+	"vnf-parameter-value": "{{oam_onap_net}}"
 	},
 	{
 	"vnf-parameter-name": "onap_private_subnet_id",
-	"vnf-parameter-value": "${oam_onap_subnet}"
+	"vnf-parameter-value": "{{oam_onap_subnet}}"
 	},
 	{
 	"vnf-parameter-name": "onap_private_net_cidr",
@@ -105,35 +105,35 @@
 	},
 	{
 	"vnf-parameter-name": "mr_ip_addr",
-	"vnf-parameter-value": "${mr_ip_addr}"
+	"vnf-parameter-value": "{{mr_ip_addr}}"
 	},
 	{
 	"vnf-parameter-name": "mr_ip_port",
-	"vnf-parameter-value": "${mr_ip_port}"
+	"vnf-parameter-value": "{{mr_ip_port}}"
 	},
 	{
 	"vnf-parameter-name": "vaaa_name_0",
-	"vnf-parameter-value": "zdcpe1cpe01aaa01_${suffix}"
+	"vnf-parameter-value": "zdcpe1cpe01aaa01_{{suffix}}"
 	},
 	{
 	"vnf-parameter-name": "vdns_name_0",
-	"vnf-parameter-value": "zdcpe1cpe01dns01_${suffix}"
+	"vnf-parameter-value": "zdcpe1cpe01dns01_{{suffix}}"
 	},
 	{
 	"vnf-parameter-name": "vdhcp_name_0",
-	"vnf-parameter-value": "zdcpe1cpe01dhcp01_${suffix}"
+	"vnf-parameter-value": "zdcpe1cpe01dhcp01_{{suffix}}"
 	},
 	{
 	"vnf-parameter-name": "vweb_name_0",
-	"vnf-parameter-value": "zdcpe1cpe01web01_${suffix}"
+	"vnf-parameter-value": "zdcpe1cpe01web01_{{suffix}}"
 	},
 	{
 	"vnf-parameter-name": "vnf_id",
-	"vnf-parameter-value": "vCPE_Infrastructure_demo_app_${suffix}"
+	"vnf-parameter-value": "vCPE_Infrastructure_demo_app_{{suffix}}"
 	},
 	{
 	"vnf-parameter-name": "vf_module_id",
-	"vnf-parameter-value": "vCPE_Intrastructure_${suffix}"
+	"vnf-parameter-value": "vCPE_Intrastructure_{{suffix}}"
 	},
 	{
 	"vnf-parameter-name": "dcae_collector_ip",
@@ -165,7 +165,7 @@
 	},
 	{
 	"vnf-parameter-name": "pub_key",
-	"vnf-parameter-value": "${pub_key}"
+	"vnf-parameter-value": "{{pub_key}}"
 	},
 	{
 	"vnf-parameter-name": "cloud_env",
