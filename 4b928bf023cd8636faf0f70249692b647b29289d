@@ -16,6 +16,24 @@
       "revId": "4b928bf023cd8636faf0f70249692b647b29289d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4e28b95_cac208c3",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 4009
+      },
+      "writtenOn": "2019-07-08T15:30:21Z",
+      "side": 1,
+      "message": "I found it usable to see exact version even in console. I dont think it\u0027s violating some good practice (e.g. row 201 is bringing nearly the same level of info)",
+      "parentUuid": "7fb4815c_531bd4c4",
+      "revId": "4b928bf023cd8636faf0f70249692b647b29289d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }

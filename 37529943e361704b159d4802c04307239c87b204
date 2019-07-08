@@ -16,6 +16,24 @@
       "revId": "37529943e361704b159d4802c04307239c87b204",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38d69177_b9c0ba47",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 4009
+      },
+      "writtenOn": "2019-07-08T15:30:21Z",
+      "side": 0,
+      "message": "fair point, I might move consul get/put to another file",
+      "parentUuid": "e1e02848_b3f7e0b0",
+      "revId": "37529943e361704b159d4802c04307239c87b204",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
