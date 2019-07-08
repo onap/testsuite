@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fb4815c_531bd4c4",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-08T14:35:01Z",
+      "side": 1,
+      "message": "Please dont log to console",
+      "revId": "4b928bf023cd8636faf0f70249692b647b29289d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

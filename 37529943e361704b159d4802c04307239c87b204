@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1e02848_b3f7e0b0",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-08T14:35:01Z",
+      "side": 0,
+      "message": "I dont belive this consul is policy specific so i dont thhink they should be put in the policy file",
+      "revId": "37529943e361704b159d4802c04307239c87b204",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
