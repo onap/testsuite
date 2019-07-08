@@ -12,9 +12,9 @@ Resource          ssh/files.robot
 *** Variables ***
 ${POLICY_HEALTH_CHECK_PATH}        /healthcheck
 ${POLICY_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_IP_ADDR}:${GLOBAL_POLICY_SERVER_PORT}
-${POLICY_HEALTHCHECK_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_HEALTHCHECK_IP_ADDR}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+${POLICY_HEALTHCHECK_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_DROOLS_IP_ADDR}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
 ${POLICY_TEMPLATES}        policy
-${DROOLS_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_IP_ADDR}:${GLOBAL_DROOLS_SERVER_PORT}
+${DROOLS_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_DROOLS_IP_ADDR}:${GLOBAL_DROOLS_SERVER_PORT}
 ${POLICY_API_IP}    ${GLOBAL_INJECTED_POLICY_API_IP_ADDR}
 ${POLICY_PAP_IP}    ${GLOBAL_INJECTED_POLICY_PAP_IP_ADDR}
 ${POLICY_DISTRIBUTION_IP}   ${GLOBAL_INJECTED_POLICY_DISTRIBUTION_IP_ADDR}
@@ -45,7 +45,7 @@ Run Drools Get Request
      [Documentation]    Runs Drools Get Request
      [Arguments]    ${data_path}
      ${auth}=    Create List    ${GLOBAL_DROOLS_USERNAME}    ${GLOBAL_DROOLS_PASSWORD}
-     Log    Creating session ${POLICY_ENDPOINT}
+     Log    Creating session ${DROOLS_ENDPOINT}
      ${session}=    Create Session      policy  ${DROOLS_ENDPOINT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Get Request     policy  ${data_path}     headers=${headers}
@@ -138,7 +138,41 @@ Run Policy Get Configs Request
     Log    Received response from policy ${resp.text}
     [Return]    ${resp}
 
+Run Consul Get Request
+    [Documentation]    Runs Consul Get Request
+    [Arguments]    ${data_path}
+    ${session}=    Create Session      consul  http://consul.onap:8500
+    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+    ${resp}=   Get Request     consul  ${data_path}     headers=${headers}
+    Log    Received response from policy ${resp.text}
+    Should Be Equal As Strings         ${resp.status_code}     200
+    [Return]   ${resp}
 
+Run Consul Put Request
+    [Documentation]    Runs Consul Put request
+    [Arguments]    ${data_path}  ${data}
+    ${session}=    Create Session      consul  http://consul.onap:8500
+    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+    ${resp}=   Put Request     consul  ${data_path}     data=${data}    headers=${headers}
+    Log    Received response from consul ${resp.text}
+    [Return]    ${resp}
+
+Update Tca ControlLoopName
+    [Arguments]   ${resource_id}
+    ${closedLoopControlName}=    Set Variable    ControlLoop-vFirewall-${resource_id}
+    Log To Console    Obtained closedLoopControlName ${closedLoopControlName}
+    ${resp}=   Run Consul Get Request   /v1/kv/dcae-tca-analytics
+    Should Be Equal As Strings  ${resp.status_code}     200
+    ${base64Obj}=   Set Variable    ${resp.json()[0]["Value"]}
+    ${binObj}=   Evaluate   base64.b64decode("${base64Obj}")   modules=base64
+    ${escaped}=   Replace String    ${binObj}   \\   \\\\
+    ${dict}=    Evaluate   json.loads('${escaped}')    json
+    ${tca_policy}=    Set Variable    ${dict['app_preferences']['tca_policy']}
+    ${mdf_tca_policy}=    Replace String Using Regexp   ${tca_policy}    ControlLoop-vFirewall[^"]*    ${closedLoopControlName}
+    Set To Dictionary    ${dict['app_preferences']}    tca_policy=${mdf_tca_policy}
+    ${json}=   Evaluate   json.dumps(${dict})     json
+    ${resp}=   Run Consul Put Request   /v1/kv/dcae-tca-analytics    data=${json}
+    Should Be Equal As Strings  ${resp.status_code}     200
 
 Update vVFWCL Policy Old
     [Arguments]   ${resource_id}
@@ -166,6 +200,8 @@ Update vVFWCL Policy
     Sleep   5s
     Log To Console   Push vFWCL To PDP Group
     Push vFirewall Policies To PDP Group    ${op_policy_version}
+    Log To Console   Update Tca ControlLoopName
+    Update Tca ControlLoopName    ${resource_id}
     Sleep    20s
     Log To Console   Validate vFWCL Policy
     Validate the vFWCL Policy
