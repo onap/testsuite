@@ -7,7 +7,8 @@ Resource        test_templates/vnf_orchestration_test_template.robot
 Resource        asdc_interface.robot
 Resource        so_interface.robot
 Resource        vid/vid_interface.robot
-Resource	    policy_interface.robot
+Resource        consul_interface.robot
+Resource	policy_interface.robot
 Resource        aai/create_availability_zone.robot
 
 Library	        ONAPLibrary.Utilities
@@ -197,6 +198,8 @@ Instantiate VNF
     :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
     \   Log   APPC Mount Point for VNF Module Name=${vf_module_name}
     \   ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
+    Log   Update Tca ControlLoopName
+    Update Tca ControlLoopName    ${model_invariant_id}
 
 Instantiate Demo VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL

@@ -12,9 +12,9 @@ Resource          ssh/files.robot
 *** Variables ***
 ${POLICY_HEALTH_CHECK_PATH}        /healthcheck
 ${POLICY_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_IP_ADDR}:${GLOBAL_POLICY_SERVER_PORT}
-${POLICY_HEALTHCHECK_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_HEALTHCHECK_IP_ADDR}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+${POLICY_HEALTHCHECK_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_DROOLS_IP_ADDR}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
 ${POLICY_TEMPLATES}        policy
-${DROOLS_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_IP_ADDR}:${GLOBAL_DROOLS_SERVER_PORT}
+${DROOLS_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_DROOLS_IP_ADDR}:${GLOBAL_DROOLS_SERVER_PORT}
 ${POLICY_API_IP}    ${GLOBAL_INJECTED_POLICY_API_IP_ADDR}
 ${POLICY_PAP_IP}    ${GLOBAL_INJECTED_POLICY_PAP_IP_ADDR}
 ${POLICY_DISTRIBUTION_IP}   ${GLOBAL_INJECTED_POLICY_DISTRIBUTION_IP_ADDR}
@@ -45,7 +45,7 @@ Run Drools Get Request
      [Documentation]    Runs Drools Get Request
      [Arguments]    ${data_path}
      ${auth}=    Create List    ${GLOBAL_DROOLS_USERNAME}    ${GLOBAL_DROOLS_PASSWORD}
-     Log    Creating session ${POLICY_ENDPOINT}
+     Log    Creating session ${DROOLS_ENDPOINT}
      ${session}=    Create Session      policy  ${DROOLS_ENDPOINT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Get Request     policy  ${data_path}     headers=${headers}
@@ -137,8 +137,6 @@ Run Policy Get Configs Request
     ${resp}= 	Post Request 	policy 	${data_path}    data=${data}    headers=${headers}
     Log    Received response from policy ${resp.text}
     [Return]    ${resp}
-
-
 
 Update vVFWCL Policy Old
     [Arguments]   ${resource_id}
