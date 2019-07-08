@@ -7,7 +7,8 @@ Resource        test_templates/vnf_orchestration_test_template.robot
 Resource        asdc_interface.robot
 Resource        so_interface.robot
 Resource        vid/vid_interface.robot
-Resource	    policy_interface.robot
+Resource        consul_interface.robot
+Resource	policy_interface.robot
 Resource        aai/create_availability_zone.robot
 
 Library	        ONAPLibrary.Utilities
@@ -192,11 +193,13 @@ Instantiate VNF
     :FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
     \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'   ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
-    Log to Console   Update old vFWCL Policy for ModelInvariantID=${model_invariant_id}
+    Log to Console   Update vFWCL Policy for ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
     :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
     \   Log To Console   APPC Mount Point for VNF Module Name=${vf_module_name}
     \   ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
+    Log to Console   Update Tca ControlLoopName
+    Update Tca ControlLoopName    ${model_invariant_id}
 
 Instantiate Demo VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
