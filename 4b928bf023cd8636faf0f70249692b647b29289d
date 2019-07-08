@@ -34,6 +34,24 @@
       "revId": "4b928bf023cd8636faf0f70249692b647b29289d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "070912bb_23b33c07",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-08T15:33:11Z",
+      "side": 1,
+      "message": "theres no problem with logging whatever you need, but since the robot framework on jenkins only has access to the log files and not the console we want to allow everyone to see it. http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Log can be used instead with no issue to log anything you want",
+      "parentUuid": "d4e28b95_cac208c3",
+      "revId": "4b928bf023cd8636faf0f70249692b647b29289d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
