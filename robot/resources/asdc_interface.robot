@@ -12,6 +12,7 @@ Library           ONAPLibrary.Openstack
 Library           DateTime
 Library           ONAPLibrary.ServiceMapping
 Library           ONAPLibrary.Templating
+Library           ONAPLibrary.SDC
 Resource          global_properties.robot
 Resource          browser_setup.robot
 
@@ -457,9 +458,11 @@ Add ASDC License Model
     ${map}=    Create Dictionary    vendor_name=${shortened_uuid}
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_LICENSE_MODEL_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}    ${data}  ${ASDC_DESIGNER_USER_ID}  ${ASDC_BE_ONBOARD_ENDPOINT}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}    ${data}  ${ASDC_DESIGNER_USER_ID}      auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['itemId']}    ${resp.json()['version']['id']}
+    
 Get ASDC License Model
     [Documentation]    gets an asdc license model by its id
     [Arguments]    ${id}   ${version_id}=0.1
@@ -537,7 +540,8 @@ Add ASDC Entitlement Pool
     ${map}=    Create Dictionary    entitlement_pool_name=${shortened_uuid}  license_start_date=${license_start_date}  license_end_date=${license_end_date}
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_ENTITLEMENT_POOL_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_ENTITLEMENT_POOL_PATH}     ${data}   ${ASDC_DESIGNER_USER_ID}  ${ASDC_BE_ONBOARD_ENDPOINT}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_ENTITLEMENT_POOL_PATH}    ${data}  ${ASDC_DESIGNER_USER_ID}      auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['value']}
 
@@ -555,7 +559,8 @@ Add ASDC License Group
     ${map}=    Create Dictionary    key_group_name=${shortened_uuid}   license_start_date=${license_start_date}  license_end_date=${license_end_date}
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_KEY_GROUP_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_KEY_GROUP_PATH}     ${data}   ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_KEY_GROUP_PATH}     ${data}   ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['value']}
 
@@ -573,7 +578,8 @@ Add ASDC Feature Group
     ${map}=    Create Dictionary    feature_group_name=${shortened_uuid}    key_group_id=${key_group_id}    entitlement_pool_id=${entitlement_pool_id}   manufacturer_reference_number=mrn${shortened_uuid}
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_FEATURE_GROUP_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_FEATURE_GROUP_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_FEATURE_GROUP_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['value']}
 
@@ -591,7 +597,8 @@ Add ASDC License Agreement
     ${map}=    Create Dictionary    license_agreement_name=${shortened_uuid}    feature_group_id=${feature_group_id}
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_LICENSE_AGREEMENT_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_LICENSE_AGREEMENT_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_LICENSE_AGREEMENT_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}     auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['value']}
 
@@ -610,7 +617,8 @@ Add ASDC Software Product
     ${map}=    Create Dictionary    software_product_name=${software_product_name}    feature_group_id=${feature_group_id}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}    vendor_id=${license_model_id}    version_id=${license_model_version_id}
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_SOFTWARE_PRODUCT_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ONBOARD_ENDPOINT}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['itemId']}   ${resp.json()['version']['id']}
 
@@ -626,7 +634,8 @@ Add ASDC Catalog Resource
     ${map}=    Create Dictionary    software_product_id=${software_product_id}    software_product_name=${software_product_name}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_CATALOG_RESOURCE_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
@@ -636,7 +645,8 @@ Add ASDC Allotted Resource Catalog Resource
     ${map}=    Create Dictionary    software_product_id=${software_product_id}    software_product_name=${software_product_name}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}   subcategory=${subcategory}
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_ALLOTTED_RESOURCE_CATALOG_RESOURCE_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
@@ -668,7 +678,6 @@ Get ASDC Catalog Resource Component Instances
 Get ASDC Catalog Resource Deployment Artifact Properties
     [Documentation]    Gets deployment artifact properties of an ASDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
-    #${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstances    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_resource_id}/filteredDataByParams?include=deploymentArtifacts    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     [Return]    ${resp.json()}
 
@@ -676,7 +685,6 @@ Get ASDC Catalog Resource Deployment Artifact Properties
 Get ASDC Catalog Resource Component Instances Properties
     [Documentation]    Gets ASDC Catalog Resource component instances properties by its id
     [Arguments]    ${catalog_resource_id}
-    #${resp}=    Run ASDC Get Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstancesProperties    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
     ${resp}=    Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstancesProperties    ${ASDC_DESIGNER_USER_ID}    ${ASDC_BE_ENDPOINT}
     [Return]    ${resp.json()}
 
@@ -701,27 +709,29 @@ Get ASDC Catalog Resource Component Instance Properties
 Set ASDC Catalog Resource Component Instance Properties
     [Documentation]    Sets ASDC Catalog Resource component instance properties by ids
     [Arguments]    ${catalog_resource_id}    ${component_parent_service_id}    ${data}
-    #${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${component_parent_service_id}/resourceInstance/${catalog_resource_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
-    ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_SERVICES_PATH}/${component_parent_service_id}/resourceInstance/${catalog_resource_id}/properties    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_FE_ENDPOINT}    ${ASDC_FE_CATALOG_SERVICES_PATH}/${component_parent_service_id}/resourceInstance/${catalog_resource_id}/properties    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     [Return]   ${resp.json()}
 
 Set ASDC Catalog Resource Component Instance Properties For Resource
     [Documentation]    Sets ASDC Resource component instance properties by ids
     [Arguments]    ${catalog_parent_resource_id}    ${catalog_resource_id}    ${data}
-    #${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_parent_resource_id}/resourceInstance/${catalog_resource_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
-    ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_parent_resource_id}/resourceInstance/${catalog_resource_id}/properties   ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_FE_ENDPOINT}    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_parent_resource_id}/resourceInstance/${catalog_resource_id}/properties   ${data}    ${ASDC_DESIGNER_USER_ID}   auth=${auth}
     [Return]   ${resp.json()}
 
 Set CDS Catalog Resource Component Instance Properties
     [Documentation]    Sets CDS Catalog Resource component instance properties by ids
     [Arguments]    ${catalog_resource_id}    ${component_instance_id}    ${data}
-    ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/resourceInstance/${component_instance_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_FE_ENDPOINT}    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/resourceInstance/${component_instance_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     [Return]    ${resp.json()}
 
 Set ASDC Catalog Resource VNF Inputs
     [Documentation]    Sets VNF Inputs for an ASDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}    ${data}
-    ${resp}=    Run ASDC Post Request    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/update/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_FE_ENDPOINT}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_FE_ENDPOINT}    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/update/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     [Return]    ${resp.json()}
 
 Get SDC Demo Vnf Catalog Resource
@@ -755,7 +765,8 @@ Checkin ASDC Catalog Resource
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    ${ASDC_DESIGNER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
@@ -765,14 +776,16 @@ Request Certify ASDC Catalog Resource
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${ASDC_DESIGNER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
 Start Certify ASDC Catalog Resource
     [Documentation]    Start certification of an ASDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${ASDC_TESTER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${ASDC_TESTER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
@@ -782,7 +795,8 @@ Certify ASDC Catalog Resource
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${user_id}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${user_id}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['uniqueId']}
 
@@ -803,7 +817,8 @@ Add ASDC Catalog Service
     ${map}=    Create Dictionary    service_name=${catalog_service_name}
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_CATALOG_SERVICE_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
@@ -832,7 +847,8 @@ Checkin ASDC Catalog Service
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    ${ASDC_DESIGNER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
@@ -842,14 +858,16 @@ Request Certify ASDC Catalog Service
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${ASDC_DESIGNER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
 Start Certify ASDC Catalog Service
     [Documentation]    Start certification of an ASDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${ASDC_TESTER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${ASDC_TESTER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
@@ -859,7 +877,8 @@ Certify ASDC Catalog Service
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${ASDC_TESTER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${ASDC_TESTER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['uniqueId']}
 
@@ -869,13 +888,16 @@ Approve ASDC Catalog Service
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_DISTRIBUTION_STATE_PATH}${ASDC_DISTRIBUTION_STATE_APPROVE_PATH}    ${data}    ${ASDC_GOVERNOR_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_DISTRIBUTION_STATE_PATH}${ASDC_DISTRIBUTION_STATE_APPROVE_PATH}    ${data}    ${ASDC_GOVERNOR_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
+    
 Distribute ASDC Catalog Service
     [Documentation]    distribute an asdc Catalog Service by its id
     [Arguments]    ${catalog_service_id}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_DISTRIBUTION_ACTIVATE_PATH}    ${None}    ${ASDC_OPS_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_DISTRIBUTION_ACTIVATE_PATH}    ${None}    ${ASDC_OPS_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
@@ -888,7 +910,8 @@ Add ASDC Resource Instance
     ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}    originType=${resourceType}
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
@@ -901,7 +924,8 @@ Add ASDC Resource Instance To Resource
     ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}    originType=${resourceType}
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
-    ${resp}=    Run ASDC Post Request    ${ASDC_CATALOG_RESOURCES_PATH}/${parent_catalog_resource_id}${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}/${parent_catalog_resource_id}${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
@@ -1003,18 +1027,6 @@ Run ASDC MD5 Post Request
     Log    Received response from asdc ${resp.text}
     [Return]    ${resp}
 
-Run ASDC Post Request
-    [Documentation]    Runs an ASDC post request
-    [Arguments]    ${data_path}    ${data}    ${user}=${ASDC_DESIGNER_USER_ID}   ${MY_ASDC_BE_ENDPOINT}=${ASDC_BE_ENDPOINT}
-    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
-    Log    Creating session ${MY_ASDC_BE_ENDPOINT}
-    ${session}=    Create Session       asdc    ${MY_ASDC_BE_ENDPOINT}    auth=${auth}
-    ${uuid}=    Generate UUID4
-    ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${user}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
-    ${resp}=    Post Request    asdc    ${data_path}     data=${data}    headers=${headers}
-    Log    Received response from asdc ${resp.text}
-    [Return]    ${resp}
-
 Run ASDC Delete Request
     [Documentation]    Runs an ASDC delete request
     [Arguments]    ${data_path}    ${user}=${ASDC_DESIGNER_USER_ID}  ${MY_ASDC_BE_ENDPOINT}=${ASDC_BE_ENDPOINT}
@@ -1026,6 +1038,7 @@ Run ASDC Delete Request
     ${resp}=    Delete Request  asdc    ${data_path}        headers=${headers}
     Log    Received response from asdc ${resp.text}
     [Return]    ${resp}
+    
 Open ASDC GUI
     [Documentation]   Logs in to ASDC GUI
     [Arguments]    ${PATH}
