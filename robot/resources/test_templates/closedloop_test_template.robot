@@ -205,12 +205,12 @@ VFWCL High Test
 	[Documentation]    Test Control Loop for High Traffic
         [Arguments]    ${pkg_host}
 	Enable Streams V2    ${pkg_host}   10
-        Log To Console   Set number of streams to 10
+        Log   Set number of streams to 10
 	:FOR    ${i}    IN RANGE    12
 	\   Sleep  15s
 	\   ${resp}=   Get List Of Enabled Streams V2   ${pkg_host}
         \   ${stream_count}=   Set Variable   ${resp['stream-count']['streams']['active-streams']}
-        \   Log To Console   Number of streams: ${stream_count}
+        \   Log   Number of streams: ${stream_count}
         \   Exit For Loop If   '${stream_count}'=='5'
         Should Be Equal As Integers  ${stream_count}   5
 
@@ -218,12 +218,12 @@ VFWCL Low Test
 	[Documentation]    Test Control Loop for Low Traffic
         [Arguments]    ${pkg_host}
 	Enable Streams V2     ${pkg_host}   1
-        Log To Console   Set number of streams to 1
+        Log   Set number of streams to 1
 	:FOR    ${i}    IN RANGE    12
 	\   Sleep  15s
 	\   ${resp}=   Get List Of Enabled Streams V2   ${pkg_host}
         \   ${stream_count}=   Set Variable   ${resp['stream-count']['streams']['active-streams']}
-        \   Log To Console   Number of streams: ${stream_count}
+        \   Log   Number of streams: ${stream_count}
         \   Exit For Loop If   '${stream_count}'=='5'
         Should Be Equal As Integers  ${stream_count}   5
 

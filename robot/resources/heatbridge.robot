@@ -112,7 +112,7 @@ Run Set VNF Params
     ${put_resp}=    Run A&AI Put Request      ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf/${vnf_id}    ${payload_string}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}    ^(200|201)$
-    Log To Console    Set VNF ProvStatus: ${vnf_id} to ${prov_status}
+    Log    Set VNF ProvStatus: ${vnf_id} to ${prov_status}
 
 Run Get Generic VNF By VnfId
     [Documentation]  Get VNF GET Payload with resource ID

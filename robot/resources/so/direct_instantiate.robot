@@ -47,6 +47,6 @@ Instantiate Service Direct To SO
     Log    ${preload_dict}  
     Log    ${template}  
     ${service_instance_id}=   Create Entire Service   ${csar_file}    ${vnf_template_file}   ${template}   ${name_suffix}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
-    Log To Console     ServiceInstanceId:${service_instance_id}
+    Log     ServiceInstanceId:${service_instance_id}
     Should Not Be Equal As Strings  ${service_instance_id}   None
 

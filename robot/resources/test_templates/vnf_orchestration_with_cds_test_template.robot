@@ -100,17 +100,17 @@ Orchestrate VNF With CDS
    
     Set To Dictionary 		${dict}		vnfs=${data}
     ${request}=     Apply Template    cds    ${so_request_template}    ${dict}
-    Log To Console     --------request--------
-    Log to console     ${request}
-    Log To Console     --------end request--------
+    Log     --------request--------
+    Log     ${request}
+    Log     --------end request--------
     ${resp}=	Run MSO Post Request	${so_uri_path}		${request}
-    Log To Console 	--------response-------
+    Log 	--------response-------
     ${json_string}=    Evaluate    json.dumps(${resp.json()})    json
-    Log To Console	${json_string}
-    Log To Console    instanceId=${resp.json()['requestReferences']['instanceId']}
+    Log	${json_string}
+    Log    instanceId=${resp.json()['requestReferences']['instanceId']}
     ${requestId}=    Catenate    ${resp.json()['requestReferences']['requestId']}
-    Log To Console    requestId=${requestId}
-    Log To Console	-------end response-------
+    Log    requestId=${requestId}
+    Log	-------end response-------
     # Poll MSO Get Request    ${GLOBAL_MSO_STATUS_PATH}${request_id}   COMPLETE
 
 
@@ -135,12 +135,12 @@ Get VFModule Info
     Create Environment    cds    ${GLOBAL_TEMPLATE_FOLDER}
     :FOR   ${key}  IN  @{keys}
     \    ${module}=   Get From Dictionary    ${vfModules}   ${key}
-    \    Log to console 	${vnf} ${key}
+    \    Log 	${vnf} ${key}
     \    Run keyword if 	"${vnf}" in "${key}"	set vfmodule param	${key}	  ${module}	${dict}
     \    ${vfmodule_payload}= 	Apply Template		cds    ${vfmodule_template_name}		${dict}
     \	 ${data}= 	Catenate    ${data}   ${delim}   ${vfmodule_payload}
     \	 ${delim}= 	Catenate	,
-    Log To Console 	${data}
+    Log 	${data}
     [Return] 	${data}
 
 set vfmodule param

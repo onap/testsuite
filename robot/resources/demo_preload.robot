@@ -64,21 +64,21 @@ Load Models
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
-    Log To Console   ${\n}Distributing vFWCL
+    Log   ${\n}Distributing vFWCL
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFWCL   ${DEMO_PREFIX}VFWCL
-    Log To Console   Distibuting vLB
+    Log   Distibuting vLB
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB   ${DEMO_PREFIX}VLB
     ##${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPE   ${DEMO_PREFIX}VCPE
     ##${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vIMS   ${DEMO_PREFIX}VIMS
-    Log To Console   Distibuting vCPEInfra
+    Log   Distibuting vCPEInfra
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEInfra   ${DEMO_PREFIX}VCPEInfra
-    Log To Console   Distibuting vCPEvBNG
+    Log   Distibuting vCPEvBNG
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvBNG   ${DEMO_PREFIX}VCPEvBNG
-    Log To Console   Distibuting vCPEvBRGEMU
+    Log   Distibuting vCPEvBRGEMU
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvBRGEMU   ${DEMO_PREFIX}VCPEvBRGEMU 
-    Log To Console   Distibuting vCPEvGMUX
+    Log   Distibuting vCPEvGMUX
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvGMUX    ${DEMO_PREFIX}VCPEvGMUX
-    Log To Console   Distibuting vCPEvGW (this is not vCPEResCust service)
+    Log   Distibuting vCPEvGW (this is not vCPEResCust service)
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvGW    ${DEMO_PREFIX}VCPEvGW
 
 Distribute Model
@@ -183,19 +183,19 @@ Instantiate VNF
     Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
     ${vf_module_name_list}    ${service}     ${generic_vnfs}=    Orchestrate VNF    DemoCust    ${service}   ${service}    ${TENANT_NAME}
     Save For Delete
-    Log to Console   Customer Name=${CUSTOMER_NAME}
+    Log   Customer Name=${CUSTOMER_NAME}
     :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
-    \   Log To Console   VNF Module Name=${vf_module_name}
+    \   Log   VNF Module Name=${vf_module_name}
     # Don't get from MSO for now due to SO-1186
     # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
     :FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
     \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'   ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
-    Log to Console   Update old vFWCL Policy for ModelInvariantID=${model_invariant_id}
+    Log   Update old vFWCL Policy for ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
     :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
-    \   Log To Console   APPC Mount Point for VNF Module Name=${vf_module_name}
+    \   Log   APPC Mount Point for VNF Module Name=${vf_module_name}
     \   ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
 
 Instantiate Demo VNF
@@ -203,15 +203,15 @@ Instantiate Demo VNF
     Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
     ${vf_module_name}    ${service}    ${generic_vnfs}=   Orchestrate Demo VNF    Demonstration    ${service}   ${service}    ${TENANT_NAME}
     #Save For Delete
-    Log to Console   Customer Name=${CUSTOMER_NAME}
-    Log to Console   VNF Module Name=${vf_module_name}
+    Log   Customer Name=${CUSTOMER_NAME}
+    Log   VNF Module Name=${vf_module_name}
     # Don't get from MSO for now due to SO-1186
     # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
     :FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
     \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'   ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
-    Log to Console   ModelInvariantID=${model_invariant_id}
+    Log   ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
 

@@ -154,7 +154,7 @@ Distribute vCPEResCust Model From ASDC
     ${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}_${random}
     #   catalog_service_name already
     #${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
-    Log To Console    ${\n}ServiceName: ${catalog_service_name}_${random}
+    Log    ${\n}ServiceName: ${catalog_service_name}_${random}
     #${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
     ${catalog_resource_ids}=    Create List
     ${catalog_resources}=   Create Dictionary
@@ -243,7 +243,7 @@ Create Allotted Resource Data File
    \    Set To Dictionary    ${attrs}    node_type=${json_obj['topology_template']['substitution_mappings']['node_type']}
    \    Set To Dictionary    ${allotted_resource}    ${key}=${attrs}
    ${result_str}=   Evaluate    json.dumps(${allotted_resource}, indent=2)    json
-   Log To Console    ${result_str}
+   Log    ${result_str}
    Create File    /tmp/vcpe_allotted_resource_data.json    ${result_str}
 
 Download CSAR
@@ -257,7 +257,7 @@ Download CSAR
    ${base64Obj}=   Set Variable    ${resp.json()['base64Contents']}
    ${binObj}=   Base64 Decode   ${base64Obj}
    Create Binary File  ${save_directory}/${csar_file_name}  ${binObj}
-   Log To Console      ${\n}Downloaded:${csar_file_name}
+   Log      ${\n}Downloaded:${csar_file_name}
 
 
 Get Generic NeutronNet UUID
@@ -395,7 +395,7 @@ Setup SDC Catalog Resource AllottedResource Properties
     Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdc   ${SDC_CATALOG_ALLOTTED_RESOURCE_PROPERTIES_TEMPLATE}    ${dict}
     ${response}=    Set ASDC Catalog Resource Component Instance Properties For Resource    ${catalog_resource_id}    ${componentInstance1}    ${data}
-    Log To Console    resp=${response}
+    Log    resp=${response}
 
 
 Setup SDC Catalog Resource AllottedResource Inputs
@@ -433,7 +433,7 @@ Setup ASDC Catalog Resource CDS Properties
     \    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     \    ${data}=   Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    ${dict}
     \    ${response}=    Set ASDC Catalog Resource Component Instance Properties    ${catalog_resource_id}    ${uniqueId}    ${data}
-    \    Log To Console    resp=${response}
+    \    Log    resp=${response}
 
     # Set vnf inputs
     ${resp}=    Get ASDC Catalog Resource Inputs    ${catalog_resource_id}
@@ -952,7 +952,7 @@ Run ASDC Health Check
     :FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['healthCheckStatus']}
     \    ${SDC_DE_HEALTH}  Set Variable If   (('DE' in '${ELEMENT['healthCheckComponent']}') and ('${ELEMENT['healthCheckStatus']}' == 'UP')) or ('${SDC_DE_HEALTH}'=='UP')  UP
-    Log To Console   (DMaaP:${SDC_DE_HEALTH})    no_newline=true
+    Log   (DMaaP:${SDC_DE_HEALTH})
 Run ASDC Get Request
     [Documentation]    Runs an ASDC get request
     [Arguments]    ${data_path}    ${user}=${ASDC_DESIGNER_USER_ID}  ${MY_ASDC_BE_ENDPOINT}=${ASDC_BE_ENDPOINT}

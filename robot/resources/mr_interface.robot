@@ -57,7 +57,7 @@ Run MR Update Topic Acl
      Create Environment    mr    ${GLOBAL_TEMPLATE_FOLDER}
      ${data}=   Apply Template    mr    ${MR_PUT_ACL_TEMPLATE}    ${dict}
      ${resp}=    Run MR Auth Post Request    ${MR_CREATE_TOPIC_PATH}   iPIxkpAMI8qTcQj8  Ehq3WyT4bkif4zwgEbvshGal   ${data}
-     #Log To Console    Update Owner for TEST_TOPIC_ACL
+     #Log    Update Owner for TEST_TOPIC_ACL
      ${resp}=    Run MR Auth Put Request    ${MR_UPDATE_ACL_TOPIC_PATH}/iPIxkpAMI8qTcQj8  iPIxkpAMI8qTcQj8    Ehq3WyT4bkif4zwgEbvshGal    ${data}
      Should Be Equal As Strings         ${resp.status_code}     200
 

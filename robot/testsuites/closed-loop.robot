@@ -20,7 +20,7 @@ VDNS Closed Loop Test
     
 VFWCL Closed Loop Test
     [TAGS]    vfwclosedloop
-    Log To Console    ${EMPTY}
+    Log     ${EMPTY}
     VFWCL High Test   ${PACKET_GENERATOR_HOST}
     VFWCL Low Test   ${PACKET_GENERATOR_HOST}
     [Teardown]    VFWCL Set To Medium    ${PACKET_GENERATOR_HOST}

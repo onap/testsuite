@@ -50,7 +50,7 @@ Run Portal Login Tests
 
 Run Portal Application Access Tests
      [Documentation]    Runs Portal Application Access Tests
-     Log To Console    Testing SDC,VID,Policy
+     Log    Testing SDC,VID,Policy
      Run Portal Application Login Test   cs0008   demo123456!   gridster-SDC-icon-link   tabframe-SDC    Welcome to SDC
      Close All Browsers
      Run Portal Application Login Test   demo    demo123456!  gridster-Virtual-Infrastructure-Deployment-icon-link   tabframe-Virtual-Infrastructure-Deployment    Welcome to VID
@@ -81,7 +81,7 @@ Login To Portal GUI
     Click Element    xpath=//a[@id='loginBtn']
     Wait Until Page Contains  Applications   ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Log    Logged in to ${PORTAL_ENDPOINT}${PORTAL_ENV}
-    Log To Console  ${loginId} SUCCESS
+    Log  ${loginId} SUCCESS
     
 Logout From Portal GUI
     [Documentation]   Logs out of Portal GUI
@@ -108,14 +108,14 @@ Run Portal Application Login Test
     Click Element    xpath=//a[@id='loginBtn']
     Wait Until Page Contains  Applications   ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Log    Logged in to ${PORTAL_ENDPOINT}${PORTAL_ENV}
-    Log To Console  ${loginId} SUCCESS
+    Log  ${loginId} SUCCESS
     Sleep  5
     Click Element    id=${click_element}
     Sleep  5
     Select Frame  id=${tabframe}
     Sleep  5
     Page Should Contain  ${match_string}
-    Log To Console   Portal Application Access SUCCESS ${click_element}
+    Log   Portal Application Access SUCCESS ${click_element}
 
 Go To Portal HOME
     [Documentation]    Naviage to Portal Home
