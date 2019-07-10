@@ -34,6 +34,24 @@
       "revId": "37529943e361704b159d4802c04307239c87b204",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13feb693_0807000f",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-10T14:43:49Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "38d69177_b9c0ba47",
+      "revId": "37529943e361704b159d4802c04307239c87b204",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
