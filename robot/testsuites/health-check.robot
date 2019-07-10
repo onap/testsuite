@@ -55,7 +55,7 @@ Basic CLAMP Health Check
     Run CLAMP Health Check
 
 Basic DCAE Health Check
-    [Tags]    health    medium   health-dcae
+    [Tags]    health    medium   health-dcaegen2
     Run DCAE Health Check
 
 Basic DMAAP Data Router Health Check
@@ -287,11 +287,11 @@ Portal Application Access Tests
     Run Portal Application Access Tests
 
 Basic Holmes Rule Management API Health Check
-    [Tags]    health    medium   health-dcae
+    [Tags]    health    medium   health-dcaegen2
     Run Holmes Rule Mgmt Healthcheck
 
 Basic Holmes Engine Management API Health Check
-    [Tags]    health    medium   health-dcae
+    [Tags]    health    medium   health-dcaegen2
     Run Holmes Engine Mgmt Healthcheck
 
 Basic Multicloud-fcaps API Health Check
