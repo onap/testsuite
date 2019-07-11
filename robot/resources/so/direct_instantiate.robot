@@ -6,6 +6,7 @@ Library    Collections
 Library    String
 Library    DateTime
 Library    SoUtils 
+Library    ONAPLibrary.PreloadData    
 Resource       ../global_properties.robot
 
 *** Variables ***
@@ -20,7 +21,8 @@ Instantiate Service Direct To SO
     ${name_suffix}=   Get Current Date     exclude_millis=True
     ${name_suffix}=       Evaluate    '${name_suffix}'.replace(' ','')
     ${name_suffix}=       Evaluate    '${name_suffix}'.replace(':','')
-    ${preload_dict}=       Copy Dictionary  ${GLOBAL_PRELOAD_PARAMETERS['defaults']}
+    Set Directory    preload    ./demo/preload_data
+    ${preload_dict}=       Get Default Preload Data    preload
     ${template}=   Create Dictionary
     @{keys}=    Get Dictionary Keys    ${preload_dict}
     :FOR   ${key}   IN   @{keys}

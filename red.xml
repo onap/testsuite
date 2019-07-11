@@ -20,11 +20,11 @@
     <referencedLibrary type="PYTHON" name="ONAPLibrary.OOF" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.SDNC" path="testsuite/robot/library"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.SDC" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.PreloadData" path="testsuite/robot/library"/>
     <pythonpath>
         <path location="robot/library"/>
     </pythonpath>
     <classpath/>
-    <variableFiles path="../oom/kubernetes/robot/resources/config/eteshare/config/integration_preload_parameters.py"/>
     <variableFiles path="../oom/kubernetes/robot/resources/config/eteshare/config/integration_robot_properties.py"/>
     <variableFiles path="../oom/kubernetes/robot/resources/config/eteshare/config/vm_properties.py"/>
     <excludedForValidation/>

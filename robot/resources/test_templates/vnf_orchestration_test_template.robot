@@ -226,16 +226,7 @@ Create VVG Server
     ${server}=       Get From Dictionary   ${server}   server
     ${server_id}=    Get From Dictionary   ${server}   id
     Set Test Variable    ${VVG_SERVER_ID}   ${server_id}
-    ${vvg_params}=    Get VVG Preload Parameters
-    Set To Dictionary   ${vvg_params}   nova_instance   ${server_id}
     Wait for Server to Be Active    auth    ${server_id}
-
-Get VVG Preload Parameters
-    [Documentation]   Get preload parameters for the VVG test case so we can include
-    ...               the nova_instance id of the attached server
-    ${test_dict}=    Get From Dictionary    ${GLOBAL_PRELOAD_PARAMETERS}    Vnf-Orchestration
-    ${vvg_params}   Get From Dictionary    ${test_dict}    vvg_preload.template
-    [Return]    ${vvg_params}
 
 Delete VNF
     [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
@@ -274,8 +265,6 @@ Teardown VVG Server
     Return From Keyword if   '${VVG_SERVER_ID}' == ''
     Delete Server   auth   ${VVG_SERVER_ID}
     Wait for Server To Be Deleted    auth    ${VVG_SERVER_ID}
-    ${vvg_params}=    Get VVG Preload Parameters
-    Remove from Dictionary   ${vvg_params}   nova_instance
     Log    Teardown VVG Server Completed
 
 Get Stack Keypairs

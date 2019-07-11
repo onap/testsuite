@@ -6,7 +6,8 @@ Library 	    SeleniumLibrary
 Library        OperatingSystem
 Library         Collections
 Library      String
-Library           ONAPLibrary.ServiceMapping
+Library           ONAPLibrary.ServiceMapping    WITH NAME     ServiceMapping
+Library           ONAPLibrary.PreloadData    WITH NAME     Preload
 Library           ONAPLibrary.Templating
 Library           ONAPLibrary.SDNC
 Resource          global_properties.robot
@@ -111,7 +112,7 @@ Preload Vnf
     [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_module_name}    ${vf_modules}    ${service}   ${uuid}
     ${base_vf_module_type}=    Catenate
     ${closedloop_vf_module}=    Create Dictionary
-    Set Directory    default    ./demo/service_mapping
+    ServiceMapping.Set Directory    default    ./demo/service_mapping
     ${templates}=    Get Service Template Mapping    default    ${service}    ${generic_vnf_type}
     :FOR    ${vf_module}    IN      @{vf_modules}
     \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
@@ -160,7 +161,7 @@ Get From Mapping
 Preload One Vnf Topology
     [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}       ${vf_module_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}
     Return From Keyword If    '${filename}' == ''
-    ${parameters}=    Get Template Parameters    ${generic_vnf_name}    ${filename}   ${uuid}
+    ${parameters}=    Get Template Parameters    ${generic_vnf_name}    ${filename}   ${uuid}    ${service}
     Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
     Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/preload.jinja    ${parameters}
@@ -169,8 +170,7 @@ Preload One Vnf Topology
     ${get_resp}=  Run SDNGC Get Request  ${SDNGC_INDEX_PATH}${PRELOAD_VNF_CONFIG_PATH}/${vf_module_name}/${vf_module_type}
 
 Get Template Parameters
-    [Arguments]   ${generic_vnf_name}    ${template}    ${uuid}
-    ${rest}   ${suite}=    Split String From Right    ${SUITE NAME}   .   1
+    [Arguments]   ${generic_vnf_name}    ${template}    ${uuid}    ${service}
     ${uuid}=    Catenate    ${uuid}
     ${hostid}=    Get Substring    ${uuid}    -4
     ${ecompnet}=    Evaluate    (${GLOBAL_BUILD_NUMBER}%128)+128
@@ -196,9 +196,9 @@ Get Template Parameters
     # Mash together the defaults dict with the test case dict to create the set of
     # preload parameters
     #
-    ${suite_templates}=    Get From Dictionary    ${GLOBAL_PRELOAD_PARAMETERS}    ${suite}
-    ${template}=    Get From Dictionary    ${suite_templates}    ${template}
-    ${defaults}=    Get From Dictionary    ${GLOBAL_PRELOAD_PARAMETERS}    defaults
+    Preload.Set Directory    preload    ./demo/preload_data
+    ${defaults}=       Get Default Preload Data    preload
+    ${template}=    Get Preload Data    preload    ${service}    ${template}
     # add all of the defaults to template...
     @{keys}=    Get Dictionary Keys    ${defaults}
     :FOR   ${key}   IN   @{keys}
