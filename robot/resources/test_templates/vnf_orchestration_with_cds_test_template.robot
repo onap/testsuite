@@ -40,29 +40,23 @@ ${so_uri_path}		/onap/so/infra/serviceInstantiation/v7/serviceInstances
 *** Variables ***
 
 #**************** TEST CASE VARIABLES **************************
-${TENANT_NAME}
-${TENANT_ID}
-${REGIONS}
 ${CUSTOMER_NAME}
 ${STACK_NAME}
 ${STACK_NAMES}
-${SERVICE}
-${VVG_SERVER_ID}
 ${SERVICE_INSTANCE_ID}
 
 *** Keywords ***
 Orchestrate VNF With CDS Template
     [Documentation]   Use openECOMP to Orchestrate a service.
-    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}
-    Orchestrate VNF With CDS	${customer_name}    ${service}    ${product_family}    ${tenant}
+    [Arguments]    ${customer_name}    ${service}    ${product_family}
+    Orchestrate VNF With CDS	${customer_name}    ${service}    ${product_family}
 
 Orchestrate VNF With CDS
     [Documentation]   Use openECOMP to Orchestrate a service.
-    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}  	${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
+    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
     ${lcp_region}=   Get Openstack Region
     ${uuid}=    Generate UUID4
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
-    Set Test Variable    ${SERVICE}    ${service}
     ${list}=    Create List
     Set Test Variable    ${STACK_NAMES}   ${list}
     ${service_instance_name}=    Catenate    Service_Ete_Name${uuid}

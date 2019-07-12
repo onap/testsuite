@@ -56,14 +56,16 @@ VFW Policy
     Initialize VFW Policy
     ${stackname}=   Orchestrate VNF vFW closedloop
     Policy Check FirewallCL Stack    ${stackname}    ${VFWPOLICYRATE}
-    Delete VNF
+    # there is none of this
+    Delete VNF    ${None}     ${None}
 
 VDNS Policy
     Initialize VDNS Policy
     ${stackname}=   Orchestrate VNF vDNS closedloop
     ${dnsscaling}=   Policy Check vLB Stack    ${stackname}    ${VLBPOLICYRATE}
     Set Test Variable   ${DNSSCALINGSTACK}   ${dnsscaling}
-    Delete VNF
+    # there is none of this
+    Delete VNF    ${None}     ${None}
 
 Initialize VFW Policy
 #    Create Config Policy
@@ -190,15 +192,15 @@ Delete Ops Policy
 Orchestrate VNF vFW closedloop
 	[Documentation]    VNF Orchestration for vFW
 	Log    VNF Orchestration flow TEST NAME=${TEST NAME}
-	Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-	${stack_name}    ${service}=  Orchestrate VNF   ETE_CLP    vFWCL      vFWCL   ${TENANT_NAME}
+	${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
+	${stack_name}=  Orchestrate VNF   ETE_CLP    vFWCL      vFWCL   ${tenant_id}    ${tenant_name}
 	[Return]  ${stack_name}
 
  Orchestrate VNF vDNS closedloop
 	[Documentation]    VNF Orchestration for vLB
 	Log    VNF Orchestration flow TEST NAME=${TEST NAME}
-	Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
-	${stack_name}    ${service}=  Orchestrate VNF   ETE_CLP    vLB      vLB   ${TENANT_NAME}
+	${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
+	${stack_name}=  Orchestrate VNF   ETE_CLP    vLB      vLB   ${tenant_id}    ${tenant_name}
 	[Return]  ${stack_name}
 
 VFWCL High Test

@@ -54,10 +54,10 @@ Load OwningEntity
 Load Customer
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
-    Setup Orchestrate VNF   ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
+    ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF   ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
     ${region}=   Get Openstack Region
-    Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${TENANT_ID}
+    Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${tenant_id}
     Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    RegionTlab  50b190410b2a4c229d8a6044a80ab7c1 
     Create Availability Zone If Not Exists    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${GLOBAL_AAI_AVAILABILITY_ZONE_NAME}
 
@@ -110,7 +110,7 @@ Create Customer For VNF Demo
 
 Preload User Model
     [Documentation]   Preload the demo data for the passed VNF with the passed module name
-    [Arguments]   ${vnf_name}   ${vf_module_name}
+    [Arguments]   ${vnf_name}   ${vf_module_name}    ${service}
     # Go to A&AI and get information about the VNF we need to preload
     ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance    ${vnf_name}
     Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF Name: ${vnf_name} is not found.
@@ -170,20 +170,13 @@ APPC Mount Point
     ${vpg_name_0}=    Get From Dictionary    ${stack_info}    vpg_name_0
     ${vnf_id}=    Get From Dictionary    ${stack_info}    vnf_id
     ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
- 
-    #  vpg_oam_ip is no longer needed - use vpg_public_ip
-    #${vpg_oam_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_1
-    #${vpg_oam_ip}=    Get From Dictionary    ${stack_info}    vpg_onap_private_ip_0 
-    #${appc}=    Create Mount Point In APPC    ${vpg_name_0}    ${vpg_oam_ip}
-    #${appc}=    Create Mount Point In APPC    ${vnf_id}    ${vpg_oam_ip}
-
     ${appc}=    Create Mount Point In APPC    ${vnf_id}    ${vpg_public_ip}
 
 Instantiate VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
-    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-    ${vf_module_name_list}    ${service}     ${generic_vnfs}=    Orchestrate VNF    DemoCust    ${service}   ${service}    ${TENANT_NAME}
-    Save For Delete
+    ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
+    ${vf_module_name_list}    ${generic_vnfs}    ${vvg_server_id}=    Orchestrate VNF    DemoCust    ${service}   ${service}    ${tenant_id}    ${tenant_name}
+    Save For Delete    ${tenant_id}    ${tenant_name}    ${vvg_server_id}
     Log   Customer Name=${CUSTOMER_NAME}
     :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
     \   Log   VNF Module Name=${vf_module_name}
@@ -203,9 +196,8 @@ Instantiate VNF
 
 Instantiate Demo VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
-    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-    ${vf_module_name}    ${service}    ${generic_vnfs}=   Orchestrate Demo VNF    Demonstration    ${service}   ${service}    ${TENANT_NAME}
-    #Save For Delete
+    ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
+    ${vf_module_name}    ${service}    ${generic_vnfs}=   Orchestrate Demo VNF    Demonstration    ${service}   ${service}    ${tenant_id}    ${tenant_name}
     Log   Customer Name=${CUSTOMER_NAME}
     Log   VNF Module Name=${vf_module_name}
     # Don't get from MSO for now due to SO-1186
@@ -221,13 +213,13 @@ Instantiate Demo VNF
 
 Save For Delete
     [Documentation]   Create a variable file to be loaded for save for delete
+    [Arguments]    ${tenant_id}    ${tenant_name}    ${vvg_server_id}
     ${dict}=    Create Dictionary
-    Set To Dictionary   ${dict}   TENANT_NAME=${TENANT_NAME}
-    Set To Dictionary   ${dict}   TENANT_ID=${TENANT_ID}
+    Set To Dictionary   ${dict}   TENANT_NAME=${tenant_name}
+    Set To Dictionary   ${dict}   TENANT_ID=${tenant_id}
     Set To Dictionary   ${dict}   CUSTOMER_NAME=${CUSTOMER_NAME}
     Set To Dictionary   ${dict}   STACK_NAME=${STACK_NAME}
-    Set To Dictionary   ${dict}   SERVICE=${SERVICE}
-    Set To Dictionary   ${dict}   VVG_SERVER_ID=${VVG_SERVER_ID}
+    Set To Dictionary   ${dict}   VVG_SERVER_ID=${vvg_server_id}
     Set To Dictionary   ${dict}   SERVICE_INSTANCE_ID=${SERVICE_INSTANCE_ID}
 
     Set To Dictionary   ${dict}   VLB_CLOSED_LOOP_DELETE=${VLB_CLOSED_LOOP_DELETE}

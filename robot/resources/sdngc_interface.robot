@@ -32,30 +32,10 @@ ${VNF_KEYPAIR_SSH_KEY}    robot/assets/keys/onap_dev_public.txt
 *** Keywords ***
 Run SDNGC Health Check
     [Documentation]    Runs an SDNGC healthcheck
-	${resp}=    Run SDNGC Post Request     ${SDNGC_INDEX PATH}${SDNCGC_HEALTHCHECK_OPERATION_PATH}     ${None}
+    ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
+    ${resp}= 	Run Post Request 	${SDNGC_REST_ENDPOINT} 	${SDNGC_INDEX PATH}${SDNCGC_HEALTHCHECK_OPERATION_PATH}     data=${None}    auth=${auth}
     Should Be Equal As Strings 	${resp.status_code} 	200
     Should Be Equal As Strings 	${resp.json()['output']['response-code']} 	200
-
-Run SDNGC Get Request
-    [Documentation]    Runs an SDNGC get request
-    [Arguments]    ${data_path}
-    ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
-    ${resp}= 	Run Get Request 	${SDNGC_REST_ENDPOINT}    ${data_path}     auth=${auth}
-    [Return]    ${resp}
-
-Run SDNGC Put Request
-    [Documentation]    Runs an SDNGC put request
-    [Arguments]    ${data_path}    ${data}
-    ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
-    ${resp}= 	Run Put Request 	${SDNGC_REST_ENDPOINT} 	${data_path}     data=${data}    auth=${auth}
-    [Return]    ${resp}
-
-Run SDNGC Post Request
-    [Documentation]    Runs an SDNGC post request
-    [Arguments]    ${data_path}    ${data}
-    ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
-    ${resp}= 	Run Post Request 	${SDNGC_REST_ENDPOINT} 	${data_path}     data=${data}    auth=${auth}
-    [Return]    ${resp}
 
 Preload Vcpe Networks
     Preload Network    cpe_public    10.2.0.2	 10.2.0.1
@@ -72,7 +52,8 @@ Preload Network
     ${parameters}=     Create Dictionary    network_role=${network_role}    service_type=vCPE    network_type=Generic NeutronNet    network_name=${network_name}    subnet_start_ip=${subnet_start_ip}    subnet_gateway=${subnet_gateway}
     Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.network.jinja   ${parameters}
-	${post_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_NETWORK_TOPOLOGY_OPERATION_PATH}     ${data}
+    ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
+    ${post_resp}= 	Run Post Request 	${SDNGC_REST_ENDPOINT} 	${SDNGC_INDEX_PATH}${PRELOAD_NETWORK_TOPOLOGY_OPERATION_PATH}     data=${data}    auth=${auth}
     [Return]    ${network_name}   ${subnet_name}
 
 Preload Vcpe vGW
@@ -82,7 +63,8 @@ Preload Vcpe vGW
     ${parameters}=     Create Dictionary    pub_key=${ssh_key}    brg_mac=${brg_mac}    cpe_public_net=${cpe_network_name}     cpe_public_subnet=${cpe_subnet_name}    mux_gw_net=${mux_gw_net}	mux_gw_subnet=${mux_gw_subnet}    suffix=${name_suffix}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2        public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
     Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_vgw_vfmodule.jinja   ${parameters}
-	${post_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}   ${data}
+    ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
+    ${post_resp}= 	Run Post Request 	${SDNGC_REST_ENDPOINT} 	${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     data=${data}    auth=${auth}
 
 Preload Vcpe vGW Gra
     [Arguments]    ${brg_mac}	${cpe_public_network_name}   ${cpe_public_subnet_name}    ${mux_gw_net}    ${mux_gw_subnet}
@@ -91,7 +73,8 @@ Preload Vcpe vGW Gra
     ${parameters}=     Create Dictionary    pub_key=${ssh_key}    brg_mac=${brg_mac}    cpe_public_net=${cpe_public_network_name}     cpe_public_subnet=${cpe_public_subnet_name}    mux_gw_net=${mux_gw_net}	mux_gw_subnet=${mux_gw_subnet}    suffix=${name_suffix}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2        public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
     Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_gwgra_vfmodule.jinja   ${parameters}
-	${post_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_GR_TOPOLOGY_OPERATION_PATH}   ${data}
+    ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
+    ${post_resp}= 	Run Post Request 	${SDNGC_REST_ENDPOINT} 	${SDNGC_INDEX_PATH}${PRELOAD_GR_TOPOLOGY_OPERATION_PATH}     data=${data}    auth=${auth}
 
 Preload Generic VfModule
     [Arguments]    ${service_instance_id}	${vnf_model}   ${model_customization_name}    ${short_model_customization_name}	    ${cpe_public_network_name}=None   ${cpe_public_subnet_name}=None   ${cpe_signal_network_name}=None   ${cpe_signal_subnet_name}=None
@@ -165,9 +148,11 @@ Preload One Vnf Topology
     Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
     Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/preload.jinja    ${parameters}
-	${put_resp}=    Run SDNGC Post Request     ${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     ${data}
-    Should Be Equal As Strings 	${put_resp.json()['output']['response-code']} 	200
-    ${get_resp}=  Run SDNGC Get Request  ${SDNGC_INDEX_PATH}${PRELOAD_VNF_CONFIG_PATH}/${vf_module_name}/${vf_module_type}
+    ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
+    ${post_resp}= 	Run Post Request 	${SDNGC_REST_ENDPOINT} 	${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     data=${data}    auth=${auth}
+    Should Be Equal As Strings 	${post_resp.json()['output']['response-code']} 	200
+    ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
+    ${get_resp}= 	Run Get Request 	${SDNGC_REST_ENDPOINT}    ${SDNGC_INDEX_PATH}${PRELOAD_VNF_CONFIG_PATH}/${vf_module_name}/${vf_module_type}     auth=${auth}
 
 Get Template Parameters
     [Arguments]   ${generic_vnf_name}    ${template}    ${uuid}    ${service}
@@ -212,14 +197,6 @@ Get Template Parameters
     ${vnf_parameters_json}=   Evaluate    json.dumps(${vnf_parameters})    json
     ${parameters}=   Create Dictionary   vnf_parameters=${vnf_parameters_json}
     [Return]    ${parameters}
-
-Resolve Values Into Dictionary
-    [Arguments]   ${valuemap}    ${from}    ${to}
-    ${keys}=    Get Dictionary Keys    ${from}
-    :FOR   ${key}   IN  @{keys}
-    \    ${value}=    Get From Dictionary    ${from}   ${key}
-    \    ${value}=    Template String    ${value}    ${valuemap}
-    \    Set To Dictionary    ${to}    ${key}    ${value}
 
 Resolve VNF Parameters Into Array
     [Arguments]   ${valuemap}    ${from}

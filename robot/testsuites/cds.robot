@@ -6,7 +6,7 @@ Resource         ../resources/test_templates/vnf_orchestration_with_cds_test_tem
 
 Test Template         Orchestrate VNF With CDS Template
 
-*** Test Cases ***              CUSTOMER           SERVICE   PRODUCT_FAMILY  TENANT
-Instantiate Virtual vFW With CDS           ETE_Customer    vFW      vFW             ${TENANT_NAME}
+*** Test Cases ***              CUSTOMER           SERVICE   PRODUCT_FAMILY
+Instantiate Virtual vFW With CDS           ETE_Customer    vFW      vFW
     [Tags]    cds
 

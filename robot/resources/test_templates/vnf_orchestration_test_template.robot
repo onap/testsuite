@@ -23,52 +23,48 @@ Library 	    SeleniumLibrary
 Library	        Collections
 Library	        ONAPLibrary.Utilities
 Library         ONAPLibrary.JSON
-Library         ONAPLibrary.ServiceMapping
+Library         ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
 
 
 
 *** Variables ***
 
 #**************** TEST CASE VARIABLES **************************
-${TENANT_NAME}
-${TENANT_ID}
-${REGIONS}
 ${CUSTOMER_NAME}
 ${STACK_NAME}
 ${STACK_NAMES}
-${SERVICE}
-${VVG_SERVER_ID}
 ${SERVICE_INSTANCE_ID}
 
 *** Keywords ***
 Orchestrate VNF Template
+    [Teardown]         Teardown VNF
     [Documentation]   Use openECOMP to Orchestrate a service.
-    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}   ${delete_flag}=DELETE
-    Orchestrate VNF   ${customer_name}    ${service}    ${product_family}    ${tenant}
-    Run Keyword If   '${delete_flag}' == 'DELETE'   Delete VNF
+    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${delete_flag}=DELETE
+    ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
+    ${vf_module_name_list}   ${generic_vnfs}    ${server_id}=    Orchestrate VNF   ${customer_name}    ${service}    ${product_family}    ${tenant_id}    ${tenant_name}
+    Run Keyword If   '${delete_flag}' == 'DELETE'   Delete VNF    ${tenant_name}    ${server_id}
 
 Orchestrate VNF
     [Documentation]   Use openECOMP to Orchestrate a service.
-    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}  ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
+    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant_id}    ${tenant_name}    ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
     ${lcp_region}=   Get Openstack Region
     ${uuid}=    Generate UUID4
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
-    Set Test Variable    ${SERVICE}    ${service}
     ${list}=    Create List
     Set Test Variable    ${STACK_NAMES}   ${list}
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
     ${service_type}=    Set Variable    ${service}
     ${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=    Model Distribution For Directory    ${service}
     Set Suite Variable    ${SUITE_SERVICE_MODEL_NAME}   ${service_model_type}
-    Run Keyword If   '${service}' == 'vVG'    Create VVG Server    ${uuid}
-    Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}
+    ${server_id}=     Run Keyword If   '${service}' == 'vVG'    Create VVG Server    ${uuid}
+    Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${tenant_id}
     Setup Browser
     Login To VID GUI
     ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
     Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
-    Set Directory    default    ./demo/service_mapping
-    ${vnflist}=    Get Service Vnf Mapping    default    ${service}
+    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ${vnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
     ${generic_vnfs}=    Create Dictionary
     ${vnf_name_index}=   Set Variable  0
     ${vf_module_name_list}=    Create List
@@ -81,23 +77,22 @@ Orchestrate VNF
     \   ${vnf_type}=   Get VNF Type   ${catalog_resources}   ${vnf}    ${service}
     \   ${vf_module}=    Get VF Module    ${catalog_resources}   ${vnf}    ${service}
     \   Append To List   ${STACK_NAMES}   ${vf_module_name}
-    \   Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant}    ${vnf_type}   ${CUSTOMER_NAME}
+    \   Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${CUSTOMER_NAME}
     \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}
-    \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
+    \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
-    #\   Run Keyword If   '${service}' == 'vLB'   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
     \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
     \   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
     \   Validate VF Module      ${vf_module_name}    ${vnf}
     \   Append To List   ${vf_module_name_list}    ${vf_module_name}
-    [Return]     ${vf_module_name_list}    ${service}    ${generic_vnfs}
+    [Return]     ${vf_module_name_list}   ${generic_vnfs}    ${server_id}
 
 
 Orchestrate Demo VNF
     [Documentation]   Use ONAP to Orchestrate a service from Demonstration Models.
-    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant}  ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
+    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant_id}    ${tenant_name}  ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
     ${service_model_type}=   Set Variable If
     ...                      '${service}'=='vFWCL'     demoVFWCL
     ...                      '${service}'=='vFW'       demoVFW
@@ -105,21 +100,20 @@ Orchestrate Demo VNF
     ${lcp_region}=   Get Openstack Region
     ${uuid}=    Generate UUID4
     Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
-    Set Test Variable    ${SERVICE}    ${service}
     ${list}=    Create List
     Set Test Variable    ${STACK_NAMES}   ${list}
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
     ${service_type}=    Set Variable    ${service}
     ${vnf_json_resources}=   Get SDC Demo Vnf Catalog Resource      ${service_model_type}
     Set Suite Variable    ${SUITE_SERVICE_MODEL_NAME}   ${service_model_type}
-    Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}
+    Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${tenant_id}
     Setup Browser
     Login To VID GUI
     ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
     Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
-    Set Directory    default    ./demo/service_mapping
-    ${vnflist}=    Get Service Vnf Mapping    default    ${service}
+    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ${vnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
     ${generic_vnfs}=    Create Dictionary
     :FOR   ${vnf}   IN   @{vnflist}
     \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
@@ -127,14 +121,13 @@ Orchestrate Demo VNF
     \   ${vnf_type}=    Set Variable  ${vnf_json_resources['${vnf}']['vnf_type']}
     \   ${vf_module}=   Set Variable  ${vnf_json_resources['${vnf}']['vf_module']}
     \   Append To List   ${STACK_NAMES}   ${vf_module_name}
-    \   Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant}    ${vnf_type}   ${CUSTOMER_NAME}
+    \   Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${CUSTOMER_NAME}
     \   ${vf_module_entry}=   Create Dictionary    name=${vf_module}
     \   ${vf_modules}=   Create List    ${vf_module_entry}
     \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}
-    \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
+    \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
-    #\   Run Keyword If   '${service}' == 'vLB'   VLB Closed Loop Hack   ${service}   ${generic_vnf}   ${closedloop_vf_module}
     \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
     \   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
@@ -172,35 +165,35 @@ Get Catalog Resource
 Get Name Pattern
     [Documentation]    To support services with multiple VNFs, we need to dig the vnf type out of the SDC catalog resources to select in the VID UI
     [Arguments]   ${vnf}    ${service}
-    Set Directory    default    ./demo/service_mapping
-    ${list}=    Get Service Template Mapping    default    ${service}    ${vnf}
+    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ${list}=    ServiceMapping.Get Service Template Mapping    default    ${service}    ${vnf}
     :FOR    ${dict}   IN   @{list}
     \   ${base_name}=   Get From Dictionary    ${dict}    name_pattern
     \   Return From Keyword If   '${dict['isBase']}' == 'true'   ${base_name}
     Fail  Unable to locate base name pattern
 
-
-
 Create Customer For VNF
     [Documentation]    VNF Orchestration Test setup....
     ...                Create Tenant if not exists, Create Customer, Create Service and related relationships
-    [Arguments]    ${customer_name}    ${customer_id}    ${customer_type}    ${service_type}    ${cloud_owner}
+    [Arguments]    ${customer_name}    ${customer_id}    ${customer_type}    ${service_type}    ${cloud_owner}    ${tenant_id}
     ${cloud_region_id}=   Get Openstack Region
     Create Service If Not Exists    ${service_type}
-    ${resp}=    Create Customer    ${customer_name}    ${customer_id}    ${customer_type}    ${service_type}   ${cloud_owner}  ${cloud_region_id}    ${TENANT_ID}
+    ${resp}=    Create Customer    ${customer_name}    ${customer_id}    ${customer_type}    ${service_type}   ${cloud_owner}  ${cloud_region_id}    ${tenant_id}
 	Should Be Equal As Strings 	${resp} 	201
 
 Setup Orchestrate VNF
     [Documentation]    Called before each test case to ensure tenant and region data
     ...                required by the Orchstrate VNF exists in A&AI
     [Arguments]        ${cloud_owner}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}
-    Initialize Tenant From Openstack
-    Initialize Regions From Openstack
-    :FOR    ${region}    IN    @{REGIONS}
-    \    Inventory Tenant If Not Exists    ${cloud_owner}  ${region}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}    ${TENANT_ID}    ${TENANT_NAME}
+    ${tenant_id}    ${tenant_name}=    Initialize Tenant From Openstack
+    Run Openstack Auth Request    auth
+    ${regs}=    Get Openstack Regions    auth
+    :FOR    ${region}    IN    @{regs}
+    \    Inventory Tenant If Not Exists    ${cloud_owner}  ${region}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}    ${tenant_id}    ${tenant_name}
     Inventory Zone If Not Exists
     Inventory Complex If Not Exists    ${GLOBAL_AAI_COMPLEX_NAME}   ${GLOBAL_AAI_PHYSICAL_LOCATION_ID}   ${GLOBAL_AAI_CLOUD_OWNER}   ${GLOBAL_INJECTED_REGION}   ${GLOBAL_AAI_CLOUD_OWNER_DEFINED_TYPE}
     Log   Orchestrate VNF setup complete
+    [Return]    ${tenant_id}    ${tenant_name}
 
 Initialize Tenant From Openstack
     [Documentation]    Initialize the tenant test variables
@@ -208,14 +201,7 @@ Initialize Tenant From Openstack
     ${tenants}=    Get Current Openstack Tenant     auth
     ${tenant_name}=    Evaluate    $tenants.get("name")
     ${tenant_id}=     Evaluate    $tenants.get("id")
-    Set Test Variable	${TENANT_NAME}   ${tenant_name}
-    Set Test Variable	${TENANT_ID}     ${tenant_id}
-
-Initialize Regions From Openstack
-    [Documentation]    Initialize the regions test variable
-    Run Openstack Auth Request    auth
-    ${regs}=    Get Openstack Regions    auth
-    Set Test Variable	${REGIONS}     ${regs}
+    [Return]    ${tenant_id}    ${tenant_name}
 
 Create VVG Server
     [Documentation]    For the VolumeGroup test case, create a server to attach the volume group to be orchestrated.
@@ -225,11 +211,12 @@ Create VVG Server
     ${server}=   Add Server For Image Name  auth    ${vvg_server_name}   ${GLOBAL_INJECTED_VM_IMAGE_NAME}   ${GLOBAL_INJECTED_VM_FLAVOR}   ${GLOBAL_INJECTED_PUBLIC_NET_ID}
     ${server}=       Get From Dictionary   ${server}   server
     ${server_id}=    Get From Dictionary   ${server}   id
-    Set Test Variable    ${VVG_SERVER_ID}   ${server_id}
     Wait for Server to Be Active    auth    ${server_id}
+    [Return]    ${server_id}
 
 Delete VNF
     [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
+    [Arguments]    ${tenant_name}    ${server_id}
     ${lcp_region}=   Get Openstack Region
     ${list}=    Create List
     # remove duplicates, sort vFW-> vPKG , revers to get vPKG > vFWSNK
@@ -240,9 +227,8 @@ Delete VNF
     :FOR   ${stack}   IN   @{sorted_stack_names}
     \     ${keypair_name}=    Get Stack Keypairs   ${stack}
     \     Append To List   ${list}   ${keypair_name}
-    Teardown VVG Server
-    #Teardown VLB Closed Loop Hack
-    Run Keyword and Ignore Error   Teardown VID   ${SERVICE_INSTANCE_ID}   ${lcp_region}   ${TENANT_NAME}   ${CUSTOMER_NAME}
+    Teardown VVG Server    ${server_id}
+    Run Keyword and Ignore Error   Teardown VID   ${SERVICE_INSTANCE_ID}   ${lcp_region}   ${tenant_name}   ${CUSTOMER_NAME}
     #
     :FOR   ${stack}   IN   @{sorted_stack_names}
     \    Run Keyword and Ignore Error    Teardown Stack    ${stack}
@@ -262,9 +248,10 @@ Teardown VNF
 
 Teardown VVG Server
     [Documentation]   Teardown the server created as a place to mount the Volume Group.
-    Return From Keyword if   '${VVG_SERVER_ID}' == ''
-    Delete Server   auth   ${VVG_SERVER_ID}
-    Wait for Server To Be Deleted    auth    ${VVG_SERVER_ID}
+    [Arguments]    ${server_id}
+    Return From Keyword if   '${server_id}' == ''
+    Delete Server   auth   ${server_id}
+    Wait for Server To Be Deleted    auth    ${server_id}
     Log    Teardown VVG Server Completed
 
 Get Stack Keypairs

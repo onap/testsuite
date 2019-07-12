@@ -15,7 +15,9 @@ ${HB_STACK}
 ${HB_SERVICE_INSTANCE_ID}
 ${HB_SERVICE}
 ${HB_IPV4_OAM_ADDRESS}
-
+${TENANT_NAME}
+${VVG_SERVER_ID}
+${SERVICE}
 
 *** Test Cases ***
 Initialize Customer And Models
@@ -37,7 +39,7 @@ Initialize Models
 
 Preload VNF
     [Tags]   PreloadDemo
-    Preload User Model   ${VNF_NAME}   ${MODULE_NAME}
+    Preload User Model   ${VNF_NAME}   ${MODULE_NAME}    ${SERVICE}
 
 Create APPC Mount Point
     [Tags]   APPCMountPointDemo
@@ -66,7 +68,7 @@ Delete Instantiated VNF
     [Tags]   deleteVNF
     Setup Browser
     Login To VID GUI
-    Delete VNF
+    Delete VNF    ${TENANT_NAME}    ${VVG_SERVER_ID}
     [Teardown]   Teardown VNF
 
 Run Heatbridge
