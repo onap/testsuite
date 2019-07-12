@@ -4,6 +4,8 @@ Documentation	  Executes the VNF Orchestration Test cases including setup and te
 Library   Collections
 Resource         ../resources/demo_preload.robot
 Resource         ../resources/asdc_interface.robot
+Resource         ../resources/so/create_cloud_config.robot
+
 *** Variables ***
 
 ${VNF_NAME}       DemoVNF
@@ -19,6 +21,10 @@ ${HB_IPV4_OAM_ADDRESS}
 Initialize Customer And Models
     [Tags]   InitDemo
     Load Customer And Models   Demonstration
+
+Initialize SO Openstack Identity For V3
+    [Tags]   InitDemo
+    Run Keyword If    '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'=='v3'     Create Cloud Configuration v3    ${GLOBAL_INJECTED_REGION}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_REGION}   DEFAULT_KEYSTONE  ${GLOBAL_INJECTED_KEYSTONE}/${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}     ${GLOBAL_INJECTED_OPENSTACK_USERNAME}   ${GLOBAL_INJECTED_OPENSTACK_SO_ENCRYPTED_PASSWORD}    ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}     admin    KEYSTONE_V3    USERNAME_PASSWORD  ${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}  ${GLOBAL_INJECTED_OPENSTACK_USER_DOMAIN}
 
 Initialize Customer
     [Tags]   InitCustomer
