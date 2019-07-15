@@ -55,16 +55,14 @@ Load Customer
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF   ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
-    Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
     ${region}=   Get Openstack Region
-    Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${tenant_id}
-    Create Customer For VNF Demo    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    RegionTlab  50b190410b2a4c229d8a6044a80ab7c1 
+    Create Customer For VNF Demo    ${customer_name}    ${customer_name}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${tenant_id}
+    Create Customer For VNF Demo    ${customer_name}    ${customer_name}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    RegionTlab  50b190410b2a4c229d8a6044a80ab7c1 
     Create Availability Zone If Not Exists    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${GLOBAL_AAI_AVAILABILITY_ZONE_NAME}
 
 Load Models
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}
-    Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}
     Log   ${\n}Distributing vFWCL
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFWCL   ${DEMO_PREFIX}VFWCL
     Log   Distibuting vLB
@@ -110,7 +108,7 @@ Create Customer For VNF Demo
 
 Preload User Model
     [Documentation]   Preload the demo data for the passed VNF with the passed module name
-    [Arguments]   ${vnf_name}   ${vf_module_name}    ${service}
+    [Arguments]   ${vnf_name}   ${vf_module_name}    ${service}    ${service_instance_id}
     # Go to A&AI and get information about the VNF we need to preload
     ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance    ${vnf_name}
     Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF Name: ${vnf_name} is not found.
@@ -175,9 +173,10 @@ APPC Mount Point
 Instantiate VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-    ${vf_module_name_list}    ${generic_vnfs}    ${vvg_server_id}=    Orchestrate VNF    DemoCust    ${service}   ${service}    ${tenant_id}    ${tenant_name}
-    Save For Delete    ${tenant_id}    ${tenant_name}    ${vvg_server_id}
-    Log   Customer Name=${CUSTOMER_NAME}
+    ${uuid}=    Generate UUID4
+    ${vf_module_name_list}    ${generic_vnfs}    ${vvg_server_id}    ${service_instance_id}=    Orchestrate VNF    DemoCust_${uuid}    ${service}   ${service}    ${tenant_id}    ${tenant_name}
+    ${stack_name} = 	Get From List 	${vf_module_name_list} 	-1
+    Save For Delete    ${tenant_id}    ${tenant_name}    ${vvg_server_id}    DemoCust_${uuid}    ${service_instance_id}    ${stack_name}
     :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
     \   Log   VNF Module Name=${vf_module_name}
     # Don't get from MSO for now due to SO-1186
@@ -198,7 +197,6 @@ Instantiate Demo VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
     ${vf_module_name}    ${service}    ${generic_vnfs}=   Orchestrate Demo VNF    Demonstration    ${service}   ${service}    ${tenant_id}    ${tenant_name}
-    Log   Customer Name=${CUSTOMER_NAME}
     Log   VNF Module Name=${vf_module_name}
     # Don't get from MSO for now due to SO-1186
     # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
@@ -213,14 +211,14 @@ Instantiate Demo VNF
 
 Save For Delete
     [Documentation]   Create a variable file to be loaded for save for delete
-    [Arguments]    ${tenant_id}    ${tenant_name}    ${vvg_server_id}
+    [Arguments]    ${tenant_id}    ${tenant_name}    ${vvg_server_id}    ${customer_name}    ${service_instance_id}    ${stack_name}
     ${dict}=    Create Dictionary
     Set To Dictionary   ${dict}   TENANT_NAME=${tenant_name}
     Set To Dictionary   ${dict}   TENANT_ID=${tenant_id}
-    Set To Dictionary   ${dict}   CUSTOMER_NAME=${CUSTOMER_NAME}
-    Set To Dictionary   ${dict}   STACK_NAME=${STACK_NAME}
+    Set To Dictionary   ${dict}   CUSTOMER_NAME=${customer_name}
+    Set To Dictionary   ${dict}   STACK_NAME=${stack_name}
     Set To Dictionary   ${dict}   VVG_SERVER_ID=${vvg_server_id}
-    Set To Dictionary   ${dict}   SERVICE_INSTANCE_ID=${SERVICE_INSTANCE_ID}
+    Set To Dictionary   ${dict}   SERVICE_INSTANCE_ID=${service_instance_id}
 
     Set To Dictionary   ${dict}   VLB_CLOSED_LOOP_DELETE=${VLB_CLOSED_LOOP_DELETE}
     Set To Dictionary   ${dict}   VLB_CLOSED_LOOP_VNF_ID=${VLB_CLOSED_LOOP_VNF_ID}
@@ -239,7 +237,7 @@ Save For Delete
     \    ${vars}=    Catenate  ${vars}${comma} "${id}"
     \    ${comma}=   Catenate   ,
     ${vars}=    Catenate  ${vars}]\n
-    OperatingSystem.Create File   ${FILE_CACHE}/${STACK_NAME}.py   ${vars}
+    OperatingSystem.Create File   ${FILE_CACHE}/${stack_name}.py   ${vars}
     OperatingSystem.Create File   ${FILE_CACHE}/lastVNF4HEATBRIGE.py   ${vars}
 
 

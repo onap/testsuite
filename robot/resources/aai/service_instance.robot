@@ -70,7 +70,6 @@ VLB Closed Loop Hack
     Set Test Variable   ${VLB_CLOSED_LOOP_DELETE}    ${datapath}
     Set Test Variable   ${VLB_CLOSED_LOOP_VNF_ID}    ${vnf_id}
 
-
 VLB Closed Loop Hack Update
     [Documentation]   Update the A&AI vDNS scaling vf module to have persona-model-version 1 rather than 1.0
     [Arguments]   ${stack_name}
@@ -85,11 +84,9 @@ VLB Closed Loop Hack Update
     ${resp}=   Run A&AI Put Request    ${INDEX_PATH}${uri}   ${json}
     ${get_resp}=    Run A&AI Get Request     ${INDEX_PATH}${query}
 
-
 Teardown VLB Closed Loop Hack
     Return From Keyword If    ' ${VLB_CLOSED_LOOP_DELETE}' == ''
 	Delete A&AI Entity    ${VLB_CLOSED_LOOP_DELETE}
-
 
 Validate VF Module
     [Documentation]    Query and Validates A&AI Service Instance
@@ -97,13 +94,3 @@ Validate VF Module
 	Run Keyword If    '${stack_type}'=='vLB'    Validate vLB Stack    ${vf_module_name}
 	Run Keyword If    '${stack_type}'=='vFW'    Validate Firewall Stack    ${vf_module_name}
 	Run Keyword If    '${stack_type}'=='vVG'    Validate vVG Stack    ${vf_module_name}
-
-*** Keywords ***
-Create AAI Service Instance
-    [Documentation]    Query and Validates A&AI Service Instance
-    [Arguments]    ${customer_id}    ${service_type}    ${service_instance_id}    ${service_instance_name}
-    ${json_string}=    Catenate     { "service-type": "VDNS" , "service-subscriptions":[{"service-instance-id":"instanceid123","service-instance-name":"VDNS"}]}
-	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${CUSTOMER SPEC PATH}${CUSTOMER ID}${SERVICE SUBSCRIPTIONS}/{service_type}   ${json_string}
-    Should Be Equal As Strings 	${put_resp.status_code} 	201
-	[Return]  ${put_resp.status_code}
-

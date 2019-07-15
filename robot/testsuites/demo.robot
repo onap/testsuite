@@ -12,12 +12,15 @@ ${VNF_NAME}       DemoVNF
 ${MODULE_NAME}    DemoModuleName
 
 ${HB_STACK}
-${HB_SERVICE_INSTANCE_ID}
 ${HB_SERVICE}
 ${HB_IPV4_OAM_ADDRESS}
 ${TENANT_NAME}
 ${VVG_SERVER_ID}
 ${SERVICE}
+${CUSTOMER_NAME}
+${SERVICE_INSTANCE_ID}
+${STACK_NAMES}
+
 
 *** Test Cases ***
 Initialize Customer And Models
@@ -39,7 +42,7 @@ Initialize Models
 
 Preload VNF
     [Tags]   PreloadDemo
-    Preload User Model   ${VNF_NAME}   ${MODULE_NAME}    ${SERVICE}
+    Preload User Model   ${VNF_NAME}   ${MODULE_NAME}    ${SERVICE}    ${SERVICE_INSTANCE_ID}
 
 Create APPC Mount Point
     [Tags]   APPCMountPointDemo
@@ -68,14 +71,14 @@ Delete Instantiated VNF
     [Tags]   deleteVNF
     Setup Browser
     Login To VID GUI
-    Delete VNF    ${TENANT_NAME}    ${VVG_SERVER_ID}
-    [Teardown]   Teardown VNF
+    Delete VNF    ${TENANT_NAME}    ${VVG_SERVER_ID}    ${CUSTOMER_NAME}    ${SERVICE_INSTANCE_ID}    ${STACK_NAMES}
+    [Teardown]   Teardown VNF    ${CUSTOMER_NAME}
 
 Run Heatbridge
     [Documentation]
     ...    Try to run heatbridge
     [Tags]   heatbridge
-    Execute Heatbridge   ${HB_STACK}   ${HB_SERVICE_INSTANCE_ID}    ${HB_SERVICE}    ${HB_IPV4_OAM_ADDRESS}
+    Execute Heatbridge   ${HB_STACK}   ${HB_SERVICE}    ${HB_IPV4_OAM_ADDRESS}
 
 Preload APPC CDT GUI
     [Documentation]

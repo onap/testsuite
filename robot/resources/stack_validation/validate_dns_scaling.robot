@@ -20,9 +20,9 @@ Resource          validate_common.robot
 *** Keywords ***
 Validate Dns Scaling Stack
     [Documentation]    Wait for the DNS scaling stack to be instantiated
-    [Arguments]    ${STACK_NAME}
+    [Arguments]    ${stack_name}
     Run Openstack Auth Request    auth
-    ${stack_info}=    Wait for Stack to Be Deployed    auth    ${STACK_NAME}
+    ${stack_info}=    Wait for Stack to Be Deployed    auth    ${stack_name}
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${server_list}=    Get Openstack Servers    auth
     Log     ${server_list}
