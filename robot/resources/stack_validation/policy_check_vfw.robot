@@ -8,7 +8,7 @@ Library    ONAPLibrary.JSON
 Library    ONAPLibrary.Openstack
 Library    Collections
 Library    String
-Library           ONAPLibrary.ServiceMapping
+Library           ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
 
 Resource          ../openstack/keystone_interface.robot
 Resource          ../openstack/nova_interface.robot
@@ -17,7 +17,6 @@ Resource          ../ssh/files.robot
 Resource          ../demo_preload.robot
 Resource          packet_generator_interface.robot
 Resource          validate_common.robot
-Resource          ../test_templates/vnf_orchestration_test_template.robot
 
 
 *** Variables ***
@@ -91,8 +90,8 @@ Policy Check vLB Stack
     [Return]    ${dnsscaling}
 
 Get DNSScaling Prefix
-    Set Directory    default    ./demo/service_mapping
-    ${mapping}=    Get Service Template Mapping    default    vLB    vLB
+    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ${mapping}=    ServiceMapping.Get Service Template Mapping    default    vLB    vLB
     :FOR   ${dict}    IN   @{mapping}
     \    Return From Keyword If    '${dict['isBase']}' == 'false'    ${dict['prefix']}
     [Return]   None

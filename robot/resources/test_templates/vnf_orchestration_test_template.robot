@@ -26,42 +26,30 @@ Library         ONAPLibrary.JSON
 Library         ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
 
 
-
-*** Variables ***
-
-#**************** TEST CASE VARIABLES **************************
-${CUSTOMER_NAME}
-${STACK_NAME}
-${STACK_NAMES}
-${SERVICE_INSTANCE_ID}
-
 *** Keywords ***
 Orchestrate VNF Template
-    [Teardown]         Teardown VNF
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}    ${service}    ${product_family}    ${delete_flag}=DELETE
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-    ${vf_module_name_list}   ${generic_vnfs}    ${server_id}=    Orchestrate VNF   ${customer_name}    ${service}    ${product_family}    ${tenant_id}    ${tenant_name}
-    Run Keyword If   '${delete_flag}' == 'DELETE'   Delete VNF    ${tenant_name}    ${server_id}
+    ${uuid}=    Generate UUID4
+    ${vf_module_name_list}   ${generic_vnfs}    ${server_id}	${service_instance_id}=    Orchestrate VNF   ${customer_name}_${uuid}    ${service}    ${product_family}    ${tenant_id}    ${tenant_name}
+    Run Keyword If   '${delete_flag}' == 'DELETE'   Delete VNF    ${tenant_name}    ${server_id}    ${customer_name}_${uuid}    ${service_instance_id}    ${vf_module_name_list}
+    [Teardown]         Teardown VNF    ${customer_name}_${uuid}
 
 Orchestrate VNF
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant_id}    ${tenant_name}    ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
     ${lcp_region}=   Get Openstack Region
     ${uuid}=    Generate UUID4
-    Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
-    ${list}=    Create List
-    Set Test Variable    ${STACK_NAMES}   ${list}
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
     ${service_type}=    Set Variable    ${service}
     ${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=    Model Distribution For Directory    ${service}
     Set Suite Variable    ${SUITE_SERVICE_MODEL_NAME}   ${service_model_type}
     ${server_id}=     Run Keyword If   '${service}' == 'vVG'    Create VVG Server    ${uuid}
-    Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${tenant_id}
+    Create Customer For VNF    ${customer_name}    ${customer_name}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${tenant_id}
     Setup Browser
     Login To VID GUI
     ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
-    Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
     ServiceMapping.Set Directory    default    ./demo/service_mapping
     ${vnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
@@ -76,18 +64,16 @@ Orchestrate VNF
     \   ${vnf_name_index}=   Evaluate   ${vnf_name_index} + 1
     \   ${vnf_type}=   Get VNF Type   ${catalog_resources}   ${vnf}    ${service}
     \   ${vf_module}=    Get VF Module    ${catalog_resources}   ${vnf}    ${service}
-    \   Append To List   ${STACK_NAMES}   ${vf_module_name}
-    \   Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${CUSTOMER_NAME}
+    \   Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${customer_name}
     \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}
-    \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
+    \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${customer_name}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
-    \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
-    \   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
+    \   Execute Heatbridge    ${vf_module_name}    ${vnf}  ipv4_oam_interface
     \   Validate VF Module      ${vf_module_name}    ${vnf}
     \   Append To List   ${vf_module_name_list}    ${vf_module_name}
-    [Return]     ${vf_module_name_list}   ${generic_vnfs}    ${server_id}
+    [Return]     ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}
 
 
 Orchestrate Demo VNF
@@ -99,18 +85,17 @@ Orchestrate Demo VNF
     ...                      '${service}'=='vLB'       demoVLB
     ${lcp_region}=   Get Openstack Region
     ${uuid}=    Generate UUID4
-    Set Test Variable    ${CUSTOMER_NAME}    ${customer_name}_${uuid}
+    ${full_customer_name}=    Catenate    ${customer_name}_${uuid}
     ${list}=    Create List
-    Set Test Variable    ${STACK_NAMES}   ${list}
+    ${vf_module_name_list}=    Create List
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
     ${service_type}=    Set Variable    ${service}
     ${vnf_json_resources}=   Get SDC Demo Vnf Catalog Resource      ${service_model_type}
     Set Suite Variable    ${SUITE_SERVICE_MODEL_NAME}   ${service_model_type}
-    Create Customer For VNF    ${CUSTOMER_NAME}    ${CUSTOMER_NAME}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${tenant_id}
+    Create Customer For VNF    ${full_customer_name}    ${full_customer_name}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${tenant_id}
     Setup Browser
     Login To VID GUI
     ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
-    Set Test Variable   ${SERVICE_INSTANCE_ID}   ${service_instance_id}
     Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
     ServiceMapping.Set Directory    default    ./demo/service_mapping
     ${vnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
@@ -120,18 +105,17 @@ Orchestrate Demo VNF
     \   ${vf_module_name}=    Catenate    Vfmodule_Demo_${vnf}_${uuid}
     \   ${vnf_type}=    Set Variable  ${vnf_json_resources['${vnf}']['vnf_type']}
     \   ${vf_module}=   Set Variable  ${vnf_json_resources['${vnf}']['vf_module']}
-    \   Append To List   ${STACK_NAMES}   ${vf_module_name}
-    \   Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${CUSTOMER_NAME}
+    \   Wait Until Keyword Succeeds    300s   5s    Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${full_customer_name}
     \   ${vf_module_entry}=   Create Dictionary    name=${vf_module}
     \   ${vf_modules}=   Create List    ${vf_module_entry}
     \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}
-    \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${CUSTOMER_NAME}   ${vnf_name}
+    \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${full_customer_name}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
-    \   Set Test Variable    ${STACK_NAME}   ${vf_module_name}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
-    \   Execute Heatbridge    ${vf_module_name}    ${service_instance_id}    ${vnf}  ipv4_oam_interface
+    \   Execute Heatbridge    ${vf_module_name}    ${vnf}  ipv4_oam_interface
     \   Validate VF Module      ${vf_module_name}    ${vnf}
+    \   Append To List   ${vf_module_name_list}   ${vf_module_name}
     [Return]     ${vf_module_name}    ${service}    ${generic_vnfs}
 
 
@@ -216,19 +200,19 @@ Create VVG Server
 
 Delete VNF
     [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
-    [Arguments]    ${tenant_name}    ${server_id}
+    [Arguments]    ${tenant_name}    ${server_id}    ${customer_name}    ${service_instance_id}    ${vf_module_name_list}
     ${lcp_region}=   Get Openstack Region
     ${list}=    Create List
     # remove duplicates, sort vFW-> vPKG , revers to get vPKG > vFWSNK
     ${sorted_stack_names}=    Create List
-    ${sorted_stack_names}=  Remove Duplicates   ${STACK_NAMES}
+    ${sorted_stack_names}=  Remove Duplicates   ${vf_module_name_list}
     Sort List   ${sorted_stack_names}
     Reverse List   ${sorted_stack_names}
     :FOR   ${stack}   IN   @{sorted_stack_names}
     \     ${keypair_name}=    Get Stack Keypairs   ${stack}
     \     Append To List   ${list}   ${keypair_name}
     Teardown VVG Server    ${server_id}
-    Run Keyword and Ignore Error   Teardown VID   ${SERVICE_INSTANCE_ID}   ${lcp_region}   ${tenant_name}   ${CUSTOMER_NAME}
+    Run Keyword and Ignore Error   Teardown VID   ${service_instance_id}   ${lcp_region}   ${tenant_name}   ${customer_name}
     #
     :FOR   ${stack}   IN   @{sorted_stack_names}
     \    Run Keyword and Ignore Error    Teardown Stack    ${stack}
@@ -241,8 +225,9 @@ Delete VNF
 
 Teardown VNF
     [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
+    [Arguments]    ${customer_name}
     Run Keyword If   '${TEST STATUS}' == 'PASS'   Teardown Model Distribution
-    Run Keyword If   '${TEST STATUS}' == 'PASS'   Clean A&AI Inventory
+    Run Keyword If   '${TEST STATUS}' == 'PASS'   Clean A&AI Inventory    ${customer_name}
     Close All Browsers
     Log    Teardown VNF implemented for successful tests only
 
@@ -286,4 +271,5 @@ Teardown Stack
 
 Clean A&AI Inventory
     [Documentation]    Clean up Tenant in A&AI, Create Customer, Create Service and related relationships
-    Delete Customer    ${CUSTOMER_NAME}
+    [Arguments]   ${customer_name}
+    Delete Customer    ${customer_name}
