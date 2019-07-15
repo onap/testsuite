@@ -138,22 +138,6 @@ Run Policy Get Configs Request
     Log    Received response from policy ${resp.text}
     [Return]    ${resp}
 
-Update vVFWCL Policy Old
-    [Arguments]   ${resource_id}
-    Run Keyword and Ignore Error    Delete vFWCL Policy
-    Sleep    20s
-    Log   Create vFWCL Policy
-    Create vFWCL Policy     ${resource_id}
-    Sleep    5s
-    Log   Push vFWCL Policy
-    Push vFWCL Policy
-    Sleep    20s
-    Log   Reboot Drools
-    Reboot Drools
-    Sleep    20s
-    Log   Validate vFWCL Policy
-    Validate the vFWCL Policy Old
-
 Update vVFWCL Policy
     [Arguments]   ${resource_id}
     Log   Create vFWCL Monitoring Policy
@@ -190,21 +174,6 @@ Push vFWCL Policy
  	${data}=   Apply Template    policy    ${POLICY_TEMPLATES}/FirewallPolicy_push.jinja   ${dict}
     ${resp}=   Run Policy Put Request    /pdp/api/pushPolicy    ${data}
     Should Be Equal As Strings 	${resp.status_code} 	200
-
-Reboot Drools
-    ${stop}=   Catenate   docker exec -t -u policy drools bash -c "source /opt/app/policy/etc/profile.d/env.sh; policy stop"
-    ${start}=   Catenate   docker exec -t -u policy drools bash -c "source /opt/app/policy/etc/profile.d/env.sh; policy start"
-    Wait Until Keyword Succeeds    120    5 sec    Open Connection And Log In    ${GLOBAL_INJECTED_POLICY_IP_ADDR}    root    ${GLOBAL_VM_PRIVATE_KEY}
-    Write    ${stop}
-    ${status}   ${stdout}=	 Run Keyword And Ignore Error    SSHLibrary.Read Until Regexp    has stopped
-    Log   ${status}: stdout=${stdout}
-    ${ctrlc}=    Evaluate   '\x03'
-    Run Keyword If   '${status}' == 'FAIL'   Write   ${ctrlc}
-    Sleep    5s
-    Write    ${start}
-    ${stdout}=   SSHLibrary.Read Until Regexp    is running
-    Log   stdout=${stdout}
-    Should Contain     ${stdout}    is running
 
 Validate the vFWCL Policy Old
     ${resp}=   Run Drools Get Request   /policy/pdp/engine/controllers/amsterdam/drools

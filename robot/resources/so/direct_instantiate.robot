@@ -9,9 +9,6 @@ Library    SoUtils
 Library    ONAPLibrary.PreloadData    
 Resource       ../global_properties.robot
 
-*** Variables ***
-${VNF_KEYPAIR_SSH_KEY}    robot/assets/keys/onap_dev_public.txt
-
 *** Keywords ***
 Instantiate Service Direct To SO 
     [Documentation]    Creates an entire service from a CSAR
