@@ -27,7 +27,6 @@ ${SDNGC_ADMIN_ENDPOINT}    ${GLOBAL_SDNGC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_S
 ${SDNGC_ADMIN_SIGNUP_URL}    ${SDNGC_ADMIN_ENDPOINT}/signup
 ${SDNGC_ADMIN_LOGIN_URL}    ${SDNGC_ADMIN_ENDPOINT}/login
 ${SDNGC_ADMIN_VNF_PROFILE_URL}    ${SDNGC_ADMIN_ENDPOINT}/mobility/getVnfProfile
-${VNF_KEYPAIR_SSH_KEY}    robot/assets/keys/onap_dev_public.txt
 
 *** Keywords ***
 Run SDNGC Health Check
@@ -59,8 +58,7 @@ Preload Network
 Preload Vcpe vGW
     [Arguments]    ${brg_mac}    ${cpe_network_name}   ${cpe_subnet_name}    ${mux_gw_net}    ${mux_gw_subnet}
     ${name_suffix}=    Generate Timestamp
-    ${ssh_key}=    OperatingSystem.Get File     ${VNF_KEYPAIR_SSH_KEY}
-    ${parameters}=     Create Dictionary    pub_key=${ssh_key}    brg_mac=${brg_mac}    cpe_public_net=${cpe_network_name}     cpe_public_subnet=${cpe_subnet_name}    mux_gw_net=${mux_gw_net}	mux_gw_subnet=${mux_gw_subnet}    suffix=${name_suffix}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2        public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
+    ${parameters}=     Create Dictionary    pub_key=${GLOBAL_INJECTED_PUBLIC_KEY}    brg_mac=${brg_mac}    cpe_public_net=${cpe_network_name}     cpe_public_subnet=${cpe_subnet_name}    mux_gw_net=${mux_gw_net}	mux_gw_subnet=${mux_gw_subnet}    suffix=${name_suffix}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2        public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
     Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_vgw_vfmodule.jinja   ${parameters}
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
@@ -69,8 +67,7 @@ Preload Vcpe vGW
 Preload Vcpe vGW Gra
     [Arguments]    ${brg_mac}	${cpe_public_network_name}   ${cpe_public_subnet_name}    ${mux_gw_net}    ${mux_gw_subnet}
     ${name_suffix}=    Generate Timestamp
-    ${ssh_key}=    OperatingSystem.Get File     ${VNF_KEYPAIR_SSH_KEY}
-    ${parameters}=     Create Dictionary    pub_key=${ssh_key}    brg_mac=${brg_mac}    cpe_public_net=${cpe_public_network_name}     cpe_public_subnet=${cpe_public_subnet_name}    mux_gw_net=${mux_gw_net}	mux_gw_subnet=${mux_gw_subnet}    suffix=${name_suffix}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2        public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
+    ${parameters}=     Create Dictionary    pub_key=${GLOBAL_INJECTED_PUBLIC_KEY}    brg_mac=${brg_mac}    cpe_public_net=${cpe_public_network_name}     cpe_public_subnet=${cpe_public_subnet_name}    mux_gw_net=${mux_gw_net}	mux_gw_subnet=${mux_gw_subnet}    suffix=${name_suffix}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2        public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
     Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_gwgra_vfmodule.jinja   ${parameters}
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
@@ -79,10 +76,9 @@ Preload Vcpe vGW Gra
 Preload Generic VfModule
     [Arguments]    ${service_instance_id}	${vnf_model}   ${model_customization_name}    ${short_model_customization_name}	    ${cpe_public_network_name}=None   ${cpe_public_subnet_name}=None   ${cpe_signal_network_name}=None   ${cpe_signal_subnet_name}=None
     ${name_suffix}=    Generate Timestamp
-    ${ssh_key}=    OperatingSystem.Get File     ${VNF_KEYPAIR_SSH_KEY}
     ${vfmodule_name}=     Catenate    SEPARATOR=_    vf	    ${short_model_customization_name}	    ${name_suffix}
     #TODO this became a mess, need to fix
-    ${parameters}=     Create Dictionary    pub_key=${ssh_key}    suffix=${name_suffix}    mr_ip_addr=${GLOBAL_INJECTED_MR_IP_ADDR}    mr_ip_port=${GLOBAL_MR_SERVER_PORT}
+    ${parameters}=     Create Dictionary    pub_key=${GLOBAL_INJECTED_PUBLIC_KEY}    suffix=${name_suffix}    mr_ip_addr=${GLOBAL_INJECTED_MR_IP_ADDR}    mr_ip_port=${GLOBAL_MR_SERVER_PORT}
     Set To Dictionary    ${parameters}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2    cpe_public_net=${cpe_public_network_name}     cpe_public_subnet=${cpe_public_subnet_name}    
     Set To Dictionary    ${parameters}    cpe_signal_subnet=${cpe_signal_subnet_name}    cpe_signal_net=${cpe_signal_network_name}    public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
     # vnf_type and generic_vnf_type are identical

@@ -19,8 +19,6 @@ Resource          packet_generator_interface.robot
 Wait For Server
     [Documentation]    Attempts to login to the passed server info and verify (??). Uses server info to get public ip and locate corresponding provate key file
     [Arguments]    ${server_ip}    ${timeout}=300s
-    #${file}=    Catenate    ${GLOBAL_VM_PRIVATE_KEY}
-    # Preload is using onap public key
     ${file}=    Catenate    ${GLOBAL_ONAP_PRIVATE_KEY}
     Wait Until Keyword Succeeds    ${timeout}    5 sec    Open Connection And Log In    ${server_ip}    root    ${file}
     ${lines}=   Grep Local File    "Accepted publickey"    /var/log/auth.log

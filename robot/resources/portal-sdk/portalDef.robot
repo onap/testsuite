@@ -21,12 +21,8 @@ ${PORTAL_HOME_URL}                ${PORTAL_URL}${PORTAL_ENV}/applicationsHome
 ${PORTAL_HEALTH_CHECK_PATH}        ${PORTAL_ENV}/portalApi/healthCheck
 ${PORTAL_XDEMPAPP_REST_URL}        ${PORTAL_URL}/ONAPPORTALSDK/api/v2
 ${PORTAL_ASSETS_DIRECTORY}    ../../assets/widgets/
-${GLOBAL_APPLICATION_ID}           robot-functional
 ${GLOBAL_PORTAL_ADMIN_USER}		demo
 ${GLOBAL_PORTAL_ADMIN_PWD}		demo123456!
-${GLOBAL_MSO_STATUS_PATH}    /ecomp/mso/infra/orchestrationRequests/v2/
-${GLOBAL_BUILD_NUMBER}    0
-${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/robot_ssh_private_key.pvt
 ${jira}    jira
 ${RESOURCE_PATH}    ${PORTAL_URL}/auxapi/ticketevent
 ${portal_Template}    portal/portal.jinja

@@ -28,7 +28,6 @@ ${GLOBAL_BUILD_NUMBER}    0
 ${GLOBAL_VID_UI_TIMEOUT_SHORT}    20s
 ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}    60s
 ${GLOBAL_VID_UI_TIMEOUT_LONG}    120s
-${GLOBAL_VM_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/robot_ssh_private_key.pvt
 ${GLOBAL_ONAP_PRIVATE_KEY}   ${EXECDIR}/robot/assets/keys/onap_dev.pvt
 ${GLOBAL_AAI_INDEX_PATH}    /aai/v14
 ${GLOBAL_AAI_ZONE_ID}    nova1

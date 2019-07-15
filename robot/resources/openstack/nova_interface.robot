@@ -13,7 +13,6 @@ Resource    openstack_common.robot
 ${OPENSTACK_NOVA_API_VERSION}    /v2
 ${OPENSTACK_NOVA_KEYPAIR_PATH}    /os-keypairs
 ${OPENSTACK_NOVA_KEYPAIR_ADD_BODY_FILE}    openstack/nova_add_keypair.jinja
-${OPENSTACK_NOVA_KEYPAIR_SSH_KEY}    robot/assets/keys/robot_ssh_public_key.txt
 ${OPENSTACK_NOVA_FLAVORS_PATH}    /flavors
 ${OPENSTACK_NOVA_SERVERS_PATH}    /servers
 ${OPENSTACK_NOVA_IMAGES_PATH}    /images
@@ -30,8 +29,7 @@ Get Openstack Keypair
 
 Add Openstack Keypair
     [Documentation]    Runs an Openstack Request to add a keypair and returns the keypair name
-    [Arguments]    ${alias}    ${name}
-    ${ssh_key}=    OperatingSystem.Get File     ${OPENSTACK_NOVA_KEYPAIR_SSH_KEY}
+    [Arguments]    ${alias}    ${name}    ${ssh_key}
     ${arguments}=    Create Dictionary    name=${name}	    publickey=${ssh_key}
     Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Apply Template    openstack    ${OPENSTACK_NOVA_KEYPAIR_ADD_BODY_FILE}    ${arguments}
