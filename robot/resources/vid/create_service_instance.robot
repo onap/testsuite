@@ -52,7 +52,7 @@ Wait For Model
     Wait Until Element Is Visible    xpath=//tr[td/span/text() = '${service_model_type}']/td/button[contains(text(),'Deploy')]    ${GLOBAL_VID_UI_TIMEOUT_SHORT}
 
 Delete Service Instance By GUI
-    [Arguments]    ${service_instance_id}    ${customer_name}
+    [Arguments]    ${service_instance_id}
     Click On Element When Visible    xpath=//a/span[@class='glyphicon glyphicon-remove']
     Click On Button When Enabled    xpath=//div[@class='buttonRow']/button[@ngx-enabled='true']
     Wait Until Element Contains    xpath=//div[@ng-controller='deletionDialogController']//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']   requestId    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
@@ -62,7 +62,7 @@ Delete Service Instance By GUI
 
 
 Search Service Instance
-    [Arguments]    ${service_instance_id}    ${customer_name}
+    [Arguments]    ${service_instance_id}
     Click Link       xpath=//div[@heading = 'Search for Existing Service Instances']/a
     Input Text When Enabled    //input[@name='selectedServiceInstance']    ${service_instance_id}
     Click On Button When Enabled    //button[text() = 'Submit']

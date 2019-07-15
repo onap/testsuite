@@ -1,14 +1,12 @@
 *** Settings ***
 Documentation	  Policy Closed Loop Test cases
 
-Resource        ../policy_interface.robot
 Resource        ../stack_validation/policy_check_vfw.robot
-Resource        ../stack_validation/packet_generator_interface.robot
-Resource        vnf_orchestration_test_template.robot
 
 Library    String
 Library    Process
 Library    ONAPLibrary.Templating
+Library    ONAPLibrary.Utilities
 
 *** Variables ***
 ${RESOURCE_PATH_CREATE}        /pdp/createPolicy
@@ -54,24 +52,18 @@ ${DNSSCALINGSTACK}
 VFW Policy
     Log    Suite name ${SUITE NAME} ${TEST NAME} ${PREV TEST NAME}
     Initialize VFW Policy
-    ${stackname}=   Orchestrate VNF vFW closedloop
+    ${stackname}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${customer_name}=   Orchestrate VNF vFW closedloop
     Policy Check FirewallCL Stack    ${stackname}    ${VFWPOLICYRATE}
-    # there is none of this
-    Delete VNF    ${None}     ${None}
+    Delete VNF    ${None}     ${server_id}    ${customer_name}    ${service_instance_id}    ${stackname}
 
 VDNS Policy
     Initialize VDNS Policy
-    ${stackname}=   Orchestrate VNF vDNS closedloop
+    ${stackname}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${customer_name}=   Orchestrate VNF vDNS closedloop
     ${dnsscaling}=   Policy Check vLB Stack    ${stackname}    ${VLBPOLICYRATE}
     Set Test Variable   ${DNSSCALINGSTACK}   ${dnsscaling}
-    # there is none of this
-    Delete VNF    ${None}     ${None}
+    Delete VNF    ${None}     ${server_id}    ${customer_name}    ${service_instance_id}    ${stackname}
 
 Initialize VFW Policy
-#    Create Config Policy
-#    Push Config Policy    ${CONFIG_POLICY_NAME}    ${CONFIG_POLICY_TYPE}
-#    Create Ops Policy
-#    Push Ops Policy    ${OPS_POLICY_NAME}    ${OPS_POLICY_TYPE}
      Get Configs VFW Policy
 
 Initialize VDNS Policy
@@ -116,8 +108,9 @@ Get Configs VDNS Policy
 
 Teardown Closed Loop
     [Documentation]   Tear down a closed loop test case
+    [Arguments]    ${customer_name}
     Terminate All Processes
-    Teardown VNF
+    Teardown VNF    ${customer_name}
     Log     Teardown complete
 
 Create Config Policy
@@ -193,15 +186,19 @@ Orchestrate VNF vFW closedloop
 	[Documentation]    VNF Orchestration for vFW
 	Log    VNF Orchestration flow TEST NAME=${TEST NAME}
 	${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-	${stack_name}=  Orchestrate VNF   ETE_CLP    vFWCL      vFWCL   ${tenant_id}    ${tenant_name}
-	[Return]  ${stack_name}
+    ${uuid}=    Generate UUID4
+	${stack_names}   ${generic_vnfs}    ${server_id}    ${service_instance_id}=  Orchestrate VNF   ETE_CLP_${uuid}    vFWCL      vFWCL   ${tenant_id}    ${tenant_name}
+	${customer_name}=    Catenate    ETE_CLP_${uuid}
+	[Return]  ${stack_names}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${customer_name}
 
  Orchestrate VNF vDNS closedloop
 	[Documentation]    VNF Orchestration for vLB
 	Log    VNF Orchestration flow TEST NAME=${TEST NAME}
 	${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
-	${stack_name}=  Orchestrate VNF   ETE_CLP    vLB      vLB   ${tenant_id}    ${tenant_name}
-	[Return]  ${stack_name}
+    ${uuid}=    Generate UUID4
+	${stack_names}   ${generic_vnfs}    ${server_id}    ${service_instance_id}=  Orchestrate VNF   ETE_CLP_${uuid}    vLB      vLB   ${tenant_id}    ${tenant_name}
+	${customer_name}=    Catenate    ETE_CLP_${uuid}
+	[Return]  ${stack_names}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${customer_name}
 
 VFWCL High Test
 	[Documentation]    Test Control Loop for High Traffic

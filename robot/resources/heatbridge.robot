@@ -33,7 +33,7 @@ Execute Heatbridge
     [Documentation]   Run the Heatbridge against the stack to generate the bulkadd message
     ...    Execute the build add
     ...    Validate the add results by running the named query
-    [Arguments]    ${stack_name}    ${service_instance_id}    ${service}    ${ipv4_oam_address}
+    [Arguments]    ${stack_name}    ${service}    ${ipv4_oam_address}
     Return From Keyword If    '${service}' == 'vVG'
     Run Openstack Auth Request    auth
     ${stack_info}=    Wait for Stack to Be Deployed    auth    ${stack_name}

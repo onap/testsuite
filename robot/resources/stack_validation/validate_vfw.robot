@@ -21,9 +21,9 @@ Resource          validate_common.robot
 *** Keywords ***
 Validate Firewall Stack
     [Documentation]    Identifies and validates the firewall servers in the VFW Stack
-    [Arguments]    ${STACK_NAME}
+    [Arguments]    ${stack_name}
     Run Openstack Auth Request    auth
-    ${stack_info}=    Wait for Stack to Be Deployed    auth    ${STACK_NAME}
+    ${stack_info}=    Wait for Stack to Be Deployed    auth    ${stack_name}
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${server_list}=    Get Openstack Servers    auth
 
