@@ -5,7 +5,7 @@ Library           String
 Library           Collections
 Library           SSHLibrary
 Library           OperatingSystem
-Library           ONAPLibrary.Templating    
+Library           ONAPLibrary.Templating    WITH NAME    Templating
 Resource          global_properties.robot
 Resource          ssh/files.robot
 
@@ -154,24 +154,24 @@ Update vVFWCL Policy
 
 
 Delete vFWCL Policy
-	Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
+	Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
     ${dict}=   Create Dictionary   policyName=com.BRMSParamvFirewall
-  	${data}=   Apply Template    policy    ${POLICY_TEMPLATES}/FirewallPolicy_delete.jinja    ${dict}
+  	${data}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/FirewallPolicy_delete.jinja    ${dict}
 	${resp}=   Run Policy Delete Request    /pdp/api/deletePolicy    ${data}
 	Should Be Equal As Strings 	${resp.status_code} 	200
 
 Create vFWCL Policy
     [Arguments]   ${resource_id}
     ${dict}=   Create Dictionary   RESOURCE_ID=${resource_id}
-    Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    policy    ${POLICY_TEMPLATES}/FirewallPolicy_update.jinja   ${dict}
+    Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/FirewallPolicy_update.jinja   ${dict}
     ${resp}=   Run Policy Put Request    /pdp/api/updatePolicy    ${data}
     Should Be Equal As Strings 	${resp.status_code} 	200
 
 Push vFWCL Policy
-	Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
+	Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
     ${dict}=   Create Dictionary
- 	${data}=   Apply Template    policy    ${POLICY_TEMPLATES}/FirewallPolicy_push.jinja   ${dict}
+ 	${data}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/FirewallPolicy_push.jinja   ${dict}
     ${resp}=   Run Policy Put Request    /pdp/api/pushPolicy    ${data}
     Should Be Equal As Strings 	${resp.status_code} 	200
 
@@ -188,20 +188,20 @@ Validate the vFWCL Policy
 
 Create vFirewall Monitoring Policy
      ${dict}=   Create Dictionary
-    Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
-     ${data}=   Apply Template    policy    ${POLICY_TEMPLATES}/vFirewall_policy_monitoring_input_tosca.jinja    ${dict}
+    Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
+     ${data}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/vFirewall_policy_monitoring_input_tosca.jinja    ${dict}
      ${resp}=   Run Policy Api Post Request    /policy/api/v1/policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app/versions/1.0.0/policies     ${data}
      Should Be Equal As Strings 	${resp.status_code} 	200
 
 Create vFirewall Operational Policy
     [Arguments]   ${resource_id}
     ${dict}=   Create Dictionary   RESOURCE_ID=${resource_id}
-    Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
+    Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
     ${content_data}    OperatingSystem.Get File    ${POLICY_TEMPLATES}/vFirewall_policy_operational_content.yaml
     ${content_data}=    Replace String Using Regexp   ${content_data}    __RESOURCE_ID__     ${resource_id}
     ${encoded_content_data}=    Evaluate    urllib.quote_plus('''${content_data}''')   urllib
     ${content_dictionary}=   Create Dictionary    URL_ENCODED_CONTENT    ${encoded_content_data}
-    ${data_2}=   Apply Template    policy    ${POLICY_TEMPLATES}/vFirewall_policy_operational_url_enc_content_input.jinja   ${content_dictionary}
+    ${data_2}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/vFirewall_policy_operational_url_enc_content_input.jinja   ${content_dictionary}
     Log    ${data_2}
     ${resp}=   Run Policy Api Post Request    /policy/api/v1/policytypes/onap.policies.controlloop.Operational/versions/1.0.0/policies    ${data_2}
     Should Be Equal As Strings         ${resp.status_code}     200
@@ -210,8 +210,8 @@ Create vFirewall Operational Policy
 Push vFirewall Policies To PDP Group
     [Arguments]    ${op_policy_version}
     ${dict}=   Create Dictionary    OP_POLICY_VERSION=${op_policy_version}
-    Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    policy    ${POLICY_TEMPLATES}/vFirewall_push.jinja    ${dict}
+    Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/vFirewall_push.jinja    ${dict}
     ${resp}=   Run Policy Pap Post Request    /policy/pap/v1/pdps/policies   ${data}
     Should Be Equal As Strings    ${resp.status_code}     200
 

@@ -3,7 +3,7 @@ Documentation	  Initializes ONAP Test Web Page and Password
 
 Library    Collections
 Library    OperatingSystem
-Library    ONAPLibrary.Templating
+Library    ONAPLibrary.Templating    WITH NAME    Templating
 Resource          ../resources/openstack/keystone_interface.robot
 Resource          ../resources/openstack/nova_interface.robot
 
@@ -69,8 +69,8 @@ Update ONAP Page
 *** Keywords ***
 Create File From Template
     [Arguments]    ${template}   ${file}   ${values}
-    Create Environment    web    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    web   ${template}    ${values}
+    Templating.Create Environment    web    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    web   ${template}    ${values}
     Create File     ${file}   ${data}
 
 Set Public Ip

@@ -1,7 +1,8 @@
 *** Settings ***
 Documentation     The main interface for interacting with Consul.
 Library           RequestsLibrary
-
+Library           Collections
+Library           String
 Resource          global_properties.robot
 
 *** Variables ***

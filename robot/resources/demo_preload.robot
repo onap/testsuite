@@ -16,7 +16,8 @@ Library	        Collections
 Library         OperatingSystem
 Library         SeleniumLibrary
 Library         RequestsLibrary
-Library	        ONAPLibrary.Templating
+Library	        ONAPLibrary.Templating    WITH NAME    Templating
+Library	        ONAPLibrary.AAI    WITH NAME    AAI
 
 *** Variables ***
 
@@ -100,9 +101,10 @@ Create Customer For VNF Demo
     Create Service If Not Exists    gNB
     ${arguments}=    Create Dictionary    subscriber_name=${customer_name}    global_customer_id=${customer_id}    subscriber_type=${customer_type}     cloud_owner=${clouder_owner}  cloud_region_id=${cloud_region_id}    tenant_id=${tenant_id}
     Set To Dictionary   ${arguments}       service1=vFWCL       service2=vLB   service3=vCPE   service4=vIMS  service5=gNB   service6=vFW
-    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    aai   ${ADD_DEMO_CUSTOMER_BODY}    ${arguments}
-    ${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${data}
+    Templating.Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    aai   ${ADD_DEMO_CUSTOMER_BODY}    ${arguments}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${put_resp}=    AAI.Run Put Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${data}    auth=${auth}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}    ^(200|201|412)$
 
@@ -141,20 +143,23 @@ Get Relationship Data
 
 Get Generic VNF By ID
     [Arguments]   ${vnf_id}
-    ${resp}=    Run A&AI Get Request      ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-id=${vnf_id}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-id=${vnf_id}    auth=${auth}
     Should Be Equal As Strings 	${resp.status_code} 	200
     [Return]   ${resp.json()}
 
 Get Service Instance
     [Arguments]   ${vnf_name}
-    ${resp}=    Run A&AI Get Request      ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-name=${vnf_name}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-name=${vnf_name}    auth=${auth}
     Should Be Equal As Strings 	${resp.status_code} 	200
     [Return]   ${resp.json()}
 
 Get Persona Model Id
     [Documentation]    Query and Validates A&AI Service Instance
     [Arguments]    ${service_instance_id}    ${service_type}   ${customer_id}
-    ${resp}=    Run A&AI Get Request      ${INDEX PATH}${CUSTOMER SPEC PATH}${customer_id}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_id}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${CUSTOMER SPEC PATH}${customer_id}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_id}    auth=${auth}
     ${persona_model_id}=   Get From DIctionary   ${resp.json()['service-instance'][0]}    model-invariant-id
     [Return]   ${persona_model_id}
 
