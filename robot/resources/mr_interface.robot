@@ -5,7 +5,7 @@ Library           DateTime
 Library           Process
 Library           ONAPLibrary.JSON
 Library	          ONAPLibrary.Utilities
-Library	          ONAPLibrary.Templating    
+Library	          ONAPLibrary.Templating    WITH NAME    Templating   
 
 Resource          global_properties.robot
 
@@ -54,8 +54,8 @@ Run MR Update Topic Acl
      #   Appears to not care if topic already exists with the POST / PUT method
      #
      ${dict}=    Create Dictionary    TOPIC_NAME=TEST_TOPIC_ACL
-     Create Environment    mr    ${GLOBAL_TEMPLATE_FOLDER}
-     ${data}=   Apply Template    mr    ${MR_PUT_ACL_TEMPLATE}    ${dict}
+     Templating.Create Environment    mr    ${GLOBAL_TEMPLATE_FOLDER}
+     ${data}=   Templating.Apply Template    mr    ${MR_PUT_ACL_TEMPLATE}    ${dict}
      ${resp}=    Run MR Auth Post Request    ${MR_CREATE_TOPIC_PATH}   iPIxkpAMI8qTcQj8  Ehq3WyT4bkif4zwgEbvshGal   ${data}
      #Log    Update Owner for TEST_TOPIC_ACL
      ${resp}=    Run MR Auth Put Request    ${MR_UPDATE_ACL_TOPIC_PATH}/iPIxkpAMI8qTcQj8  iPIxkpAMI8qTcQj8    Ehq3WyT4bkif4zwgEbvshGal    ${data}
@@ -111,8 +111,8 @@ Run MR Post Request
      ${session}=    Create Session      mr      ${MR_ENDPOINT}
      ${timestamp}=   Get Current Date
      ${dict}=    Create Dictionary    timestamp=${timestamp}
-     Create Environment    mr    ${GLOBAL_TEMPLATE_FOLDER}
-     ${data}=   Apply Template    mr    ${MR_PUBLISH_TEMPLATE}    ${dict}
+     Templating.Create Environment    mr    ${GLOBAL_TEMPLATE_FOLDER}
+     ${data}=   Templating.Apply Template    mr    ${MR_PUBLISH_TEMPLATE}    ${dict}
      ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
      ${resp}=   Post Request    mr      ${data_path}     data=${data}    headers=${headers}

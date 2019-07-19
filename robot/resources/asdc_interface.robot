@@ -11,7 +11,7 @@ Library           ArchiveLibrary
 Library           ONAPLibrary.Openstack
 Library           DateTime
 Library           ONAPLibrary.ServiceMapping    WITH NAME     ServiceMapping
-Library           ONAPLibrary.Templating
+Library           ONAPLibrary.Templating    WITH NAME    Templating
 Library           ONAPLibrary.SDC    WITH NAME    SDC
 Resource          global_properties.robot
 Resource          browser_setup.robot
@@ -326,8 +326,8 @@ Setup SDC Catalog Resource Deployment Artifact Properties
     ${blueprint_data}    OperatingSystem.Get File    ${SDC_CATALOG_DEPLOYMENT_ARTIFACT_PATH}${blueprint_file}
     ${payloadData}=      Base64 Encode   ${blueprint_data}
     ${dict}=    Create Dictionary  artifactLabel=blueprint  artifactName=${blueprint_file}   artifactType=DCAE_INVENTORY_BLUEPRINT  artifactGroupType=DEPLOYMENT  description=${blueprint_file}   payloadData=${payloadData}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_ARTIFACT_UPLOAD_TEMPLATE}    ${dict}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_ARTIFACT_UPLOAD_TEMPLATE}    ${dict}
     # POST artifactUpload to resource
     ${artifact_upload_path}=    Catenate  ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/resourceInstance/${catalog_resource_unique_id}${ASDC_CATALOG_SERVICE_RESOURCE_ARTIFACT_PATH}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
@@ -361,8 +361,8 @@ Setup SDC Catalog Resource GenericNeutronNet Properties
     \    ${ownerId}    Set Variable    ${comp['ownerId']}
     \    ${dict}=    Create Dictionary    parentUniqueId=${parentUniqueId}   ownerId=${ownerId}  uniqueId=${uniqueId}    description=${description}
     \    Run Keyword If   '${name}'=='network_role'   Set To Dictionary    ${dict}    name=${name}    value=${nf_role}
-    \    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    \    ${data}=   Apply Template    sdc   ${SDC_CATALOG_NET_RESOURCE_INPUT_TEMPLATE}    ${dict}
+    \    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    \    ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_NET_RESOURCE_INPUT_TEMPLATE}    ${dict}
     \    ${response}=    Set ASDC Catalog Resource Component Instance Properties    ${catalog_parent_service_id}    ${catalog_service_id}    ${data}
 
 
@@ -397,8 +397,8 @@ Setup SDC Catalog Resource AllottedResource Properties
     \    ${uniqueId}    Set Variable     ${comp['uniqueId']}
     \    ${uniqueId}   Fetch From Left   ${uniqueId}   .
     \    Set To Dictionary    ${dict}    uniqueId=${uniqueId}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${SDC_CATALOG_ALLOTTED_RESOURCE_PROPERTIES_TEMPLATE}    ${dict}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_ALLOTTED_RESOURCE_PROPERTIES_TEMPLATE}    ${dict}
     ${response}=    Set ASDC Catalog Resource Component Instance Properties For Resource    ${catalog_resource_id}    ${componentInstance1}    ${data}
     Log    resp=${response}
 
@@ -414,8 +414,8 @@ Setup SDC Catalog Resource AllottedResource Inputs
     \    ${uid}    Set Variable    ${comp['uniqueId']}
     \    Run Keyword If    '${name}'=='nf_type'    Set To Dictionary    ${dict}    nf_type=${nf_role}    nf_type_uid=${uid}
     \    Run Keyword If    '${name}'=='nf_role'    Set To Dictionary    ${dict}    nf_role=${nf_role}   nf_role_uid=${uid}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${SDC_CATALOG_ALLOTTED_RESOURCE_INPUTS_TEMPLATE}    ${dict}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_ALLOTTED_RESOURCE_INPUTS_TEMPLATE}    ${dict}
     ${response}=    Set ASDC Catalog Resource VNF Inputs    ${catalog_resource_id}    ${data}
     [Return]    ${response}
 
@@ -435,8 +435,8 @@ Setup ASDC Catalog Resource CDS Properties
     \    Run Keyword If   '${name}'=='abstract_vfw'   Set To Dictionary    ${dict}    nfc_function=vfw    nfc_naming_policy=SDNC_Policy.ONAP_VFW_NAMING_TIMESTAMP
     \    Run Keyword If   '${name}'=='abstract_vpg'   Set To Dictionary    ${dict}    nfc_function=vpg    nfc_naming_policy=SDNC_Policy.ONAP_VPG_NAMING_TIMESTAMP
     \    Run Keyword If   '${name}'=='abstract_vsn'   Set To Dictionary    ${dict}    nfc_function=vsn    nfc_naming_policy=SDNC_Policy.ONAP_VSN_NAMING_TIMESTAMP
-    \    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    \    ${data}=   Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    ${dict}
+    \    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    \    ${data}=   Templating.Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    ${dict}
     \    ${response}=    Set ASDC Catalog Resource Component Instance Properties    ${catalog_resource_id}    ${uniqueId}    ${data}
     \    Log    resp=${response}
 
@@ -451,8 +451,8 @@ Setup ASDC Catalog Resource CDS Properties
     \    Run Keyword If    '${name}'=='nf_naming_code'    Set To Dictionary    ${dict}    nf_naming_code=vfw    nf_naming_code_uid=${uid}
     \    Run Keyword If    '${name}'=='nf_role'    Set To Dictionary    ${dict}    nf_role=vFW    nf_role_uid=${uid}
     \    Run Keyword If    '${name}'=='cloud_env'    Set To Dictionary    ${dict}    cloud_env=openstack    cloud_env_uid=${uid}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_VNF_INPUTS_TEMPLATE}    ${dict}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_VNF_INPUTS_TEMPLATE}    ${dict}
     ${response}=    Set ASDC Catalog Resource VNF Inputs    ${catalog_resource_id}    ${data}
 
 Add ASDC License Model
@@ -460,8 +460,8 @@ Add ASDC License Model
     ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    vendor_name=${shortened_uuid}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_LICENSE_MODEL_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_LICENSE_MODEL_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}    ${data}  ${ASDC_DESIGNER_USER_ID}      auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -484,8 +484,8 @@ Checkin ASDC License Model
     [Documentation]    Checks in an ASDC License Model by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Checkin
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Put Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}   ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -495,8 +495,8 @@ Submit ASDC License Model
     [Documentation]    Submits an ASDC License Model by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Submit
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Put Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}   ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     [Return]    ${resp.json()}
@@ -505,8 +505,8 @@ Checkin ASDC Software Product
     [Documentation]    Checks in an ASDC Software Product by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Checkin
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Put Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}  ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -525,8 +525,8 @@ Submit ASDC Software Product
     [Documentation]    Submits an ASDC Software Product by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Submit
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Put Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}   ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -536,8 +536,8 @@ Package ASDC Software Product
     [Documentation]    Creates a package of an ASDC Software Product by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Create_Package
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Put Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}   ${ASDC_DESIGNER_USER_ID}      auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -549,8 +549,8 @@ Add ASDC Entitlement Pool
     ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    entitlement_pool_name=${shortened_uuid}  license_start_date=${license_start_date}  license_end_date=${license_end_date}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_ENTITLEMENT_POOL_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_ENTITLEMENT_POOL_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_ENTITLEMENT_POOL_PATH}    ${data}  ${ASDC_DESIGNER_USER_ID}      auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -569,8 +569,8 @@ Add ASDC License Group
     ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    key_group_name=${shortened_uuid}   license_start_date=${license_start_date}  license_end_date=${license_end_date}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_KEY_GROUP_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_KEY_GROUP_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_KEY_GROUP_PATH}     ${data}   ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -589,8 +589,8 @@ Add ASDC Feature Group
     ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    feature_group_name=${shortened_uuid}    key_group_id=${key_group_id}    entitlement_pool_id=${entitlement_pool_id}   manufacturer_reference_number=mrn${shortened_uuid}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_FEATURE_GROUP_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_FEATURE_GROUP_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_FEATURE_GROUP_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -609,8 +609,8 @@ Add ASDC License Agreement
     ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    license_agreement_name=${shortened_uuid}    feature_group_id=${feature_group_id}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_LICENSE_AGREEMENT_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_LICENSE_AGREEMENT_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_LICENSE_AGREEMENT_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}     auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -630,8 +630,8 @@ Add ASDC Software Product
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:13]
     ${software_product_name}=  Catenate   ${name_prefix}   ${shortened_uuid}
     ${map}=    Create Dictionary    software_product_name=${software_product_name}    feature_group_id=${feature_group_id}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}    vendor_id=${license_model_id}    version_id=${license_model_version_id}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_SOFTWARE_PRODUCT_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_SOFTWARE_PRODUCT_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -648,8 +648,8 @@ Add ASDC Catalog Resource
     [Documentation]    Creates an ASDC Catalog Resource and returns its id
     [Arguments]    ${license_agreement_id}    ${software_product_name}    ${license_model_name}    ${software_product_id}
     ${map}=    Create Dictionary    software_product_id=${software_product_id}    software_product_name=${software_product_name}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_CATALOG_RESOURCE_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_CATALOG_RESOURCE_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     201
@@ -659,8 +659,8 @@ Add ASDC Allotted Resource Catalog Resource
     [Documentation]    Creates an ASDC Allotted Resource Catalog Resource and returns its id
     [Arguments]    ${license_agreement_id}    ${software_product_name}    ${license_model_name}    ${software_product_id}   ${subcategory}
     ${map}=    Create Dictionary    software_product_id=${software_product_id}    software_product_name=${software_product_name}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}   subcategory=${subcategory}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_ALLOTTED_RESOURCE_CATALOG_RESOURCE_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_ALLOTTED_RESOURCE_CATALOG_RESOURCE_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     201
@@ -789,8 +789,8 @@ Checkin ASDC Catalog Resource
     [Documentation]    Checks in an ASDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -800,8 +800,8 @@ Request Certify ASDC Catalog Resource
     [Documentation]    Requests certification of an ASDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -819,8 +819,8 @@ Certify ASDC Catalog Resource
     [Documentation]    Certifies an ASDC Catalog Resource by its id and returns the new id
     [Arguments]    ${catalog_resource_id}    ${user_id}=${ASDC_TESTER_USER_ID}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${user_id}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -842,8 +842,8 @@ Add ASDC Catalog Service
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${catalog_service_name}=   Set Variable If   '${catalog_service_name}' ==''   ${shortened_uuid}   ${catalog_service_name}
     ${map}=    Create Dictionary    service_name=${catalog_service_name}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_CATALOG_SERVICE_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_CATALOG_SERVICE_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     201
@@ -875,8 +875,8 @@ Checkin ASDC Catalog Service
     [Documentation]    Checks in an ASDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=  Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -886,8 +886,8 @@ Request Certify ASDC Catalog Service
     [Documentation]    Requests certification of an ASDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=  Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -905,8 +905,8 @@ Certify ASDC Catalog Service
     [Documentation]    Certifies an ASDC Catalog Service by its id and returns the new id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=  Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${ASDC_TESTER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -916,8 +916,8 @@ Approve ASDC Catalog Service
     [Documentation]    Approves an ASDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_DISTRIBUTION_STATE_PATH}${ASDC_DISTRIBUTION_STATE_APPROVE_PATH}    ${data}    ${ASDC_GOVERNOR_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -938,8 +938,8 @@ Add ASDC Resource Instance
     ${xoffset}=    Set Variable   ${xoffset+306}
     ${yoffset}=    Set Variable   ${yoffset+248}
     ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}    originType=${resourceType}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     201
@@ -952,8 +952,8 @@ Add ASDC Resource Instance To Resource
     ${xoffset}=    Set Variable   ${xoffset+306}
     ${yoffset}=    Set Variable   ${yoffset+248}
     ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}    originType=${resourceType}
-    Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=  Templating.Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
     ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
     ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}/${parent_catalog_resource_id}${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     201

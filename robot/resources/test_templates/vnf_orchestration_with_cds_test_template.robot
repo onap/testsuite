@@ -22,7 +22,7 @@ Resource    	../so_interface.robot
 
 Library         ONAPLibrary.Openstack
 Library	        ONAPLibrary.Utilities
-Library	        ONAPLibrary.Templating
+Library	        ONAPLibrary.Templating    WITH NAME    Templating
 Library	        Collections
 Library         String
 Library         ONAPLibrary.JSON
@@ -68,7 +68,7 @@ Orchestrate VNF With CDS
 
     ${vnfs}=   Get From Dictionary    ${jsondata['topology_template']}   node_templates
     ${keys}=   Get Dictionary Keys    ${vnfs}
-    Create Environment    cds    ${GLOBAL_TEMPLATE_FOLDER}
+    Templating.Create Environment    cds    ${GLOBAL_TEMPLATE_FOLDER}
     :FOR   ${key}  IN  @{keys}
     \	 ${vnf}=   Get From Dictionary	  ${vnfs}   ${key}
     \    Get VNF Info	${key} 	${vnf}	${dict}
@@ -77,11 +77,11 @@ Orchestrate VNF With CDS
     \    ${value}= 	Convert To Lowercase 	${value}
     \    ${vfmodules}=	Get VFModule Info	 ${jsondata}	${value}	  ${dict}
     \	 Set To Dictionary	${dict}	  vf_modules=${vfmodules}
-    \    ${vnf_payload}=   Apply Template    cds		${vnf_template_name}		${dict}
+    \    ${vnf_payload}=   Templating.Apply Template    cds		${vnf_template_name}		${dict}
     \	 ${data}= 	Catenate	[${vnf_payload}]
    
     Set To Dictionary 		${dict}		vnfs=${data}
-    ${request}=     Apply Template    cds    ${so_request_template}    ${dict}
+    ${request}=     Templating.Apply Template    cds    ${so_request_template}    ${dict}
     Log     --------request--------
     Log     ${request}
     Log     --------end request--------
@@ -114,12 +114,12 @@ Get VFModule Info
     ${keys}=   Get Dictionary Keys    ${vfModules}
     ${data}=   Catenate
     ${delim}=   Catenate
-    Create Environment    cds    ${GLOBAL_TEMPLATE_FOLDER}
+    Templating.Create Environment    cds    ${GLOBAL_TEMPLATE_FOLDER}
     :FOR   ${key}  IN  @{keys}
     \    ${module}=   Get From Dictionary    ${vfModules}   ${key}
     \    Log 	${vnf} ${key}
     \    Run keyword if 	"${vnf}" in "${key}"	set vfmodule param	${key}	  ${module}	${dict}
-    \    ${vfmodule_payload}= 	Apply Template		cds    ${vfmodule_template_name}		${dict}
+    \    ${vfmodule_payload}= 	Templating.Apply Template		cds    ${vfmodule_template_name}		${dict}
     \	 ${data}= 	Catenate    ${data}   ${delim}   ${vfmodule_payload}
     \	 ${delim}= 	Catenate	,
     Log 	${data}

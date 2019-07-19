@@ -5,7 +5,8 @@ Documentation     Operations on relationship-list sub-object in AAI,
 
 Resource    aai_interface.robot
 Library    Collections
-Library    ONAPLibrary.Templating
+Library    ONAPLibrary.Templating    WITH NAME    Templating
+Library    ONAPLibrary.AAI    WITH NAME    AAI
 
 *** Variables ***
 ${AAI_RELATIONSHIPLIST_PATH}      relationship-list
@@ -18,9 +19,10 @@ Add Relationship
     [Documentation]    Adds Relationship sub-object to existing object in AAI
     [Arguments]    ${api_version_base_object_url}  ${related_class_name}  ${related_object_url}
     ${arguments}=    Create Dictionary     related_class_name=${related_class_name}  related_object_url=${related_object_url}
-    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    aai   ${AAI_ADD_RELATIONSHIP_BODY}    ${arguments}
-    ${put_resp}=    Run A&AI Put Request     ${api_version_base_object_url}/${AAI_RELATIONSHIP_PATH}     ${data}
+    Templating.Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    aai   ${AAI_ADD_RELATIONSHIP_BODY}    ${arguments}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${put_resp}=    AAI.Run Put Request     ${AAI_FRONTEND_ENDPOINT}    ${api_version_base_object_url}/${AAI_RELATIONSHIP_PATH}     ${data}    auth=${auth}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}     ^(201|200)$
 
@@ -34,7 +36,8 @@ Get RelationshipList
 Get Object With Depth
     [Documentation]   Return Object with Depth parameter to show RelationshipList
     [Arguments]    ${api_version_base_object_url}
-    ${resp}=    Run A&AI Get Request     ${api_version_base_object_url}${AAI_RELATIONSHIP_DEPTH}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${api_version_base_object_url}${AAI_RELATIONSHIP_DEPTH}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     Log    Returning response ${resp.json()}
     [Return]  ${resp.json()}

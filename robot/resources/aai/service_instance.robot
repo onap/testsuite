@@ -1,14 +1,13 @@
 *** Settings ***
 Documentation	  Validate A&AI Serivce Instance
-...
-...	              Validate A&AI Serivce Instance
 
 Resource          aai_interface.robot
 Library    Collections
 Library    OperatingSystem
 Library    RequestsLibrary
 Library    ONAPLibrary.JSON
-Library    ONAPLibrary.Templating
+Library    ONAPLibrary.Templating    WITH NAME    Templating
+Library    ONAPLibrary.AAI    WITH NAME    AAI
 Resource          ../stack_validation/validate_vlb.robot
 Resource          ../stack_validation/validate_vfw.robot
 Resource          ../stack_validation/validate_vvg.robot
@@ -35,19 +34,21 @@ ${VLB_CLOSED_LOOP_VNF_ID}
 Validate Service Instance
     [Documentation]    Query and Validates A&AI Service Instance
     [Arguments]    ${service_instance_name}    ${service_type}  ${customer_name}
-    ${cust_resp}=    Run A&AI Get Request      ${INDEX PATH}/business/customers?subscriber-name=${customer_name}
-	${resp}=    Run A&AI Get Request      ${INDEX PATH}${CUSTOMER SPEC PATH}${cust_resp.json()['customer'][0]['global-customer-id']}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_name}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${cust_resp}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}/business/customers?subscriber-name=${customer_name}        auth=${auth
+	${resp}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${CUSTOMER SPEC PATH}${cust_resp.json()['customer'][0]['global-customer-id']}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_name}        auth=${auth
     Dictionary Should Contain Value	${resp.json()['service-instance'][0]}    ${service_instance_name}
 
 Validate Generic VNF
     [Documentation]    Query and Validates A&AI Service Instance
     [Arguments]    ${vnf_name}  ${vnf_type}    ${service_instance_id}
-    ${generic_vnf}=    Run A&AI Get Request      ${INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-name=${vnf_name}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${generic_vnf}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-name=${vnf_name}        auth=${auth
     Dictionary Should Contain Value	${generic_vnf.json()}    ${vnf_name}
     ${returned_vnf_type}=    Get From Dictionary    ${generic_vnf.json()}    vnf-type
     Should Contain	${returned_vnf_type}    ${vnf_type}
     ${vnf_id}=    Get From Dictionary    ${generic_vnf.json()}    vnf-id
-    ${generic_vnf}=    Run A&AI Get Request      ${INDEX PATH}/network/generic-vnfs/generic-vnf/${vnf_id}?depth=all
+    ${generic_vnf}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}/network/generic-vnfs/generic-vnf/${vnf_id}?depth=all        auth=${auth
     [Return]    ${generic_vnf.json()}
 
 VLB Closed Loop Hack
@@ -61,10 +62,11 @@ VLB Closed Loop Hack
     ${persona_model_version}=   Get From Dictionary    ${closedloop_vf_module}    version
     ${dummy}=    Catenate   dummy_${vnf_id}
     ${dict}=    Create Dictionary   vnf_id=${vnf_id}   vf_module_id=${dummy}   persona_model_id=${persona_model_id}   persona_model_version=${persona_model_version}
-    ${datapath}=    Template String    ${GENERIC_VNF_PATH_TEMPLATE}    ${dict}
-    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    aai   ${VLB_CLOSED_LOOP_HACK_BODY}    ${dict}
-	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${datapath}   ${data}
+    ${datapath}=    Templating.Template String    ${GENERIC_VNF_PATH_TEMPLATE}    ${dict}
+    Templating.Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${data}=   Templating.Apply Template    aai   ${VLB_CLOSED_LOOP_HACK_BODY}    ${dict}
+	${put_resp}=    AAI.Run Put Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${datapath}   ${data}        auth=${auth
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}    ^(201|412)$
     Set Test Variable   ${VLB_CLOSED_LOOP_DELETE}    ${datapath}
@@ -73,16 +75,17 @@ VLB Closed Loop Hack
 VLB Closed Loop Hack Update
     [Documentation]   Update the A&AI vDNS scaling vf module to have persona-model-version 1 rather than 1.0
     [Arguments]   ${stack_name}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
     ${dict}=    Create Dictionary   vnf_id=${VLB_CLOSED_LOOP_VNF_ID}   vf_module_name=${stack_name}
-    ${query}=   Template String   ${GENERIC_VNF_QUERY_TEMPLATE}   ${dict}
-    ${get_resp}=    Run A&AI Get Request     ${INDEX_PATH}${query}
+    ${query}=   Templating.Template String   ${GENERIC_VNF_QUERY_TEMPLATE}   ${dict}
+    ${get_resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX_PATH}${query}        auth=${auth
     ${json}=   Set Variable   ${get_resp.json()}
     Set to Dictionary    ${json}   persona-model-version   1
     ${vf_module_id}=   Get From Dictionary   ${json}   vf-module-id
     Set to Dictionary   ${dict}   vf_module_id=${vf_module_id}
-    ${uri}=   Template String   ${GENERIC_VNF_PATH_TEMPLATE}   ${dict}
-    ${resp}=   Run A&AI Put Request    ${INDEX_PATH}${uri}   ${json}
-    ${get_resp}=    Run A&AI Get Request     ${INDEX_PATH}${query}
+    ${uri}=   Templating.Template String   ${GENERIC_VNF_PATH_TEMPLATE}   ${dict}
+    ${resp}=   AAI.Run Put Request    ${AAI_FRONTEND_ENDPOINT}    ${INDEX_PATH}${uri}   ${json}        auth=${auth
+    ${get_resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX_PATH}${query}        auth=${auth
 
 Teardown VLB Closed Loop Hack
     Return From Keyword If    ' ${VLB_CLOSED_LOOP_DELETE}' == ''
