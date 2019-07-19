@@ -10,7 +10,7 @@ Library           String
 Library           ArchiveLibrary
 Library           ONAPLibrary.Openstack
 Library           DateTime
-Library           ONAPLibrary.ServiceMapping
+Library           ONAPLibrary.ServiceMapping    WITH NAME     ServiceMapping
 Library           ONAPLibrary.Templating
 Library           ONAPLibrary.SDC    WITH NAME    SDC
 Resource          global_properties.robot
@@ -95,8 +95,8 @@ Distribute Model From ASDC
     \    Set To Dictionary    ${resource_types}    ${resource_type_string}    ${loop_catalog_resource_id}   
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
 
-    Set Directory    default    ./demo/service_mapping
-    ${vnflist}=    Get Service Vnf Mapping    default    ${service}
+    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ${vnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
 
     # Spread the icons on the pallette starting on the left
     ${xoffset}=    Set Variable    ${0}
@@ -111,7 +111,7 @@ Distribute Model From ASDC
     ${vf_module}=   Find Element In Array    ${loop_catalog_resource_resp['groups']}    type    org.openecomp.groups.VfModule
     #
     #  do network
-    ${networklist}=    Get Service Neutron Mapping    default    ${service}
+    ${networklist}=    ServiceMapping.Get Service Neutron Mapping    default    ${service}
     ${generic_neutron_net_uuid}=   Get Generic NeutronNet UUID
     :FOR   ${network}   IN   @{networklist}
     \    ${loop_catalog_resource_id}=   Set Variable    ${generic_neutron_net_uuid}
@@ -126,7 +126,7 @@ Distribute Model From ASDC
     #
     # do deployment artifacts
     #
-    ${deploymentlist}=    Get Service Deployment Artifact Mapping    default    ${service}
+    ${deploymentlist}=    ServiceMapping.Get Service Deployment Artifact Mapping    default    ${service}
     :FOR  ${deployment}  IN   @{deploymentlist}
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
     \    Setup SDC Catalog Resource Deployment Artifact Properties      ${catalog_service_id}   ${loop_catalog_resource_resp}  ${catalog_resource_unique_name}  ${deployment}

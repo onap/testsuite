@@ -2,7 +2,7 @@
 Library     HeatBridge
 Library     Collections
 Library     OperatingSystem
-Library     ONAPLibrary.ServiceMapping
+Library     ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
 Library     ONAPLibrary.Templating
 
 Resource    openstack/keystone_interface.robot
@@ -81,10 +81,10 @@ Run Validation Query
     [Documentation]    Run A&AI query to validate the bulk add
     [Arguments]    ${stack_info}    ${service}    ${vnf_id}
     Return from Keyword If    '${service}' == ''
-    Set Directory    default    ./demo/service_mapping
+    ServiceMapping.Set Directory    default    ./demo/service_mapping
     ${payload}=  Run Get Generic VNF by VnfId       ${vnf_id}
     ${vnf_type}=    Catenate    ${payload.json()[vnf-type]}
-    ${server_name_parameter}=    Get Validate Name Mapping    default    ${service}    ${vnf_type}
+    ${server_name_parameter}=    ServiceMapping.Get Validate Name Mapping    default    ${service}    ${vnf_type}
     ${vserver_name}=    Get From Dictionary    ${stack_info}   ${server_name_parameter}
     Run Vserver Query   ${vserver_name}
 

@@ -5,7 +5,7 @@ Library            ArchiveLibrary
 Library           Collections
 Library           String
 Library           DateTime
-Library           ONAPLibrary.ServiceMapping
+Library           ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
 Resource          ../asdc_interface.robot
 
 *** Variables ***
@@ -22,8 +22,8 @@ ${CATALOG_SERVICE_ID}
 
 Model Distribution For vCPEResCust Directory
     [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=
-    Set Directory    default    ./demo/service_mapping
-    ${directory_list}=    Get Service Folder Mapping    default    ${service}
+    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ${directory_list}=    ServiceMapping.Get Service Folder Mapping    default    ${service}
     ${ziplist}=    Create List
     ${uuid}=    Get Current Date
     ${service_name}=    Catenate    ${service}    ${uuid}

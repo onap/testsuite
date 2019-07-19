@@ -8,7 +8,7 @@ Library         Collections
 Library      String
 Library           ONAPLibrary.ServiceMapping    WITH NAME     ServiceMapping
 Library           ONAPLibrary.PreloadData    WITH NAME     Preload
-Library           ONAPLibrary.Templating
+Library           ONAPLibrary.Templating    WITH NAME     Templating
 Library           ONAPLibrary.SDNC        WITH NAME     SDNC
 Resource          global_properties.robot
 Resource        browser_setup.robot
@@ -49,8 +49,8 @@ Preload Network
     ${network_name}=     Catenate    SEPARATOR=_    net	    ${network_role}	    ${name_suffix}
     ${subnet_name}=     Catenate    SEPARATOR=_    net	    ${network_role}	    subnet    ${name_suffix}
     ${parameters}=     Create Dictionary    network_role=${network_role}    service_type=vCPE    network_type=Generic NeutronNet    network_name=${network_name}    subnet_start_ip=${subnet_start_ip}    subnet_gateway=${subnet_gateway}
-    Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.network.jinja   ${parameters}
+    Templating.Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.network.jinja   ${parameters}
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
     ${post_resp}= 	SDNC.Run Post Request 	${SDNGC_REST_ENDPOINT} 	${SDNGC_INDEX_PATH}${PRELOAD_NETWORK_TOPOLOGY_OPERATION_PATH}     data=${data}    auth=${auth}
     [Return]    ${network_name}   ${subnet_name}
@@ -59,8 +59,8 @@ Preload Vcpe vGW
     [Arguments]    ${brg_mac}    ${cpe_network_name}   ${cpe_subnet_name}    ${mux_gw_net}    ${mux_gw_subnet}
     ${name_suffix}=    Generate Timestamp
     ${parameters}=     Create Dictionary    pub_key=${GLOBAL_INJECTED_PUBLIC_KEY}    brg_mac=${brg_mac}    cpe_public_net=${cpe_network_name}     cpe_public_subnet=${cpe_subnet_name}    mux_gw_net=${mux_gw_net}	mux_gw_subnet=${mux_gw_subnet}    suffix=${name_suffix}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2        public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
-    Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_vgw_vfmodule.jinja   ${parameters}
+    Templating.Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_vgw_vfmodule.jinja   ${parameters}
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
     ${post_resp}= 	SDNC.Run Post Request 	${SDNGC_REST_ENDPOINT} 	${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     data=${data}    auth=${auth}
 
@@ -68,8 +68,8 @@ Preload Vcpe vGW Gra
     [Arguments]    ${brg_mac}	${cpe_public_network_name}   ${cpe_public_subnet_name}    ${mux_gw_net}    ${mux_gw_subnet}
     ${name_suffix}=    Generate Timestamp
     ${parameters}=     Create Dictionary    pub_key=${GLOBAL_INJECTED_PUBLIC_KEY}    brg_mac=${brg_mac}    cpe_public_net=${cpe_public_network_name}     cpe_public_subnet=${cpe_public_subnet_name}    mux_gw_net=${mux_gw_net}	mux_gw_subnet=${mux_gw_subnet}    suffix=${name_suffix}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2        public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
-    Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_gwgra_vfmodule.jinja   ${parameters}
+    Templating.Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_gwgra_vfmodule.jinja   ${parameters}
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
     ${post_resp}= 	SDNC.Run Post Request 	${SDNGC_REST_ENDPOINT} 	${SDNGC_INDEX_PATH}${PRELOAD_GR_TOPOLOGY_OPERATION_PATH}     data=${data}    auth=${auth}
 
@@ -92,7 +92,7 @@ Preload Vnf
     ${base_vf_module_type}=    Catenate
     ${closedloop_vf_module}=    Create Dictionary
     ServiceMapping.Set Directory    default    ./demo/service_mapping
-    ${templates}=    Get Service Template Mapping    default    ${service}    ${generic_vnf_type}
+    ${templates}=    ServiceMapping.Get Service Template Mapping    default    ${service}    ${generic_vnf_type}
     :FOR    ${vf_module}    IN      @{vf_modules}
     \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
     #     need to pass in vnf_index if non-zero
@@ -142,8 +142,8 @@ Preload One Vnf Topology
     Return From Keyword If    '${filename}' == ''
     ${parameters}=    Get Template Parameters    ${generic_vnf_name}    ${filename}   ${uuid}    ${service}
     Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
-    Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/preload.jinja    ${parameters}
+    Templating.Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/preload.jinja    ${parameters}
     ${auth}=  Create List  ${GLOBAL_SDNGC_USERNAME}    ${GLOBAL_SDNGC_PASSWORD}
     ${post_resp}= 	SDNC.Run Post Request 	${SDNGC_REST_ENDPOINT} 	${SDNGC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}     data=${data}    auth=${auth}
     Should Be Equal As Strings 	${post_resp.json()['output']['response-code']} 	200
@@ -200,7 +200,7 @@ Resolve VNF Parameters Into Array
     ${keys}=    Get Dictionary Keys    ${from}
     :FOR   ${key}   IN  @{keys}
     \    ${value}=    Get From Dictionary    ${from}   ${key}
-    \    ${value}=    Template String    ${value}    ${valuemap}
+    \    ${value}=    Templating.Template String    ${value}    ${valuemap}
     \    ${parameter}=   Create Dictionary   vnf-parameter-name=${key}    vnf-parameter-value=${value}
     \    Append To List    ${vnf_parameters}   ${parameter}
     [Return]   ${vnf_parameters}

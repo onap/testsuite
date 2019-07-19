@@ -5,7 +5,7 @@ Library            ArchiveLibrary
 Library           Collections
 Library           String
 Library           DateTime
-Library           ONAPLibrary.ServiceMapping
+Library           ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
 Resource          ../asdc_interface.robot
 
 *** Variables ***
@@ -19,11 +19,10 @@ ${CATALOG_RESOURCE_IDS}
 ${CATALOG_SERVICE_ID}
 
 *** Keywords ***
-
 Model Distribution For Directory
     [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=
-    Set Directory    default    ./demo/service_mapping
-    ${directory_list}=    Get Service Folder Mapping    default    ${service}
+    ServiceMapping.Set Directory    default    ./demo/service_mapping
+    ${directory_list}=    ServiceMapping.Get Service Folder Mapping    default    ${service}
     ${ziplist}=    Create List
     ${uuid}=    Get Current Date
     ${service_name}=    Catenate    ${service}    ${uuid}
@@ -42,9 +41,6 @@ Model Distribution For Directory
     Set Test Variable   ${CATALOG_RESOURCES}   ${catalog_resources}
     Download CSAR    ${catalog_service_id}   
     [Return]    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}
-
-
-
 
 Teardown Model Distribution
     [Documentation]    Clean up at the end of the test

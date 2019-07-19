@@ -8,7 +8,7 @@ Library    ONAPLibrary.JSON
 Library    ONAPLibrary.Openstack
 Library    Collections
 Library    String
-Library           ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
+Library    ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
 
 Resource          ../openstack/keystone_interface.robot
 Resource          ../openstack/nova_interface.robot
