@@ -2,7 +2,7 @@
 Documentation     The main interface for interacting with A&AI. It handles low level stuff like managing the http request library and A&AI required fields
 Library 	      RequestsLibrary
 Library	          ONAPLibrary.Utilities
-Library	          ONAPLibrary.Templating    
+Library	          ONAPLibrary.Templating    WITH NAME    Templating
 Library	          OperatingSystem
 Resource          ../global_properties.robot
 
@@ -19,7 +19,7 @@ Connect To Packet Generator
     [Documentation]    Enables packet generator for the passed stream on the passed host
     [Arguments]    ${host}    ${alias}=pgn
     ${map}=  Create Dictionary     host=${host}    port=${GLOBAL_PACKET_GENERATOR_PORT}
-    ${url}=    Template String    ${PGN_URL_TEMPLATE}    ${map}
+    ${url}=    Templating.Template String    ${PGN_URL_TEMPLATE}    ${map}
     ${auth}=  Create List     ${GLOBAL_PACKET_GENERATOR_USERNAME}    ${GLOBAL_PACKET_GENERATOR_PASSWORD}
     ${session}=    Create Session 	${alias} 	${url}    auth=${auth}
     [Return]     ${session}
@@ -31,11 +31,11 @@ Enable Stream
     ${headers}=  Create Headers
     ${data_path}=    Catenate    ${PGN_PATH}/pg-streams
     ${map}=    Create Dictionary    stream=${stream}
-    Create Environment    pgi    ${GLOBAL_TEMPLATE_FOLDER}
-    ${streams}=   Apply Template    pgi    ${PGN_ENABLE_STREAM_TEMPLATE}   ${map}
+    Templating.Create Environment    pgi    ${GLOBAL_TEMPLATE_FOLDER}
+    ${streams}=   Templating.Apply Template    pgi    ${PGN_ENABLE_STREAM_TEMPLATE}   ${map}
     ${streams}=    evaluate    json.dumps(${streams})    json
     ${map}=    Create Dictionary    pgstreams=${streams}
-    ${data}=   Apply Template    pgi    ${PGN_ENABLE_STREAMS_TEMPLATE}   ${map}
+    ${data}=   Templating.Apply Template    pgi    ${PGN_ENABLE_STREAMS_TEMPLATE}   ${map}
     ${resp}= 	Put Request 	${alias} 	${data_path}     data=${data}     headers=${headers}
     Should Be Equal As Strings    ${resp.status_code}    200
     [Return]    ${resp}
@@ -49,16 +49,16 @@ Enable Streams
     ${streams}=    Set Variable
     ${comma}=      Set Variable
     ${stream_count}=    Evaluate    ${stream_count}+1
-    Create Environment    pgi    ${GLOBAL_TEMPLATE_FOLDER}
+    Templating.Create Environment    pgi    ${GLOBAL_TEMPLATE_FOLDER}
     :FOR    ${i}    IN RANGE     1    ${stream_count}
     \    ${name}=    Catenate    ${prefix}${i}
     \    ${map}=    Create Dictionary    stream=${name}
-    \    ${one}=   Apply Template    pgi    ${PGN_ENABLE_STREAM_TEMPLATE}    ${map}
+    \    ${one}=   Templating.Apply Template    pgi    ${PGN_ENABLE_STREAM_TEMPLATE}    ${map}
     \    ${one}=    evaluate    json.dumps(${one})    json
     \    ${streams}=    Set Variable    ${streams}${comma}${one}
     \    ${comma}=      Set Variable    ,
     ${map}=    Create Dictionary    pgstreams=${streams}
-    ${data}=   Apply Template    pgi    ${PGN_ENABLE_STREAMS_TEMPLATE}    ${map}
+    ${data}=   Templating.Apply Template    pgi    ${PGN_ENABLE_STREAMS_TEMPLATE}    ${map}
     ${resp}= 	Put Request 	${alias} 	${data_path}     data=${data}     headers=${headers}
     Should Be Equal As Strings    ${resp.status_code}    200
     [Return]    ${resp}
@@ -69,11 +69,11 @@ Enable Streams V2
     ...  Enable <stream_count> number of streams on the passed packet generator host IP
     [Arguments]    ${host}    ${stream_count}=5    ${alias}=pgn    ${prefix}=fw_udp
     Connect To Packet Generator    ${host}    alias=${alias}
-    Create Environment    pgi    ${GLOBAL_TEMPLATE_FOLDER}
+    Templating.Create Environment    pgi    ${GLOBAL_TEMPLATE_FOLDER}
     ${headers}=  Create Headers
     ${data_path}=    Catenate    ${PGN_PATH_V2}/streams
     ${map}=    Create Dictionary    number_streams=${stream_count}
-    ${data}=   Apply Template    pgi    ${PGN_ENABLE_STREAMS_V2_TEMPLATE}    ${map}
+    ${data}=   Templating.Apply Template    pgi    ${PGN_ENABLE_STREAMS_V2_TEMPLATE}    ${map}
     ${resp}= 	Put Request 	${alias} 	${data_path}     data=${data}     headers=${headers}
     Should Be Equal As Strings    ${resp.status_code}    200
 

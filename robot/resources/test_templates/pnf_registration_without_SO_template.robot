@@ -8,8 +8,8 @@ Library         RequestsLibrary
 Library         Collections
 Library         ONAPLibrary.JSON
 Library         ONAPLibrary.Utilities
-Library         ONAPLibrary.Templating
-
+Library         ONAPLibrary.Templating    WITH NAME    Templating
+Library         ONAPLibrary.AAI    WITH NAME     AAI
 
 *** Variables ***
 ${aai_so_registration_entry_template}=  aai/add_pnf_registration_info.jinja
@@ -30,20 +30,21 @@ Create A&AI antry without SO and succesfully registrate PNF
 Create PNF initial entry in A&AI
     [Documentation]   Creates PNF initial entry in A&AI registry. Entry contains only correlation id (pnf-name)
     [Arguments]  ${PNF_entry_dict}
-    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
-    ${template}=   Apply Template    aai    ${aai_so_registration_entry_template}   ${PNF_entry_dict}
+    Templating.Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${template}=   Templating.Apply Template    aai    ${aai_so_registration_entry_template}   ${PNF_entry_dict}
     Log  Filled A&AI entry template ${template}
     ${correlation_id}=  Get From Dictionary  ${PNF_entry_dict}  correlation_id
     ${del_resp}=  Delete A&AI Entity  /network/pnfs/pnf/${PNF_entry_dict.correlation_id}
     Log  Removing existing entry "${PNF_entry_dict.correlation_id}" from A&AI registry
-    ${put_resp}=  Run A&AI Put Request  /aai/v11/network/pnfs/pnf/${PNF_entry_dict.correlation_id}  ${template}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${put_resp}=  AAI.Run Put Request  ${AAI_FRONTEND_ENDPOINT}    /aai/v11/network/pnfs/pnf/${PNF_entry_dict.correlation_id}  ${template}    auth=${auth}
     Log  Adding new entry with correlation ID "${PNF_entry_dict.correlation_id}" to A&AI registry (empty IPv4 and IPv6 address)
 
 Send VES integration request
     [Documentation]   Send VES integration request. Request contains correlation id (sourceName), oamV4IpAddress and oamV6IpAddress
     [Arguments]  ${PNF_entry_dict}
-    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
-    ${template}=   Apply Template    aai    ${pnf_ves_integration_request}   ${PNF_entry_dict}
+    Templating.Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${template}=   Templating.Apply Template    aai    ${pnf_ves_integration_request}   ${PNF_entry_dict}
     ${post_resp}=  Run VES HTTP Post Request   ${template}
     Should Be Equal As Strings  ${post_resp.status_code}        202
     Log  VES integration request has been send
@@ -63,7 +64,8 @@ Verify PNF integration request in MR
 Query PNF A&AI updated entry
     [Documentation]   Query PNF A&AI updated entry
     [Arguments]  ${PNF_entry_dict}
-    ${get_resp}=  Run A&AI Get Request  /aai/v11/network/pnfs/pnf/${PNF_entry_dict.correlation_id}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${get_resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    /aai/v11/network/pnfs/pnf/${PNF_entry_dict.correlation_id}    auth=${auth}
     Should Be Equal As Strings  ${get_resp.status_code}        200
     ${json_resp}=  Set Variable  ${get_resp.json()}
     Log  JSON recieved from A&AI endpoint ${json_resp}

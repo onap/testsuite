@@ -3,7 +3,8 @@ Documentation	  Create A&AI Customer API.
 
 Resource    aai_interface.robot
 Library    Collections
-Library    ONAPLibrary.Templating
+Library    ONAPLibrary.Templating    WITH NAME    Templating
+Library    ONAPLibrary.AAI    WITH NAME    AAI
 
 
 *** Variables ***
@@ -25,9 +26,10 @@ Inventory Tenant
     [Arguments]    ${cloud_owner}  ${cloud_region_id}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}    ${tenant_id}    ${tenant_name}
     ${json_resource_version}=   Get Resource Version If Exists   ${cloud_owner}  ${cloud_region_id}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}
     ${arguments}=    Create Dictionary     cloud_owner=${cloud_owner}  cloud_region_id=${cloud_region_id}  cloud_type=${cloud_type}    owner_defined_type=${owner_defined_type}    cloud_region_version=${cloud_region_version}    cloud_zone=${cloud_zone}    tenant_id=${tenant_id}    tenant_name=${tenant_name}   resource_version=${json_resource_version}
-    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    aai   ${AAI_ADD_TENANT_BODY}    ${arguments}
-	${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}     ${data}
+    Templating.Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    aai   ${AAI_ADD_TENANT_BODY}    ${arguments}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+	${put_resp}=    AAI.Run Put Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}     ${data}        auth=${auth}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string} 	^(201|200)$
 
@@ -45,31 +47,36 @@ Get Resource Version If Exists
 Delete Tenant
     [Documentation]    Removes both Tenant
     [Arguments]    ${tenant_id}    ${cloud_owner}    ${cloud_region_id}
-    ${get_resp}=    Run A&AI Get Request     ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}/tenants/tenant/${tenant_id}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${get_resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}/tenants/tenant/${tenant_id}        auth=${auth}
     Run Keyword If    '${get_resp.status_code}' == '200'    Delete Tenant Exists    ${tenant_id}    ${cloud_owner}    ${cloud_region_id}    ${get_resp.json()['resource-version']}
 
 Delete Tenant Exists
     [Arguments]    ${tenant_id}    ${cloud_owner}    ${cloud_region_id}    ${resource_version}
-    ${put_resp}=    Run A&AI Delete Request    ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}/tenants/tenant/${tenant_id}    ${resource_version}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${put_resp}=    AAI.Run Delete Request    ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}/tenants/tenant/${tenant_id}    ${resource_version}        auth=${auth}
     Should Be Equal As Strings 	${put_resp.status_code} 	204
 
 Delete Cloud Region
     [Documentation]    Removes both Tenant and Cloud Region in A&AI
     [Arguments]    ${tenant_id}    ${cloud_owner}    ${cloud_region_id}
-    ${get_resp}=    Run A&AI Get Request     ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${get_resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}        auth=${auth}
 	Run Keyword If    '${get_resp.status_code}' == '200'    Delete Cloud Region Exists   ${tenant_id}    ${cloud_owner}    ${cloud_region_id}    ${get_resp.json()['resource-version']}
 
 Delete Cloud Region Exists
     [Documentation]   Delete may get status 400 (Bad Request) if the region is still referenced
     [Arguments]    ${tenant_id}    ${cloud_owner}    ${cloud_region_id}    ${resource_version}
-    ${put_resp}=    Run A&AI Delete Request    ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}   ${resource_version}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${put_resp}=    AAI.Run Delete Request    ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}   ${resource_version}        auth=${auth}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}    ^(204|400)$
 
 Get Tenants
     [Documentation]   Return list of tenants for this cloud owner/region
     [Arguments]    ${cloud_owner}    ${cloud_region_id}
-	${resp}=    Run A&AI Get Request     ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}/tenants
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+	${resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}/tenants        auth=${auth}
 	${dict}=    Create Dictionary
     ${status}    ${value}=    Run Keyword And Ignore Error    Should Be Equal As Strings 	${resp.status_code} 	200
     Run Keyword If    '${status}' == 'PASS'    Update Tenant Dictionary    ${dict}    ${resp.json()}
@@ -78,7 +85,8 @@ Get Tenants
 Get Cloud Region
     [Documentation]   Returns the Cloud Region if it exists
     [Arguments]    ${cloud_owner}    ${cloud_region_id}
-	${resp}=    Run A&AI Get Request     ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+	${resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_TENANT_PATH}${cloud_owner}/${cloud_region_id}        auth=${auth}
 	[Return]  ${resp}
 
 Update Tenant Dictionary

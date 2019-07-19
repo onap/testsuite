@@ -7,8 +7,8 @@ Library	          String
 Library           DateTime
 Library           Collections
 Library           ONAPLibrary.JSON
-Library           ONAPLibrary.OOF
-Library           ONAPLibrary.Templating    
+Library           ONAPLibrary.OOF    WITH NAME    OOF
+Library           ONAPLibrary.Templating    WITH NAME    Templating
 Resource          global_properties.robot
 
 *** Variables ***
@@ -61,7 +61,7 @@ RUN OOF-Homing SendPlanWithWrongVersion
 
 Run OOF-SNIRO Health Check
      [Documentation]    Runs OOF-SNIRO Health check
-     ${resp}=    Run SNIRO Get Request    ${OOF_SNIRO_ENDPOINT}    ${OOF_SNIRO_HEALTH_CHECK_PATH}
+     ${resp}=    OOF.Run SNIRO Get Request    ${OOF_SNIRO_ENDPOINT}    ${OOF_SNIRO_HEALTH_CHECK_PATH}
 
 Run OOF-CMSO Health Check
      [Documentation]    Runs OOF-CMSO Health check
@@ -117,17 +117,17 @@ OOF-CMSO Create Schedule
     \  ${end_time}=    Get Current Date   UTC   + ${tomorrow} minutes   result_format=${OOF_CMSO_UTC}
     \  Set To Dictionary    ${map}   start_time${i}=${start_time}   end_time${i}=${end_time}
     ${requestList}=   Create List
-    Create Environment    oof    ${GLOBAL_TEMPLATE_FOLDER}
+    Templating.Create Environment    oof    ${GLOBAL_TEMPLATE_FOLDER}
 	:FOR   ${vnf}   IN    @{nodelist}
 	\   Set To Dictionary    ${map}   node${nn}   ${vnf}
 	\   ${nn}=   Evaluate    ${nn}+1
 	\   Set To DIctionary   ${dict}   vnfName=${vnf} 
-    \   ${requestInfo}=   Apply Template    oof    ${OOF_CMSO_TEMPLATE_FOLDER}/VidCallbackData.jinja   ${dict}
+    \   ${requestInfo}=   Templating.Apply Template    oof    ${OOF_CMSO_TEMPLATE_FOLDER}/VidCallbackData.jinja   ${dict}
     \   Append To List   ${requestList}   ${requestInfo}
     ${callBackDataMap}=  Create Dictionary   requestType=Update   requestDetails=${requestList}
     ${callbackDataString}=   OOF-CMSO Json Escape    ${callbackDataMap}
     Set To Dictionary   ${map}   callbackData=${callbackDataString}
-    ${data}=   Apply Template    oof    ${OOF_CMSO_TEMPLATE_FOLDER}/${request_file}   ${map}
+    ${data}=   Templating.Apply Template    oof    ${OOF_CMSO_TEMPLATE_FOLDER}/${request_file}   ${map}
     ${resp}=   Run OOF-CMSO Post Scheduler   cmso/v1/schedules/${uuid}   data=${data}
     [Return]   ${resp}
 
