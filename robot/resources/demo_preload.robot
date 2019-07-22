@@ -82,12 +82,11 @@ Load Models
 
 Distribute Model
     [Arguments]   ${service}   ${modelName}
-    ${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=   Model Distribution For Directory    ${service}   ${modelName}
+    Model Distribution For Directory    ${service}   ${modelName}
 
 Distribute vCPEResCust Model
     [Arguments]   ${service}   ${modelName}
-    ${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=   Model Distribution For vCPEResCust Directory    ${service}   ${modelName}
-
+    Model Distribution For vCPEResCust Directory    ${service}   ${modelName}
 
 Create Customer For VNF Demo
     [Documentation]    Create demo customer for the demo
@@ -174,13 +173,13 @@ Instantiate VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
     ${uuid}=    Generate UUID4
-    ${vf_module_name_list}    ${generic_vnfs}    ${vvg_server_id}    ${service_instance_id}=    Orchestrate VNF    DemoCust_${uuid}    ${service}   ${service}    ${tenant_id}    ${tenant_name}
+    ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${catalog_resource_ids}   ${catalog_service_id}=    Orchestrate VNF    DemoCust_${uuid}    ${service}   ${service}    ${tenant_id}    ${tenant_name}
     ${stack_name} = 	Get From List 	${vf_module_name_list} 	-1
-    Save For Delete    ${tenant_id}    ${tenant_name}    ${vvg_server_id}    DemoCust_${uuid}    ${service_instance_id}    ${stack_name}
+    Save For Delete    ${tenant_id}    ${tenant_name}    ${server_id}    DemoCust_${uuid}    ${service_instance_id}    ${stack_name}    ${catalog_service_id}    ${catalog_resource_ids}
     :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
     \   Log   VNF Module Name=${vf_module_name}
     # Don't get from MSO for now due to SO-1186
-    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
+    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${suite_service_model_name}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
     :FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
@@ -199,7 +198,7 @@ Instantiate Demo VNF
     ${vf_module_name}    ${service}    ${generic_vnfs}=   Orchestrate Demo VNF    Demonstration    ${service}   ${service}    ${tenant_id}    ${tenant_name}
     Log   VNF Module Name=${vf_module_name}
     # Don't get from MSO for now due to SO-1186
-    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
+    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${suite_service_model_name}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
     :FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
@@ -211,7 +210,7 @@ Instantiate Demo VNF
 
 Save For Delete
     [Documentation]   Create a variable file to be loaded for save for delete
-    [Arguments]    ${tenant_id}    ${tenant_name}    ${vvg_server_id}    ${customer_name}    ${service_instance_id}    ${stack_name}
+    [Arguments]    ${tenant_id}    ${tenant_name}    ${vvg_server_id}    ${customer_name}    ${service_instance_id}    ${stack_name}    ${catalog_service_id}    ${catalog_resource_ids}
     ${dict}=    Create Dictionary
     Set To Dictionary   ${dict}   TENANT_NAME=${tenant_name}
     Set To Dictionary   ${dict}   TENANT_ID=${tenant_id}
@@ -219,11 +218,7 @@ Save For Delete
     Set To Dictionary   ${dict}   STACK_NAME=${stack_name}
     Set To Dictionary   ${dict}   VVG_SERVER_ID=${vvg_server_id}
     Set To Dictionary   ${dict}   SERVICE_INSTANCE_ID=${service_instance_id}
-
-    Set To Dictionary   ${dict}   VLB_CLOSED_LOOP_DELETE=${VLB_CLOSED_LOOP_DELETE}
-    Set To Dictionary   ${dict}   VLB_CLOSED_LOOP_VNF_ID=${VLB_CLOSED_LOOP_VNF_ID}
-
-    Set To Dictionary   ${dict}   CATALOG_SERVICE_ID=${CATALOG_SERVICE_ID}
+    Set To Dictionary   ${dict}   CATALOG_SERVICE_ID=${catalog_service_id}
 
     ${vars}=    Catenate
     ${keys}=   Get Dictionary Keys    ${dict}
@@ -233,7 +228,7 @@ Save For Delete
 
     ${comma}=   Catenate
     ${vars}=    Catenate   ${vars}CATALOG_RESOURCE_IDS = [
-    :FOR   ${id}   IN    @{CATALOG_RESOURCE_IDS}
+    :FOR   ${id}   IN    @{catalog_resource_ids}
     \    ${vars}=    Catenate  ${vars}${comma} "${id}"
     \    ${comma}=   Catenate   ,
     ${vars}=    Catenate  ${vars}]\n

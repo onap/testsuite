@@ -32,9 +32,9 @@ Orchestrate VNF Template
     [Arguments]    ${customer_name}    ${service}    ${product_family}    ${delete_flag}=DELETE
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
     ${uuid}=    Generate UUID4
-    ${vf_module_name_list}   ${generic_vnfs}    ${server_id}	${service_instance_id}=    Orchestrate VNF   ${customer_name}_${uuid}    ${service}    ${product_family}    ${tenant_id}    ${tenant_name}
-    Run Keyword If   '${delete_flag}' == 'DELETE'   Delete VNF    ${tenant_name}    ${server_id}    ${customer_name}_${uuid}    ${service_instance_id}    ${vf_module_name_list}
-    [Teardown]         Teardown VNF    ${customer_name}_${uuid}
+    ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${catalog_resource_ids}   ${catalog_service_id}    ${uris_to_delete}=    Orchestrate VNF   ${customer_name}_${uuid}    ${service}    ${product_family}    ${tenant_id}    ${tenant_name}
+    Run Keyword If   '${delete_flag}' == 'DELETE'   Delete VNF    ${tenant_name}    ${server_id}    ${customer_name}_${uuid}    ${service_instance_id}    ${vf_module_name_list}    ${uris_to_delete}
+    [Teardown]         Teardown VNF    ${customer_name}_${uuid}    ${catalog_service_id}    ${catalog_resource_ids}
 
 Orchestrate VNF
     [Documentation]   Use openECOMP to Orchestrate a service.
@@ -43,8 +43,7 @@ Orchestrate VNF
     ${uuid}=    Generate UUID4
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
     ${service_type}=    Set Variable    ${service}
-    ${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=    Model Distribution For Directory    ${service}
-    Set Suite Variable    ${SUITE_SERVICE_MODEL_NAME}   ${service_model_type}
+    ${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}    ${catalog_resource_ids}   ${catalog_service_id}=    Model Distribution For Directory    ${service}
     ${server_id}=     Run Keyword If   '${service}' == 'vVG'    Create VVG Server    ${uuid}
     Create Customer For VNF    ${customer_name}    ${customer_name}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${tenant_id}
     Setup Browser
@@ -70,10 +69,10 @@ Orchestrate VNF
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
-    \   Execute Heatbridge    ${vf_module_name}    ${vnf}  ipv4_oam_interface
+    \   ${uris_to_delete}=    Execute Heatbridge    ${vf_module_name}    ${vnf}  ipv4_oam_interface
     \   Validate VF Module      ${vf_module_name}    ${vnf}
     \   Append To List   ${vf_module_name_list}    ${vf_module_name}
-    [Return]     ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}
+    [Return]     ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${catalog_resource_ids}   ${catalog_service_id}    ${uris_to_delete}
 
 
 Orchestrate Demo VNF
@@ -91,7 +90,6 @@ Orchestrate Demo VNF
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
     ${service_type}=    Set Variable    ${service}
     ${vnf_json_resources}=   Get SDC Demo Vnf Catalog Resource      ${service_model_type}
-    Set Suite Variable    ${SUITE_SERVICE_MODEL_NAME}   ${service_model_type}
     Create Customer For VNF    ${full_customer_name}    ${full_customer_name}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${tenant_id}
     Setup Browser
     Login To VID GUI
@@ -200,7 +198,7 @@ Create VVG Server
 
 Delete VNF
     [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
-    [Arguments]    ${tenant_name}    ${server_id}    ${customer_name}    ${service_instance_id}    ${vf_module_name_list}
+    [Arguments]    ${tenant_name}    ${server_id}    ${customer_name}    ${service_instance_id}    ${vf_module_name_list}    ${uris_to_delete}
     ${lcp_region}=   Get Openstack Region
     ${list}=    Create List
     # remove duplicates, sort vFW-> vPKG , revers to get vPKG > vFWSNK
@@ -212,7 +210,7 @@ Delete VNF
     \     ${keypair_name}=    Get Stack Keypairs   ${stack}
     \     Append To List   ${list}   ${keypair_name}
     Teardown VVG Server    ${server_id}
-    Run Keyword and Ignore Error   Teardown VID   ${service_instance_id}   ${lcp_region}   ${tenant_name}   ${customer_name}
+    Run Keyword and Ignore Error   Teardown VID   ${service_instance_id}   ${lcp_region}   ${tenant_name}   ${customer_name}    ${uris_to_delete}
     #
     :FOR   ${stack}   IN   @{sorted_stack_names}
     \    Run Keyword and Ignore Error    Teardown Stack    ${stack}
@@ -225,8 +223,8 @@ Delete VNF
 
 Teardown VNF
     [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
-    [Arguments]    ${customer_name}
-    Run Keyword If   '${TEST STATUS}' == 'PASS'   Teardown Model Distribution
+    [Arguments]    ${customer_name}     ${catalog_service_id}    ${catalog_resource_ids}
+    Run Keyword If   '${TEST STATUS}' == 'PASS'   Teardown Models     ${catalog_service_id}    ${catalog_resource_ids}
     Run Keyword If   '${TEST STATUS}' == 'PASS'   Clean A&AI Inventory    ${customer_name}
     Close All Browsers
     Log    Teardown VNF implemented for successful tests only
@@ -267,7 +265,6 @@ Teardown Stack
     Delete Openstack Stack      auth    ${stack}    ${stack_id}
     Log    Deleted ${stack} ${stack_id}
     Run Keyword If   '${key_pair_status}' == 'PASS'   Delete Openstack Keypair    auth    ${keypair_name}
-    #Teardown VLB Closed Loop Hack
 
 Clean A&AI Inventory
     [Documentation]    Clean up Tenant in A&AI, Create Customer, Create Service and related relationships

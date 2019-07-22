@@ -59,7 +59,7 @@ Is Process on Host
    :FOR    ${pid}    IN    @{pids}
    \    ${process_cmd}=    Get From Dictionary    ${map}    ${pid}
    \    ${status}    ${value}=    Run Keyword And Ignore Error    Should Match Regexp    ${process_cmd}    ${process_name}    
-   \    Run Keyword If   '${status}' == 'PASS'    Set Test Variable    ${foundpid}    ${pid}             
+   \    ${foundpid}=       Set Variable If    '${status}' == 'PASS'    ${pid}    ""
    Should Not Be Equal    ${foundpid}    ""           
    [Return]    ${map}[${foundpid}]
    

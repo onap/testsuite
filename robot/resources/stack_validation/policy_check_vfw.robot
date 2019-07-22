@@ -18,9 +18,6 @@ Resource          ../demo_preload.robot
 Resource          packet_generator_interface.robot
 Resource          validate_common.robot
 
-
-*** Variables ***
-
 *** Keywords ***
 Policy Check FirewallCL Stack
     [Documentation]    Executes the vFW policy closed loop test.
@@ -53,7 +50,6 @@ Run VFW Policy Check
     # Force traffic below threshold
     Check For Policy Enforcement    ${vpg_public_ip}    ${policy_rate}    ${lower_bound}
 
-
 Check For Policy Enforcement
     [Documentation]     Push traffic above upper bound, wait for policy to fix it, push traffic to lower bound, wait for policy to fix it,
     [Arguments]    ${vpg_public_ip}    ${policy_rate}    ${forced_rate}
@@ -67,8 +63,6 @@ Test For Expected Rate
     ${list}=    Get List Of Enabled Streams    ${vpg_public_ip}
     ${list}=    Evaluate   ${list['sample-plugin']}['pg-streams']['pg-stream']
     Length Should Be    ${list}    ${number_of_streams}
-
-
 
 Policy Check vLB Stack
     [Documentation]    Executes the vLB policy closed loop test
@@ -85,7 +79,6 @@ Policy Check vLB Stack
     ${prefix}=    Get DNSScaling Prefix
     ${dnsscaling}=    Replace String Using Regexp    ${stack_name}    ^Vfmodule_    ${prefix}
     ${dnsscaling_info}=    Wait for Stack to Be Deployed    auth    ${dnsscaling}
-    VLB Closed Loop Hack Update   ${dnsscaling}
     # TO DO: Log into vLB and cehck that traffic is flowing to the new DNS
     [Return]    ${dnsscaling}
 
@@ -95,7 +88,6 @@ Get DNSScaling Prefix
     :FOR   ${dict}    IN   @{mapping}
     \    Return From Keyword If    '${dict['isBase']}' == 'false'    ${dict['prefix']}
     [Return]   None
-
 
 Start DNS Traffic
     [Documentation]   Run nslookups at rate per second. Run for 10 minutes or until it is called by the terminate process
