@@ -9,14 +9,8 @@ Library           ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
 Resource          ../asdc_interface.robot
 
 *** Variables ***
-${ASDC_BASE_PATH}    /sdc1
-${ASDC_DESIGNER_PATH}    /proxy-designer1#/dashboard
 ${ASDC_ASSETS_DIRECTORY}    ${GLOBAL_HEAT_TEMPLATES_FOLDER}
 ${ASDC_ZIP_DIRECTORY}    ${ASDC_ASSETS_DIRECTORY}/temp
-
-#***************** Test Case Variables *********************
-${CATALOG_RESOURCE_IDS}
-${CATALOG_SERVICE_ID}
 
 *** Keywords ***
 Model Distribution For Directory
@@ -36,16 +30,9 @@ Model Distribution For Directory
     \    Create Zip From Files In Directory        ${folder}    ${zip}
     \    Append To List    ${ziplist}    ${zip}
     ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute Model From ASDC    ${ziplist}    ${catalog_service_name}    ${cds}   ${service}
-    Set Test Variable   ${CATALOG_RESOURCE_IDS}   ${catalog_resource_ids}
-    Set Test Variable   ${CATALOG_SERVICE_ID}   ${catalog_service_id}
-    Set Test Variable   ${CATALOG_RESOURCES}   ${catalog_resources}
     Download CSAR    ${catalog_service_id}   
-    [Return]    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}
-
-Teardown Model Distribution
-    [Documentation]    Clean up at the end of the test
-    Log   ${CATALOG_SERVICE_ID} ${CATALOG_RESOURCE_IDS}
-    Teardown Models    ${CATALOG_SERVICE_ID}   ${CATALOG_RESOURCE_IDS}
+    [Return]    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}    ${catalog_resource_ids}   ${catalog_service_id}
+    [Teardown]    Teardown Models    ${catalog_service_id}    ${catalog_resource_ids}
 
 Teardown Models
     [Documentation]    Clean up at the end of the test

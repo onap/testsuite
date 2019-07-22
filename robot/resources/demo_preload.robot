@@ -16,7 +16,8 @@ Library	        Collections
 Library         OperatingSystem
 Library         SeleniumLibrary
 Library         RequestsLibrary
-Library	        ONAPLibrary.Templating
+Library	        ONAPLibrary.Templating    WITH NAME    Templating
+Library	        ONAPLibrary.AAI    WITH NAME    AAI
 
 *** Variables ***
 
@@ -82,12 +83,11 @@ Load Models
 
 Distribute Model
     [Arguments]   ${service}   ${modelName}
-    ${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=   Model Distribution For Directory    ${service}   ${modelName}
+    Model Distribution For Directory    ${service}   ${modelName}
 
 Distribute vCPEResCust Model
     [Arguments]   ${service}   ${modelName}
-    ${service_model_type}     ${vnf_type}    ${vf_modules}   ${catalog_resources}=   Model Distribution For vCPEResCust Directory    ${service}   ${modelName}
-
+    Model Distribution For vCPEResCust Directory    ${service}   ${modelName}
 
 Create Customer For VNF Demo
     [Documentation]    Create demo customer for the demo
@@ -100,9 +100,10 @@ Create Customer For VNF Demo
     Create Service If Not Exists    gNB
     ${arguments}=    Create Dictionary    subscriber_name=${customer_name}    global_customer_id=${customer_id}    subscriber_type=${customer_type}     cloud_owner=${clouder_owner}  cloud_region_id=${cloud_region_id}    tenant_id=${tenant_id}
     Set To Dictionary   ${arguments}       service1=vFWCL       service2=vLB   service3=vCPE   service4=vIMS  service5=gNB   service6=vFW
-    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    aai   ${ADD_DEMO_CUSTOMER_BODY}    ${arguments}
-    ${put_resp}=    Run A&AI Put Request     ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${data}
+    Templating.Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    aai   ${ADD_DEMO_CUSTOMER_BODY}    ${arguments}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${put_resp}=    AAI.Run Put Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${data}    auth=${auth}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}    ^(200|201|412)$
 
@@ -141,20 +142,23 @@ Get Relationship Data
 
 Get Generic VNF By ID
     [Arguments]   ${vnf_id}
-    ${resp}=    Run A&AI Get Request      ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-id=${vnf_id}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-id=${vnf_id}    auth=${auth}
     Should Be Equal As Strings 	${resp.status_code} 	200
     [Return]   ${resp.json()}
 
 Get Service Instance
     [Arguments]   ${vnf_name}
-    ${resp}=    Run A&AI Get Request      ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-name=${vnf_name}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${AAI_INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-name=${vnf_name}    auth=${auth}
     Should Be Equal As Strings 	${resp.status_code} 	200
     [Return]   ${resp.json()}
 
 Get Persona Model Id
     [Documentation]    Query and Validates A&AI Service Instance
     [Arguments]    ${service_instance_id}    ${service_type}   ${customer_id}
-    ${resp}=    Run A&AI Get Request      ${INDEX PATH}${CUSTOMER SPEC PATH}${customer_id}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_id}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${CUSTOMER SPEC PATH}${customer_id}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_id}    auth=${auth}
     ${persona_model_id}=   Get From DIctionary   ${resp.json()['service-instance'][0]}    model-invariant-id
     [Return]   ${persona_model_id}
 
@@ -174,13 +178,13 @@ Instantiate VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
     ${uuid}=    Generate UUID4
-    ${vf_module_name_list}    ${generic_vnfs}    ${vvg_server_id}    ${service_instance_id}=    Orchestrate VNF    DemoCust_${uuid}    ${service}   ${service}    ${tenant_id}    ${tenant_name}
+    ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${catalog_resource_ids}   ${catalog_service_id}=    Orchestrate VNF    DemoCust_${uuid}    ${service}   ${service}    ${tenant_id}    ${tenant_name}
     ${stack_name} = 	Get From List 	${vf_module_name_list} 	-1
-    Save For Delete    ${tenant_id}    ${tenant_name}    ${vvg_server_id}    DemoCust_${uuid}    ${service_instance_id}    ${stack_name}
+    Save For Delete    ${tenant_id}    ${tenant_name}    ${server_id}    DemoCust_${uuid}    ${service_instance_id}    ${stack_name}    ${catalog_service_id}    ${catalog_resource_ids}
     :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
     \   Log   VNF Module Name=${vf_module_name}
     # Don't get from MSO for now due to SO-1186
-    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
+    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${suite_service_model_name}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
     :FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
@@ -199,7 +203,7 @@ Instantiate Demo VNF
     ${vf_module_name}    ${service}    ${generic_vnfs}=   Orchestrate Demo VNF    Demonstration    ${service}   ${service}    ${tenant_id}    ${tenant_name}
     Log   VNF Module Name=${vf_module_name}
     # Don't get from MSO for now due to SO-1186
-    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${SUITE_SERVICE_MODEL_NAME}  ${vf_module_label}
+    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${suite_service_model_name}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
     :FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
@@ -211,7 +215,7 @@ Instantiate Demo VNF
 
 Save For Delete
     [Documentation]   Create a variable file to be loaded for save for delete
-    [Arguments]    ${tenant_id}    ${tenant_name}    ${vvg_server_id}    ${customer_name}    ${service_instance_id}    ${stack_name}
+    [Arguments]    ${tenant_id}    ${tenant_name}    ${vvg_server_id}    ${customer_name}    ${service_instance_id}    ${stack_name}    ${catalog_service_id}    ${catalog_resource_ids}
     ${dict}=    Create Dictionary
     Set To Dictionary   ${dict}   TENANT_NAME=${tenant_name}
     Set To Dictionary   ${dict}   TENANT_ID=${tenant_id}
@@ -219,11 +223,7 @@ Save For Delete
     Set To Dictionary   ${dict}   STACK_NAME=${stack_name}
     Set To Dictionary   ${dict}   VVG_SERVER_ID=${vvg_server_id}
     Set To Dictionary   ${dict}   SERVICE_INSTANCE_ID=${service_instance_id}
-
-    Set To Dictionary   ${dict}   VLB_CLOSED_LOOP_DELETE=${VLB_CLOSED_LOOP_DELETE}
-    Set To Dictionary   ${dict}   VLB_CLOSED_LOOP_VNF_ID=${VLB_CLOSED_LOOP_VNF_ID}
-
-    Set To Dictionary   ${dict}   CATALOG_SERVICE_ID=${CATALOG_SERVICE_ID}
+    Set To Dictionary   ${dict}   CATALOG_SERVICE_ID=${catalog_service_id}
 
     ${vars}=    Catenate
     ${keys}=   Get Dictionary Keys    ${dict}
@@ -233,7 +233,7 @@ Save For Delete
 
     ${comma}=   Catenate
     ${vars}=    Catenate   ${vars}CATALOG_RESOURCE_IDS = [
-    :FOR   ${id}   IN    @{CATALOG_RESOURCE_IDS}
+    :FOR   ${id}   IN    @{catalog_resource_ids}
     \    ${vars}=    Catenate  ${vars}${comma} "${id}"
     \    ${comma}=   Catenate   ,
     ${vars}=    Catenate  ${vars}]\n

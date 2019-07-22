@@ -4,7 +4,7 @@ Library           RequestsLibrary
 Library           Collections
 Library           String
 Library           ONAPLibrary.JSON
-Library           ONAPLibrary.Templating    
+Library           ONAPLibrary.Templating    WITH NAME    Templating
 Resource          global_properties.robot
 
 *** Variables ***
@@ -22,8 +22,8 @@ Run CLAMP Create Model
      [Documentation]   Create a new CLAMP Model
      [Arguments]   ${model_name}   ${template_name}
      ${dict}=   Create Dictionary   MODEL_NAME=${model_name}      TEMPLATE_NAME=${template_name}
-     Create Environment    clamp    ${GLOBAL_TEMPLATE_FOLDER}
-     ${data}=   Apply Template    clamp    ${CLAMP_TEMPLATE_PATH}/create_model.jinja    ${dict}
+     Templating.Create Environment    clamp    ${GLOBAL_TEMPLATE_FOLDER}
+     ${data}=   Templating.Apply Template    clamp    ${CLAMP_TEMPLATE_PATH}/create_model.jinja    ${dict}
      ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model/${model_name}
      ${resp}=   Run CLAMP HTTPS Put Request    ${data_path}    ${data}
      Should Be Equal As Strings  ${resp.status_code}     200
@@ -35,8 +35,8 @@ Run CLAMP Save vLB Model
      [Documentation]   Save CLAMP Model
      [Arguments]   ${model_name}   ${template_name}   ${policy_name}
      ${dict}=   Create Dictionary   MODEL_NAME=${model_name}      TEMPLATE_NAME=${template_name}   POLICY_NAME=${policy_name}   DOLLAR_SIGN=$
-     Create Environment    clamp    ${GLOBAL_TEMPLATE_FOLDER}
-     ${data}=   Apply Template    clamp    ${CLAMP_TEMPLATE_PATH}/save_model_vlb.jinja    ${dict}
+     Templating.Create Environment    clamp    ${GLOBAL_TEMPLATE_FOLDER}
+     ${data}=   Templating.Apply Template    clamp    ${CLAMP_TEMPLATE_PATH}/save_model_vlb.jinja    ${dict}
      ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model/${model_name}
      ${resp}=   Run CLAMP HTTPS Put Request    ${data_path}    ${data}
      Should Be Equal As Strings  ${resp.status_code}     200
@@ -65,14 +65,12 @@ Run CLAMP Get Control Loop
      # propText': u '{"global":[{"name":"service","value":["5fcdb3b7-5a5b-45da-83f6-14cce29181c8"]}
      Log    ${resp.json()['propText']}
      ${control_loop_id}=    Get Regexp Matches    ${resp.json()['propText']}     \\"service\\",\\"value\\":\\[\\"([0-9a-f\-]{36})\\"     1
-     #Set Suite Variable   ${CURRENT_CONTROL_LOOP_ID}   ${control_loop_id[0]}
      [Return]      ${control_loop_id[0]}
 
 Run CLAMP Get Model Names
      [Documentation]   runs CLAMP Get Model Names and returns the model_id
      ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model-names
      ${resp}=   Run Clamp HTTPS Get Request    ${data_path}
-     #Set Suite Variable   ${CURRENT_MODEL_ID}   ${resp.json()[0]['value']}
      [Return]     ${resp.json()[0]['value']}
 
 Run CLAMP Health Check
