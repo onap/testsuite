@@ -6,9 +6,6 @@ Library    Collections
 Resource          ../resources/test_templates/model_test_template.robot
 
 Test Template         Model Distribution For Directory
-Test Teardown    Teardown Model Distribution
-
-*** Variables ***
 
 *** Test Cases ***
 Distribute vLB Model    vLB

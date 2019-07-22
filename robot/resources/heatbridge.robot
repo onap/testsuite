@@ -3,7 +3,9 @@ Library     HeatBridge
 Library     Collections
 Library     OperatingSystem
 Library     ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
-Library     ONAPLibrary.Templating
+Library     ONAPLibrary.Templating    WITH NAME    Templating
+Library     ONAPLibrary.AAI    WITH NAME     AAI
+
 
 Resource    openstack/keystone_interface.robot
 Resource    openstack/heat_interface.robot
@@ -23,10 +25,6 @@ ${FLAVOR_URI}   ${BASE_URI}/flavors/flavor/\${flavor}
 ${VSERVER_URI}   ${BASE_URI}/tenants/tenant/\${tenant}/vservers/vserver/\${vserver_id}
 ${L_INTERFACE_URI}   ${VSERVER_URI}/l-interfaces/l-interface/\${linterface_id}
 ${VSERVER_NAME}    \${vserver_name}
-
-#******************** Test Case Variables ****************
-${REVERSE_HEATBRIDGE}
-
 
 *** Keywords ***
 Execute Heatbridge
@@ -58,12 +56,13 @@ Execute Heatbridge
     ...    ELSE    Init Bridge    ${openstack_identity_url}    ${user}    ${pass}    ${tenant_id}    ${region}   ${GLOBAL_AAI_CLOUD_OWNER}    ${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}    ${GLOBAL_INJECTED_OPENSTACK_PROJECT_NAME}
     ${request}=    Bridge Data    ${stack_id}
     Log    ${request}
-    ${resp}=    Run A&AI Put Request    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${resp}=    AAI.Run Put Request    ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request}    auth=${auth}
     ${status_string}=    Convert To String    ${resp.status_code}
     Should Match Regexp    ${status_string} 	^(201|200)$
     ${reverse_heatbridge}=   Generate Reverse Heatbridge From Stack Info   ${stack_info}
-    Set Test Variable   ${REVERSE_HEATBRIDGE}   ${reverse_heatbridge}
     Run Validation Query    ${stack_info}    ${service}    ${vnf_id}
+    [Return]    ${reverse_heatbridge}
 
 Run Create VNFC
     [Documentation]    Create a VNFC for a vServer
@@ -92,9 +91,10 @@ Run Vserver Query
     [Documentation]    Run A&AI query to validate the bulk add
     [Arguments]    ${vserver_name}
     ${dict}=    Create Dictionary    vserver_name=${vserver_name}
-    Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
-    ${request}=   Apply Template    aai   ${NAMED_QUERY_TEMPLATE}    ${dict}
-    ${resp}=    Run A&AI Post Request    ${NAMED_QUERY_PATH}    ${request}
+    Templating.Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
+    ${request}=   Templating.Apply Template    aai   ${NAMED_QUERY_TEMPLATE}    ${dict}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${resp}=    AAI.Run Post Request      ${AAI_FRONTEND_ENDPOINT}    ${NAMED_QUERY_PATH}    ${request}	    auth=${auth}
     Should Be Equal As Strings    ${resp.status_code}    200
 
 
@@ -108,8 +108,8 @@ Run Set VNF Params
     set to dictionary    ${payload}    orchestration-status   ${orch_status}
     set to dictionary    ${payload}    ipv4-oam-address  ${ipv4_vnf_address}
     ${payload_string}=    evaluate    json.dumps(${payload})    json
-
-    ${put_resp}=    Run A&AI Put Request      ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf/${vnf_id}    ${payload_string}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${put_resp}=    AAI.Run Put Request      ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf/${vnf_id}    ${payload_string}	auth=${auth}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}    ^(200|201)$
     Log    Set VNF ProvStatus: ${vnf_id} to ${prov_status}
@@ -117,14 +117,16 @@ Run Set VNF Params
 Run Get Generic VNF By VnfId
     [Documentation]  Get VNF GET Payload with resource ID
     [Arguments]   ${vnf_id}
-    ${resp}=    Run A&AI Get Request      ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf?vnf-id=${vnf_id}
+    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
+    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf?vnf-id=${vnf_id}    auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]   ${resp.json()}
 
 Execute Reverse Heatbridge
     [Documentation]   VID has already torn down the stack, reverse HB
-    Return From Keyword If   len(${REVERSE_HEATBRIDGE}) == 0
-    :FOR   ${uri}    IN   @{REVERSE_HEATBRIDGE}
+    [Arguments]   ${uris_to_delete}
+    Return From Keyword If   len(${uris_to_delete}) == 0
+    :FOR   ${uri}    IN   @{uris_to_delete}
     \    Run Keyword And Ignore Error    Delete A&AI Entity   ${uri}
 
 Generate Reverse Heatbridge From Stack Name
@@ -161,11 +163,11 @@ Generate Vserver Uri
     Set To Dictionary   ${keys}   vserver_id=${info['server']['id']}
     Set To Dictionary   ${keys}   flavor=${info['server']['flavor']['id']}
     Set To Dictionary   ${keys}   image_id=${info['server']['image']['id']}
-    ${uri}=   Template String    ${VSERVER_URI}    ${keys}
+    ${uri}=   Templating.Template String    ${VSERVER_URI}    ${keys}
     Append To List  ${reverse_heatbridge}   ${uri}
-    ${uri}=   Template String    ${FLAVOR_URI}    ${keys}
+    ${uri}=   Templating.Template String    ${FLAVOR_URI}    ${keys}
     Append To List  ${reverse_heatbridge}   ${uri}
-    ${uri}=   Template String    ${IMAGE_URI}    ${keys}
+    ${uri}=   Templating.Template String    ${IMAGE_URI}    ${keys}
     Append To List  ${reverse_heatbridge}   ${uri}
 
 Generate Linterface Uri
@@ -176,6 +178,6 @@ Generate Linterface Uri
     ${info}=   Set Variable   ${resp.json()}
     Set To Dictionary   ${keys}   vserver_id=${info['port']['device_id']}
     Set To Dictionary   ${keys}   linterface_id=${info['port']['name']}
-    ${uri}=   Template String    ${L_INTERFACE_URI}    ${keys}
+    ${uri}=   Templating.Template String    ${L_INTERFACE_URI}    ${keys}
     Append To List  ${reverse_heatbridge}   ${uri}
 
