@@ -65,14 +65,12 @@ Run CLAMP Get Control Loop
      # propText': u '{"global":[{"name":"service","value":["5fcdb3b7-5a5b-45da-83f6-14cce29181c8"]}
      Log    ${resp.json()['propText']}
      ${control_loop_id}=    Get Regexp Matches    ${resp.json()['propText']}     \\"service\\",\\"value\\":\\[\\"([0-9a-f\-]{36})\\"     1
-     #Set Suite Variable   ${CURRENT_CONTROL_LOOP_ID}   ${control_loop_id[0]}
      [Return]      ${control_loop_id[0]}
 
 Run CLAMP Get Model Names
      [Documentation]   runs CLAMP Get Model Names and returns the model_id
      ${data_path}=   Set Variable   ${CLAMP_BASE_PATH}/clds/model-names
      ${resp}=   Run Clamp HTTPS Get Request    ${data_path}
-     #Set Suite Variable   ${CURRENT_MODEL_ID}   ${resp.json()[0]['value']}
      [Return]     ${resp.json()[0]['value']}
 
 Run CLAMP Health Check

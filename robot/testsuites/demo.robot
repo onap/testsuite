@@ -20,7 +20,9 @@ ${SERVICE}
 ${CUSTOMER_NAME}
 ${SERVICE_INSTANCE_ID}
 ${STACK_NAMES}
-
+${CATALOG_SERVICE_ID}
+${CATALOG_RESOURCE_IDS}
+${REVERSE_HEATBRIDGE}
 
 *** Test Cases ***
 Initialize Customer And Models
@@ -71,8 +73,8 @@ Delete Instantiated VNF
     [Tags]   deleteVNF
     Setup Browser
     Login To VID GUI
-    Delete VNF    ${TENANT_NAME}    ${VVG_SERVER_ID}    ${CUSTOMER_NAME}    ${SERVICE_INSTANCE_ID}    ${STACK_NAMES}
-    [Teardown]   Teardown VNF    ${CUSTOMER_NAME}
+    Delete VNF    ${TENANT_NAME}    ${VVG_SERVER_ID}    ${CUSTOMER_NAME}    ${SERVICE_INSTANCE_ID}    ${STACK_NAMES}    ${REVERSE_HEATBRIDGE}
+    [Teardown]   Teardown VNF    ${CUSTOMER_NAME}    ${CATALOG_SERVICE_ID}    ${CATALOG_RESOURCE_IDS}
 
 Run Heatbridge
     [Documentation]

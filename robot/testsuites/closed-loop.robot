@@ -7,7 +7,6 @@ Resource    ../resources/test_templates/closedloop_test_template.robot
 ${PACKET_GENERATOR_HOST}
 
 *** Test Cases ***
-
 VFW Closed Loop Test
     [TAGS]    closedloop    vfwcl
     VFW Policy
@@ -22,4 +21,4 @@ VFWCL Closed Loop Test
     VFWCL High Test   ${PACKET_GENERATOR_HOST}
     VFWCL Low Test   ${PACKET_GENERATOR_HOST}
     VFWCL Set To Medium    ${PACKET_GENERATOR_HOST}
-    [Teardown]    Teardown Closed Loop   ${None}
+    [Teardown]    Teardown Closed Loop   ${None}    ${None}    ${None}

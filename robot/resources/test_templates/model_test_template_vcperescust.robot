@@ -9,17 +9,10 @@ Library           ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
 Resource          ../asdc_interface.robot
 
 *** Variables ***
-${ASDC_BASE_PATH}    /sdc1
-${ASDC_DESIGNER_PATH}    /proxy-designer1#/dashboard
 ${ASDC_ASSETS_DIRECTORY}    ${GLOBAL_HEAT_TEMPLATES_FOLDER}
 ${ASDC_ZIP_DIRECTORY}    ${ASDC_ASSETS_DIRECTORY}/temp
 
-#***************** Test Case Variables *********************
-${CATALOG_RESOURCE_IDS}
-${CATALOG_SERVICE_ID}
-
 *** Keywords ***
-
 Model Distribution For vCPEResCust Directory
     [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=
     ServiceMapping.Set Directory    default    ./demo/service_mapping
@@ -37,27 +30,5 @@ Model Distribution For vCPEResCust Directory
     \    Create Zip From Files In Directory        ${folder}    ${zip}
     \    Append To List    ${ziplist}    ${zip}
     ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute vCPEResCust Model From ASDC    ${ziplist}    ${catalog_service_name}    ${cds}   ${service}
-    Set Test Variable   ${CATALOG_RESOURCE_IDS}   ${catalog_resource_ids}
-    Set Test Variable   ${CATALOG_SERVICE_ID}   ${catalog_service_id}
-    Set Test Variable   ${CATALOG_RESOURCES}   ${catalog_resources}
     Download CSAR    ${catalog_service_id}   
     [Return]    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}
-
-
-
-
-Teardown Model Distribution
-    [Documentation]    Clean up at the end of the test
-    Log   ${CATALOG_SERVICE_ID} ${CATALOG_RESOURCE_IDS}
-    # Teardown is removing allotted resources for some reason
-    #Teardown Models    ${CATALOG_SERVICE_ID}   ${CATALOG_RESOURCE_IDS}
-
-Teardown Models
-    [Documentation]    Clean up at the end of the test
-    [Arguments]     ${catalog_service_id}    ${catalog_resource_ids}
-    Return From Keyword If    '${catalog_service_id}' == ''
-    :FOR    ${catalog_resource_id}   IN   @{catalog_resource_ids}
-    \   ${resourece_json}=   Mark ASDC Catalog Resource Inactive    ${catalog_resource_id}
-    ${service_json}=   Mark ASDC Catalog Service Inactive    ${catalog_service_id}
-    ${services_json}=   Delete Inactive ASDC Catalog Services
-    ${resources_json}=    Delete Inactive ASDC Catalog Resources

@@ -45,9 +45,6 @@ ${Expected_Severity_3}    MAJOR
 ${Expected_Threshold_3}    200
 ${Expected_Direction_3}    GREATER_OR_EQUAL
 
-#********** Test Case Variables ************
-${DNSSCALINGSTACK}
-
 *** Keywords ***
 VFW Policy
     Log    Suite name ${SUITE NAME} ${TEST NAME} ${PREV TEST NAME}
@@ -60,7 +57,6 @@ VDNS Policy
     Initialize VDNS Policy
     ${stackname}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${customer_name}=   Orchestrate VNF vDNS closedloop
     ${dnsscaling}=   Policy Check vLB Stack    ${stackname}    ${VLBPOLICYRATE}
-    Set Test Variable   ${DNSSCALINGSTACK}   ${dnsscaling}
     Delete VNF    ${None}     ${server_id}    ${customer_name}    ${service_instance_id}    ${stackname}
 
 Initialize VFW Policy
@@ -108,16 +104,16 @@ Get Configs VDNS Policy
 
 Teardown Closed Loop
     [Documentation]   Tear down a closed loop test case
-    [Arguments]    ${customer_name}
+    [Arguments]    ${customer_name}    ${catalog_service_id}    ${catalog_resource_ids}
     Terminate All Processes
-    Teardown VNF    ${customer_name}
+    Teardown VNF    ${customer_name}    ${catalog_service_id}    ${catalog_resource_ids}
     Log     Teardown complete
 
 Create Config Policy
     [Documentation]    Create Config Policy
     ${randompolicyname} =     Create Policy Name
     ${policyname1}=    Catenate   com.${randompolicyname}
-    ${CONFIG_POLICY_NAME}=    Set Test Variable    ${policyname1}
+    ${CONFIG_POLICY_NAME}=    Catenate    ${policyname1}
     ${configpolicy}=    Create Dictionary    policy_name=${CONFIG_POLICY_NAME}
     Create Environment    cl    ${GLOBAL_TEMPLATE_FOLDER}
     ${output}=   Apply Template    cl    ${CREATE_CONFIG_TEMPLATE}    ${configpolicy}
@@ -135,7 +131,7 @@ Create Ops Policy
 	[Documentation]    Create Opertional Policy
    	${randompolicyname} =     Create Policy Name
 	${policyname1}=    Catenate   com.${randompolicyname}
-	${OPS_POLICY_NAME}=    Set Test Variable    ${policyname1}
+	${OPS_POLICY_NAME}=    Catenate    ${policyname1}
  	${dict}=     Create Dictionary    policy_name=${OPS_POLICY_NAME}
     Create Environment    cl    ${GLOBAL_TEMPLATE_FOLDER}
     ${output}=   Apply Template    cl    ${CREATE_OPS_TEMPLATE}    ${dict}
@@ -187,18 +183,18 @@ Orchestrate VNF vFW closedloop
 	Log    VNF Orchestration flow TEST NAME=${TEST NAME}
 	${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
     ${uuid}=    Generate UUID4
-	${stack_names}   ${generic_vnfs}    ${server_id}    ${service_instance_id}=  Orchestrate VNF   ETE_CLP_${uuid}    vFWCL      vFWCL   ${tenant_id}    ${tenant_name}
+	${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${catalog_resource_ids}   ${catalog_service_id}=  Orchestrate VNF   ETE_CLP_${uuid}    vFWCL      vFWCL   ${tenant_id}    ${tenant_name}
 	${customer_name}=    Catenate    ETE_CLP_${uuid}
-	[Return]  ${stack_names}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${customer_name}
+	[Return]  ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${customer_name}
 
  Orchestrate VNF vDNS closedloop
 	[Documentation]    VNF Orchestration for vLB
 	Log    VNF Orchestration flow TEST NAME=${TEST NAME}
 	${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
     ${uuid}=    Generate UUID4
-	${stack_names}   ${generic_vnfs}    ${server_id}    ${service_instance_id}=  Orchestrate VNF   ETE_CLP_${uuid}    vLB      vLB   ${tenant_id}    ${tenant_name}
+	${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${catalog_resource_ids}   ${catalog_service_id}=  Orchestrate VNF   ETE_CLP_${uuid}    vLB      vLB   ${tenant_id}    ${tenant_name}
 	${customer_name}=    Catenate    ETE_CLP_${uuid}
-	[Return]  ${stack_names}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${customer_name}
+	[Return]  ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${customer_name}
 
 VFWCL High Test
 	[Documentation]    Test Control Loop for High Traffic

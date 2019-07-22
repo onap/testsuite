@@ -7,10 +7,6 @@ Library 	      RequestsLibrary
 Library	          ONAPLibrary.Utilities
 Resource    ../global_properties.robot
 
-*** Variables ***
-#**************** Test Case Variables ******************
-${OPENSTACK_SERVICE_REGION}
-
 *** Keywords ***
 Internal Get Openstack
     [Documentation]    Runs an Openstack Get Request and returns the response
@@ -66,14 +62,4 @@ Internal Delete Openstack
 Get Openstack Region
     [Documentation]   Returns the current openstack region test variable
     ...               Defaults to the openstack region of the Robot VM
-    Return From Keyword If   len('${OPENSTACK_SERVICE_REGION}') > 0   ${OPENSTACK_SERVICE_REGION}
-    Set Test Variable   ${OPENSTACK_SERVICE_REGION}   ${GLOBAL_INJECTED_REGION}
-    Log   Setting OPENSTACK_SERVICE_REGION=${OPENSTACK_SERVICE_REGION}
-    [Return]   ${OPENSTACK_SERVICE_REGION}
-
-Set Openstack Region Test Variable
-    [Documentation]   Sets the openstack service region of the current test case
-    ...               To be used to override the service region of the Robot VM (default)
-    [Arguments]   ${openstack_service_region}
-    Set Test Variable   ${OPENSTACK_SERVICE_REGION}   ${openstack_service_region}
-
+    [Return]   ${GLOBAL_INJECTED_REGION}
