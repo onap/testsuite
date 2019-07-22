@@ -32,7 +32,7 @@ Check If Topic Exists
 Start HV-VES TCP Client And Send Message
     [Documentation]     Starts HV-VES TCP client sends message to the collector.
     [Arguments]     ${hvves_server_ip}     ${hvves_server_port}
-    ${msg}=    Convert To Bytes     ${${HVVES_MESSAGE}}
+    ${msg}=    Convert To Bytes     ${HVVES_MESSAGE}
     Send Binary Data    ${hvves_server_ip}    ${hvves_server_port}    ${msg}
 
 Decode Last Message From Topic
