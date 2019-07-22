@@ -15,9 +15,6 @@ Instantiate Service Direct To SO
     [Arguments]    ${service}   ${csar_file}   ${vnf_template_file} 
     # Example: ${csar_file}=  Set Variable   /tmp/csar/service-Vfw20190413133734-csar.csar
     # Example: ${vnf_template_file}=  Set Variable   /var/opt/ONAP/testsuite/vcpeutils/preload_templates/template.vfw_vfmodule.json
-    ${name_suffix}=   Get Current Date     exclude_millis=True
-    ${name_suffix}=       Evaluate    '${name_suffix}'.replace(' ','')
-    ${name_suffix}=       Evaluate    '${name_suffix}'.replace(':','')
     Set Directory    preload    ./demo/preload_data
     ${preload_dict}=       Get Default Preload Data    preload
     ${template}=   Create Dictionary
@@ -45,7 +42,6 @@ Instantiate Service Direct To SO
 
     Log    ${preload_dict}  
     Log    ${template}  
-    ${service_instance_id}=   Create Entire Service   ${csar_file}    ${vnf_template_file}   ${template}   ${name_suffix}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
+    ${service_instance_id}=   Create Entire Service   ${csar_file}    ${vnf_template_file}   ${template}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}    ${GLOBAL_INJECTED_PUBLIC_KEY}
     Log     ServiceInstanceId:${service_instance_id}
     Should Not Be Equal As Strings  ${service_instance_id}   None
-

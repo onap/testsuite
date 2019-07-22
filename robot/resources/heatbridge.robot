@@ -26,10 +26,6 @@ ${VSERVER_URI}   ${BASE_URI}/tenants/tenant/\${tenant}/vservers/vserver/\${vserv
 ${L_INTERFACE_URI}   ${VSERVER_URI}/l-interfaces/l-interface/\${linterface_id}
 ${VSERVER_NAME}    \${vserver_name}
 
-#******************** Test Case Variables ****************
-${REVERSE_HEATBRIDGE}
-
-
 *** Keywords ***
 Execute Heatbridge
     [Documentation]   Run the Heatbridge against the stack to generate the bulkadd message
@@ -65,8 +61,8 @@ Execute Heatbridge
     ${status_string}=    Convert To String    ${resp.status_code}
     Should Match Regexp    ${status_string} 	^(201|200)$
     ${reverse_heatbridge}=   Generate Reverse Heatbridge From Stack Info   ${stack_info}
-    Set Test Variable   ${REVERSE_HEATBRIDGE}   ${reverse_heatbridge}
     Run Validation Query    ${stack_info}    ${service}    ${vnf_id}
+    [Return]    ${reverse_heatbridge}
 
 Run Create VNFC
     [Documentation]    Create a VNFC for a vServer
@@ -128,8 +124,9 @@ Run Get Generic VNF By VnfId
 
 Execute Reverse Heatbridge
     [Documentation]   VID has already torn down the stack, reverse HB
-    Return From Keyword If   len(${REVERSE_HEATBRIDGE}) == 0
-    :FOR   ${uri}    IN   @{REVERSE_HEATBRIDGE}
+    [Arguments]   ${uris_to_delete}
+    Return From Keyword If   len(${uris_to_delete}) == 0
+    :FOR   ${uri}    IN   @{uris_to_delete}
     \    Run Keyword And Ignore Error    Delete A&AI Entity   ${uri}
 
 Generate Reverse Heatbridge From Stack Name
