@@ -2,7 +2,7 @@
 Documentation     The main interface for interacting with APP-C. It handles low level stuff like managing the http request library and APP-C required fields
 Library 	      RequestsLibrary
 Library	          ONAPLibrary.Utilities
-Library	          ONAPLibrary.Templating
+Library	          ONAPLibrary.Templating    WITH NAME    Templating
 Library           SeleniumLibrary
 Resource          browser_setup.robot
 
@@ -55,8 +55,8 @@ Create Mount Point In APPC
     [Documentation]     Go tell APPC about the PGN we just spun up...
     [Arguments]    ${nodeid}    ${host}    ${port}=${GLOBAL_PGN_PORT}    ${username}=admin    ${password}=admin
     ${dict}=    Create Dictionary    nodeid=${nodeid}    host=${host}    port=${port}    username=${username}    password=${password}
-    Create Environment    appc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    appc   ${APPC_MOUNT_XML}    ${dict}
+    Templating.Create Environment    appc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    appc   ${APPC_MOUNT_XML}    ${dict}
     ${resp}=    Run APPC Put Request     ${APPC_INDEX PATH}${APPC_CREATE_MOUNTPOINT_PATH}${nodeid}     ${data}
     Should Be True	200    <= ${resp.status_code} < 300
     [Return]     ${resp}

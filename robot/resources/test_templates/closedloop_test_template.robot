@@ -120,7 +120,7 @@ Create Config Policy
     ${put_resp} =    Run Policy Put Request    ${RESOURCE_PATH_CREATE}  ${output}
 	Should Be Equal As Strings 	${put_resp.status_code} 	200
 
- Create Policy Name
+Create Policy Name
      [Documentation]    Generate Policy Name
      [Arguments]    ${prefix}=ETE_
      ${random}=    Generate Random String    15    [LOWER][NUMBERS]
@@ -187,7 +187,7 @@ Orchestrate VNF vFW closedloop
 	${customer_name}=    Catenate    ETE_CLP_${uuid}
 	[Return]  ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${customer_name}    ${uris_to_delete}
 
- Orchestrate VNF vDNS closedloop
+Orchestrate VNF vDNS closedloop
 	[Documentation]    VNF Orchestration for vLB
 	Log    VNF Orchestration flow TEST NAME=${TEST NAME}
 	${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone

@@ -89,7 +89,7 @@ Disable All Streams
     Should Be Equal As Strings    ${resp.status_code}    200
     [Return]    ${resp}
 
- Disable Stream
+Disable Stream
     [Documentation]    Disables packet generator for the passed stream
     [Arguments]    ${host}    ${stream}=udp1    ${alias}=pgn
     ${session}=    Connect To Packet Generator    ${host}    alias=${alias}

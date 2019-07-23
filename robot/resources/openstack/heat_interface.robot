@@ -4,7 +4,7 @@ Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
 Library           OperatingSystem
 Library           Collections
-Library           ONAPLibrary.Templating
+Library           ONAPLibrary.Templating    WITH NAME    Templating
 Resource    ../global_properties.robot
 Resource    openstack_common.robot
 
@@ -39,7 +39,7 @@ Make Add Stack Request
     ${templatedata}=    Template Yaml To Json    ${template}
     ${envdata}=    Env Yaml To Json    ${env}
     ${dict}=  Create Dictionary     template=${templatedata}    parameters=${envdata}    stack_name=${name}
-    Create Environment    heat    ${GLOBAL_TEMPLATE_FOLDER}
+    Templating.Create Environment    heat    ${GLOBAL_TEMPLATE_FOLDER}
     ${request}=    Apply Template    heat    ${OPENSTACK_HEAT_ADD_STACK_TEMPLATE}    ${dict}
     Log    ${request}
     [Return]    ${request}

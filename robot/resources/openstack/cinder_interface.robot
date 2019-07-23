@@ -3,7 +3,7 @@ Documentation     The main interface for interacting with Openstack. It handles 
 Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
 Library	          ONAPLibrary.Utilities
-Library           ONAPLibrary.Templating
+Library           ONAPLibrary.Templating    WITH NAME    Templating
 Resource    ../global_properties.robot
 Resource    openstack_common.robot
 
@@ -34,8 +34,8 @@ Add Openstack Volume
     [Arguments]    ${alias}    ${name}	    ${size}
     ${uuid}=    Generate UUID4
     ${arguments}=    Create Dictionary    name=${name}     description=${GLOBAL_APPLICATION_ID}${uuid}	size=${size}    type=${OPENSTACK_CINDER_VOLUMES_TYPE}    availability_zone=${OPENSTACK_CINDER_AVAILABILITY_ZONE}
-    Create Environment    cinder    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    cinder    ${OPENSTACK_CINDER_VOLUMES_ADD_BODY_FILE}    ${arguments}
+    Templating.Create Environment    cinder    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    cinder    ${OPENSTACK_CINDER_VOLUMES_ADD_BODY_FILE}    ${arguments}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_CINDER_SERVICE_TYPE}   ${OPENSTACK_CINDER_VOLUMES_PATH}    data_path=    data=${data}
     Should Be Equal As Strings    200  ${resp.status_code}
     [Return]    ${resp.json()['volume']['id']}

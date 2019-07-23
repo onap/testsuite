@@ -6,7 +6,7 @@ Library		RequestsLibrary
 Library		DateTime
 Library		Collections
 Library		String
-Library     ONAPLibrary.Templating    
+Library     ONAPLibrary.Templating    WITH NAME    Templating
 
 Resource        ../browser_setup.robot
 
@@ -854,8 +854,8 @@ Enhanced Notification on ONAP Portal
 Notification on ONAP Portal
     [Documentation]     Create Config portal
     ${configportal}=     Create Dictionary     jira_id=${jira}
-    Create Environment    portal    ${GLOBAL_TEMPLATE_FOLDER}
-    ${output} =     Apply Template     portal    ${portal_Template}     ${configportal}
+    Templating.Create Environment    portal    ${GLOBAL_TEMPLATE_FOLDER}
+    ${output} =     Templating.Apply Template     portal    ${portal_Template}     ${configportal}
     ${post_resp} =     Enhanced Notification on ONAP Portal     ${RESOURCE_PATH}     ${output}
     Should Be Equal As Strings     ${post_resp.status_code}     200
     

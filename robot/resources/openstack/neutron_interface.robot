@@ -3,7 +3,7 @@ Documentation     The main interface for interacting with Openstack. It handles 
 Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
 Library           Collections
-Library           ONAPLibrary.Templating    
+Library           ONAPLibrary.Templating    WITH NAME     Templating
 Resource    ../global_properties.robot
 Resource    openstack_common.robot
 
@@ -44,8 +44,8 @@ Add Openstack Network
     [Documentation]    Runs an Openstack Request to add a network and returns that network id of the created network
     [Arguments]    ${alias}    ${name}
     ${arguments}=    Create Dictionary    name=${name}
-    Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    openstack    ${OPENSTACK_NEUTRON_NETWORK_ADD_BODY_FILE}    ${arguments}
+    Templating.Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    openstack    ${OPENSTACK_NEUTRON_NETWORK_ADD_BODY_FILE}    ${arguments}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NEUTRON_SERVICE_TYPE}    ${OPENSTACK_NEUTRON_NETWORK_PATH}    data_path=    data=${data}
     Should Be Equal As Strings    201  ${resp.status_code}
     [Return]    ${resp.json()['network']['id']}

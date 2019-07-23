@@ -4,7 +4,7 @@ Documentation	  Executes the VNF Orchestration Test cases including setup and te
 Library   Collections
 Resource         ../resources/demo_preload.robot
 Resource         ../resources/asdc_interface.robot
-Resource         ../resources/so/create_cloud_config.robot
+Resource         ../resources/so_interface.robot
 
 *** Variables ***
 

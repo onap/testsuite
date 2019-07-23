@@ -22,7 +22,7 @@ Setup Browser Firefox
     ${wd}=   Create WebDriver   Firefox   capabilities=${caps}
     Set Global Variable    ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}    ${caps}
 
- Setup Browser Chrome
+Setup Browser Chrome
     ${chrome options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
     Call Method    ${chrome options}    add_argument    no-sandbox
     Run Keyword If  ${HEADLESS}==True  Call Method    ${chrome options}    add_argument    headless

@@ -5,8 +5,6 @@ Library 	      SSHLibrary
 Library           String
 Library           Collections
 
-*** Variables ***
-
 *** Keywords ***
 Open Connection And Log In
    [Documentation]    Open a connection using the passed user and SSH key. Connection alias will be the host name by default.
@@ -20,7 +18,7 @@ Grep Local File
     ${output}=    Execute Command    grep ${pattern} ${fullpath}
     [Return]     ${output}
 
- Grep File on Host
+Grep File on Host
     [Documentation]     Grep the passed file name and return all of the lines that match the passed pattern using passed connection alias/host
     [Arguments]     ${host}    ${pattern}     ${fullpath}
     Switch Connection    ${host}

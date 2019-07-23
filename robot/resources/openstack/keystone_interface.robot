@@ -6,7 +6,7 @@ Library	          ONAPLibrary.Utilities
 Library	          Collections
 Library           OperatingSystem
 Library           String
-Library	          ONAPLibrary.Templating
+Library	          ONAPLibrary.Templating    WITH NAME    Templating
 Resource    ../global_properties.robot
 Resource    openstack_common.robot
 
@@ -67,8 +67,8 @@ Get KeyStoneAuthv2 Data
     [Documentation]    Returns all the data for keystone auth v2 api
     [Arguments]    ${username}    ${password}    ${path}
     ${arguments}=    Create Dictionary    username=${username}    password=${password}   tenantId=${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
-    Create Environment    keystone    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=    Apply Template    keystone    ${OPENSTACK_KEYSTONE_AUTH_v2_BODY_FILE}    ${arguments}
+    Templating.Create Environment    keystone    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=    Templating.Apply Template    keystone    ${OPENSTACK_KEYSTONE_AUTH_v2_BODY_FILE}    ${arguments}
     ${data_path}=    Catenate    ${path}${OPENSTACK_KEYSTONE_AUTH_v2_PATH}
     [Return]    ${data_path}    ${data}
 
@@ -76,8 +76,8 @@ Get KeyStoneAuthv3 Data
     [Documentation]    Returns all the data for keystone auth v3 api
     [Arguments]    ${username}    ${password}    ${path}
     ${arguments}=    Create Dictionary    username=${username}    password=${password}   domain_id=${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}    project_name=${GLOBAL_INJECTED_OPENSTACK_PROJECT_NAME}
-    Create Environment    keystone    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=    Apply Template    keystone    ${OPENSTACK_KEYSTONE_AUTH_v3_BODY_FILE}    ${arguments}
+    Templating.Create Environment    keystone    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=    Templating.Apply Template    keystone    ${OPENSTACK_KEYSTONE_AUTH_v3_BODY_FILE}    ${arguments}
     ${data_path}=    Catenate    ${path}${OPENSTACK_KEYSTONE_AUTH_v3_PATH}
     [Return]    ${data_path}    ${data}
 

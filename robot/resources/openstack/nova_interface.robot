@@ -3,7 +3,7 @@ Documentation     The main interface for interacting with Openstack. It handles 
 Library           ONAPLibrary.Openstack
 Library 	      RequestsLibrary
 Library 	      ONAPLibrary.JSON
-Library 	      ONAPLibrary.Templating
+Library 	      ONAPLibrary.Templating    WITH NAME    Templating
 Library    OperatingSystem
 Library    Collections
 Resource    ../global_properties.robot
@@ -31,8 +31,8 @@ Add Openstack Keypair
     [Documentation]    Runs an Openstack Request to add a keypair and returns the keypair name
     [Arguments]    ${alias}    ${name}    ${ssh_key}
     ${arguments}=    Create Dictionary    name=${name}	    publickey=${ssh_key}
-    Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    openstack    ${OPENSTACK_NOVA_KEYPAIR_ADD_BODY_FILE}    ${arguments}
+    Templating.Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    openstack    ${OPENSTACK_NOVA_KEYPAIR_ADD_BODY_FILE}    ${arguments}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    ${OPENSTACK_NOVA_KEYPAIR_PATH}    data_path=    data=${data}
     Should Be Equal As Strings    200  ${resp.status_code}
     [Return]    ${resp.json()['keypair']['name']}
@@ -98,8 +98,8 @@ Add Server For Image Name
     ${imageRef}=    Get Id For Name   ${images}    ${imageName}
     ${flavorRef}=   Get Id For Name   ${flavors}    ${flavorName}
     ${dict}=    Create Dictionary   name=${name}   imageRef=${imageRef}   flavorRef=${flavorRef}   public_net_id=${public_net_id}
-    Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    openstack   ${OPENSTACK_NOVA_SERVER_ADD_BODY_FILE}    ${dict}
+    Templating.Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    openstack   ${OPENSTACK_NOVA_SERVER_ADD_BODY_FILE}    ${dict}
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    ${OPENSTACK_NOVA_SERVERS_PATH}   data_path=    data=${data}
     ${status_string}=    Convert To String    ${resp.status_code}
     Should Match Regexp    ${status_string}    ^(202)$
@@ -112,7 +112,7 @@ Wait for Server to Be Active
     Should Be Equal    ${status}    ACTIVE
     [Return]    ${server_info}
 
- Get Active Server
+Get Active Server
     [Arguments]    ${alias}    ${server_id}
     ${resp}=    Get Openstack Server By Id    ${alias}    ${server_id}
     Should Be Equal As Strings   ${resp.status_code}    200

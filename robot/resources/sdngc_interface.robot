@@ -97,9 +97,9 @@ Preload Vnf
     \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
     #     need to pass in vnf_index if non-zero
     \       ${dict}   Run Keyword If    "${generic_vnf_name}".endswith('0')      Get From Mapping With Index    ${templates}    ${vf_module}   0
-    \       ...    ELSE IF  "${generic_vnf_name}".endswith('1')      Get From Mapping With Index    ${templates}    ${vf_module}   1
-    \       ...    ELSE IF  "${generic_vnf_name}".endswith('2')      Get From Mapping With Index    ${templates}    ${vf_module}   2
-    \       ...    ELSE   Get From Mapping    ${templates}    ${vf_module}
+            ...    ELSE IF  "${generic_vnf_name}".endswith('1')      Get From Mapping With Index    ${templates}    ${vf_module}   1
+            ...    ELSE IF  "${generic_vnf_name}".endswith('2')      Get From Mapping With Index    ${templates}    ${vf_module}   2
+            ...    ELSE   Get From Mapping    ${templates}    ${vf_module}
     #     skip this iteration if no template 
     \       ${test_dict_length} =  Get Length  ${dict}
     \       Continue For Loop If   ${test_dict_length} == 0
