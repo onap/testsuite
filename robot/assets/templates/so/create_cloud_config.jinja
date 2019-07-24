@@ -13,5 +13,11 @@
     "id": "{{identity_id}}", 
     "identity_server_type": "{{identity_server_type}}",     
     "identity_authentication_type": "{{authentication_type}}"
+    {% if project_domain_name %}
+		,"project_domain_name": "{{project_domain_name}}"
+	{% endif %}
+    {% if user_domain_name %}
+		,"user_domain_name": "{{user_domain_name}}"
+	{% endif %}	
   } 
 }

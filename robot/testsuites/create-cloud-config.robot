@@ -2,8 +2,7 @@
 Documentation	  SO Cloud Config Test Cases
 Test Timeout    1 minute
 
-
-Resource          ../resources/so_interface.robot
+Library           ONAPLibrary.SO    WITH NAME    SO
 Resource          ../resources/aai/create_tenant.robot
 
 
@@ -11,7 +10,9 @@ Resource          ../resources/aai/create_tenant.robot
 Create Cloud Config Test
     [TAGS]    mso    cloudconfig
     # Run Create Cloud Configuration    RegionOne   RegionOne   RegionOne    DEFAULT_KEYSTONE    identify_url:http://10.12.25.2:5000/v2.0    mso_id:demo  mso_pass:encrypted_password  admin_tenant:1e097c6713e74fd7ac8e4295e605ee1e    member_role:admin    identity_server_type:KEYSTONE    identity_authentication_type:USERNAME_PASSWORD
-    Create Cloud Configuration    ${GLOBAL_INJECTED_REGION}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_REGION}   DEFAULT_KEYSTONE    ${GLOBAL_INJECTED_KEYSTONE}/${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}    ${GLOBAL_INJECTED_OPENSTACK_USERNAME}   ${GLOBAL_INJECTED_OPENSTACK_API_KEY}    ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}     admin    KEYSTONE    USERNAME_PASSWORD 
+    ${arguments}=    Create Dictionary     site_name=${GLOBAL_INJECTED_REGION}  region_id=${GLOBAL_INJECTED_REGION}  clli=${GLOBAL_INJECTED_REGION}    identity_id=DEFAULT_KEYSTONE    identity_url=${GLOBAL_INJECTED_KEYSTONE}/${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}    mso_id=${GLOBAL_INJECTED_OPENSTACK_USERNAME}    mso_pass=${GLOBAL_INJECTED_OPENSTACK_API_KEY}    admin_tenant=${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}   member_role=admin     identity_server_type=KEYSTONE_V3     authentication_type=USERNAME_PASSWORD   
+    ${auth}=  Create List  ${GLOBAL_MSO_CATDB_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    SO.Upsert Cloud Configuration    ${GLOBAL_SO_CATDB_ENDPOINT}    ${GLOBAL_SO_CLOUD_CONFIG_PATH}    ${GLOBAL_TEMPLATE_FOLDER}    ${GLOBAL_SO_CLOUD_CONFIG_TEMPLATE}    ${arguments}    auth=${auth}
 
 Create Cloud Config RegionThree V3 Test
     [TAGS]    mso    cloudconfig  cloudconfigv3
@@ -22,10 +23,14 @@ Create Cloud Config RegionThree V3 Test
     ...  In Windriver/Intel test labs the os_region_id's are all set to "RegionOne"
     ...  clli by testing team convention is same as onap site_name
     ...  KEYSTONE URL should end in /v3 SO will put /auth when KEYSTONE_V3 is the identity_server_type
-    Create Cloud Configuration v3    ${GLOBAL_INJECTED_REGION_THREE}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_REGION_THREE}   REGION_THREE_KEYSTONE    ${GLOBAL_INJECTED_KEYSTONE_REGION_THREE}/${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION_REGION_THREE}     ${GLOBAL_INJECTED_OPENSTACK_USERNAME_REGION_THREE}   ${GLOBAL_INJECTED_OPENSTACK_MSO_ENCRYPTED_PASSWORD_REGION_THREE}    ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID_REGION_THREE}     admin    KEYSTONE_V3    USERNAME_PASSWORD  ${GLOBAL_INJECTED_OPENSTACK_PROJECT_DOMAIN_REGION_THREE}  ${GLOBAL_INJECTED_OPENSTACK_USER_DOMAIN_REGION_THREE}
+    ${arguments}=    Create Dictionary     site_name=${GLOBAL_INJECTED_REGION_THREE}  region_id=${GLOBAL_INJECTED_REGION}  clli=${GLOBAL_INJECTED_REGION_THREE}    identity_id=REGION_THREE_KEYSTONE    identity_url=${GLOBAL_INJECTED_KEYSTONE_REGION_THREE}/${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION_REGION_THREE}    mso_id=${GLOBAL_INJECTED_OPENSTACK_USERNAME_REGION_THREE}    mso_pass=${GLOBAL_INJECTED_OPENSTACK_MSO_ENCRYPTED_PASSWORD_REGION_THREE}    admin_tenant=${GLOBAL_INJECTED_OPENSTACK_TENANT_ID_REGION_THREE}   member_role=admin     identity_server_type=KEYSTONE_V3     authentication_type=USERNAME_PASSWORD    project_domain_name=${GLOBAL_INJECTED_OPENSTACK_PROJECT_DOMAIN_REGION_THREE}    user_domain_name=${GLOBAL_INJECTED_OPENSTACK_USER_DOMAIN_REGION_THREE}     
+    ${auth}=  Create List  ${GLOBAL_MSO_CATDB_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    SO.Upsert Cloud Configuration    ${GLOBAL_SO_CATDB_ENDPOINT}    ${GLOBAL_SO_CLOUD_CONFIG_PATH}    ${GLOBAL_TEMPLATE_FOLDER}    ${GLOBAL_SO_CLOUD_CONFIG_TEMPLATE}    ${arguments}    auth=${auth}
     Inventory Tenant If Not Exists    CloudOwner   ${GLOBAL_INJECTED_REGION_THREE}  SharedNode  OwnerType  v1  CloudZone  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID_REGION_THREE}  ${GLOBAL_INJECTED_OPENSTACK_PROJECT_DOMAIN_REGION_THREE}
 
 
 Get Cloud Config Test
     [TAGS]    mso    cloudconfig
-    Get Cloud Configuration    ${GLOBAL_INJECTED_REGION}   
+    ${auth}=  Create List  ${GLOBAL_MSO_CATDB_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    ${get_resp}=    SO.Get Cloud Configuration    ${GLOBAL_SO_CATDB_ENDPOINT}    ${GLOBAL_SO_CLOUD_CONFIG_PATH}	${GLOBAL_INJECTED_REGION}   auth=${auth} 
+    Should Be Equal As Strings  ${get_resp.status_code}     200

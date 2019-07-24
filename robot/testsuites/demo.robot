@@ -1,10 +1,10 @@
 *** Settings ***
 Documentation	  Executes the VNF Orchestration Test cases including setup and teardown
-...
+
+Library           ONAPLibrary.SO    WITH NAME    SO
 Library   Collections
 Resource         ../resources/demo_preload.robot
 Resource         ../resources/asdc_interface.robot
-Resource         ../resources/so_interface.robot
 
 *** Variables ***
 
@@ -31,7 +31,9 @@ Initialize Customer And Models
 
 Initialize SO Openstack Identity For V3
     [Tags]   InitDemo
-    Run Keyword If    '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'=='v3'     Create Cloud Configuration v3    ${GLOBAL_INJECTED_REGION}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_REGION}   DEFAULT_KEYSTONE  ${GLOBAL_INJECTED_KEYSTONE}/${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}     ${GLOBAL_INJECTED_OPENSTACK_USERNAME}   ${GLOBAL_INJECTED_OPENSTACK_SO_ENCRYPTED_PASSWORD}    ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}     admin    KEYSTONE_V3    USERNAME_PASSWORD  ${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}  ${GLOBAL_INJECTED_OPENSTACK_USER_DOMAIN}
+    ${arguments}=    Create Dictionary     site_name=${GLOBAL_INJECTED_REGION}  region_id=${GLOBAL_INJECTED_REGION}  clli=${GLOBAL_INJECTED_REGION}    identity_id=DEFAULT_KEYSTONE    identity_url=${GLOBAL_INJECTED_KEYSTONE}/${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}    mso_id=${GLOBAL_INJECTED_OPENSTACK_USERNAME}    mso_pass=${GLOBAL_INJECTED_OPENSTACK_SO_ENCRYPTED_PASSWORD}    admin_tenant=${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}   member_role=admin     identity_server_type=KEYSTONE_V3     authentication_type=USERNAME_PASSWORD    project_domain_name=${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}    user_domain_name=${GLOBAL_INJECTED_OPENSTACK_USER_DOMAIN}   
+    ${auth}=  Create List  ${GLOBAL_MSO_CATDB_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    Run Keyword If    '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'=='v3'     SO.Upsert Cloud Configuration    ${GLOBAL_SO_CATDB_ENDPOINT}    ${GLOBAL_SO_CLOUD_CONFIG_PATH}    ${GLOBAL_TEMPLATE_FOLDER}    ${GLOBAL_SO_CLOUD_CONFIG_TEMPLATE}    ${arguments}    auth=${auth}
 
 Initialize Customer
     [Tags]   InitCustomer
