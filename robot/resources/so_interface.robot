@@ -12,15 +12,15 @@ ${SO_ADD_CLOUD_CONFIG_V3}=   robot/assets/templates/so/cloud_config_v3.template
 
 *** Keywords ***
 Run SO Global Health Check
-    Run Get Request	   ${GLOBAL_SO_APIHAND_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
-    Run Get Request	   ${GLOBAL_SO_ASDCHAND_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
-    Run Get Request    ${GLOBAL_SO_BPMN_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
-    Run Get Request    ${GLOBAL_SO_CATDB_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
-    Run Get Request    ${GLOBAL_SO_OPENSTACK_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
-    Run Get Request    ${GLOBAL_SO_REQDB_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
-    Run Get Request    ${GLOBAL_SO_SDNC_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
-    Run Get Request    ${GLOBAL_SO_VFC_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
-    Run Get Request    ${GLOBAL_SO_VNFM_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request	   ${GLOBAL_SO_APIHAND_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request	   ${GLOBAL_SO_ASDCHAND_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request    ${GLOBAL_SO_BPMN_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request    ${GLOBAL_SO_CATDB_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request    ${GLOBAL_SO_OPENSTACK_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request    ${GLOBAL_SO_REQDB_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request    ${GLOBAL_SO_SDNC_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request    ${GLOBAL_SO_VFC_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request    ${GLOBAL_SO_VNFM_ENDPOINT}    ${SO_HEALTH_CHECK_PATH}
 
 Get Cloud Configuration
     [Documentation]    Gets cloud configuration in SO

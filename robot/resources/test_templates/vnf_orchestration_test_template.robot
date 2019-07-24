@@ -31,6 +31,8 @@ Orchestrate VNF Template
     [Documentation]   Use openECOMP to Orchestrate a service.
     [Arguments]    ${customer_name}    ${service}    ${product_family}    ${delete_flag}=DELETE
     ${uuid}=    Generate UUID4
+    ${catalog_service_id}=    Set Variable    ${None}    # default to empty
+    ${catalog_resource_ids}=    Set Variable    ${None}    # default to empty
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
     ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${catalog_resource_ids}   ${catalog_service_id}    ${uris_to_delete}=    Orchestrate VNF   ${customer_name}_${uuid}    ${service}    ${product_family}    ${tenant_id}    ${tenant_name}
     Run Keyword If   '${delete_flag}' == 'DELETE'   Delete VNF    ${tenant_name}    ${server_id}    ${customer_name}_${uuid}    ${service_instance_id}    ${vf_module_name_list}    ${uris_to_delete}
