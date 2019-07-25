@@ -13,6 +13,11 @@ ${ASDC_ASSETS_DIRECTORY}    ${GLOBAL_HEAT_TEMPLATES_FOLDER}
 ${ASDC_ZIP_DIRECTORY}    ${ASDC_ASSETS_DIRECTORY}/temp
 
 *** Keywords ***
+Model Distribution For Directory With Teardown
+    [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=
+    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}    ${catalog_resource_ids}   ${catalog_service_id}=    Model Distribution For Directory    ${service}   ${catalog_service_name}    ${cds}
+    [Teardown]    Teardown Models    ${catalog_service_id}    ${catalog_resource_ids}
+    
 Model Distribution For Directory
     [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
@@ -32,7 +37,6 @@ Model Distribution For Directory
     ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute Model From ASDC    ${ziplist}    ${catalog_service_name}    ${cds}   ${service}
     Download CSAR    ${catalog_service_id}   
     [Return]    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}    ${catalog_resource_ids}   ${catalog_service_id}
-    [Teardown]    Teardown Models    ${catalog_service_id}    ${catalog_resource_ids}
 
 Teardown Models
     [Documentation]    Clean up at the end of the test
