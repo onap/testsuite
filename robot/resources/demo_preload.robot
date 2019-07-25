@@ -67,6 +67,8 @@ Load Models
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFWCL   ${DEMO_PREFIX}VFWCL
     Log   Distibuting vLB
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB   ${DEMO_PREFIX}VLB
+    Log To Console   Distibuting vLB_CDS
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB_CDS   ${DEMO_PREFIX}VLB_CDS  True
     ##${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPE   ${DEMO_PREFIX}VCPE
     ##${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vIMS   ${DEMO_PREFIX}VIMS
     Log   Distibuting vCPEInfra
@@ -81,8 +83,8 @@ Load Models
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvGW    ${DEMO_PREFIX}VCPEvGW
 
 Distribute Model
-    [Arguments]   ${service}   ${modelName}
-    Model Distribution For Directory    ${service}   ${modelName}
+    [Arguments]   ${service}   ${modelName}  ${cds}=
+    Model Distribution For Directory    ${service}   ${modelName}  ${cds}
 
 Distribute vCPEResCust Model
     [Arguments]   ${service}   ${modelName}
