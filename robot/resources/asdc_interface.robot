@@ -130,6 +130,7 @@ Distribute Model From ASDC
     :FOR  ${deployment}  IN   @{deploymentlist}
     \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
     \    Setup SDC Catalog Resource Deployment Artifact Properties      ${catalog_service_id}   ${loop_catalog_resource_resp}  ${catalog_resource_unique_name}  ${deployment}
+    Run Keyword If  ${cds} == True  Add CDS Parameters  ${catalog_service_name}
     Checkin ASDC Catalog Service    ${catalog_service_id}
     Wait Until Keyword Succeeds    600s    15s    Request Certify ASDC Catalog Service    ${catalog_service_id}
     Start Certify ASDC Catalog Service    ${catalog_service_id}
@@ -1030,3 +1031,23 @@ Create Multi Part
    ${partData}=  Create List  ${fileName}  ${fileData}  ${contentType}
    Set To Dictionary  ${addTo}  ${partName}=${partData}
 
+
+Add CDS Parameters 
+    [Arguments]  ${catalog_service_name} 
+    ${resp}=   Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/serviceName/${catalog_service_name}/serviceVersion/0.1  ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ENDPOINT}
+    #${resp_json}=  To Json  ${resp}
+    ${service_uuid}=  Set Variable  ${resp.json()['uniqueId']}
+    ${component_uuid}=  Set Variable  ${resp.json()['componentInstances'][0]['uniqueId']}
+    @{inputs}=   Copy List  ${resp.json()['componentInstances'][0]['inputs']}
+    :FOR  ${input}  IN  @{inputs}
+    \    Run Keyword If  '${input['name']}' == "sdnc_artifact_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  vdns-vnf
+    \    ...  ELSE IF  '${input['name']}' == "sdnc_model_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  test
+    \    ...  ELSE IF  '${input['name']}' == "sdnc_model_version"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  1.0.0
+    \    ...  ELSE IF  '${input['name']}' == "skip_post_instantiation_configuration"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  boolean  false
+    
+
+Set Input Parameter 
+    [Arguments]   ${service_uuid}  ${component_uuid}  ${input}  ${input_type}  ${input_value}    
+
+    ${resp}=    Run ASDC Post Request  ${ASDC_CATALOG_SERVICES_PATH}/${service_uuid}/resourceInstance/${component_uuid}/inputs    {"constraints":[],"name":"${input['name']}","parentUniqueId":"${input['parentUniqueId']}","password":false,"required":false,"schema":{"property":{}},"type":"${input_type}","uniqueId":"${input['uniqueId']}","value":"${input_value}","definition":false,"toscaPresentation":{"ownerId":"${input['ownerId']}"}} 
+    Should Be Equal As Strings  ${resp.status_code}     200
