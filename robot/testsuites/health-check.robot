@@ -282,7 +282,7 @@ Basic VNFSDK Health Check
 Health Distribution Test
     [Tags]    healthdist
     [Timeout]    1200
-    Model Distribution For Directory    vFW
+    Model Distribution For Directory With Teardown   vFW
 
 Portal Login Tests
     [Tags]    healthlogin
