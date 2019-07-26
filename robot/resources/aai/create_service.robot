@@ -31,8 +31,7 @@ Create Service
     Templating.Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    aai   ${AAI_ADD_SERVICE_BODY}    ${arguments}
     ${fullpath}=    Catenate         ${INDEX PATH}${ROOT_SERVICE_PATH}/service/${uuid}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-	${put_resp}=    AAI.Run Put Request     ${AAI_FRONTEND_ENDPOINT}    ${fullpath}    ${data}        auth=${auth}
+	${put_resp}=    AAI.Run Put Request     ${AAI_FRONTEND_ENDPOINT}    ${fullpath}    ${data}        auth=${GLOBAL_AAI_AUTHENTICATION}
     Should Be Equal As Strings 	${put_resp.status_code} 	201
 	[Return]  ${put_resp.status_code}
 
@@ -49,14 +48,12 @@ Delete Service
     ${uuid}=    Get From Dictionary    ${dict}     service-id
     ${resource_version}=    Get From Dictionary    ${dict}     resource-version
     ${fullpath}=    Catenate         ${INDEX PATH}${ROOT_SERVICE_PATH}/service/${uuid}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-	${resp}=    AAI.Run Delete Request    ${AAI_FRONTEND_ENDPOINT}    ${fullpath}    ${resource_version}        auth=${auth}
+	${resp}=    AAI.Run Delete Request    ${AAI_FRONTEND_ENDPOINT}    ${fullpath}    ${resource_version}        auth=${GLOBAL_AAI_AUTHENTICATION}
     Should Be Equal As Strings 	${resp.status_code} 	204
 
 Get Services
     [Documentation]    Creates a service in A&AI
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-	${resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_SERVICE_PATH}        auth=${auth}
+	${resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_SERVICE_PATH}        auth=${GLOBAL_AAI_AUTHENTICATION}
 	${dict}=    Create Dictionary
     ${status}    ${value}=    Run Keyword And Ignore Error    Should Be Equal As Strings 	${resp.status_code} 	200
     Run Keyword If    '${status}' == 'PASS'    Update Service Dictionary    ${dict}    ${resp.json()}

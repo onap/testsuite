@@ -14,6 +14,5 @@ ${SERVICE_INSTANCE}    /service-instances?service-instance-name=
 *** Keywords ***
 Validate Volume Group
     [Arguments]    ${service_instance_name}    ${service_type}  ${customer_id}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-	${resp}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX_PATH}${CUSTOMER_SPEC_PATH}${customer_id}${SERVICE_SUBSCRIPTIONS}${service_type}${SERVICE_INSTANCE}${service_instance_name}        auth=${auth}
+	${resp}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX_PATH}${CUSTOMER_SPEC_PATH}${customer_id}${SERVICE_SUBSCRIPTIONS}${service_type}${SERVICE_INSTANCE}${service_instance_name}        auth=${GLOBAL_AAI_AUTHENTICATION}
     Dictionary Should Contain Value	${resp.json()['service-instance'][0]}    ${service_instance_name}

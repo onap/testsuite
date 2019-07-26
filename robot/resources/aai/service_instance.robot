@@ -29,21 +29,19 @@ ${GENERIC_VNF_QUERY_TEMPLATE}   /network/generic-vnfs/generic-vnf/\${vnf_id}/vf-
 Validate Service Instance
     [Documentation]    Query and Validates A&AI Service Instance
     [Arguments]    ${service_instance_name}    ${service_type}  ${customer_name}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${cust_resp}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}/business/customers?subscriber-name=${customer_name}        auth=${auth
+    ${cust_resp}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}/business/customers?subscriber-name=${customer_name}        auth=${GLOBAL_AAI_AUTHENTICATION}
 	${resp}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${CUSTOMER SPEC PATH}${cust_resp.json()['customer'][0]['global-customer-id']}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_name}        auth=${auth
     Dictionary Should Contain Value	${resp.json()['service-instance'][0]}    ${service_instance_name}
 
 Validate Generic VNF
     [Documentation]    Query and Validates A&AI Service Instance
     [Arguments]    ${vnf_name}  ${vnf_type}    ${service_instance_id}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${generic_vnf}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-name=${vnf_name}        auth=${auth
+    ${generic_vnf}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}/network/generic-vnfs/generic-vnf?vnf-name=${vnf_name}        auth=${GLOBAL_AAI_AUTHENTICATION}
     Dictionary Should Contain Value	${generic_vnf.json()}    ${vnf_name}
     ${returned_vnf_type}=    Get From Dictionary    ${generic_vnf.json()}    vnf-type
     Should Contain	${returned_vnf_type}    ${vnf_type}
     ${vnf_id}=    Get From Dictionary    ${generic_vnf.json()}    vnf-id
-    ${generic_vnf}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}/network/generic-vnfs/generic-vnf/${vnf_id}?depth=all        auth=${auth
+    ${generic_vnf}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}/network/generic-vnfs/generic-vnf/${vnf_id}?depth=all        auth=${GLOBAL_AAI_AUTHENTICATION}
     [Return]    ${generic_vnf.json()}
 
 Validate VF Module

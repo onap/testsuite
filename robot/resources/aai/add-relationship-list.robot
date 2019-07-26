@@ -21,8 +21,7 @@ Add Relationship
     ${arguments}=    Create Dictionary     related_class_name=${related_class_name}  related_object_url=${related_object_url}
     Templating.Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    aai   ${AAI_ADD_RELATIONSHIP_BODY}    ${arguments}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${put_resp}=    AAI.Run Put Request     ${AAI_FRONTEND_ENDPOINT}    ${api_version_base_object_url}/${AAI_RELATIONSHIP_PATH}     ${data}    auth=${auth}
+    ${put_resp}=    AAI.Run Put Request     ${AAI_FRONTEND_ENDPOINT}    ${api_version_base_object_url}/${AAI_RELATIONSHIP_PATH}     ${data}    auth=${GLOBAL_AAI_AUTHENTICATION}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}     ^(201|200)$
 
@@ -36,8 +35,7 @@ Get RelationshipList
 Get Object With Depth
     [Documentation]   Return Object with Depth parameter to show RelationshipList
     [Arguments]    ${api_version_base_object_url}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${api_version_base_object_url}${AAI_RELATIONSHIP_DEPTH}    auth=${auth}
+    ${resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${api_version_base_object_url}${AAI_RELATIONSHIP_DEPTH}    auth=${GLOBAL_AAI_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     Log    Returning response ${resp.json()}
     [Return]  ${resp.json()}

@@ -18,8 +18,7 @@ Run AAF Health Check
 Run AAF Get Request
      [Documentation]    Runs AAF Get request
      [Arguments]    ${data_path}
-     ${auth}=  Create List  ${GLOBAL_AAF_USERNAME}    ${GLOBAL_AAF_PASSWORD}
-     ${session}=    Create Session 	aaf	${GLOBAL_AAF_SERVER}    auth=${auth}
+     ${session}=    Create Session 	aaf	${GLOBAL_AAF_SERVER}    auth=${GLOBAL_AAF_AUTHENTICATION}
      ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
      ${resp}= 	Get Request 	aaf 	${data_path}     headers=${headers}

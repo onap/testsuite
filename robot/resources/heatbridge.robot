@@ -56,8 +56,7 @@ Execute Heatbridge
     ...    ELSE    Init Bridge    ${openstack_identity_url}    ${user}    ${pass}    ${tenant_id}    ${region}   ${GLOBAL_AAI_CLOUD_OWNER}    ${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}    ${GLOBAL_INJECTED_OPENSTACK_PROJECT_NAME}
     ${request}=    Bridge Data    ${stack_id}
     Log    ${request}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${resp}=    AAI.Run Put Request    ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request}    auth=${auth}
+    ${resp}=    AAI.Run Put Request    ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}${MULTIPART_PATH}    ${request}    auth=${GLOBAL_AAI_AUTHENTICATION}
     ${status_string}=    Convert To String    ${resp.status_code}
     Should Match Regexp    ${status_string} 	^(201|200)$
     ${reverse_heatbridge}=   Generate Reverse Heatbridge From Stack Info   ${stack_info}
@@ -93,8 +92,7 @@ Run Vserver Query
     ${dict}=    Create Dictionary    vserver_name=${vserver_name}
     Templating.Create Environment    aai    ${GLOBAL_TEMPLATE_FOLDER}
     ${request}=   Templating.Apply Template    aai   ${NAMED_QUERY_TEMPLATE}    ${dict}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${resp}=    AAI.Run Post Request      ${AAI_FRONTEND_ENDPOINT}    ${NAMED_QUERY_PATH}    ${request}	    auth=${auth}
+    ${resp}=    AAI.Run Post Request      ${AAI_FRONTEND_ENDPOINT}    ${NAMED_QUERY_PATH}    ${request}	    auth=${GLOBAL_AAI_AUTHENTICATION}
     Should Be Equal As Strings    ${resp.status_code}    200
 
 
@@ -108,8 +106,7 @@ Run Set VNF Params
     set to dictionary    ${payload}    orchestration-status   ${orch_status}
     set to dictionary    ${payload}    ipv4-oam-address  ${ipv4_vnf_address}
     ${payload_string}=    evaluate    json.dumps(${payload})    json
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${put_resp}=    AAI.Run Put Request      ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf/${vnf_id}    ${payload_string}	auth=${auth}
+    ${put_resp}=    AAI.Run Put Request      ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf/${vnf_id}    ${payload_string}	auth=${GLOBAL_AAI_AUTHENTICATION}
     ${status_string}=    Convert To String    ${put_resp.status_code}
     Should Match Regexp    ${status_string}    ^(200|201)$
     Log    Set VNF ProvStatus: ${vnf_id} to ${prov_status}
@@ -117,8 +114,7 @@ Run Set VNF Params
 Run Get Generic VNF By VnfId
     [Documentation]  Get VNF GET Payload with resource ID
     [Arguments]   ${vnf_id}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf?vnf-id=${vnf_id}    auth=${auth}
+    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}/network/generic-vnfs/generic-vnf?vnf-id=${vnf_id}    auth=${GLOBAL_AAI_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]   ${resp.json()}
 

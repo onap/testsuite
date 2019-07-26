@@ -36,8 +36,7 @@ Create PNF initial entry in A&AI
     ${correlation_id}=  Get From Dictionary  ${PNF_entry_dict}  correlation_id
     ${del_resp}=  Delete A&AI Entity  /network/pnfs/pnf/${PNF_entry_dict.correlation_id}
     Log  Removing existing entry "${PNF_entry_dict.correlation_id}" from A&AI registry
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${put_resp}=  AAI.Run Put Request  ${AAI_FRONTEND_ENDPOINT}    /aai/v11/network/pnfs/pnf/${PNF_entry_dict.correlation_id}  ${template}    auth=${auth}
+    ${put_resp}=  AAI.Run Put Request  ${AAI_FRONTEND_ENDPOINT}    /aai/v11/network/pnfs/pnf/${PNF_entry_dict.correlation_id}  ${template}    auth=${GLOBAL_AAI_AUTHENTICATION}
     Log  Adding new entry with correlation ID "${PNF_entry_dict.correlation_id}" to A&AI registry (empty IPv4 and IPv6 address)
 
 Send VES integration request
@@ -64,8 +63,7 @@ Verify PNF integration request in MR
 Query PNF A&AI updated entry
     [Documentation]   Query PNF A&AI updated entry
     [Arguments]  ${PNF_entry_dict}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${get_resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    /aai/v11/network/pnfs/pnf/${PNF_entry_dict.correlation_id}    auth=${auth}
+    ${get_resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    /aai/v11/network/pnfs/pnf/${PNF_entry_dict.correlation_id}    auth=${GLOBAL_AAI_AUTHENTICATION}
     Should Be Equal As Strings  ${get_resp.status_code}        200
     ${json_resp}=  Set Variable  ${get_resp.json()}
     Log  JSON recieved from A&AI endpoint ${json_resp}

@@ -14,20 +14,17 @@ ${AAI_FRONTEND_ENDPOINT}    ${GLOBAL_AAI_SERVER_PROTOCOL}://${GLOBAL_INJECTED_AA
 *** Keywords ***
 Run A&AI Health Check
     [Documentation]    Runs an A&AI health check
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${AAI_HEALTH_PATH}    auth=${auth}
+    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${AAI_HEALTH_PATH}    auth=${GLOBAL_AAI_AUTHENTICATION}
     Should Be Equal As Strings 	${resp.status_code} 	200
 
 Delete A&AI Entity
     [Documentation]    Deletes an entity in A&AI
     [Arguments]    ${uri}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}${uri}    auth=${auth}
+    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}${uri}    auth=${GLOBAL_AAI_AUTHENTICATION}
 	Run Keyword If    '${resp.status_code}' == '200'    Delete A&AI Entity Exists    ${uri}    ${resp.json()['resource-version']}
 
 Delete A&AI Entity Exists
     [Documentation]    Deletes an  A&AI	entity
     [Arguments]    ${uri}    ${resource_version_id}
-    ${auth}=  Create List  ${GLOBAL_AAI_USERNAME}    ${GLOBAL_AAI_PASSWORD}
-    ${put_resp}=    AAI.Run Delete Request    ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}${uri}    ${resource_version_id}    auth=${auth}
+    ${put_resp}=    AAI.Run Delete Request    ${AAI_FRONTEND_ENDPOINT}    ${VERSIONED_INDEX_PATH}${uri}    ${resource_version_id}    auth=${GLOBAL_AAI_AUTHENTICATION}
     Should Be Equal As Strings 	${put_resp.status_code} 	204

@@ -27,8 +27,8 @@
         <path location="robot/library"/>
     </pythonpath>
     <classpath/>
-    <variableFiles path="../oom/kubernetes/robot/resources/config/eteshare/config/integration_robot_properties.py"/>
-    <variableFiles path="../oom/kubernetes/robot/resources/config/eteshare/config/vm_properties.py"/>
+    <variableFiles path="../oom/resources/config/eteshare/config/integration_robot_properties.py"/>
+    <variableFiles path="../oom/resources/config/eteshare/config/vm_properties.py"/>
     <excludedForValidation>
         <excludedPath path="robot/library"/>
     </excludedForValidation>
