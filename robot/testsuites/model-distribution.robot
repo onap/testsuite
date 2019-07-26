@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation	  Testing asdc.
+Documentation	  Testing sdc.
 Library    OperatingSystem
 Library    RequestsLibrary
 Library    Collections

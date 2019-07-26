@@ -36,7 +36,7 @@
 
 {{robot}} robot
 {{appc}} appc
-{{mso}}  so
+{{so}}  so
 {{sdnc}} sdnc
 {{openo}} multi-service
 {{dcae_controller}} dcae
@@ -51,7 +51,7 @@
 {{aai1}} {{prefix}}-aai1
 {{robot}} {{prefix}}-robot
 {{appc}} {{prefix}}-appc
-{{mso}}  {{prefix}}-so
+{{so}}  {{prefix}}-so
 {{sdnc}} {{prefix}}-sdnc
 {{openo}} {{prefix}}-multi-service
 {{dcae_controller}} {{prefix}}-dcae
@@ -88,7 +88,7 @@ GLOBAL_INJECTED_KEYSTONE = "{{GLOBAL_INJECTED_KEYSTONE}}"
 GLOBAL_INJECTED_AAI1_IP_ADDR = "{{aai1}}"
 GLOBAL_INJECTED_APPC_IP_ADDR = "{{appc}}"
 GLOBAL_INJECTED_DCAE_IP_ADDR = "{{dcae_controller}}"
-GLOBAL_INJECTED_SO_IP_ADDR = "{{mso}}"
+GLOBAL_INJECTED_SO_IP_ADDR = "{{so}}"
 GLOBAL_INJECTED_MR_IP_ADDR = "{{message_router}}"
 GLOBAL_INJECTED_BC_IP_ADDR = "{{bus_controller}}"
 GLOBAL_INJECTED_POLICY_IP_ADDR = "{{policy}}"
@@ -120,11 +120,11 @@ GLOBAL_INJECTED_PUBLIC_NET_ID = "{{GLOBAL_INJECTED_PUBLIC_NET_ID}}"
   <b> Not working. </b> :
     <a href="http://healthcheck:zb!XztG34@{{policy}}:6969/healthcheck"> Healthcheck </a> <p>
 
-    <h2> MSO </h2>
+    <h2> SO </h2>
 
-    <a href="http://admin:Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U@{{mso}}:9990/"> JBOSS GUI </a> with admin/Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U <p>
+    <a href="http://admin:Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U@{{so}}:9990/"> JBOSS GUI </a> with admin/Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U <p>
 
-    <a href="http://{{mso}}:8080/camunda"> Camunda GUI </a> with admin/Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U <p>
+    <a href="http://{{so}}:8080/camunda"> Camunda GUI </a> with admin/Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U <p>
 
     <h2> DCAE </h2>
 
@@ -174,7 +174,7 @@ GLOBAL_INJECTED_PUBLIC_NET_ID = "{{GLOBAL_INJECTED_PUBLIC_NET_ID}}"
       <a href="ssh://{{portal}}"> Portal </a><p>
       <a href="ssh://{{dcae_controller}}"> DCAE </a><p>
       <a href="ssh://{{appc}}"> APP-C </a><p>
-      <a href="ssh://{{mso}}"> MSO </a><p>
+      <a href="ssh://{{so}}"> SO </a><p>
       <a href="ssh://{{sdnc}}"> SDN-C </a><p>
       <a href="ssh://{{vid}}"> VID </a><p>
       <a href="ssh://{{message_router}}"> Message Router </a><p>
@@ -184,7 +184,7 @@ GLOBAL_INJECTED_PUBLIC_NET_ID = "{{GLOBAL_INJECTED_PUBLIC_NET_ID}}"
         Inside the VM you can list the docker containers by typing: <p>
         docker ps <p>
         and can get a shell prompt by executing the bash command.
-        For example: <p> docker exec -it openecompete_container bash <p>
+        For example: <p> docker exec -it onapete_container bash <p>
 
 
 

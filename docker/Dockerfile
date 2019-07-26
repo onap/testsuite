@@ -4,7 +4,7 @@ FROM ubuntu
 MAINTAINER "ONAP"
 
 LABEL name="Docker image for the ONAP Robot Testing Framework"
-LABEL usage="docker run -e ROBOT_TEST=<testname> -ti openecompete"
+LABEL usage="docker run -e ROBOT_TEST=<testname> -ti onapete"
 
 ENV BUILDTIME=true
 

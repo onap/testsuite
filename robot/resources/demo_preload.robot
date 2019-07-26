@@ -4,7 +4,7 @@ Documentation	  This test template encapsulates the VNF Orchestration use case.
 Resource        test_templates/model_test_template.robot
 Resource        test_templates/model_test_template_vcperescust.robot
 Resource        test_templates/vnf_orchestration_test_template.robot
-Resource        asdc_interface.robot
+Resource        sdc_interface.robot
 Resource        vid/vid_interface.robot
 Resource        consul_interface.robot
 Resource	policy_interface.robot
@@ -30,7 +30,7 @@ ${VPKG_MODULE_LABEL}    base_vpkg
 
 *** Keywords ***
 Load Customer And Models
-    [Documentation]   Use openECOMP to Orchestrate a service.
+    [Documentation]   Use ONAP to Orchestrate a service.
     [Arguments]    ${customer_name}
     Load OwningEntity  lineOfBusiness  LOB-${customer_name}
     Load OwningEntity  platform  Platform-${customer_name}
@@ -40,7 +40,7 @@ Load Customer And Models
     Load Models  ${customer_name}
 
 Load OwningEntity
-    [Documentation]   Use openECOMP to Orchestrate a service.
+    [Documentation]   Use ONAP to Orchestrate a service.
     [Arguments]    ${parameter}   ${name}
     ${data_path}=  Set Variable  /maintenance/category_parameter/${parameter}
     ${vid_data}=  Set Variable  {"options":["${name}"]}
@@ -52,7 +52,7 @@ Load OwningEntity
     ${resp}= 	Post Request 	vid 	${data_path}   data=${vid_data}    headers=${headers}
 	
 Load Customer
-    [Documentation]   Use openECOMP to Orchestrate a service.
+    [Documentation]   Use ONAP to Orchestrate a service.
     [Arguments]    ${customer_name}
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF   ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
     ${region}=   Get Openstack Region
@@ -61,7 +61,7 @@ Load Customer
     Create Availability Zone If Not Exists    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${GLOBAL_AAI_AVAILABILITY_ZONE_NAME}
 
 Load Models
-    [Documentation]   Use openECOMP to Orchestrate a service.
+    [Documentation]   Use ONAP to Orchestrate a service.
     [Arguments]    ${customer_name}
     Log   ${\n}Distributing vFWCL
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFWCL   ${DEMO_PREFIX}VFWCL
@@ -180,8 +180,8 @@ Instantiate VNF
     Save For Delete    ${tenant_id}    ${tenant_name}    ${server_id}    DemoCust_${uuid}    ${service_instance_id}    ${stack_name}    ${catalog_service_id}    ${catalog_resource_ids}
     :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
     \   Log   VNF Module Name=${vf_module_name}
-    # Don't get from MSO for now due to SO-1186
-    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${suite_service_model_name}  ${vf_module_label}
+    # Don't get from SO for now due to SO-1186
+    # ${model_invariant_id}=  Run SO Get ModelInvariantId   ${suite_service_model_name}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
     :FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
@@ -199,8 +199,8 @@ Instantiate Demo VNF
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
     ${vf_module_name}    ${service}    ${generic_vnfs}=   Orchestrate Demo VNF    Demonstration    ${service}   ${service}    ${tenant_id}    ${tenant_name}
     Log   VNF Module Name=${vf_module_name}
-    # Don't get from MSO for now due to SO-1186
-    # ${model_invariant_id}=  Run MSO Get ModelInvariantId   ${suite_service_model_name}  ${vf_module_label}
+    # Don't get from SO for now due to SO-1186
+    # ${model_invariant_id}=  Run SO Get ModelInvariantId   ${suite_service_model_name}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
     :FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
