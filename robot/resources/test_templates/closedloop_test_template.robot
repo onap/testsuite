@@ -27,7 +27,6 @@ ${VLBPOLICYRATE}    20
 
 ${CONFIG_POLICY_NAME}    vFirewall
 ${CONFIG_POLICY_TYPE}    Unknown
-${OPS_POLICY_NAME}
 ${OPS_POLICY_TYPE}    BRMS_PARAM
 
 # VFW low threshold
@@ -131,8 +130,7 @@ Create Ops Policy
 	[Documentation]    Create Opertional Policy
    	${randompolicyname} =     Create Policy Name
 	${policyname1}=    Catenate   com.${randompolicyname}
-	${OPS_POLICY_NAME}=    Catenate    ${policyname1}
- 	${dict}=     Create Dictionary    policy_name=${OPS_POLICY_NAME}
+ 	${dict}=     Create Dictionary    policy_name=${policyname1}
     Templating.Create Environment    cl    ${GLOBAL_TEMPLATE_FOLDER}
     ${output}=   Templating.Apply Template    cl    ${CREATE_OPS_TEMPLATE}    ${dict}
     ${put_resp} =    Run Policy Put Request    ${RESOURCE_PATH_CREATE}  ${output}

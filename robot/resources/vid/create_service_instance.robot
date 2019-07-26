@@ -37,7 +37,7 @@ Create VID Service Instance
     ${request_id}=    Parse Request Id    ${response text}
     ${service_instance_id}=    Parse Instance Id     ${response text}
     ${auth}=	Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
-    SO.Run Polling Get Request    ${GLOBAL_SO_ENDPOINT}    ${GLOBAL_MSO_STATUS_PATH}${request_id}    auth=${auth}
+    SO.Run Polling Get Request    ${GLOBAL_SO_ENDPOINT}    ${GLOBAL_SO_STATUS_PATH}${request_id}    auth=${auth}
     [return]    ${service_instance_id}
 
 Wait For Model
@@ -59,7 +59,7 @@ Delete Service Instance By GUI
     ${response text}=    Get Text    xpath=//div[@ng-controller='deletionDialogController']//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']
     ${request_id}=    Parse Request Id     ${response text}
     ${auth}=	Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
-    SO.Run Polling Get Request    ${GLOBAL_SO_ENDPOINT}    ${GLOBAL_MSO_STATUS_PATH}${request_id}    auth=${auth}
+    SO.Run Polling Get Request    ${GLOBAL_SO_ENDPOINT}    ${GLOBAL_SO_STATUS_PATH}${request_id}    auth=${auth}
 
 Search Service Instance
     [Arguments]    ${service_instance_id}

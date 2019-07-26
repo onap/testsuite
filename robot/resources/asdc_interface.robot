@@ -70,7 +70,7 @@ ${ASDC_BE_ONBOARD_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECT
 *** Keywords ***
 Distribute Model From ASDC
     [Documentation]    Goes end to end creating all the ASDC objects based ONAP model and distributing it to the systems. It then returns the service name, VF name and VF module name
-    [Arguments]    ${model_zip_path}   ${catalog_service_name}=    ${cds}=    ${service}=
+    [Arguments]    ${model_zip_path}   ${catalog_service_name}=    ${cds}=False    ${service}=
     # For Testing use random service names
     #${random}=    Get Current Date
     #${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}_${random}
@@ -290,7 +290,7 @@ Loop Over Check Catalog Service Distributed
 
 Setup ASDC Catalog Resource
     [Documentation]    Creates all the steps a VF needs for an ASDC Catalog Resource and returns the id
-    [Arguments]    ${model_zip_path}    ${cds}=
+    [Arguments]    ${model_zip_path}    ${cds}=None
     ${license_model_id}   ${license_model_version_id}=    Add ASDC License Model
 
 
@@ -1034,20 +1034,21 @@ Create Multi Part
 
 Add CDS Parameters 
     [Arguments]  ${catalog_service_name} 
-    ${resp}=   Run ASDC Get Request    ${ASDC_CATALOG_SERVICES_PATH}/serviceName/${catalog_service_name}/serviceVersion/0.1  ${ASDC_DESIGNER_USER_ID}   ${ASDC_BE_ENDPOINT}
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=   SDC.Run Get Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/serviceName/${catalog_service_name}/serviceVersion/0.1  ${ASDC_DESIGNER_USER_ID}    auth=${auth}
     #${resp_json}=  To Json  ${resp}
     ${service_uuid}=  Set Variable  ${resp.json()['uniqueId']}
     ${component_uuid}=  Set Variable  ${resp.json()['componentInstances'][0]['uniqueId']}
     @{inputs}=   Copy List  ${resp.json()['componentInstances'][0]['inputs']}
     :FOR  ${input}  IN  @{inputs}
     \    Run Keyword If  '${input['name']}' == "sdnc_artifact_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  vdns-vnf
-    \    ...  ELSE IF  '${input['name']}' == "sdnc_model_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  test
-    \    ...  ELSE IF  '${input['name']}' == "sdnc_model_version"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  1.0.0
-    \    ...  ELSE IF  '${input['name']}' == "skip_post_instantiation_configuration"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  boolean  false
+         ...  ELSE IF  '${input['name']}' == "sdnc_model_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  test
+         ...  ELSE IF  '${input['name']}' == "sdnc_model_version"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  1.0.0
+         ...  ELSE IF  '${input['name']}' == "skip_post_instantiation_configuration"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  boolean  false
     
 
 Set Input Parameter 
     [Arguments]   ${service_uuid}  ${component_uuid}  ${input}  ${input_type}  ${input_value}    
-
-    ${resp}=    Run ASDC Post Request  ${ASDC_CATALOG_SERVICES_PATH}/${service_uuid}/resourceInstance/${component_uuid}/inputs    {"constraints":[],"name":"${input['name']}","parentUniqueId":"${input['parentUniqueId']}","password":false,"required":false,"schema":{"property":{}},"type":"${input_type}","uniqueId":"${input['uniqueId']}","value":"${input_value}","definition":false,"toscaPresentation":{"ownerId":"${input['ownerId']}"}} 
+    ${auth}=  Create List  ${GLOBAL_ASDC_BE_USERNAME}    ${GLOBAL_ASDC_BE_PASSWORD}
+    ${resp}=    SDC.Run Post Request  ${ASDC_BE_ENDPOINT}   ${ASDC_CATALOG_SERVICES_PATH}/${service_uuid}/resourceInstance/${component_uuid}/inputs    {"constraints":[],"name":"${input['name']}","parentUniqueId":"${input['parentUniqueId']}","password":false,"required":false,"schema":{"property":{}},"type":"${input_type}","uniqueId":"${input['uniqueId']}","value":"${input_value}","definition":false,"toscaPresentation":{"ownerId":"${input['ownerId']}"}}    ${ASDC_DESIGNER_USER_ID}    auth=${auth} 
     Should Be Equal As Strings  ${resp.status_code}     200

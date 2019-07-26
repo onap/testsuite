@@ -83,7 +83,7 @@ Delete Next VID Entity
     ${request_id}=    Parse Request Id     ${response text}
     Click Element    xpath=//div[@class='ng-scope']/div[@class = 'buttonRow']/button[text() = 'Close']
     ${auth}=	Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
-    ${resp}=	SO.Run Polling Get Request    ${GLOBAL_SO_ENDPOINT}    ${GLOBAL_MSO_STATUS_PATH}${request_id}    auth=${auth}
+    ${resp}=	SO.Run Polling Get Request    ${GLOBAL_SO_ENDPOINT}    ${GLOBAL_SO_STATUS_PATH}${request_id}    auth=${auth}
     [Return]   ${teardown_status}    ${vfmodule}
 
 Handle VID Alert
