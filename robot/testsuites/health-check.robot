@@ -9,7 +9,7 @@ Resource          ../resources/aai/aai_interface.robot
 Resource          ../resources/vid/vid_interface.robot
 Resource          ../resources/policy_interface.robot
 Library           ONAPLibrary.SO    WITH NAME    SO
-Resource          ../resources/asdc_interface.robot
+Resource          ../resources/sdc_interface.robot
 Resource          ../resources/appc_interface.robot
 Resource          ../resources/portal_interface.robot
 Resource          ../resources/mr_interface.robot
@@ -186,7 +186,7 @@ Basic Portal Health Check
 
 Basic SDC Health Check
     [Tags]    health    core   health-sdc
-    Run ASDC Health Check
+    Run SDC Health Check
 
 Basic SDNC Health Check
     [Tags]    health    core   health-sdnc
@@ -195,7 +195,7 @@ Basic SDNC Health Check
 Basic SO Health Check
     [Tags]    health    core   health-so
     SO.Run Get Request	   ${GLOBAL_SO_APIHAND_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
-    SO.Run Get Request	   ${GLOBAL_SO_ASDCHAND_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request	   ${GLOBAL_SO_SDCHAND_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
     SO.Run Get Request    ${GLOBAL_SO_BPMN_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
     SO.Run Get Request    ${GLOBAL_SO_CATDB_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
     SO.Run Get Request    ${GLOBAL_SO_OPENSTACK_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}

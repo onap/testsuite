@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     The main interface for interacting with ASDC. It handles low level stuff like managing the http request library and DCAE required fields
+Documentation     The main interface for interacting with SDC. It handles low level stuff like managing the http request library and DCAE required fields
 Library           RequestsLibrary
 Library           ONAPLibrary.Utilities
 Library           ONAPLibrary.JSON
@@ -17,64 +17,64 @@ Resource          global_properties.robot
 Resource          browser_setup.robot
 
 *** Variables ***
-${ASDC_DESIGNER_USER_ID}    cs0008
-${ASDC_TESTER_USER_ID}    jm0007
-${ASDC_GOVERNOR_USER_ID}    gv0001
-${ASDC_OPS_USER_ID}    op0001
-${ASDC_HEALTH_CHECK_PATH}    /sdc1/rest/healthCheck
-${ASDC_VENDOR_LICENSE_MODEL_PATH}    /onboarding-api/v1.0/vendor-license-models
-${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}    /onboarding-api/v1.0/vendor-software-products
-${ASDC_VENDOR_KEY_GROUP_PATH}    /license-key-groups
-${ASDC_VENDOR_ENTITLEMENT_POOL_PATH}    /entitlement-pools
-${ASDC_VENDOR_FEATURE_GROUP_PATH}    /feature-groups
-${ASDC_VENDOR_LICENSE_AGREEMENT_PATH}    /license-agreements
-${ASDC_VENDOR_ACTIONS_PATH}    /actions
-${ASDC_VENDOR_SOFTWARE_UPLOAD_PATH}    /orchestration-template-candidate
-${ASDC_FE_CATALOG_RESOURCES_PATH}    /sdc1/feProxy/rest/v1/catalog/resources
-${ASDC_FE_CATALOG_SERVICES_PATH}    /sdc1/feProxy/rest/v1/catalog/services
-${ASDC_CATALOG_RESOURCES_PATH}    /sdc2/rest/v1/catalog/resources
-${ASDC_CATALOG_SERVICES_PATH}    /sdc2/rest/v1/catalog/services
-${ASDC_CATALOG_INACTIVE_RESOURCES_PATH}    /sdc2/rest/v1/inactiveComponents/resource
-${ASDC_CATALOG_RESOURCES_QUERY_PATH}    /sdc2/rest/v1/catalog/resources/resourceName
-${ASDC_CATALOG_INACTIVE_SERVICES_PATH}    /sdc2/rest/v1/inactiveComponents/service
-${ASDC_CATALOG_LIFECYCLE_PATH}    /lifecycleState
-${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}    /resourceInstance
-${ASDC_CATALOG_SERVICE_RESOURCE_ARTIFACT_PATH}    /artifacts
-${ASDC_CATALOG_SERVICE_DISTRIBUTION_STATE_PATH}    /distribution-state
-${ASDC_CATALOG_SERVICE_DISTRIBUTION_PATH}    /distribution
-${ASDC_DISTRIBUTION_STATE_APPROVE_PATH}    /approve
-${ASDC_CATALOG_SERVICE_DISTRIBUTION_ACTIVATE_PATH}    /distribution/PROD/activate
-${ASDC_LICENSE_MODEL_TEMPLATE}    asdc/license_model.jinja
-${ASDC_KEY_GROUP_TEMPLATE}    asdc/key_group.jinja
-${ASDC_ENTITLEMENT_POOL_TEMPLATE}    asdc/entitlement_pool.jinja
-${ASDC_FEATURE_GROUP_TEMPLATE}    asdc/feature_group.jinja
-${ASDC_LICENSE_AGREEMENT_TEMPLATE}    asdc/license_agreement.jinja
-${ASDC_ACTION_TEMPLATE}    asdc/action.jinja
-${ASDC_SOFTWARE_PRODUCT_TEMPLATE}    asdc/software_product.jinja
-${ASDC_ARTIFACT_UPLOAD_TEMPLATE}    asdc/artifact_upload.jinja
-${ASDC_CATALOG_RESOURCE_TEMPLATE}    asdc/catalog_resource.jinja
-${ASDC_USER_REMARKS_TEMPLATE}    asdc/user_remarks.jinja
-${ASDC_CATALOG_SERVICE_TEMPLATE}    asdc/catalog_service.jinja
-${ASDC_RESOURCE_INSTANCE_TEMPLATE}    asdc/resource_instance.jinja
-${ASDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    asdc/catalog_vnf_properties.jinja
-${ASDC_RESOURCE_INSTANCE_VNF_INPUTS_TEMPLATE}    asdc/catalog_vnf_inputs.jinja
-${SDC_CATALOG_NET_RESOURCE_INPUT_TEMPLATE}    asdc/catalog_net_input_properties.jinja
-${ASDC_ALLOTTED_RESOURCE_CATALOG_RESOURCE_TEMPLATE}    asdc/catalog_resource_alloted_resource.jinja
-${SDC_CATALOG_ALLOTTED_RESOURCE_PROPERTIES_TEMPLATE}    asdc/catalog_allotted_properties.jinja
-${SDC_CATALOG_ALLOTTED_RESOURCE_INPUTS_TEMPLATE}    asdc/catalog_allotted_inputs.jinja
-${SDC_CATALOG_DEPLOYMENT_ARTIFACT_PATH}     robot/assets/asdc/blueprints/
-${ASDC_FE_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_FE_IP_ADDR}:${GLOBAL_ASDC_FE_PORT}
-${ASDC_BE_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_BE_IP_ADDR}:${GLOBAL_ASDC_BE_PORT}
-${ASDC_BE_ONBOARD_ENDPOINT}     ${GLOBAL_ASDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_BE_ONBOARD_IP_ADDR}:${GLOBAL_ASDC_BE_ONBOARD_PORT}
+${SDC_DESIGNER_USER_ID}    cs0008
+${SDC_TESTER_USER_ID}    jm0007
+${SDC_GOVERNOR_USER_ID}    gv0001
+${SDC_OPS_USER_ID}    op0001
+${SDC_HEALTH_CHECK_PATH}    /sdc1/rest/healthCheck
+${SDC_VENDOR_LICENSE_MODEL_PATH}    /onboarding-api/v1.0/vendor-license-models
+${SDC_VENDOR_SOFTWARE_PRODUCT_PATH}    /onboarding-api/v1.0/vendor-software-products
+${SDC_VENDOR_KEY_GROUP_PATH}    /license-key-groups
+${SDC_VENDOR_ENTITLEMENT_POOL_PATH}    /entitlement-pools
+${SDC_VENDOR_FEATURE_GROUP_PATH}    /feature-groups
+${SDC_VENDOR_LICENSE_AGREEMENT_PATH}    /license-agreements
+${SDC_VENDOR_ACTIONS_PATH}    /actions
+${SDC_VENDOR_SOFTWARE_UPLOAD_PATH}    /orchestration-template-candidate
+${SDC_FE_CATALOG_RESOURCES_PATH}    /sdc1/feProxy/rest/v1/catalog/resources
+${SDC_FE_CATALOG_SERVICES_PATH}    /sdc1/feProxy/rest/v1/catalog/services
+${SDC_CATALOG_RESOURCES_PATH}    /sdc2/rest/v1/catalog/resources
+${SDC_CATALOG_SERVICES_PATH}    /sdc2/rest/v1/catalog/services
+${SDC_CATALOG_INACTIVE_RESOURCES_PATH}    /sdc2/rest/v1/inactiveComponents/resource
+${SDC_CATALOG_RESOURCES_QUERY_PATH}    /sdc2/rest/v1/catalog/resources/resourceName
+${SDC_CATALOG_INACTIVE_SERVICES_PATH}    /sdc2/rest/v1/inactiveComponents/service
+${SDC_CATALOG_LIFECYCLE_PATH}    /lifecycleState
+${SDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}    /resourceInstance
+${SDC_CATALOG_SERVICE_RESOURCE_ARTIFACT_PATH}    /artifacts
+${SDC_CATALOG_SERVICE_DISTRIBUTION_STATE_PATH}    /distribution-state
+${SDC_CATALOG_SERVICE_DISTRIBUTION_PATH}    /distribution
+${SDC_DISTRIBUTION_STATE_APPROVE_PATH}    /approve
+${SDC_CATALOG_SERVICE_DISTRIBUTION_ACTIVATE_PATH}    /distribution/PROD/activate
+${SDC_LICENSE_MODEL_TEMPLATE}    sdc/license_model.jinja
+${SDC_KEY_GROUP_TEMPLATE}    sdc/key_group.jinja
+${SDC_ENTITLEMENT_POOL_TEMPLATE}    sdc/entitlement_pool.jinja
+${SDC_FEATURE_GROUP_TEMPLATE}    sdc/feature_group.jinja
+${SDC_LICENSE_AGREEMENT_TEMPLATE}    sdc/license_agreement.jinja
+${SDC_ACTION_TEMPLATE}    sdc/action.jinja
+${SDC_SOFTWARE_PRODUCT_TEMPLATE}    sdc/software_product.jinja
+${SDC_ARTIFACT_UPLOAD_TEMPLATE}    sdc/artifact_upload.jinja
+${SDC_CATALOG_RESOURCE_TEMPLATE}    sdc/catalog_resource.jinja
+${SDC_USER_REMARKS_TEMPLATE}    sdc/user_remarks.jinja
+${SDC_CATALOG_SERVICE_TEMPLATE}    sdc/catalog_service.jinja
+${SDC_RESOURCE_INSTANCE_TEMPLATE}    sdc/resource_instance.jinja
+${SDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    sdc/catalog_vnf_properties.jinja
+${SDC_RESOURCE_INSTANCE_VNF_INPUTS_TEMPLATE}    sdc/catalog_vnf_inputs.jinja
+${SDC_CATALOG_NET_RESOURCE_INPUT_TEMPLATE}    sdc/catalog_net_input_properties.jinja
+${SDC_ALLOTTED_RESOURCE_CATALOG_RESOURCE_TEMPLATE}    sdc/catalog_resource_alloted_resource.jinja
+${SDC_CATALOG_ALLOTTED_RESOURCE_PROPERTIES_TEMPLATE}    sdc/catalog_allotted_properties.jinja
+${SDC_CATALOG_ALLOTTED_RESOURCE_INPUTS_TEMPLATE}    sdc/catalog_allotted_inputs.jinja
+${SDC_CATALOG_DEPLOYMENT_ARTIFACT_PATH}     robot/assets/sdc/blueprints/
+${SDC_FE_ENDPOINT}     ${GLOBAL_SDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_FE_IP_ADDR}:${GLOBAL_SDC_FE_PORT}
+${SDC_BE_ENDPOINT}     ${GLOBAL_SDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_BE_IP_ADDR}:${GLOBAL_SDC_BE_PORT}
+${SDC_BE_ONBOARD_ENDPOINT}     ${GLOBAL_SDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_BE_ONBOARD_IP_ADDR}:${GLOBAL_SDC_BE_ONBOARD_PORT}
 
 *** Keywords ***
-Distribute Model From ASDC
-    [Documentation]    Goes end to end creating all the ASDC objects based ONAP model and distributing it to the systems. It then returns the service name, VF name and VF module name
+Distribute Model From SDC
+    [Documentation]    Goes end to end creating all the SDC objects based ONAP model and distributing it to the systems. It then returns the service name, VF name and VF module name
     [Arguments]    ${model_zip_path}   ${catalog_service_name}=    ${cds}=False    ${service}=
     # For Testing use random service names
     #${random}=    Get Current Date
-    #${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}_${random}
-    ${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
+    #${catalog_service_id}=    Add SDC Catalog Service    ${catalog_service_name}_${random}
+    ${catalog_service_id}=    Add SDC Catalog Service    ${catalog_service_name}
     ${catalog_resource_ids}=    Create List
     ${catalog_resources}=   Create Dictionary
     #####  TODO: Support for Multiple resources of one type in a service  ######
@@ -87,7 +87,7 @@ Distribute Model From ASDC
     ${resource_types}=   Create Dictionary
 
     :FOR    ${zip}     IN     @{model_zip_path}
-    \    ${loop_catalog_resource_id}=    Setup ASDC Catalog Resource    ${zip}    ${cds}
+    \    ${loop_catalog_resource_id}=    Setup SDC Catalog Resource    ${zip}    ${cds}
     #     zip can be vFW.zip or vFWDT_VFWSNK.zip
     \    ${resource_type_match}=    Get Regexp Matches    ${zip}   ${service}_(.*)\.zip    1
     #  Need to be able to distribute preload for vFWCL vFWSNK and vFWDT vFWSNK to prepend service to vnf_type
@@ -102,9 +102,9 @@ Distribute Model From ASDC
     ${xoffset}=    Set Variable    ${0}
 
     :FOR  ${vnf}   IN   @{vnflist}
-    \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource      ${resource_types['${vnf}']}
+    \    ${loop_catalog_resource_resp}=    Get SDC Catalog Resource      ${resource_types['${vnf}']}
     \    Set To Dictionary    ${catalog_resources}   ${resource_types['${vnf}']}=${loop_catalog_resource_resp}
-    \    ${catalog_resource_unique_name}=   Add ASDC Resource Instance    ${catalog_service_id}    ${resource_types['${vnf}']}    ${loop_catalog_resource_resp['name']}    ${xoffset}
+    \    ${catalog_resource_unique_name}=   Add SDC Resource Instance    ${catalog_service_id}    ${resource_types['${vnf}']}    ${loop_catalog_resource_resp['name']}    ${xoffset}
     \    ${xoffset}=   Set Variable   ${xoffset+100}
     #
     # do this here because the loop_catalog_resource_resp is different format after adding networks
@@ -116,55 +116,55 @@ Distribute Model From ASDC
     :FOR   ${network}   IN   @{networklist}
     \    ${loop_catalog_resource_id}=   Set Variable    ${generic_neutron_net_uuid}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
-    \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
-    \    ${loop_catalog_resource_id}=   Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${network}    ${xoffset}      ${0}    VL
+    \    ${loop_catalog_resource_resp}=    Get SDC Catalog Resource    ${loop_catalog_resource_id}
+    \    ${loop_catalog_resource_id}=   Add SDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${network}    ${xoffset}      ${0}    VL
     \    ${nf_role}=   Convert To Lowercase   ${network}
     \    Setup SDC Catalog Resource GenericNeutronNet Properties      ${catalog_service_id}    ${nf_role}   ${loop_catalog_resource_id}
     \    ${xoffset}=   Set Variable   ${xoffset+100}
     \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
-    ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
+    ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
     #
     # do deployment artifacts
     #
     ${deploymentlist}=    ServiceMapping.Get Service Deployment Artifact Mapping    default    ${service}
     :FOR  ${deployment}  IN   @{deploymentlist}
-    \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
+    \    ${loop_catalog_resource_resp}=    Get SDC Catalog Resource    ${loop_catalog_resource_id}
     \    Setup SDC Catalog Resource Deployment Artifact Properties      ${catalog_service_id}   ${loop_catalog_resource_resp}  ${catalog_resource_unique_name}  ${deployment}
     Run Keyword If  ${cds} == True  Add CDS Parameters  ${catalog_service_name}
-    Checkin ASDC Catalog Service    ${catalog_service_id}
-    Wait Until Keyword Succeeds    600s    15s    Request Certify ASDC Catalog Service    ${catalog_service_id}
-    Start Certify ASDC Catalog Service    ${catalog_service_id}
+    Checkin SDC Catalog Service    ${catalog_service_id}
+    Wait Until Keyword Succeeds    600s    15s    Request Certify SDC Catalog Service    ${catalog_service_id}
+    Start Certify SDC Catalog Service    ${catalog_service_id}
     # on certify it gets a new id
-    ${catalog_service_id}=    Certify ASDC Catalog Service    ${catalog_service_id}
-    Approve ASDC Catalog Service    ${catalog_service_id}
+    ${catalog_service_id}=    Certify SDC Catalog Service    ${catalog_service_id}
+    Approve SDC Catalog Service    ${catalog_service_id}
         :FOR   ${DIST_INDEX}    IN RANGE   1
         \   Log     Distribution Attempt ${DIST_INDEX}
-        \   Distribute ASDC Catalog Service    ${catalog_service_id}
-        \   ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
+        \   Distribute SDC Catalog Service    ${catalog_service_id}
+        \   ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
         \   ${status}   ${_} =   Run Keyword And Ignore Error   Loop Over Check Catalog Service Distributed       ${catalog_service_resp['uuid']}
         \   Exit For Loop If   '${status}'=='PASS'
         Should Be Equal As Strings  ${status}  PASS
     [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
 
-Distribute vCPEResCust Model From ASDC
-    [Documentation]    Goes end to end creating all the ASDC objects for the vCPE ResCust Service model and distributing it to the systems. It then returns the service name, VF name and VF module name
+Distribute vCPEResCust Model From SDC
+    [Documentation]    Goes end to end creating all the SDC objects for the vCPE ResCust Service model and distributing it to the systems. It then returns the service name, VF name and VF module name
     [Arguments]    ${model_zip_path}   ${catalog_service_name}=    ${cds}=    ${service}=
     # For testing use random service name
     #${random}=    Get Current Date
     ${uuid}=    Generate UUID4
     ${random}=     Evaluate    str("${uuid}")[:4]
-    ${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}_${random}
+    ${catalog_service_id}=    Add SDC Catalog Service    ${catalog_service_name}_${random}
     #   catalog_service_name already
-    #${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
+    #${catalog_service_id}=    Add SDC Catalog Service    ${catalog_service_name}
     Log    ${\n}ServiceName: ${catalog_service_name}_${random}
-    #${catalog_service_id}=    Add ASDC Catalog Service    ${catalog_service_name}
+    #${catalog_service_id}=    Add SDC Catalog Service    ${catalog_service_name}
     ${catalog_resource_ids}=    Create List
     ${catalog_resources}=   Create Dictionary
     :FOR    ${zip}     IN     @{model_zip_path}
-    \    ${loop_catalog_resource_id}=    Setup ASDC Catalog Resource    ${zip}    ${cds}
+    \    ${loop_catalog_resource_id}=    Setup SDC Catalog Resource    ${zip}    ${cds}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
-    \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
-    \    Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
+    \    ${loop_catalog_resource_resp}=    Get SDC Catalog Resource    ${loop_catalog_resource_id}
+    \    Add SDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
     \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
     #
     # do this here because the loop_catalog_resource_resp is different format after adding networks
@@ -192,9 +192,9 @@ Distribute vCPEResCust Model From ASDC
     :FOR   ${allottedresource}   IN   @{allottedresource_list}
     \    ${loop_catalog_resource_id}=   Set Variable    ${allottedresource_uuid}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
-    \    ${loop_catalog_resource_id}=    Add ASDC Allotted Resource Catalog Resource     00000    ${allottedresource}_${random}    ONAP     ${loop_catalog_resource_id}   ${allottedresource}
-    \    ${loop_catalog_resource_id2}=   Add ASDC Resource Instance To Resource     ${loop_catalog_resource_id}    ${allottedresource_uuid}    ${allottedresource}    ${xoffset}      ${0}
-    \    ${loop_catalog_resource_resp}=    Get ASDC Catalog Resource    ${loop_catalog_resource_id}
+    \    ${loop_catalog_resource_id}=    Add SDC Allotted Resource Catalog Resource     00000    ${allottedresource}_${random}    ONAP     ${loop_catalog_resource_id}   ${allottedresource}
+    \    ${loop_catalog_resource_id2}=   Add SDC Resource Instance To Resource     ${loop_catalog_resource_id}    ${allottedresource_uuid}    ${allottedresource}    ${xoffset}      ${0}
+    \    ${loop_catalog_resource_resp}=    Get SDC Catalog Resource    ${loop_catalog_resource_id}
     #
     #   Set the properties to relate to the brg and gmux
     #
@@ -205,20 +205,20 @@ Distribute vCPEResCust Model From ASDC
     #
     \    Run Keyword If   '${allottedresource}'=='TunnelXConn'    Setup SDC Catalog Resource AllottedResource Inputs  ${catalog_service_id}    ${allottedresource}   ${loop_catalog_resource_id}
     \    Run Keyword If   '${allottedresource}'=='BRG'    Setup SDC Catalog Resource AllottedResource Inputs  ${catalog_service_id}    ${allottedresource}   ${loop_catalog_resource_id}
-    \    ${loop_catalog_resource_id}=   Certify ASDC Catalog Resource    ${loop_catalog_resource_id}  ${ASDC_DESIGNER_USER_ID}
-    \    Add ASDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
+    \    ${loop_catalog_resource_id}=   Certify SDC Catalog Resource    ${loop_catalog_resource_id}  ${SDC_DESIGNER_USER_ID}
+    \    Add SDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
     \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
-    ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
-    Checkin ASDC Catalog Service    ${catalog_service_id}
-    Request Certify ASDC Catalog Service    ${catalog_service_id}
-    Start Certify ASDC Catalog Service    ${catalog_service_id}
+    ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
+    Checkin SDC Catalog Service    ${catalog_service_id}
+    Request Certify SDC Catalog Service    ${catalog_service_id}
+    Start Certify SDC Catalog Service    ${catalog_service_id}
     # on certify it gets a new id
-    ${catalog_service_id}=    Certify ASDC Catalog Service    ${catalog_service_id}
-    Approve ASDC Catalog Service    ${catalog_service_id}
+    ${catalog_service_id}=    Certify SDC Catalog Service    ${catalog_service_id}
+    Approve SDC Catalog Service    ${catalog_service_id}
         :FOR   ${DIST_INDEX}    IN RANGE   1
         \   Log     Distribution Attempt ${DIST_INDEX}
-        \   Distribute ASDC Catalog Service    ${catalog_service_id}
-        \   ${catalog_service_resp}=    Get ASDC Catalog Service    ${catalog_service_id}
+        \   Distribute SDC Catalog Service    ${catalog_service_id}
+        \   ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
         \   ${status}   ${_} =   Run Keyword And Ignore Error   Loop Over Check Catalog Service Distributed       ${catalog_service_resp['uuid']}
         \   Exit For Loop If   '${status}'=='PASS'
         Should Be Equal As Strings  ${status}  PASS
@@ -252,9 +252,9 @@ Download CSAR
    [Documentation]   Download CSAR
    [Arguments]    ${catalog_service_id}    ${save_directory}=/tmp/csar
    # get meta data
-   ${resp}=    SDC.Run Get Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/filteredDataByParams?include=toscaArtifacts    ${ASDC_DESIGNER_USER_ID}        auth=${GLOBAL_ASDC_AUTHENTICATION}
+   ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/filteredDataByParams?include=toscaArtifacts    ${SDC_DESIGNER_USER_ID}        auth=${GLOBAL_SDC_AUTHENTICATION}
    ${csar_resource_id}=    Set Variable   ${resp.json()['toscaArtifacts']['assettoscacsar']['uniqueId']}
-   ${resp}=    SDC.Run Get Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/artifacts/${csar_resource_id}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+   ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/artifacts/${csar_resource_id}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
    ${csar_file_name}=   Set Variable    ${resp.json()['artifactName']}
    ${base64Obj}=   Set Variable    ${resp.json()['base64Contents']}
    ${binObj}=   Base64 Decode   ${base64Obj}
@@ -264,13 +264,13 @@ Download CSAR
 
 Get Generic NeutronNet UUID
    [Documentation]   Look up the UUID of the Generic NeutronNetwork Resource
-   ${resp}=    SDC.Run Get Request   ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_QUERY_PATH}/Generic%20NeutronNet/resourceVersion/1.0   ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+   ${resp}=    SDC.Run Get Request   ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_QUERY_PATH}/Generic%20NeutronNet/resourceVersion/1.0   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
    [Return]    ${resp.json()['allVersions']['1.0']}
 
 Get AllottedResource UUID
    [Documentation]   Look up the UUID of the Allotted Resource
    # if this fails then the AllottedResource template got deleted from SDC by mistake
-   ${resp}=    SDC.Run Get Request   ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_QUERY_PATH}/AllottedResource/resourceVersion/1.0   ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+   ${resp}=    SDC.Run Get Request   ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_QUERY_PATH}/AllottedResource/resourceVersion/1.0   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
    [Return]    ${resp.json()['allVersions']['1.0']}
 
 Loop Over Check Catalog Service Distributed
@@ -285,50 +285,50 @@ Loop Over Check Catalog Service Distributed
     #\   Exit For Loop If   '${dist_status}'=='EXIT'
     Should Be Equal As Strings  ${status}   PASS
 
-Setup ASDC Catalog Resource
-    [Documentation]    Creates all the steps a VF needs for an ASDC Catalog Resource and returns the id
+Setup SDC Catalog Resource
+    [Documentation]    Creates all the steps a VF needs for an SDC Catalog Resource and returns the id
     [Arguments]    ${model_zip_path}    ${cds}=None
-    ${license_model_id}   ${license_model_version_id}=    Add ASDC License Model
+    ${license_model_id}   ${license_model_version_id}=    Add SDC License Model
 
 
     ${license_temp_date}=   Get Current Date
     ${license_start_date}=   Get Current Date     result_format=%m/%d/%Y
     ${license_end_date}=     Add Time To Date   ${license_temp_date}    365 days    result_format=%m/%d/%Y
-    ${key_group_id}=    Add ASDC License Group    ${license_model_id}   ${license_model_version_id}  ${license_start_date}  ${license_end_date}
-    ${pool_id}=    Add ASDC Entitlement Pool    ${license_model_id}   ${license_model_version_id}  ${license_start_date}  ${license_end_date}
+    ${key_group_id}=    Add SDC License Group    ${license_model_id}   ${license_model_version_id}  ${license_start_date}  ${license_end_date}
+    ${pool_id}=    Add SDC Entitlement Pool    ${license_model_id}   ${license_model_version_id}  ${license_start_date}  ${license_end_date}
 
-    ${feature_group_id}=    Add ASDC Feature Group    ${license_model_id}    ${key_group_id}    ${pool_id}  ${license_model_version_id}
-    ${license_agreement_id}=    Add ASDC License Agreement    ${license_model_id}    ${feature_group_id}   ${license_model_version_id}
-    Submit ASDC License Model    ${license_model_id}   ${license_model_version_id}
-    ${license_model_resp}=    Get ASDC License Model    ${license_model_id}   ${license_model_version_id}
+    ${feature_group_id}=    Add SDC Feature Group    ${license_model_id}    ${key_group_id}    ${pool_id}  ${license_model_version_id}
+    ${license_agreement_id}=    Add SDC License Agreement    ${license_model_id}    ${feature_group_id}   ${license_model_version_id}
+    Submit SDC License Model    ${license_model_id}   ${license_model_version_id}
+    ${license_model_resp}=    Get SDC License Model    ${license_model_id}   ${license_model_version_id}
     ${matches}=   Get Regexp Matches  ${model_zip_path}  temp/(.*)\.zip  1
     ${software_product_name_prefix}=    Set Variable   ${matches[0]}
-    ${software_product_id}   ${software_product_version_id}=    Add ASDC Software Product    ${license_agreement_id}    ${feature_group_id}    ${license_model_resp['vendorName']}    ${license_model_id}    ${license_model_version_id}    ${software_product_name_prefix}
-    Upload ASDC Heat Package    ${software_product_id}    ${model_zip_path}   ${software_product_version_id}
-    Validate ASDC Software Product    ${software_product_id}  ${software_product_version_id}
-    Submit ASDC Software Product    ${software_product_id}  ${software_product_version_id}
-    Package ASDC Software Product    ${software_product_id}   ${software_product_version_id}
-    ${software_product_resp}=    Get ASDC Software Product    ${software_product_id}    ${software_product_version_id}
-    ${catalog_resource_id}=    Add ASDC Catalog Resource     ${license_agreement_id}    ${software_product_resp['name']}    ${license_model_resp['vendorName']}    ${software_product_id}
+    ${software_product_id}   ${software_product_version_id}=    Add SDC Software Product    ${license_agreement_id}    ${feature_group_id}    ${license_model_resp['vendorName']}    ${license_model_id}    ${license_model_version_id}    ${software_product_name_prefix}
+    Upload SDC Heat Package    ${software_product_id}    ${model_zip_path}   ${software_product_version_id}
+    Validate SDC Software Product    ${software_product_id}  ${software_product_version_id}
+    Submit SDC Software Product    ${software_product_id}  ${software_product_version_id}
+    Package SDC Software Product    ${software_product_id}   ${software_product_version_id}
+    ${software_product_resp}=    Get SDC Software Product    ${software_product_id}    ${software_product_version_id}
+    ${catalog_resource_id}=    Add SDC Catalog Resource     ${license_agreement_id}    ${software_product_resp['name']}    ${license_model_resp['vendorName']}    ${software_product_id}
     # Check if need to set up CDS properties
-    Run Keyword If    '${cds}' == 'vfwng'    Setup ASDC Catalog Resource CDS Properties    ${catalog_resource_id}
+    Run Keyword If    '${cds}' == 'vfwng'    Setup SDC Catalog Resource CDS Properties    ${catalog_resource_id}
 
-    ${catalog_resource_id}=   Certify ASDC Catalog Resource    ${catalog_resource_id}  ${ASDC_DESIGNER_USER_ID}
+    ${catalog_resource_id}=   Certify SDC Catalog Resource    ${catalog_resource_id}  ${SDC_DESIGNER_USER_ID}
     [Return]    ${catalog_resource_id}
 
 
 Setup SDC Catalog Resource Deployment Artifact Properties
     [Documentation]    Set up Deployment Artiface properties
     [Arguments]    ${catalog_service_id}    ${catalog_parent_service_id}   ${catalog_resource_unique_id}  ${blueprint_file}
-    ${resp}=    Get ASDC Catalog Resource Component Instances Properties  ${catalog_service_id}
+    ${resp}=    Get SDC Catalog Resource Component Instances Properties  ${catalog_service_id}
     ${blueprint_data}    OperatingSystem.Get File    ${SDC_CATALOG_DEPLOYMENT_ARTIFACT_PATH}${blueprint_file}
     ${payloadData}=      Base64 Encode   ${blueprint_data}
     ${dict}=    Create Dictionary  artifactLabel=blueprint  artifactName=${blueprint_file}   artifactType=DCAE_INVENTORY_BLUEPRINT  artifactGroupType=DEPLOYMENT  description=${blueprint_file}   payloadData=${payloadData}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_ARTIFACT_UPLOAD_TEMPLATE}    ${dict}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_ARTIFACT_UPLOAD_TEMPLATE}    ${dict}
     # POST artifactUpload to resource
-    ${artifact_upload_path}=    Catenate  ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/resourceInstance/${catalog_resource_unique_id}${ASDC_CATALOG_SERVICE_RESOURCE_ARTIFACT_PATH}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${artifact_upload_path}    ${data}   ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${artifact_upload_path}=    Catenate  ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/resourceInstance/${catalog_resource_unique_id}${SDC_CATALOG_SERVICE_RESOURCE_ARTIFACT_PATH}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${artifact_upload_path}    ${data}   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp}
 
@@ -336,7 +336,7 @@ Setup SDC Catalog Resource Deployment Artifact Properties
 Setup SDC Catalog Resource GenericNeutronNet Properties
     [Documentation]    Set up GenericNeutronNet properties and inputs
     [Arguments]    ${catalog_service_id}    ${nf_role}    ${catalog_parent_service_id}
-    ${resp}=    Get ASDC Catalog Resource Component Instances Properties  ${catalog_service_id}
+    ${resp}=    Get SDC Catalog Resource Component Instances Properties  ${catalog_service_id}
     ${componentInstances}  Set Variable   @{resp['componentInstancesProperties']}
     # componentInstances can have 1 or more than 1 entry
     ${passed}=    Run Keyword And Return Status   Evaluate    type(${componentInstances})
@@ -360,7 +360,7 @@ Setup SDC Catalog Resource GenericNeutronNet Properties
     \    Run Keyword If   '${name}'=='network_role'   Set To Dictionary    ${dict}    name=${name}    value=${nf_role}
     \    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     \    ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_NET_RESOURCE_INPUT_TEMPLATE}    ${dict}
-    \    ${response}=    Set ASDC Catalog Resource Component Instance Properties    ${catalog_parent_service_id}    ${catalog_service_id}    ${data}
+    \    ${response}=    Set SDC Catalog Resource Component Instance Properties    ${catalog_parent_service_id}    ${catalog_service_id}    ${data}
 
 
 Setup SDC Catalog Resource AllottedResource Properties
@@ -368,7 +368,7 @@ Setup SDC Catalog Resource AllottedResource Properties
     [Arguments]    ${catalog_service_id}    ${nf_role}    ${catalog_resource_id}   ${invariantUUID}   ${UUID}     ${node_type}
     # Set component instances properties
     ${nf_role_lc}=   Convert To Lowercase   ${nf_role}
-    ${resp}=    Get ASDC Catalog Resource Component Instances Properties For Resource     ${catalog_resource_id}
+    ${resp}=    Get SDC Catalog Resource Component Instances Properties For Resource     ${catalog_resource_id}
     ${componentInstances}  Set Variable   @{resp['componentInstancesProperties']}
     # componentInstances can have 1 or more than 1 entry
     ${passed}=    Run Keyword And Return Status   Evaluate    type(${componentInstances})
@@ -396,7 +396,7 @@ Setup SDC Catalog Resource AllottedResource Properties
     \    Set To Dictionary    ${dict}    uniqueId=${uniqueId}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_ALLOTTED_RESOURCE_PROPERTIES_TEMPLATE}    ${dict}
-    ${response}=    Set ASDC Catalog Resource Component Instance Properties For Resource    ${catalog_resource_id}    ${componentInstance1}    ${data}
+    ${response}=    Set SDC Catalog Resource Component Instance Properties For Resource    ${catalog_resource_id}    ${componentInstance1}    ${data}
     Log    resp=${response}
 
 
@@ -404,7 +404,7 @@ Setup SDC Catalog Resource AllottedResource Inputs
     [Documentation]    Set up Allotted Resource inputs
     [Arguments]    ${catalog_service_id}    ${nf_role}    ${catalog_resource_id}
     # Set vnf inputs
-    ${resp}=    Get ASDC Catalog Resource Inputs    ${catalog_resource_id}
+    ${resp}=    Get SDC Catalog Resource Inputs    ${catalog_resource_id}
     ${dict}=    Create Dictionary
     :FOR    ${comp}    IN    @{resp['inputs']}
     \    ${name}    Set Variable    ${comp['name']}
@@ -413,32 +413,32 @@ Setup SDC Catalog Resource AllottedResource Inputs
     \    Run Keyword If    '${name}'=='nf_role'    Set To Dictionary    ${dict}    nf_role=${nf_role}   nf_role_uid=${uid}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_ALLOTTED_RESOURCE_INPUTS_TEMPLATE}    ${dict}
-    ${response}=    Set ASDC Catalog Resource VNF Inputs    ${catalog_resource_id}    ${data}
+    ${response}=    Set SDC Catalog Resource VNF Inputs    ${catalog_resource_id}    ${data}
     [Return]    ${response}
 
-Setup ASDC Catalog Resource CDS Properties
+Setup SDC Catalog Resource CDS Properties
     [Documentation]    Set up vfwng VNF properties and inputs for CDS
     [Arguments]    ${catalog_resource_id}
     # Set vnf module properties
-    ${resp}=    Get ASDC Catalog Resource Component Instances   ${catalog_resource_id}
+    ${resp}=    Get SDC Catalog Resource Component Instances   ${catalog_resource_id}
     :FOR    ${comp}    IN    @{resp['componentInstances']}
     \    ${name}    Set Variable   ${comp['name']}
     \    ${uniqueId}    Set Variable    ${comp['uniqueId']}
     \    ${actualComponentUid}    Set Variable    ${comp['actualComponentUid']}
     \    ${test}    ${v}=    Run Keyword and Ignore Error    Should Contain    ${name}    abstract_
     \    Run Keyword If    '${test}' == 'FAIL'    Continue For Loop
-    \    ${response}=    Get ASDC Catalog Resource Component Instance Properties    ${catalog_resource_id}    ${uniqueId}    ${actualComponentUid}
+    \    ${response}=    Get SDC Catalog Resource Component Instance Properties    ${catalog_resource_id}    ${uniqueId}    ${actualComponentUid}
     \    ${dict}=    Create Dictionary    parent_id=${response[6]['parentUniqueId']}
     \    Run Keyword If   '${name}'=='abstract_vfw'   Set To Dictionary    ${dict}    nfc_function=vfw    nfc_naming_policy=SDNC_Policy.ONAP_VFW_NAMING_TIMESTAMP
     \    Run Keyword If   '${name}'=='abstract_vpg'   Set To Dictionary    ${dict}    nfc_function=vpg    nfc_naming_policy=SDNC_Policy.ONAP_VPG_NAMING_TIMESTAMP
     \    Run Keyword If   '${name}'=='abstract_vsn'   Set To Dictionary    ${dict}    nfc_function=vsn    nfc_naming_policy=SDNC_Policy.ONAP_VSN_NAMING_TIMESTAMP
     \    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    \    ${data}=   Templating.Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    ${dict}
-    \    ${response}=    Set ASDC Catalog Resource Component Instance Properties    ${catalog_resource_id}    ${uniqueId}    ${data}
+    \    ${data}=   Templating.Apply Template    sdc   ${SDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    ${dict}
+    \    ${response}=    Set SDC Catalog Resource Component Instance Properties    ${catalog_resource_id}    ${uniqueId}    ${data}
     \    Log    resp=${response}
 
     # Set vnf inputs
-    ${resp}=    Get ASDC Catalog Resource Inputs    ${catalog_resource_id}
+    ${resp}=    Get SDC Catalog Resource Inputs    ${catalog_resource_id}
     ${dict}=    Create Dictionary
     :FOR    ${comp}    IN    @{resp['inputs']}
     \    ${name}    Set Variable    ${comp['name']}
@@ -449,283 +449,283 @@ Setup ASDC Catalog Resource CDS Properties
     \    Run Keyword If    '${name}'=='nf_role'    Set To Dictionary    ${dict}    nf_role=vFW    nf_role_uid=${uid}
     \    Run Keyword If    '${name}'=='cloud_env'    Set To Dictionary    ${dict}    cloud_env=openstack    cloud_env_uid=${uid}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_VNF_INPUTS_TEMPLATE}    ${dict}
-    ${response}=    Set ASDC Catalog Resource VNF Inputs    ${catalog_resource_id}    ${data}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_RESOURCE_INSTANCE_VNF_INPUTS_TEMPLATE}    ${dict}
+    ${response}=    Set SDC Catalog Resource VNF Inputs    ${catalog_resource_id}    ${data}
 
-Add ASDC License Model
-    [Documentation]    Creates an ASDC License Model and returns its id
+Add SDC License Model
+    [Documentation]    Creates an SDC License Model and returns its id
     ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    vendor_name=${shortened_uuid}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_LICENSE_MODEL_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}    ${data}  ${ASDC_DESIGNER_USER_ID}      auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_LICENSE_MODEL_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}    ${data}  ${SDC_DESIGNER_USER_ID}      auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['itemId']}    ${resp.json()['version']['id']}
     
-Get ASDC License Model
-    [Documentation]    gets an asdc license model by its id
+Get SDC License Model
+    [Documentation]    gets an SDC license model by its id
     [Arguments]    ${id}   ${version_id}=0.1
-    ${resp}=    SDC.Run Get Request   ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${id}/versions/${version_id}   ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request   ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}/${id}/versions/${version_id}   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Get ASDC License Models
-    [Documentation]    Gets all ASDC License Models
-    ${resp}=    SDC.Run Get Request   ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}   ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+Get SDC License Models
+    [Documentation]    Gets all SDC License Models
+    ${resp}=    SDC.Run Get Request   ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Checkin ASDC License Model
-    [Documentation]    Checks in an ASDC License Model by its id
+Checkin SDC License Model
+    [Documentation]    Checks in an SDC License Model by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Checkin
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Put Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}   ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_ACTION_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Put Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}/${id}/versions/${version_id}${SDC_VENDOR_ACTIONS_PATH}    ${data}   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Submit ASDC License Model
-    [Documentation]    Submits an ASDC License Model by its id
+Submit SDC License Model
+    [Documentation]    Submits an SDC License Model by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Submit
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Put Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}   ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_ACTION_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Put Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}/${id}/versions/${version_id}${SDC_VENDOR_ACTIONS_PATH}    ${data}   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Checkin ASDC Software Product
-    [Documentation]    Checks in an ASDC Software Product by its id
+Checkin SDC Software Product
+    [Documentation]    Checks in an SDC Software Product by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Checkin
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Put Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}  ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_ACTION_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Put Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}${SDC_VENDOR_ACTIONS_PATH}    ${data}  ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Validate ASDC Software Product
-    [Documentation]    Validates an ASDC Software Product by its id
+Validate SDC Software Product
+    [Documentation]    Validates an SDC Software Product by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${data}=   Catenate
-    ${resp}=    SDC.Run Put Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}/orchestration-template-candidate/process    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Put Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}/orchestration-template-candidate/process    ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Submit ASDC Software Product
-    [Documentation]    Submits an ASDC Software Product by its id
+Submit SDC Software Product
+    [Documentation]    Submits an SDC Software Product by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Submit
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Put Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}   ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_ACTION_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Put Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}${SDC_VENDOR_ACTIONS_PATH}    ${data}   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Package ASDC Software Product
-    [Documentation]    Creates a package of an ASDC Software Product by its id
+Package SDC Software Product
+    [Documentation]    Creates a package of an SDC Software Product by its id
     [Arguments]    ${id}   ${version_id}=0.1
     ${map}=    Create Dictionary    action=Create_Package
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_ACTION_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Put Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}${ASDC_VENDOR_ACTIONS_PATH}    ${data}   ${ASDC_DESIGNER_USER_ID}      auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_ACTION_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Put Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${id}/versions/${version_id}${SDC_VENDOR_ACTIONS_PATH}    ${data}   ${SDC_DESIGNER_USER_ID}      auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Add ASDC Entitlement Pool
-    [Documentation]    Creates an ASDC Entitlement Pool and returns its id
+Add SDC Entitlement Pool
+    [Documentation]    Creates an SDC Entitlement Pool and returns its id
     [Arguments]    ${license_model_id}   ${version_id}=0.1     ${license_start_date}="01/01/1960"   ${license_end_date}="01/01/1961"
     ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    entitlement_pool_name=${shortened_uuid}  license_start_date=${license_start_date}  license_end_date=${license_end_date}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_ENTITLEMENT_POOL_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_ENTITLEMENT_POOL_PATH}    ${data}  ${ASDC_DESIGNER_USER_ID}      auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_ENTITLEMENT_POOL_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${SDC_VENDOR_ENTITLEMENT_POOL_PATH}    ${data}  ${SDC_DESIGNER_USER_ID}      auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['value']}
 
-Get ASDC Entitlement Pool
-    [Documentation]    Gets an ASDC Entitlement Pool by its id
+Get SDC Entitlement Pool
+    [Documentation]    Gets an SDC Entitlement Pool by its id
     [Arguments]    ${license_model_id}    ${pool_id}
-    ${resp}=    SDC.Run Get Request   ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}${ASDC_VENDOR_ENTITLEMENT_POOL_PATH}/${pool_id}  ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request   ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}${SDC_VENDOR_ENTITLEMENT_POOL_PATH}/${pool_id}  ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Add ASDC License Group
-    [Documentation]    Creates an ASDC License Group and returns its id
+Add SDC License Group
+    [Documentation]    Creates an SDC License Group and returns its id
     [Arguments]    ${license_model_id}   ${version_id}=1.0   ${license_start_date}="01/01/1960"   ${license_end_date}="01/01/1961"
     ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    key_group_name=${shortened_uuid}   license_start_date=${license_start_date}  license_end_date=${license_end_date}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_KEY_GROUP_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_KEY_GROUP_PATH}     ${data}   ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_KEY_GROUP_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${SDC_VENDOR_KEY_GROUP_PATH}     ${data}   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['value']}
 
-Get ASDC License Group
-    [Documentation]    Gets an ASDC License Group by its id
+Get SDC License Group
+    [Documentation]    Gets an SDC License Group by its id
     [Arguments]    ${license_model_id}    ${group_id}      ${version_id}
-    ${resp}=    SDC.Run Get Request   ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_KEY_GROUP_PATH}/${group_id}   ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request   ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${SDC_VENDOR_KEY_GROUP_PATH}/${group_id}   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Add ASDC Feature Group
-    [Documentation]    Creates an ASDC Feature Group and returns its id
+Add SDC Feature Group
+    [Documentation]    Creates an SDC Feature Group and returns its id
     [Arguments]    ${license_model_id}    ${key_group_id}    ${entitlement_pool_id}      ${version_id}=0.1
     ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    feature_group_name=${shortened_uuid}    key_group_id=${key_group_id}    entitlement_pool_id=${entitlement_pool_id}   manufacturer_reference_number=mrn${shortened_uuid}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_FEATURE_GROUP_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_FEATURE_GROUP_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_FEATURE_GROUP_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${SDC_VENDOR_FEATURE_GROUP_PATH}     ${data}    ${SDC_DESIGNER_USER_ID}   auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['value']}
 
-Get ASDC Feature Group
-    [Documentation]    Gets an ASDC Feature Group by its id
+Get SDC Feature Group
+    [Documentation]    Gets an SDC Feature Group by its id
     [Arguments]    ${license_model_id}    ${group_id}
-    ${resp}=    SDC.Run Get Request   ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}${ASDC_VENDOR_FEATURE_GROUP_PATH}/${group_id}   ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request   ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}${SDC_VENDOR_FEATURE_GROUP_PATH}/${group_id}   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Add ASDC License Agreement
-    [Documentation]    Creates an ASDC License Agreement and returns its id
+Add SDC License Agreement
+    [Documentation]    Creates an SDC License Agreement and returns its id
     [Arguments]    ${license_model_id}    ${feature_group_id}      ${version_id}=0.1
     ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${map}=    Create Dictionary    license_agreement_name=${shortened_uuid}    feature_group_id=${feature_group_id}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_LICENSE_AGREEMENT_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${ASDC_VENDOR_LICENSE_AGREEMENT_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}     auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_LICENSE_AGREEMENT_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}/versions/${version_id}${SDC_VENDOR_LICENSE_AGREEMENT_PATH}     ${data}    ${SDC_DESIGNER_USER_ID}     auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['value']}
 
-Get ASDC License Agreement
-    [Documentation]    Gets an ASDC License Agreement by its id
+Get SDC License Agreement
+    [Documentation]    Gets an SDC License Agreement by its id
     [Arguments]    ${license_model_id}    ${agreement_id}
-    ${resp}=    SDC.Run Get Request   ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}${ASDC_VENDOR_LICENSE_AGREEMENT_PATH}/${agreement_id}   ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request   ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}/${license_model_id}${SDC_VENDOR_LICENSE_AGREEMENT_PATH}/${agreement_id}   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Add ASDC Software Product
-    [Documentation]    Creates an ASDC Software Product and returns its id
+Add SDC Software Product
+    [Documentation]    Creates an SDC Software Product and returns its id
     [Arguments]    ${license_agreement_id}    ${feature_group_id}    ${license_model_name}    ${license_model_id}   ${license_model_version_id}  ${name_prefix}
     ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:13]
     ${software_product_name}=  Catenate   ${name_prefix}   ${shortened_uuid}
     ${map}=    Create Dictionary    software_product_name=${software_product_name}    feature_group_id=${feature_group_id}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}    vendor_id=${license_model_id}    version_id=${license_model_version_id}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_SOFTWARE_PRODUCT_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}   auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_SOFTWARE_PRODUCT_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_SOFTWARE_PRODUCT_PATH}     ${data}    ${SDC_DESIGNER_USER_ID}   auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['itemId']}   ${resp.json()['version']['id']}
 
-Get ASDC Software Product
-    [Documentation]    Gets an ASDC Software Product by its id
+Get SDC Software Product
+    [Documentation]    Gets an SDC Software Product by its id
     [Arguments]    ${software_product_id}   ${version_id}=0.1
-    ${resp}=    SDC.Run Get Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${software_product_id}/versions/${version_id}   ${ASDC_DESIGNER_USER_ID}     auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${software_product_id}/versions/${version_id}   ${SDC_DESIGNER_USER_ID}     auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Add ASDC Catalog Resource
-    [Documentation]    Creates an ASDC Catalog Resource and returns its id
+Add SDC Catalog Resource
+    [Documentation]    Creates an SDC Catalog Resource and returns its id
     [Arguments]    ${license_agreement_id}    ${software_product_name}    ${license_model_name}    ${software_product_id}
     ${map}=    Create Dictionary    software_product_id=${software_product_id}    software_product_name=${software_product_name}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_CATALOG_RESOURCE_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_RESOURCE_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_PATH}     ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
-Add ASDC Allotted Resource Catalog Resource
-    [Documentation]    Creates an ASDC Allotted Resource Catalog Resource and returns its id
+Add SDC Allotted Resource Catalog Resource
+    [Documentation]    Creates an SDC Allotted Resource Catalog Resource and returns its id
     [Arguments]    ${license_agreement_id}    ${software_product_name}    ${license_model_name}    ${software_product_id}   ${subcategory}
     ${map}=    Create Dictionary    software_product_id=${software_product_id}    software_product_name=${software_product_name}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}   subcategory=${subcategory}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_ALLOTTED_RESOURCE_CATALOG_RESOURCE_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_ALLOTTED_RESOURCE_CATALOG_RESOURCE_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_PATH}     ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
-Mark ASDC Catalog Resource Inactive
-    [Documentation]    Marks ASDC Catalog Resource as inactive
+Mark SDC Catalog Resource Inactive
+    [Documentation]    Marks SDC Catalog Resource as inactive
     [Arguments]    ${catalog_resource_id}
-    ${resp}=    SDC.Run Delete Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}     ${None}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Delete Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}     ${None}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     204
     [Return]    ${resp}
 
-Delete Inactive ASDC Catalog Resources
-    [Documentation]    Delete all ASDC Catalog Resources that are inactive
-    ${resp}=    SDC.Run Delete Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_INACTIVE_RESOURCES_PATH}     ${None}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+Delete Inactive SDC Catalog Resources
+    [Documentation]    Delete all SDC Catalog Resources that are inactive
+    ${resp}=    SDC.Run Delete Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_INACTIVE_RESOURCES_PATH}     ${None}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Get ASDC Catalog Resource
-    [Documentation]    Gets an ASDC Catalog Resource by its id
+Get SDC Catalog Resource
+    [Documentation]    Gets an SDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
-    ${resp}=    SDC.Run Get Request    ${ASDC_BE_ENDPOINT}   ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}   ${SDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Get ASDC Catalog Resource Component Instances
-    [Documentation]    Gets component instances of an ASDC Catalog Resource by its id
+Get SDC Catalog Resource Component Instances
+    [Documentation]    Gets component instances of an SDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
-    ${resp}=    SDC.Run Get Request    ${ASDC_FE_ENDPOINT}    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstances    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request    ${SDC_FE_ENDPOINT}    ${SDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstances    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Get ASDC Catalog Resource Deployment Artifact Properties
-    [Documentation]    Gets deployment artifact properties of an ASDC Catalog Resource by its id
+Get SDC Catalog Resource Deployment Artifact Properties
+    [Documentation]    Gets deployment artifact properties of an SDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
-    ${resp}=    SDC.Run Get Request    ${ASDC_FE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_resource_id}/filteredDataByParams?include=deploymentArtifacts    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request    ${SDC_FE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_resource_id}/filteredDataByParams?include=deploymentArtifacts    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
 
-Get ASDC Catalog Resource Component Instances Properties
-    [Documentation]    Gets ASDC Catalog Resource component instances properties by its id
+Get SDC Catalog Resource Component Instances Properties
+    [Documentation]    Gets SDC Catalog Resource component instances properties by its id
     [Arguments]    ${catalog_resource_id}
-    ${resp}=    SDC.Run Get Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstancesProperties    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstancesProperties    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Get ASDC Catalog Resource Component Instances Properties For Resource
-    [Documentation]    Gets ASDC Catalog Resource component instances properties for a Resource (VF) by its id
+Get SDC Catalog Resource Component Instances Properties For Resource
+    [Documentation]    Gets SDC Catalog Resource component instances properties for a Resource (VF) by its id
     [Arguments]    ${catalog_resource_id}
-    ${resp}=    SDC.Run Get Request    ${ASDC_FE_ENDPOINT}    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstancesProperties    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request    ${SDC_FE_ENDPOINT}    ${SDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=componentInstancesProperties    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Get ASDC Catalog Resource Inputs
-    [Documentation]    Gets ASDC Catalog Resource inputs by its id
+Get SDC Catalog Resource Inputs
+    [Documentation]    Gets SDC Catalog Resource inputs by its id
     [Arguments]    ${catalog_resource_id}
-    ${resp}=    SDC.Run Get Request    ${ASDC_FE_ENDPOINT}    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=inputs    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request    ${SDC_FE_ENDPOINT}    ${SDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/filteredDataByParams?include=inputs    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Get ASDC Catalog Resource Component Instance Properties
-    [Documentation]    Gets component instance properties of an ASDC Catalog Resource by their ids
+Get SDC Catalog Resource Component Instance Properties
+    [Documentation]    Gets component instance properties of an SDC Catalog Resource by their ids
     [Arguments]    ${catalog_resource_id}    ${component_instance_id}    ${component_id}
-    ${resp}=    SDC.Run Get Request    ${ASDC_FE_ENDPOINT}    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/componentInstances/${component_instance_id}/${component_id}/inputs    ${ASDC_DESIGNER_USER_ID}auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request    ${SDC_FE_ENDPOINT}    ${SDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/componentInstances/${component_instance_id}/${component_id}/inputs    ${SDC_DESIGNER_USER_ID}auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Set ASDC Catalog Resource Component Instance Properties
-    [Documentation]    Sets ASDC Catalog Resource component instance properties by ids
+Set SDC Catalog Resource Component Instance Properties
+    [Documentation]    Sets SDC Catalog Resource component instance properties by ids
     [Arguments]    ${catalog_resource_id}    ${component_parent_service_id}    ${data}
-    ${resp}=    SDC.Run Post Request    ${ASDC_FE_ENDPOINT}    ${ASDC_FE_CATALOG_SERVICES_PATH}/${component_parent_service_id}/resourceInstance/${catalog_resource_id}/properties    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Post Request    ${SDC_FE_ENDPOINT}    ${SDC_FE_CATALOG_SERVICES_PATH}/${component_parent_service_id}/resourceInstance/${catalog_resource_id}/properties    ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]   ${resp.json()}
 
-Set ASDC Catalog Resource Component Instance Properties For Resource
-    [Documentation]    Sets ASDC Resource component instance properties by ids
+Set SDC Catalog Resource Component Instance Properties For Resource
+    [Documentation]    Sets SDC Resource component instance properties by ids
     [Arguments]    ${catalog_parent_resource_id}    ${catalog_resource_id}    ${data}
-    ${resp}=    SDC.Run Post Request    ${ASDC_FE_ENDPOINT}    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_parent_resource_id}/resourceInstance/${catalog_resource_id}/properties   ${data}    ${ASDC_DESIGNER_USER_ID}   auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Post Request    ${SDC_FE_ENDPOINT}    ${SDC_FE_CATALOG_RESOURCES_PATH}/${catalog_parent_resource_id}/resourceInstance/${catalog_resource_id}/properties   ${data}    ${SDC_DESIGNER_USER_ID}   auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]   ${resp.json()}
 
 Set CDS Catalog Resource Component Instance Properties
     [Documentation]    Sets CDS Catalog Resource component instance properties by ids
     [Arguments]    ${catalog_resource_id}    ${component_instance_id}    ${data}
-    ${resp}=    SDC.Run Post Request    ${ASDC_FE_ENDPOINT}    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/resourceInstance/${component_instance_id}/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Post Request    ${SDC_FE_ENDPOINT}    ${SDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/resourceInstance/${component_instance_id}/inputs    ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Set ASDC Catalog Resource VNF Inputs
-    [Documentation]    Sets VNF Inputs for an ASDC Catalog Resource by its id
+Set SDC Catalog Resource VNF Inputs
+    [Documentation]    Sets VNF Inputs for an SDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}    ${data}
-    ${resp}=    SDC.Run Post Request    ${ASDC_FE_ENDPOINT}    ${ASDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/update/inputs    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Post Request    ${SDC_FE_ENDPOINT}    ${SDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/update/inputs    ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
 Get SDC Demo Vnf Catalog Resource
     [Documentation]  Gets Resource ids of demonstration VNFs for instantiation
     [Arguments]    ${service_name}
-    ${resp}=   SDC.Run Get Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/serviceName/${service_name}/serviceVersion/1.0    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=   SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/serviceName/${service_name}/serviceVersion/1.0    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     @{ITEMS}=    Copy List    ${resp.json()['componentInstances']}
     ${demo_catalog_resource}=   Create Dictionary
     :FOR    ${ELEMENT}    IN    @{ITEMS}
@@ -747,172 +747,172 @@ Get VNF From Group Name
     ...                      ('${service_name}'=='demoVLB') and ('base_vlb' in '${group_name}')   vLB
     [Return]   ${vnf}
 
-Checkin ASDC Catalog Resource
-    [Documentation]    Checks in an ASDC Catalog Resource by its id
+Checkin SDC Catalog Resource
+    [Documentation]    Checks in an SDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_DESIGNER_USER_ID}    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_USER_REMARKS_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_DESIGNER_USER_ID}    ${SDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${SDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Request Certify ASDC Catalog Resource
-    [Documentation]    Requests certification of an ASDC Catalog Resource by its id
+Request Certify SDC Catalog Resource
+    [Documentation]    Requests certification of an SDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_USER_REMARKS_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${SDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Start Certify ASDC Catalog Resource
-    [Documentation]    Start certification of an ASDC Catalog Resource by its id
+Start Certify SDC Catalog Resource
+    [Documentation]    Start certification of an SDC Catalog Resource by its id
     [Arguments]    ${catalog_resource_id}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${ASDC_TESTER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${SDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${SDC_TESTER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Certify ASDC Catalog Resource
-    [Documentation]    Certifies an ASDC Catalog Resource by its id and returns the new id
-    [Arguments]    ${catalog_resource_id}    ${user_id}=${ASDC_TESTER_USER_ID}
+Certify SDC Catalog Resource
+    [Documentation]    Certifies an SDC Catalog Resource by its id and returns the new id
+    [Arguments]    ${catalog_resource_id}    ${user_id}=${SDC_TESTER_USER_ID}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${user_id}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_USER_REMARKS_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${SDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${user_id}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['uniqueId']}
 
-Upload ASDC Heat Package
-    [Documentation]    Creates an ASDC Software Product and returns its id
+Upload SDC Heat Package
+    [Documentation]    Creates an SDC Software Product and returns its id
     [Arguments]    ${software_product_id}    ${file_path}   ${version_id}=0.1
     ${files}=     Create Dictionary
     Create Multi Part     ${files}  upload  ${file_path}    contentType=application/zip
-    ${resp}=    SDC.Run Post Files Request    ${ASDC_BE_ONBOARD_ENDPOINT}    ${ASDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${software_product_id}/versions/${version_id}${ASDC_VENDOR_SOFTWARE_UPLOAD_PATH}     ${files}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Post Files Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${software_product_id}/versions/${version_id}${SDC_VENDOR_SOFTWARE_UPLOAD_PATH}     ${files}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings      ${resp.status_code}     200
 
-Add ASDC Catalog Service
-    [Documentation]    Creates an ASDC Catalog Service and returns its id
+Add SDC Catalog Service
+    [Documentation]    Creates an SDC Catalog Service and returns its id
     [Arguments]   ${catalog_service_name}
     ${uuid}=    Generate UUID4
     ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
     ${catalog_service_name}=   Set Variable If   '${catalog_service_name}' ==''   ${shortened_uuid}   ${catalog_service_name}
     ${map}=    Create Dictionary    service_name=${catalog_service_name}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_CATALOG_SERVICE_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_SERVICE_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}     ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
-Mark ASDC Catalog Service Inactive
-    [Documentation]    Deletes an ASDC Catalog Service
+Mark SDC Catalog Service Inactive
+    [Documentation]    Deletes an SDC Catalog Service
     [Arguments]    ${catalog_service_id}
-    ${resp}=    SDC.Run Delete Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}     ${None}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Delete Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}     ${None}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     204
     [Return]    ${resp}
 
-Delete Inactive ASDC Catalog Services
-    [Documentation]    Delete all ASDC Catalog Services that are inactive
-    ${resp}=    SDC.Run Delete Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_INACTIVE_SERVICES_PATH}     ${None}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+Delete Inactive SDC Catalog Services
+    [Documentation]    Delete all SDC Catalog Services that are inactive
+    ${resp}=    SDC.Run Delete Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_INACTIVE_SERVICES_PATH}     ${None}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Get ASDC Catalog Service
-    [Documentation]    Gets an ASDC Catalog Service by its id
+Get SDC Catalog Service
+    [Documentation]    Gets an SDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
-    ${resp}=    SDC.Run Get Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
-Checkin ASDC Catalog Service
-    [Documentation]    Checks in an ASDC Catalog Service by its id
+Checkin SDC Catalog Service
+    [Documentation]    Checks in an SDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=  Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=  Templating.Apply Template    sdc   ${SDC_USER_REMARKS_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_LIFECYCLE_PATH}/checkin    ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Request Certify ASDC Catalog Service
-    [Documentation]    Requests certification of an ASDC Catalog Service by its id
+Request Certify SDC Catalog Service
+    [Documentation]    Requests certification of an SDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=  Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=  Templating.Apply Template    sdc   ${SDC_USER_REMARKS_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Start Certify ASDC Catalog Service
-    [Documentation]    Start certification of an ASDC Catalog Service by its id
+Start Certify SDC Catalog Service
+    [Documentation]    Start certification of an SDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${ASDC_TESTER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${SDC_TESTER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Certify ASDC Catalog Service
-    [Documentation]    Certifies an ASDC Catalog Service by its id and returns the new id
+Certify SDC Catalog Service
+    [Documentation]    Certifies an SDC Catalog Service by its id and returns the new id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=  Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${ASDC_TESTER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=  Templating.Apply Template    sdc   ${SDC_USER_REMARKS_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${SDC_TESTER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['uniqueId']}
 
-Approve ASDC Catalog Service
-    [Documentation]    Approves an ASDC Catalog Service by its id
+Approve SDC Catalog Service
+    [Documentation]    Approves an SDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_DISTRIBUTION_STATE_PATH}${ASDC_DISTRIBUTION_STATE_APPROVE_PATH}    ${data}    ${ASDC_GOVERNOR_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_USER_REMARKS_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_SERVICE_DISTRIBUTION_STATE_PATH}${SDC_DISTRIBUTION_STATE_APPROVE_PATH}    ${data}    ${SDC_GOVERNOR_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
     
-Distribute ASDC Catalog Service
-    [Documentation]    distribute an asdc Catalog Service by its id
+Distribute SDC Catalog Service
+    [Documentation]    distribute an SDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_DISTRIBUTION_ACTIVATE_PATH}    ${None}    ${ASDC_OPS_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_SERVICE_DISTRIBUTION_ACTIVATE_PATH}    ${None}    ${SDC_OPS_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Add ASDC Resource Instance
-    [Documentation]    Creates an ASDC Resource Instance and returns its id
+Add SDC Resource Instance
+    [Documentation]    Creates an SDC Resource Instance and returns its id
     [Arguments]    ${catalog_service_id}    ${catalog_resource_id}    ${catalog_resource_name}  ${xoffset}=${0}   ${yoffset}=${0}   ${resourceType}=VF
     ${milli_timestamp}=    Generate Timestamp
     ${xoffset}=    Set Variable   ${xoffset+306}
     ${yoffset}=    Set Variable   ${yoffset+248}
     ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}    originType=${resourceType}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
-Add ASDC Resource Instance To Resource
-    [Documentation]    Creates an ASDC Resource Instance in a Resource (VF) and returns its id
+Add SDC Resource Instance To Resource
+    [Documentation]    Creates an SDC Resource Instance in a Resource (VF) and returns its id
     [Arguments]    ${parent_catalog_resource_id}    ${catalog_resource_id}    ${catalog_resource_name}  ${xoffset}=${0}   ${yoffset}=${0}    ${resourceType}=VF
     ${milli_timestamp}=    Generate Timestamp
     ${xoffset}=    Set Variable   ${xoffset+306}
     ${yoffset}=    Set Variable   ${yoffset+248}
     ${map}=    Create Dictionary    catalog_resource_id=${catalog_resource_id}    catalog_resource_name=${catalog_resource_name}    milli_timestamp=${milli_timestamp}   posX=${xoffset}    posY=${yoffset}    originType=${resourceType}
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=  Templating.Apply Template    sdc   ${ASDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_RESOURCES_PATH}/${parent_catalog_resource_id}${ASDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${data}=  Templating.Apply Template    sdc   ${SDC_RESOURCE_INSTANCE_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_PATH}/${parent_catalog_resource_id}${SDC_CATALOG_SERVICE_RESOURCE_INSTANCE_PATH}     ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
 Get Catalog Service Distribution
-    [Documentation]    Gets an ASDC Catalog Service distribution
+    [Documentation]    Gets an SDC Catalog Service distribution
     [Arguments]    ${catalog_service_uuid}
-    ${resp}=    SDC.Run Get Request   ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/${catalog_service_uuid}${ASDC_CATALOG_SERVICE_DISTRIBUTION_PATH}    ${ASDC_OPS_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request   ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_uuid}${SDC_CATALOG_SERVICE_DISTRIBUTION_PATH}    ${SDC_OPS_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
 Check Catalog Service Distributed
-    [Documentation]    Checks if an ASDC Catalog Service is distributed
+    [Documentation]    Checks if an SDC Catalog Service is distributed
     [Arguments]    ${catalog_service_uuid}    ${dist_status}
     ${dist_resp}=    Get Catalog Service Distribution    ${catalog_service_uuid}
     Should Be Equal As Strings  ${dist_resp['distributionStatusOfServiceList'][0]['deployementStatus']}         Distributed
@@ -933,15 +933,15 @@ Check Catalog Service Distributed
     Should Be True   ( '${SO_COMPLETE}'=='TRUE')   SO Test
 
 Get Catalog Service Distribution Details
-    [Documentation]    Gets ASDC Catalog Service distribution details
+    [Documentation]    Gets SDC Catalog Service distribution details
     [Arguments]    ${catalog_service_distribution_id}
-    ${resp}=    SDC.Run Get Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}${ASDC_CATALOG_SERVICE_DISTRIBUTION_PATH}/${catalog_service_distribution_id}    ${ASDC_OPS_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}${SDC_CATALOG_SERVICE_DISTRIBUTION_PATH}/${catalog_service_distribution_id}    ${SDC_OPS_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
     
-Run ASDC Health Check
-    [Documentation]    Runs a ASDC health check
-    ${resp}=    SDC.Run Get Request     ${ASDC_FE_ENDPOINT}    ${ASDC_HEALTH_CHECK_PATH}    user=${None}
+Run SDC Health Check
+    [Documentation]    Runs a SDC health check
+    ${resp}=    SDC.Run Get Request     ${SDC_FE_ENDPOINT}    ${SDC_HEALTH_CHECK_PATH}    user=${None}
     # only test for HTTP 200 to determine SDC Health. SDC_DE_HEALTH is informational
     Should Be Equal As Strings  ${resp.status_code}     200    SDC DOWN
     ${SDC_DE_HEALTH}=    Catenate   DOWN
@@ -951,19 +951,19 @@ Run ASDC Health Check
     \    ${SDC_DE_HEALTH}  Set Variable If   (('DE' in '${ELEMENT['healthCheckComponent']}') and ('${ELEMENT['healthCheckStatus']}' == 'UP')) or ('${SDC_DE_HEALTH}'=='UP')  UP
     Log   (DMaaP:${SDC_DE_HEALTH})
 
-Open ASDC GUI
-    [Documentation]   Logs in to ASDC GUI
+Open SDC GUI
+    [Documentation]   Logs in to SDC GUI
     [Arguments]    ${PATH}
     ## Setup Browever now being managed by the test case
     ##Setup Browser
-    Go To    ${ASDC_FE_ENDPOINT}${PATH}
+    Go To    ${SDC_FE_ENDPOINT}${PATH}
     Maximize Browser Window
 
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    Log    Logging in to ${ASDC_FE_ENDPOINT}${PATH}
-    Title Should Be    ASDC
+    Log    Logging in to ${SDC_FE_ENDPOINT}${PATH}
+    Title Should Be    SDC
     Wait Until Page Contains Element    xpath=//div/a[text()='SDC']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
-    Log    Logged in to ${ASDC_FE_ENDPOINT}${PATH}
+    Log    Logged in to ${SDC_FE_ENDPOINT}${PATH}
 
 
 Create Multi Part
@@ -976,7 +976,7 @@ Create Multi Part
 
 Add CDS Parameters 
     [Arguments]  ${catalog_service_name} 
-    ${resp}=   SDC.Run Get Request    ${ASDC_BE_ENDPOINT}    ${ASDC_CATALOG_SERVICES_PATH}/serviceName/${catalog_service_name}/serviceVersion/0.1  ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION}
+    ${resp}=   SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/serviceName/${catalog_service_name}/serviceVersion/0.1  ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     #${resp_json}=  To Json  ${resp}
     ${service_uuid}=  Set Variable  ${resp.json()['uniqueId']}
     ${component_uuid}=  Set Variable  ${resp.json()['componentInstances'][0]['uniqueId']}
@@ -990,5 +990,5 @@ Add CDS Parameters
 
 Set Input Parameter 
     [Arguments]   ${service_uuid}  ${component_uuid}  ${input}  ${input_type}  ${input_value}    
-    ${resp}=    SDC.Run Post Request  ${ASDC_BE_ENDPOINT}   ${ASDC_CATALOG_SERVICES_PATH}/${service_uuid}/resourceInstance/${component_uuid}/inputs    {"constraints":[],"name":"${input['name']}","parentUniqueId":"${input['parentUniqueId']}","password":false,"required":false,"schema":{"property":{}},"type":"${input_type}","uniqueId":"${input['uniqueId']}","value":"${input_value}","definition":false,"toscaPresentation":{"ownerId":"${input['ownerId']}"}}    ${ASDC_DESIGNER_USER_ID}    auth=${GLOBAL_ASDC_AUTHENTICATION} 
+    ${resp}=    SDC.Run Post Request  ${SDC_BE_ENDPOINT}   ${SDC_CATALOG_SERVICES_PATH}/${service_uuid}/resourceInstance/${component_uuid}/inputs    {"constraints":[],"name":"${input['name']}","parentUniqueId":"${input['parentUniqueId']}","password":false,"required":false,"schema":{"property":{}},"type":"${input_type}","uniqueId":"${input['uniqueId']}","value":"${input_value}","definition":false,"toscaPresentation":{"ownerId":"${input['ownerId']}"}}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION} 
     Should Be Equal As Strings  ${resp.status_code}     200

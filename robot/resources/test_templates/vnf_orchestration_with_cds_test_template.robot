@@ -40,13 +40,13 @@ ${so_uri_path}		/onap/so/infra/serviceInstantiation/v7/serviceInstances
 
 *** Keywords ***
 Orchestrate VNF With CDS Template
-    [Documentation]   Use openECOMP to Orchestrate a service.
+    [Documentation]   Use ONAP to Orchestrate a service.
     [Arguments]    ${customer_name}    ${service_instance_name}    ${product_family}
     ${uuid}=    Generate UUID4
     Orchestrate VNF With CDS	${customer_name}_${uuid}    ${service_instance_name}${uuid}    ${product_family}
 
 Orchestrate VNF With CDS
-    [Documentation]   Use openECOMP to Orchestrate a service.
+    [Documentation]   Use ONAP to Orchestrate a service.
     [Arguments]    ${customer_name}    ${service_instance_name}    ${product_family}    ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
     ${lcp_region}=   Get Openstack Region
     ${dict}=  Create Dictionary
@@ -85,7 +85,7 @@ Orchestrate VNF With CDS
     Log     --------request--------
     Log     ${request}
     Log     --------end request--------
-    ${auth}=  Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
+    ${auth}=  Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
     ${resp}=    SO.Run Post Request  ${GLOBAL_SO_ENDPOINT}    ${so_uri_path}   ${data}    auth=${auth} 
     Log 	--------response-------
     ${json_string}=    Evaluate    json.dumps(${resp.json()})    json
@@ -94,8 +94,8 @@ Orchestrate VNF With CDS
     ${requestId}=    Catenate    ${resp.json()['requestReferences']['requestId']}
     Log    requestId=${requestId}
     Log	-------end response-------
-    # ${auth}=	Create List  ${GLOBAL_MSO_USERNAME}    ${GLOBAL_MSO_PASSWORD}
-    # Run Polling Get Request    ${MSO_ENDPOINT}    ${GLOBAL_MSO_STATUS_PATH}${request_id}    auth=${auth}
+    # ${auth}=	Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    # Run Polling Get Request    ${SO_ENDPOINT}    ${GLOBAL_SO_STATUS_PATH}${request_id}    auth=${auth}
 
 Get VNF Info
     [Documentation] 	Get VNF Info
