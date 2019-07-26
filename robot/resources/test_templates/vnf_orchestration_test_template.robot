@@ -28,7 +28,7 @@ Library         ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
 
 *** Keywords ***
 Orchestrate VNF Template
-    [Documentation]   Use openECOMP to Orchestrate a service.
+    [Documentation]   Use ONAP to Orchestrate a service.
     [Arguments]    ${customer_name}    ${service}    ${product_family}    ${delete_flag}=DELETE
     ${uuid}=    Generate UUID4
     ${catalog_service_id}=    Set Variable    ${None}    # default to empty
@@ -39,7 +39,7 @@ Orchestrate VNF Template
     [Teardown]         Teardown VNF    ${customer_name}_${uuid}    ${catalog_service_id}    ${catalog_resource_ids}
 
 Orchestrate VNF
-    [Documentation]   Use openECOMP to Orchestrate a service.
+    [Documentation]   Use ONAP to Orchestrate a service.
     [Arguments]    ${customer_name}    ${service}    ${product_family}    ${tenant_id}    ${tenant_name}    ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
     ${lcp_region}=   Get Openstack Region
     ${uuid}=    Generate UUID4

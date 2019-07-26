@@ -88,16 +88,16 @@ Input Text When Enabled
     Input Text    xpath=${xpath}    ${value}
 
 Parse Request Id
-    [Arguments]    ${mso_response_text}
-	${request_list}=     Split String    ${mso_response_text}    202)\n    1
+    [Arguments]    ${so_response_text}
+	${request_list}=     Split String    ${so_response_text}    202)\n    1
 	${clean_string}=    Replace String    ${request_list[1]}    \n    ${empty}
     ${json}=    To Json    ${clean_string}
     ${request_id}=    Catenate    ${json['requestReferences']['requestId']}
     [Return]    ${request_id}
 
 Parse Instance Id
-    [Arguments]    ${mso_response_text}
-	${request_list}=     Split String    ${mso_response_text}    202)\n    1
+    [Arguments]    ${so_response_text}
+	${request_list}=     Split String    ${so_response_text}    202)\n    1
     ${json}=    To Json    ${request_list[1]}
     ${request_id}=    Catenate    ${json['requestReferences']['instanceId']}
     [Return]    ${request_id}

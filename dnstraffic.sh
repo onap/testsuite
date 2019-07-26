@@ -28,7 +28,7 @@ for iter in `seq 1 $ITERATIONS`;
 do
    for i in `seq 1 $RATE_PER_SEC`;
    do
-        nslookup -timeout=1 host2.dnsdemo.openecomp.org $DNSIP >/dev/null 2>&1 &
+        nslookup -timeout=1 host2.dnsdemo.onap.org $DNSIP >/dev/null 2>&1 &
    done
    sleep 1
 done
