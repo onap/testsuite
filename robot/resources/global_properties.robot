@@ -6,7 +6,7 @@ Documentation        store all properties that can change or are used in multipl
 
 *** Variables ***
 ${GLOBAL_APPLICATION_ID}           robot-ete
-${GLOBAL_MSO_STATUS_PATH}    /onap/so/infra/orchestrationRequests/v6/
+${GLOBAL_SO_STATUS_PATH}    /onap/so/infra/orchestrationRequests/v6/
 ${GLOBAL_SELENIUM_BROWSER}        chrome
 ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}        Create Dictionary
 ${GLOBAL_SELENIUM_DELAY}          0

@@ -19,7 +19,7 @@ Model Distribution For Directory With Teardown
     [Teardown]    Teardown Models    ${catalog_service_id}    ${catalog_resource_ids}
     
 Model Distribution For Directory
-    [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=
+    [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=None
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${directory_list}=    ServiceMapping.Get Service Folder Mapping    default    ${service}
     ${ziplist}=    Create List
