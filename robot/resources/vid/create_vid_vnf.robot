@@ -21,13 +21,12 @@ Create VID VNF
     #Input Text When Enabled    //input[@name='selectedServiceInstance']    ${service_instance_id}
     #Select From List By Label    //select[@ng-model='selectedserviceinstancetype']    Service Instance Id
     Select From List By Label    //select[@ng-model='selectedCustomer']    ${customer}
-    Click Button    button=Submit
+    Click On Button When Enabled    //button[contains(text(),'Submit')]
     Wait Until Page Contains Element    link=View/Edit    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click Element     xpath=//a[contains(text(), 'View/Edit')]
     Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     # in slower environment the background load of data from AAI takes time so that the button is not populated yet
-    Sleep   20s
-    Click Element    button=Add node instance
+    Click On Button When Enabled    //button[contains(text(),'Add node instance')]
     #01681d02-2304-4c91-ab2d 0
     # This is where firefox breaks. Th elink never becomes visible when run with the script.
     ${dataTestsId}=    Catenate   AddVNFOption-${vnf_type}
@@ -47,13 +46,13 @@ Create VID VNF
     Sleep    5s
     Click Element   xpath=//multiselect[@parameter-id='lineOfBusiness']
     Sleep    5s
-    Click Element   xpath=//button[contains(text(),${line_of_business})] 
+    Click On Button When Enabled    //button[contains(text(),${line_of_business})]
     Select From List By Label    xpath=//select[@parameter-id='platform']    ${platform}
-    Click Element    button=Confirm
+    Click On Button When Enabled    //button[contains(text(),'Confirm')]
  	Wait Until Element Contains    xpath=//pre[@class = 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     ${response text}=    Get Text    xpath=//pre[@class = 'log ng-binding']
  	Should Not Contain    ${response text}    FAILED
-    Click Element    button=Close
+    Click On Button When Enabled    //button[contains(text(),'Close')]
     ${instance_id}=    Parse Instance Id     ${response text}
     Wait Until Page Contains    ${service_instance_name}    ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     [Return]     ${instance_id}
@@ -68,7 +67,7 @@ Delete VID VNF
 
     # If we don't wait for this control to be enabled, the submit results in a 'not found' pop-up (UnexpectedAlertPresentException)
     Input Text When Enabled    //input[@name='selectedServiceInstance']    ${service_instance_id}
-    Click Button    button=Submit
+    Click On Button When Enabled    //button[contains(text(),'Submit')]
     Wait Until Page Contains Element    link=View/Edit    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click Element     link=View/Edit
     Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
@@ -95,8 +94,7 @@ Create VID VNF module
 
      # If we don't wait for this control to be enabled, the submit results in a 'not found' pop-up (UnexpectedAlertPresentException)
     Select From List By Label    //select[@ng-model='selectedCustomer']    ${customer}
-    ###Input Text When Enabled    //input[@name='selectedServiceInstance']    ${service_instance_id}
-    Click Button    button=Submit
+    Click On Button When Enabled    //button[contains(text(),'Submit')]
     Wait Until Page Contains Element    link=View/Edit    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click Element     link=View/Edit
     Wait Until Keyword Succeeds   300s   5s   Wait For Add VF Module
@@ -117,10 +115,10 @@ Create VID VNF module
     Wait Until Element Is Visible    xpath=//input[@parameter-id='sdncPreload']       ${GLOBAL_VID_UI_TIMEOUT_SHORT}
     Wait Until Element Is Enabled    xpath=//input[@parameter-id='sdncPreload']       ${GLOBAL_VID_UI_TIMEOUT_SHORT}
     Select Checkbox    xpath=//input[@parameter-id='sdncPreload']
-    Click Element    button=Confirm
+    Click On Button When Enabled    //button[contains(text(),'Confirm')]
  	Wait Until Element Contains    xpath=//pre[@class = 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     ${response text}=    Get Text    xpath=//pre[@class = 'log ng-binding']
-    Click Element    button=Close
+    Click On Button When Enabled    //button[contains(text(),'Close')]
     ${instance_id}=    Parse Instance Id     ${response text}
 
     ${request_id}=    Parse Request Id     ${response text}
@@ -130,8 +128,9 @@ Create VID VNF module
 
 Wait For Add VF Module
     [Documentation]   Retry by refresh if the ADD VF-Module is not visible
-    Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
-    ${status}   ${value}   Run Keyword And Ignore Error   Wait Until Element Is Visible    button=Add VF-Module   timeout=${GLOBAL_VID_UI_TIMEOUT_SHORT}
+    Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}  
+    
+    ${status}   ${value}   Run Keyword And Ignore Error   Wait Until Element Is Visible    //button[contains(text(),'Add VF-Module')]   timeout=${GLOBAL_VID_UI_TIMEOUT_SHORT}
     Return From Keyword If   '${status}' == 'PASS'
     Reload Page
     Fail    Retry

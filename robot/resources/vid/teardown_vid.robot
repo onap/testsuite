@@ -50,8 +50,7 @@ Delete Next VID Entity
 
     # If we don't wait for this control to be enabled, the submit results in a 'not found' pop-up (UnexpectedAlertPresentException)
     Select From List By Label    //select[@ng-model='selectedCustomer']    ${customer}
-    Click Button    button=Submit
-
+    Click On Button When Enabled    //button[contains(text(),'Submit')]
     # When Handle VID Alert detects a pop-up. it will return FAIL and we are done
     # Return from Keyword is required because FAIL is inored during teardown
     ${teardown_status}=   Catenate    PASS
@@ -89,7 +88,7 @@ Delete Next VID Entity
 Handle VID Alert
     [Documentation]   When service instance has been deleted, an alert will be triggered on the search to end the loop
     ...   The various Alert keywords did not prevent the alert exception on the Click ELement, hence this roundabout way of handling the alert
-    Run Keyword And Ignore Error    Click Element    button=Submit
+    Run Keyword And Ignore Error        Click On Button When Enabled    //button[contains(text(),'Submit')]
     ${status}   ${t}=    Run Keyword And Ignore Error    Handle Alert 
     Return From Keyword If   '${status}' == 'FAIL'
     Fail    ${t}

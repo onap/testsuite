@@ -54,7 +54,7 @@ Wait For Model
 Delete Service Instance By GUI
     [Arguments]    ${service_instance_id}
     Click On Element When Visible    xpath=//a/span[@class='glyphicon glyphicon-remove']
-    Click On Button When Enabled    xpath=//div[@class='buttonRow']/button[@ngx-enabled='true']
+    Click On Button When Enabled    //div[@class='buttonRow']/button[@ngx-enabled='true']
     Wait Until Element Contains    xpath=//div[@ng-controller='deletionDialogController']//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']   requestId    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     ${response text}=    Get Text    xpath=//div[@ng-controller='deletionDialogController']//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']
     ${request_id}=    Parse Request Id     ${response text}
