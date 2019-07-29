@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9795857_591a25b6",
+        "filename": "robot/resources/global_properties.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-07-29T19:18:14Z",
+      "side": 1,
+      "message": "is the consistent ?",
+      "range": {
+        "startLine": 40,
+        "startChar": 114,
+        "endLine": 40,
+        "endChar": 117
+      },
+      "revId": "295879e172d9f679c2c490503e73eee8355034ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}

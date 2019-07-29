@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "844fcd43_56f03048",
+        "filename": "robot/testsuites/demo.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-07-29T19:18:14Z",
+      "side": 0,
+      "message": "we dont need sdc_interface.robot on the new side ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "c61842700ce4426111091d7c6187cf8dc85c97b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
