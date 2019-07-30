@@ -109,7 +109,7 @@ Create Customer For VNF Demo
 
 Preload User Model
     [Documentation]   Preload the demo data for the passed VNF with the passed module name
-    [Arguments]   ${vnf_name}   ${vf_module_name}    ${service}    ${service_instance_id}
+    [Arguments]   ${vnf_name}   ${vf_module_name}    ${service}    ${service_instance_id}    ${vnf}=${service}
     # Go to A&AI and get information about the VNF we need to preload
     ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance    ${vnf_name}
     Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF Name: ${vnf_name} is not found.
@@ -129,7 +129,7 @@ Preload User Model
     ${vf_modules}=   Get Module Names from VID    ${invariantUUID}
     Log    ${generic_vnf}
     Log   ${service_instance_id},${vnf_name},${vnf_type},${vf_module_name},${vf_modules},${service}
-    Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${service}    demo
+    Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    demo    ${service}
     [Teardown]    Close All Browsers
 
 

@@ -30,7 +30,7 @@ Validate Service Instance
     [Documentation]    Query and Validates A&AI Service Instance
     [Arguments]    ${service_instance_name}    ${service_type}  ${customer_name}
     ${cust_resp}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}/business/customers?subscriber-name=${customer_name}        auth=${GLOBAL_AAI_AUTHENTICATION}
-	${resp}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${CUSTOMER SPEC PATH}${cust_resp.json()['customer'][0]['global-customer-id']}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_name}        auth=${auth
+	${resp}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${CUSTOMER SPEC PATH}${cust_resp.json()['customer'][0]['global-customer-id']}${SERVICE SUBSCRIPTIONS}${service_type}${SERVICE INSTANCE}${service_instance_name}        auth=${GLOBAL_AAI_AUTHENTICATION}
     Dictionary Should Contain Value	${resp.json()['service-instance'][0]}    ${service_instance_name}
 
 Validate Generic VNF
