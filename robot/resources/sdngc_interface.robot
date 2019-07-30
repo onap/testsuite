@@ -88,7 +88,7 @@ Preload Generic VfModule
     [Return]    ${post_resp}
 	    
 Preload Vnf
-    [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_module_name}    ${vf_modules}    ${service}   ${uuid}
+    [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_module_name}    ${vf_modules}    ${vnf}   ${uuid}    ${service}
     ${base_vf_module_type}=    Catenate
     ${closedloop_vf_module}=    Create Dictionary
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
