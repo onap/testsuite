@@ -14,7 +14,7 @@ ${SDC_ZIP_DIRECTORY}    ${SDC_ASSETS_DIRECTORY}/temp
 
 *** Keywords ***
 Model Distribution For Directory With Teardown
-    [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=
+    [Arguments]    ${service}   ${catalog_service_name}=    ${cds}=None
     ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}    ${catalog_resource_ids}   ${catalog_service_id}=    Model Distribution For Directory    ${service}   ${catalog_service_name}    ${cds}
     [Teardown]    Teardown Models    ${catalog_service_id}    ${catalog_resource_ids}
     
