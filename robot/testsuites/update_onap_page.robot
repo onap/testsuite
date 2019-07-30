@@ -11,7 +11,7 @@ Resource          ../resources/openstack/nova_interface.robot
 Test Timeout    5 minutes
 
 *** Variables ***
-${URLS_HTML_TEMPLATE}   index.html.jinja
+${URLS_HTML_TEMPLATE}   web/index.html.jinja
 
 ${HOSTS_PREFIX}   vm
 ${WEB_USER}       test
