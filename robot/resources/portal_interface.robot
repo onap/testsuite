@@ -138,7 +138,7 @@ Select From List When Enabled
     [Arguments]     ${xpath}    ${value}    ${timeout}=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Wait Until Page Contains Element    xpath=${xpath}    ${timeout}
     Wait Until Element Is Enabled    xpath=${xpath}    ${timeout}
-    Select From List By Value     xpath=${xpath}    ${value}
+    Select From List By Label     xpath=${xpath}    ${value}
 
 Input Text When Enabled
     [Arguments]     ${xpath}    ${value}    ${timeout}=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
