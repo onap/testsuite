@@ -22,6 +22,7 @@ ${STACK_NAMES}
 ${CATALOG_SERVICE_ID}
 ${CATALOG_RESOURCE_IDS}
 ${REVERSE_HEATBRIDGE}
+${HB_VNF}
 
 *** Test Cases ***
 Initialize Customer And Models
@@ -81,7 +82,7 @@ Run Heatbridge
     [Documentation]
     ...    Try to run heatbridge
     [Tags]   heatbridge
-    Execute Heatbridge   ${HB_STACK}   ${HB_SERVICE}    ${HB_IPV4_OAM_ADDRESS}
+    Execute Heatbridge   ${HB_STACK}   ${HB_VNF}    ${HB_SERVICE}    ${HB_IPV4_OAM_ADDRESS}
 
 Preload APPC CDT GUI
     [Documentation]

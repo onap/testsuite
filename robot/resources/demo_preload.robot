@@ -175,7 +175,7 @@ Instantiate VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
     ${uuid}=    Generate UUID4
-    ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${catalog_resource_ids}   ${catalog_service_id}=    Orchestrate VNF    DemoCust_${uuid}    ${service}   ${service}    ${tenant_id}    ${tenant_name}
+    ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${catalog_resource_ids}   ${catalog_service_id}    ${uris_to_delete}=    Orchestrate VNF    DemoCust_${uuid}    ${service}   ${service}    ${tenant_id}    ${tenant_name}
     ${stack_name} = 	Get From List 	${vf_module_name_list} 	-1
     Save For Delete    ${tenant_id}    ${tenant_name}    ${server_id}    DemoCust_${uuid}    ${service_instance_id}    ${stack_name}    ${catalog_service_id}    ${catalog_resource_ids}
     :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
