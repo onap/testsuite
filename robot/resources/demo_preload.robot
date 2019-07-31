@@ -83,8 +83,8 @@ Load Models
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvGW    ${DEMO_PREFIX}VCPEvGW
 
 Distribute Model
-    [Arguments]   ${service}   ${modelName}  ${cds}=
-    Model Distribution For Directory    ${service}   ${modelName}  ${cds}
+    [Arguments]   ${service}   ${modelName}  ${cds}=False   ${instantiationType}=A-la-carte  ${resourceType}=VF
+    Model Distribution For Directory    ${service}   ${modelName}  ${cds}  ${instantiationType}  ${resourceType}
 
 Distribute vCPEResCust Model
     [Arguments]   ${service}   ${modelName}
