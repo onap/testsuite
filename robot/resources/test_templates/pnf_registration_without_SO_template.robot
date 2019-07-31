@@ -1,7 +1,11 @@
 *** Settings ***
 Documentation     PNF Registration Handler (PRH) test cases
 Resource        ../aai/aai_interface.robot
+Resource        ../sdc_interface.robot
 Resource        ../mr_interface.robot
+Resource        ../so/add_service_recipe.robot
+Resource        ../test_templates/pnf_orchestration_test_template.robot
+Resource        ../demo_preload.robot
 Library         ONAPLibrary.Openstack
 Library         OperatingSystem
 Library         RequestsLibrary
@@ -10,19 +14,24 @@ Library         ONAPLibrary.JSON
 Library         ONAPLibrary.Utilities
 Library         ONAPLibrary.Templating    WITH NAME    Templating
 Library         ONAPLibrary.AAI    WITH NAME     AAI
+Library         ONAPLibrary.SDC    WITH NAME     SDC
 
 *** Variables ***
 ${aai_so_registration_entry_template}=  aai/add_pnf_registration_info.jinja
 ${pnf_ves_integration_request}=  ves/pnf_registration_request.jinja
-${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH}  /events/unauthenticated.PNF_READY/2/1
+${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_VES_PNFREG_OUTPUT_PATH}  /events/unauthenticated.VES_PNFREG_OUTPUT/2/1
 ${VES_ENDPOINT}     ${GLOBAL_DCAE_VES_PROTOCOL}://${GLOBAL_INJECTED_DCAE_VES_HOST}:${GLOBAL_DCAE_VES_SERVER_PORT}
 ${VES_data_path}   /eventListener/v7
+${SDC_CATALOG_SERVICES_PATH}    /sdc2/rest/v1/catalog/services
+${SDC_DESIGNER_USER_ID}    cs0008
 
 
 *** Keywords ***
 Create A&AI antry without SO and succesfully registrate PNF
     [Documentation]   Test case template for create A&AI antry without SO and succesfully registrate PNF
     [Arguments]   ${PNF_entry_dict}
+    Send VES integration request  ${PNF_entry_dict}
+    Wait Until Keyword Succeeds  10x  5s  Check VES_PNFREG_OUTPUT topic presence in MR
     Create PNF initial entry in A&AI  ${PNF_entry_dict}
     Send VES integration request  ${PNF_entry_dict}
     Verify PNF Integration Request in A&AI  ${PNF_entry_dict}
@@ -72,18 +81,12 @@ Query PNF A&AI updated entry
     Should Be Equal As Strings  ${json_resp["pnf-name"]}       ${PNF_entry_dict.correlation_id}
     Log  PNF integration request in A&AI has been verified and contains all necessary entries
 
-Query PNF MR entry
-    [Documentation]   Query PNF MR updated entry
-    [Arguments]  ${PNF_entry_dict}
-    ${get_resp}=  Run MR Get Request  ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH}
+Check VES_PNFREG_OUTPUT topic presence in MR
+    [Documentation]   Verify if unauthenticated.VES_PNFREG_OUTPUT topic is present in MR
+    [Arguments]
+    ${get_resp}=  Run MR Get Request  ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_VES_PNFREG_OUTPUT_PATH}
     Should Be Equal As Strings  ${get_resp.status_code}        200
-    ${json_resp_item}=  Get From List  ${get_resp.json()}  0
-    ${json}=    evaluate    json.loads('${json_resp_item}')    json
-    Log  JSON recieved from MR ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_PNF_PATH} endpoint ${json}
-    Should Be Equal As Strings  ${json["ipaddress-v4-oam"]}      ${PNF_entry_dict.PNF_IPv4_address}
-    Should Be Equal As Strings  ${json["ipaddress-v6-oam"]}       ${PNF_entry_dict.PNF_IPv6_address}
-    Should Be Equal As Strings  ${json["correlationId"]}       ${PNF_entry_dict.correlation_id}
-    Log  PNF integration request in MR has been verified and contains all necessary entries
+    Log  unauthenticated.VES_PNFREG_OUTPUT topic is present in MR
 
 Run VES HTTP Post Request
     [Documentation]    Runs a VES Post request
@@ -102,3 +105,38 @@ Cleanup PNF entry in A&AI
     [Arguments]  ${PNF_entry_dict}
     ${del_resp}=  Delete A&AI Entity  /network/pnfs/pnf/${PNF_entry_dict.correlation_id}
     Log    Teardown complete
+
+
+Check SO service completition status
+    [Documentation]   Gets service status and compares with expected status
+    [Arguments]    ${request_id}   ${so_expected_status}
+    ${auth}=	Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    ${so_status_request}=  SO.Run Get Request    ${GLOBAL_SO_ENDPOINT}    ${request_id}    auth=${auth}
+    ${so_status_request_data}=   Set Variable  ${so_status_request.json()}
+    ${so_status}=    Set Variable     ${so_status_request_data['request']['requestStatus']['requestState']}
+    Should Be Equal As Strings  ${so_status}     ${so_expected_status}
+
+
+Design, create, instantiate PNF/macro service and succesfully registrate PNF template
+    [Documentation]   Test case template for design, create, instantiate PNF/macro service and succesfully registrate PNF
+    [Arguments]    ${service_name}   ${PNF_entry_dict}   ${pnf_correlation_id}   ${service}=pNF    ${product_family}=gNB
+
+    Log To Console   \nDistributing TOSCA Based PNF Model
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model  ${service}  ${service_name}  cds=False   instantiationType=Macro  resourceType=PNF
+    ${distribution_status_value}  Get Service Model Parameter from SDC Service Catalog  ${service_name}  distributionStatus
+    Run Keyword If  "${value}"=='409 != 201'  Log To Console   TOSCA Based PNF Model is already distributed with status ${distribution_status_value}
+    ...  ELSE IF  "${status}"=='PASS'  Log To Console  TOSCA Based PNF Model has been distributed
+    ...  ELSE  Log To Console  Check Model Distribution for PNF
+    ${UUID}=  Get Service Model Parameter from SDC Service Catalog  ${service_name}  uuid
+    Get First Free Service Recipe Id
+    Log To Console   Creating Service Recipe for TOSCA Based PNF Model
+    ${status}   ${value}=   Run Keyword And Ignore Error  Add Service Recipe  ${UUID}  mso/async/services/CreateVcpeResCustService_simplified
+    Run Keyword If  "${value}"=='409 != 201'  Log To Console   Service Recipe for TOSCA Based PNF Model is already assigned
+    ...    ELSE IF  "${status}"=='PASS'  Log To Console   Service Recipe for TOSCA Based PNF Model has been assigned
+    ...    ELSE  Log To Console   Check Service Recipe for TOSCA Based PNF Model assignmenta
+    ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
+    ${service}  ${request_id}  ${full_customer_name}   Orchestrate PNF   ETE_Customer    ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}
+    Send VES integration request  ${PNF_entry_dict}
+    Verify PNF Integration Request in A&AI  ${PNF_entry_dict}
+    Wait Until Keyword Succeeds   30s  5s  Check SO service completition status   ${request_id}   COMPLETE
+    ${auth}=	Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
