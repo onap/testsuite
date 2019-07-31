@@ -30,9 +30,8 @@ Run APPC Health Check
 Run APPC Post Request
     [Documentation]    Runs an APPC post request
     [Arguments]    ${data_path}    ${data}    ${content}=json
-    ${auth}=  Create List  ${GLOBAL_APPC_USERNAME}    ${GLOBAL_APPC_PASSWORD}
     Log    Creating session ${APPC_ENDPOINT}
-    ${session}=    Create Session 	appc 	${APPC_ENDPOINT}    auth=${auth}
+    ${session}=    Create Session 	appc 	${APPC_ENDPOINT}    auth=${GLOBAL_APPC_AUTHENTICATION}
     ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/${content}    Content-Type=application/${content}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	appc 	${data_path}     data=${data}    headers=${headers}
@@ -42,9 +41,8 @@ Run APPC Post Request
 Run APPC Put Request
     [Documentation]    Runs an APPC post request
     [Arguments]    ${data_path}    ${data}    ${content}=xml
-    ${auth}=  Create List  ${GLOBAL_APPC_USERNAME}    ${GLOBAL_APPC_PASSWORD}
     Log    Creating session ${APPC_ENDPOINT}
-    ${session}=    Create Session 	appc 	${APPC_ENDPOINT}    auth=${auth}
+    ${session}=    Create Session 	appc 	${APPC_ENDPOINT}    auth=${GLOBAL_APPC_AUTHENTICATION}
     ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/${content}    Content-Type=application/${content}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Put Request 	appc 	${data_path}     data=${data}    headers=${headers}
