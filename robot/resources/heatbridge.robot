@@ -31,7 +31,7 @@ Execute Heatbridge
     [Documentation]   Run the Heatbridge against the stack to generate the bulkadd message
     ...    Execute the build add
     ...    Validate the add results by running the named query
-    [Arguments]    ${stack_name}    ${service}    ${ipv4_oam_address}
+    [Arguments]    ${stack_name}    ${vnf}    ${service}    ${ipv4_oam_address}
     Return From Keyword If    '${service}' == 'vVG'
     Run Openstack Auth Request    auth
     ${stack_info}=    Wait for Stack to Be Deployed    auth    ${stack_name}
@@ -60,7 +60,7 @@ Execute Heatbridge
     ${status_string}=    Convert To String    ${resp.status_code}
     Should Match Regexp    ${status_string} 	^(201|200)$
     ${reverse_heatbridge}=   Generate Reverse Heatbridge From Stack Info   ${stack_info}
-    Run Validation Query    ${stack_info}    ${service}    ${vnf_id}
+    Run Validation Query    ${stack_info}    ${service}    ${vnf}
     [Return]    ${reverse_heatbridge}
 
 Run Create VNFC
@@ -70,19 +70,17 @@ Run Create VNFC
     Return From Keyword If   '${resp.status_code}' != '200'
     ${info}=   Set Variable   ${resp.json()}
     ${keys}=    Create Dictionary
-    ${vnfc_name}=   Catenate    \    ${info['server']['name']}
+    ${vnfc_name}=   Catenate    ${info['server']['name']}
     ${vnfc_nc}=    Set Variable  ${service}
     ${vnfc_func}=    Set Variable  ${service}
     Create VNFC If Not Exists    ${vnfc_name}     ${vnfc_nc}     ${vnfc_func}
 
 Run Validation Query
     [Documentation]    Run A&AI query to validate the bulk add
-    [Arguments]    ${stack_info}    ${service}    ${vnf_id}
+    [Arguments]    ${stack_info}    ${service}    ${vnf}
     Return from Keyword If    '${service}' == ''
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
-    ${payload}=  Run Get Generic VNF by VnfId       ${vnf_id}
-    ${vnf_type}=    Catenate    ${payload.json()[vnf-type]}
-    ${server_name_parameter}=    ServiceMapping.Get Validate Name Mapping    default    ${service}    ${vnf_type}
+    ${server_name_parameter}=    ServiceMapping.Get Validate Name Mapping    default    ${service}    ${vnf}
     ${vserver_name}=    Get From Dictionary    ${stack_info}   ${server_name_parameter}
     Run Vserver Query   ${vserver_name}
 
@@ -95,14 +93,12 @@ Run Vserver Query
     ${resp}=    AAI.Run Post Request      ${AAI_FRONTEND_ENDPOINT}    ${NAMED_QUERY_PATH}    ${request}	    auth=${GLOBAL_AAI_AUTHENTICATION}
     Should Be Equal As Strings    ${resp.status_code}    200
 
-
 Run Set VNF Params
     [Documentation]  Run A&A GET and PUT to set prov-status, orchestration status, and ipv4-oam-address
     [Arguments]   ${vnf_id}  ${ipv4_vnf_address}  ${prov_status}=ACTIVE  ${orch_status}=Active
     ${payload}=  Run Get Generic VNF by VnfId   ${vnf_id}
-    ${vnf_type}=    Catenate    ${payload.json()[vnf-type]}
-    #${payload_json}=    evaluate    json.loads('''${payload}''')    json
-    set to dictionary    ${payload}    vnf-type    ${prov_status}
+    ${vnf_type}=    Catenate    ${payload['vnf-type']}
+    set to dictionary    ${payload}    prov-status    ${prov_status}
     set to dictionary    ${payload}    orchestration-status   ${orch_status}
     set to dictionary    ${payload}    ipv4-oam-address  ${ipv4_vnf_address}
     ${payload_string}=    evaluate    json.dumps(${payload})    json

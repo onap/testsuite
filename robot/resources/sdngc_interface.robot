@@ -92,7 +92,7 @@ Preload Vnf
     ${base_vf_module_type}=    Catenate
     ${closedloop_vf_module}=    Create Dictionary
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
-    ${templates}=    ServiceMapping.Get Service Template Mapping    default    ${service}    ${generic_vnf_type}
+    ${templates}=    ServiceMapping.Get Service Template Mapping    default    ${service}    ${vnf}
     :FOR    ${vf_module}    IN      @{vf_modules}
     \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
     #     need to pass in vnf_index if non-zero
