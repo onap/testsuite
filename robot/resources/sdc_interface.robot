@@ -53,8 +53,10 @@ ${SDC_ACTION_TEMPLATE}    sdc/action.jinja
 ${SDC_SOFTWARE_PRODUCT_TEMPLATE}    sdc/software_product.jinja
 ${SDC_ARTIFACT_UPLOAD_TEMPLATE}    sdc/artifact_upload.jinja
 ${SDC_CATALOG_RESOURCE_TEMPLATE}    sdc/catalog_resource.jinja
+${SDC_CATALOG_PNF_RESOURCE_TEMPLATE}    sdc/catalog_resource_pnf.jinja
 ${SDC_USER_REMARKS_TEMPLATE}    sdc/user_remarks.jinja
 ${SDC_CATALOG_SERVICE_TEMPLATE}    sdc/catalog_service.jinja
+${SDC_CATALOG_SERVICE_MACRO_TEMPLATE}   sdc/catalog_service_macro.jinja
 ${SDC_RESOURCE_INSTANCE_TEMPLATE}    sdc/resource_instance.jinja
 ${SDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    sdc/catalog_vnf_properties.jinja
 ${SDC_RESOURCE_INSTANCE_VNF_INPUTS_TEMPLATE}    sdc/catalog_vnf_inputs.jinja
@@ -145,6 +147,57 @@ Distribute Model From SDC
         \   Exit For Loop If   '${status}'=='PASS'
         Should Be Equal As Strings  ${status}  PASS
     [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
+
+Distribute TOSCA Model From SDC
+    [Documentation]    Goes end to end creating all the SDC objects based ONAP model and distributing it to the systems for PNF and Macro Service. It then returns the service name.
+    [Arguments]    ${model_csar_path}   ${catalog_service_name}=   ${service}=
+
+    ${catalog_service_id}=    Add SDC Catalog Macro Service    ${catalog_service_name}
+    ${catalog_resource_ids}=    Create List
+    ${catalog_resources}=   Create Dictionary
+    ${resource_types}=   Create Dictionary
+
+    : FOR    ${csar}     IN     @{model_csar_path}
+    \    ${loop_catalog_resource_id}=    Setup SDC TOSCA Catalog Resource    ${csar}
+    \    ${resource_type_match}=    Get Regexp Matches    ${csar}   ${service}_(.*)\.csar    1
+    \    ${resource_type_string}=   Set Variable If   len(${resource_type_match})==0    ${service}    ${service}${resource_type_match[0]}
+    \    Set To Dictionary    ${resource_types}    ${resource_type_string}    ${loop_catalog_resource_id}
+    \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
+
+    ServiceMapping.Set Directory    default     ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
+    ${pnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
+
+    # Spread the icons on the pallette starting on the left
+    ${xoffset}=    Set Variable    ${0}
+
+    : FOR  ${pnf}   in   @{pnflist}
+    \    ${loop_catalog_resource_resp}=    Get SDC Catalog Resource      ${resource_types['${pnf}']}
+    \    Set To Dictionary    ${catalog_resources}   ${resource_types['${pnf}']}=${loop_catalog_resource_resp}
+    \    ${catalog_resource_unique_name}=   Add SDC Resource Instance    ${catalog_service_id}    ${resource_types['${pnf}']}    ${loop_catalog_resource_resp['name']}    ${xoffset}   resourceType=PNF
+    \    ${xoffset}=   Set Variable   ${xoffset+100}
+
+    ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
+    #
+    # do deployment artifacts
+    #
+    ${deploymentlist}=    ServiceMapping.Get Service Deployment Artifact Mapping    default    ${service}
+    :FOR  ${deployment}  IN   @{deploymentlist}
+    \    ${loop_catalog_resource_resp}=    Get SDC Catalog Resource    ${loop_catalog_resource_id}
+    \    Setup SDC Catalog Resource Deployment Artifact Properties      ${catalog_service_id}   ${loop_catalog_resource_resp}  ${catalog_resource_unique_name}  ${deployment}
+    Checkin SDC Catalog Service    ${catalog_service_id}
+    Wait Until Keyword Succeeds    600s    15s    Request Certify SDC Catalog Service    ${catalog_service_id}
+    Start Certify SDC Catalog Service    ${catalog_service_id}
+    # on certify it gets a new id
+    ${catalog_service_id}=    Certify SDC Catalog Service    ${catalog_service_id}
+    Approve SDC Catalog Service    ${catalog_service_id}
+        : FOR   ${DIST_INDEX}    IN RANGE   1
+        \   Log     Distribution Attempt ${DIST_INDEX}
+        \   Distribute SDC Catalog Service    ${catalog_service_id}
+        \   ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
+        \   ${status}   ${_} =   Run Keyword And Ignore Error   Loop Over Check Catalog Service Distributed       ${catalog_service_resp['uuid']}
+        \   Exit For Loop If   '${status}'=='PASS'
+        Should Be Equal As Strings  ${status}  PASS
+    [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}  ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
 
 Distribute vCPEResCust Model From SDC
     [Documentation]    Goes end to end creating all the SDC objects for the vCPE ResCust Service model and distributing it to the systems. It then returns the service name, VF name and VF module name
@@ -313,6 +366,31 @@ Setup SDC Catalog Resource
     # Check if need to set up CDS properties
     Run Keyword If    '${cds}' == 'vfwng'    Setup SDC Catalog Resource CDS Properties    ${catalog_resource_id}
 
+    ${catalog_resource_id}=   Certify SDC Catalog Resource    ${catalog_resource_id}  ${SDC_DESIGNER_USER_ID}
+    [Return]    ${catalog_resource_id}
+
+Setup SDC TOSCA Catalog Resource
+    [Documentation]    Creates all the steps a TOSCA based PNF needs for an SDC Catalog Resource and returns the id
+    [Arguments]    ${model_zip_path}
+    ${license_model_id}   ${license_model_version_id}=    Add SDC License Model
+    ${license_temp_date}=   Get Current Date
+    ${license_start_date}=   Get Current Date     result_format=%m/%d/%Y
+    ${license_end_date}=     Add Time To Date   ${license_temp_date}    365 days    result_format=%m/%d/%Y
+    ${key_group_id}=    Add SDC License Group    ${license_model_id}   ${license_model_version_id}  ${license_start_date}  ${license_end_date}
+    ${pool_id}=    Add SDC Entitlement Pool    ${license_model_id}   ${license_model_version_id}  ${license_start_date}  ${license_end_date}
+    ${feature_group_id}=    Add SDC Feature Group    ${license_model_id}    ${key_group_id}    ${pool_id}  ${license_model_version_id}
+    ${license_agreement_id}=    Add SDC License Agreement    ${license_model_id}    ${feature_group_id}   ${license_model_version_id}
+    Submit SDC License Model    ${license_model_id}   ${license_model_version_id}
+    ${license_model_resp}=    Get SDC License Model    ${license_model_id}   ${license_model_version_id}
+    ${matches}=   Get Regexp Matches  ${model_zip_path}  temp/(.*)\.csar  1
+    ${software_product_name_prefix}=    Set Variable   ${matches[0]}
+    ${software_product_id}   ${software_product_version_id}=    Add SDC Software Product    ${license_agreement_id}    ${feature_group_id}    ${license_model_resp['vendorName']}    ${license_model_id}    ${license_model_version_id}    ${software_product_name_prefix}
+    Upload SDC Heat Package    ${software_product_id}    ${model_zip_path}   ${software_product_version_id}
+    Validate SDC Software Product    ${software_product_id}  ${software_product_version_id}
+    Submit SDC Software Product    ${software_product_id}  ${software_product_version_id}
+    Package SDC Software Product    ${software_product_id}   ${software_product_version_id}
+    ${software_product_resp}=    Get SDC Software Product    ${software_product_id}    ${software_product_version_id}
+    ${catalog_resource_id}=    Add SDC PNF Catalog Resource     ${license_agreement_id}    ${software_product_resp['name']}    ${license_model_resp['vendorName']}    ${software_product_id}
     ${catalog_resource_id}=   Certify SDC Catalog Resource    ${catalog_resource_id}  ${SDC_DESIGNER_USER_ID}
     [Return]    ${catalog_resource_id}
 
@@ -632,6 +710,16 @@ Add SDC Catalog Resource
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
+Add SDC PNF Catalog Resource
+    [Documentation]    Creates an SDC Catalog Resource for TOSCA based PNF and returns its id
+    [Arguments]    ${license_agreement_id}    ${software_product_name}    ${license_model_name}    ${software_product_id}
+    ${map}=    Create Dictionary    software_product_id=${software_product_id}    software_product_name=${software_product_name}    license_agreement_id=${license_agreement_id}    vendor_name=${license_model_name}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_PNF_RESOURCE_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}     ${SDC_CATALOG_RESOURCES_PATH}     ${data}    ${SDC_DESIGNER_USER_ID}  auth=${GLOBAL_SDC_AUTHENTICATION}
+    Should Be Equal As Strings  ${resp.status_code}     201
+    [Return]    ${resp.json()['uniqueId']}
+
 Add SDC Allotted Resource Catalog Resource
     [Documentation]    Creates an SDC Allotted Resource Catalog Resource and returns its id
     [Arguments]    ${license_agreement_id}    ${software_product_name}    ${license_model_name}    ${software_product_id}   ${subcategory}
@@ -805,6 +893,19 @@ Add SDC Catalog Service
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
+Add SDC Catalog Macro Service
+    [Documentation]    Creates an SDC Macro Catalog Service and returns its id
+    [Arguments]   ${catalog_service_name}
+    ${uuid}=    Generate UUID4
+    ${shortened_uuid}=     Evaluate    str("${uuid}")[:23]
+    ${catalog_service_name}=   Set Variable If   '${catalog_service_name}' ==''   ${shortened_uuid}   ${catalog_service_name}
+    ${map}=    Create Dictionary    service_name=${catalog_service_name}
+    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_SERVICE_MACRO_TEMPLATE}    ${map}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}  ${SDC_CATALOG_SERVICES_PATH}     ${data}    ${SDC_DESIGNER_USER_ID}  auth=${GLOBAL_SDC_AUTHENTICATION}
+    Should Be Equal As Strings  ${resp.status_code}     201
+    [Return]    ${resp.json()['uniqueId']}
+
 Mark SDC Catalog Service Inactive
     [Documentation]    Deletes an SDC Catalog Service
     [Arguments]    ${catalog_service_id}
@@ -974,8 +1075,8 @@ Create Multi Part
    Set To Dictionary  ${addTo}  ${partName}=${partData}
 
 
-Add CDS Parameters 
-    [Arguments]  ${catalog_service_name} 
+Add CDS Parameters
+    [Arguments]  ${catalog_service_name}
     ${resp}=   SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/serviceName/${catalog_service_name}/serviceVersion/0.1  ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     #${resp_json}=  To Json  ${resp}
     ${service_uuid}=  Set Variable  ${resp.json()['uniqueId']}
@@ -986,9 +1087,9 @@ Add CDS Parameters
          ...  ELSE IF  '${input['name']}' == "sdnc_model_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  test
          ...  ELSE IF  '${input['name']}' == "sdnc_model_version"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  1.0.0
          ...  ELSE IF  '${input['name']}' == "skip_post_instantiation_configuration"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  boolean  false
-    
 
-Set Input Parameter 
-    [Arguments]   ${service_uuid}  ${component_uuid}  ${input}  ${input_type}  ${input_value}    
-    ${resp}=    SDC.Run Post Request  ${SDC_BE_ENDPOINT}   ${SDC_CATALOG_SERVICES_PATH}/${service_uuid}/resourceInstance/${component_uuid}/inputs    {"constraints":[],"name":"${input['name']}","parentUniqueId":"${input['parentUniqueId']}","password":false,"required":false,"schema":{"property":{}},"type":"${input_type}","uniqueId":"${input['uniqueId']}","value":"${input_value}","definition":false,"toscaPresentation":{"ownerId":"${input['ownerId']}"}}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION} 
+
+Set Input Parameter
+    [Arguments]   ${service_uuid}  ${component_uuid}  ${input}  ${input_type}  ${input_value}
+    ${resp}=    SDC.Run Post Request  ${SDC_BE_ENDPOINT}   ${SDC_CATALOG_SERVICES_PATH}/${service_uuid}/resourceInstance/${component_uuid}/inputs    {"constraints":[],"name":"${input['name']}","parentUniqueId":"${input['parentUniqueId']}","password":false,"required":false,"schema":{"property":{}},"type":"${input_type}","uniqueId":"${input['uniqueId']}","value":"${input_value}","definition":false,"toscaPresentation":{"ownerId":"${input['ownerId']}"}}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
