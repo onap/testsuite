@@ -8,7 +8,7 @@ Resource            ../global_properties.robot
 *** Variables ***
 ${AAI_HEALTH_PATH}  /aai/util/echo?action=long
 ${VERSIONED_INDEX_PATH}     /aai/v11
-${AAI_FRONTEND_ENDPOINT}    ${GLOBAL_AAI_SERVER_PROTOCOL}://${GLOBAL_INJECTED_AAI1_IP_ADDR}:${GLOBAL_AAI_SERVER_PORT}
+${AAI_FRONTEND_ENDPOINT}    ${GLOBAL_AAI_SERVER_PROTOCOL}://${GLOBAL_INJECTED_AAI_IP_ADDR}:${GLOBAL_AAI_SERVER_PORT}
 
 
 *** Keywords ***

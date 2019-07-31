@@ -29,8 +29,7 @@ Update ONAP Page
     ${server_map}=    Get Openstack Servers    auth
     ${oam_ip_map}=   Create Dictionary
     Set To Dictionary    ${oam_ip_map}   10.0.0.1=onapdns
-    Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_AAI1_IP_ADDR}=aai1
-    Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_AAI2_IP_ADDR}=aai2
+    Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_AAI_IP_ADDR}=aai1
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_APPC_IP_ADDR}=appc
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_DCAE_IP_ADDR}=dcae_controller
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_SO_IP_ADDR}=so
