@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6eca47ca_12a042c4",
+        "filename": "robot/assets/templates/sdc/catalog_resource_pnf.jinja",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-31T18:31:45Z",
+      "side": 1,
+      "message": "this is very similar to catalog_resource.jinja, lets add a parameter to that",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd3ceed0_0a26103a",
+        "filename": "robot/assets/templates/sdc/catalog_service_macro.jinja",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-31T18:31:45Z",
+      "side": 1,
+      "message": "this is the same as catalog service template, you should add the 2 parameters to that instead of a whole new template",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58b541ad_deecce9d",
+        "filename": "robot/resources/sdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-31T18:31:45Z",
+      "side": 1,
+      "message": "this is very long and id didnt look at it all but i think this is the same as above once you remove the duplicate jinjas",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adab6c62_cd04266d",
+        "filename": "robot/resources/sdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-31T18:31:45Z",
+      "side": 1,
+      "message": "if you remove duplicate jinja you dont need this method",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc45ee33_d38ac7f7",
+        "filename": "robot/resources/sdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-31T18:31:45Z",
+      "side": 1,
+      "message": "if you remove duplicate jinja you dont need this method",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf2253b2_e3561dfe",
+        "filename": "robot/resources/sdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-31T18:31:45Z",
+      "side": 1,
+      "message": "if you remove duplicate jinja you dont need this method",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47dea07f_ecae7380",
+        "filename": "robot/resources/test_templates/model_test_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-31T18:31:45Z",
+      "side": 1,
+      "message": "if you just put this in the assets directory this should work with no new method",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3523aeec_2ce24b45",
+        "filename": "robot/resources/test_templates/pnf_registration_without_SO_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-31T18:31:45Z",
+      "side": 1,
+      "message": "this should be in sdc interface",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95c765e6_a4e335cf",
+        "filename": "robot/resources/test_templates/pnf_registration_without_SO_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-07-31T18:31:45Z",
+      "side": 1,
+      "message": "this exists in SO.run polling get request",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
