@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e4606d4b_f46e728d",
+        "filename": "robot/assets/templates/sdc/catalog_resource_pnf.jinja",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2019-08-01T22:54:26Z",
+      "side": 1,
+      "message": "Yes but it is not VF but PNF. \nIf I will remove this jinja then I need to parametrised old jinja and method that use it\nIf it is ok for you then I will do that and add optional/default parameters, but keywords become more complex",
+      "parentUuid": "6eca47ca_12a042c4",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bd3ceed0_0a26103a",
         "filename": "robot/assets/templates/sdc/catalog_service_macro.jinja",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-07-31T18:31:45Z",
       "side": 1,
       "message": "this is the same as catalog service template, you should add the 2 parameters to that instead of a whole new template",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34c45af5_89df44fa",
+        "filename": "robot/assets/templates/sdc/catalog_service_macro.jinja",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2019-08-01T22:54:26Z",
+      "side": 1,
+      "message": "If I will remove this jinja then I need to parametrised old jinja and modify method used for it.\nFollowing parameters need to be parametrised\n\"ecompGeneratedNaming\": false,\n\"instantiationType\": \"Macro\",\nIf it is ok for you then I will do that and add optional/default parameters, but keywords become more complex",
+      "parentUuid": "bd3ceed0_0a26103a",
       "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -121,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "303624e0_465d4947",
+        "filename": "robot/resources/test_templates/model_test_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2019-08-01T22:54:26Z",
+      "side": 1,
+      "message": "Yes but in Heat folder we store heat templates, so in TOSCA should be tosca. \nSDC API validation requires csar files for TOSCA nad zip for HEAT.\nI can add additional optional/default parametrs to keywords and complex them in order to choose HEAT/TOSCA path",
+      "parentUuid": "47dea07f_ecae7380",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3523aeec_2ce24b45",
         "filename": "robot/resources/test_templates/pnf_registration_without_SO_template.robot",
         "patchSetId": 1
@@ -149,6 +203,24 @@
       "writtenOn": "2019-07-31T18:31:45Z",
       "side": 1,
       "message": "this exists in SO.run polling get request",
+      "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "654b2026_89ae233a",
+        "filename": "robot/resources/test_templates/pnf_registration_without_SO_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2019-08-01T22:54:26Z",
+      "side": 1,
+      "message": "I tried  SO.run polling get request but it returned nasty python exception I will try once again but service is macro type and I don\u0027t know if method is for a-la-card",
+      "parentUuid": "95c765e6_a4e335cf",
       "revId": "8297953d6d7c3b814c97a9ca49d6103afc15b822",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
