@@ -4,7 +4,6 @@ Documentation    This is RobotFrame work script
 Resource	../resources/portal-sdk/portalDef.robot
 Resource    ../resources/portal_interface.robot
 Library        SeleniumLibrary
-Suite Setup     Generate Random User Name
 Suite Teardown    Close All Browsers
 
 *** Test Cases ***
@@ -41,27 +40,33 @@ Edit Functional Menu
       
 Create a Test user for Application Admin -Test
     [TAGS]  portal
-	Portal admin Add Application admin User New user -Test
+    ${login_id}    ${email_address}=    Generate Random User    portal
+	Portal admin Add Application admin User New user -Test    ${login_id}    ${email_address}
 
 Create a Test User for Apllication Admin
     [TAGS]  portal
-	Portal admin Add Application admin User New user
+    ${login_id}    ${email_address}=    Generate Random User    demoapp
+   	Portal admin Add Application admin User New user    ${login_id}    ${email_address}
 	 
 Add Application Admin for Existing User Test user
     [TAGS]  portal
-	Portal admin Add Application Admin Exiting User -APPDEMO
+    ${login_id}    ${email_address}=    Generate Random User    demoapp
+  	Portal admin Add Application Admin Exiting User -APPDEMO    ${login_id}
 
 Create a Test user for Standared User
     [TAGS]  portal
-	Portal admin Add Standard User New user
+        ${login_id}    ${email_address}=    Generate Random User    demosta
+	Portal admin Add Standard User New user    ${login_id}    ${email_address}
     
 Add Application Admin for Exisitng User
     [TAGS]  portal
-	Portal admin Add Application Admin Exiting User
+    ${login_id}    ${email_address}=    Generate Random User    portal
+	Portal admin Add Application Admin Exiting User    ${login_id}
             
 Delete Application Admin for Exisitng User
     [TAGS]  portal
-	Portal admin Delete Application Admin Existing User
+    ${login_id}    ${email_address}=    Generate Random User    portal
+	Portal admin Delete Application Admin Existing User    ${login_id}
     
 Logout from Portal GUI as Portal Admin
     [TAGS]  portal
@@ -71,7 +76,8 @@ Logout from Portal GUI as Portal Admin
 	 
 Login To Portal GUI as APP Admin
     [TAGS]  portal
-    Application admin Login To Portal GUI
+    ${login_id}    ${email_address}=    Generate Random User    demoapp
+	Application admin Login To Portal GUI    ${login_id}
 
 Logout from Portal GUI as APP Admin
     [TAGS]  portal

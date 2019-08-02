@@ -23,54 +23,25 @@ ${PORTAL_XDEMPAPP_REST_URL}        ${PORTAL_URL}/ONAPPORTALSDK/api/v2
 ${PORTAL_ASSETS_DIRECTORY}    ../../assets/widgets/
 ${GLOBAL_PORTAL_ADMIN_USER}		demo
 ${GLOBAL_PORTAL_ADMIN_PWD}		demo123456!
-${jira}    jira
 ${RESOURCE_PATH}    ${PORTAL_URL}/auxapi/ticketevent
 ${portal_Template}    portal/portal.jinja
 
-${download_link_id}    0
-
-${Test_LoginID}
-${App_LoginID}
-${Sta_LoginID}
-${App_Email_Address}
-${Test_Email_Address}
-${Sta_Email_Address}
-${AppUserName}
-${AppPassword}
 
 *** Keywords ***
-
-Generate Random User Name
+Generate Random User
+    [Arguments]    ${prefix}
     ${RAND}    Generate Random String    4    [NUMBERS]
-    ${App_LoginID}=     Set Variable    demoapp${RAND}
-    ${App_Email_Address}=    Set Variable    demoapp${RAND}@onap.com
-    ${Sta_LoginID}=    Set Variable    demosta${RAND}
-    ${Sta_Email_Address}=    Set Variable    demosta${RAND}@onap.com
-    ${Test_LoginID}=    Set Variable    portal${RAND}
-    ${Test_Email_Address}=    Set Variable    portal${RAND}@onap.com
-    ${AppUserName}=           Set Variable    testApp${RAND}
-    ${AppPassword}=           Set Variable    testApp${RAND}123!
-    Set Suite Variable  ${App_LoginID}
-    Set Suite Variable  ${App_Email_Address}
-    Set Suite Variable  ${Sta_LoginID}
-    Set Suite Variable  ${Sta_Email_Address}
-    Set Suite Variable  ${Test_LoginID}
-    Set Suite Variable  ${Test_Email_Address}
-    Set Suite Variable  ${AppUserName}
-    Set Suite Variable  ${AppPassword}
-
+    ${login_id}=     Set Variable    ${prefix}${RAND}
+    ${email_address}=    Set Variable    ${prefix}${RAND}@onap.com
+    [Return]   ${login_id}    ${email_address}
 
 Portal admin Login To Portal GUI
     [Documentation]   Logs into Portal GUI
-    ## Setup Browser Now being managed by test case
     Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
     Setup Browser
-    # Open Browser    ${PORTAL_LOGIN_URL}    chrome
     Go To    ${PORTAL_LOGIN_URL}
-    # Maximize Browser Window
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
     Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
-    #Handle Proxy Warning
     Title Should Be    Login
     Input Text    xpath=//input[@ng-model='loginId']    ${GLOBAL_PORTAL_ADMIN_USER}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
@@ -78,7 +49,6 @@ Portal admin Login To Portal GUI
     Sleep    5s
     Go To    ${PORTAL_HOME_URL}
     Wait Until Page Contains Element    xpath=//img[@alt='Onap Logo']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
-	#Execute Javascript    document.getElementById('w-ecomp-footer').style.display = 'none'
 	Log    Logged in to ${PORTAL_URL}${PORTAL_ENV}
 
 Portal admin Go To Portal HOME
@@ -91,82 +61,69 @@ Portal admin User Notifications
     Wait Until Element Is Visible    xpath=//h1[@class='heading-page']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
     Click Button    xpath=//button[@id='button-openAddNewApp']
     Click Button    xpath=(//button[@id='undefined'])[1]
-    #Click Button    xpath=//input[@id='datepicker-start']   
     
 Portal admin Add Application Admin Exiting User 
     [Documentation]    Naviage to Admins tab
+    [Arguments]    ${login_id}
     Wait Until Element Is Visible    xpath=//a[@title='Admins']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
     Click Link    xpath=//a[@title='Admins']
     Wait Until Element Is Visible    xpath=//h1[contains(.,'Admins')]    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
     Page Should Contain      Admins
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
     Click Button    xpath=//button[@ng-click='admins.openAddNewAdminModal()']
-    Input Text    xpath=//input[@id='input-user-search']    ${Test_LoginID}
+    Input Text    xpath=//input[@id='input-user-search']    ${login_id}
     Click Button    xpath=//button[@id='button-search-users']
     Click Element    xpath=//span[@id='result-uuid-0']
     Click Button    xpath=//button[@id='search-users-button-next']
     Click Button    xpath=//input[@value='Select application']
     Scroll Element Into View    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App' )])[1]    
     Click Element    xpath=(//li[contains(.,'xDemo App' )])[2]
-    #Scroll Element Into View    xpath=(//input[@value='Select application']/following::*[contains(text(),'Default' )])[1]
-    #Click Element    xpath=(//li[contains(.,'Default' )])[2]
-    #Select From List    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App')])[1]   xDemo App
     Click Button    xpath=//button[@id='div-updateAdminAppsRoles']
     Click Element    xpath=//button[@id='admin-div-ok-button']
     Click Element    xpath=//button[@id='div-confirm-ok-button']
     Get Selenium Implicit Wait
     Click Link    xpath=//a[@aria-label='Admins']
     Click Element    xpath=//input[@id='dropdown1']
-    #Click Element    xpath=//li[contains(.,'Default' )]
     Click Element    xpath=//li[contains(.,'xDemo App' )]
-    Input Text    xpath=//input[@id='input-table-search']    ${Test_LoginID}
-	Table Column Should Contain    xpath=//*[@table-data='admins.adminsTableData']    1    ${Test_LoginID}
-    #Element Text Should Be      xpath=(//span[contains(.,'portal')])[1]   ${Test_LoginID}
-	#Element Text Should Be      xpath=(//span[contains(.,'demo')])[1]   ${Test_LoginID}
+    Input Text    xpath=//input[@id='input-table-search']    ${login_id}
+	Table Column Should Contain    xpath=//*[@table-data='admins.adminsTableData']    1    ${login_id}
 
 Portal admin Delete Application Admin Existing User  
     [Documentation]    Naviage to Admins tab
+    [Arguments]    ${login_id}
     Wait Until Element Is Visible    xpath=//a[@title='Admins']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
     Click Link    xpath=//a[@title='Admins']
     Wait Until Element Is Visible    xpath=//h1[contains(.,'Admins')]    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
     Page Should Contain      Admins
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
-    Input Text    xpath=//input[@id='input-table-search']    ${Test_LoginID}
+    Input Text    xpath=//input[@id='input-table-search']    ${login_id}
     Click Element    xpath=(//span[contains(.,'portal')] )[1] 
-	#Click Element    xpath=(//span[contains(.,'demo')] )[1]
     Click Element    xpath=//*[@id='select-app-xDemo-App']/following::i[@id='i-delete-application']
-    #Click Element    xpath=//*[@id='select-app-Default']/following::i[@id='i-delete-application']
     Click Element    xpath=//button[@id='div-confirm-ok-button']
     Click Button    xpath=//button[@id='div-updateAdminAppsRoles']
     Click Element    xpath=//button[@id='admin-div-ok-button']
-    #Is Element Visible      xpath=(//span[contains(.,'Portal')] )[2]
-    #Is Element Visible    xpath=(//*[contains(.,'Portal')] )[2]
     Element Should Not Contain     xpath=//*[@table-data='admins.adminsTableData']    portal
-	#Element Should Not Contain     xpath=//*[@table-data='admins.adminsTableData']    demo
 	Click Image     xpath=//img[@alt='Onap Logo']
     Set Selenium Implicit Wait    3000
 
 Portal admin Add Application admin User New user
     [Documentation]    Naviage to Users tab
+    [Arguments]    ${login_id}    ${email_address}
     Click Link    xpath=//a[@title='Users']
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
     Click Button    xpath=//button[@id='users-button-add']
     Click Button    xpath=//button[@id='Create-New-User-button']
-    Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${App_LoginID}
+    Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${login_id}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.lastName']    ${GLOBAL_PORTAL_ADMIN_USER}
-    Input Text    xpath=//input[@ng-model='searchUsers.newUser.emailAddress']    ${App_Email_Address}
-    Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginId']    ${App_LoginID}
+    Input Text    xpath=//input[@ng-model='searchUsers.newUser.emailAddress']    ${email_address}
+    Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginId']    ${login_id}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwd']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwdCheck']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Button    xpath=//button[@ng-click='searchUsers.addNewUserFun()']
     ${Result}=    Get Element Count     xpath=//*[contains(text(),'User with same loginId already exists')]
 
-    #log ${Result}
-    #${type_result}= Evaluate type(${Result})
-    #log ${type_result}
-
-    Run Keyword if     '${Result}'== 0     AdminUser does not exist already
+    Run Keyword if     '${Result}'== 0     AdminUser does not exist already    ${login_id}
     ...    ELSE     Goto Home Image
     Set Selenium Implicit Wait    3000
 
@@ -174,8 +131,8 @@ Goto Home Image
     Click Image    xpath=//img[@alt='Onap Logo']
 
 AdminUser does not exist already    	
+    [Arguments]    ${login_id}
     Click Button    xpath=//button[@id='next-button']
-    #Scroll Element Into View    xpath=//div[@id='div-app-name-dropdown-xDemo-App']
     Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
     Set Selenium Implicit Wait    3000
@@ -185,40 +142,35 @@ AdminUser does not exist already
     Click Link    xpath=//a[@title='Users']
     Click Element    xpath=//input[@id='dropdown1']
     Click Element    xpath=//li[contains(.,'xDemo App')]
-	Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${App_LoginID}
-    #Input Text    xpath=//input[@id='input-table-search']    ${App_LoginID}
-    #Element Text Should Be      xpath=(//span[contains(.,'demoapp')] )[1]   ${App_LoginID}
+	Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${login_id}
 	Click Image     xpath=//img[@alt='Onap Logo']
     Set Selenium Implicit Wait    3000
 
 Portal admin Add Standard User New user
     [Documentation]    Naviage to Users tab
+    [Arguments]    ${login_id}    ${email_address}
     Click Link    xpath=//a[@title='Users']
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
     Click Button    xpath=//button[@id='users-button-add']
     Click Button    xpath=//button[@id='Create-New-User-button']
-    Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${Sta_LoginID}
+    Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${login_id}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.lastName']    ${GLOBAL_PORTAL_ADMIN_USER}
-    Input Text    xpath=//input[@ng-model='searchUsers.newUser.emailAddress']    ${Sta_Email_Address}
-    Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginId']    ${Sta_LoginID}
+    Input Text    xpath=//input[@ng-model='searchUsers.newUser.emailAddress']    ${email_address}
+    Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginId']    ${login_id}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwd']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwdCheck']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Button    xpath=//button[@ng-click='searchUsers.addNewUserFun()']
 	
     ${Result}=    Get Element Count     xpath=//*[contains(text(),'User with same loginId already exists')]
 
-    #log ${Result}
-    #${type_result}= Evaluate type(${Result})
-    #log ${type_result}
-
-    Run Keyword if     '${Result}'== 0     StaUser does not exist already
+    Run Keyword if     '${Result}'== 0     StaUser does not exist already    ${login_id}
     ...    ELSE     Goto Home Image
     Set Selenium Implicit Wait    3000
 
 StaUser does not exist already    	
+    [Arguments]    ${login_id}
     Click Button    xpath=//button[@id='next-button']
-    #Scroll Element Into View    xpath=//div[@id='div-app-name-dropdown-xDemo-App']
     Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
     Set Selenium Implicit Wait    3000
@@ -228,23 +180,22 @@ StaUser does not exist already
     Click Link    xpath=//a[@title='Users']
     Click Element    xpath=//input[@id='dropdown1']
     Click Element    xpath=//li[contains(.,'xDemo App')]
-	Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${Sta_LoginID}
-    #Input Text    xpath=//input[@id='input-table-search']    ${Sta_LoginID}
-    #Element Text Should Be      xpath=(//span[contains(.,'appdemo')] )[1]   ${Sta_LoginID}
+	Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${login_id}
 	Click Image     xpath=//img[@alt='Onap Logo']
     Set Selenium Implicit Wait    3000
 
 Portal admin Add Application admin User New user -Test
     [Documentation]    Naviage to Users tab
+    [Arguments]    ${login_id}    ${email_address}
     Click Link    xpath=//a[@title='Users']
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
 	Click Button    xpath=//button[@id='users-button-add']
     Click Button    xpath=//button[@id='Create-New-User-button']
-    Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${Test_LoginID}
+    Input Text    xpath=//input[@ng-model='searchUsers.newUser.firstName']    ${login_id}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.lastName']    ${GLOBAL_PORTAL_ADMIN_USER}
-    Input Text    xpath=//input[@ng-model='searchUsers.newUser.emailAddress']    ${Test_Email_Address}
-    Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginId']    ${Test_LoginID}
+    Input Text    xpath=//input[@ng-model='searchUsers.newUser.emailAddress']    ${email_address}
+    Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginId']    ${login_id}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwd']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Input Text    xpath=//input[@ng-model='searchUsers.newUser.loginPwdCheck']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Button    xpath=//button[@ng-click='searchUsers.addNewUserFun()']
@@ -255,20 +206,20 @@ Portal admin Add Application admin User New user -Test
 
 Portal admin Add Application Admin Exiting User -APPDEMO 
     [Documentation]    Naviage to Admins tab
+    [Arguments]    ${login_id}
     Wait Until Element Is Visible    xpath=//a[@title='Admins']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
     Click Link    xpath=//a[@title='Admins']
     Wait Until Element Is Visible    xpath=//h1[contains(.,'Admins')]    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
     Page Should Contain      Admins
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
     Click Button    xpath=//button[@ng-click='admins.openAddNewAdminModal()']
-    Input Text    xpath=//input[@id='input-user-search']    ${App_LoginID}
+    Input Text    xpath=//input[@id='input-user-search']    ${login_id}
     Click Button    xpath=//button[@id='button-search-users']
     Click Element    xpath=//span[@id='result-uuid-0']
     Click Button    xpath=//button[@id='search-users-button-next']
     Click Button    xpath=//input[@value='Select application']
     Scroll Element Into View    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App' )])[1]
     Click Element    xpath=(//li[contains(.,'xDemo App' )])[2]
-    #Select From List    xpath=(//input[@value='Select application']/following::*[contains(text(),'xDemo App')])[1]   xDemo App
     Click Button    xpath=//button[@id='div-updateAdminAppsRoles']
     Click Element    xpath=//button[@id='admin-div-ok-button']
     Click Element    xpath=//button[@id='div-confirm-ok-button']
@@ -276,50 +227,38 @@ Portal admin Add Application Admin Exiting User -APPDEMO
     Click Link    xpath=//a[@aria-label='Admins']
     Click Element    xpath=//input[@id='dropdown1']
     Click Element    xpath=//li[contains(.,'xDemo App' )]	
-    Input Text    xpath=//input[@id='input-table-search']    ${App_LoginID}
-    #Element Text Should Be      xpath=(//span[contains(.,'appdemo')])[1]   ${App_LoginID}
-	Table Column Should Contain    xpath=//*[@table-data='admins.adminsTableData']    1    ${App_LoginID}
+    Input Text    xpath=//input[@id='input-table-search']    ${login_id}
+	Table Column Should Contain    xpath=//*[@table-data='admins.adminsTableData']    1    ${login_id}
 	Click Image     xpath=//img[@alt='Onap Logo']
     Set Selenium Implicit Wait    3000	
           
 Portal admin Add Standard User Existing user   
     [Documentation]    Naviage to Users tab
+    [Arguments]    ${login_id}
     Click Link    xpath=//a[@title='Users']
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
     Click Button    xpath=//button[@ng-click='users.openAddNewUserModal()']
-    Input Text    xpath=//input[@id='input-user-search']    ${Test_LoginID}
+    Input Text    xpath=//input[@id='input-user-search']    ${login_id}
     Click Button    xpath=//button[@id='button-search-users']
     Click Element    xpath=//span[@id='result-uuid-0']
     Click Button    xpath=//button[@id='next-button']
-    #Click Element    xpath=//*[@id='div-app-name-dropdown-Default']
-    #Click Element    xpath=//*[@id='div-app-name-Default']/following::input[@id='Standard-User-checkbox']
     Click Element    xpath=//div[@id='app-select-Select roles1']
     Click Element    xpath=//div[@id='app-select-Select roles1']/following::input[@id='Standard-User-checkbox']
     Set Selenium Implicit Wait    3000
     Click Button    xpath=//button[@id='new-user-save-button']
     Set Selenium Implicit Wait    3000
-    #Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    #Select From List    xpath=//input[@value='Select application']    xDemo App
-    #Click Link    xpath=//a[@title='Users']
-    #Page Should Contain      Users
-    #Focus    xpath=//input[@name='dropdown1']
     Go To    ${PORTAL_HOME_PAGE}
 
 Portal admin Edit Standard User Existing user
     [Documentation]    Naviage to Users tab
+    [Arguments]    ${login_id}
     Click Link    xpath=//a[@title='Users']
     Click Element    xpath=//input[@id='dropdown1']
-    #Click Element    xpath=//li[contains(.,'Default')]
-    #Set Selenium Implicit Wait    3000
     Click Element    xpath=//li[contains(.,'xDemo App')]
-    #Set Selenium Implicit Wait    3000
-    Input Text    xpath=//input[@id='input-table-search']    ${Test_LoginID}
+    Input Text    xpath=//input[@id='input-table-search']    ${login_id}
     Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   Standard User
     Click Element    xpath=(.//*[@id='rowheader_t1_0'])[2]
-    #Click Element    xpath=//*[@id='div-app-name-dropdown-Default']
-    #Click Element    xpath=//*[@id='div-app-name-Default']/following::input[@id='Standard-User-checkbox']
-    #Click Element    xpath=//*[@id='div-app-name-Default']/following::input[@id='Portal-Notification-Admin-checkbox']
     Click Element    xpath=//*[@id='app-select-Standard User1']
     Click Element    xpath=//*[@id='app-select-Standard User1']/following::input[@id='Standard-User-checkbox']
     Set Selenium Implicit Wait    3000
@@ -329,45 +268,30 @@ Portal admin Edit Standard User Existing user
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
     Click Button    xpath=//button[@ng-click='users.openAddNewUserModal()']
-    Input Text    xpath=//input[@id='input-user-search']    ${Test_LoginID}
+    Input Text    xpath=//input[@id='input-user-search']    ${login_id}
     Click Button    xpath=//button[@id='button-search-users']
     Click Element    xpath=//span[@id='result-uuid-0']
     Click Button    xpath=//button[@id='next-button']
     Click Element    xpath=//div[@id='app-select-Select roles1']
     Click Element    xpath=//div[@id='app-select-Select roles1']/following::input[@id='System-Administrator-checkbox']
     Set Selenium Implicit Wait    3000
-    #Click Element    xpath=//*[@id='app-select-Standard User1']
-    #Click Element    xpath=//*[@id='app-select-Standard User1']/following::input[@id='System-Administrator-checkbox']
-    # Click Element    xpath=//*[@id='div-app-name-dropdown-SDC']
-    # Click Element    xpath=//*[@id='div-app-name-SDC']/following::input[@id='Standard-User-checkbox']
-    # Click Element    xpath=//*[@id='div-app-name-SDC']/following::input[@id='Portal-Notification-Admin-checkbox']
     Set Selenium Implicit Wait    3000
     Click Button    xpath=//button[@id='new-user-save-button']
     Set Selenium Implicit Wait    3000
     Page Should Contain      Users
-    #Click Button    xpath=//input[@id='dropdown1']
-    #Click Element    xpath=//li[contains(.,'xDemo App')]
-    Input Text    xpath=//input[@id='input-table-search']    ${Test_LoginID}
-    #Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   Portal Notification Admin
+    Input Text    xpath=//input[@id='input-table-search']    ${login_id}
     Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   System Administrator
     Set Selenium Implicit Wait    3000
      
 Portal admin Delete Standard User Existing user
     [Documentation]    Naviage to Users tab
     Click Element    xpath=(.//*[@id='rowheader_t1_0'])[2]
-    #Scroll Element Into View    xpath=//*[@id='div-app-name-Default']/following::*[@id='app-item-delete'][1]
-    #Click Element    xpath=//*[@id='div-app-name-Default']/following::*[@id='app-item-delete'][1]
     Set Selenium Implicit Wait    9000
     Scroll Element Into View    xpath=//*[@id='div-app-name-xDemo-App']/following::*[@id='app-item-delete'][1]
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::*[@id='app-item-delete'][1]
-    #Scroll Element Into View    xpath=//*[@id='div-app-name-SDC']/following::*[@id='app-item-delete'][1]
-    #Click Element    xpath=//*[@id='div-app-name-SDC']/following::*[@id='app-item-delete'][1]
     Click Element    xpath=//button[@id='div-confirm-ok-button']
     Click Button    xpath=//button[@id='new-user-save-button']
-    #Input Text    xpath=//input[@id='input-table-search']    ${Test_LoginID}
-    #Is Element Visible    xpath=(//*[contains(.,'Portal')] )[2]
     Element Should Not Contain     xpath=//*[@table-data='users.accountUsers']    Portal
-    #Element Should Not Contain     xpath=//*[@table-data='users.accountUsers']    demo
     Set Selenium Implicit Wait    3000
      
 Functional Top Menu Get Access     
@@ -397,13 +321,11 @@ Portal admin Edit Functional menu
     Open Context Menu    xpath=//*[@id='Product_Design']/div/span
     Click Link    xpath=//a[@href='#add']
     Input Text    xpath=//input[@id='input-title']    ONAP Test
-    #Input Text    xpath=//input[@id='input-url']    http://google.com
     Click Element     xpath=//input[@id='select-app']
     Scroll Element Into View    xpath=//li[contains(.,'xDemo App')]
     Click Element    xpath=//li[contains(.,'xDemo App')]
     Input Text    xpath=//input[@id='input-url']    http://google.com
     Click Button    xpath=//button[@id='button-save-continue']
-    #Click Button    xpath=//div[@title='Select Roles']
     Click Element    xpath=//*[@id='app-select-Select Roles']
     Click Element    xpath=//input[@id='Standard-User-checkbox']
     Click Element    xpath=//button[@id='button-save-add']
@@ -451,7 +373,6 @@ Portal admin Microservice Onboarding
     Input Text    xpath=//input[@name='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Button    xpath=//button[@id='microservice-details-save-button']
     Table Column Should Contain    xpath=//*[@table-data='serviceList']    1    Test Microservice
-    #Element Text Should Be    xpath=//*[@table-data='serviceList']    Test Microservice
     Set Selenium Implicit Wait    3000
 
 Portal admin Microservice Delete
@@ -498,22 +419,14 @@ Portal Admin Create Widget for All users
 
 Portal Admin Delete Widget for All users 
     [Documentation]    Naviage to delete Widget menu tab
-    #Wait Until Page Contains    ONAP-xDemo    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
-    #Page Should Contain    ONAP-xDemo
-    #Click Image    xpath=//img[@alt='Onap Logo']
     Click Link    xpath=//a[@title='Widget Onboarding']
     Click Element    xpath=//input[@id='dropdown1']
     Click Element    xpath=//li[contains(.,'xDemo App')]
-    #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-xDemo')]/followi
-    #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-xDemo')]/following::*[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
     Click Element    xpath=(.//*[contains(text(),'ONAP-xDemo')]/following::*[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]
     Click Element    xpath=//button[@id='div-confirm-ok-button']
     Set Selenium Implicit Wait    3000
     Element Should Not Contain     xpath=//*[@table-data='portalAdmin.portalAdminsTableData']    ONAP-xDemo
-    #Is Element Visible    xpath=//*[@table-data='portalAdmin.portalAdminsTableData']
-    #Table Column Should Contain    .//*[@table-data='portalAdmin.portalAdminsTableData']    0       ONAP-xDemo
-    #Set Selenium Implicit Wait    3000
     
 Portal Admin Create Widget for Application Roles 
     [Documentation]    Naviage to Create Widget menu tab 
@@ -537,7 +450,6 @@ Portal Admin Create Widget for Application Roles
     Click Button    xpath=//button[@id='widgets-details-save-button'] 
     Click Image     xpath=//img[@alt='Onap Logo']
     Set Selenium Implicit Wait    3000
-    #Wait Until Page Contains    ONAP-xDemo    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT} 
     Click Link    xpath=//a[@title='Widget Onboarding'] 
     Click Element    xpath=//input[@id='dropdown1']
     Click Element    xpath=//li[contains(.,'xDemo App')]
@@ -546,13 +458,9 @@ Portal Admin Create Widget for Application Roles
     GO TO    ${PORTAL_HOME_PAGE}
         
 Portal Admin Delete Widget for Application Roles 
-    #Wait Until Page Contains    ONAP-xDemo    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
-    #Page Should Contain    ONAP-xDemo
-    #Click Image    xpath=//img[@alt='Onap Logo']
     Click Link    xpath=//a[@title='Widget Onboarding']
     Click Element    xpath=//input[@id='dropdown1']
     Click Element    xpath=//li[contains(.,'xDemo App')]
-    #Wait Until Page Contains    xpath=(.//*[contains(text(),'ONAP-xDemo')]/following::*[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
 	Scroll Element Into View	xpath=//*[contains(text(),'ONAP-xDemo')]/following::td[3]/div
     Click Element    xpath=//*[contains(text(),'ONAP-xDemo')]/following::td[3]/div
@@ -563,10 +471,8 @@ Portal Admin Delete Widget for Application Roles
 
 Portal Admin Edit Widget
     [Documentation]    Naviage to Home tab  
-    #Mouse Over    xpath=(//h3[contains(text(),'News')]/following::span[1])[1]
     Click Element    xpath=(//h3[contains(text(),'News')]/following::span[1])[1]
     Set Browser Implicit Wait    8000
-    #Wait Until Element Is Visible    xpath=(//h3[contains(text(),'News')]/following::span[1]/following::a[contains(text(),'Edit')])[1]    60
     Mouse Over    xpath=(//h3[contains(text(),'News')]/following::span[1]/following::a[contains(text(),'Edit')])[1] 
     Click Link    xpath=(//h3[contains(text(),'News')]/following::span[1]/following::a[contains(text(),'Edit')])[1]
     Input Text    xpath=//input[@name='title']    ONAP_VID
@@ -601,9 +507,8 @@ Portal Admin Broadcast Notifications
     Wait until Element is visible    xpath=//*[@id="button-openAddNewApp"]    timeout=10 
     Click element    xpath=//*[@id="megamenu-notification-button"]
     Click element    xpath=//*[@id="notification-history-link"]
-    # Notification bug, Uncomment the code when PORTAL-232 is fixed
-    # Wait until Element is visible    xpath=//*[@id="notification-history-table"]    timeout=10 
-    # Table Column Should Contain    xpath=//*[@id="notification-history-table"]    2    ${AdminBroadCastMsg}
+    Wait until Element is visible    xpath=//*[@id="notification-history-table"]    timeout=10 
+    Table Column Should Contain    xpath=//*[@id="notification-history-table"]    2    ${AdminBroadCastMsg}
     Set Selenium Implicit Wait    3000     
     log    ${AdminBroadCastMsg} 
     [Return]     ${AdminBroadCastMsg}
@@ -612,16 +517,13 @@ Portal Admin Category Notifications
     [Documentation]   Portal Admin Broadcast Notifications 
     ${CurrentDay}=    Get Current Date    increment=24:00:00    result_format=%m/%d/%Y 
     ${NextDay}=    Get Current Date    increment=48:00:00    result_format=%m/%d/%Y
-    #${CurrentDay}=    Get Current Date    result_format=%m/%d/%Y
     ${CurrentDate}=    Get Current Date    increment=24:00:00    result_format=%m%d%y%H%M
     ${AdminCategoryMsg}=    catenate    ONAP VID Category Automation${CurrentDate} 
     Click Link    xpath=//a[@id='parent-item-Home'] 
     Click Link    xpath=//*[@id="parent-item-User-Notifications"] 
     Wait until Element is visible    xpath=//*[@id="button-openAddNewApp"]    timeout=10 
     Click button    xpath=//*[@id="button-openAddNewApp"]
-    #Select Radio Button    NO     radio-button-no
     Click Element    //*[contains(text(),'Broadcast to All Categories')]/following::*[contains(text(),'No')][1]
-    #Select Radio Button    //label[@class='radio']    radio-button-approles
     Click Element    xpath=//*[contains(text(),'Categories')]/following::*[contains(text(),'Application Roles')][1]
     Click Element    xpath=//*[contains(text(),'xDemo App')]/preceding::input[@ng-model='member.isSelected'][1] 
     Input Text    xpath=//input[@id='datepicker-start']     ${CurrentDay} 
@@ -632,9 +534,8 @@ Portal Admin Category Notifications
     Wait until Element is visible    xpath=//*[@id="button-openAddNewApp"]    timeout=10 
     Click element    xpath=//*[@id="megamenu-notification-button"]
     Click element    xpath=//*[@id="notification-history-link"]
-# Notification bug, Uncomment the code when PORTAL-232 is fixed
-    # Wait until Element is visible    xpath=//*[@id="notification-history-table"]    timeout=10 
-    # Table Column Should Contain    xpath=//*[@id="notification-history-table"]    2    ${AdminCategoryMsg}
+    Wait until Element is visible    xpath=//*[@id="notification-history-table"]    timeout=10 
+    Table Column Should Contain    xpath=//*[@id="notification-history-table"]    2    ${AdminCategoryMsg}
     Set Selenium Implicit Wait    3000 
     log    ${AdminCategoryMsg}   
     [Return]     ${AdminCategoryMsg}  
@@ -644,16 +545,13 @@ Portal admin Logout from Portal GUI
     Click Element    xpath=//div[@id='header-user-icon']
     Run Keyword And Ignore Error    Click Button    xpath=//button[contains(.,'Log out')]
     # TODO: Rework Logout tests to deal with intermittent "document unloaded while waiting for result" errors
-    # Sleep    5s
-    # Title Should Be    Login
-    
+
 Application admin Login To Portal GUI
     [Documentation]   Logs into Portal GUI
-    # Setup Browser Now being managed by test case
-    ##Setup Browser
+    [Arguments]    ${login_id}
     Go To    ${PORTAL_LOGIN_URL}
     Title Should Be    Login
-    Input Text    xpath=//input[@ng-model='loginId']    ${App_LoginID}
+    Input Text    xpath=//input[@ng-model='loginId']    ${login_id}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Link    xpath=//a[@id='loginBtn']
     Sleep    5s
@@ -669,7 +567,6 @@ Application Admin Navigation Application Link Tab
 	Scroll Element Into View	xpath=//i[@class='ion-close-round']
     Click Element    xpath=//i[@class='ion-close-round']
     Set Selenium Implicit Wait    3000   
-    #Click Element    xpath=(.//span[@id='tab-Home'])[1]
 
 Application Admin Navigation Functional Menu     
     [Documentation]   Logs into Portal GUI as application admin
@@ -682,41 +579,31 @@ Application Admin Navigation Functional Menu
      
 Application admin Add Standard User Existing user
     [Documentation]    Naviage to Users tab
+    [Arguments]    ${login_id}
     Click Link    xpath=//a[@title='Users']
     Page Should Contain      Users
 	Click Button	xpath=//button[@ng-click='toggleSidebar()']
     Click Button    xpath=//button[@ng-click='users.openAddNewUserModal()']
-    Input Text    xpath=//input[@id='input-user-search']    ${Test_LoginID}
+    Input Text    xpath=//input[@id='input-user-search']    ${login_id}
     Click Button    xpath=//button[@id='button-search-users']
     Click Element    xpath=//span[@id='result-uuid-0']
     Click Button    xpath=//button[@id='next-button']
     Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
-    # Click Element    xpath=//*[@id='div-app-name-dropdown-Default']
-    # Click Element    xpath=//*[@id='div-app-name-Default']/following::input[@id='Standard-User-checkbox']
-    # Set Selenium Implicit Wait    3000
     Click Button    xpath=//button[@id='new-user-save-button']
     Set Selenium Implicit Wait    3000
-    #Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    #Select From List    xpath=//input[@value='Select application']    xDemo App
-    #Click Link    xpath=//a[@title='Users']
-    #Page Should Contain      Users
     Go To    ${PORTAL_HOME_PAGE}
     Set Selenium Implicit Wait    3000
     Click Link    xpath=//a[@title='Users']
     Click Element    xpath=//input[@id='dropdown1']
-    #Click Element    xpath=//li[contains(.,'Default')]
     Click Element    xpath=//li[contains(.,'xDemo App')]
-    Input Text    xpath=//input[@id='input-table-search']    ${Test_LoginID}
-    #Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   Account Administrator
+    Input Text    xpath=//input[@id='input-table-search']    ${login_id}
     Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   Standard User
      
 Application admin Edit Standard User Existing user
     [Documentation]    Naviage to Users tab
+    [Arguments]    ${login_id}
     Click Element    xpath=(.//*[@id='rowheader_t1_0'])[2]
-    #Click Element    xpath=//*[@id='div-app-name-dropdown-Default']
-    #Click Element    xpath=//*[@id='div-app-name-Default']/following::input[@id='Standard-User-checkbox']
-    #Click Element    xpath=//*[@id='div-app-name-Default']/following::input[@id='Portal-Notification-Admin-checkbox']
     Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='System-Administrator-checkbox']
@@ -724,50 +611,31 @@ Application admin Edit Standard User Existing user
     Click Button    xpath=//button[@id='new-user-save-button']
     Set Selenium Implicit Wait    3000
     Page Should Contain      Users
-    #Click Button    xpath=//input[@id='dropdown1']
-    #Click Element    xpath=//li[contains(.,'xDemo App')]
-    Input Text    xpath=//input[@id='input-table-search']    ${Test_LoginID}
-    #Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   Account Administrator
+    Input Text    xpath=//input[@id='input-table-search']    ${login_id}
     Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   System Administrator
      
 Application admin Delete Standard User Existing user    
     [Documentation]    Naviage to Users tab
     Click Element    xpath=(.//*[@id='rowheader_t1_0'])[2]
-    #Scroll Element Into View    xpath=//*[@id='div-app-name-Default']/following::*[@id='app-item-delete'][1]
-    #Click Element    xpath=//*[@id='div-app-name-Default']/following::*[@id='app-item-delete'][1]
     Scroll Element Into View    xpath=//*[@id='div-app-name-xDemo-App']/following::*[@id='app-item-delete'][1]
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::*[@id='app-item-delete'][1]
     Click Element    xpath=//button[@id='div-confirm-ok-button']
     Click Button    xpath=//button[@id='new-user-save-button']
-    #Input Text    xpath=//input[@id='input-table-search']    ${Test_LoginID}
-    #Is Element Visible    xpath=(//*[contains(.,'Portal')] )[2]
     Element Should Not Contain     xpath=//*[@table-data='users.accountUsers']    Portal
-	#Click Image     xpath=//img[@alt='Onap Logo']
     Set Selenium Implicit Wait    3000
      
 Application admin Logout from Portal GUI
     [Documentation]   Logout from Portal GUI
     Click Element    xpath=//div[@id='header-user-icon']
-	#Set Selenium Implicit Wait    3000
     Run Keyword And Ignore Error    Click Button    xpath=//button[contains(text(),'Log out')]
-	#Set Selenium Implicit Wait    3000
     # TODO: Rework Logout tests to deal with intermittent "document unloaded while waiting for result" errors
-    # Sleep    5s
-    # Title Should Be    Login  
     
 Standared user Login To Portal GUI
     [Documentation]   Logs into Portal GUI
-    # Setup Browser Now being managed by test case
-    ##Setup Browser
-    #Go To    ${PORTAL_LOGIN_URL}
-    #Maximize Browser Window
-    #Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
-    #Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
-    #Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}
-    # Handle Proxy Warning
+    [Arguments]    ${login_id}
     Go To    ${PORTAL_LOGIN_URL}
     Title Should Be    Login
-    Input Text    xpath=//input[@ng-model='loginId']    ${Sta_LoginID}
+    Input Text    xpath=//input[@ng-model='loginId']    ${login_id}
     Input Password    xpath=//input[@ng-model='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Link    xpath=//a[@id='loginBtn']
     Sleep    5s
@@ -777,7 +645,6 @@ Standared user Login To Portal GUI
      
 Standared user Navigation Application Link Tab    
     [Documentation]   Logs into Portal GUI as application admin
-    #Portal admin Go To Portal HOME
     Click Element    xpath=.//h3[contains(text(),'xDemo App')]/following::div[1]
     Page Should Contain    ONAP Portal    
     Click Element    xpath=(.//span[@id='tab-Home'])[1]
@@ -804,8 +671,6 @@ Standared user Broadcast Notifications
 Standared user Category Notifications 
     [Documentation]   Logs into Portal GUI as application admin 
     [Arguments]    ${AdminCategoryMsg}
-    #click element    xpath=//*[@id='megamenu-notification-button'] 
-    #click element    xpath=//*[@id="notification-history-link"] 
     Wait until Element is visible    xpath=//*[@id='app-title']    timeout=10 
     Table Column Should Contain    xpath=//*[@id='notification-history-table']    2    ${AdminCategoryMsg} 
     log    ${AdminCategoryMsg} 
@@ -814,12 +679,12 @@ Standared user Logout from Portal GUI
     [Documentation]   Logout from Portal GUI
     Click Element    xpath=//div[@id='header-user-icon']
     Run Keyword And Ignore Error    Click Button    xpath=//button[contains(.,'Log out')]
-    #Confirm Action
     # TODO: Rework Logout tests to deal with intermittent "document unloaded while waiting for result" errors
-    # Sleep    5s
-    # Title Should Be    Login     
         
 Portal admin Add New Account
+    ${rand}    Generate Random String    4    [NUMBERS]
+    ${AppUserName}=           Set Variable    testApp${rand}
+    ${AppPassword}=           Set Variable    testApp${rand}123!
     Click Link    //*[@id="parent-item-App-Account-Management"]
     Click Button    xpath=//button[@ng-click='toggleSidebar()']
     Set Selenium Implicit Wait    3000
@@ -829,8 +694,6 @@ Portal admin Add New Account
     Input Text    //*[@id="account-details-input-username"]    ${AppUserName}
     Input Text    //*[@id="account-details-input-password"]    ${AppPassword}
     Input Text    //*[@id="account-details-input-repassword"]    ${AppPassword}
-    #Click Button    xpath=//*[@ng-click='accountAddDetails.saveChanges()']
-    ##Click Button    xpath=//button[@ng-click='admins.openAddNewAdminModal()']
     #account-details-next-button
     Click Button    xpath=//button[@ng-click='accountAddDetails.saveChanges()']
          
@@ -844,16 +707,14 @@ Portal admin Delete Account
 Enhanced Notification on ONAP Portal
     [Documentation]     Runs portal Post request
     [Arguments]     ${data_path}     ${data}
-    #Log     Creating session         ${GLOBAL_PORTAL_SERVER_URL}
     ${session}=         Create Session     portal         ${PORTAL_URL}
     ${headers}=     Create Dictionary     Accept=application/json    Content-Type=application/json    Authorization=Basic amlyYTpfcGFzcw==    username=jira    password=_pass
     ${resp}=     Post Request     portal     ${data_path}     data=${data}     headers=${headers}
-    #Log     Received response from portal     ${resp.text}
     [Return]     ${resp}    
      
 Notification on ONAP Portal
     [Documentation]     Create Config portal
-    ${configportal}=     Create Dictionary     jira_id=${jira}
+    ${configportal}=     Create Dictionary     jira_id=jira
     Templating.Create Environment    portal    ${GLOBAL_TEMPLATE_FOLDER}
     ${output} =     Templating.Apply Template     portal    ${portal_Template}     ${configportal}
     ${post_resp} =     Enhanced Notification on ONAP Portal     ${RESOURCE_PATH}     ${output}
@@ -921,10 +782,11 @@ Reset widget layout option
     Execute Javascript      document.getElementById('div-confirm-ok-button').click()
 
 Add Portal Admin
+    [Arguments]    ${login_id}
     Click Link    xpath=//a[@id='parent-item-Portal-Admins']
     Scroll Element Into View    xpath=//button[@id='portal-admin-button-add']
     Click Button    xpath=//button[@id='portal-admin-button-add']
-    Input Text    xpath=//input[@id='input-user-search']    ${Test_LoginID}
+    Input Text    xpath=//input[@id='input-user-search']    ${login_id}
     Click Button    xpath=//button[@id='button-search-users']
     Wait Until Page Contains Element     xpath=//span[@id='result-uuid-0']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Click Element    xpath=//span[@id='result-uuid-0']
