@@ -6,7 +6,7 @@ Resource        ../vid/vid_interface.robot
 Resource        ../aai/service_instance.robot
 Resource        ../vid/create_vid_vnf.robot
 Resource        ../vid/teardown_vid.robot
-Resource        ../sdngc_interface.robot
+Resource        ../sdnc_interface.robot
 Resource        model_test_template.robot
 
 Resource        ../aai/create_zone.robot

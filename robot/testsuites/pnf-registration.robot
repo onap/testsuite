@@ -5,7 +5,8 @@ Test Timeout      10m
 ...
 
 Resource         ../resources/test_templates/pnf_registration_without_SO_template.robot
-
+Library	        String
+    
 
 
 *** Test Cases ***
@@ -37,13 +38,3 @@ Design, create, instantiate PNF/macro service and succesfully registrate PNF
      ${pnf_correlation_id}=    Generate Random String  20  [LETTERS][NUMBERS]
      ${PNF_entry_dict}=  Create Dictionary  correlation_id=${pnf_correlation_id}  PNF_IPv4_address=13.13.13.13  PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
      Design, create, instantiate PNF/macro service and succesfully registrate PNF template   Demo_pNF   ${PNF_entry_dict}   ${pnf_correlation_id}
-
-
-
-
-
-
-
-
-
-

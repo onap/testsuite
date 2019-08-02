@@ -66,14 +66,14 @@ TOSCA Based PNF Model Distribution For Directory
     ${service_name}=    Catenate    ${service}    ${uuid}
     ${shortened_uuid}=     Evaluate    str("${service_name}")[:23]
     ${catalog_service_name}=   Set Variable If   '${catalog_service_name}' ==''   ${shortened_uuid}   ${catalog_service_name}
-    :for   ${directory}    IN    @{directory_list}
+    :FOR   ${directory}    IN    @{directory_list}
     \    ${zipname}=   Replace String    ${directory}    /    _
     \    ${csar}=    Catenate    ${SDC_CSAR_DIRECTORY}/${zipname}.csar
     \    ${folder}=    Catenate    ${SDC_TOSCA_ONBOARDING_PACKAGES_DIRECTORY}/${directory}
     \    OperatingSystem.Create Directory    ${SDC_TOSCA_ONBOARDING_PACKAGES_DIRECTORY}/temp
     \    Create Zip From Files In Directory        ${folder}    ${csar}    sub_directories=${true}
     \    Append To List    ${csarlist}    ${csar}
-    ${catalog_service_name}    ${catalog_resource_name}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute TOSCA Model From SDC    ${csarlist}    ${catalog_service_name}   ${service}
+    ${catalog_service_name}    ${catalog_resource_name}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute Model From SDC    ${csarlist}    ${catalog_service_name}   ${service}    resourceType=PNF
     Download CSAR    ${catalog_service_id}
     [Return]    ${catalog_service_name}    ${catalog_resource_name}    ${catalog_resources}
 

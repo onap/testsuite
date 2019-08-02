@@ -79,15 +79,6 @@ Reboot Server
     ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    ${OPENSTACK_NOVA_SERVERS_PATH}    /${server_id}/action    ${OPENSTACK_NOVA_SERVERS_REBOOT_BODY}
     [Return]    ${resp}
 
-Add Server
-    [Documentation]    Adds a server for the passed if
-    [Arguments]    ${alias}    ${name}    ${imageRef}    ${flavorRef}
-    ${dict}=    Create Dictionary   name=${name}   imageRef=${imageRef}   flavorRef=${flavorRef}
-    Create Environment    openstack    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Apply Template    openstack   ${OPENSTACK_NOVA_SERVER_ADD_BODY_FILE}    ${dict}
-    ${resp}=    Internal Post Openstack    ${alias}    ${GLOBAL_OPENSTACK_NOVA_SERVICE_TYPE}    ${OPENSTACK_NOVA_SERVERS_PATH}   data_path=    data=${data}
-    [Return]    ${resp}
-
 Add Server For Image Name
     [Documentation]    Adds a server for the passed if
     [Arguments]    ${alias}    ${name}    ${imageName}    ${flavorName}   ${public_net_id}
