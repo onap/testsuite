@@ -157,8 +157,7 @@ Get Template Parameters
     ${ecompnet}=    Evaluate    (${GLOBAL_BUILD_NUMBER}%128)+128
 
 
-    # Initialize the value map with the properties generated from the Robot VM /opt/config folder
-    ${valuemap}=   Copy Dictionary    ${GLOBAL_INJECTED_PROPERTIES}
+    ${valuemap}=   Get Globally Injected Parameters
 
     # These should be deprecated by the above....
     Set To Dictionary   ${valuemap}   artifacts_version=${GLOBAL_INJECTED_ARTIFACTS_VERSION}
