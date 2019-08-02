@@ -48,4 +48,3 @@ ${GLOBAL_SO_VNFM_ENDPOINT}     ${GLOBAL_SO_SERVER_PROTOCOL}://${GLOBAL_INJECTED_
 ${GLOBAL_SO_HEALTH_CHECK_PATH}    /manage/health
 ${GLOBAL_SO_CLOUD_CONFIG_PATH}    /cloudSite
 ${GLOBAL_SO_CLOUD_CONFIG_TEMPLATE}	    robot/assets/templates/so/create_cloud_config.jinja
-${GLOBAL_SO_CLOUD_CONFIG_PATH}    /serviceRecipe
