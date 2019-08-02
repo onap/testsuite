@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "645269f5_074575c6",
+        "filename": "robot/resources/sdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-02T21:33:27Z",
+      "side": 1,
+      "message": "looks like bad rebase, this is not current",
+      "revId": "21393390977d3d49119a543ff0d44b589bfe7847",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4321919_4c8960c2",
+        "filename": "robot/resources/sdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-02T21:33:27Z",
+      "side": 1,
+      "message": "looks like bad rebase, this is not current",
+      "revId": "21393390977d3d49119a543ff0d44b589bfe7847",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8de676b1_40b1d0c2",
+        "filename": "robot/resources/sdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-02T21:33:27Z",
+      "side": 1,
+      "message": "looks like bad rebase, this is not current",
+      "revId": "21393390977d3d49119a543ff0d44b589bfe7847",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
