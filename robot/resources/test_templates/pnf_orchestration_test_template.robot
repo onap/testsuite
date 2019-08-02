@@ -6,6 +6,8 @@ Resource        ../vid/vid_interface.robot
 Resource        ../aai/service_instance.robot
 Resource        model_test_template.robot
 Resource        ../openstack/neutron_interface.robot
+Resource          ../sdc_interface.robot
+Resource          vnf_orchestration_test_template.robot
 
 
 Library         ONAPLibrary.Openstack
