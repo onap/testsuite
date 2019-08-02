@@ -44,9 +44,8 @@ Run Policy Health Check
 Run Drools Get Request
      [Documentation]    Runs Drools Get Request
      [Arguments]    ${data_path}
-     ${auth}=    Create List    ${GLOBAL_DROOLS_USERNAME}    ${GLOBAL_DROOLS_PASSWORD}
      Log    Creating session ${DROOLS_ENDPOINT}
-     ${session}=    Create Session      policy  ${DROOLS_ENDPOINT}   auth=${auth}
+     ${session}=    Create Session      policy  ${DROOLS_ENDPOINT}   auth=${GLOBAL_DROOLS_AUTHENTICATION}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Get Request     policy  ${data_path}     headers=${headers}
      Log    Received response from policy ${resp.text}

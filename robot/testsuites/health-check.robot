@@ -4,7 +4,7 @@ Documentation     Testing ecomp components are available via calls.
 ...               Testing ecomp components are available via calls.
 Test Timeout      20 second
 Resource          ../resources/dcae_interface.robot
-Resource          ../resources/sdngc_interface.robot
+Resource          ../resources/sdnc_interface.robot
 Resource          ../resources/aai/aai_interface.robot
 Resource          ../resources/vid/vid_interface.robot
 Resource          ../resources/policy_interface.robot
@@ -190,7 +190,7 @@ Basic SDC Health Check
 
 Basic SDNC Health Check
     [Tags]    health    core   health-sdnc
-    Run SDNGC Health Check
+    Run SDNC Health Check
 
 Basic SO Health Check
     [Tags]    health    core   health-so

@@ -15,6 +15,7 @@ Library         ONAPLibrary.Utilities
 Library         ONAPLibrary.Templating    WITH NAME    Templating
 Library         ONAPLibrary.AAI    WITH NAME     AAI
 Library         ONAPLibrary.SDC    WITH NAME     SDC
+Library         ONAPLibrary.SO    WITH NAME     SO
 
 *** Variables ***
 ${aai_so_registration_entry_template}=  aai/add_pnf_registration_info.jinja
@@ -22,8 +23,6 @@ ${pnf_ves_integration_request}=  ves/pnf_registration_request.jinja
 ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_VES_PNFREG_OUTPUT_PATH}  /events/unauthenticated.VES_PNFREG_OUTPUT/2/1
 ${VES_ENDPOINT}     ${GLOBAL_DCAE_VES_PROTOCOL}://${GLOBAL_INJECTED_DCAE_VES_HOST}:${GLOBAL_DCAE_VES_SERVER_PORT}
 ${VES_data_path}   /eventListener/v7
-${SDC_CATALOG_SERVICES_PATH}    /sdc2/rest/v1/catalog/services
-${SDC_DESIGNER_USER_ID}    cs0008
 
 
 *** Keywords ***
@@ -63,12 +62,6 @@ Verify PNF integration request in A&AI
     Wait Until Keyword Succeeds  10x  5s  Query PNF A&AI updated entry  ${PNF_entry_dict}
     Log  PNF integration request in A&AI has been verified and contains all necessary entries
 
-Verify PNF integration request in MR
-    [Documentation]   Verify if PNF integration request entries are present in MR unauthenticated.PNF_READY/ topic
-    [Arguments]  ${PNF_entry_dict}
-    Wait Until Keyword Succeeds  10x  1s  Query PNF MR entry  ${PNF_entry_dict}
-    Log  PNF integration request in MR has been verified and contains all necessary entries
-
 Query PNF A&AI updated entry
     [Documentation]   Query PNF A&AI updated entry
     [Arguments]  ${PNF_entry_dict}
@@ -83,7 +76,6 @@ Query PNF A&AI updated entry
 
 Check VES_PNFREG_OUTPUT topic presence in MR
     [Documentation]   Verify if unauthenticated.VES_PNFREG_OUTPUT topic is present in MR
-    [Arguments]
     ${get_resp}=  Run MR Get Request  ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_VES_PNFREG_OUTPUT_PATH}
     Should Be Equal As Strings  ${get_resp.status_code}        200
     Log  unauthenticated.VES_PNFREG_OUTPUT topic is present in MR

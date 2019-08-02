@@ -5,7 +5,7 @@ Library    OperatingSystem
 Library    Collections
 Library    ONAPLibrary.SO    WITH NAME    SO
 Library    ONAPLibrary.Templating    WITH NAME    Templating
-
+Resource    ../global_properties.robot
 
 *** Variables ***
 ${SERVICE_RECIPE_PATH}    /serviceRecipe
