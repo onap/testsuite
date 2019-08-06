@@ -2,8 +2,6 @@
 Documentation     Executes the PNF registration  test cases including setup and teardown
 Test Timeout      10m
 
-...
-
 Resource         ../resources/test_templates/pnf_registration_without_SO_template.robot
 Library	        String
     

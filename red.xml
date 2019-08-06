@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <projectConfiguration>
-    <configVersion>1.0</configVersion>
+    <configVersion>2</configVersion>
     <relativeTo>PROJECT</relativeTo>
-    <referencedLibrary type="PYTHON" name="RequestsLibrary" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="SeleniumLibrary" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="AngularJSLibrary" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="SSHLibrary" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="SoUtils" path="testsuite/robot/library/vcpeutils"/>
-    <referencedLibrary type="PYTHON" name="ArchiveLibrary" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="HeatBridge" path="testsuite/robot/library/heatbridge"/>
-    <referencedLibrary type="PYTHON" name="DateTime" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.Templating" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.ServiceMapping" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.JSON" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.Openstack" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.Kafka" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.Protobuf" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.Utilities" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.OOF" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.SDNC" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.SDC" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.PreloadData" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.AAI" path="testsuite/robot/library"/>
-    <referencedLibrary type="PYTHON" name="ONAPLibrary.SO" path="testsuite/robot/library"/>
+    <referencedLibrary type="PYTHON" name="RequestsLibrary" path="testsuite/robot/library/RequestsLibrary/__init__.py"/>
+    <referencedLibrary type="PYTHON" name="SeleniumLibrary" path="testsuite/robot/library/SeleniumLibrary/__init__.py"/>
+    <referencedLibrary type="PYTHON" name="AngularJSLibrary" path="testsuite/robot/library/AngularJSLibrary/__init__.py"/>
+    <referencedLibrary type="PYTHON" name="SSHLibrary" path="testsuite/robot/library/SSHLibrary/__init__.py"/>
+    <referencedLibrary type="PYTHON" name="SoUtils" path="testsuite/robot/library/vcpeutils/SoUtils.py"/>
+    <referencedLibrary type="PYTHON" name="ArchiveLibrary" path="testsuite/robot/library/ArchiveLibrary/__init__.py"/>
+    <referencedLibrary type="PYTHON" name="HeatBridge" path="testsuite/robot/library/heatbridge/HeatBridge.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.Templating" path="testsuite/robot/library/ONAPLibrary/Templating.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.ServiceMapping" path="testsuite/robot/library/ONAPLibrary/ServiceMapping.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.JSON" path="testsuite/robot/library/ONAPLibrary/JSON.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.Openstack" path="testsuite/robot/library/ONAPLibrary/Openstack.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.Kafka" path="testsuite/robot/library/ONAPLibrary/Kafka.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.Protobuf" path="testsuite/robot/library/ONAPLibrary/Protobuf.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.Utilities" path="testsuite/robot/library/ONAPLibrary/Utilities.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.OOF" path="testsuite/robot/library/ONAPLibrary/OOF.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.SDNC" path="testsuite/robot/library/ONAPLibrary/SDNC.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.SDC" path="testsuite/robot/library/ONAPLibrary/SDC.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.PreloadData" path="testsuite/robot/library/ONAPLibrary/PreloadData.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.AAI" path="testsuite/robot/library/ONAPLibrary/AAI.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.SO" path="testsuite/robot/library/ONAPLibrary/SO.py"/>
     <pythonpath>
         <path location="robot/library"/>
     </pythonpath>
@@ -33,7 +32,4 @@
     </excludedForValidation>
     <isValidatedFileSizeCheckingEnabled>true</isValidatedFileSizeCheckingEnabled>
     <validatedFileMaxSize>1024</validatedFileMaxSize>
-    <isReferencedLibrariesAutoReloadEnabled>true</isReferencedLibrariesAutoReloadEnabled>
-    <isReferencedLibrariesAutoDiscoveringEnabled>true</isReferencedLibrariesAutoDiscoveringEnabled>
-    <isLibrariesAutoDiscoveringSummaryWindowEnabled>false</isLibrariesAutoDiscoveringSummaryWindowEnabled>
 </projectConfiguration>

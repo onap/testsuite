@@ -984,9 +984,9 @@ Add CDS Parameters
     @{inputs}=   Copy List  ${resp.json()['componentInstances'][0]['inputs']}
     :FOR  ${input}  IN  @{inputs}
     \    Run Keyword If  '${input['name']}' == "sdnc_artifact_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  vnf
-    \    ...  ELSE IF  '${input['name']}' == "sdnc_model_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  vlb_cds_test
-    \    ...  ELSE IF  '${input['name']}' == "sdnc_model_version"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  1.0.0
-    \    ...  ELSE IF  '${input['name']}' == "skip_post_instantiation_configuration"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  boolean  ${skip_post_instatiation}
+        ...  ELSE IF  '${input['name']}' == "sdnc_model_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  vlb_cds_test
+        ...  ELSE IF  '${input['name']}' == "sdnc_model_version"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  1.0.0
+        ...  ELSE IF  '${input['name']}' == "skip_post_instantiation_configuration"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  boolean  ${skip_post_instatiation}
     
 
 Set Input Parameter 
