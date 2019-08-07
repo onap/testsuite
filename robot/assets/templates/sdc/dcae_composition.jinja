@@ -1,0 +1,849 @@
+{
+    "cid": "{{cid}}",
+    "flowType": "TCA Hi Lo",
+    "inputs": [],
+    "nodes": [
+        {
+            "capabilities": [
+                {
+                    "name": "feature",
+                    "type": {
+                        "id": "template.yaml/tosca.capabilities.Node",
+                        "name": "tosca.capabilities.Node"
+                    }
+                }
+            ],
+            "description": "/sdc/v1/catalog/resources/{{vf_id}}/toscaModel/",
+            "id": "{{vf_id}}",
+            "name": "tca-docker",
+            "ndata": {
+                "label": "tca-docker",
+                "name": "n.1559041944060.0",
+                "ports": [],
+                "px": 364,
+                "py": 437,
+                "radius": 30,
+                "x": 365,
+                "y": 438
+            },
+            "nid": "n.1559041944060.0",
+            "properties": [
+                {
+                    "default": 10000,
+                    "name": "cpu_period",
+                    "required": true,
+                    "type": "integer"
+                },
+                {
+                    "default": 30000,
+                    "name": "cpu_quota",
+                    "required": true,
+                    "type": "integer"
+                },
+                {
+                    "default": 256,
+                    "name": "cpu_shares",
+                    "required": true,
+                    "type": "integer"
+                },
+                {
+                    "name": "image",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "assignment": {
+                        "value": {
+                            "get_property": [
+                                "SELF",
+                                "composition",
+                                "location_id"
+                            ]
+                        }
+                    },
+                    "name": "location_id",
+                    "required": true,
+                    "type": "string",
+                    "value": {
+                        "get_property": [
+                            "SELF",
+                            "composition",
+                            "location_id"
+                        ]
+                    }
+                },
+                {
+                    "default": "500m",
+                    "name": "mem_limit",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "default": "on-failure",
+                    "name": "restart_policy.Name",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "default": 3,
+                    "name": "restart_policy.max_retry_counts",
+                    "required": true,
+                    "type": "integer"
+                },
+                {
+                    "name": "service_component_type",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "requirements": [
+                {
+                    "capability": {
+                        "id": "template.yaml/dcae.capabilities.dmmap.topic",
+                        "name": "dcae.capabilities.dmmap.topic"
+                    },
+                    "name": "stream_subscribe_0",
+                    "node": "topic0",
+                    "relationship": {
+                        "type": "dcae.relationships.subscribe_to_events"
+                    }
+                },
+                {
+                    "capability": {
+                        "id": "template.yaml/dcae.capabilities.dmmap.topic",
+                        "name": "dcae.capabilities.dmmap.topic"
+                    },
+                    "name": "stream_publish_0",
+                    "node": "topic1",
+                    "relationship": {
+                        "type": "dcae.relationships.publish_events"
+                    }
+                },
+                {
+                    "capability": {
+                        "id": "template.yaml/dcae.capabilities.dockerHost",
+                        "name": "dcae.capabilities.dockerHost"
+                    },
+                    "name": "host",
+                    "relationship": {
+                        "type": "dcae.relationships.component_contained_in"
+                    }
+                },
+                {
+                    "capability": {
+                        "id": "template.yaml/dcae.capabilities.composition.host",
+                        "name": "dcae.capabilities.composition.host"
+                    },
+                    "name": "composition"
+                },
+                {
+                    "capability": {
+                        "id": "template.yaml/tosca.capabilities.Node",
+                        "name": "tosca.capabilities.Node"
+                    },
+                    "name": "dependency",
+                    "node": "tosca.nodes.Root",
+                    "occurrences": [
+                        0,
+                        "UNBOUNDED"
+                    ],
+                    "relationship": {
+                        "type": "tosca.relationships.DependsOn"
+                    }
+                }
+            ],
+            "type": {
+                "name": "tosca.dcae.nodes.dockerApp.tca-docker"
+            },
+            "typeinfo": {
+                "capabilities": [
+                    {
+                        "name": "feature",
+                        "type": {
+                            "id": "{{vf_id}}/tosca.capabilities.Node",
+                            "name": "tosca.capabilities.Node"
+                        }
+                    }
+                ],
+                "hierarchy": [
+                    {
+                        "id": "{{vf_id}}/tosca.dcae.nodes.dockerApp",
+                        "name": "tosca.dcae.nodes.dockerApp"
+                    },
+                    {
+                        "id": "{{vf_id}}/tosca.dcae.nodes.Root",
+                        "name": "tosca.dcae.nodes.Root"
+                    },
+                    {
+                        "description": "The TOSCA Node Type all other TOSCA base Node Types derive from",
+                        "id": "{{vf_id}}/tosca.nodes.Root",
+                        "name": "tosca.nodes.Root"
+                    }
+                ],
+                "id": "{{vf_id}}/tosca.dcae.nodes.dockerApp.tca-docker",
+                "itemId": "{{vf_id}}/tosca.dcae.nodes.dockerApp.tca-docker",
+                "name": "tosca.dcae.nodes.dockerApp.tca-docker",
+                "requirements": [
+                    {
+                        "capability": {
+                            "id": "{{vf_id}}/dcae.capabilities.dmmap.topic",
+                            "name": "dcae.capabilities.dmmap.topic"
+                        },
+                        "id": "{{vf_id}}/stream_subscribe_0",
+                        "name": "stream_subscribe_0",
+                        "node": {
+                            "id": "{{vf_id}}/dcae.capabilities.dmmap.topic",
+                            "name": "dcae.capabilities.dmmap.topic"
+                        },
+                        "relationship": {
+                            "type": "dcae.relationships.subscribe_to_events"
+                        }
+                    },
+                    {
+                        "capability": {
+                            "id": "{{vf_id}}/dcae.capabilities.dmmap.topic",
+                            "name": "dcae.capabilities.dmmap.topic"
+                        },
+                        "id": "{{vf_id}}/stream_publish_0",
+                        "name": "stream_publish_0",
+                        "node": {
+                            "id": "{{vf_id}}/dcae.capabilities.dmmap.topic",
+                            "name": "dcae.capabilities.dmmap.topic"
+                        },
+                        "relationship": {
+                            "type": "dcae.relationships.publish_events"
+                        }
+                    },
+                    {
+                        "capability": {
+                            "id": "{{vf_id}}/dcae.capabilities.dockerHost",
+                            "name": "dcae.capabilities.dockerHost"
+                        },
+                        "id": "{{vf_id}}/host",
+                        "name": "host",
+                        "node": {
+                            "id": "{{vf_id}}/dcae.capabilities.dockerHost",
+                            "name": "dcae.capabilities.dockerHost"
+                        },
+                        "relationship": {
+                            "type": "dcae.relationships.component_contained_in"
+                        }
+                    },
+                    {
+                        "capability": {
+                            "id": "{{vf_id}}/dcae.capabilities.composition.host",
+                            "name": "dcae.capabilities.composition.host"
+                        },
+                        "id": "{{vf_id}}/composition",
+                        "name": "composition",
+                        "node": {
+                            "id": "{{vf_id}}/dcae.capabilities.composition.host",
+                            "name": "dcae.capabilities.composition.host"
+                        }
+                    },
+                    {
+                        "capability": {
+                            "id": "{{vf_id}}/tosca.capabilities.Node",
+                            "name": "tosca.capabilities.Node"
+                        },
+                        "id": "{{vf_id}}/dependency",
+                        "name": "dependency",
+                        "node": {
+                            "id": "{{vf_id}}/tosca.capabilities.Node",
+                            "name": "tosca.capabilities.Node"
+                        },
+                        "occurrences": [
+                            0,
+                            "UNBOUNDED"
+                        ],
+                        "relationship": {
+                            "type": "tosca.relationships.DependsOn"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "capabilities": [
+                {
+                    "name": "topic",
+                    "properties": [
+                        {
+                            "assignment": {
+                                "value": {
+                                    "get_property": [
+                                        "SELF",
+                                        "aaf_password"
+                                    ]
+                                }
+                            },
+                            "name": "aaf_password",
+                            "type": "string"
+                        },
+                        {
+                            "assignment": {
+                                "value": {
+                                    "get_property": [
+                                        "SELF",
+                                        "aaf_username"
+                                    ]
+                                }
+                            },
+                            "name": "aaf_username",
+                            "type": "string"
+                        },
+                        {
+                            "assignment": {
+                                "value": {
+                                    "get_property": [
+                                        "SELF",
+                                        "client_role"
+                                    ]
+                                }
+                            },
+                            "name": "client_role",
+                            "type": "string"
+                        },
+                        {
+                            "assignment": {
+                                "value": {
+                                    "get_property": [
+                                        "SELF",
+                                        "location"
+                                    ]
+                                }
+                            },
+                            "name": "location",
+                            "type": "string"
+                        },
+                        {
+                            "assignment": {
+                                "value": {
+                                    "get_property": [
+                                        "SELF",
+                                        "node_name"
+                                    ]
+                                }
+                            },
+                            "name": "node_name",
+                            "type": "string"
+                        },
+                        {
+                            "assignment": {
+                                "value": {
+                                    "get_property": [
+                                        "SELF",
+                                        "topic_name"
+                                    ]
+                                }
+                            },
+                            "name": "topic_name",
+                            "type": "string"
+                        }
+                    ],
+                    "type": {
+                        "id": "template.yaml/dcae.capabilities.dmmap.topic",
+                        "name": "dcae.capabilities.dmmap.topic"
+                    }
+                },
+                {
+                    "name": "feature",
+                    "type": {
+                        "id": "template.yaml/tosca.capabilities.Node",
+                        "name": "tosca.capabilities.Node"
+                    }
+                }
+            ],
+            "description": "/sdc/v1/catalog/resources/{{vf_id}}/toscaModel/",
+            "id": "{{vf_id}}",
+            "name": "topic0",
+            "ndata": {
+                "label": "topic0",
+                "name": "n.1559041944077.1",
+                "ports": [],
+                "px": 414,
+                "py": 430.9243296300162,
+                "radius": 30,
+                "x": 415,
+                "y": 431.9243296300162
+            },
+            "nid": "n.1559041944077.1",
+            "properties": [
+                {
+                    "assignment": {
+                        "value": {
+                            "get_input": "topic0_aaf_password"
+                        }
+                    },
+                    "name": "aaf_password",
+                    "type": "string",
+                    "value": {
+                        "get_input": "topic0_aaf_password"
+                    }
+                },
+                {
+                    "assignment": {
+                        "value": {
+                            "get_input": "topic0_aaf_username"
+                        }
+                    },
+                    "name": "aaf_username",
+                    "type": "string",
+                    "value": {
+                        "get_input": "topic0_aaf_username"
+                    }
+                },
+                {
+                    "assignment": {
+                        "value": {
+                            "get_input": "topic0_client_role"
+                        }
+                    },
+                    "name": "client_role",
+                    "type": "string",
+                    "value": {
+                        "get_input": "topic0_client_role"
+                    }
+                },
+                {
+                    "assignment": {
+                        "value": {
+                            "get_property": [
+                                "SELF",
+                                "composition",
+                                "location_id"
+                            ]
+                        }
+                    },
+                    "name": "location",
+                    "type": "string",
+                    "value": {
+                        "get_property": [
+                            "SELF",
+                            "composition",
+                            "location_id"
+                        ]
+                    }
+                },
+                {
+                    "assignment": {
+                        "value": "__GET_NODE_NAME__"
+                    },
+                    "name": "node_name",
+                    "type": "string",
+                    "value": "__GET_NODE_NAME__"
+                },
+                {
+                    "assignment": {
+                        "value": ""
+                    },
+                    "name": "topic_name",
+                    "type": "string"
+                }
+            ],
+            "requirements": [
+                {
+                    "capability": {
+                        "id": "template.yaml/dcae.capabilities.composition.host",
+                        "name": "dcae.capabilities.composition.host"
+                    },
+                    "name": "composition"
+                },
+                {
+                    "capability": {
+                        "id": "template.yaml/tosca.capabilities.Node",
+                        "name": "tosca.capabilities.Node"
+                    },
+                    "name": "dependency",
+                    "node": "tosca.nodes.Root",
+                    "occurrences": [
+                        0,
+                        "UNBOUNDED"
+                    ],
+                    "relationship": {
+                        "type": "tosca.relationships.DependsOn"
+                    }
+                }
+            ],
+            "type": {
+                "name": "tosca.dcae.nodes.dmaap.topic"
+            },
+            "typeinfo": {
+                "capabilities": [
+                    {
+                        "name": "topic",
+                        "type": {
+                            "id": "{{vf_id}}/dcae.capabilities.dmmap.topic",
+                            "name": "dcae.capabilities.dmmap.topic"
+                        }
+                    },
+                    {
+                        "name": "feature",
+                        "type": {
+                            "id": "{{vf_id}}/tosca.capabilities.Node",
+                            "name": "tosca.capabilities.Node"
+                        }
+                    }
+                ],
+                "hierarchy": [
+                    {
+                        "id": "{{vf_id}}/tosca.dcae.nodes.Root",
+                        "name": "tosca.dcae.nodes.Root"
+                    },
+                    {
+                        "description": "The TOSCA Node Type all other TOSCA base Node Types derive from",
+                        "id": "{{vf_id}}/tosca.nodes.Root",
+                        "name": "tosca.nodes.Root"
+                    }
+                ],
+                "id": "{{vf_id}}/tosca.dcae.nodes.dmaap.topic",
+                "itemId": "{{vf_id}}/tosca.dcae.nodes.dmaap.topic",
+                "name": "tosca.dcae.nodes.dmaap.topic",
+                "requirements": [
+                    {
+                        "capability": {
+                            "id": "{{vf_id}}/dcae.capabilities.composition.host",
+                            "name": "dcae.capabilities.composition.host"
+                        },
+                        "id": "{{vf_id}}/composition",
+                        "name": "composition",
+                        "node": {
+                            "id": "{{vf_id}}/dcae.capabilities.composition.host",
+                            "name": "dcae.capabilities.composition.host"
+                        }
+                    },
+                    {
+                        "capability": {
+                            "id": "{{vf_id}}/tosca.capabilities.Node",
+                            "name": "tosca.capabilities.Node"
+                        },
+                        "id": "{{vf_id}}/dependency",
+                        "name": "dependency",
+                        "node": {
+                            "id": "{{vf_id}}/tosca.capabilities.Node",
+                            "name": "tosca.capabilities.Node"
+                        },
+                        "occurrences": [
+                            0,
+                            "UNBOUNDED"
+                        ],
+                        "relationship": {
+                            "type": "tosca.relationships.DependsOn"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "capabilities": [
+                {
+                    "name": "topic",
+                    "properties": [
+                        {
+                            "assignment": {
+                                "value": {
+                                    "get_property": [
+                                        "SELF",
+                                        "aaf_password"
+                                    ]
+                                }
+                            },
+                            "name": "aaf_password",
+                            "type": "string"
+                        },
+                        {
+                            "assignment": {
+                                "value": {
+                                    "get_property": [
+                                        "SELF",
+                                        "aaf_username"
+                                    ]
+                                }
+                            },
+                            "name": "aaf_username",
+                            "type": "string"
+                        },
+                        {
+                            "assignment": {
+                                "value": {
+                                    "get_property": [
+                                        "SELF",
+                                        "client_role"
+                                    ]
+                                }
+                            },
+                            "name": "client_role",
+                            "type": "string"
+                        },
+                        {
+                            "assignment": {
+                                "value": {
+                                    "get_property": [
+                                        "SELF",
+                                        "location"
+                                    ]
+                                }
+                            },
+                            "name": "location",
+                            "type": "string"
+                        },
+                        {
+                            "assignment": {
+                                "value": {
+                                    "get_property": [
+                                        "SELF",
+                                        "node_name"
+                                    ]
+                                }
+                            },
+                            "name": "node_name",
+                            "type": "string"
+                        },
+                        {
+                            "assignment": {
+                                "value": {
+                                    "get_property": [
+                                        "SELF",
+                                        "topic_name"
+                                    ]
+                                }
+                            },
+                            "name": "topic_name",
+                            "type": "string"
+                        }
+                    ],
+                    "type": {
+                        "id": "template.yaml/dcae.capabilities.dmmap.topic",
+                        "name": "dcae.capabilities.dmmap.topic"
+                    }
+                },
+                {
+                    "name": "feature",
+                    "type": {
+                        "id": "template.yaml/tosca.capabilities.Node",
+                        "name": "tosca.capabilities.Node"
+                    }
+                }
+            ],
+            "description": "/sdc/v1/catalog/resources/{{vf_id}}/toscaModel/",
+            "id": "{{vf_id}}",
+            "name": "topic1",
+            "ndata": {
+                "label": "topic1",
+                "name": "n.1559041944083.2",
+                "ports": [],
+                "px": 464,
+                "py": 451.6297431929615,
+                "radius": 30,
+                "x": 465,
+                "y": 452.6297431929615
+            },
+            "nid": "n.1559041944083.2",
+            "properties": [
+                {
+                    "assignment": {
+                        "value": {
+                            "get_input": "topic1_aaf_password"
+                        }
+                    },
+                    "name": "aaf_password",
+                    "type": "string",
+                    "value": {
+                        "get_input": "topic1_aaf_password"
+                    }
+                },
+                {
+                    "assignment": {
+                        "value": {
+                            "get_input": "topic1_aaf_username"
+                        }
+                    },
+                    "name": "aaf_username",
+                    "type": "string",
+                    "value": {
+                        "get_input": "topic1_aaf_username"
+                    }
+                },
+                {
+                    "assignment": {
+                        "value": {
+                            "get_input": "topic1_client_role"
+                        }
+                    },
+                    "name": "client_role",
+                    "type": "string",
+                    "value": {
+                        "get_input": "topic1_client_role"
+                    }
+                },
+                {
+                    "assignment": {
+                        "value": {
+                            "get_property": [
+                                "SELF",
+                                "composition",
+                                "location_id"
+                            ]
+                        }
+                    },
+                    "name": "location",
+                    "type": "string",
+                    "value": {
+                        "get_property": [
+                            "SELF",
+                            "composition",
+                            "location_id"
+                        ]
+                    }
+                },
+                {
+                    "assignment": {
+                        "value": "__GET_NODE_NAME__"
+                    },
+                    "name": "node_name",
+                    "type": "string",
+                    "value": "__GET_NODE_NAME__"
+                },
+                {
+                    "assignment": {
+                        "value": ""
+                    },
+                    "name": "topic_name",
+                    "type": "string"
+                }
+            ],
+            "requirements": [
+                {
+                    "capability": {
+                        "id": "template.yaml/dcae.capabilities.composition.host",
+                        "name": "dcae.capabilities.composition.host"
+                    },
+                    "name": "composition"
+                },
+                {
+                    "capability": {
+                        "id": "template.yaml/tosca.capabilities.Node",
+                        "name": "tosca.capabilities.Node"
+                    },
+                    "name": "dependency",
+                    "node": "tosca.nodes.Root",
+                    "occurrences": [
+                        0,
+                        "UNBOUNDED"
+                    ],
+                    "relationship": {
+                        "type": "tosca.relationships.DependsOn"
+                    }
+                }
+            ],
+            "type": {
+                "name": "tosca.dcae.nodes.dmaap.topic"
+            },
+            "typeinfo": {
+                "capabilities": [
+                    {
+                        "name": "topic",
+                        "type": {
+                            "id": "{{vf_id}}/dcae.capabilities.dmmap.topic",
+                            "name": "dcae.capabilities.dmmap.topic"
+                        }
+                    },
+                    {
+                        "name": "feature",
+                        "type": {
+                            "id": "{{vf_id}}/tosca.capabilities.Node",
+                            "name": "tosca.capabilities.Node"
+                        }
+                    }
+                ],
+                "hierarchy": [
+                    {
+                        "id": "{{vf_id}}/tosca.dcae.nodes.Root",
+                        "name": "tosca.dcae.nodes.Root"
+                    },
+                    {
+                        "description": "The TOSCA Node Type all other TOSCA base Node Types derive from",
+                        "id": "{{vf_id}}/tosca.nodes.Root",
+                        "name": "tosca.nodes.Root"
+                    }
+                ],
+                "id": "{{vf_id}}/tosca.dcae.nodes.dmaap.topic",
+                "itemId": "{{vf_id}}/tosca.dcae.nodes.dmaap.topic",
+                "name": "tosca.dcae.nodes.dmaap.topic",
+                "requirements": [
+                    {
+                        "capability": {
+                            "id": "{{vf_id}}/dcae.capabilities.composition.host",
+                            "name": "dcae.capabilities.composition.host"
+                        },
+                        "id": "{{vf_id}}/composition",
+                        "name": "composition",
+                        "node": {
+                            "id": "{{vf_id}}/dcae.capabilities.composition.host",
+                            "name": "dcae.capabilities.composition.host"
+                        }
+                    },
+                    {
+                        "capability": {
+                            "id": "{{vf_id}}/tosca.capabilities.Node",
+                            "name": "tosca.capabilities.Node"
+                        },
+                        "id": "{{vf_id}}/dependency",
+                        "name": "dependency",
+                        "node": {
+                            "id": "{{vf_id}}/tosca.capabilities.Node",
+                            "name": "tosca.capabilities.Node"
+                        },
+                        "occurrences": [
+                            0,
+                            "UNBOUNDED"
+                        ],
+                        "relationship": {
+                            "type": "tosca.relationships.DependsOn"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "outputs": [],
+    "relations": [
+        {
+            "meta": {
+                "n1": "n.1559041944060.0",
+                "n2": "n.1559041944077.1",
+                "p1": "stream_subscribe_0",
+                "p2": "topic",
+                "relationship": [
+                    "tca-docker",
+                    null,
+                    "stream_subscribe_0"
+                ]
+            },
+            "n1": "n.1559041944060.0",
+            "n2": "n.1559041944077.1",
+            "name1": "tca-docker",
+            "name2": "topic0",
+            "rid": "lnk.1559041944098.3"
+        },
+        {
+            "meta": {
+                "n1": "n.1559041944060.0",
+                "n2": "n.1559041944083.2",
+                "p1": "stream_publish_0",
+                "p2": "topic",
+                "relationship": [
+                    "tca-docker",
+                    null,
+                    "stream_publish_0"
+                ]
+            },
+            "n1": "n.1559041944060.0",
+            "n2": "n.1559041944083.2",
+            "name1": "tca-docker",
+            "name2": "topic1",
+            "rid": "lnk.1559041944104.4"
+        }
+    ],
+    "version": 0
+}
