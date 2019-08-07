@@ -1,0 +1,551 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+capability_types:
+  dcae.capabilities.cdapHost:
+    derived_from: tosca.capabilities.Root
+  dcae.capabilities.composition.host:
+    derived_from: tosca.capabilities.Root
+    properties:
+      location_id:
+        type: string
+      service_id:
+        type: string
+  dcae.capabilities.dmmap.feed:
+    derived_from: tosca.capabilities.Root
+    properties:
+      feed_name:
+        type: string
+      location:
+        type: string
+      node_name:
+        type: string
+  dcae.capabilities.dmmap.topic:
+    derived_from: tosca.capabilities.Root
+    properties:
+      aaf_password:
+        type: string
+      aaf_username:
+        type: string
+      client_role:
+        type: string
+      location:
+        type: string
+      node_name:
+        type: string
+      topic_name:
+        type: string
+  dcae.capabilities.dockerHost:
+    derived_from: tosca.capabilities.Root
+  dcae.capabilities.policy:
+    derived_from: tosca.capabilities.Root
+  dcae.capabilities.service.provide:
+    derived_from: tosca.capabilities.Root
+    properties:
+      request_format:
+        type: string
+      request_version:
+        type: string
+      response_format:
+        type: string
+      response_version:
+        type: string
+      service_endpoint:
+        type: string
+      service_name:
+        type: string
+      verb:
+        type: string
+  dcae.capabilities.stream.subscribe:
+    derived_from: tosca.capabilities.Root
+    properties:
+      format:
+        type: string
+      route:
+        type: string
+      version:
+        type: string
+relationship_types:
+  cloudify.relationships.depends_on:
+    derived_from: tosca.relationships.Root
+  dcae.relationships.component_contained_in:
+    derived_from: tosca.relationships.Root
+  dcae.relationships.publish_events:
+    derived_from: tosca.relationships.Root
+  dcae.relationships.publish_files:
+    derived_from: tosca.relationships.Root
+  dcae.relationships.rework_connected_to:
+    derived_from: tosca.relationships.Root
+  dcae.relationships.subscribe_to_events:
+    derived_from: tosca.relationships.Root
+  dcae.relationships.subscribe_to_files:
+    derived_from: tosca.relationships.Root
+node_types:
+  cloudify.dcae.nodes.Root:
+    derived_from: tosca.nodes.Root
+  dcae.nodes.ContainerizedComponent:
+    derived_from: cloudify.dcae.nodes.Root
+    properties:
+      application_config:
+        required: true
+        type: map
+      docker_config:
+        type: map
+      image:
+        required: true
+        type: string
+  dcae.nodes.ContainerizedServiceComponent:
+    attributes:
+      service_component_name:
+        type: string
+    derived_from: dcae.nodes.ContainerizedComponent
+    properties:
+      location_id:
+        required: true
+        type: string
+      service_component_type:
+        required: true
+        type: string
+  dcae.nodes.ContainerizedServiceComponentUsingDmaap:
+    derived_from: dcae.nodes.ContainerizedServiceComponent
+    properties:
+      streams_publishes:
+        type: list
+      streams_subscribes:
+        type: list
+  dcae.nodes.DockerContainerForComponents:
+    attributes:
+      service_component_name:
+        type: string
+    derived_from: cloudify.dcae.nodes.Root
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            host_config:
+              type: map
+        stop:
+          inputs:
+            cleanup_image:
+              type: boolean
+        type: tosca.interfaces.Root
+    properties:
+      application_config:
+        required: true
+        type: map
+      docker_config:
+        type: map
+      image:
+        required: true
+        type: string
+      location_id:
+        required: true
+        type: string
+      service_component_type:
+        required: true
+        type: string
+    requirements:
+    - host:
+        capability: dcae.capabilities.dockerHost
+        relationship: dcae.relationships.component_contained_in
+  dcae.nodes.DockerContainerForComponentsUsingDmaap:
+    derived_from: dcae.nodes.DockerContainerForComponents
+    properties:
+      application_config:
+        required: true
+        type: map
+      docker_config:
+        type: map
+      image:
+        required: true
+        type: string
+      location_id:
+        required: true
+        type: string
+      service_component_type:
+        required: true
+        type: string
+      streams_publishes:
+        type: list
+      streams_subscribes:
+        type: list
+    attributes:
+      service_component_name:
+        type: string
+    requirements:
+    - host:
+        capability: dcae.capabilities.dockerHost
+        relationship: dcae.relationships.component_contained_in
+    - stream_subscribe_0:
+        capability: dcae.capabilities.dmmap.topic
+        relationship: dcae.relationships.subscribe_to_events
+    - stream_publish_0:
+        capability: dcae.capabilities.dmmap.topic
+        relationship: dcae.relationships.publish_events
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            host_config:
+              type: map
+        stop:
+          inputs:
+            cleanup_image:
+              type: boolean
+        type: tosca.interfaces.Root
+  dcae.nodes.ExistingFeed:
+    capabilities:
+      feed:
+        type: dcae.capabilities.dmmap.feed
+    derived_from: cloudify.dcae.nodes.Root
+    properties:
+      feed_id:
+        type: string
+  dcae.nodes.ExistingTopic:
+    capabilities:
+      topic:
+        type: dcae.capabilities.dmmap.topic
+    derived_from: cloudify.dcae.nodes.Root
+    properties:
+      fqtn:
+        type: string
+  dcae.nodes.ExternalTargetFeed:
+    capabilities:
+      feed:
+        type: dcae.capabilities.dmmap.feed
+    derived_from: cloudify.dcae.nodes.Root
+    properties:
+      url:
+        type: string
+      username:
+        type: string
+      userpw:
+        type: string
+  dcae.nodes.Feed:
+    capabilities:
+      feed:
+        type: dcae.capabilities.dmmap.feed
+    derived_from: cloudify.dcae.nodes.Root
+    properties:
+      feed_name:
+        type: string
+  dcae.nodes.MicroService.cdap:
+    attributes:
+      service_component_name:
+        type: string
+    derived_from: cloudify.dcae.nodes.Root
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          inputs:
+            connected_broker_dns_name:
+              type: string
+        type: tosca.interfaces.Root
+    properties:
+      app_config:
+        required: false
+        type: map
+      app_preferences:
+        required: false
+        type: map
+      artifact_name:
+        required: false
+        type: string
+      artifact_version:
+        required: false
+        type: string
+      connections:
+        required: false
+        type: map
+      jar_url:
+        type: string
+      namespace:
+        required: false
+        type: string
+      program_preferences:
+        required: false
+        type: list
+      programs:
+        required: false
+        type: list
+      service_component_type:
+        type: string
+      service_endpoints:
+        required: false
+        type: list
+      streamname:
+        required: false
+        type: string
+    requirements:
+    - host:
+        capability: dcae.capabilities.cdapHost
+        relationship: dcae.relationships.component_contained_in
+  dcae.nodes.SelectedDockerHost:
+    capabilities:
+      host:
+        type: dcae.capabilities.dockerHost
+    derived_from: cloudify.dcae.nodes.Root
+    properties:
+      docker_host_override:
+        type: string
+      location_id:
+        required: true
+        type: string
+  dcae.nodes.Topic:
+    capabilities:
+      topic:
+        type: dcae.capabilities.dmmap.topic
+    derived_from: cloudify.dcae.nodes.Root
+    properties:
+      topic_name:
+        type: string
+  dcae.nodes.composition.virtual:
+    capabilities:
+      host:
+        type: dcae.capabilities.composition.host
+    derived_from: tosca.nodes.Root
+    properties:
+      location_id:
+        required: true
+        type: string
+      service_id:
+        required: true
+        type: string
+  dcae.nodes.policies:
+    capabilities:
+      policy:
+        type: dcae.capabilities.policy
+    derived_from: cloudify.dcae.nodes.Root
+    properties:
+      policy_filter:
+        type: map
+  dcae.nodes.policy:
+    capabilities:
+      policy:
+        type: dcae.capabilities.policy
+    derived_from: cloudify.dcae.nodes.Root
+    properties:
+      policy_id:
+        required: true
+        type: string
+  policy.nodes.Root:
+    derived_from: tosca.nodes.Root
+    properties:
+      policyDescription:
+        required: false
+        type: string
+      policyName:
+        required: true
+        type: string
+      policyScope:
+        required: true
+        type: string
+      policyVersion:
+        required: true
+        type: string
+  tosca.dcae.nodes.Root:
+    derived_from: tosca.nodes.Root
+  tosca.dcae.nodes.cdapApp:
+    attributes:
+      service_component_name:
+        type: string
+    derived_from: tosca.dcae.nodes.Root
+    properties:
+      connected_broker_dns_name:
+        default: cdap_broker
+        required: true
+        type: string
+      jar_url:
+        required: true
+        type: string
+      service_component_type:
+        required: true
+        type: string
+    requirements:
+    - host:
+        capability: dcae.capabilities.cdapHost
+        relationship: dcae.relationships.component_contained_in
+  tosca.dcae.nodes.dmaap.existingFeed:
+    capabilities:
+      feed:
+        type: dcae.capabilities.dmmap.feed
+    derived_from: tosca.dcae.nodes.Root
+    properties:
+      feed_id:
+        type: string
+      location:
+        type: string
+      node_name:
+        type: string
+    requirements:
+    - composition:
+        capability: dcae.capabilities.composition.host
+  tosca.dcae.nodes.dmaap.existingTopic:
+    capabilities:
+      topic:
+        type: dcae.capabilities.dmmap.topic
+    derived_from: tosca.dcae.nodes.Root
+    properties:
+      aaf_password:
+        type: string
+      aaf_username:
+        type: string
+      client_role:
+        type: string
+      fqtn:
+        type: string
+      location:
+        type: string
+      node_name:
+        type: string
+    requirements:
+    - composition:
+        capability: dcae.capabilities.composition.host
+  tosca.dcae.nodes.dmaap.externalTargetFeed:
+    capabilities:
+      feed:
+        type: dcae.capabilities.dmmap.feed
+    derived_from: tosca.dcae.nodes.Root
+    properties:
+      location:
+        type: string
+      node_name:
+        type: string
+      url:
+        type: string
+      username:
+        type: string
+      userpw:
+        type: string
+    requirements:
+    - composition:
+        capability: dcae.capabilities.composition.host
+  tosca.dcae.nodes.dmaap.feed:
+    capabilities:
+      feed:
+        type: dcae.capabilities.dmmap.feed
+    derived_from: tosca.dcae.nodes.Root
+    properties:
+      feed_name:
+        type: string
+      location:
+        type: string
+      node_name:
+        type: string
+    requirements:
+    - composition:
+        capability: dcae.capabilities.composition.host
+  tosca.dcae.nodes.dmaap.topic:
+    capabilities:
+      topic:
+        type: dcae.capabilities.dmmap.topic
+    derived_from: tosca.dcae.nodes.Root
+    properties:
+      aaf_password:
+        type: string
+      aaf_username:
+        type: string
+      client_role:
+        type: string
+      location:
+        type: string
+      node_name:
+        type: string
+      topic_name:
+        type: string
+    requirements:
+    - composition:
+        capability: dcae.capabilities.composition.host
+  tosca.dcae.nodes.dockerApp:
+    attributes:
+      service_component_name:
+        type: string
+    derived_from: tosca.dcae.nodes.Root
+    properties:
+      cpu_period:
+        default: 10000
+        required: true
+        type: integer
+      cpu_quota:
+        default: 30000
+        required: true
+        type: integer
+      cpu_shares:
+        default: 256
+        required: true
+        type: integer
+      image:
+        required: true
+        type: string
+      location_id:
+        required: true
+        type: string
+      mem_limit:
+        default: 500m
+        required: true
+        type: string
+      restart_policy.Name:
+        default: on-failure
+        required: true
+        type: string
+      restart_policy.max_retry_counts:
+        default: 3
+        required: true
+        type: integer
+      service_component_type:
+        required: true
+        type: string
+    requirements:
+    - host:
+        capability: dcae.capabilities.dockerHost
+        relationship: dcae.relationships.component_contained_in
+    - composition:
+        capability: dcae.capabilities.composition.host
+  tosca.dcae.nodes.dockerApp.tca-docker:
+    derived_from: tosca.dcae.nodes.dockerApp
+    requirements:
+    - stream_subscribe_0:
+        capability: dcae.capabilities.dmmap.topic
+        relationship: dcae.relationships.subscribe_to_events
+    - stream_publish_0:
+        capability: dcae.capabilities.dmmap.topic
+        relationship: dcae.relationships.publish_events
+  tosca.dcae.nodes.dockerHost:
+    capabilities:
+      host:
+        type: dcae.capabilities.dockerHost
+    derived_from: tosca.dcae.nodes.Root
+    properties:
+      docker_host_override:
+        type: string
+      location_id:
+        required: true
+        type: string
+    requirements:
+    - composition:
+        capability: dcae.capabilities.composition.host
+  tosca.dcae.nodes.policies:
+    capabilities:
+      policy:
+        type: dcae.capabilities.policy
+    derived_from: tosca.dcae.nodes.Root
+    properties:
+      configAttributes:
+        type: string
+      configName:
+        type: string
+      onapName:
+        type: string
+      policyName:
+        type: string
+      unique:
+        type: boolean
+  tosca.dcae.nodes.policy:
+    capabilities:
+      policy:
+        type: dcae.capabilities.policy
+    derived_from: tosca.dcae.nodes.Root
+    properties:
+      policy_id:
+        required: true
+        type: string
+      policy_name:
+        type: string
