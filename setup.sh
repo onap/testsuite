@@ -27,6 +27,8 @@ pip install \
 'robotframework-archivelibrary==0.4.0' \
 'robotframework-onap==0.5'
 
+# i dont why we need this, but lets protobuf work in docker
+touch /var/opt/ONAP/robot/library/google/__init__.py
 
 if [ -d $path/testsuite/heatbridge ]
 then
@@ -68,7 +70,7 @@ else
 	#
 	# Get the appropriate chromedriver. Default to linux64
 	#
-	CHROMEDRIVER_URL=http://chromedriver.storage.googleapis.com/2.43
+	CHROMEDRIVER_URL=http://chromedriver.storage.googleapis.com/75.0.3770.140
 	CHROMEDRIVER_ZIP=chromedriver_linux64.zip
 	CHROMEDRIVER_TARGET=chromedriver.zip
 

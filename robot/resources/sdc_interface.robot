@@ -90,7 +90,7 @@ Distribute Model From SDC
     \    ${loop_catalog_resource_id}=    Setup SDC Catalog Resource    ${zip}    ${cds}  ${resourceType}
     #     zip can be vFW.zip or vFWDT_VFWSNK.zip
     \     ${resource_type_match}=  Run Keyword If  "${resourceType}"=='PNF'   Get Regexp Matches    ${zip}    ${service}_(.*)\.csar    1
-    \                              ...  ELSE   Get Regexp Matches    ${zip}   ${service}_(.*)\.zip    1
+                                  ...  ELSE   Get Regexp Matches    ${zip}   ${service}_(.*)\.zip    1
     #  Need to be able to distribute preload for vFWCL vFWSNK and vFWDT vFWSNK to prepend service to vnf_type
     \    ${resource_type_string}=   Set Variable If   len(${resource_type_match})==0    ${service}    ${service}${resource_type_match[0]}
     \    Set To Dictionary    ${resource_types}    ${resource_type_string}    ${loop_catalog_resource_id}   
