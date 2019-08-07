@@ -1,0 +1,117 @@
+tosca_definitions_version: tosca_simple_yaml_1_0_0
+metadata:
+  template_name: tca-docker
+imports:
+- schema: schema.yaml
+topology_template:
+  inputs:
+    topic0_aaf_password:
+      type: string
+    topic0_aaf_username:
+      type: string
+    topic0_client_role:
+      type: string
+    topic1_aaf_password:
+      type: string
+    topic1_aaf_username:
+      type: string
+    topic1_client_role:
+      type: string
+  node_templates:
+    tca-docker:
+      type: tosca.dcae.nodes.dockerApp.tca-docker
+      properties:
+        location_id:
+          get_property:
+          - SELF
+          - composition
+          - location_id
+      requirements:
+      - stream_subscribe_0: topic0
+      - stream_publish_0: topic1
+    topic0:
+      type: tosca.dcae.nodes.dmaap.topic
+      properties:
+        aaf_password:
+          get_input: topic0_aaf_password
+        aaf_username:
+          get_input: topic0_aaf_username
+        client_role:
+          get_input: topic0_client_role
+        location:
+          get_property:
+          - SELF
+          - composition
+          - location_id
+        node_name: __GET_NODE_NAME__
+        topic_name: ''
+      capabilities:
+        topic:
+          properties:
+            aaf_password:
+              get_property:
+              - SELF
+              - aaf_password
+            aaf_username:
+              get_property:
+              - SELF
+              - aaf_username
+            client_role:
+              get_property:
+              - SELF
+              - client_role
+            location:
+              get_property:
+              - SELF
+              - location
+            node_name:
+              get_property:
+              - SELF
+              - node_name
+            topic_name:
+              get_property:
+              - SELF
+              - topic_name
+    topic1:
+      type: tosca.dcae.nodes.dmaap.topic
+      properties:
+        aaf_password:
+          get_input: topic1_aaf_password
+        aaf_username:
+          get_input: topic1_aaf_username
+        client_role:
+          get_input: topic1_client_role
+        location:
+          get_property:
+          - SELF
+          - composition
+          - location_id
+        node_name: __GET_NODE_NAME__
+        topic_name: ''
+      capabilities:
+        topic:
+          properties:
+            aaf_password:
+              get_property:
+              - SELF
+              - aaf_password
+            aaf_username:
+              get_property:
+              - SELF
+              - aaf_username
+            client_role:
+              get_property:
+              - SELF
+              - client_role
+            location:
+              get_property:
+              - SELF
+              - location
+            node_name:
+              get_property:
+              - SELF
+              - node_name
+            topic_name:
+              get_property:
+              - SELF
+              - topic_name
