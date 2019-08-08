@@ -52,6 +52,9 @@ pip install \
 --target="$path/robot/library" \
 ./heatbridge
 
+# Install protobuf needed by ONAPLibrary.Protobuf
+pip install protobuf
+
 # Go back to execution folder
 cd $path
 
