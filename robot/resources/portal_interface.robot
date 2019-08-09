@@ -1,8 +1,8 @@
 *** Settings ***
-Documentation	  The main interface for interacting with Portal. It handles low level stuff like managing the http request library and Portal required fields
-Library 	RequestsLibrary
-Library	          ONAPLibrary.Utilities
-Library 	SeleniumLibrary
+Documentation    The main interface for interacting with Portal. It handles low level stuff like managing the http request library and Portal required fields
+Library         RequestsLibrary
+Library         ONAPLibrary.Utilities
+Library         SeleniumLibrary
 Library         Collections
 Library         String
 
