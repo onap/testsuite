@@ -27,6 +27,7 @@ Resource          ../resources/sms_interface.robot
 Resource          ../resources/dr_interface.robot
 Resource          ../resources/pomba_interface.robot
 Resource          ../resources/holmes_interface.robot
+Resource          ../resources/cds_interface.robot
 
 
 *** Test Cases ***
@@ -304,3 +305,7 @@ Basic Multicloud-fcaps API Health Check
 Basic Modeling genericparser API Health Check
     [Tags]    health    api   health-modeling
     Run MSB Get Request    /api/parser/v1/health_check
+
+Basic CDS Health Check
+    [Tags]    health    medium   health-cds
+    Run CDS Health Check
