@@ -56,6 +56,10 @@ Instantiate VFW
     [Tags]   instantiateVFW
     Instantiate VNF   vFW   base_vfw
 
+Instantiate VLB_CDS
+    [Tags]   instantiateVLB_CDS
+    Instantiate VNF   vLB   base_vlb
+
 Instantiate Demo VFWCL
     [Tags]   instantiateDemoVFWCL
     Instantiate Demo VNF   vFWCL   base_vpkg
