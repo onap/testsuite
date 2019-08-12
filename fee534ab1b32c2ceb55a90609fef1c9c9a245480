@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5db2fc32_53e91b4b",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-08-12T12:19:58Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 19,
+        "startChar": 3,
+        "endLine": 20,
+        "endChar": 89
+      },
+      "revId": "fee534ab1b32c2ceb55a90609fef1c9c9a245480",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
