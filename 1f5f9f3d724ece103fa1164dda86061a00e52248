@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b606131_cd6e6550",
+        "filename": "robot/testsuites/vlb_cds.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-13T18:17:13Z",
+      "side": 1,
+      "message": "these are not descriptive at all",
+      "revId": "1f5f9f3d724ece103fa1164dda86061a00e52248",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25c5f26d_9ce4cb94",
+        "filename": "robot/testsuites/vlb_cds.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-13T18:17:13Z",
+      "side": 1,
+      "message": "some also seem to already exist elsewhere?",
+      "revId": "1f5f9f3d724ece103fa1164dda86061a00e52248",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b616621a_a402d569",
+        "filename": "robot/testsuites/vlb_cds.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-13T18:17:13Z",
+      "side": 1,
+      "message": "why are all these here empty? you should not be storing test case data in global variables",
+      "revId": "1f5f9f3d724ece103fa1164dda86061a00e52248",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36b478fc_8690ab66",
+        "filename": "robot/testsuites/vlb_cds.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-13T18:17:13Z",
+      "side": 1,
+      "message": "you dont need a varaible just to store these global varaibles, just use them in your method",
+      "revId": "1f5f9f3d724ece103fa1164dda86061a00e52248",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e43e764e_9dc5af4f",
+        "filename": "robot/testsuites/vlb_cds.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-13T18:17:13Z",
+      "side": 1,
+      "message": "dont include keywords in testsuites file",
+      "revId": "1f5f9f3d724ece103fa1164dda86061a00e52248",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
