@@ -4,6 +4,7 @@ Documentation	  Executes the VNF Orchestration Test cases including setup and te
 Library           ONAPLibrary.SO    WITH NAME    SO
 Library   Collections
 Resource         ../resources/demo_preload.robot
+Resource         ../resources/cds_interface.robot
 
 *** Variables ***
 
@@ -68,6 +69,13 @@ Instantiate VFWDT
     [Tags]   instantiateVFWDT
     Instantiate VNF   vFWDT  base_vpkg
 
+Instantiate VLB_CDS
+    [Tags]   instantiateVLB_CDS
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB_CDS   ${DEMO_PREFIX}VLB_CDS  True
+    ${service-uuid}  ${service-invariantUUID}=  Get All Services Catalog  ${SDC_SERVICE_CATALOG_URL}  ${SDC_SERVICE_CATALOG_PATH}  ${cds-service-model} 
+    ${resp}=   Get Service VNFs  ${SO_CATALOGDB_URL}  ${SO_CATALOGDB_PATH}  ${cds-service-model}
+    ${cds-request-id}=   Service Assign & Activate  ${SO_APIHANDLER_URL}  ${SO_APIHANDLER_PATH}  ${cds-service-model}  ${service-uuid}  ${service-invariantUUID}  ${resp} 
+    Check Infra Active Requests  ${SO_REQUESTDB_URL}  ${SO_REQUESTDB_PATH}  ${cds-requestid}  
 
 Delete Instantiated VNF
     [Documentation]   This test assumes all necessary variables are loaded via the variable file create in  Save For Delete
