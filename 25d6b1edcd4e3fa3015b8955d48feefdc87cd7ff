@@ -1,0 +1,361 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8df23b40_f91acec6",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "this method should be in sdc interface",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8fc0e60_f0d7b1de",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "dont hard code auth",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4cf36568_d09ca328",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "dont set all these variables, if they are not used delete them, if they are used outside the method you should return them from this method.",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4816485d_66082c32",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "dont use sleep",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11aad16a_301ecb48",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "this should be in so interface",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b433385e_d6c255c4",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "dont hard code basic auth",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a7abb1e_317e3aa8",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "there is no reason to be setting all these variables, if they are not used delete them, if they are used outside the method you should return them from this method.",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb61a44a_fd3f203a",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "dont use sleep",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7956295_074a106a",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "this should be in so",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "693cc0df_45fe718e",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "dont hard code auth",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cab28bfa_dd4af153",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "dont log to console",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8813b6f5_e3499fa3",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "dont use sleep",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5b56054_e21ff6cb",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "this should be in so interface, and i think already exists. check out keyword Run Polling Get Request",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac725b98_ea0dafb5",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "dont hardcode auth",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33c1bfbd_2eb5a972",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "dont hard code auth",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d026c6a7_ec9601ba",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "dont use all these set test variable",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e48e1135_1c735234",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "dont use sleep",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b2fff3b_018fd17c",
+        "filename": "robot/testsuites/vlb_cds.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "use upper case for varaibles that are for the whole file",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e8767a0_7a187422",
+        "filename": "robot/testsuites/vlb_cds.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "all of these are already defined, you do not need to redefine them here",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b58c4df_155195f5",
+        "filename": "robot/testsuites/vlb_cds.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "are these seperate test cases or not? you have 1-4 but seems like 1 flow",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c49dc34_2cef1ab3",
+        "filename": "robot/testsuites/vlb_cds.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-14T18:15:54Z",
+      "side": 1,
+      "message": "is this used? if so put it in resources, if not delete",
+      "revId": "25d6b1edcd4e3fa3015b8955d48feefdc87cd7ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
