@@ -68,6 +68,9 @@ Instantiate VFWDT
     [Tags]   instantiateVFWDT
     Instantiate VNF   vFWDT  base_vpkg
 
+Instantiate VLB_CDS
+    [Tags]   instantiateVLB_CDS
+    Instantiate VNF   vLB   base_vlb
 
 Delete Instantiated VNF
     [Documentation]   This test assumes all necessary variables are loaded via the variable file create in  Save For Delete
