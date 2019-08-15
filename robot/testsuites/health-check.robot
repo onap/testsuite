@@ -1,14 +1,14 @@
 *** Settings ***
-Documentation     Testing ecomp components are available via calls.
-...
-...               Testing ecomp components are available via calls.
-Test Timeout      20 second
+Documentation     Test that ONAP components are available via basic API calls
+Test Timeout      20 seconds
+
+Library           ONAPLibrary.SO    WITH NAME    SO
+
 Resource          ../resources/dcae_interface.robot
 Resource          ../resources/sdnc_interface.robot
 Resource          ../resources/aai/aai_interface.robot
 Resource          ../resources/vid/vid_interface.robot
 Resource          ../resources/policy_interface.robot
-Library           ONAPLibrary.SO    WITH NAME    SO
 Resource          ../resources/sdc_interface.robot
 Resource          ../resources/appc_interface.robot
 Resource          ../resources/portal_interface.robot
@@ -195,8 +195,8 @@ Basic SDNC Health Check
 
 Basic SO Health Check
     [Tags]    health    core   health-so
-    SO.Run Get Request	   ${GLOBAL_SO_APIHAND_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
-    SO.Run Get Request	   ${GLOBAL_SO_SDCHAND_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request    ${GLOBAL_SO_APIHAND_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request    ${GLOBAL_SO_SDCHAND_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
     SO.Run Get Request    ${GLOBAL_SO_BPMN_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
     SO.Run Get Request    ${GLOBAL_SO_CATDB_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
     SO.Run Get Request    ${GLOBAL_SO_OPENSTACK_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
@@ -204,6 +204,7 @@ Basic SO Health Check
     SO.Run Get Request    ${GLOBAL_SO_SDNC_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
     SO.Run Get Request    ${GLOBAL_SO_VFC_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
     SO.Run Get Request    ${GLOBAL_SO_VNFM_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
+
 Basic UseCaseUI API Health Check
     [Tags]    health    api    medium   health-uui
     Run MSB Get Request    /iui/usecaseui/
