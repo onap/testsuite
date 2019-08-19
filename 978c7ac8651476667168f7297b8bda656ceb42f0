@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "082a2d9f_6815f752",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-19T15:24:22Z",
+      "side": 1,
+      "message": "GLOBAL_SO_APIHAND_ENDPOINT\nGLOBAL_SO_CATDB_ENDPOINT\nGLOBAL_SO_REQDB_ENDPOINT\n\nalready exist so please use those instead of defining your own",
+      "revId": "978c7ac8651476667168f7297b8bda656ceb42f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "244c3289_e835de99",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-19T15:24:22Z",
+      "side": 1,
+      "message": "if these are arguments to your scripts done pass them in",
+      "revId": "978c7ac8651476667168f7297b8bda656ceb42f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a04b74e2_d744b1f0",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-19T15:24:22Z",
+      "side": 1,
+      "message": "you are setting the auth above you dont need this",
+      "revId": "978c7ac8651476667168f7297b8bda656ceb42f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "595103ac_a4ca9cce",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-19T15:24:22Z",
+      "side": 1,
+      "message": "dont log to console. use log (with console\u003dTrue if you really want to log to console also)",
+      "revId": "978c7ac8651476667168f7297b8bda656ceb42f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5405e385_20106c1a",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-19T15:24:22Z",
+      "side": 1,
+      "message": "no log to conosle",
+      "revId": "978c7ac8651476667168f7297b8bda656ceb42f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "636e10ed_c304af9b",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-19T15:24:22Z",
+      "side": 1,
+      "message": "you are setting the auth above you dont need this",
+      "revId": "978c7ac8651476667168f7297b8bda656ceb42f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4511eaf6_f47ed920",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-19T15:24:22Z",
+      "side": 1,
+      "message": "you are setting the auth above you dont need this",
+      "revId": "978c7ac8651476667168f7297b8bda656ceb42f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7241553d_b408b56e",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-19T15:24:22Z",
+      "side": 1,
+      "message": "do you need to set these next 20 lines? you dont seem to use them",
+      "revId": "978c7ac8651476667168f7297b8bda656ceb42f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e03e5d4d_d1696351",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-19T15:24:22Z",
+      "side": 1,
+      "message": "please look at ONAPLibrary.SO.Run Polling Get Request",
+      "revId": "978c7ac8651476667168f7297b8bda656ceb42f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45a190a7_c7e1f4bd",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-19T15:24:22Z",
+      "side": 1,
+      "message": "you are setting the auth above you dont need this",
+      "revId": "978c7ac8651476667168f7297b8bda656ceb42f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67b99800_9dd67404",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-19T15:24:22Z",
+      "side": 1,
+      "message": "you are setting the auth above you dont need this",
+      "revId": "978c7ac8651476667168f7297b8bda656ceb42f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3b61d94_34bf802e",
+        "filename": "robot/testsuites/demo.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-19T15:24:22Z",
+      "side": 1,
+      "message": "you dont need to pass in any of the properties in caps, they are being read from the file you are calling",
+      "revId": "978c7ac8651476667168f7297b8bda656ceb42f0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
