@@ -950,7 +950,7 @@ Run SDC Health Check
     :FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['healthCheckStatus']}
     \    ${SDC_DE_HEALTH}  Set Variable If   (('DE' in '${ELEMENT['healthCheckComponent']}') and ('${ELEMENT['healthCheckStatus']}' == 'UP')) or ('${SDC_DE_HEALTH}'=='UP')  UP
-    Log   (DMaaP:${SDC_DE_HEALTH})
+    Log   (DMaaP:${SDC_DE_HEALTH})    console=True
 
 Open SDC GUI
     [Documentation]   Logs in to SDC GUI

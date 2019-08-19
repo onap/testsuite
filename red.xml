@@ -11,6 +11,7 @@
     <referencedLibrary type="PYTHON" name="HeatBridge" path="testsuite/robot/library/heatbridge/HeatBridge.py"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.Templating" path="testsuite/robot/library/ONAPLibrary/Templating.py"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.ServiceMapping" path="testsuite/robot/library/ONAPLibrary/ServiceMapping.py"/>
+    <referencedLibrary type="PYTHON" name="ONAPLibrary.CLAMP" path="testsuite/robot/library/ONAPLibrary/CLAMP.py"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.JSON" path="testsuite/robot/library/ONAPLibrary/JSON.py"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.Openstack" path="testsuite/robot/library/ONAPLibrary/Openstack.py"/>
     <referencedLibrary type="PYTHON" name="ONAPLibrary.Kafka" path="testsuite/robot/library/ONAPLibrary/Kafka.py"/>
