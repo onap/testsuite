@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "048262b2_8bee24e0",
+        "filename": "robot/resources/sdc_dcaed_interface.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2019-08-20T12:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47452a58_242cd029",
+      "revId": "ee107b26b02bca386aa3b4bd14f4e23091b01604",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "330168ca_c5cdfb34",
         "filename": "robot/testsuites/sdc-dcae-d.robot",
         "patchSetId": 6
@@ -48,6 +66,24 @@
       "writtenOn": "2019-08-19T15:57:52Z",
       "side": 1,
       "message": "please put all keywords into the resources folder",
+      "revId": "ee107b26b02bca386aa3b4bd14f4e23091b01604",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f63d1ba_0cc850ba",
+        "filename": "robot/testsuites/sdc-dcae-d.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2019-08-20T12:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "330168ca_c5cdfb34",
       "revId": "ee107b26b02bca386aa3b4bd14f4e23091b01604",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
