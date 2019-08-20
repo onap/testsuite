@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "47452a58_242cd029",
+        "filename": "robot/resources/sdc_dcaed_interface.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2019-08-20T07:59:43Z",
+      "side": 1,
+      "message": "You mean SDC_DCAE_BE_ENDPOINT? Sure, but it\u0027s not currently defined anywhere else (it could be refactored into global_properties.robot if that changes?) Also, other SDC endpoints are not defined in global_properties.robot either, should we move them up from sdc_interface.robot?\nOn the other hand, SDC_DESIGNER_USER *is* defined in multiple files - should the users be moved to global_properties.robot from here and sdc_interface.robot?",
+      "parentUuid": "b06aee30_d9176b09",
+      "revId": "ee107b26b02bca386aa3b4bd14f4e23091b01604",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "330168ca_c5cdfb34",
         "filename": "robot/testsuites/sdc-dcae-d.robot",
         "patchSetId": 6
