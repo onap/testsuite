@@ -181,7 +181,8 @@ Distribute vCPEResCust Model From SDC
     #${brg_dict}=   Create Dictionary      invariantUUID=ff0337b9-dbe2-4d88-bb74-18bf027ae586   UUID=1b6974f1-4aed-47f4-b962-816aa1261927    node_type=org.openecomp.service.Demovcpevbrgemu
     # Create /tmp/vcpe_allotted_resource_data.json with demo vgmux and brgemu CSARs
     Create Allotted Resource Data File
-    ${vcpe_ar_data_file}    OperatingSystem.Get File    /tmp/vcpe_allotted_resource_data.json
+    ${vcpe_ar_data_string}    OperatingSystem.Get File    /tmp/vcpe_allotted_resource_data.json
+    ${vcpe_ar_data_file}=   Evaluate    json.loads(${vcpe_ar_data_string})    json
     ${tunnelxconn_invariant_uuid}=    Catenate    ${vcpe_ar_data_file.json()['tunnelxconn']['invariantUUID']}
     ${tunnelxconn_uuid}=    Catenate    ${vcpe_ar_data_file.json()['tunnelxconn']['UUID']}
     ${tunnelxconn_node_type}=    Catenate    ${vcpe_ar_data_file.json()['tunnelxconn']['node_type']}

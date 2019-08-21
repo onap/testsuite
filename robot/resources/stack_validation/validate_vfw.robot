@@ -1,10 +1,5 @@
 *** Settings ***
 Documentation	  Testing openstack.
-Library    OperatingSystem
-Library    SSHLibrary
-Library    RequestsLibrary
-Library    ONAPLibrary.JSON
-Library    ONAPLibrary.Openstack
 Library    Collections
 Resource          ../../resources/openstack/keystone_interface.robot
 Resource          ../../resources/openstack/nova_interface.robot
@@ -21,31 +16,30 @@ Resource          validate_common.robot
 *** Keywords ***
 Validate Firewall Stack
     [Documentation]    Identifies and validates the firewall servers in the VFW Stack
-    [Arguments]    ${stack_name}
+    [Arguments]    ${STACK_NAME}
     Run Openstack Auth Request    auth
-    ${stack_info}=    Wait for Stack to Be Deployed    auth    ${stack_name}
+    ${stack_info}=    Wait for Stack to Be Deployed    auth    ${STACK_NAME}
     ${stack_id}=    Get From Dictionary    ${stack_info}    id
     ${server_list}=    Get Openstack Servers    auth
 
-    ${vpg_unprotected_ip}=    Get From Dictionary    ${stack_info}    vpg_int_unprotected_private_ip_0
-    ${vsn_protected_ip}=    Get From Dictionary    ${stack_info}    vsn_int_protected_private_ip_0
+    ${vpg_unprotected_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_0
+    ${vsn_protected_ip}=    Get From Dictionary    ${stack_info}    vsn_private_ip_0
     ${vpg_name_0}=    Get From Dictionary    ${stack_info}    vpg_name_0
-    ${vfw_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vfw_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
-    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
-    ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vsn_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
+    ${vfw_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vfw_name_0    network_name=public
+    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=public
+    ${vsn_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vsn_name_0    network_name=public
 
     Wait For Server    ${vfw_public_ip}
     Wait For Server    ${vpg_public_ip}
     Wait For Server    ${vsn_public_ip}
     Log    Accessed all servers
-    # TODO:  Stop here in validation until resolving ssh login
-    #Wait For Firewall    ${vfw_public_ip}
-    #Wait For Packet Generator    ${vpg_public_ip}
-    #Wait For Packet Sink    ${vsn_public_ip}
-    #Log    All server processes up
-    ${vpg_oam_ip}=    Get From Dictionary    ${stack_info}    vpg_onap_private_ip_0
+    Wait For Firewall    ${vfw_public_ip}
+    Wait For Packet Generator    ${vpg_public_ip}
+    Wait For Packet Sink    ${vsn_public_ip}
+    Log    All server processes up
+    ${vpg_oam_ip}=    Get From Dictionary    ${stack_info}    vpg_private_ip_1
     ${appc}=    Create Mount Point In APPC    ${vpg_name_0}    ${vpg_oam_ip}
-    #Wait For Packets   ${vpg_public_ip}   ${vpg_unprotected_ip}   ${vsn_protected_ip}   ${vsn_public_ip}
+    Wait For Packets   ${vpg_public_ip}   ${vpg_unprotected_ip}   ${vsn_protected_ip}   ${vsn_public_ip}
 
 Wait For Packets
     [Documentation]    Final vfw validation that packets are flowing from the pgn VM  to the snk VM
