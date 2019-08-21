@@ -14,3 +14,6 @@ Basic DMAAP Message Router ACL Update Test
     [Timeout]   30
     Run MR Update Topic Acl
 
+Basic AAI Service Design Models Size Test
+    [Tags]   aaimodels   postinstall
+    Validate Size Of AAI Models
