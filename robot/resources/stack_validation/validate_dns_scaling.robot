@@ -3,8 +3,6 @@ Documentation	  Testing openstack.
 Library    OperatingSystem
 Library    SSHLibrary
 Library    RequestsLibrary
-Library    ONAPLibrary.JSON
-Library    ONAPLibrary.Openstack
 Library    Collections
 Resource          ../../resources/openstack/keystone_interface.robot
 Resource          ../../resources/openstack/nova_interface.robot
