@@ -100,10 +100,6 @@ Basic Multicloud API Health Check
     [Tags]    health    multicloud    small  health-multicloud
     Run MSB Get Request    /api/multicloud/v0/swagger.json
 
-Basic Multicloud-ocata API Health Check
-    [Tags]    health    multicloud    small   health-multicloud
-    Run MSB Get Request    /api/multicloud-ocata/v0/swagger.json
-
 Basic Multicloud-pike API Health Check
     [Tags]    health    multicloud    small   health-multicloud
     Run MSB Get Request    /api/multicloud-pike/v0/swagger.json
