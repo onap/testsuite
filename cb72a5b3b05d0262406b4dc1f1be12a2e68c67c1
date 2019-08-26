@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd9e6ebd_e3ba0214",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-26T14:10:55Z",
+      "side": 1,
+      "message": "dont hardcode properties, you were getting it from global so in previous commit, if its really different value this should be a property in testsuite-oom",
+      "revId": "cb72a5b3b05d0262406b4dc1f1be12a2e68c67c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c66fef81_c054a3a8",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-26T14:10:55Z",
+      "side": 1,
+      "message": "dont hardcode properties, you were getting it from global so in previous commit, if its really different value this should be a property in testsuite-oom",
+      "revId": "cb72a5b3b05d0262406b4dc1f1be12a2e68c67c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2fa3e02_d5ff2a51",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-26T14:10:55Z",
+      "side": 1,
+      "message": "please use jinja templating for json instead of inlining it",
+      "revId": "cb72a5b3b05d0262406b4dc1f1be12a2e68c67c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa00288d_4fb5a399",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-26T14:10:55Z",
+      "side": 1,
+      "message": "dont hardcode properties, you were getting it from global so in previous commit, if its really different value this should be a property in testsuite-oom",
+      "revId": "cb72a5b3b05d0262406b4dc1f1be12a2e68c67c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
