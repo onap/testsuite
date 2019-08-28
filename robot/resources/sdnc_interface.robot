@@ -234,3 +234,44 @@ Login To SDNC Admin GUI
     Click Button    xpath=//button[@type='submit']
     Title Should Be    SDN-C AdminPortal
     Log    Logged in to ${SDNC_ADMIN_LOGIN_URL}
+
+Create Preload From JSON
+    [Documentation]   Fill vf-module parameters in an already created preload json file.
+    [Arguments]    ${preload_file}     ${api_type}    ${vf_module_name}     ${vf_module_type}    ${vnf_name}    ${generic_vnf_type}
+    Log To Console    Uploading ${preload_file} to SDNC
+
+    ${preload_vnf}=    Run keyword if  "${api_type}"=="gr_api"
+    ...  Preload GR API    ${vf_module_name}     ${vf_module_type}    ${vnf_name}    ${generic_vnf_type}    ${preload_file}
+    ...  ELSE
+    ...  Preload VNF API    ${vf_module_name}     ${vf_module_type}    ${vnf_name}    ${generic_vnf_type}    ${preload_file}
+
+    ${uri}=    Set Variable If     "${api_type}"=="gr_api"    ${SDNC_INDEX_PATH}${PRELOAD_GR_TOPOLOGY_OPERATION_PATH}    ${SDNC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}
+
+    ${post_resp}=    SDNC.Run Post Request   ${SDNC_REST_ENDPOINT}   ${uri}     data=${preload_vnf}    auth=${GLOBAL_SDNC_AUTHENTICATION}
+    Should Be Equal As Strings    ${post_resp.json()['output']['response-code']}    200
+    [Return]    ${post_resp}
+
+Preload GR API
+    [Documentation]   Retrieves a preload JSON file and fills in service instance values.
+    [Arguments]    ${vnf_name}     ${vnf_type}    ${generic_vnf_name}    ${generic_vnf_type}    ${preload_path}
+
+    ${json}=    OperatingSystem.Get File    ${preload_path}
+    ${object}=    Evaluate    json.loads('''${json}''')    json
+    ${req_dict}    Create Dictionary    vnf-name=${generic_vnf_name}    vnf-type=${generic_vnf_type}
+    set to dictionary    ${object["input"]["preload-vf-module-topology-information"]}    vnf-topology-identifier-structure=${req_dict}
+    ${req_dict_new}    Create Dictionary    vf-module-name=${vnf_name}
+    set to dictionary    ${object["input"]["preload-vf-module-topology-information"]["vf-module-topology"]}    vf-module-topology-identifier=${req_dict_new}
+    ${req_json}    Evaluate    json.dumps(${object})    json
+    [Return]    ${req_json}
+
+Preload VNF API
+    [Documentation]   Retrieves a preload JSON file and fills in service instance values.
+    [Arguments]    ${vnf_name}     ${vnf_type}    ${generic_vnf_name}    ${generic_vnf_type}    ${preload_path}
+
+    ${json}=    OperatingSystem.Get File    ${preload_path}
+    ${object}=    Evaluate    json.loads('''${json}''')    json
+    ${req_dict}    Create Dictionary    vnf-name=${vnf_name}    vnf-type=${vnf_type}    generic-vnf-type=${generic_vnf_type}    generic-vnf-name=${generic_vnf_name}
+    set to dictionary    ${object["input"]["vnf-topology-information"]}    vnf-topology-identifier=${req_dict}
+
+    ${req_json}    Evaluate    json.dumps(${object})    json
+    [Return]    ${req_json}

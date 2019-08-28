@@ -37,6 +37,7 @@ Run VID Get Request
 
 Login To VID GUI
     [Documentation]   Logs in to VID GUI
+    [Arguments]    ${api_type}=vnf_api
     # Setup Browser Now being managed by test case
     ##Setup Browser
     Go To    ${VID_LOGIN_URL}
@@ -50,7 +51,8 @@ Login To VID GUI
     Input Password    xpath=//input[@id='password']    ${GLOBAL_VID_PASSWORD}
     Click Button    xpath=//input[@id='loginBtn']
     Wait Until Page Contains  Welcome to VID    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
-    Select From List By Label    //select[@id='selectTestApi']    VNF_API (old)
+    Run Keyword If    "${api_type}"=="vnf_api"    Select From List By Label    //select[@id='selectTestApi']    VNF_API (old)
+    Run Keyword If    "${api_type}"=="gr_api"    Select From List By Label    //select[@id='selectTestApi']    GR_API (new)
     Log    Logged in to ${VID_ENDPOINT}${VID_ENV}
 
 Go To VID HOME

@@ -28,16 +28,26 @@ RUN apt-get update \
             python-setuptools \
             python-wheel \
             python-pip \
+            netbase \
             unzip \
             x11-utils \
             x11-xserver-utils \
             xvfb \
             xxd  \
             vim
-            
+
+# install python 3 after so it isn't default python version
+RUN apt-get install \
+        --no-install-recommends \
+        --assume-yes \
+            python3.7 \
+            python3.7-dev \
+            python3-pip
 
 RUN pip install robotframework==3.1.2 \
     && python --version
+
+RUN python3.7 -m pip install virtualenv
 
 # Copy the robot code
 COPY . /var/opt/ONAP/
