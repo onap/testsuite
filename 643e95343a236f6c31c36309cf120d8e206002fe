@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6da727d6_8fcdb41e",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-30T20:48:18Z",
+      "side": 1,
+      "message": "whats netbase? I dont see it used anywhere so why install it?",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63f8119e_ca55f48a",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-30T20:48:18Z",
+      "side": 1,
+      "message": "dont store test case status in a testcase dictionary",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c3051c7_3325a2a7",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-30T20:48:18Z",
+      "side": 1,
+      "message": "actually looks like you are using this to do some extra stuff. Look into using https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#listener-interface otherwise this will get destroyed in we ever parallel run tests.",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "763c2e08_9d290509",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-30T20:48:18Z",
+      "side": 1,
+      "message": "keywords should go in the resources folder",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "000a38fb_bc4bba9c",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-30T20:48:18Z",
+      "side": 1,
+      "message": "so much of this looks like very small modifications to the vid library. you should enhance those rather than copying",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e89e246c_b1ce8cec",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-30T20:48:18Z",
+      "side": 1,
+      "message": "we already have a structure to provide preload data to sdnc, pleas use that format. Or if this format is really better, than i would think we can ours to incorporate your improvements",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc251cb1_02ad3f03",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-08-30T20:48:18Z",
+      "side": 1,
+      "message": "can you describe why you made this file and didnt use the service mapping structure?",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
