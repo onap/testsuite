@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ff0a12b9_ba86e32f",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 3013
+      },
+      "writtenOn": "2019-09-03T14:31:57Z",
+      "side": 1,
+      "message": "It\u0027s required by one of the packages for the vvp validation scripts.",
+      "parentUuid": "6da727d6_8fcdb41e",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63f8119e_ca55f48a",
         "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "db32eccc_98ad4005",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 3013
+      },
+      "writtenOn": "2019-09-03T14:31:57Z",
+      "side": 1,
+      "message": "This is used to hold the various status for submission of results for a certification badge. Ultimately will be written to a results file.",
+      "parentUuid": "63f8119e_ca55f48a",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c3051c7_3325a2a7",
         "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a24cf81_a9b6e93f",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 3013
+      },
+      "writtenOn": "2019-09-03T14:31:57Z",
+      "side": 1,
+      "message": "sure, I\u0027ll take a look and see if i can move this into python.",
+      "parentUuid": "8c3051c7_3325a2a7",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     },
     {
       "key": {
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "6baafa7f_c022939c",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 3013
+      },
+      "writtenOn": "2019-09-03T14:31:57Z",
+      "side": 1,
+      "message": "OK will do. I wasn\u0027t sure whether I should add these changes to the existing VID keywords this late in the release cycle.",
+      "parentUuid": "000a38fb_bc4bba9c",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e89e246c_b1ce8cec",
         "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
         "patchSetId": 2
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "a9d79eec_ea1fb342",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 3013
+      },
+      "writtenOn": "2019-09-03T14:31:57Z",
+      "side": 1,
+      "message": "The existing preload structure uses jinja templates to build the preload. When people run this testsuite they won\u0027t have jinja templates, instead they\u0027ll have preload json files. I can add both options to sdnc_interface so you can use jinja or use an already created preload.",
+      "parentUuid": "e89e246c_b1ce8cec",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc251cb1_02ad3f03",
         "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
         "patchSetId": 2
@@ -118,6 +208,24 @@
       "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d4ddf8e_02a3b257",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 3013
+      },
+      "writtenOn": "2019-09-03T14:31:57Z",
+      "side": 1,
+      "message": "Mainly because I didn\u0027t want VNF owners to have to create one before they run the test, but the SDC orchestration flow requires the service mapping to be there. The testsuite is built to handle an arbitrary VNF, so rather than require VNF owners to build one for each VNF they try to orchestrate, I\u0027m just adding it at runtime.",
+      "parentUuid": "bc251cb1_02ad3f03",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
