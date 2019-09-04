@@ -159,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "fdf8decd_fd24b796",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-04T18:11:00Z",
+      "side": 1,
+      "message": "if the default flow stays the same i can take them in, anything that changes default behavior may get this deferred to frankfurt but i dont think the vid part is the issue",
+      "parentUuid": "6baafa7f_c022939c",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e89e246c_b1ce8cec",
         "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
         "patchSetId": 2
@@ -194,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "5dd52dab_9ade662a",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-04T18:11:00Z",
+      "side": 1,
+      "message": "you use the same jinja template for all preloads, its just the values you fill into them are different",
+      "parentUuid": "a9d79eec_ea1fb342",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc251cb1_02ad3f03",
         "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
         "patchSetId": 2
@@ -223,6 +259,24 @@
       "side": 1,
       "message": "Mainly because I didn\u0027t want VNF owners to have to create one before they run the test, but the SDC orchestration flow requires the service mapping to be there. The testsuite is built to handle an arbitrary VNF, so rather than require VNF owners to build one for each VNF they try to orchestrate, I\u0027m just adding it at runtime.",
       "parentUuid": "bc251cb1_02ad3f03",
+      "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c969fa2_d21c514d",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-04T18:11:00Z",
+      "side": 1,
+      "message": "the preload fields are not something they can know before hand, so they must fill out things. is vnf-details.json created per vnf?",
+      "parentUuid": "7d4ddf8e_02a3b257",
       "revId": "643e95343a236f6c31c36309cf120d8e206002fe",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
