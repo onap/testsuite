@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07c6faa2_8887d06c",
+        "filename": "robot/resources/vid/create_vid_vnf.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-04T18:23:14Z",
+      "side": 1,
+      "message": "just do ${cloud_owner_uc}\u003d${GLOBAL_AAI_CLOUD_OWNER} it will do the same thing",
+      "revId": "8f330e018a421d673cfba3e653ee4affde0d465f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a17d07_a3ef12ae",
+        "filename": "robot/resources/vid/create_vid_vnf.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-04T18:23:14Z",
+      "side": 1,
+      "message": "just do ${cloud_owner_uc}\u003d${GLOBAL_AAI_CLOUD_OWNER} it will do the same thing",
+      "revId": "8f330e018a421d673cfba3e653ee4affde0d465f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86e7c20d_0684c41b",
+        "filename": "robot/resources/vid/create_vid_vnf.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-04T18:23:14Z",
+      "side": 1,
+      "message": "just do ${cloud_owner_uc}\u003d${GLOBAL_AAI_CLOUD_OWNER} it will do the same thing",
+      "revId": "8f330e018a421d673cfba3e653ee4affde0d465f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3eb8b7de_a9742b28",
+        "filename": "robot/resources/vid/create_vid_vnf.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-04T18:23:14Z",
+      "side": 1,
+      "message": "just do ${cloud_owner_uc}\u003d${GLOBAL_AAI_CLOUD_OWNER} it will do the same thing. Or this is new file so maybe dont have to default it at all, can default it at a higher level, whatever you want.",
+      "revId": "8f330e018a421d673cfba3e653ee4affde0d465f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5083fd60_668a50ec",
+        "filename": "robot/resources/vid/create_vid_vnf.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-04T18:23:14Z",
+      "side": 1,
+      "message": "dont log to console, use Log with console\u003dTrue if needed",
+      "revId": "8f330e018a421d673cfba3e653ee4affde0d465f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa5fbeb3_7c74d996",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-04T18:23:14Z",
+      "side": 1,
+      "message": "so yeah, where is this manifest coming from? i think thats what i am confusing",
+      "revId": "8f330e018a421d673cfba3e653ee4affde0d465f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a4c586d_e66f1ec2",
+        "filename": "robot/testsuites/vnf-orchestration-ovp.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-04T18:23:14Z",
+      "side": 1,
+      "message": "this def looks like a candidate for a robot listener",
+      "revId": "8f330e018a421d673cfba3e653ee4affde0d465f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
