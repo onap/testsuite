@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "dc4c345a_b5b95086",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-05T16:00:31Z",
+      "side": 1,
+      "message": "also i dont think pulling every catalog item and looping through makes sense, surely sdc has a way to send the id to it and itll give you just that one?",
+      "revId": "ca88193aabdc35ceca3dcc11c2ccdcd4b6c39ee2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b4f1c1c_80b4420a",
         "filename": "robot/resources/cds_interface.robot",
         "patchSetId": 4
