@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b4f1c1c_80b4420a",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-05T15:58:48Z",
+      "side": 1,
+      "message": "dont hard code passwords, and this should be in the sdc file it its needed",
+      "revId": "ca88193aabdc35ceca3dcc11c2ccdcd4b6c39ee2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1d1d45f_4e9d6a7f",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-05T15:58:48Z",
+      "side": 1,
+      "message": "there is a mechanism for running SO get requests in ONAPLibrary.SO.Run Get Request so you dont have to create sessions yourself",
+      "revId": "ca88193aabdc35ceca3dcc11c2ccdcd4b6c39ee2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b94f5ef_b9fa292a",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-05T15:58:48Z",
+      "side": 1,
+      "message": "this still does a lot of things, but i just dont understand why you would have to read a ton of things from catalog db and then send it right back to SO.",
+      "revId": "ca88193aabdc35ceca3dcc11c2ccdcd4b6c39ee2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a95556e_191d042a",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-05T15:58:48Z",
+      "side": 1,
+      "message": "i dont know what resources.py is but yes you have to pass all variables as a dictionary",
+      "revId": "ca88193aabdc35ceca3dcc11c2ccdcd4b6c39ee2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4feec174_5e980b3c",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-05T15:58:48Z",
+      "side": 1,
+      "message": "seems to assume 3 vf modules, i dont think this should be assumed.",
+      "revId": "ca88193aabdc35ceca3dcc11c2ccdcd4b6c39ee2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9593ba9a_d2b76eb4",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-05T15:58:48Z",
+      "side": 1,
+      "message": "dont use inline templating, use jinja",
+      "revId": "ca88193aabdc35ceca3dcc11c2ccdcd4b6c39ee2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "366d7f63_a4bdd814",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-05T15:58:48Z",
+      "side": 1,
+      "message": "this argument doesnt seem to be used?",
+      "revId": "ca88193aabdc35ceca3dcc11c2ccdcd4b6c39ee2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
