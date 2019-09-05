@@ -37,5 +37,5 @@ ${GLOBAL_TEMPLATE_FOLDER}    robot/assets/templates
 ${GLOBAL_SERVICE_MAPPING_DIRECTORY}    ./demo/service_mapping
 ${GLOBAL_SO_HEALTH_CHECK_PATH}    /manage/health
 ${GLOBAL_SO_CLOUD_CONFIG_PATH}    /cloudSite
-${GLOBAL_SO_CLOUD_CONFIG_TEMPLATE}    robot/assets/templates/so/create_cloud_config.jinja
+${GLOBAL_SO_CLOUD_CONFIG_TEMPLATE}    so/create_cloud_config.jinja
 ${GLOBAL_SDC_DCAE_BE_ENDPOINT}    ${GLOBAL_SDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDC_DCAE_BE_IP_ADDR}:${GLOBAL_SDC_DCAE_BE_PORT}

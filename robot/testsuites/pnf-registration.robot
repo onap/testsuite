@@ -32,7 +32,7 @@ Design, create, instantiate PNF/macro service and succesfully registrate PNF
      ...  At the end of the service is checked in terms
      ...  - service completion
      ...  - PNF entry update about information form VES event
-     [Tags]   pnf_registrate
+     [Tags]   pnf_registrate   ete
      ${pnf_correlation_id}=    Generate Random String  20  [LETTERS][NUMBERS]
      ${PNF_entry_dict}=  Create Dictionary  correlation_id=${pnf_correlation_id}  PNF_IPv4_address=13.13.13.13  PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
      Design, create, instantiate PNF/macro service and succesfully registrate PNF template   Demo_pNF   ${PNF_entry_dict}   ${pnf_correlation_id}
