@@ -196,7 +196,7 @@ Create vFirewall Operational Policy
     [Arguments]   ${resource_id}
     ${dict}=   Create Dictionary   RESOURCE_ID=${resource_id}
     Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
-    ${content_data}    OperatingSystem.Get File    ${POLICY_TEMPLATES}/vFirewall_policy_operational_content.yaml
+    ${content_data}    OperatingSystem.Get File    ${GLOBAL_TEMPLATE_FOLDER}/${POLICY_TEMPLATES}/vFirewall_policy_operational_content.yaml
     ${content_data}=    Replace String Using Regexp   ${content_data}    __RESOURCE_ID__     ${resource_id}
     ${encoded_content_data}=    Evaluate    urllib.quote_plus('''${content_data}''')   urllib
     ${content_dictionary}=   Create Dictionary    URL_ENCODED_CONTENT    ${encoded_content_data}
