@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb7741c6_cb798cc2",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-10T18:27:11Z",
+      "side": 1,
+      "message": "pip install virtualenv for this",
+      "revId": "f336c4d06094f1336d63c18dccaef9a3d03fe04c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
