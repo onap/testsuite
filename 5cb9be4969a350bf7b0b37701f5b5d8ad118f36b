@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf9bf800_a38259e9",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-12T17:48:31Z",
+      "side": 1,
+      "message": "you dont need to import python modules",
+      "revId": "5cb9be4969a350bf7b0b37701f5b5d8ad118f36b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63864243_56571f9b",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-12T17:48:31Z",
+      "side": 1,
+      "message": "idont see this committed and i dont think it exists",
+      "revId": "5cb9be4969a350bf7b0b37701f5b5d8ad118f36b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2468ea80_b797ac74",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-12T17:48:31Z",
+      "side": 1,
+      "message": "1. this is an sdc call and should be in sdc file\n2. dont hard code user or authorization\n3. there is a SDC Get requesst",
+      "revId": "5cb9be4969a350bf7b0b37701f5b5d8ad118f36b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f1a359f_f46882dd",
+        "filename": "robot/resources/cds_interface.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-09-12T17:48:31Z",
+      "side": 1,
+      "message": "1. there is a mechanism for running SO get requests in ONAPLibrary.SO.Run Get Request so you dont have to create sessions yourself.\n2. put SO calls in SO file",
+      "revId": "5cb9be4969a350bf7b0b37701f5b5d8ad118f36b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
