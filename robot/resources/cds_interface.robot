@@ -20,7 +20,7 @@ ${SDC_SERVICE_CATALOG_ENDPOINT}  ${GLOBAL_SDC_SERVER_PROTOCOL}://${GLOBAL_INJECT
 ${SDC_SERVICE_CATALOG_PATH}    sdc2/rest/v1/catalog/services/serviceName/demoVLB_CDS/serviceVersion/1.0
 ${SO_CATALOGDB_PATH}  /ecomp/mso/catalog/v2/serviceVnfs?serviceModelName
 ${SO_APIHANDLER_PATH}    /onap/so/infra/serviceInstantiation/v7/serviceInstances
-${SO_REQUESTDB_PATH}  /infraActiveRequests
+${SO_REQUESTDB_PATH}  /onap/so/infra/orchestrationRequests/v7
 
 ${customer}    Demonstration
 ${cloudOwner}    CloudOwner
@@ -71,4 +71,4 @@ Service Assign & Activate
 Check Infra Active Requests
     [Arguments]  ${cds_requestid}
     ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME }  ${GLOBAL_SO_PASSWORD}        
-    SO.Run Polling Get Request  ${GLOBAL_SO_REQDB_ENDPOINT}  ${SO_REQUESTDB_PATH}/${cds_requestid}  tries=30   interval=60  auth=${auth}
+    SO.Run Polling Get Request  ${GLOBAL_SO_APIHAND_ENDPOINT}  ${SO_REQUESTDB_PATH}/${cds_requestid}  tries=30   interval=60  auth=${auth}
