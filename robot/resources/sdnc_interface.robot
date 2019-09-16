@@ -7,7 +7,7 @@ Library        OperatingSystem
 Library         Collections
 Library      String
 Library           ONAPLibrary.ServiceMapping    WITH NAME     ServiceMapping
-Library           ONAPLibrary.PreloadData    WITH NAME     Preload
+Library           ONAPLibrary.PreloadData    WITH NAME     PreloadData
 Library           ONAPLibrary.Templating    WITH NAME     Templating
 Library           ONAPLibrary.SDNC        WITH NAME     SDNC
 Resource          global_properties.robot
@@ -157,9 +157,9 @@ Get Template Parameters
     # Mash together the defaults dict with the test case dict to create the set of
     # preload parameters
     #
-    Preload.Set Directory    preload    ./demo/preload_data
-    ${defaults}=       Get Default Preload Data    preload
-    ${template}=    Get Preload Data    preload    ${service}    ${template}
+    PreloadData.Set Directory    preload    ./demo/preload_data
+    ${defaults}=       PreloadData.Get Default Preload Data    preload
+    ${template}=    PreloadData.Get Preload Data    preload    ${service}    ${template}
     # add all of the defaults to template...
     @{keys}=    Get Dictionary Keys    ${defaults}
     :FOR   ${key}   IN   @{keys}

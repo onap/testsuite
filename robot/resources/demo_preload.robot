@@ -9,6 +9,7 @@ Resource        vid/vid_interface.robot
 Resource        consul_interface.robot
 Resource	policy_interface.robot
 Resource        aai/create_availability_zone.robot
+Resource    so/direct_instantiate.robot
 
 Library	        ONAPLibrary.Utilities
 Library	        Collections
@@ -17,6 +18,7 @@ Library         SeleniumLibrary
 Library         RequestsLibrary
 Library	        ONAPLibrary.Templating    WITH NAME    Templating
 Library	        ONAPLibrary.AAI    WITH NAME    AAI
+Library	        ONAPLibrary.SO    WITH NAME    SO
 
 *** Variables ***
 
@@ -189,6 +191,16 @@ Instantiate VNF
     \   ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
     Log   Update Tca ControlLoopName
     Update Tca ControlLoopName    ${model_invariant_id}
+
+Instantiate VNF CDS
+    [Arguments]   ${service}   ${vf_module_label}=NULL
+    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB_CDS   demoVLB_CDS  True
+    ${resp}=  Get Service Catalog  demoVLB_CDS
+    ${service-uuid}=     Set Variable    ${resp['uuid']}  
+    ${service-invariantUUID}=     Set Variable    ${resp['invariantUUID']}     
+    ${requestid}=   CDS Service Instantiate  demoVLB_CDS  ${service-uuid}  ${service-invariantUUID}
+    ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME }  ${GLOBAL_SO_PASSWORD}        
+    SO.Run Polling Get Request  ${GLOBAL_SO_APIHAND_ENDPOINT}  ${GLOBAL_SO_ORCHESTRATION_REQUESTS_PATH}/${requestid}  tries=30   interval=60  auth=${auth}
 
 Instantiate Demo VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
