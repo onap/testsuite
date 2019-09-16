@@ -6,6 +6,7 @@ Documentation     Testing Installation
 Test Timeout      10 second
 
 Resource          ../resources/mr_interface.robot
+Resource          ../resources/aai/models.robot
 
 *** Test Cases ***
 
@@ -16,4 +17,5 @@ Basic DMAAP Message Router ACL Update Test
 
 Basic AAI Service Design Models Size Test
     [Tags]   aaimodels   postinstall
+    [Timeout]   60
     Validate Size Of AAI Models

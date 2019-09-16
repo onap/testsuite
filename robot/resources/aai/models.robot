@@ -14,5 +14,7 @@ Validate Size Of AAI Models
     [Documentation]    Query and Validates A&AI Models 
     [Arguments]     ${min_size}=100
     ${resp}=    AAI.Run Get Request      ${AAI_FRONTEND_ENDPOINT}    ${INDEX_PATH}${MODELS_SPEC_PATH}   auth=${GLOBAL_AAI_AUTHENTICATION}
+    Should Be Equal As Strings  ${resp.status_code}         200
     ${count}=   Evaluate    sys.getsizeof(${resp.json()})    sys
+    # ${count} is number of objects in array
     Should Be True    ${count} > ${min_size}
