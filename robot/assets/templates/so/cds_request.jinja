@@ -4,26 +4,36 @@
          "globalSubscriberId" : "{{subscriber_id}}"
       },
       "requestInfo" : {
-         "suppressRollback" : true,
+         "suppressRollback" : false,
          "productFamilyId" : "a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb",
-         "requestorId" : "ym9479",
+         "requestorId" : "robot-ete",
          "instanceName" : "{{service_instance_name}}",
          "source" : "VID"
+      },
+      "cloudConfiguration":{  
+         "lcpCloudRegionId":"{{GLOBAL_INJECTED_REGION}}",
+         "tenantId":"{{GLOBAL_INJECTED_OPENSTACK_TENANT_ID}}",
+         "cloudOwner":"{{cloud_owner}}"
       },
       "requestParameters" : {
          "subscriptionServiceType" : "{{subscription_service_type}}",
          "userParams" : [
             {
+               "Homing_Solution":"{{homing_solution}}"
+            },
+            {  
                "service" : {
                   "instanceParams" : [],
                   "instanceName" : "{{service_instance_name}}",
                   "resources" : {
                      "vnfs" : {{vnfs}
                   },
-                  "modelInfo" : {
-                     "modelType" : "service",
-                     "modelName" : "{{service_model_name}}",
-                     "modelVersionId" : "{{service_model_UUID}}"
+                  "modelInfo":{  
+         		     "modelVersion":"1.0",
+         			 "modelVersionId":"{{service_model_uuid}}",
+         			 "modelInvariantId":"{{service_model_invariantuuid}}",
+         			 "modelName":"{{service_model_name}}",
+         			 "modelType":"service"
                   }
                }
             }
@@ -31,16 +41,16 @@
          "aLaCarte" : false
       },
       "project" : {
-         "projectName" : "some project name"
+         "projectName" : "Project-Demonstration"
       },
       "owningEntity" : {
-         "owningEntityName" : "PACKET CORE",
-         "owningEntityId" : "038d99af-0427-42c2-9d15-971b99b9b489"
+         "owningEntityId":"{{owning_entity_id}}",
+         "owningEntityName":"{{owning_entity}}"
       },
       "modelInfo" : {
-         "modelVersion" : "10.0",
-         "modelVersionId" : "{{service_model_UUID}}",
-         "modelInvariantId" : "{{service_model_invariantUUID}}",
+         "modelVersion":"1.0",
+         "modelVersionId" : "{{service_model_uuid}}",
+         "modelInvariantId" : "{{service_model_invariantuuid}}",
          "modelName" : "{{service_model_name}}",
          "modelType" : "service"
       }

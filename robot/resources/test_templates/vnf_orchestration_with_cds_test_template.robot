@@ -51,14 +51,16 @@ Orchestrate VNF With CDS
     ${lcp_region}=   Get Openstack Region
     ${dict}=  Create Dictionary
     Set To Dictionary	${dict}	  service_instance_name=${service_instance_name}
-
+    Set To Dictionary   ${dict}    owning_entity=${owning_entity}
+    Set To Dictionary   ${dict}    owning_entity_id=67f2e84c-734d-4e90-a1e4-d2ffa2e75849
     ${templatedata}=    Template Yaml To Json    ${service_template}
     ${jsondata}=     Evaluate     json.loads('''${templatedata}''')      json
     Set To Dictionary   ${dict}   service_type=${jsondata['metadata']['type']}
     Set To Dictionary   ${dict}   service_model_name=${jsondata['metadata']['name']}
     Set To Dictionary   ${dict}   service_model_UUID=${jsondata['metadata']['UUID']}
     Set To Dictionary   ${dict}   service_model_invariantUUID=${jsondata['metadata']['invariantUUID']}
-    
+    Set To Dictionary   ${dict}   cloud_owner=${GLOBAL_AAI_CLOUD_OWNER}
+    Set To Dictionary   ${dict}   homing_solution=none
     ${envdata}=    Env Yaml To Json    ${env}
     ${envjson}=    Evaluate     json.loads('''${envdata}''')      json
     Set To Dictionary   ${dict}   subscriber_id=${envjson['subscriber_id']}

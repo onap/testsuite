@@ -1,32 +1,30 @@
 {  
    "requestDetails":{  
       "subscriberInfo":{  
-         "globalSubscriberId":"{{customer}}"
+         "globalSubscriberId":"{{subscriber_id}}"
       },
       "requestInfo":{  
          "suppressRollback":false,
          "productFamilyId":"a9a77d5a-123e-4ca2-9eb9-0b015d2ee0fb",
-         "requestorId":"adt",
-         "instanceName":"{{cds_instance_name}}",
+         "requestorId":"robot-ete",
+         "instanceName":"{{service_instance_name}}",
          "source":"VID"
       },
       "cloudConfiguration":{  
          "lcpCloudRegionId":"{{GLOBAL_INJECTED_REGION}}",
          "tenantId":"{{GLOBAL_INJECTED_OPENSTACK_TENANT_ID}}",
-         "cloudOwner":"{{cloudOwner}}"
+         "cloudOwner":"{{cloud_owner}}"
       },
       "requestParameters":{  
-         "subscriptionServiceType":"{{subscriptionServiceType}}",
+         "subscriptionServiceType":"{{subscription_service_type}}",
          "userParams":[  
             {  
-               "Homing_Solution":"none"
+               "Homing_Solution":"{{homing_solution}}"
             },
             {  
                "service":{  
-                  "instanceParams":[  
-
-                  ],
-                  "instanceName":"{{cds_instance_name}}",
+                  "instanceParams" : [],
+                  "instanceName":"{{service_instance_name}}",
                   "resources":{  
                      "vnfs":[  
                         {  
@@ -134,11 +132,11 @@
                      ]
                   },
                   "modelInfo":{  
-                     "modelVersion":"1.0",
-                     "modelVersionId":"{{service_uuid}}",
-                     "modelInvariantId":"{{service_invariantUUID}}",
-                     "modelName":"{{cds_service_model}}",
-                     "modelType":"service"
+         		     "modelVersion":"1.0",
+         			 "modelVersionId":"{{service_model_uuid}}",
+         			 "modelInvariantId":"{{service_model_invariantuuid}}",
+         			 "modelName":"{{service_model_name}}",
+         			 "modelType":"service"
                   }
                }
             }
@@ -149,14 +147,14 @@
          "projectName":"Project-Demonstration"
       },
       "owningEntity":{  
-         "owningEntityId":"67f2e84c-734d-4e90-a1e4-d2ffa2e75849",
-         "owningEntityName":"OE-Demonstration"
+         "owningEntityId":"{{owning_entity_id}}",
+         "owningEntityName":"{{owning_entity}}"
       },
       "modelInfo":{  
          "modelVersion":"1.0",
-         "modelVersionId":"{{service_uuid}}",
-         "modelInvariantId":"{{service_invariantUUID}}",
-         "modelName":"{{cds_service_model}}",
+         "modelVersionId":"{{service_model_uuid}}",
+         "modelInvariantId":"{{service_model_invariantuuid}}",
+         "modelName":"{{service_model_name}}",
          "modelType":"service"
       }
    }
