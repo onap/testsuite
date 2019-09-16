@@ -726,10 +726,15 @@ Set SDC Catalog Resource VNF Inputs
     ${resp}=    SDC.Run Post Request    ${SDC_FE_ENDPOINT}    ${SDC_FE_CATALOG_RESOURCES_PATH}/${catalog_resource_id}/update/inputs    ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]    ${resp.json()}
 
+Get Service Catalog
+    [Arguments]  ${service_name}    
+    ${resp}=  SDC.Run Get Request  ${SDC_BE_ENDPOINT}   ${SDC_CATALOG_SERVICES_PATH}/serviceName/${service_name}/serviceVersion/1.0  ${SDC_DESIGNER_USER_ID}  auth=${GLOBAL_SDC_AUTHENTICATION}
+    [Return]   ${resp.json()}
+
 Get SDC Demo Vnf Catalog Resource
     [Documentation]  Gets Resource ids of demonstration VNFs for instantiation
     [Arguments]    ${service_name}
-    ${resp}=   SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/serviceName/${service_name}/serviceVersion/1.0    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
+    ${resp}=   Get Service Catalog    ${service_name}
     @{ITEMS}=    Copy List    ${resp.json()['componentInstances']}
     ${demo_catalog_resource}=   Create Dictionary
     :FOR    ${ELEMENT}    IN    @{ITEMS}
