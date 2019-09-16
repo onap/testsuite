@@ -3,7 +3,7 @@ Documentation     The main interface for interacting with SDC. It handles low le
 Library           OperatingSystem
 Library           ONAPLibrary.SO    WITH NAME    SO
 Library           ONAPLibrary.HeatVNFValidation    WITH NAME    HeatVNFValidation
-Library           ONAPLibrary.VVPValidation    WITH NAME    VVPValidation
+Library           ONAPLibrary.VVPValidation.HeatValidationScripts    WITH NAME    VVPValidation
 
 *** Variables ***
 ${CLOUD_CONFIG_PATH}        /cloudSite

@@ -39,6 +39,7 @@ Create VID VNF
     Input Text 	  xpath=//input[@parameter-id='instanceName']    ${service_instance_name}
     Select From List By Label     xpath=//select[@parameter-id='productFamily']    ${product_family}
     # Fix for Dublin
+    ${cloud_owner_uc}=   Convert To Uppercase   ${cloud_owner_uc}
     Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region} (${cloud_owner_uc})
     Select From List By Label    xpath=//select[@parameter-id='tenant']    ${tenant}
     Select From List When Enabled   //select[@parameter-id='lineOfBusiness']    ${line_of_business}
@@ -69,6 +70,7 @@ Delete VID VNF
     Wait Until Page Contains Element    xpath=//div[@class='statusLine']    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
     Wait Until Element Is Not Visible    xpath=//div[@class='statusLine aaiHidden']    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click On Element When Visible    xpath=//li/div[contains(.,'${vnf_instance_id}')]/a/span[@class='glyphicon glyphicon-remove']    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
+    ${cloud_owner_uc}=   Convert To Uppercase   ${cloud_owner_uc}
     Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region} (${cloud_owner_uc})
     Select From List By Label    xpath=//select[@parameter-id='tenant']    ${tenant}
     Click Element    xpath=//div[@class='buttonRow']/button[@ngx-enabled='true']
@@ -131,6 +133,7 @@ Fill Module Form And Submit
     ## Wait Until Angular Ready just sleeps for its timeout value
     Sleep    10s
     Input Text    xpath=//input[@parameter-id='instanceName']    ${vf_module_name}
+    ${cloud_owner_uc}=   Convert To Uppercase   ${cloud_owner_uc}
     Select From List By Label    xpath=//select[@parameter-id='lcpRegion']    ${lcp_region} (${cloud_owner_uc})
     Select From List By Label    xpath=//select[@parameter-id='tenant']    ${tenant}
 
