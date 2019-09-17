@@ -50,7 +50,8 @@ Create VID VNF
  	Should Not Contain    ${response text}    FAILED
     Click On Button When Enabled    //button[contains(text(),'Close')]
     ${instance_id}=    Parse Instance Id     ${response text}
-    Wait Until Page Contains    ${service_instance_name}    ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
+    # sometimes the page refreshes - a reload is required on timeout but next step for VF Module does that 
+    Run Keyword And Ignore Error   Wait Until Page Contains    ${service_instance_name}    ${GLOBAL_VID_UI_TIMEOUT_LONG}
     [Return]     ${instance_id}
 
 Delete VID VNF
