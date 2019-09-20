@@ -20,5 +20,5 @@ VFWCL Closed Loop Test
     Log     ${EMPTY}
     VFWCL High Test   ${PACKET_GENERATOR_HOST}
     VFWCL Low Test   ${PACKET_GENERATOR_HOST}
-    [Teardown]  Run Keywords  VFWCL Set To Medium    ${PACKET_GENERATOR_HOST}
-    ...         AND           Teardown Closed Loop   ${None}    ${None}    ${None}      
+    [Teardown]  VFWCL Set To Medium    ${PACKET_GENERATOR_HOST}
+
