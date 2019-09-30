@@ -1,6 +1,6 @@
 controlLoop:
     version: 2.0.0
-    controlLoopName: ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a
+    controlLoopName: ControlLoop-vFirewall-__RESOURCE_ID__
     trigger_policy: unique-policy-id-1-modifyConfig
     timeout: 1200
     abatement: false
