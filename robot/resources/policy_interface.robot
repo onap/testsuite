@@ -116,6 +116,17 @@ Run Policy Pap Post Request
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
 
+Undeploy Policy
+     [Documentation]    Runs Policy PAP Undeploy a Policy from PDP Groups
+     [Arguments]    ${policy_name}
+     ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}=   Delete Request     policy  /policy/pap/v1/pdps/policies/${policy_name}     headers=${headers}
+     Log    Received response from policy ${resp.text}
+     Should Be Equal As Strings    ${resp.status_code}     200
+
 
 Run Policy Delete Request
      [Documentation]    Runs Policy Delete request
