@@ -54,6 +54,8 @@ pip install \
 --target="$path/robot/library" \
 ./heatbridge
 
+sed -i 's/cinderclient\.v1\.client/cinderclient\.v2\.client/g' /var/opt/ONAP/robot/library/heatbridge/OpenstackManager.py
+
 # Go back to execution folder
 cd $path
 
