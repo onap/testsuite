@@ -25,7 +25,7 @@ pip install \
 'robotframework-sshlibrary==3.3.0' \
 'robotframework-ftplibrary==1.6' \
 'robotframework-archivelibrary==0.4.0' \
-'robotframework-onap==0.5'
+'robotframework-onap==0.5.1*'
 
 # i dont why we need this, but lets protobuf work in docker
 touch /var/opt/ONAP/robot/library/google/__init__.py
