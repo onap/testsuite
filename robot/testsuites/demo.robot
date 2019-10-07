@@ -28,6 +28,7 @@ ${HB_VNF}
 Initialize Customer And Models
     [Tags]   InitDemo
     Load Customer And Models   Demonstration
+    Load Customer   SDN-ETHERNET-INTERNET
 
 Initialize SO Openstack Identity For V3
     [Tags]   InitDemo
@@ -106,3 +107,6 @@ Distribute Demo vFWDT Model
     [Timeout]    600
     Model Distribution For Directory    service=vFWDT   
 
+Download Service CSAR To Robot
+    [Tags]   downloadCsar
+    Download CSAR   ${CATALOG_SERVICE_ID}

@@ -936,7 +936,7 @@ Check Catalog Service Distributed
     \    Log    ${ELEMENT['status']}
     \    ${SO_COMPLETE}   Set Variable If   (('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_OK')) or ('${SO_COMPLETE}'=='TRUE')  TRUE
     \    Exit For Loop If   ('${SO_COMPLETE}'=='TRUE')
-    \    Exit For Loop If   ('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_ERROR')
+    \    Run Keyword If   ('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_ERROR')     Fatal Error    "SO DISTRIBUTION_COMPLETE_ERROR"
     \    ${dist_status}=  Set Variable If   (('${ELEMENT['status']}' == 'COMPONENT_DONE_ERROR') and ('${ELEMENT['omfComponentID']}' == 'aai-ml'))  EXIT
     \    Exit For Loop If   (('${ELEMENT['status']}' == 'COMPONENT_DONE_ERROR') and ('${ELEMENT['omfComponentID']}' == 'aai-ml'))
     Should Be True   ( '${SO_COMPLETE}'=='TRUE')   SO Test
