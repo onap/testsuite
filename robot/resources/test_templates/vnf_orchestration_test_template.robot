@@ -226,15 +226,15 @@ Delete VNF
 Teardown VNF
     [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
     [Arguments]    ${customer_name}     ${catalog_service_id}    ${catalog_resource_ids}
-    Run Keyword If   '${TEST STATUS}' == 'PASS'   Teardown Models     ${catalog_service_id}    ${catalog_resource_ids}
-    Run Keyword If   '${TEST STATUS}' == 'PASS'   Clean A&AI Inventory    ${customer_name}
+    Teardown Models     ${catalog_service_id}    ${catalog_resource_ids}
+    Clean A&AI Inventory    ${customer_name}
     Close All Browsers
-    Log    Teardown VNF implemented for successful tests only
 
 Teardown VVG Server
     [Documentation]   Teardown the server created as a place to mount the Volume Group.
     [Arguments]    ${server_id}
     Return From Keyword if   '${server_id}' == ''
+    Return From Keyword if   '${server_id}' == 'None'
     Delete Server   auth   ${server_id}
     Wait for Server To Be Deleted    auth    ${server_id}
     Log    Teardown VVG Server Completed
