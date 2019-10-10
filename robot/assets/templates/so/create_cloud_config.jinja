@@ -2,7 +2,13 @@
   "id": "{{site_name}}",
   "region_id": "{{region_id}}",
   "aic_version": "2.5", 
-  "clli": "{{clli}}",   
+  "clli": "{{clli}}",
+  {% if orchestrator %}
+  "orchestrator": "{{orchestrator}}",
+  {% endif %}
+  {% if identity_service_id %}
+  "identity_service_id": "{{identity_service_id}}"
+  {% else %}
   "identityService": {
  	"identity_url": "{{identity_url}}",  
  	"mso_id": "{{mso_id}}", 
@@ -19,5 +25,6 @@
     {% if user_domain_name %}
 		,"user_domain_name": "{{user_domain_name}}"
 	{% endif %}	
-  } 
+  }
+  {% endif %}
 }
