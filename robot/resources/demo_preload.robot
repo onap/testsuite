@@ -7,9 +7,12 @@ Resource        test_templates/vnf_orchestration_test_template.robot
 Resource        sdc_interface.robot
 Resource        vid/vid_interface.robot
 Resource        consul_interface.robot
-Resource	policy_interface.robot
+Resource        policy_interface.robot
 Resource        aai/create_availability_zone.robot
-Resource    so/direct_instantiate.robot
+Resource        so/direct_instantiate.robot
+Resource        aai/create_tenant.robot
+Resource        aai/create_complex.robot
+Resource        aai/create_customer.robot
 
 Library	        ONAPLibrary.Utilities
 Library	        Collections
@@ -28,18 +31,39 @@ ${VF_MODULES_NAME}     _Demo_VFModules.json
 ${FILE_CACHE}    /share/
 ${DEMO_PREFIX}   demo
 ${VPKG_MODULE_LABEL}    base_vpkg
+${CNF_TENANT_ID}            k8stenant
+${CNF_CLOUD_REGION_NAME}    k8sregion
+${CNF_SERVICE_NAME}         vFW_CNF_CDS
 
 
 *** Keywords ***
-Load Customer And Models
-    [Documentation]   Use ONAP to Orchestrate a service.
-    [Arguments]    ${customer_name}
+Load VID Entities
+    [Documentation]     Uploads customer-related Entities info to VID
+    [Arguments]     ${customer_name}
     Load OwningEntity  lineOfBusiness  LOB-${customer_name}
     Load OwningEntity  platform  Platform-${customer_name}
     Load OwningEntity  project  Project-${customer_name}
     Load OwningEntity  owningEntity  OE-${customer_name}
+
+Load Customer And Models
+    [Documentation]   Use ONAP to Orchestrate a service.
+    [Arguments]    ${customer_name}
+    Load VID Entities   ${customer_name}
     Load Customer  ${customer_name}
     Load Models  ${customer_name}
+
+Load CNF Customer and Models
+    [Documentation]   Preload VID,AAI,SDC,SO and Multicloud databases with CNF-related data
+    [Arguments]    ${customer_id}
+    ${customer_name}=   Catenate    CNF customer:   ${customer_id}
+    ${tenant_name}=     Catenate    CNF tenant:     ${CNF_TENANT_ID}
+    Load VID Entities   ${customer_name}
+    Load CNF Customer and Service   ${customer_name}    ${customer_id}
+    ...                             INFRA   ${CNF_CLOUD_REGION_NAME}
+    ...                             ${tenant_name}   ${CNF_TENANT_ID}
+    ...                             ${CNF_SERVICE_NAME}
+    #To be added:
+    #Loading models
 
 Load OwningEntity
     [Documentation]   Use ONAP to Orchestrate a service.
@@ -52,7 +76,33 @@ Load OwningEntity
     ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${GLOBAL_VID_USERNAME}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	vid 	${data_path}   data=${vid_data}    headers=${headers}
-	
+
+
+Load CNF Customer and Service
+    [Documentation]     Preload AAI,SO and Multicloud databases with CNF-related Customer, Service and Cloud sites
+    [Arguments]     ${customer_name}    ${customer_id}  ${customer_type}
+    ...             ${cloud_region_id}  ${tenant_name}  ${tenant_id}
+    ...             ${service_name}
+
+    Inventory Tenant If Not Exists      ${GLOBAL_AAI_CLOUD_OWNER}  ${cloud_region_id}  k8s
+    ...                                 ${GLOBAL_AAI_CLOUD_OWNER_DEFINED_TYPE}  v1  CloudZone  ${tenant_id}  ${tenant_name}
+    Inventory Complex If Not Exists     ${GLOBAL_AAI_CNF_COMPLEX_NAME}  ${GLOBAL_AAI_CNF_PHYSICAL_LOCATION_ID}
+    ...                                 ${GLOBAL_AAI_CLOUD_OWNER}   ${cloud_region_id}  ${GLOBAL_AAI_CLOUD_OWNER_DEFINED_TYPE}
+    Create Service If Not Exists        ${service_name}
+    Create Customer If Not Exists       ${customer_name}    ${customer_id}  ${customer_type}    ${service_name}
+    ...                                 ${GLOBAL_AAI_CLOUD_OWNER}   ${cloud_region_id}  ${tenant_id}
+
+    ${catdb_template_arguments}=    Create Dictionary   site_name=${GLOBAL_AAI_CLOUD_OWNER}  region_id=${cloud_region_id}
+    ...                             clli=${GLOBAL_AAI_CNF_COMPLEX_NAME}     orchestrator=multicloud
+    ...                             identity_service_id=DEFAULT_KEYSTONE
+    ${catdb_auth}=  Create List     ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    SO.Upsert Cloud Configuration   ${GLOBAL_SO_CATDB_ENDPOINT}    ${GLOBAL_SO_CLOUD_CONFIG_PATH}
+    ...                             ${GLOBAL_TEMPLATE_FOLDER}    ${GLOBAL_SO_CLOUD_CONFIG_TEMPLATE}
+    ...                             ${catdb_template_arguments}    auth=${catdb_auth}
+
+    #To be added
+    #Register cloud via multicloud
+
 Load Customer
     [Documentation]   Use ONAP to Orchestrate a service.
     [Arguments]    ${customer_name}
@@ -244,5 +294,3 @@ Save For Delete
     ${vars}=    Catenate  ${vars}]\n
     OperatingSystem.Create File   ${FILE_CACHE}/${stack_name}.py   ${vars}
     OperatingSystem.Create File   ${FILE_CACHE}/lastVNF4HEATBRIGE.py   ${vars}
-
-

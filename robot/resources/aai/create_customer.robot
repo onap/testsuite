@@ -23,6 +23,15 @@ Create Customer
     Should Be Equal As Strings 	${put_resp.status_code} 	201
 	[Return]  ${put_resp.status_code}
 
+Create Customer If Not Exists
+    [Documentation]     Creates customer in A&AI unless it already exists
+    [Arguments]     ${customer_name}    ${customer_id}  ${customer_type}
+    ...             ${service_type}     ${cloud_owner}  ${cloud_region_id}  ${tenant_id}
+    ${get_resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    auth=${GLOBAL_AAI_AUTHENTICATION}
+    Return From Keyword If      '${get_resp.status_code}' == '200'
+    Create Customer     ${customer_name}    ${customer_id}  ${customer_type}
+    ...                 ${service_type}     ${cloud_owner}  ${cloud_region_id}  ${tenant_id}
+
 Delete Customer
     [Documentation]    Deletes a customer in A&AI
     [Arguments]    ${customer_id}
