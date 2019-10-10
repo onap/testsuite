@@ -30,6 +30,10 @@ Initialize Customer And Models
     Load Customer And Models   Demonstration
     Load Customer   SDN-ETHERNET-INTERNET
 
+Initialize CNF Customer And Models
+    [Tags]   InitCNFDemo
+    Load CNF Customer And Models  CNF_Demonstration
+
 Initialize SO Openstack Identity For V3
     [Tags]   InitDemo
     ${arguments}=    Create Dictionary     site_name=${GLOBAL_INJECTED_REGION}  region_id=${GLOBAL_INJECTED_REGION}  clli=${GLOBAL_INJECTED_REGION}    identity_id=DEFAULT_KEYSTONE    identity_url=${GLOBAL_INJECTED_KEYSTONE}/${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}    mso_id=${GLOBAL_INJECTED_OPENSTACK_USERNAME}    mso_pass=${GLOBAL_INJECTED_OPENSTACK_SO_ENCRYPTED_PASSWORD}    admin_tenant=${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}   member_role=admin     identity_server_type=KEYSTONE_V3     authentication_type=USERNAME_PASSWORD    project_domain_name=${GLOBAL_INJECTED_OPENSTACK_DOMAIN_ID}    user_domain_name=${GLOBAL_INJECTED_OPENSTACK_USER_DOMAIN}   

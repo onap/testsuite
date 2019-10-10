@@ -1,23 +1,30 @@
 {
   "id": "{{site_name}}",
   "region_id": "{{region_id}}",
-  "aic_version": "2.5", 
-  "clli": "{{clli}}",   
+  "aic_version": "2.5",
+  "clli": "{{clli}}",
+  {% if orchestrator %}
+  "orchestrator": "{{orchestrator}}",
+  {% endif %}
+  {% if identity_service_id %}
+  "identity_service_id": "{{identity_service_id}}"
+  {% else %}
   "identityService": {
- 	"identity_url": "{{identity_url}}",  
- 	"mso_id": "{{mso_id}}", 
-    "mso_pass": "{{mso_pass}}",   
-    "admin_tenant": "{{admin_tenant}}", 
-    "member_role": "{{member_role}}", 
+    "identity_url": "{{identity_url}}",
+    "mso_id": "{{mso_id}}",
+    "mso_pass": "{{mso_pass}}",
+    "admin_tenant": "{{admin_tenant}}",
+    "member_role": "{{member_role}}",
     "tenant_meta_data": true,
-    "id": "{{identity_id}}", 
-    "identity_server_type": "{{identity_server_type}}",     
+    "id": "{{identity_id}}",
+    "identity_server_type": "{{identity_server_type}}",
     "identity_authentication_type": "{{authentication_type}}"
     {% if project_domain_name %}
-		,"project_domain_name": "{{project_domain_name}}"
-	{% endif %}
+        ,"project_domain_name": "{{project_domain_name}}"
+    {% endif %}
     {% if user_domain_name %}
-		,"user_domain_name": "{{user_domain_name}}"
-	{% endif %}	
-  } 
+        ,"user_domain_name": "{{user_domain_name}}"
+    {% endif %}
+  }
+  {% endif %}
 }
