@@ -66,7 +66,7 @@ Orchestrate VNF
     \   ${vnf_type}=   Get VNF Type   ${catalog_resources}   ${vnf}    ${service}
     \   ${vf_module}=    Get VF Module    ${catalog_resources}   ${vnf}    ${service}
     \   Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${customer_name}
-    \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}    ${service}
+    \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}    ${service}     ${server_id}
     \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${customer_name}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
