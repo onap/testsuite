@@ -84,7 +84,7 @@ Preload Generic VfModule
     [Return]    ${post_resp}
 	    
 Preload Vnf
-    [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_module_name}    ${vf_modules}    ${vnf}   ${uuid}    ${service}
+    [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_module_name}    ${vf_modules}    ${vnf}   ${uuid}    ${service}     ${server_id}
     ${base_vf_module_type}=    Catenate
     ${closedloop_vf_module}=    Create Dictionary
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
@@ -105,7 +105,7 @@ Preload Vnf
     \       ${vf_name}=     Update Module Name    ${dict}    ${vf_module_name}
     #    Admin portal update no longer 
     #\       Preload Vnf Profile    ${vf_module_type}
-    \       Preload One Vnf Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}
+    \       Preload One Vnf Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
     [Return]    ${base_vf_module_type}   ${closedloop_vf_module}
 
 Update Module Name
@@ -134,9 +134,9 @@ Get From Mapping
     [Return]    ${result}
 
 Preload One Vnf Topology
-    [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}       ${vf_module_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}
+    [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}       ${vf_module_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
     Return From Keyword If    '${filename}' == ''
-    ${parameters}=    Get Template Parameters    ${generic_vnf_name}    ${filename}   ${uuid}    ${service}
+    ${parameters}=    Get Template Parameters    ${generic_vnf_name}    ${filename}   ${uuid}    ${service}    ${server_id}
     Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
     Templating.Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/preload.jinja    ${parameters}
@@ -145,13 +145,13 @@ Preload One Vnf Topology
     ${get_resp}= 	SDNC.Run Get Request 	${SDNC_REST_ENDPOINT}    ${SDNC_INDEX_PATH}${PRELOAD_VNF_CONFIG_PATH}/${vf_module_name}/${vf_module_type}     auth=${GLOBAL_SDNC_AUTHENTICATION}
 
 Get Template Parameters
-    [Arguments]   ${generic_vnf_name}    ${template}    ${uuid}    ${service}
+    [Arguments]   ${generic_vnf_name}    ${template}    ${uuid}    ${service}     ${server_id}
     ${hostid}=    Get Substring    ${uuid}    -4
     ${ecompnet}=    Evaluate    (${GLOBAL_BUILD_NUMBER}%128)+128
 
     ${valuemap}=   Get Globally Injected Parameters
     # update the value map with unique values.
-    Set To Dictionary   ${valuemap}   uuid=${uuid}   hostid=${hostid}    ecompnet=${ecompnet}    generic_vnf_name=${generic_vnf_name}
+    Set To Dictionary   ${valuemap}   uuid=${uuid}   hostid=${hostid}    ecompnet=${ecompnet}    generic_vnf_name=${generic_vnf_name}      server_id=${server_id}
 
     #
     # Mash together the defaults dict with the test case dict to create the set of
