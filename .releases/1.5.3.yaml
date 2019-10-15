@@ -1,0 +1,4 @@
+distribution_type: 'container'
+version: '1.5.3'
+project: 'testsuite'
+log_dir: 'testsuite-elalto-3scm-docker-shell-daily/174/'
