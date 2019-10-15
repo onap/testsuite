@@ -25,7 +25,9 @@ Create VID VNF
     Click Element     xpath=//a[contains(text(), 'View/Edit')]
     Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     # in slower environment the background load of data from AAI takes time so that the button is not populated yet
+    Wait Until Page Contains    Add node instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Click On Button When Enabled    //button[contains(text(),'Add node instance')]
+    Wait Until Page Contains    ${vnf_type}    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     #01681d02-2304-4c91-ab2d 0
     # This is where firefox breaks. Th elink never becomes visible when run with the script.
     ${dataTestsId}=    Catenate   AddVNFOption-${vnf_type}
