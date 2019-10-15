@@ -16,6 +16,24 @@
       "revId": "96d4903b709a4bd6a1cc91cc7d5386e87f960575",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "569c3425_2e53087d",
+        "filename": "robot/resources/vid/create_vid_vnf.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-10-15T19:22:34Z",
+      "side": 1,
+      "message": "The problem is if you click on the button its a blank list until the back ground update occurs. There is a default timeout on Click On Button When Enabled already in robot which is 60s - the problem is not the Enabled but dont start the click and looking for the action till there is data behind it.",
+      "parentUuid": "bd008ec5_a47379d1",
+      "revId": "96d4903b709a4bd6a1cc91cc7d5386e87f960575",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
