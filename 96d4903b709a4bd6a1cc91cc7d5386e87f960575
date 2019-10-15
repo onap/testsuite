@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd008ec5_a47379d1",
+        "filename": "robot/resources/vid/create_vid_vnf.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-10-15T16:57:18Z",
+      "side": 1,
+      "message": "click on button when enabled takes a timeout as a second argument, you should make it longer rather than sleep",
+      "revId": "96d4903b709a4bd6a1cc91cc7d5386e87f960575",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
