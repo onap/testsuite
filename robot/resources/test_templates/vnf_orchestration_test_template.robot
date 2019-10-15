@@ -51,7 +51,7 @@ Orchestrate VNF
     Setup Browser
     Login To VID GUI
     ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
-    Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
+    Wait Until Keyword Succeeds   60s   20s      Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${vnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
     ${generic_vnfs}=    Create Dictionary
@@ -87,16 +87,20 @@ Orchestrate Demo VNF
     ${lcp_region}=   Get Openstack Region
     ${uuid}=    Generate UUID4
     ${full_customer_name}=    Catenate    ${customer_name}_${uuid}
+    #${full_customer_name}=     Catenate    ${customer_name}
     ${list}=    Create List
     ${vf_module_name_list}=    Create List
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
     ${service_type}=    Set Variable    ${service}
     ${vnf_json_resources}=   Get SDC Demo Vnf Catalog Resource      ${service_model_type}
+    ${server_id}=     Run Keyword If   '${service}' == 'vVG'    Create VVG Server    ${uuid}
     Create Customer For VNF    ${full_customer_name}    ${full_customer_name}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${tenant_id}
     Setup Browser
     Login To VID GUI
-    ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
-    Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
+    #${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
+    ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${full_customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
+    #Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
+    Validate Service Instance    ${service_instance_id}    ${service}      ${full_customer_name}
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${vnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
     ${generic_vnfs}=    Create Dictionary
@@ -108,7 +112,7 @@ Orchestrate Demo VNF
     \   Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${full_customer_name}
     \   ${vf_module_entry}=   Create Dictionary    name=${vf_module}
     \   ${vf_modules}=   Create List    ${vf_module_entry}
-    \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}    ${service}
+    \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}    ${service}   ${server_id}
     \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${full_customer_name}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
@@ -226,8 +230,8 @@ Delete VNF
 Teardown VNF
     [Documentation]    Called at the end of a test case to tear down the VNF created by Orchestrate VNF
     [Arguments]    ${customer_name}     ${catalog_service_id}    ${catalog_resource_ids}
-    Run Keyword If   '${TEST STATUS}' == 'PASS'   Teardown Models     ${catalog_service_id}    ${catalog_resource_ids}
-    Run Keyword If   '${TEST STATUS}' == 'PASS'   Clean A&AI Inventory    ${customer_name}
+    Teardown Models     ${catalog_service_id}    ${catalog_resource_ids}
+    Clean A&AI Inventory    ${customer_name}
     Close All Browsers
     Log    Teardown VNF implemented for successful tests only
 
@@ -235,6 +239,7 @@ Teardown VVG Server
     [Documentation]   Teardown the server created as a place to mount the Volume Group.
     [Arguments]    ${server_id}
     Return From Keyword if   '${server_id}' == ''
+    Return From Keyword if   '${server_id}' == 'None'
     Delete Server   auth   ${server_id}
     Wait for Server To Be Deleted    auth    ${server_id}
     Log    Teardown VVG Server Completed
