@@ -1,0 +1,8 @@
+distribution_type: 'container'
+container_release_tag: '1.5.3'
+project: 'testsuite'
+log_dir: 'testsuite-elalto-3scm-docker-shell-daily/174/'
+ref: d55ea01ba9e661e5c1a70ab36c5d112c1f31d0c5
+containers:
+    - name: 'testsuite'
+      version: '1.5.3-STAGING-20191015T164954Z'
