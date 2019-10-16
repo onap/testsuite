@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Daniel Rose <dr695h@att.com>
+Code-Review+2: Brian Freeman <bf1936@att.com>
+Submitted-by: Brian Freeman <bf1936@att.com>
+Submitted-at: Wed, 16 Oct 2019 20:38:47 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/testsuite/+/97159
+Project: testsuite
+Branch: refs/heads/elalto
