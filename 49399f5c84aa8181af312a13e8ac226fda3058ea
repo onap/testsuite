@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "4e7c281a_93c7cd2c",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2019-10-18T11:40:39Z",
+      "side": 1,
+      "message": "The string vFW_CNF_CDS should be a constant variable ${vFW_CNF_CDS} defined under *** Variables *** and then you use ${vFW_CNF_CDS} all around",
+      "parentUuid": "3580031e_3e54991e",
+      "range": {
+        "startLine": 82,
+        "startChar": 244,
+        "endLine": 82,
+        "endChar": 255
+      },
+      "revId": "49399f5c84aa8181af312a13e8ac226fda3058ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48c8e460_7d9b0caa",
         "filename": "robot/resources/demo_preload.robot",
         "patchSetId": 2
