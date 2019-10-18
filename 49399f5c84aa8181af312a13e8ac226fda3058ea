@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e39cc764_82652da3",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-18T11:27:42Z",
+      "side": 1,
+      "message": "I\u0027ll test it and update",
+      "parentUuid": "6bccc7c9_5ecc4d8f",
+      "range": {
+        "startLine": 56,
+        "startChar": 46,
+        "endLine": 56,
+        "endChar": 59
+      },
+      "revId": "49399f5c84aa8181af312a13e8ac226fda3058ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ac117a50_b2788942",
         "filename": "robot/resources/demo_preload.robot",
         "patchSetId": 2
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "d94d4b94_d45ca50f",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-18T11:27:42Z",
+      "side": 1,
+      "message": "We can have different values for id and name, I\u0027ll test it and cover.\n\n\nIn terms of global variables, I\u0027m against it, so it can be in line with flow used for VNF-based init.\nIn current approach, we can load several Clouds, that share the same customer/cloud-owner/location (that are defined globally or passed as parameters), but differ on region/tenant level. I\u0027d like to improve this preloading in future, so that robot can create k8s cloud and load its credentials to be usable by k8splugin (based on the same way, as currently it takes openstack credentials), but registered as separate cloud.\n\nIn general, it could be set globally, but I wanted to keep my changes to be as much similar to VNF-init-flow as possible",
+      "parentUuid": "0010869c_adfc736d",
+      "range": {
+        "startLine": 57,
+        "startChar": 24,
+        "endLine": 57,
+        "endChar": 57
+      },
+      "revId": "49399f5c84aa8181af312a13e8ac226fda3058ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8c55a7f_a9d292ad",
         "filename": "robot/resources/demo_preload.robot",
         "patchSetId": 2
@@ -82,6 +130,30 @@
       "writtenOn": "2019-10-18T10:50:31Z",
       "side": 1,
       "message": "so you are suggesting we going to have complete separate vFW demo for CNF CDS?",
+      "range": {
+        "startLine": 80,
+        "startChar": 36,
+        "endLine": 80,
+        "endChar": 47
+      },
+      "revId": "49399f5c84aa8181af312a13e8ac226fda3058ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07c7590c_8526ea0e",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-18T11:27:42Z",
+      "side": 1,
+      "message": "Well, I think k8s-based vFW demo will straightly evolve to use CDS, so there won\u0027t be any other/separate demos. I just wanted to use unique codename, that everyone would understand what is it about. I can of course remove \u0027_CDS\u0027, but I think \u0027_CNF\u0027 suffix should stay.",
+      "parentUuid": "e8c55a7f_a9d292ad",
       "range": {
         "startLine": 80,
         "startChar": 36,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "3580031e_3e54991e",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-18T11:27:42Z",
+      "side": 1,
+      "message": "I\u0027m sorry, but I don\u0027t understand. What exactly would you expect to move to variable?\n\nAlso I\u0027ll split it to multi-line for better readability",
+      "parentUuid": "64ebe7ed_25006d76",
+      "range": {
+        "startLine": 82,
+        "startChar": 244,
+        "endLine": 82,
+        "endChar": 255
+      },
+      "revId": "49399f5c84aa8181af312a13e8ac226fda3058ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48c8e460_7d9b0caa",
         "filename": "robot/resources/demo_preload.robot",
         "patchSetId": 2
@@ -128,6 +224,30 @@
       "writtenOn": "2019-10-18T10:50:31Z",
       "side": 1,
       "message": "As in your todo list is Loading models. Please improve this i.e. make it a function or use Robot\u0027s test template (https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#test-templates).",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 110
+      },
+      "revId": "49399f5c84aa8181af312a13e8ac226fda3058ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "880eb65a_383305ce",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-18T11:27:42Z",
+      "side": 1,
+      "message": "That\u0027s a good suggestion. I\u0027d like to cover loading CNF model in separate commit, once CNF-based vFW will be stored in demo repository (https://github.com/onap/demo/tree/master/heat/)",
+      "parentUuid": "48c8e460_7d9b0caa",
       "range": {
         "startLine": 107,
         "startChar": 0,
