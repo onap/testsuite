@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd834121_01786c79",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-10-18T14:04:42Z",
+      "side": 1,
+      "message": "this should either reuse something in testsuite\\robot\\resources\\aai if it already exists or you should add new code in there. dont put it in here.",
+      "revId": "7999bcc6ee71c7b8cffa99c444622a95e25e3476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0778c32a_dc897ae0",
+        "filename": "robot/resources/global_properties.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-10-18T14:04:42Z",
+      "side": 1,
+      "message": "if they really need to be different for cnf, they should both be removed from global and moved to their respective areas with better naming",
+      "revId": "7999bcc6ee71c7b8cffa99c444622a95e25e3476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5b88a43_7f0f21aa",
+        "filename": "robot/resources/global_properties.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-10-18T14:04:42Z",
+      "side": 1,
+      "message": "why are these different for cnf than for the other items?",
+      "revId": "7999bcc6ee71c7b8cffa99c444622a95e25e3476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad8204f_85aff8d6",
+        "filename": "robot/testsuites/demo.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-10-18T14:04:42Z",
+      "side": 1,
+      "message": "this should be folded in the main Initialize Customer And Models",
+      "revId": "7999bcc6ee71c7b8cffa99c444622a95e25e3476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
