@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91d4283d_71d5cf48",
+        "filename": "robot/assets/templates/aai/add_complex_body.jinja",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-10-18T14:01:11Z",
+      "side": 1,
+      "message": "if adding this, it should be added in aai resources",
+      "revId": "0ad21e79a0522520a538d33c2c75f9fcfda083e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66ea3af5_c61f3349",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-10-18T14:01:11Z",
+      "side": 1,
+      "message": "aai calls should be in aai resources section",
+      "revId": "0ad21e79a0522520a538d33c2c75f9fcfda083e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6673b417_c65a86f4",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-10-18T14:01:11Z",
+      "side": 1,
+      "message": "this should probably be streamlined into the main load customer flow",
+      "revId": "0ad21e79a0522520a538d33c2c75f9fcfda083e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
