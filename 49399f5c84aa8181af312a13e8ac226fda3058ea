@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "443e3802_88000227",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 3957
+      },
+      "writtenOn": "2019-10-18T16:11:57Z",
+      "side": 1,
+      "message": "I did not completely get your point, let\u0027s discuss next week. But following VNF case is not preferred if/when that\u0027s also crap, rather change both then.",
+      "parentUuid": "d94d4b94_d45ca50f",
+      "range": {
+        "startLine": 57,
+        "startChar": 24,
+        "endLine": 57,
+        "endChar": 57
+      },
+      "revId": "49399f5c84aa8181af312a13e8ac226fda3058ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8c55a7f_a9d292ad",
         "filename": "robot/resources/demo_preload.robot",
         "patchSetId": 2
@@ -154,6 +178,30 @@
       "side": 1,
       "message": "Well, I think k8s-based vFW demo will straightly evolve to use CDS, so there won\u0027t be any other/separate demos. I just wanted to use unique codename, that everyone would understand what is it about. I can of course remove \u0027_CDS\u0027, but I think \u0027_CNF\u0027 suffix should stay.",
       "parentUuid": "e8c55a7f_a9d292ad",
+      "range": {
+        "startLine": 80,
+        "startChar": 36,
+        "endLine": 80,
+        "endChar": 47
+      },
+      "revId": "49399f5c84aa8181af312a13e8ac226fda3058ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f7c41be_916cc110",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 3957
+      },
+      "writtenOn": "2019-10-18T16:11:57Z",
+      "side": 1,
+      "message": "I rather would remove CNF and keep CDS.",
+      "parentUuid": "07c7590c_8526ea0e",
       "range": {
         "startLine": 80,
         "startChar": 36,
