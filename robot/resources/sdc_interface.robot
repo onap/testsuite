@@ -735,7 +735,7 @@ Get SDC Demo Vnf Catalog Resource
     [Documentation]  Gets Resource ids of demonstration VNFs for instantiation
     [Arguments]    ${service_name}
     ${resp}=   Get Service Catalog    ${service_name}
-    @{ITEMS}=    Copy List    ${resp.json()['componentInstances']}
+    @{ITEMS}=    Copy List    ${resp['componentInstances']}
     ${demo_catalog_resource}=   Create Dictionary
     :FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['name']}
