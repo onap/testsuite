@@ -23,7 +23,7 @@ Portal R1 Release for AAF
     Portal AAF new fields
 
 EP Admin widget layout reset
-    [TAGS]  portal
+    [TAGS]  portalSKIP
     Reset widget layout option
 
 Validate Functional Top Menu Get Access
