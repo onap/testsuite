@@ -25,6 +25,9 @@ ${GLOBAL_PORTAL_ADMIN_USER}		demo
 ${GLOBAL_PORTAL_ADMIN_PWD}		demo123456!
 ${RESOURCE_PATH}    ${PORTAL_URL}/auxapi/ticketevent
 ${portal_Template}    portal/portal.jinja
+${portal_timeout_short}    20
+${portal_timeout_medium}   40
+${portal_timeout_long}     60
 
 
 *** Keywords ***
@@ -105,7 +108,7 @@ Portal admin Delete Application Admin Existing User
     Click Element    xpath=//button[@id='admin-div-ok-button']
     Element Should Not Contain     xpath=//*[@table-data='admins.adminsTableData']    portal
     Click Image     xpath=//img[@alt='Onap Logo']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait    ${portal_timeout_short}
 
 Portal admin Add Application admin User New user
     [Documentation]    Navigate to Users tab
@@ -126,7 +129,7 @@ Portal admin Add Application admin User New user
 
     Run Keyword if     '${Result}'== 0     AdminUser does not exist already    ${login_id}
     ...    ELSE     Goto Home Image
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait    ${portal_timeout_short}
 
 Goto Home Image
     Click Image    xpath=//img[@alt='Onap Logo']
@@ -136,16 +139,16 @@ AdminUser does not exist already
     Click Button    xpath=//button[@id='next-button']
     Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Button    xpath=//button[@id='new-user-save-button']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Go To    ${PORTAL_HOME_PAGE}
     Click Link    xpath=//a[@title='Users']
     Click Element    xpath=//input[@id='dropdown1']
     Click Element    xpath=//li[contains(.,'xDemo App')]
     Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${login_id}
     Click Image     xpath=//img[@alt='Onap Logo']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Portal admin Add Standard User New user
     [Documentation]    Navigate to Users tab
@@ -167,23 +170,23 @@ Portal admin Add Standard User New user
 
     Run Keyword if     '${Result}'== 0     StaUser does not exist already    ${login_id}
     ...    ELSE     Goto Home Image
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 StaUser does not exist already
     [Arguments]    ${login_id}
     Click Button    xpath=//button[@id='next-button']
     Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Button    xpath=//button[@id='new-user-save-button']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Go To    ${PORTAL_HOME_PAGE}
     Click Link    xpath=//a[@title='Users']
     Click Element    xpath=//input[@id='dropdown1']
     Click Element    xpath=//li[contains(.,'xDemo App')]
     Table Column Should Contain    xpath=//*[@table-data='users.accountUsers']    1    ${login_id}
     Click Image     xpath=//img[@alt='Onap Logo']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Portal admin Add Application admin User New user -Test
     [Documentation]    Navigate to Users tab
@@ -202,7 +205,7 @@ Portal admin Add Application admin User New user -Test
     Click Button    xpath=//button[@ng-click='searchUsers.addNewUserFun()']
     Click Button    xpath=//button[@id='search-users-button-cancel']
     Click Image     xpath=//img[@alt='Onap Logo']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Portal admin Add Application Admin Existing User -APPDEMO
     [Documentation]    Navigate to Admins tab
@@ -230,7 +233,7 @@ Portal admin Add Application Admin Existing User -APPDEMO
     Input Text    xpath=//input[@id='input-table-search']    ${login_id}
     Table Column Should Contain    xpath=//*[@table-data='admins.adminsTableData']    1    ${login_id}
     Click Image     xpath=//img[@alt='Onap Logo']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Portal admin Add Standard User Existing user
     [Documentation]    Navigate to Users tab
@@ -245,9 +248,9 @@ Portal admin Add Standard User Existing user
     Click Button    xpath=//button[@id='next-button']
     Click Element    xpath=//div[@id='app-select-Select roles1']
     Click Element    xpath=//div[@id='app-select-Select roles1']/following::input[@id='Standard-User-checkbox']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Button    xpath=//button[@id='new-user-save-button']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Go To    ${PORTAL_HOME_PAGE}
 
 Portal admin Edit Standard User Existing user
@@ -261,9 +264,9 @@ Portal admin Edit Standard User Existing user
     Click Element    xpath=(.//*[@id='rowheader_t1_0'])[2]
     Click Element    xpath=//*[@id='app-select-Standard User1']
     Click Element    xpath=//*[@id='app-select-Standard User1']/following::input[@id='Standard-User-checkbox']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Button    xpath=//button[@id='new-user-save-button']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
     Page Should Contain      Users
     Click Button    xpath=//button[@ng-click='toggleSidebar()']
@@ -274,25 +277,25 @@ Portal admin Edit Standard User Existing user
     Click Button    xpath=//button[@id='next-button']
     Click Element    xpath=//div[@id='app-select-Select roles1']
     Click Element    xpath=//div[@id='app-select-Select roles1']/following::input[@id='System-Administrator-checkbox']
-    Set Selenium Implicit Wait    3000
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Button    xpath=//button[@id='new-user-save-button']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Page Should Contain      Users
     Input Text    xpath=//input[@id='input-table-search']    ${login_id}
     Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   System Administrator
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Portal admin Delete Standard User Existing user
     [Documentation]    Naviage to Users tab
     Click Element    xpath=(.//*[@id='rowheader_t1_0'])[2]
-    Set Selenium Implicit Wait    9000
+    Set Selenium Implicit Wait   ${portal_timeout_long}
     Scroll Element Into View    xpath=//*[@id='div-app-name-xDemo-App']/following::*[@id='app-item-delete'][1]
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::*[@id='app-item-delete'][1]
     Click Element    xpath=//button[@id='div-confirm-ok-button']
     Click Button    xpath=//button[@id='new-user-save-button']
     Element Should Not Contain     xpath=//*[@table-data='users.accountUsers']    Portal
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Functional Top Menu Get Access
     [Documentation]    Navigate to Support tab
@@ -301,7 +304,7 @@ Functional Top Menu Get Access
     Mouse Over    xpath=//*[contains(text(),'Get Access')]
     Click Link    xpath=//a[contains(.,'Get Access')]
     Element Text Should Be    xpath=//h1[contains(.,'Get Access')]    Get Access
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Functional Top Menu Contact Us
     [Documentation]    Navigate to Support tab
@@ -310,7 +313,7 @@ Functional Top Menu Contact Us
     Click Link    xpath=//a[contains(.,'Contact Us')]
     Element Text Should Be    xpath=//h1[contains(.,'Contact Us')]    Contact Us
     Click Image    xpath=//img[@alt='Onap Logo']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Portal admin Edit Functional menu
     [Documentation]    Navigate to Edit Functional menu tab
@@ -327,15 +330,16 @@ Portal admin Edit Functional menu
     Input Text    xpath=//input[@id='input-url']    http://google.com
     Click Button    xpath=//button[@id='button-save-continue']
     Click Element    xpath=//*[@id='app-select-Select Roles']
-    Click Element    xpath=//input[@id='Standard-User-checkbox']
+    Click Element    xpath=//input[@id='Standard_User-checkbox']
+    # this fails in windriver - can not save
     Click Element    xpath=//button[@id='button-save-add']
     Click Image     xpath=//img[@alt='Onap Logo']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Link    xpath=//a[contains(.,'Manage')]
     Mouse Over    xpath=//*[contains(text(),'Design')]
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Element Text Should Be    xpath=//a[contains(.,'ONAP Test')]      ONAP Test
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Image    xpath=//img[@alt='Onap Logo']
     Click Link    xpath=//a[@title='Edit Functional Menu']
     Click Link    xpath=.//*[@id='Manage']/div/a
@@ -343,17 +347,17 @@ Portal admin Edit Functional menu
     Click Link    xpath=.//*[@id='Product_Design']/div/a
     Open Context Menu    xpath=//*[@id='ONAP_Test']
     Click Link    xpath=//a[@href='#delete']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Element    xpath=//button[@id='div-confirm-ok-button']
     Click Image     xpath=//img[@alt='Onap Logo']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_long}
     Click Link    xpath=//a[contains(.,'Manage')]
     Mouse Over    xpath=//*[contains(text(),'Design')]
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Element Should Not Contain    xpath=(.//*[contains(.,'Design')]/following::ul[1])[1]      ONAP Test
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Image     xpath=//img[@alt='Onap Logo']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Portal admin Microservice Onboarding
     [Documentation]    Navigate to Edit Functional menu tab
@@ -373,7 +377,7 @@ Portal admin Microservice Onboarding
     Input Text    xpath=//input[@name='password']    ${GLOBAL_PORTAL_ADMIN_PWD}
     Click Button    xpath=//button[@id='microservice-details-save-button']
     Table Column Should Contain    xpath=//*[@table-data='serviceList']    1    Test Microservice
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Portal admin Microservice Delete
     [Documentation]    Navigate to Edit Functional menu tab
@@ -395,7 +399,7 @@ Portal admin Microservice Delete
     Execute Javascript    window.scrollTo(0,document.body.scrollHeight);
     Click Element    xpath=(.//*[contains(text(),'TestMS')]/following::*[@ng-click='microserviceOnboarding.deleteService(rowData)'])[1]
     Click Button    xpath=//button[@id="div-confirm-ok-button"]
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Portal Admin Create Widget for All users
     [Documentation]    Navigate to Create Widget menu tab
@@ -414,7 +418,7 @@ Portal Admin Create Widget for All users
     Click Button    xpath=//button[@id='widgets-details-save-button']
     Wait Until Page Contains      ONAP-xDemo    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Page Should Contain    ONAP-xDemo
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     GO TO    ${PORTAL_HOME_PAGE}
 
 Portal Admin Delete Widget for All users
@@ -425,7 +429,7 @@ Portal Admin Delete Widget for All users
     Click Button    xpath=//button[@ng-click='toggleSidebar()']
     Click Element    xpath=(.//*[contains(text(),'ONAP-xDemo')]/following::*[@ng-click='widgetOnboarding.deleteWidget(rowData)'])[1]
     Click Element    xpath=//button[@id='div-confirm-ok-button']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Element Should Not Contain     xpath=//*[@table-data='portalAdmin.portalAdminsTableData']    ONAP-xDemo
 
 Portal Admin Create Widget for Application Roles
@@ -449,12 +453,12 @@ Portal Admin Create Widget for Application Roles
     Choose File    xpath=//input[@id='widget-onboarding-details-upload-file']    ${WidgetAttachment}
     Click Button    xpath=//button[@id='widgets-details-save-button']
     Click Image     xpath=//img[@alt='Onap Logo']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Link    xpath=//a[@title='Widget Onboarding']
     Click Element    xpath=//input[@id='dropdown1']
     Click Element    xpath=//li[contains(.,'xDemo App')]
     Page Should Contain    ONAP-xDemo
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     GO TO    ${PORTAL_HOME_PAGE}
 
 Portal Admin Delete Widget for Application Roles
@@ -465,14 +469,14 @@ Portal Admin Delete Widget for Application Roles
     Scroll Element Into View    xpath=//*[contains(text(),'ONAP-xDemo')]/following::td[3]/div
     Click Element    xpath=//*[contains(text(),'ONAP-xDemo')]/following::td[3]/div
     Click Element    xpath=//button[@id='div-confirm-ok-button']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Element Should Not Contain     xpath=//*[@table-data='portalAdmin.portalAdminsTableData']    ONAP-xDemo
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Portal Admin Edit Widget
     [Documentation]    Navigate to Home tab
     Click Element    xpath=(//h3[contains(text(),'News')]/following::span[1])[1]
-    Set Browser Implicit Wait    8000
+    Set Browser Implicit Wait    30
     Mouse Over    xpath=(//h3[contains(text(),'News')]/following::span[1]/following::a[contains(text(),'Edit')])[1]
     Click Link    xpath=(//h3[contains(text(),'News')]/following::span[1]/following::a[contains(text(),'Edit')])[1]
     Input Text    xpath=//input[@name='title']    ONAP_VID
@@ -485,7 +489,7 @@ Portal Admin Edit Widget
     Click Element    xpath=//div[@id='confirmation-button-next']
     Element Should Not Contain    xpath=//*[@table-data='ignoredTableData']    ONAP_VID
     Click Link    xpath=//a[@id='close-button']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Portal Admin Broadcast Notifications
     [Documentation]   Portal Test Admin Broadcast Notifications
@@ -495,7 +499,7 @@ Portal Admin Broadcast Notifications
     ${AdminBroadCastMsg}=    catenate    ONAP VID Broadcast Automation${CurrentDate}
     Go To    ${PORTAL_HOME_URL}
     Click Image     xpath=//img[@alt='Onap Logo']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Link    xpath=//*[@id="parent-item-User-Notifications"]
     Wait until Element is visible    xpath=//*[@id="button-openAddNewApp"]    timeout=10
     Click button    xpath=//*[@id="button-openAddNewApp"]
@@ -509,7 +513,7 @@ Portal Admin Broadcast Notifications
     Click element    xpath=//*[@id="notification-history-link"]
     Wait until Element is visible    xpath=//*[@id="notification-history-table"]    timeout=10
     Table Column Should Contain    xpath=//*[@id="notification-history-table"]    2    ${AdminBroadCastMsg}
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     log    ${AdminBroadCastMsg}
     [Return]     ${AdminBroadCastMsg}
 
@@ -536,7 +540,7 @@ Portal Admin Category Notifications
     Click element    xpath=//*[@id="notification-history-link"]
     Wait until Element is visible    xpath=//*[@id="notification-history-table"]    timeout=10
     Table Column Should Contain    xpath=//*[@id="notification-history-table"]    2    ${AdminCategoryMsg}
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     log    ${AdminCategoryMsg}
     [Return]     ${AdminCategoryMsg}
 
@@ -566,7 +570,7 @@ Application Admin Navigation Application Link Tab
     Page Should Contain    ONAP Portal
     Scroll Element Into View    xpath=//i[@class='ion-close-round']
     Click Element    xpath=//i[@class='ion-close-round']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Application Admin Navigation Functional Menu
     [Documentation]   Logs into Portal GUI as application admin
@@ -591,9 +595,9 @@ Application admin Add Standard User Existing user
     Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
     Click Button    xpath=//button[@id='new-user-save-button']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Go To    ${PORTAL_HOME_PAGE}
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Link    xpath=//a[@title='Users']
     Click Element    xpath=//input[@id='dropdown1']
     Click Element    xpath=//li[contains(.,'xDemo App')]
@@ -607,9 +611,9 @@ Application admin Edit Standard User Existing user
     Click Element    xpath=//*[@id='div-app-name-dropdown-xDemo-App']
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='Standard-User-checkbox']
     Click Element    xpath=//*[@id='div-app-name-xDemo-App']/following::input[@id='System-Administrator-checkbox']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Button    xpath=//button[@id='new-user-save-button']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Page Should Contain      Users
     Input Text    xpath=//input[@id='input-table-search']    ${login_id}
     Element Text Should Be      xpath=(.//*[@id='rowheader_t1_0'])[2]   System Administrator
@@ -622,7 +626,7 @@ Application admin Delete Standard User Existing user
     Click Element    xpath=//button[@id='div-confirm-ok-button']
     Click Button    xpath=//button[@id='new-user-save-button']
     Element Should Not Contain     xpath=//*[@table-data='users.accountUsers']    Portal
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Application admin Logout from Portal GUI
     [Documentation]   Logout from Portal GUI
@@ -648,7 +652,7 @@ Standard user Navigation Application Link Tab
     Click Element    xpath=.//h3[contains(text(),'xDemo App')]/following::div[1]
     Page Should Contain    ONAP Portal
     Click Element    xpath=(.//span[@id='tab-Home'])[1]
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Standard user Navigation Functional Menu
     [Documentation]   Logs into Portal GUI as application admin
@@ -657,7 +661,7 @@ Standard user Navigation Functional Menu
     Click Link    xpath= //*[contains(text(),'Infrastructure VNF Provisioning')]
     Page Should Contain    Welcome to VID
     Click Element    xpath=(.//span[@id='tab-Home'])[1]
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Standard user Broadcast Notifications
     [Documentation]   Logs into Portal GUI as application admin
@@ -687,9 +691,9 @@ Portal admin Add New Account
     ${AppPassword}=           Set Variable    testApp${rand}123!
     Click Link    //*[@id="parent-item-App-Account-Management"]
     Click Button    xpath=//button[@ng-click='toggleSidebar()']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Button    //*[@id="account-onboarding-button-add"]
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Input Text    //*[@id="account-details-input-name"]    ${AppUserName}
     Input Text    //*[@id="account-details-input-username"]    ${AppUserName}
     Input Text    //*[@id="account-details-input-password"]    ${AppPassword}
@@ -700,9 +704,9 @@ Portal admin Add New Account
 Portal admin Delete Account
     Click Link    //*[@id="parent-item-App-Account-Management"]
     Click Button    xpath=//button[@ng-click='toggleSidebar()']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
     Click Button    //*[@id="account-onboarding-button-add"]
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Enhanced Notification on ONAP Portal
     [Documentation]     Runs portal Post request
@@ -746,15 +750,16 @@ Portal AAF new fields
     Page Should Contain    Name Space
     Page Should Contain    Centralized
     Click Element    xpath=//button[@id='button-notification-cancel']
-    Set Selenium Implicit Wait    3000
+    Set Selenium Implicit Wait   ${portal_timeout_short}
 
 Portal Change REST URL
     [Documentation]    Navigate to user Application details tab
     Click Link    xpath=//a[@title='Application Onboarding']
+    Wait Until Element Is Enabled    xpath=//td[contains(.,'xDemo App')]    30s
     Click Element    xpath=//td[contains(.,'xDemo App')]
     Input Text    xpath=//input[@name='restUrl']    ${PORTAL_XDEMPAPP_REST_URL}
     Click Element    xpath=//button[@id='button-save-app']
-    Set Selenium Implicit Wait    6000
+    Set Selenium Implicit Wait   ${portal_timeout_medium}
     Go To    ${PORTAL_HOME_PAGE}
     Wait Until Element Is Visible    xpath=//a[@title='Application Onboarding']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
 
@@ -776,7 +781,11 @@ Reset widget layout option
     Execute Javascript      document.getElementById('widgets').scrollTo(0,1400)
     Wait Until Page Contains Element     xpath=//*[@id='widget-gridster-Events-icon']    ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Execute Javascript      document.getElementById('widgets').scrollTo(0,1800)
-    Drag And Drop By Offset   xpath=//*[@id='widget-gridster-Events-icon']   500  500
+    #Drag And Drop By Offset   xpath=//*[@id='widget-gridster-Events-icon']   500  500
+    ${width} 	${height}= 	Get Window Size
+    Set Window Size        2000   1000
+    ${width} 	${height}= 	Get Window Size
+    Drag And Drop By Offset   xpath=//*[@id='widget-gridster-Events-icon']   100  -100
     Execute Javascript      document.getElementById('widgets').scrollTo(0,document.getElementById('widgets').scrollHeight);
     Execute Javascript      document.getElementById('dashboardDefaultPreference').click()
     Execute Javascript      document.getElementById('div-confirm-ok-button').click()
