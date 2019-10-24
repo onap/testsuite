@@ -31,7 +31,9 @@ Create VID VNF
     #01681d02-2304-4c91-ab2d 0
     # This is where firefox breaks. Th elink never becomes visible when run with the script.
     ${dataTestsId}=    Catenate   AddVNFOption-${vnf_type}
-    Sleep   10s
+    Sleep   15s
+    Wait Until Element Is Enabled   xpath=//a[contains(text(), '${vnf_type}')]
+    Wait Until Element Is Visible   xpath=//a[contains(text(), '${vnf_type}')]
     Click Element    xpath=//a[contains(text(), '${vnf_type}')]
     Wait Until Page Contains Element    xpath=//input[@parameter-id='instanceName']    ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Wait Until Element Is Enabled    xpath=//input[@parameter-id='instanceName']    ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
@@ -119,7 +121,8 @@ Create VID VNF module
 
     ### end volume stuff ###
 
-    Click Element     xpath=//div[contains(.,'${vnf_name}')]/div/button[contains(.,'Add VF-Module')]
+    #Click Element     xpath=//div[contains(.,'${vnf_name}')]/div/button[contains(.,'Add VF-Module')]
+    Click On Element When Visible      //div[contains(.,'${vnf_name}')]/div/button[contains(.,'Add VF-Module')]
     ${instance_id}=     Fill Module Form And Submit    ${vf_module_name}    ${lcp_region}    ${TENANT}    ${VNF_TYPE}    cloud_owner_uc=${cloud_owner_uc}    volume_group=${vf_module_volume_name}
     [Return]     ${instance_id}
 

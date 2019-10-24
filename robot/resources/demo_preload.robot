@@ -130,6 +130,31 @@ Preload User Model
     Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    demo    ${service}
     [Teardown]    Close All Browsers
 
+Preload User Model GRA
+    [Documentation]   Preload the demo data for the passed VNF with the passed module name via GRA
+    [Arguments]   ${vnf_name}   ${vf_module_name}   ${service}    ${service_instance_id}    ${vnf}=${service}
+    # Go to A&AI and get information about the VNF we need to preload
+    ${status}  ${generic_vnf}=   Run Keyword And Ignore Error   Get Service Instance    ${vnf_name}
+    Run Keyword If   '${status}' == 'FAIL'   FAIL   VNF Name: ${vnf_name} is not found.
+    ${vnf_type}=   Set Variable   ${generic_vnf['vnf-type']}
+    ${relationships}=   Set Variable   ${generic_vnf['relationship-list']['relationship']}
+    ${relationship_data}=    Get Relationship Data   ${relationships}
+    ${customer_id}=   Catenate
+    :FOR    ${r}   IN   @{relationship_data}
+    \   ${service}=   Set Variable If    '${r['relationship-key']}' == 'service-subscription.service-type'   ${r['relationship-value']}    ${service}
+    \   ${service_instance_id}=   Set Variable If    '${r['relationship-key']}' == 'service-instance.service-instance-id'   ${r['relationship-value']}   ${service_instance_id}
+    \   ${customer_id}=    Set Variable If   '${r['relationship-key']}' == 'customer.global-customer-id'   ${r['relationship-value']}   ${customer_id}
+    ${invariantUUID}=   Get Persona Model Id     ${service_instance_id}    ${service}    ${customer_id}
+
+    # We still need the vf module names. We can get them from VID using the persona_model_id (invariantUUID) from A&AI
+    Setup Browser
+    Login To VID GUI
+    ${vf_modules}=   Get Module Names from VID    ${invariantUUID}
+    Log    ${generic_vnf}
+    Log   ${service_instance_id},${vnf_name},${vnf_type},${vf_module_name},${vf_modules},${service}
+    Preload Gra    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}  ${vnf}   demo   ${service}   
+    [Teardown]    Close All Browsers
+
 
 Get Relationship Data
     [Arguments]   ${relationships}
