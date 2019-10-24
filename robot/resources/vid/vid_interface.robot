@@ -68,6 +68,7 @@ Go To VID Browse Service Models
 Click On Button When Enabled
     [Arguments]     ${xpath}    ${timeout}=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Wait Until Page Contains Element    xpath=${xpath}    ${timeout}
+    Wait Until Element Is Visible    xpath=${xpath}    ${timeout}
     Wait Until Element Is Enabled    xpath=${xpath}    ${timeout}
     Click Button      xpath=${xpath}
 
