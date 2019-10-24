@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "d07bd820_5b7efd53",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-24T13:11:52Z",
+      "side": 1,
+      "message": "Yes, I\u0027ve corrected this part to reuse existing aai keyword.",
+      "parentUuid": "66ea3af5_c61f3349",
+      "revId": "0ad21e79a0522520a538d33c2c75f9fcfda083e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6673b417_c65a86f4",
         "filename": "robot/resources/demo_preload.robot",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2019-10-18T14:01:11Z",
       "side": 1,
       "message": "this should probably be streamlined into the main load customer flow",
+      "revId": "0ad21e79a0522520a538d33c2c75f9fcfda083e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0adda737_c95365a1",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-24T13:11:52Z",
+      "side": 1,
+      "message": "Well, it\u0027s actually more or less in main load customer flow (separate TestCase launched during init robot call) - please take a look at \"robot/testsuites/demo.robot\" line 33",
+      "parentUuid": "6673b417_c65a86f4",
       "revId": "0ad21e79a0522520a538d33c2c75f9fcfda083e1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
