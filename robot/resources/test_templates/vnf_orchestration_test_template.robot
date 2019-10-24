@@ -49,8 +49,10 @@ Orchestrate VNF
     ${server_id}=     Run Keyword If   '${service}' == 'vVG'    Create VVG Server    ${uuid}
     Create Customer For VNF    ${customer_name}    ${customer_name}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${tenant_id}
     Setup Browser
-    Login To VID GUI
-    ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
+    Run Keyword If   "${API_TYPE}"=="GRA_API"    Login To VID GUI    gr_api
+    ...   ELSE   Login To VID GUI
+    #${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
+    ${service_instance_id}=   Create VID Service Instance    ${customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
     Wait Until Keyword Succeeds   60s   20s      Validate Service Instance    ${service_instance_id}    ${service}      ${customer_name}
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${vnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
@@ -66,7 +68,10 @@ Orchestrate VNF
     \   ${vnf_type}=   Get VNF Type   ${catalog_resources}   ${vnf}    ${service}
     \   ${vf_module}=    Get VF Module    ${catalog_resources}   ${vnf}    ${service}
     \   Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${customer_name}
-    \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}    ${service}     ${server_id}
+
+    \   ${vf_module_type}   ${closedloop_vf_module}=   Run Keyword If   "${API_TYPE}"=="GRA_API"     Preload Gra    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}  ${service}    ${server_id}
+    \                                                  ...   ELSE   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}  ${service}   ${server_id}
+
     \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${customer_name}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
@@ -109,7 +114,10 @@ Orchestrate Demo VNF
     \   Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${full_customer_name}
     \   ${vf_module_entry}=   Create Dictionary    name=${vf_module}
     \   ${vf_modules}=   Create List    ${vf_module_entry}
-    \   ${vf_module_type}   ${closedloop_vf_module}=   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}    ${service}   ${server_id}
+    \   ${vf_module_type}   ${closedloop_vf_module}=   Run Keyword If   "${API_TYPE}"=="GRA_API"     Preload Gra    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}  ${service}    ${server_id}
+    \                                                  ...   ELSE   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}  ${service}   ${server_id}
+
+
     \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${full_customer_name}   ${vnf_name}
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}

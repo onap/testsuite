@@ -31,7 +31,8 @@ Create VID Service Instance
     Capture Page Screenshot
     Click On Button When Enabled    //div[@class = 'buttonRow']/button[text() = 'Confirm']
  	Wait Until Element Contains    xpath=//pre[@class= 'log ng-binding']    requestState    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
-        Wait Until Page Contains    "requestState": "COMPLETE"   timeout= ${GLOBAL_VID_UI_TIMEOUT_LONG}
+        #Wait Until Page Contains    "requestState": "COMPLETE"   timeout= ${GLOBAL_VID_UI_TIMEOUT_LONG}
+        Wait Until Page Contains    "requestState": "COMPLETE"   timeout= 450s
     ${response text}=    Get Text    xpath=//pre[@class = 'log ng-binding']
     Click On Button When Enabled    //div[@class = 'buttonRow']/button[text() = 'Close']
     ${request_id}=    Parse Request Id    ${response text}
