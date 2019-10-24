@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "947022b6_82303825",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-24T13:11:52Z",
+      "side": 1,
+      "message": "I\u0027ve found relevant code to reuse and fixed it in following patchset",
+      "parentUuid": "fd834121_01786c79",
+      "revId": "7999bcc6ee71c7b8cffa99c444622a95e25e3476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0778c32a_dc897ae0",
         "filename": "robot/resources/global_properties.robot",
         "patchSetId": 3
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "6858cdce_31f98194",
+        "filename": "robot/resources/global_properties.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-24T13:11:52Z",
+      "side": 1,
+      "message": "I agree that these could be merged, but in current state, due to some limitations I\u0027ve put in https://jira.onap.org/browse/INT-1342, I\u0027ve decided it would be much less effort to provide solution with two additional globals (Cloud_owner was actually not needed).",
+      "parentUuid": "f5b88a43_7f0f21aa",
+      "revId": "7999bcc6ee71c7b8cffa99c444622a95e25e3476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad8204f_85aff8d6",
         "filename": "robot/testsuites/demo.robot",
         "patchSetId": 3
@@ -64,6 +100,24 @@
       "writtenOn": "2019-10-18T14:04:42Z",
       "side": 1,
       "message": "this should be folded in the main Initialize Customer And Models",
+      "revId": "7999bcc6ee71c7b8cffa99c444622a95e25e3476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "650e38dc_b33e7366",
+        "filename": "robot/testsuites/demo.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-24T13:11:52Z",
+      "side": 1,
+      "message": "Well, actually I wanted to separate this test case from \"normal\" one, because prior init testcase required user to pass openstack credentials for \"init\" to work successfully. For CNF use-cases there is no logical reason to provide any openstack parameters, that\u0027s why I separated it.\n\nIt also answers your question to my change in review https://gerrit.onap.org/r/#/c/testsuite/oom/+/96860/",
+      "parentUuid": "4ad8204f_85aff8d6",
       "revId": "7999bcc6ee71c7b8cffa99c444622a95e25e3476",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
