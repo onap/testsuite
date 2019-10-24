@@ -17,8 +17,9 @@ Resource        browser_setup.robot
 *** Variables ***
 ${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}  /operations/VNF-API:preload-vnf-topology-operation
 ${PRELOAD_NETWORK_TOPOLOGY_OPERATION_PATH}  /operations/VNF-API:preload-network-topology-operation
-${PRELOAD_GR_TOPOLOGY_OPERATION_PATH}     /operations/GENERIC-RESOURCE-API:preload-vf-module-topology-operation
 ${PRELOAD_VNF_CONFIG_PATH}  /config/VNF-API:preload-vnfs/vnf-preload-list
+${PRELOAD_GRA_TOPOLOGY_OPERATION_PATH}     /operations/GENERIC-RESOURCE-API:preload-vf-module-topology-operation
+${PRELOAD_GRA_CONFIG_PATH}  /config/GENERIC-RESOURCE-API:preload-information
 ${PRELOAD_TOPOLOGY_OPERATION_BODY}  sdnc
 ${SDNC_INDEX_PATH}    /restconf
 ${SDNCGC_HEALTHCHECK_OPERATION_PATH}  /operations/SLI-API:healthcheck
@@ -67,7 +68,7 @@ Preload Vcpe vGW Gra
     ${parameters}=     Create Dictionary    pub_key=${GLOBAL_INJECTED_PUBLIC_KEY}    brg_mac=${brg_mac}    cpe_public_net=${cpe_public_network_name}     cpe_public_subnet=${cpe_public_subnet_name}    mux_gw_net=${mux_gw_net}	mux_gw_subnet=${mux_gw_subnet}    suffix=${name_suffix}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2        public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
     Templating.Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_gwgra_vfmodule.jinja   ${parameters}
-    ${post_resp}= 	SDNC.Run Post Request 	${SDNC_REST_ENDPOINT} 	${SDNC_INDEX_PATH}${PRELOAD_GR_TOPOLOGY_OPERATION_PATH}     data=${data}    auth=${GLOBAL_SDNC_AUTHENTICATION}
+    ${post_resp}= 	SDNC.Run Post Request 	${SDNC_REST_ENDPOINT} 	${SDNC_INDEX_PATH}${PRELOAD_GRA_TOPOLOGY_OPERATION_PATH}     data=${data}    auth=${GLOBAL_SDNC_AUTHENTICATION}
 
 Preload Generic VfModule
     [Arguments]    ${service_instance_id}	${vnf_model}   ${model_customization_name}    ${short_model_customization_name}	    ${cpe_public_network_name}=None   ${cpe_public_subnet_name}=None   ${cpe_signal_network_name}=None   ${cpe_signal_subnet_name}=None
@@ -108,6 +109,31 @@ Preload Vnf
     \       Preload One Vnf Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
     [Return]    ${base_vf_module_type}   ${closedloop_vf_module}
 
+Preload Gra
+    [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_module_name}    ${vf_modules}    ${vnf}   ${uuid}    ${service}     ${server_id}
+    ${base_vf_module_type}=    Catenate
+    ${closedloop_vf_module}=    Create Dictionary
+    ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
+    ${templates}=    ServiceMapping.Get Service Template Mapping    default    ${service}    ${vnf}
+    :FOR    ${vf_module}    IN      @{vf_modules}
+    \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
+    #     need to pass in vnf_index if non-zero
+    \       ${dict}   Run Keyword If    "${generic_vnf_name}".endswith('0')      Get From Mapping With Index    ${templates}    ${vf_module}   0
+            ...    ELSE IF  "${generic_vnf_name}".endswith('1')      Get From Mapping With Index    ${templates}    ${vf_module}   1
+            ...    ELSE IF  "${generic_vnf_name}".endswith('2')      Get From Mapping With Index    ${templates}    ${vf_module}   2
+            ...    ELSE   Get From Mapping    ${templates}    ${vf_module}
+    #     skip this iteration if no template
+    \       ${test_dict_length} =  Get Length  ${dict}
+    \       Continue For Loop If   ${test_dict_length} == 0
+    \       ${filename}=    Get From Dictionary    ${dict}    template
+    \       ${base_vf_module_type}=   Set Variable If    '${dict['isBase']}' == 'true'     ${vf_module_type}    ${base_vf_module_type}
+    \       ${closedloop_vf_module}=   Set Variable If    '${dict['isBase']}' == 'false'     ${vf_module}    ${closedloop_vf_module}
+    \       ${vf_name}=     Update Module Name    ${dict}    ${vf_module_name}
+    \       Preload One Gra Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
+    [Return]    ${base_vf_module_type}   ${closedloop_vf_module}
+
+
+
 Update Module Name
     [Arguments]    ${dict}    ${vf_module_name}
     Return From Keyword If    'prefix' not in ${dict}    ${vf_module_name}
@@ -144,8 +170,23 @@ Preload One Vnf Topology
     Should Be Equal As Strings 	${post_resp.json()['output']['response-code']} 	200
     ${get_resp}= 	SDNC.Run Get Request 	${SDNC_REST_ENDPOINT}    ${SDNC_INDEX_PATH}${PRELOAD_VNF_CONFIG_PATH}/${vf_module_name}/${vf_module_type}     auth=${GLOBAL_SDNC_AUTHENTICATION}
 
+
+Preload One Gra Topology
+    [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}       ${vf_module_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
+    Return From Keyword If    '${filename}' == ''
+    ${parameters}=    Get Template Parameters    ${generic_vnf_name}    ${filename}   ${uuid}    ${service}    ${server_id}    GRA
+    Set To Dictionary   ${parameters}   generic_vnf_name=${generic_vnf_name}     generic_vnf_type=${generic_vnf_type}  service_type=${service_type_uuid}    vf_module_name=${vf_module_name}    vf_module_type=${vf_module_type}
+    Templating.Create Environment    sdnc    ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=   Templating.Apply Template    sdnc   ${PRELOAD_TOPOLOGY_OPERATION_BODY}/preload.GRA.jinja    ${parameters}
+    ${post_resp}=       SDNC.Run Post Request   ${SDNC_REST_ENDPOINT}   ${SDNC_INDEX_PATH}${PRELOAD_GRA_TOPOLOGY_OPERATION_PATH}     data=${data}    auth=${GLOBAL_SDNC_AUTHENTICATION}
+    Should Be Equal As Strings  ${post_resp.json()['output']['response-code']}  200
+    ${get_resp}=        SDNC.Run Get Request    ${SDNC_REST_ENDPOINT}    ${SDNC_INDEX_PATH}${PRELOAD_GRA_CONFIG_PATH}/preload-list/${vf_module_name}/vf-module     auth=${GLOBAL_SDNC_AUTHENTICATION}
+    Should Be Equal As Strings  ${get_resp.status_code}         200
+
+
+
 Get Template Parameters
-    [Arguments]   ${generic_vnf_name}    ${template}    ${uuid}    ${service}     ${server_id}
+    [Arguments]   ${generic_vnf_name}    ${template}    ${uuid}    ${service}     ${server_id}   ${api_type}=VNF
     ${hostid}=    Get Substring    ${uuid}    -4
     ${ecompnet}=    Evaluate    (${GLOBAL_BUILD_NUMBER}%128)+128
 
@@ -169,7 +210,8 @@ Get Template Parameters
     #
     # Get the vnf_parameters to preload
     #
-    ${vnf_parameters}=   Resolve VNF Parameters Into Array   ${valuemap}   ${template}
+    ${vnf_parameters}=   Run Keyword If '${api_type}'=='GRA'   Resolve GRA Parameters Into Array   ${valuemap}   ${template}
+                         ...   ELSE  Resolve VNF Parameters Into Array   ${valuemap}   ${template}
     ${vnf_parameters_json}=   Evaluate    json.dumps(${vnf_parameters})    json
     ${parameters}=   Create Dictionary   vnf_parameters=${vnf_parameters_json}
     [Return]    ${parameters}
@@ -184,6 +226,18 @@ Resolve VNF Parameters Into Array
     \    ${parameter}=   Create Dictionary   vnf-parameter-name=${key}    vnf-parameter-value=${value}
     \    Append To List    ${vnf_parameters}   ${parameter}
     [Return]   ${vnf_parameters}
+
+Resolve GRA Parameters Into Array
+    [Arguments]   ${valuemap}    ${from}
+    ${vnf_parameters}=   Create List
+    ${keys}=    Get Dictionary Keys    ${from}
+    :FOR   ${key}   IN  @{keys}
+    \    ${value}=    Get From Dictionary    ${from}   ${key}
+    \    ${value}=    Templating.Template String    ${value}    ${valuemap}
+    \    ${parameter}=   Create Dictionary   name=${key}    value=${value}
+    \    Append To List    ${vnf_parameters}   ${parameter}
+    [Return]   ${vnf_parameters}
+
 
 Preload Vnf Profile
     [Arguments]    ${vnf_name}
@@ -245,7 +299,7 @@ Create Preload From JSON
     ...  ELSE
     ...  Preload VNF API    ${vf_module_name}     ${vf_module_type}    ${vnf_name}    ${generic_vnf_type}    ${preload_file}
 
-    ${uri}=    Set Variable If     "${api_type}"=="gr_api"    ${SDNC_INDEX_PATH}${PRELOAD_GR_TOPOLOGY_OPERATION_PATH}    ${SDNC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}
+    ${uri}=    Set Variable If     "${api_type}"=="gr_api"    ${SDNC_INDEX_PATH}${PRELOAD_GRA_TOPOLOGY_OPERATION_PATH}    ${SDNC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}
 
     ${post_resp}=    SDNC.Run Post Request   ${SDNC_REST_ENDPOINT}   ${uri}     data=${preload_vnf}    auth=${GLOBAL_SDNC_AUTHENTICATION}
     Should Be Equal As Strings    ${post_resp.json()['output']['response-code']}    200
