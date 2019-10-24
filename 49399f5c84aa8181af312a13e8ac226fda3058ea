@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "270a55c0_d00e39bf",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-24T13:11:52Z",
+      "side": 1,
+      "message": "I think we\u0027ve resolved this question offline :)",
+      "parentUuid": "443e3802_88000227",
+      "range": {
+        "startLine": 57,
+        "startChar": 24,
+        "endLine": 57,
+        "endChar": 57
+      },
+      "revId": "49399f5c84aa8181af312a13e8ac226fda3058ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8c55a7f_a9d292ad",
         "filename": "robot/resources/demo_preload.robot",
         "patchSetId": 2
@@ -202,6 +226,30 @@
       "side": 1,
       "message": "I rather would remove CNF and keep CDS.",
       "parentUuid": "07c7590c_8526ea0e",
+      "range": {
+        "startLine": 80,
+        "startChar": 36,
+        "endLine": 80,
+        "endChar": 47
+      },
+      "revId": "49399f5c84aa8181af312a13e8ac226fda3058ea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3573f30c_ce97da8a",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-24T13:11:52Z",
+      "side": 1,
+      "message": "This name is flexible and currently doesn\u0027t relate to any exact resource, so it can be freely changes in future or now if you think so. Should I change it?",
+      "parentUuid": "6f7c41be_916cc110",
       "range": {
         "startLine": 80,
         "startChar": 36,
