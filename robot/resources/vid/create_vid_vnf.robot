@@ -31,7 +31,8 @@ Create VID VNF
     #01681d02-2304-4c91-ab2d 0
     # This is where firefox breaks. Th elink never becomes visible when run with the script.
     ${dataTestsId}=    Catenate   AddVNFOption-${vnf_type}
-    Sleep   10s
+    Sleep   15s
+    Wait Until Element Is Enabled   xpath=//a[contains(text(), '${vnf_type}')]
     Click Element    xpath=//a[contains(text(), '${vnf_type}')]
     Wait Until Page Contains Element    xpath=//input[@parameter-id='instanceName']    ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Wait Until Element Is Enabled    xpath=//input[@parameter-id='instanceName']    ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}

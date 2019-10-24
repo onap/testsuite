@@ -65,6 +65,11 @@ Instantiate VFWCL
     [Tags]   instantiateVFWCL
     Instantiate VNF   vFWCL  base_vpkg
 
+Instantiate VFWCL GRA
+    [Tags]   instantiateVFWCLGRA
+    Set Global Variable    ${API_TYPE}   GRA_API
+    Instantiate VNF   vFWCL  base_vpkg
+
 Instantiate VFWDT
     [Tags]   instantiateVFWDT
     Instantiate VNF   vFWDT  base_vpkg
