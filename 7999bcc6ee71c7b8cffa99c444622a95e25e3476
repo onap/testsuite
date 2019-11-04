@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "35fa7cc4_b2aa5553",
+        "filename": "robot/resources/global_properties.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-04T15:59:14Z",
+      "side": 1,
+      "message": "that story just says automate the vfw case for cnf. I dont think that precludes enhancing the existing flow, and i am available for some guidance in rocket chat if you need help.",
+      "parentUuid": "6858cdce_31f98194",
+      "revId": "7999bcc6ee71c7b8cffa99c444622a95e25e3476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad8204f_85aff8d6",
         "filename": "robot/testsuites/demo.robot",
         "patchSetId": 3
@@ -118,6 +136,24 @@
       "side": 1,
       "message": "Well, actually I wanted to separate this test case from \"normal\" one, because prior init testcase required user to pass openstack credentials for \"init\" to work successfully. For CNF use-cases there is no logical reason to provide any openstack parameters, that\u0027s why I separated it.\n\nIt also answers your question to my change in review https://gerrit.onap.org/r/#/c/testsuite/oom/+/96860/",
       "parentUuid": "4ad8204f_85aff8d6",
+      "revId": "7999bcc6ee71c7b8cffa99c444622a95e25e3476",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "acc8d66a_ec75d86e",
+        "filename": "robot/testsuites/demo.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-04T15:59:14Z",
+      "side": 1,
+      "message": "i agree that you shouldnt need to provide them, they should be made optional",
+      "parentUuid": "650e38dc_b33e7366",
       "revId": "7999bcc6ee71c7b8cffa99c444622a95e25e3476",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
