@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fc83d08_daed2684",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-04T15:59:14Z",
+      "side": 1,
+      "message": "please fold this into the mail load customers and models",
+      "revId": "851d6bce5ec9708a74ae91d694ccc284cfbdc582",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c528e00f_9b95ab06",
+        "filename": "robot/resources/global_properties.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-04T15:59:14Z",
+      "side": 1,
+      "message": "please reuse the existing complex and physical location",
+      "revId": "851d6bce5ec9708a74ae91d694ccc284cfbdc582",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241af85a_b081baf2",
+        "filename": "robot/testsuites/demo.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-04T15:59:14Z",
+      "side": 1,
+      "message": "fold this into the main load customer and models",
+      "revId": "851d6bce5ec9708a74ae91d694ccc284cfbdc582",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
