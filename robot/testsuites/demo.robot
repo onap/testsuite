@@ -47,6 +47,12 @@ Initialize Models
 
 Preload VNF
     [Tags]   PreloadDemo
+    Set Global Variable    ${API_TYPE}   VNF_API
+    Preload User Model   ${VNF_NAME}   ${MODULE_NAME}    ${SERVICE}    ${SERVICE_INSTANCE_ID}
+
+Preload VNF GRA
+    [Tags]   PreloadDemoGRA
+    Set Global Variable    ${API_TYPE}   GRA_API
     Preload User Model   ${VNF_NAME}   ${MODULE_NAME}    ${SERVICE}    ${SERVICE_INSTANCE_ID}
 
 Create APPC Mount Point
@@ -55,14 +61,17 @@ Create APPC Mount Point
 
 Instantiate VFW
     [Tags]   instantiateVFW
+    Set Global Variable    ${API_TYPE}   VNF_API
     Instantiate VNF   vFW   base_vfw
 
 Instantiate Demo VFWCL
     [Tags]   instantiateDemoVFWCL
+    Set Global Variable    ${API_TYPE}   VNF_API
     Instantiate Demo VNF   vFWCL   base_vpkg
 
 Instantiate VFWCL
     [Tags]   instantiateVFWCL
+    Set Global Variable    ${API_TYPE}   VNF_API
     Instantiate VNF   vFWCL  base_vpkg
 
 Instantiate VFWCL GRA
@@ -83,6 +92,7 @@ Instantiate VFWDT GRA
 
 Instantiate VFWDT
     [Tags]   instantiateVFWDT
+    Set Global Variable    ${API_TYPE}   VNF_API
     Instantiate VNF   vFWDT  base_vpkg
 
 Instantiate VLB_CDS
