@@ -24,6 +24,8 @@ ${CATALOG_RESOURCE_IDS}
 ${REVERSE_HEATBRIDGE}
 ${HB_VNF}
 
+${API_TYPE}   VNF_API
+
 *** Test Cases ***
 Initialize Customer And Models
     [Tags]   InitDemo
@@ -47,6 +49,11 @@ Initialize Models
 
 Preload VNF
     [Tags]   PreloadDemo
+    Preload User Model   ${VNF_NAME}   ${MODULE_NAME}    ${SERVICE}    ${SERVICE_INSTANCE_ID}
+
+Preload VNF GRA
+    [Tags]   PreloadDemoGRA
+    Set Global Variable    ${API_TYPE}   GRA_API
     Preload User Model   ${VNF_NAME}   ${MODULE_NAME}    ${SERVICE}    ${SERVICE_INSTANCE_ID}
 
 Create APPC Mount Point

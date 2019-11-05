@@ -6,6 +6,10 @@ Resource         ../resources/test_templates/vnf_orchestration_test_template.rob
 
 Test Template         Orchestrate VNF Template
 
+*** Variables ***
+${API_TYPE}   VNF_API
+
+
 *** Test Cases ***              CUSTOMER           SERVICE   PRODUCT_FAMILY
 Instantiate Virtual DNS             ETE_Customer    vLB      vLB             
     [Tags]    instantiate  stability72hr   stability72hrvLB
