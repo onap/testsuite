@@ -109,7 +109,7 @@ Check SO service completition status
     Should Be Equal As Strings  ${so_status}     ${so_expected_status}
 
 
-Design, create, instantiate PNF/macro service and succesfully registrate PNF template
+Instantiate PNF_macro service and succesfully registrate PNF template
     [Documentation]   Test case template for design, create, instantiate PNF/macro service and succesfully registrate PNF
     [Arguments]    ${service_name}   ${PNF_entry_dict}   ${pnf_correlation_id}   ${service}=pNF    ${product_family}=gNB
 
@@ -128,7 +128,12 @@ Design, create, instantiate PNF/macro service and succesfully registrate PNF tem
     ...    ELSE  Log To Console   Check Service Recipe for TOSCA Based PNF Model assignmenta
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
     ${service}  ${request_id}  ${full_customer_name}   Orchestrate PNF   ETE_Customer    ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}
+    Wait Until Keyword Succeeds   120s  40s  Send and verify VES integration request in SO and A&AI   ${request_id}   ${PNF_entry_dict}
+
+
+Send and verify VES integration request in SO and A&AI
+    [Documentation]   Gets service status and compares with expected status
+    [Arguments]    ${request_id}   ${PNF_entry_dict}
     Send VES integration request  ${PNF_entry_dict}
     Verify PNF Integration Request in A&AI  ${PNF_entry_dict}
-    Wait Until Keyword Succeeds   30s  5s  Check SO service completition status   ${request_id}   COMPLETE
-    ${auth}=	Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    Wait Until Keyword Succeeds   30s  10s  Check SO service completition status   ${request_id}   COMPLETE
