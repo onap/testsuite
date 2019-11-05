@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4061d9a_7cd83d9c",
+        "filename": "robot/resources/test_templates/pnf_registration_without_SO_template.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-05T14:37:27Z",
+      "side": 1,
+      "message": "since this will only ever return if the status \u003d expected status do we really need to reutn in?",
+      "revId": "10aa3bb2db042b0d1e252ab0440f96453ae1aed4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
