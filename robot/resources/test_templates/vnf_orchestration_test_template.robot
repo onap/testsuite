@@ -114,8 +114,9 @@ Orchestrate Demo VNF
     \   Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${full_customer_name}
     \   ${vf_module_entry}=   Create Dictionary    name=${vf_module}
     \   ${vf_modules}=   Create List    ${vf_module_entry}
-    \   ${vf_module_type}   ${closedloop_vf_module}=   Run Keyword If   "${API_TYPE}"=="GRA_API"     Preload Gra    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}  ${service}    ${server_id}
-    \                                                  ...   ELSE   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}  ${service}   ${server_id}
+    #   in Demo VNF flow old logic since we did not create the resource so @{vf_modules} is passed to Preload Vnf / Preload Gra
+    \   ${vf_module_type}   ${closedloop_vf_module}=   Run Keyword If   "${API_TYPE}"=="GRA_API"     Preload Gra    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}  ${service}    ${server_id}
+    \                                                  ...   ELSE   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}  ${service}   ${server_id}
 
 
     \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${full_customer_name}   ${vnf_name}

@@ -14,6 +14,10 @@ Create VID VNF
     [Documentation]    Creates a VNF instance using VID for passed instance id with the passed service instance name
     [Arguments]    ${service_instance_id}    ${service_instance_name}    ${product_family}    ${lcp_region}    ${tenant}   ${vnf_type}   ${customer}   ${line_of_business}=LOB-Demonstration   ${platform}=Platform-Demonstration    ${cloud_owner_uc}=${GLOBAL_AAI_CLOUD_OWNER}
     Go To VID HOME
+    ##### TEST BIGGER WINDOW TO AVOID MASKED ITEMS PROBLEM #####
+    ${width}    ${height}=      Get Window Size
+    Set Window Size        2000   1000
+    ${width}    ${height}=      Get Window Size
     Click Link       xpath=//div[@heading = 'Search for Existing Service Instances']/a
     Wait Until Page Contains    Please search by    timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
 
