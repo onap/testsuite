@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7c09aa58_f939133c",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 3957
+      },
+      "writtenOn": "2019-11-18T18:26:44Z",
+      "side": 1,
+      "message": "Ok, seems to be in setup.sh. That\u0027s much better solution.\n\nHowever I followed ONAP Jenkins jobs on this, so please edit Jenkins jobs to remove duplicated copying into image:\nhttps://jenkins.onap.org/view/testsuite/job/testsuite-dublin-3scm-docker-shell-daily/configure\nhttps://jenkins.onap.org/view/testsuite/job/testsuite-elalto-3scm-docker-shell-daily/configure\nhttps://jenkins.onap.org/view/testsuite/job/testsuite-master-3scm-docker-shell-daily/configure",
+      "parentUuid": "9bae5aa7_d5f1f973",
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a06b3e84_829ff4fe",
         "filename": "docker/build_docker.sh",
         "patchSetId": 1
@@ -106,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "7a948778_ad456a12",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 3957
+      },
+      "writtenOn": "2019-11-18T18:26:44Z",
+      "side": 1,
+      "message": "What does not work?\n\nLooking at setup.sh, there\u0027s a quite strange code to check heatbridge from 2 location testsuite/heatbridge and from home directory to where script clones again the same.\nThis could be changed to similar as python-testing-utils and get pip package from nexus hosted pip repo?\nCloning code from another git repo (without exact commit id or tag) is not a good idea at all.\n\nAnyway here we end up also copying heatbridge 2 times to image. Please clean same onap jenkins jobs as above.",
+      "parentUuid": "a06b3e84_829ff4fe",
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c9763231_20a2b47b",
         "filename": "docker/build_docker.sh",
         "patchSetId": 1
@@ -117,6 +153,24 @@
       "writtenOn": "2019-11-18T15:23:35Z",
       "side": 1,
       "message": "This isnt needed its installed by helm into a volume and not included in image",
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfe6f027_79a95244",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 3957
+      },
+      "writtenOn": "2019-11-18T18:26:44Z",
+      "side": 1,
+      "message": "Can you point out where in oom this is done?\nlso this one then needs to be removed from above Jenkins jobs as demo folder is now cloned into image.",
+      "parentUuid": "c9763231_20a2b47b",
       "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
