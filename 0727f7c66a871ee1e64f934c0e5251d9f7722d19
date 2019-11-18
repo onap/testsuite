@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "fdd5244d_fbc8a173",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-11-18T13:38:37Z",
+      "side": 1,
+      "message": "Oh yes, I forgot that this would require synchronizing few changes between repositories not to break anything. Thanks for noting this :). Ignore my comment then (for now)",
+      "parentUuid": "106c0424_c4aea252",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fe0f08e_520808cd",
         "filename": "docker/build_docker.sh",
         "patchSetId": 1
