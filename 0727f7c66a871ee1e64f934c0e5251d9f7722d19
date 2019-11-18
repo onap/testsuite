@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1b187653_69ca78f5",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 3957
+      },
+      "writtenOn": "2019-11-18T13:30:00Z",
+      "side": 1,
+      "message": "yes, thanks",
+      "parentUuid": "e3f62651_6bd0ae5a",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 38
+      },
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd00356f_125496d4",
         "filename": "docker/build_docker.sh",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2019-11-18T13:08:04Z",
       "side": 1,
       "message": "I have some other suggestion, that would make less operations needed, but cause minimal change in dockerfile/docker build command.\n\nYou can actually build docker from top level directory with command like `docker build . -t onap/testsuite -f docker/Dockerfile` but Dockerfile would need to modify its COPY statements to following:\n```\nCOPY docker/lighttpd.conf /etc/lighttpd/lighttpd.conf\nCOPY docker/authorization /etc/lighttpd/authorization\n```\n\nAfter such improvements, you can even purge .dockerignore quite a lot, thus reducing transferred build cache greatly and also reducing manual steps needed.\n\nPlease consider this solution :)",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "106c0424_c4aea252",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3957
+      },
+      "writtenOn": "2019-11-18T13:30:00Z",
+      "side": 1,
+      "message": "yes, I\u0027m fully aware of this (except ignore did not checked) :) I just wanted to make script without mods to Dockerfile as it would break current Jenkins builds.",
+      "parentUuid": "bd00356f_125496d4",
       "range": {
         "startLine": 81,
         "startChar": 0,
@@ -88,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "b6f46a91_9127c7c8",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 3957
+      },
+      "writtenOn": "2019-11-18T13:30:00Z",
+      "side": 1,
+      "message": "yes it would be needed",
+      "parentUuid": "1fe0f08e_520808cd",
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f34bcb1_45e2465d",
         "filename": "docker/build_docker.sh",
         "patchSetId": 1
@@ -99,6 +165,30 @@
       "writtenOn": "2019-11-18T13:08:04Z",
       "side": 1,
       "message": "I\u0027d suggest to allow passing some parameter/env variable to make this step optional for faster local rebuilds during development.\nYou can also update .gitignore with directory names of downloaded folders",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 25
+      },
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ea95388_f52069f8",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 3957
+      },
+      "writtenOn": "2019-11-18T13:30:00Z",
+      "side": 1,
+      "message": "yes skipping clean was also in my list",
+      "parentUuid": "0f34bcb1_45e2465d",
       "range": {
         "startLine": 90,
         "startChar": 0,
