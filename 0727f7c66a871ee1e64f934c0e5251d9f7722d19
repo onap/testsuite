@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8541bd8_49037561",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-11-18T13:08:04Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this function brings much value (especially if you agree with my comment regarding copying files below)",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 18
+      },
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3f62651_6bd0ae5a",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-11-18T13:08:04Z",
+      "side": 1,
+      "message": "you can use shorter test: [ -z \"$x\" ]",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 38
+      },
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd00356f_125496d4",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-11-18T13:08:04Z",
+      "side": 1,
+      "message": "I have some other suggestion, that would make less operations needed, but cause minimal change in dockerfile/docker build command.\n\nYou can actually build docker from top level directory with command like `docker build . -t onap/testsuite -f docker/Dockerfile` but Dockerfile would need to modify its COPY statements to following:\n```\nCOPY docker/lighttpd.conf /etc/lighttpd/lighttpd.conf\nCOPY docker/authorization /etc/lighttpd/authorization\n```\n\nAfter such improvements, you can even purge .dockerignore quite a lot, thus reducing transferred build cache greatly and also reducing manual steps needed.\n\nPlease consider this solution :)",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 40
+      },
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fe0f08e_520808cd",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-11-18T13:08:04Z",
+      "side": 1,
+      "message": "If this script is to be used for official image releasing, you can add additional tag parameter to be used here",
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f34bcb1_45e2465d",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-11-18T13:08:04Z",
+      "side": 1,
+      "message": "I\u0027d suggest to allow passing some parameter/env variable to make this step optional for faster local rebuilds during development.\nYou can also update .gitignore with directory names of downloaded folders",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 25
+      },
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95f95977_c65aa41c",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-11-18T13:08:04Z",
+      "side": 1,
+      "message": "There is unnecessary layer of loop here.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 4
+      },
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
