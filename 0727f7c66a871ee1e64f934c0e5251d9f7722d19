@@ -72,6 +72,57 @@
     },
     {
       "key": {
+        "uuid": "9bae5aa7_d5f1f973",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-18T15:23:35Z",
+      "side": 1,
+      "message": "This isnt needed its installed by pip package",
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a06b3e84_829ff4fe",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-18T15:23:35Z",
+      "side": 1,
+      "message": "This doesnt work and is slated to be removed in frankfurt",
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9763231_20a2b47b",
+        "filename": "docker/build_docker.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-18T15:23:35Z",
+      "side": 1,
+      "message": "This isnt needed its installed by helm into a volume and not included in image",
+      "revId": "0727f7c66a871ee1e64f934c0e5251d9f7722d19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bd00356f_125496d4",
         "filename": "docker/build_docker.sh",
         "patchSetId": 1
