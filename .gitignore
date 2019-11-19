@@ -11,3 +11,9 @@
 /*.log
 /*.zip
 .project
+
+# Added for Intellij IDEA IDE
+**/*.iml
+
+#MacOS
+**/.DS_Store
