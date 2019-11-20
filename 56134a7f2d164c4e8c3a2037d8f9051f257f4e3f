@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "fc772f1f_4cad100e",
+        "filename": "robot/testsuites/cds/cds_sanity.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5986
+      },
+      "writtenOn": "2019-11-20T16:50:17Z",
+      "side": 1,
+      "message": "As mentioned in the comment above the testcase its a WIP so that I can make one testcase which can do enrichment for multiple use cases in future. If this works as expected I will remove the above two methods.",
+      "parentUuid": "8b4ab8d8_49fc8cfd",
+      "revId": "56134a7f2d164c4e8c3a2037d8f9051f257f4e3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78dd40ee_7aebec3a",
         "filename": "robot/testsuites/cds/cds_sanity.robot",
         "patchSetId": 1
@@ -81,6 +99,24 @@
       "writtenOn": "2019-11-20T16:03:35Z",
       "side": 1,
       "message": "why is this in a zip if you are going to unzip it?",
+      "revId": "56134a7f2d164c4e8c3a2037d8f9051f257f4e3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e417fac_54b7f6b4",
+        "filename": "robot/testsuites/cds/cds_sanity.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5986
+      },
+      "writtenOn": "2019-11-20T16:50:17Z",
+      "side": 1,
+      "message": "Enrich API accepts zip files and I am not looking to unzip it. In the post request its a zip file which is being read and not the unzipped one.",
+      "parentUuid": "78dd40ee_7aebec3a",
       "revId": "56134a7f2d164c4e8c3a2037d8f9051f257f4e3f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
