@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bf0aeae_3c4df2a5",
+        "filename": "robot/resources/cds/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-20T16:03:35Z",
+      "side": 1,
+      "message": "dont use evaluate, robot provides native list functionality",
+      "revId": "56134a7f2d164c4e8c3a2037d8f9051f257f4e3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3cbc454_a45f2f56",
+        "filename": "robot/resources/cds/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-20T16:03:35Z",
+      "side": 1,
+      "message": "for new components please create them in the python library in testsuite/python-testing-utils repository, robotframework-onap directory",
+      "revId": "56134a7f2d164c4e8c3a2037d8f9051f257f4e3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06fd469c_4e65ed06",
+        "filename": "robot/testsuites/cds/cds_sanity.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-20T16:03:35Z",
+      "side": 1,
+      "message": "dont use evaluate",
+      "revId": "56134a7f2d164c4e8c3a2037d8f9051f257f4e3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b4ab8d8_49fc8cfd",
+        "filename": "robot/testsuites/cds/cds_sanity.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-20T16:03:35Z",
+      "side": 1,
+      "message": "why both and then the indivual above?",
+      "revId": "56134a7f2d164c4e8c3a2037d8f9051f257f4e3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78dd40ee_7aebec3a",
+        "filename": "robot/testsuites/cds/cds_sanity.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-20T16:03:35Z",
+      "side": 1,
+      "message": "why is this in a zip if you are going to unzip it?",
+      "revId": "56134a7f2d164c4e8c3a2037d8f9051f257f4e3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}

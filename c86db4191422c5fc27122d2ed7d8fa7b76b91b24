@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "734011d5_d8d3b5c7",
+        "filename": "robot/assets/cds/vFW.zip",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-20T16:03:35Z",
+      "side": 0,
+      "message": "put this in demo repo",
+      "revId": "c86db4191422c5fc27122d2ed7d8fa7b76b91b24",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19206f44_0ab7c8ff",
+        "filename": "robot/assets/cds/vLB.zip",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-20T16:03:35Z",
+      "side": 0,
+      "message": "put this in demo repo",
+      "revId": "c86db4191422c5fc27122d2ed7d8fa7b76b91b24",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
