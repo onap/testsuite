@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e6564b5_b4047f29",
+        "filename": "robot/assets/security/ExpectedNodePorts.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-22T19:08:47Z",
+      "side": 1,
+      "message": "shouldnt this data come from the helm chart? what if someone doesnt want to use theese? Also arent we swithcing to ingress? Would that affect this?",
+      "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a04906e1_8eb4173c",
+        "filename": "robot/testsuites/security.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-22T19:08:47Z",
+      "side": 1,
+      "message": "dont make global variables, use env variables or get the data in the testsuite",
+      "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4a8bc4c_2e1a299a",
+        "filename": "robot/testsuites/security.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-22T19:08:47Z",
+      "side": 1,
+      "message": "dont use keywords in testsuites, done use evaluate",
+      "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
