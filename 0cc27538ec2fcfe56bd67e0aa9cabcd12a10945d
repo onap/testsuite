@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "024d61ad_fc4b951f",
+        "filename": "robot/assets/5gbulkpm/FileExistNotification.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4023
+      },
+      "writtenOn": "2019-11-25T13:48:13Z",
+      "side": 1,
+      "message": "This files content is a FileReadyEvent, The name of the file might be more meaningful if you include that somehow.",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b91c29fa_00f67433",
+        "filename": "robot/assets/5gbulkpm/Notification.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4023
+      },
+      "writtenOn": "2019-11-25T13:48:13Z",
+      "side": 1,
+      "message": "Another FileReady event, Is there some meaningful way to distinguish between this and the previous file ready event other than giving slightly different names?",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "959715e5_7b2467b8",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4023
+      },
+      "writtenOn": "2019-11-25T13:48:13Z",
+      "side": 1,
+      "message": "Is this correct? seems odd that inventory is serving https on 8080.",
+      "range": {
+        "startLine": 17,
+        "startChar": 36,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
