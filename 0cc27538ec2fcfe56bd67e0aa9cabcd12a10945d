@@ -312,6 +312,24 @@
       "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0701f35_e2ccb9d0",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T16:48:57Z",
+      "side": 1,
+      "message": "absolutely, you can refer to anything here, you just shouldnt define any here as then they are not resuable.",
+      "parentUuid": "6af336a3_78d4cf36",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
