@@ -5,7 +5,7 @@ Library           DateTime
 Library           Process
 Library           ONAPLibrary.JSON
 Library	          ONAPLibrary.Utilities
-Library	          ONAPLibrary.Templating    WITH NAME    Templating   
+Library	          ONAPLibrary.Templating    WITH NAME    Templating
 
 Resource          global_properties.robot
 
@@ -92,6 +92,17 @@ Run MR Auth Put Request
      ${session}=    Create Session      mr      ${MR_ENDPOINT}
      ${resp}=   Put Request     mr      ${data_path}     headers=${headers}   data=${data}
      Should Be Equal As Strings         ${resp.status_code}     200
+     Log    Received response from message router ${resp.text}
+     [Return]    ${resp}
+
+Run MR Auth Get Request
+     [Documentation]    Runs MR Authenticated Put Request
+     [Arguments]     ${data_path}     ${username}   ${password}
+     ${auth}=            Create List              ${username}      ${password}
+     ${session}=    Create Session      mr      ${MR_ENDPOINT}     auth=${auth}
+     ${uuid}=    Generate UUID4
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
+     ${resp}=   Get Request     mr      ${data_path}     headers=${headers}
      Log    Received response from message router ${resp.text}
      [Return]    ${resp}
 
