@@ -82,3 +82,5 @@ There are 3 flavors of runTags.sh
 runTags.sh -i health -i ete -e garbage
 ```
 
+## Contributing
+Follow [Robot Framework Development Guide](https://wiki.onap.org/display/DW/Robot+Framework+Development+Guide).
