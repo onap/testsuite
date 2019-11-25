@@ -23,7 +23,8 @@ pip install \
 'robotframework-requests==0.5.0' \
 'robotframework-sshlibrary==3.3.0' \
 'robotframework-ftplibrary==1.6' \
-'robotframework-archivelibrary==0.4.0'
+'robotframework-archivelibrary==0.4.0' \
+'robotframework-jsonlibrary==0.3.1'
 
 pip install \
 --pre \
@@ -70,9 +71,9 @@ then
 	# we need to update PATH with chromium-chromedriver
 	echo "Adding in-container chromedriver to PATH"
 	ln -s /usr/lib/chromium-browser/chromedriver /usr/local/bin/chromedriver
-	
+
 	echo "Skipping desktop steps, building container image..."
-else	
+else
 	#
 	# Get the appropriate chromedriver. Default to linux64
 	#
