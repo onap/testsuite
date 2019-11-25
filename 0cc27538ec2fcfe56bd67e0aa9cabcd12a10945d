@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "3cb2edb6_6de7747c",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2019-11-25T16:42:45Z",
+      "side": 1,
+      "message": "This use case is not specific to dcae .. may be i will create a \"usecase\" folder and add appropriate robot test in it.",
+      "parentUuid": "f5d0efdd_08ef4993",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "959715e5_7b2467b8",
         "filename": "robot/testsuites/5gbulkpm.robot",
         "patchSetId": 1
@@ -87,6 +105,30 @@
       "writtenOn": "2019-11-25T15:48:53Z",
       "side": 1,
       "message": "URLs should be passed in from robot_properties.py in testsuite/oom",
+      "parentUuid": "959715e5_7b2467b8",
+      "range": {
+        "startLine": 17,
+        "startChar": 36,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95993af9_9488a2d2",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2019-11-25T16:42:45Z",
+      "side": 1,
+      "message": "I will move URL to robot_properties.py ..",
       "parentUuid": "959715e5_7b2467b8",
       "range": {
         "startLine": 17,
@@ -185,6 +227,24 @@
     },
     {
       "key": {
+        "uuid": "8d053f41_e78c38d9",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2019-11-25T16:42:45Z",
+      "side": 1,
+      "message": "There was no ves health check ..so i created it .. i will move health check to dcae health check ..and add appropriate Tag.",
+      "parentUuid": "6cffb63d_2a99e4ff",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f8787f5_c8a216f6",
         "filename": "robot/testsuites/5gbulkpm.robot",
         "patchSetId": 1
@@ -202,6 +262,24 @@
     },
     {
       "key": {
+        "uuid": "02820702_f078b6f3",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2019-11-25T16:42:45Z",
+      "side": 1,
+      "message": "i will add teardown steps to clean up env ..",
+      "parentUuid": "8f8787f5_c8a216f6",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17a1d4a9_3f8bf7b4",
         "filename": "robot/testsuites/5gbulkpm.robot",
         "patchSetId": 1
@@ -213,6 +291,24 @@
       "writtenOn": "2019-11-25T15:48:53Z",
       "side": 1,
       "message": "no keywords in a testsuite, also a lot of these exist in various spots in the resource folders. Also new interfaces should be implemented in the testsuite/python-testing-utils robotframework-onap directory",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6af336a3_78d4cf36",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2019-11-25T16:42:45Z",
+      "side": 1,
+      "message": "this is tricky .. my tests are depend up on these keywords .. may be i will move to resource folder and refer it here .. is this okay ??",
+      "parentUuid": "17a1d4a9_3f8bf7b4",
       "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
