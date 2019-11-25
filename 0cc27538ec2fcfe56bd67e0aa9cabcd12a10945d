@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "f5d0efdd_08ef4993",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T15:48:53Z",
+      "side": 1,
+      "message": "i think it is time for a dcae folder for testsuites, i think hvves also qualifies to go there.",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "959715e5_7b2467b8",
         "filename": "robot/testsuites/5gbulkpm.robot",
         "patchSetId": 1
@@ -56,6 +73,149 @@
       "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97c6719d_55640f2e",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T15:48:53Z",
+      "side": 1,
+      "message": "URLs should be passed in from robot_properties.py in testsuite/oom",
+      "parentUuid": "959715e5_7b2467b8",
+      "range": {
+        "startLine": 17,
+        "startChar": 36,
+        "endLine": 17,
+        "endChar": 58
+      },
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa3378e0_60f2247a",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T15:48:53Z",
+      "side": 1,
+      "message": "URLs should be passed in from robot_properties.py in testsuite/oom",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0707002a_fa5c24e1",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T15:48:53Z",
+      "side": 1,
+      "message": "URLs should be passed in from robot_properties.py in testsuite/oom",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28766190_e1498807",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T15:48:53Z",
+      "side": 1,
+      "message": "URLs should be passed in from robot_properties.py in testsuite/oom",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0f1b670_db32d7f2",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T15:48:53Z",
+      "side": 1,
+      "message": "URLs should be passed in from robot_properties.py in testsuite/oom",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6cffb63d_2a99e4ff",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T15:48:53Z",
+      "side": 1,
+      "message": "these health checks should be in the health-check.robot file and include the relevant tags",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f8787f5_c8a216f6",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T15:48:53Z",
+      "side": 1,
+      "message": "cleanup should be a keyword and then called with a teardown item where appropriate",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17a1d4a9_3f8bf7b4",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T15:48:53Z",
+      "side": 1,
+      "message": "no keywords in a testsuite, also a lot of these exist in various spots in the resource folders. Also new interfaces should be implemented in the testsuite/python-testing-utils robotframework-onap directory",
+      "revId": "0cc27538ec2fcfe56bd67e0aa9cabcd12a10945d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
