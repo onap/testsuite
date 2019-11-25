@@ -82,3 +82,14 @@ There are 3 flavors of runTags.sh
 runTags.sh -i health -i ete -e garbage
 ```
 
+## Contributing
+Follow set of guidelines below:
+
+### Avoid using global variables
+Use environment variables instead or get necessary data in the testsuite.
+
+### Avoid using Evaluate
+Check if there is relevant keyword provided in available libraries.
+
+### Avoid placing Keywords in Testsuites
+Move them to `resources` directory.
