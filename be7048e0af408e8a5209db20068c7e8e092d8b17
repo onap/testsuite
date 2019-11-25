@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "daa9b590_b3dfcfba",
+        "filename": "robot/assets/security/ExpectedNodePorts.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T19:46:22Z",
+      "side": 1,
+      "message": "sorry i wasnt more clear, i meant what if someone doesnt want to use some components. For instance, dgbuilder is usually not recommended to be deployed on prod systems (although neither is robot) and log stack is deployed elsewhere in a provider usually. This setup would fail as its currently designed if they are not there at all",
+      "parentUuid": "a771b475_bcde1460",
+      "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a04906e1_8eb4173c",
         "filename": "robot/testsuites/security.robot",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "e08c3e88_2388d799",
+        "filename": "robot/testsuites/security.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T19:46:22Z",
+      "side": 1,
+      "message": "ACTUAL_NODEPORTS_FILE file should be set in the helm chart if we really cant get the kubectl access, that is fine to do.",
+      "parentUuid": "b6fd2f8c_fb4c39dc",
+      "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4a8bc4c_2e1a299a",
         "filename": "robot/testsuites/security.robot",
         "patchSetId": 1
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "Done\n\nReplaced this keyword with JSON comparison from ONAPLibrary.JSON",
       "parentUuid": "c4a8bc4c_2e1a299a",
+      "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b531305_6cb18e62",
+        "filename": "robot/testsuites/security.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T19:46:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a19c944_7c8ce613",
       "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
