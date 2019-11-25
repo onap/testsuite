@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74395f6d_3e1a6bf1",
+        "filename": "robot/testsuites/5gbulkpm.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-25T16:18:03Z",
+      "side": 1,
+      "message": "sleep should be a last resort, it automatically slows the test down for that timeframe. Consider using \u0027Wait Until Keyword Succeeds\u0027 or use a for loop and something like \u0027Run Keyword And Return If\u0027",
+      "revId": "39f638518c875ce18d3c07b696ab1767dd075da8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
