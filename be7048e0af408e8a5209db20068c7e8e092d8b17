@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a771b475_bcde1460",
+        "filename": "robot/assets/security/ExpectedNodePorts.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-11-25T15:19:13Z",
+      "side": 1,
+      "message": "1) It does - SECCOM collected and published it in ONAP setup notes (linked in commit message)\n2) I hope nobody wants to use them anymore and this list will shrink from release to release\n3) Correct - Ingress Controller introduction as meant to replace NodePorts; purpose of this test is to monitor migration progress and to detect introduction of new NodePorts\n4) List will shrink until it\u0027s empty - full migration shall result in complete NodePorts removal (together with this test)",
+      "parentUuid": "2e6564b5_b4047f29",
+      "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a04906e1_8eb4173c",
         "filename": "robot/testsuites/security.robot",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b6fd2f8c_fb4c39dc",
+        "filename": "robot/testsuites/security.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-11-25T15:19:13Z",
+      "side": 1,
+      "message": "Obtaining data on cluster requires \"kubectl\" tool/Kubernetes API access. Granting it to Robot pod could result in cluster being able to modify itself.\n\nThat\u0027s why gathering necessary data was moved to test runner (https://gerrit.onap.org/r/c/testsuite/oom/+/98813) and is just passed to Robot for analysis.",
+      "parentUuid": "a04906e1_8eb4173c",
+      "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4a8bc4c_2e1a299a",
         "filename": "robot/testsuites/security.robot",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2019-11-22T19:08:47Z",
       "side": 1,
       "message": "dont use keywords in testsuites, done use evaluate",
+      "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a19c944_7c8ce613",
+        "filename": "robot/testsuites/security.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-11-25T15:19:13Z",
+      "side": 1,
+      "message": "Done\n\nReplaced this keyword with JSON comparison from ONAPLibrary.JSON",
+      "parentUuid": "c4a8bc4c_2e1a299a",
       "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
