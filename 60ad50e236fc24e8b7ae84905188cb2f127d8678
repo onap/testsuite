@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5663f0c5_7d71c549",
+        "filename": "robot/resources/usecases/5gbulkpm_interface.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-27T15:42:49Z",
+      "side": 1,
+      "message": "dont use evaluate, there are keywords for most of what you are doing",
+      "revId": "60ad50e236fc24e8b7ae84905188cb2f127d8678",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0616181_1a6551ef",
+        "filename": "robot/resources/usecases/5gbulkpm_interface.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-27T15:42:49Z",
+      "side": 1,
+      "message": "in robotframework-onap there area aready some json methods, dont make your own.",
+      "revId": "60ad50e236fc24e8b7ae84905188cb2f127d8678",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
