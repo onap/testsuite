@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d1f873_b830f99e",
+        "filename": "robot/resources/usecases/5gbulkpm_interface.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-11-27T15:42:49Z",
+      "side": 1,
+      "message": "dont hard code auth",
+      "revId": "780642cd05682a1b922ce0b0358c239a3c7c8406",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
