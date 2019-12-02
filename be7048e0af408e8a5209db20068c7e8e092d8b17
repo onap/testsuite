@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "49cfe263_05fa1324",
+        "filename": "robot/assets/security/ExpectedNodePorts.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-02T14:05:19Z",
+      "side": 1,
+      "message": "I see. You\u0027re right. What do you think about checking if all detected NodePorts are a subset of expected NodePorts?\n\nThat would require:\n1) evaluating JSON file (which is discouraged) to dict and using Collections.\"Dictionary Should Contain Sub Dictionary\" or\n2) providing a new Keyword in e.g. ONAPLibrary.JSON\n\nLet me know what you think",
+      "parentUuid": "daa9b590_b3dfcfba",
+      "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a04906e1_8eb4173c",
         "filename": "robot/testsuites/security.robot",
         "patchSetId": 1
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "ACTUAL_NODEPORTS_FILE file should be set in the helm chart if we really cant get the kubectl access, that is fine to do.",
       "parentUuid": "b6fd2f8c_fb4c39dc",
+      "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe9ba8af_2cda95b2",
+        "filename": "robot/testsuites/security.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2019-12-02T14:05:19Z",
+      "side": 1,
+      "message": "Please clarify - would you like me to provide a default value in testsuite/oom/values.yaml?\n\nI thought providing that file name dynamically would be more flexible, hence my patch to testsuite/oom (linked in this thread) - it adds gathering necessary information and passing its location to ETE testsuite runner script.",
+      "parentUuid": "e08c3e88_2388d799",
       "revId": "be7048e0af408e8a5209db20068c7e8e092d8b17",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
