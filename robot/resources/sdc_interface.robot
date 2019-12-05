@@ -73,10 +73,9 @@ ${SDC_BE_ONBOARD_ENDPOINT}     ${GLOBAL_SDC_SERVER_PROTOCOL}://${GLOBAL_INJECTED
 Distribute Model From SDC
     [Documentation]    Goes end to end creating all the SDC objects based ONAP model and distributing it to the systems. It then returns the service name, VF/PNF name and VF module name
     [Arguments]    ${model_zip_path}   ${catalog_service_name}=    ${cds}=False    ${service}=    ${instantiationType}=A-la-carte  ${resourceType}=VF
-    # For Testing use random service names
-    #${random}=    Get Current Date
-    #${catalog_service_id}=    Add SDC Catalog Service    ${catalog_service_name}_${random}
-    ${catalog_service_id}=    Add SDC Catalog Service    ${catalog_service_name}   ${instantiationType}
+    # add logic to handle service name already exists
+    ${status}   ${catalog_service_id}=    Run Keyword And Ignore Error    Add SDC Catalog Service    ${catalog_service_name}   ${instantiationType}
+    Return From Keyword If   '${status}' == 'FAIL'
     ${catalog_resource_ids}=    Create List
     ${catalog_resources}=   Create Dictionary
     #####  TODO: Support for Multiple resources of one type in a service  ######
@@ -256,6 +255,7 @@ Create Allotted Resource Data File
 Download CSAR
    [Documentation]   Download CSAR
    [Arguments]    ${catalog_service_id}    ${save_directory}=/tmp/csar
+   Return From Keyword If     '${catalog_service_id}'=='None'
    # get meta data
    ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/filteredDataByParams?include=toscaArtifacts    ${SDC_DESIGNER_USER_ID}        auth=${GLOBAL_SDC_AUTHENTICATION}
    ${csar_resource_id}=    Set Variable   ${resp.json()['toscaArtifacts']['assettoscacsar']['uniqueId']}
@@ -811,6 +811,7 @@ Add SDC Catalog Service
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_SERVICE_TEMPLATE}    ${map}
     ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}     ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
+    Run Keyword If    ('${resp.status_code}'=='409')   Log To Console   ${\n} ${catalog_service_name} Service Already Exists
     Should Be Equal As Strings  ${resp.status_code}     201
     [Return]    ${resp.json()['uniqueId']}
 
