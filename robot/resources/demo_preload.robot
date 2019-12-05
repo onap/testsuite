@@ -63,26 +63,28 @@ Load Customer
     Create Availability Zone If Not Exists    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${GLOBAL_AAI_AVAILABILITY_ZONE_NAME}
 
 Load Models
-    [Documentation]   Use ONAP to Orchestrate a service.
+    [Documentation]   Load Basic Test VNF Models
     [Arguments]    ${customer_name}
     Log   ${\n}Distributing vFWCL
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vFWCL   ${DEMO_PREFIX}VFWCL
+    Distribute Model   vFWCL   ${DEMO_PREFIX}VFWCL
     Log   Distibuting vLB
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB   ${DEMO_PREFIX}VLB
+    Distribute Model   vLB   ${DEMO_PREFIX}VLB
     Log   Distibuting vLB_CDS
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB_CDS   ${DEMO_PREFIX}VLB_CDS  True
-    ##${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPE   ${DEMO_PREFIX}VCPE
-    ##${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vIMS   ${DEMO_PREFIX}VIMS
+    Distribute Model   vLB_CDS   ${DEMO_PREFIX}VLB_CDS  True
+
+Load vCPE Models
+    [Documentation]   Load vCPE Models
+    [Arguments]    ${customer_name}
     Log   Distibuting vCPEInfra
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEInfra   ${DEMO_PREFIX}VCPEInfra
+    Distribute Model   vCPEInfra   ${DEMO_PREFIX}VCPEInfra
     Log   Distibuting vCPEvBNG
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvBNG   ${DEMO_PREFIX}VCPEvBNG
+    Distribute Model   vCPEvBNG   ${DEMO_PREFIX}VCPEvBNG
     Log   Distibuting vCPEvBRGEMU
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvBRGEMU   ${DEMO_PREFIX}VCPEvBRGEMU 
+    Distribute Model   vCPEvBRGEMU   ${DEMO_PREFIX}VCPEvBRGEMU 
     Log   Distibuting vCPEvGMUX
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvGMUX    ${DEMO_PREFIX}VCPEvGMUX
+    Distribute Model   vCPEvGMUX    ${DEMO_PREFIX}VCPEvGMUX
     Log   Distibuting vCPEvGW (this is not vCPEResCust service)
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vCPEvGW    ${DEMO_PREFIX}VCPEvGW
+    Distribute Model   vCPEvGW    ${DEMO_PREFIX}VCPEvGW
 
 Distribute Model
     [Arguments]   ${service}   ${modelName}  ${cds}=False   ${instantiationType}=A-la-carte  ${resourceType}=VF
