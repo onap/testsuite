@@ -38,6 +38,10 @@ Initialize SO Openstack Identity For V3
     ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
     Run Keyword If    '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'=='v3'     SO.Upsert Cloud Configuration    ${GLOBAL_SO_CATDB_ENDPOINT}    ${GLOBAL_SO_CLOUD_CONFIG_PATH}    ${GLOBAL_TEMPLATE_FOLDER}    ${GLOBAL_SO_CLOUD_CONFIG_TEMPLATE}    ${arguments}    auth=${auth}
 
+Initialize vCPE Models
+   [Tags]  distributeVCPE
+   Load vCPE Models
+
 Initialize Customer
     [Tags]   InitCustomer
     Load Customer   Demonstration
