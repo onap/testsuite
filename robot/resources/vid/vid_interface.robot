@@ -22,6 +22,8 @@ Run VID Health Check
     ${resp}=    Run VID Get Request    ${VID_HEALTHCHECK_PATH}
     Should Be Equal As Strings 	${resp.status_code} 	200
     Should Be String    ${resp.json()['detailedMsg']}
+    Login To VID GUI
+    Go To VID HOME
 
 Run VID Get Request
     [Documentation]    Runs an VID get request
