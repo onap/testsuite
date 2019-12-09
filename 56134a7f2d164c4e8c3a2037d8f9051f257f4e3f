@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a6950e1b_67aaa770",
+        "filename": "robot/resources/cds/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5986
+      },
+      "writtenOn": "2019-12-09T16:50:24Z",
+      "side": 1,
+      "message": "The python requests library which I am using in this case accepts auth field as a tuple and robot framework doesn\u0027t provide library to create a tuple. Instead I used evaluate to do the same.",
+      "parentUuid": "2bf0aeae_3c4df2a5",
+      "revId": "56134a7f2d164c4e8c3a2037d8f9051f257f4e3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3cbc454_a45f2f56",
         "filename": "robot/resources/cds/cds_interface.robot",
         "patchSetId": 1
