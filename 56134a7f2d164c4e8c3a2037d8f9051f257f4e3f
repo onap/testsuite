@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "42c21e69_cec59502",
+        "filename": "robot/resources/cds/cds_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-12-09T16:55:56Z",
+      "side": 1,
+      "message": "1. You shouldnt be using the requests library directly\n2. You can write python code in the robotframework-onap library if need be, where most new interfaces should be built",
+      "parentUuid": "a6950e1b_67aaa770",
+      "revId": "56134a7f2d164c4e8c3a2037d8f9051f257f4e3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3cbc454_a45f2f56",
         "filename": "robot/resources/cds/cds_interface.robot",
         "patchSetId": 1
