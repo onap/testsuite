@@ -40,8 +40,9 @@ Generate Random User
 
 Portal admin Login To Portal GUI
     [Documentation]   Logs into Portal GUI
-    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
     Setup Browser
+    Set Selenium Speed    ${GLOBAL_SELENIUM_DELAY}
+    Set Window Size        2000   1000
     Go To    ${PORTAL_LOGIN_URL}
     Set Browser Implicit Wait    ${GLOBAL_SELENIUM_BROWSER_IMPLICIT_WAIT}
     Log    Logging in to ${PORTAL_URL}${PORTAL_ENV}

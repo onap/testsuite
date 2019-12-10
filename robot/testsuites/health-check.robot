@@ -280,12 +280,56 @@ Health Distribution Test
 
 Portal Login Tests
     [Tags]    healthlogin
+    [Timeout]   120
     Run Portal Login Tests
 
 Portal Application Access Tests
     [Tags]    healthportalapp
-    [Timeout]    180
+    [Timeout]    900
     Run Portal Application Access Tests
+
+Portal SDC Application Access Test
+    [Tags]    healthportalapp2
+    [Timeout]    180
+    Run Portal Application Login Test   cs0008   demo123456!   gridster-SDC-icon-link   tabframe-SDC    Welcome to SDC
+    Close All Browsers
+
+Portal VID Application Access Test
+    [Tags]    healthportalapp2
+    [Timeout]    180
+    Run Portal Application Login Test   demo    demo123456!  gridster-Virtual-Infrastructure-Deployment-icon-link   tabframe-Virtual-Infrastructure-Deployment    Welcome to VID
+    Close All Browsers
+
+Portal A&AI UI Application Access Test
+    [Tags]    healthportalapp2
+    [Timeout]    180
+    Run Portal Application Login Test   demo    demo123456!  gridster-A&AI-UI-icon-link   tabframe-A&AI-UI    A&AI
+    Close All Browsers
+
+Portal Policy Editor Application Access Test
+    [Tags]    healthportalapp2
+    [Timeout]    180
+    Run Portal Application Login Test   demo    demo123456!  gridster-Policy-icon-link   tabframe-Policy    Policy Editor
+    Close All Browsers
+
+Portal SO Monitoring Application Access Test
+    [Tags]    healthportalapp2
+    [Timeout]    180
+    Run Portal Application Login Test   demo    demo123456!  gridster-SO-Monitoring-icon-link   tabframe-SO-Monitoring   SO
+    Close All Browsers
+
+Portal xDemo APP Application Access Test
+    [Tags]    healthportalapp2
+    [Timeout]    180
+    Run Portal Application Login Test   demo    demo123456!  gridster-xDemo-App-icon-link   tabframe-xDemo-App   xDemo
+    Close All Browsers
+
+Portal CLI Application Access Test
+    [Tags]    healthportalapp2
+    [Timeout]    180
+    Run Portal Application Login Test   demo    demo123456!  gridster-CLI-icon-link   tabframe-CLI   CLI
+    Close All Browsers
+
 
 Basic Holmes Rule Management API Health Check
     [Tags]    health    medium   health-dcaegen2

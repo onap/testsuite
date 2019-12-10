@@ -1,0 +1,12 @@
+# Add the following lines to /etc/hosts inside the robot pod with the
+# k8s host IP from something like k8s-01
+10.12.6.161 portal.api.simpledemo.onap.org portal-app.onap
+10.12.6.161 vid.api.simpledemo.onap.org
+10.12.6.161 sdc.api.fe.simpledemo.onap.org
+10.12.6.161 portal-sdk.simpledemo.onap.org
+10.12.6.161 policy.api.simpledemo.onap.org
+10.12.6.161 aai.api.sparky.simpledemo.onap.org  aai.ui.simpledemo.onap.org
+10.12.6.161 cli.api.simpledemo.onap.org
+10.12.6.161 so-monitoring
+
+
