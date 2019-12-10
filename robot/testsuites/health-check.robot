@@ -280,11 +280,12 @@ Health Distribution Test
 
 Portal Login Tests
     [Tags]    healthlogin
+    [Timeout]   120
     Run Portal Login Tests
 
 Portal Application Access Tests
     [Tags]    healthportalapp
-    [Timeout]    180
+    [Timeout]    900
     Run Portal Application Access Tests
 
 Basic Holmes Rule Management API Health Check
