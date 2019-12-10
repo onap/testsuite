@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d3aef95_cb3c389a",
+        "filename": "notes_etc_hosts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-12-10T20:45:58Z",
+      "side": 1,
+      "message": "if this is realy needed, https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/#adding-additional-entries-with-hostaliases",
+      "revId": "c26a113d09d72b8a3df73011e450d0101c8c1cce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4eeebe8a_58004ee9",
+        "filename": "robot/resources/portal_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-12-10T20:45:58Z",
+      "side": 1,
+      "message": "is it really a test if you ignore all errors :)",
+      "revId": "c26a113d09d72b8a3df73011e450d0101c8c1cce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472b82fb_59e1ed27",
+        "filename": "robot/resources/portal_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-12-10T20:45:58Z",
+      "side": 1,
+      "message": "i think login will take you there automicatlly",
+      "revId": "c26a113d09d72b8a3df73011e450d0101c8c1cce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bdf6b4d_62a69a9a",
+        "filename": "robot/resources/portal_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-12-10T20:45:58Z",
+      "side": 1,
+      "message": "i think login will take you there automicatlly",
+      "revId": "c26a113d09d72b8a3df73011e450d0101c8c1cce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f87f3975_84c1b025",
+        "filename": "robot/resources/portal_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2019-12-10T20:45:58Z",
+      "side": 1,
+      "message": "sleeps this long are bad, can we do a wait until page contains?",
+      "revId": "c26a113d09d72b8a3df73011e450d0101c8c1cce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
