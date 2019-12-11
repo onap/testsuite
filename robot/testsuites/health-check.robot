@@ -267,6 +267,8 @@ Basic VFC ztevnfmdriver API Health Check
 
 Basic VID Health Check
     [Tags]    health    small  health-vid
+    [Timeout]    60
+    Setup Browser
     Run VID Health Check
 
 Basic VNFSDK Health Check
