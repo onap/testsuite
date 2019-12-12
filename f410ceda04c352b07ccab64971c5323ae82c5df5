@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8fa012a_637dfacb",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2019-12-12T07:40:30Z",
+      "side": 1,
+      "message": "for the tag, I would suggest maybe a naming more self-explicit\nportal-health: portal test that MUST be OK for a validation/daily chain\nportal-health-optional: additional tests dealing with portals (work in progress)",
+      "revId": "f410ceda04c352b07ccab64971c5323ae82c5df5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31ce9f66_94f03c92",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2019-12-12T07:40:30Z",
+      "side": 1,
+      "message": "all the creds are available in the config file. It will be more portable to get them from the config/robot config map",
+      "revId": "f410ceda04c352b07ccab64971c5323ae82c5df5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
