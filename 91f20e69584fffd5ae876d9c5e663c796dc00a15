@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06eb4c85_2dea226a",
+        "filename": "robot/resources/test_templates/pnf_orchestration_test_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5597
+      },
+      "writtenOn": "2020-01-02T10:36:32Z",
+      "side": 1,
+      "message": "It is a PNF Registration u-c, not VNF Orchestration u-c.\nOr... PNF PnP use-case.",
+      "range": {
+        "startLine": 2,
+        "startChar": 52,
+        "endLine": 2,
+        "endChar": 69
+      },
+      "revId": "91f20e69584fffd5ae876d9c5e663c796dc00a15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "601f8261_1b0f229e",
+        "filename": "robot/resources/test_templates/pnf_orchestration_test_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5597
+      },
+      "writtenOn": "2020-01-02T10:36:32Z",
+      "side": 1,
+      "message": "Can we put this keyword to the same file, where the \"Create Customer for VNF\" keyword is defined?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "91f20e69584fffd5ae876d9c5e663c796dc00a15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afbbcb6c_d0e0a0cb",
+        "filename": "robot/testsuites/pnf-registration.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5597
+      },
+      "writtenOn": "2020-01-02T10:36:32Z",
+      "side": 1,
+      "message": "fake --\u003e dummy",
+      "range": {
+        "startLine": 35,
+        "startChar": 22,
+        "endLine": 35,
+        "endChar": 26
+      },
+      "revId": "91f20e69584fffd5ae876d9c5e663c796dc00a15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58d13053_85438ee6",
+        "filename": "robot/testsuites/pnf-registration.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5597
+      },
+      "writtenOn": "2020-01-02T10:36:32Z",
+      "side": 1,
+      "message": "fake --\u003e dummy",
+      "range": {
+        "startLine": 40,
+        "startChar": 24,
+        "endLine": 40,
+        "endChar": 28
+      },
+      "revId": "91f20e69584fffd5ae876d9c5e663c796dc00a15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
