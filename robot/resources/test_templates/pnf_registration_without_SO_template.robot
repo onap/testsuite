@@ -23,6 +23,9 @@ ${pnf_ves_integration_request}=  ves/pnf_registration_request.jinja
 ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_VES_PNFREG_OUTPUT_PATH}  /events/unauthenticated.VES_PNFREG_OUTPUT/2/1
 ${VES_ENDPOINT}     ${GLOBAL_DCAE_VES_PROTOCOL}://${GLOBAL_INJECTED_DCAE_VES_HOST}:${GLOBAL_DCAE_VES_SERVER_PORT}
 ${VES_data_path}   /eventListener/v7
+${tenant_name}    ${GLOBAL_INJECTED_OPENSTACK_PROJECT_NAME}
+${tenant_id}  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}
+${region}   ${GLOBAL_INJECTED_REGION}
 
 
 *** Keywords ***
@@ -111,7 +114,7 @@ Check SO service completition status
 
 Instantiate PNF_macro service and succesfully registrate PNF template
     [Documentation]   Test case template for design, create, instantiate PNF/macro service and succesfully registrate PNF
-    [Arguments]    ${service_name}   ${PNF_entry_dict}   ${pnf_correlation_id}   ${service}=pNF    ${product_family}=gNB
+    [Arguments]    ${service_name}   ${PNF_entry_dict}   ${pnf_correlation_id}   ${service}=pNF    ${product_family}=pNF  ${customer_name}=ETE_Customer
 
     Log To Console   \nDistributing TOSCA Based PNF Model
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model  ${service}  ${service_name}  cds=False   instantiationType=Macro  resourceType=PNF
@@ -126,8 +129,12 @@ Instantiate PNF_macro service and succesfully registrate PNF template
     Run Keyword If  "${value}"=='409 != 201'  Log To Console   Service Recipe for TOSCA Based PNF Model is already assigned
     ...    ELSE IF  "${status}"=='PASS'  Log To Console   Service Recipe for TOSCA Based PNF Model has been assigned
     ...    ELSE  Log To Console   Check Service Recipe for TOSCA Based PNF Model assignmenta
-    ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
-    ${service}  ${request_id}  ${full_customer_name}   Orchestrate PNF   ETE_Customer    ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}
+    Inventory Tenant If Not Exists    CloudOwner   ${region}  SharedNode  OwnerType  v1  CloudZone  ${tenant_id}   ${tenant_name}
+    Load OwningEntity  lineOfBusiness  LOB-${customer_name}
+    Load OwningEntity  platform  Platform-${customer_name}
+    Load OwningEntity  project  Project-${customer_name}
+    Load OwningEntity  owningEntity  OE-${customer_name}
+    ${service}  ${request_id}  ${full_customer_name}   Orchestrate PNF   ${customer_name}   ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}   Project-${customer_name}   OE-${customer_name}
     Wait Until Keyword Succeeds   120s  40s  Send and verify VES integration request in SO and A&AI   ${request_id}   ${PNF_entry_dict}
 
 
