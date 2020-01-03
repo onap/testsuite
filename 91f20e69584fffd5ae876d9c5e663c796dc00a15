@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ca9d2c93_b77dfad6",
+        "filename": "robot/resources/test_templates/pnf_orchestration_test_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-01-03T00:15:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06eb4c85_2dea226a",
+      "range": {
+        "startLine": 2,
+        "startChar": 52,
+        "endLine": 2,
+        "endChar": 69
+      },
+      "revId": "91f20e69584fffd5ae876d9c5e663c796dc00a15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "601f8261_1b0f229e",
         "filename": "robot/resources/test_templates/pnf_orchestration_test_template.robot",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-02T10:36:32Z",
       "side": 1,
       "message": "Can we put this keyword to the same file, where the \"Create Customer for VNF\" keyword is defined?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "91f20e69584fffd5ae876d9c5e663c796dc00a15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2be75588_ac47fe03",
+        "filename": "robot/resources/test_templates/pnf_orchestration_test_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-01-03T00:15:23Z",
+      "side": 1,
+      "message": "I don\u0027t fully agree ... \"Create Customer for VNF\" is in vnf_orchestration_test_template.robot file. In the past I have created pnf_orchestration_test_template.robot in order to keep there keyword related to Pnf.",
+      "parentUuid": "601f8261_1b0f229e",
       "range": {
         "startLine": 37,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "da38600d_2c789856",
+        "filename": "robot/testsuites/pnf-registration.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-01-03T00:15:23Z",
+      "side": 1,
+      "message": "My mistake this row should be removed",
+      "parentUuid": "afbbcb6c_d0e0a0cb",
+      "range": {
+        "startLine": 35,
+        "startChar": 22,
+        "endLine": 35,
+        "endChar": 26
+      },
+      "revId": "91f20e69584fffd5ae876d9c5e663c796dc00a15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58d13053_85438ee6",
         "filename": "robot/testsuites/pnf-registration.robot",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2020-01-02T10:36:32Z",
       "side": 1,
       "message": "fake --\u003e dummy",
+      "range": {
+        "startLine": 40,
+        "startChar": 24,
+        "endLine": 40,
+        "endChar": 28
+      },
+      "revId": "91f20e69584fffd5ae876d9c5e663c796dc00a15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e0e8948_c690abb5",
+        "filename": "robot/testsuites/pnf-registration.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-01-03T00:15:23Z",
+      "side": 1,
+      "message": "My mistake this row should be removed",
+      "parentUuid": "58d13053_85438ee6",
       "range": {
         "startLine": 40,
         "startChar": 24,
