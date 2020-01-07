@@ -68,7 +68,7 @@ Basic DMAAP Message Router Health Check
     Run MR Health Check
 
 Basic DMAAP Message Router PubSub Health Check
-    [Tags]    healthmr    health-dmaap
+    [Tags]    healthmr    core    health-dmaap
     [Timeout]   30
     Run MR PubSub Health Check
 
