@@ -48,7 +48,7 @@ Basic APPC Health Check
     Run APPC Health Check
 
 Basic CLI Health Check
-    [Tags]    health    small  health-cli
+    [Tags]    health-cli
     Run CLI Health Check
 
 Basic CLAMP Health Check
@@ -81,15 +81,15 @@ Basic External API NBI Health Check
     Run NBI Health Check
 
 Basic Log Elasticsearch Health Check
-    [Tags]    health    small    oom   health-log
+    [Tags]    oom   health-log
     Run Log Elasticsearch Health Check
 
 Basic Log Kibana Health Check
-    [Tags]    health    small    oom   health-log
+    [Tags]    oom   health-log
     Run Log Kibana Health Check
 
 Basic Log Logstash Health Check
-    [Tags]    health    small    oom   health-log
+    [Tags]    oom   health-log
     Run Log Logstash Health Check
 
 Basic Microservice Bus Health Check
@@ -142,39 +142,39 @@ Basic Policy Health Check
     Run Policy APEX PDP Healthcheck
 
 Basic Pomba AAI-context-builder Health Check
-    [Tags]    health    oom   health-pomba
+    [Tags]    oom   health-pomba
     Run Pomba Aai Context Builder Health Check
 
 Basic Pomba SDC-context-builder Health Check
-    [Tags]    health    oom   health-pomba
+    [Tags]    oom   health-pomba
     Run Pomba Sdc Context Builder Health Check
 
 Basic Pomba Network-discovery-context-builder Health Check
-    [Tags]    health    oom   health-pomba
+    [Tags]    oom   health-pomba
     Run Pomba Network Discovery Context Builder Health Check
 
 Basic Pomba Service-Decomposition Health Check
-    [Tags]    health    oom   health-pomba
+    [Tags]    oom   health-pomba
     Run Pomba Service Decomposition Health Check
 
 Basic Pomba Network-Discovery-MicroService Health Check
-    [Tags]    health    oom  health-pomba
+    [Tags]    oom  health-pomba
     Run Pomba Network Discovery MicroService Health Check
 
 Basic Pomba Pomba-Kibana Health Check
-    [Tags]    health    oom   health-pomba
+    [Tags]    oom   health-pomba
     Run Pomba Kibana Health Check
 
 Basic Pomba Elastic-Search Health Check
-    [Tags]    health    oom   health-pomba
+    [Tags]    oom   health-pomba
     Run Pomba Elastic Search Health Check
 
 Basic Pomba Sdnc-Context-Builder Health Check
-    [Tags]    health    oom   health-pomba
+    [Tags]    oom   health-pomba
     Run Pomba Sdnc Context Builder Health Check
 
 Basic Pomba Context-Aggregator Health Check
-    [Tags]    health    oom   health-pomba
+    [Tags]    oom   health-pomba
     Run Pomba Context Aggregator Health Check
 
 Basic Portal Health Check
@@ -334,11 +334,11 @@ Portal CLI Application Access Test
 
 
 Basic Holmes Rule Management API Health Check
-    [Tags]    health    medium   health-dcaegen2
+    [Tags]    health-dcaegen2
     Run Holmes Rule Mgmt Healthcheck
 
 Basic Holmes Engine Management API Health Check
-    [Tags]    health    medium   health-dcaegen2
+    [Tags]    health-dcaegen2
     Run Holmes Engine Mgmt Healthcheck
 
 Basic Multicloud-fcaps API Health Check
