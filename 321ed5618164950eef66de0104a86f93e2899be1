@@ -16,6 +16,24 @@
       "revId": "321ed5618164950eef66de0104a86f93e2899be1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f58c284_8da925a1",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2020-01-17T15:54:07Z",
+      "side": 1,
+      "message": "Done ... moved to interface file.",
+      "parentUuid": "f4c1d536_db873a3f",
+      "revId": "321ed5618164950eef66de0104a86f93e2899be1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
