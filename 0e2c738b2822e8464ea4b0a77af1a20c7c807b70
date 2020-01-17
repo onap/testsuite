@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "560d4d81_3547a203",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-01-17T14:45:32Z",
+      "side": 1,
+      "message": "can we add those keywords to Suite Setup as this is deploying PODs via CFY in kubernetes",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 191
+      },
+      "revId": "0e2c738b2822e8464ea4b0a77af1a20c7c807b70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "026e3557_5f254a9d",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-01-17T14:45:32Z",
+      "side": 1,
+      "message": "I don\u0027t like test chains in test suite, making them dependent. Maybe is worth to do a test template from those keywords and prepare this template for data driven tests approach.",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 156
+      },
+      "revId": "0e2c738b2822e8464ea4b0a77af1a20c7c807b70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be25d65d_ecc38138",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-01-17T14:45:32Z",
+      "side": 1,
+      "message": "Can we add those keywords to Suite Teardown as those keywords are undeploying PODs via CFY from kubernetes in order to keep kubernetes clean",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 120
+      },
+      "revId": "0e2c738b2822e8464ea4b0a77af1a20c7c807b70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
