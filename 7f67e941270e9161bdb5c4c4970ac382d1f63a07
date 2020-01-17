@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9000266b_99685295",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2020-01-17T11:18:16Z",
+      "side": 1,
+      "message": "i will fix in next patch.",
+      "parentUuid": "8f753145_dc92947c",
+      "revId": "7f67e941270e9161bdb5c4c4970ac382d1f63a07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "957d66b8_a53bb12e",
         "filename": "robot/testsuites/usecases/5gbulkpm.robot",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c27d9ebb_8e5ba030",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2020-01-17T11:18:16Z",
+      "side": 1,
+      "message": "i will use relative path .. i will fix in next patch.",
+      "parentUuid": "957d66b8_a53bb12e",
+      "revId": "7f67e941270e9161bdb5c4c4970ac382d1f63a07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d4bec19_29a8471c",
         "filename": "robot/testsuites/usecases/5gbulkpm.robot",
         "patchSetId": 9
@@ -47,6 +83,24 @@
       "writtenOn": "2020-01-16T17:41:14Z",
       "side": 1,
       "message": "wont this depend on where thats deployed?",
+      "revId": "7f67e941270e9161bdb5c4c4970ac382d1f63a07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe96ade9_7a565ebb",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2020-01-17T11:18:16Z",
+      "side": 1,
+      "message": "NO. this is the exposed api by PM Mapper to data router. This entry will be there in data router prov subscriber list. just checking if subscriber present or not.",
+      "parentUuid": "6d4bec19_29a8471c",
       "revId": "7f67e941270e9161bdb5c4c4970ac382d1f63a07",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
