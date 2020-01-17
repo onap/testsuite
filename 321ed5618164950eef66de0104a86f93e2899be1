@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4c1d536_db873a3f",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-01-17T15:46:36Z",
+      "side": 1,
+      "message": "dont put keywords in a testcase",
+      "revId": "321ed5618164950eef66de0104a86f93e2899be1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
