@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "904d28ae_d51eb47c",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2020-01-17T14:53:58Z",
+      "side": 1,
+      "message": "This is test case.. i am making sure it deploy properly .. not moving to Suite Setup.",
+      "parentUuid": "560d4d81_3547a203",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 191
+      },
+      "revId": "0e2c738b2822e8464ea4b0a77af1a20c7c807b70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "026e3557_5f254a9d",
         "filename": "robot/testsuites/usecases/5gbulkpm.robot",
         "patchSetId": 10
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "95ab4503_a48775ba",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2020-01-17T14:53:58Z",
+      "side": 1,
+      "message": "They are dependent .. This is 5G bulkpm usecase flow. I can\u0027t make them data driven . Not fixing now.",
+      "parentUuid": "026e3557_5f254a9d",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 156
+      },
+      "revId": "0e2c738b2822e8464ea4b0a77af1a20c7c807b70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be25d65d_ecc38138",
         "filename": "robot/testsuites/usecases/5gbulkpm.robot",
         "patchSetId": 10
@@ -59,6 +107,30 @@
       "writtenOn": "2020-01-17T14:45:32Z",
       "side": 1,
       "message": "Can we add those keywords to Suite Teardown as those keywords are undeploying PODs via CFY from kubernetes in order to keep kubernetes clean",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 120
+      },
+      "revId": "0e2c738b2822e8464ea4b0a77af1a20c7c807b70",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da820b00_d019f23f",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 4719
+      },
+      "writtenOn": "2020-01-17T14:53:58Z",
+      "side": 1,
+      "message": "I will move to Suite Teardown.",
+      "parentUuid": "be25d65d_ecc38138",
       "range": {
         "startLine": 146,
         "startChar": 0,
