@@ -115,27 +115,17 @@ Check SO service completition status
 Instantiate PNF_macro service and succesfully registrate PNF template
     [Documentation]   Test case template for design, create, instantiate PNF/macro service and succesfully registrate PNF
     [Arguments]    ${service_name}   ${PNF_entry_dict}   ${pnf_correlation_id}   ${service}=pNF    ${product_family}=pNF  ${customer_name}=ETE_Customer
-
     Log To Console   \nDistributing TOSCA Based PNF Model
-    ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model  ${service}  ${service_name}  cds=False   instantiationType=Macro  resourceType=PNF
-    ${distribution_status_value}  Get Service Model Parameter from SDC Service Catalog  ${service_name}  distributionStatus
-    Run Keyword If  "${value}"=='409 != 201'  Log To Console   TOSCA Based PNF Model is already distributed with status ${distribution_status_value}
-    ...  ELSE IF  "${status}"=='PASS'  Log To Console  TOSCA Based PNF Model has been distributed
-    ...  ELSE  Log To Console  Check Model Distribution for PNF
+    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}    ${catalog_resource_ids}   ${catalog_service_id}  Model Distribution For Directory  ${service}  ${service_name}  cds=False   instantiationType=Macro  resourceType=PNF
     ${UUID}=  Get Service Model Parameter from SDC Service Catalog  ${service_name}  uuid
-    Get First Free Service Recipe Id
     Log To Console   Creating Service Recipe for TOSCA Based PNF Model
-    ${status}   ${value}=   Run Keyword And Ignore Error  Add Service Recipe  ${UUID}  mso/async/services/CreateVcpeResCustService_simplified
-    Run Keyword If  "${value}"=='409 != 201'  Log To Console   Service Recipe for TOSCA Based PNF Model is already assigned
-    ...    ELSE IF  "${status}"=='PASS'  Log To Console   Service Recipe for TOSCA Based PNF Model has been assigned
-    ...    ELSE  Log To Console   Check Service Recipe for TOSCA Based PNF Model assignmenta
+    ${service_recipe_id}=   Add Service Recipe  ${UUID}  mso/async/services/CreateVcpeResCustService_simplified
     Inventory Tenant If Not Exists    CloudOwner   ${region}  SharedNode  OwnerType  v1  CloudZone  ${tenant_id}   ${tenant_name}
-    Load OwningEntity  lineOfBusiness  LOB-${customer_name}
-    Load OwningEntity  platform  Platform-${customer_name}
     Load OwningEntity  project  Project-${customer_name}
     Load OwningEntity  owningEntity  OE-${customer_name}
-    ${service}  ${request_id}  ${full_customer_name}   Orchestrate PNF   ${customer_name}   ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}   Project-${customer_name}   OE-${customer_name}
+    ${service_instance_id}  ${request_id}  ${full_customer_name}   Orchestrate PNF   ${customer_name}   ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}   Project-${customer_name}   OE-${customer_name}
     Wait Until Keyword Succeeds   120s  40s  Send and verify VES integration request in SO and A&AI   ${request_id}   ${PNF_entry_dict}
+    [Teardown]   Instantiate PNF_macro service Teardown      ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}  ${service_instance_id}  ${service_recipe_id}
 
 
 Send and verify VES integration request in SO and A&AI
@@ -144,3 +134,9 @@ Send and verify VES integration request in SO and A&AI
     Send VES integration request  ${PNF_entry_dict}
     Verify PNF Integration Request in A&AI  ${PNF_entry_dict}
     Wait Until Keyword Succeeds   30s  10s  Check SO service completition status   ${request_id}   COMPLETE
+
+Instantiate PNF_macro service Teardown
+    [Arguments]  ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}  ${service_instance_id}  ${service_recipe_id}
+    Teardown Models  ${catalog_service_id}    ${catalog_resource_ids}
+    Delete Service Recipe  ${service_recipe_id}
+    Cleanup PNF entry in A&AI  ${PNF_entry_dict}

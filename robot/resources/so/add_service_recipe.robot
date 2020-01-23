@@ -26,7 +26,7 @@ Add Service Recipe
     ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
     ${get_resp}=   SO.Run Post Request   ${GLOBAL_SO_CATDB_ENDPOINT}    ${SERVICE_RECIPE_PATH}   ${data}    auth=${auth}
     Should Be Equal As Strings  ${get_resp.status_code}     201
-    [Return]  ${get_resp.status_code}  ${get_resp.json()}
+    [Return]  ${id}
 
 Get Service Recipe
     [Documentation]    Gets service recipe/s in SO
@@ -50,3 +50,10 @@ Get First Free Service Recipe Id
     ${biggest_id}=  Get From List  ${ids}  -1
     Log  Biggest id is ${biggest_id} first free is ${biggest_id+1}
     [Return]  ${biggest_id+1}
+
+Delete Service Recipe
+     [Documentation]    Deletes service recipe/s in SO
+     [Arguments]    ${service_id}
+     ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
+     ${get_resp}=   SO.Run Delete Request   ${GLOBAL_SO_CATDB_ENDPOINT}    ${SERVICE_RECIPE_PATH}/${service_id}      auth=${auth}
+     Should Be Equal As Strings  ${get_resp.status_code}     201
