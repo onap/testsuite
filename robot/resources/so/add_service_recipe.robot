@@ -56,4 +56,4 @@ Delete Service Recipe
      [Arguments]    ${service_id}
      ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
      ${get_resp}=   SO.Run Delete Request   ${GLOBAL_SO_CATDB_ENDPOINT}    ${SERVICE_RECIPE_PATH}/${service_id}      auth=${auth}
-     Should Be Equal As Strings  ${get_resp.status_code}     201
+     Should Be Equal As Strings  ${get_resp.status_code}     204
