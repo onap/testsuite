@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee103718_87af9052",
+        "filename": "robot/testsuites/demo.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-01-30T11:55:15Z",
+      "side": 1,
+      "message": "Shouldn\u0027t an argument be placed here?\n\nrobot/resources/demo_preload.robot:\n77    [Arguments]    ${customer_name}",
+      "revId": "026df1b5db881b1fa5af704fc1a8a6f16b1c664c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
