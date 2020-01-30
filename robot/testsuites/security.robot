@@ -2,6 +2,7 @@
 | Documentation | Security validation                                    |
 | ...           | This suite requires declaring ${ACTUAL_NODEPORTS_FILE} |
 | Default tags  | security                                               |
+| Library       | OperatingSystem                                        |
 | Library       | ONAPLibrary.JSON                                       |
 
 *** Variables ***
