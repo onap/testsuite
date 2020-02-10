@@ -1,0 +1,3053 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot rpa="false" generated="20190625 16:08:15.369" generator="Robot 3.1.2 (Python 2.7.16 on win32)">
+<suite source="C:\Users\86187\Desktop\VFC\testsuite\robot\testsuites\health-check.robot" id="s1" name="Health-Check">
+<test id="s1-t1" name="Basic A&amp;AI Health Check">
+<kw name="Run A&amp;AI Health Check" library="aai_interface">
+<doc>Runs an A&amp;AI health check</doc>
+<kw name="Run A&amp;AI Get Request" library="aai_interface">
+<doc>Runs an A&amp;AI get request</doc>
+<arguments>
+<arg>${AAI_HEALTH_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Disable Warnings">
+<msg timestamp="20190625 16:08:16.570" level="FAIL">No keyword with name 'Disable Warnings' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.570" starttime="20190625 16:08:16.570"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.570" starttime="20190625 16:08:16.560"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.571" starttime="20190625 16:08:16.559"></status>
+</kw>
+<tags>
+<tag>core</tag>
+<tag>health</tag>
+<tag>health-aai</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.571" critical="yes" starttime="20190625 16:08:16.558">No keyword with name 'Disable Warnings' found.</status>
+</test>
+<test id="s1-t2" name="Basic AAF Health Check">
+<kw name="Run AAF Health Check" library="aaf_interface">
+<doc>Runs AAF Health check</doc>
+<kw name="Run AAF Get Request" library="aaf_interface">
+<doc>Runs AAF Get request</doc>
+<arguments>
+<arg>${AAF_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<msg timestamp="20190625 16:08:16.576" level="FAIL">Variable '${AAF_HEALTH_CHECK_PATH}' not found. Did you mean:
+    ${DCAE_HEALTH_CHECK_PATH}
+    ${ASDC_HEALTH_CHECK_PATH}
+    ${MR_HEALTH_CHECK_PATH}
+    ${DR_HEALTH_CHECK_PATH}
+    ${BC_HEALTH_CHECK_PATH}</msg>
+<status status="FAIL" endtime="20190625 16:08:16.576" starttime="20190625 16:08:16.573"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.576" starttime="20190625 16:08:16.572"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-aaf</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.576" critical="yes" starttime="20190625 16:08:16.571">Variable '${AAF_HEALTH_CHECK_PATH}' not found. Did you mean:
+    ${DCAE_HEALTH_CHECK_PATH}
+    ${ASDC_HEALTH_CHECK_PATH}
+    ${MR_HEALTH_CHECK_PATH}
+    ${DR_HEALTH_CHECK_PATH}
+    ${BC_HEALTH_CHECK_PATH}</status>
+</test>
+<test id="s1-t3" name="Basic AAF SMS Health Check">
+<kw name="Run SMS Health Check" library="sms_interface">
+<doc>Runs SMS Health check</doc>
+<kw name="Run SMS Get Request" library="sms_interface">
+<doc>Runs SMS Get request</doc>
+<arguments>
+<arg>${SMS_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>smssession</arg>
+<arg>${SMS_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.589" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.589" starttime="20190625 16:08:16.589"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.590" starttime="20190625 16:08:16.579"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.590" starttime="20190625 16:08:16.578"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-aaf</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.590" critical="yes" starttime="20190625 16:08:16.577">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t4" name="Basic APPC Health Check">
+<kw name="Run APPC Health Check" library="appc_interface">
+<doc>Runs an APPC healthcheck</doc>
+<kw name="Run APPC Post Request" library="appc_interface">
+<doc>Runs an APPC post request</doc>
+<arguments>
+<arg>${APPC_INDEX PATH}${APPC_HEALTHCHECK_OPERATION_PATH}</arg>
+<arg>${None}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create List" library="BuiltIn">
+<doc>Returns a list containing given items.</doc>
+<arguments>
+<arg>${GLOBAL_APPC_USERNAME}</arg>
+<arg>${GLOBAL_APPC_PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${auth}</var>
+</assign>
+<msg timestamp="20190625 16:08:16.596" level="FAIL">Variable '${GLOBAL_APPC_USERNAME}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.596" starttime="20190625 16:08:16.593"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.596" starttime="20190625 16:08:16.592"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.596" starttime="20190625 16:08:16.591"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-appc</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.596" critical="yes" starttime="20190625 16:08:16.591">Variable '${GLOBAL_APPC_USERNAME}' not found.</status>
+</test>
+<test id="s1-t5" name="Basic CLI Health Check">
+<kw name="Run CLI Health Check" library="cli_interface">
+<doc>Runs CLI Health check</doc>
+<kw name="Run CLI Get Request" library="cli_interface">
+<doc>Runs CLI Get request</doc>
+<arguments>
+<arg>${CLI_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>cli</arg>
+<arg>${CLI_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.607" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.607" starttime="20190625 16:08:16.607"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.607" starttime="20190625 16:08:16.597"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.607" starttime="20190625 16:08:16.597"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-cli</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.607" critical="yes" starttime="20190625 16:08:16.596">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t6" name="Basic CLAMP Health Check">
+<kw name="Run CLAMP Health Check" library="clamp_interface">
+<doc>Runs CLAMP Health check</doc>
+<kw name="Run CLAMP Get Request" library="clamp_interface">
+<doc>Runs CLAMP Get request</doc>
+<arguments>
+<arg>${CLAMP_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>session</arg>
+<arg>${CLAMP_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.619" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.619" starttime="20190625 16:08:16.619"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.619" starttime="20190625 16:08:16.610"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.620" starttime="20190625 16:08:16.609"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-clamp</tag>
+<tag>medium</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.620" critical="yes" starttime="20190625 16:08:16.608">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t7" name="Basic DCAE Health Check">
+<kw name="Run DCAE Health Check" library="dcae_interface">
+<doc>Runs a DCAE health check</doc>
+<kw name="Create List" library="BuiltIn">
+<doc>Returns a list containing given items.</doc>
+<arguments>
+<arg>${GLOBAL_DCAE_USERNAME}</arg>
+<arg>${GLOBAL_DCAE_PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${auth}</var>
+</assign>
+<msg timestamp="20190625 16:08:16.626" level="FAIL">Variable '${GLOBAL_DCAE_USERNAME}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.626" starttime="20190625 16:08:16.622"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.627" starttime="20190625 16:08:16.621"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-dcae</tag>
+<tag>medium</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.627" critical="yes" starttime="20190625 16:08:16.620">Variable '${GLOBAL_DCAE_USERNAME}' not found.</status>
+</test>
+<test id="s1-t8" name="Basic DMAAP Data Router Health Check">
+<kw name="Run DR Health Check" library="dr_interface">
+<doc>Runs DR Health check</doc>
+<kw name="Run DR Get Request" library="dr_interface">
+<doc>Runs DR Get request</doc>
+<arguments>
+<arg>${DR_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>session</arg>
+<arg>${DR_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.637" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.637" starttime="20190625 16:08:16.637"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.638" starttime="20190625 16:08:16.628"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.638" starttime="20190625 16:08:16.628"></status>
+</kw>
+<tags>
+<tag>datarouter</tag>
+<tag>health</tag>
+<tag>health-dmaap</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.638" critical="yes" starttime="20190625 16:08:16.627">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t9" name="Basic DMAAP Message Router Health Check">
+<kw name="Run MR Health Check" library="mr_interface">
+<doc>Runs MR Health check</doc>
+<kw name="Run MR Get Request" library="mr_interface">
+<doc>Runs MR Get request</doc>
+<arguments>
+<arg>${MR_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>mr</arg>
+<arg>${MR_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.649" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.650" starttime="20190625 16:08:16.649"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.650" starttime="20190625 16:08:16.640"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.650" starttime="20190625 16:08:16.639"></status>
+</kw>
+<tags>
+<tag>core</tag>
+<tag>health</tag>
+<tag>health-dmaap</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.650" critical="yes" starttime="20190625 16:08:16.638">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t10" name="Basic DMAAP Message Router PubSub Health Check">
+<kw name="Run MR PubSub Health Check" library="mr_interface">
+<doc>Runs MR PubSub Health check</doc>
+<kw name="Run MR Post Request" library="mr_interface">
+<doc>Runs MR Post request</doc>
+<arguments>
+<arg>${MR_PUB_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>mr</arg>
+<arg>${MR_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.661" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.661" starttime="20190625 16:08:16.661"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.661" starttime="20190625 16:08:16.651"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.661" starttime="20190625 16:08:16.651"></status>
+</kw>
+<tags>
+<tag>health-dmaap</tag>
+<tag>healthmr</tag>
+</tags>
+<timeout value="30 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.661" critical="yes" starttime="20190625 16:08:16.650">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t11" name="Basic DMAAP Bus Controller Health Check With Basic Auth">
+<kw name="Run BC Health Check With Basic Auth" library="bc_interface">
+<doc>Runs dmmap details check</doc>
+<kw name="Return dmaap details with basic auth" library="bc_interface">
+<doc>Runs Bus Controler get details request with basic authentication</doc>
+<arguments>
+<arg>${BC_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create List" library="BuiltIn">
+<doc>Returns a list containing given items.</doc>
+<arguments>
+<arg>${GLOBAL_BC_USERNAME}</arg>
+<arg>${GLOBAL_BC_PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${auth}</var>
+</assign>
+<msg timestamp="20190625 16:08:16.666" level="FAIL">Variable '${GLOBAL_BC_USERNAME}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.666" starttime="20190625 16:08:16.663"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.666" starttime="20190625 16:08:16.663"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.666" starttime="20190625 16:08:16.662"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-dmaap</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.666" critical="yes" starttime="20190625 16:08:16.662">Variable '${GLOBAL_BC_USERNAME}' not found.</status>
+</test>
+<test id="s1-t12" name="Basic External API NBI Health Check">
+<kw name="Run NBI Health Check" library="nbi_interface">
+<doc>Runs NBI Health check</doc>
+<kw name="Run NBI Get Request" library="nbi_interface">
+<doc>Runs NBI Get request</doc>
+<arguments>
+<arg>${NBI_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>session</arg>
+<arg>${NBI_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.677" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.677" starttime="20190625 16:08:16.677"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.678" starttime="20190625 16:08:16.667"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.678" starttime="20190625 16:08:16.667"></status>
+</kw>
+<tags>
+<tag>api</tag>
+<tag>externalapi</tag>
+<tag>health</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.678" critical="yes" starttime="20190625 16:08:16.666">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t13" name="Basic Log Elasticsearch Health Check">
+<kw name="Run Log Elasticsearch Health Check" library="log_interface">
+<doc>Tests Elasticsearch interface</doc>
+<kw name="Run Log Elasticsearch Get Request" library="log_interface">
+<doc>Runs an Elasticsearch request</doc>
+<arguments>
+<arg>${LOG_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Creating session ${LOG_ELASTICSEARCH_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.682" level="FAIL">Variable '${LOG_ELASTICSEARCH_ENDPOINT}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.682" starttime="20190625 16:08:16.680"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.683" starttime="20190625 16:08:16.679"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.683" starttime="20190625 16:08:16.679"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-log</tag>
+<tag>oom</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.683" critical="yes" starttime="20190625 16:08:16.678">Variable '${LOG_ELASTICSEARCH_ENDPOINT}' not found.</status>
+</test>
+<test id="s1-t14" name="Basic Log Kibana Health Check">
+<kw name="Run Log Kibana Health Check" library="log_interface">
+<doc>Tests Kibana interface</doc>
+<kw name="Run Log Kibana Get Request" library="log_interface">
+<doc>Runs a Kibana request</doc>
+<arguments>
+<arg>${LOG_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Creating session ${LOG_KIBANA_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.688" level="FAIL">Variable '${LOG_KIBANA_ENDPOINT}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.688" starttime="20190625 16:08:16.684"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.688" starttime="20190625 16:08:16.684"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.688" starttime="20190625 16:08:16.684"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-log</tag>
+<tag>oom</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.688" critical="yes" starttime="20190625 16:08:16.683">Variable '${LOG_KIBANA_ENDPOINT}' not found.</status>
+</test>
+<test id="s1-t15" name="Basic Log Logstash Health Check">
+<kw name="Run Log Logstash Health Check" library="log_interface">
+<doc>Tests Logstash interface</doc>
+<kw name="Run Log Logstash Get Request" library="log_interface">
+<doc>Runs a Logstash request</doc>
+<arguments>
+<arg>${LOG_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Creating session ${LOG_LOGSTASH_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.693" level="FAIL">Variable '${LOG_LOGSTASH_ENDPOINT}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.694" starttime="20190625 16:08:16.690"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.694" starttime="20190625 16:08:16.690"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.694" starttime="20190625 16:08:16.689"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-log</tag>
+<tag>oom</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.694" critical="yes" starttime="20190625 16:08:16.689">Variable '${LOG_LOGSTASH_ENDPOINT}' not found.</status>
+</test>
+<test id="s1-t16" name="Basic Microservice Bus Health Check">
+<kw name="Run MSB Health Check" library="msb_interface">
+<doc>Runs MSB Health check</doc>
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>${MSB_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.707" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.707" starttime="20190625 16:08:16.707"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.707" starttime="20190625 16:08:16.696"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.707" starttime="20190625 16:08:16.695"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-msb</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.708" critical="yes" starttime="20190625 16:08:16.694">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t17" name="Basic Multicloud API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/multicloud/v0/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.719" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.719" starttime="20190625 16:08:16.719"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.719" starttime="20190625 16:08:16.709"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-multicloud</tag>
+<tag>multicloud</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.720" critical="yes" starttime="20190625 16:08:16.708">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t18" name="Basic Multicloud-ocata API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/multicloud-ocata/v0/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.731" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.731" starttime="20190625 16:08:16.730"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.731" starttime="20190625 16:08:16.721"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-multicloud</tag>
+<tag>multicloud</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.731" critical="yes" starttime="20190625 16:08:16.720">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t19" name="Basic Multicloud-pike API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/multicloud-pike/v0/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.744" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.744" starttime="20190625 16:08:16.744"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.744" starttime="20190625 16:08:16.732"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-multicloud</tag>
+<tag>multicloud</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.744" critical="yes" starttime="20190625 16:08:16.732">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t20" name="Basic Multicloud-starlingx API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/multicloud-starlingx/v0/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.755" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.755" starttime="20190625 16:08:16.755"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.756" starttime="20190625 16:08:16.745"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-multicloud</tag>
+<tag>multicloud</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.756" critical="yes" starttime="20190625 16:08:16.744">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t21" name="Basic Multicloud-titanium_cloud API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/multicloud-titaniumcloud/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.766" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.766" starttime="20190625 16:08:16.766"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.767" starttime="20190625 16:08:16.757"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-multicloud</tag>
+<tag>multicloud</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.767" critical="yes" starttime="20190625 16:08:16.756">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t22" name="Basic Multicloud-vio API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/multicloud-vio/v0/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.779" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.779" starttime="20190625 16:08:16.779"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.779" starttime="20190625 16:08:16.768"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-multicloud</tag>
+<tag>multicloud</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.779" critical="yes" starttime="20190625 16:08:16.767">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t23" name="Basic Multicloud-thinkcloud API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/multicloud-thinkcloud/v0/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.791" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.791" starttime="20190625 16:08:16.790"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.791" starttime="20190625 16:08:16.780"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-multicloud</tag>
+<tag>multicloud</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.791" critical="yes" starttime="20190625 16:08:16.780">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t24" name="Basic Multicloud-k8s API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/multicloud-k8s/v1/v1/healthcheck</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.803" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.803" starttime="20190625 16:08:16.803"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.804" starttime="20190625 16:08:16.792"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-multicloud</tag>
+<tag>multicloud</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.804" critical="yes" starttime="20190625 16:08:16.791">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t25" name="Basic OOF-Homing Health Check">
+<kw name="Run OOF-Homing Health Check" library="oof_interface">
+<doc>Runs OOF-Homing Health check</doc>
+<kw name="Run OOF-Homing Get Request" library="oof_interface">
+<doc>Runs OOF-Homing Get request</doc>
+<arguments>
+<arg>${OOF_HOMING_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>session</arg>
+<arg>${OOF_HOMING_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.815" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.815" starttime="20190625 16:08:16.814"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.815" starttime="20190625 16:08:16.805"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.815" starttime="20190625 16:08:16.805"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-oof</tag>
+<tag>medium</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.815" critical="yes" starttime="20190625 16:08:16.804">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t26" name="Basic OOF-SNIRO Health Check">
+<kw name="Run OOF-SNIRO Health Check" library="oof_interface">
+<doc>Runs OOF-SNIRO Health check</doc>
+<kw name="Run OOF-SNIRO Get Request" library="oof_interface">
+<doc>Runs OOF-SNIRO Get request</doc>
+<arguments>
+<arg>${OOF_SNIRO_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>session</arg>
+<arg>${OOF_SNIRO_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.826" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.826" starttime="20190625 16:08:16.826"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.826" starttime="20190625 16:08:16.817"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.827" starttime="20190625 16:08:16.816"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-oof</tag>
+<tag>medium</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.827" critical="yes" starttime="20190625 16:08:16.816">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t27" name="Basic OOF-CMSO Health Check">
+<kw name="Run OOF-CMSO Health Check" library="oof_interface">
+<doc>Runs OOF-CMSO Health check</doc>
+<kw name="Run OOF-CMSO Get Request" library="oof_interface">
+<doc>Runs OOF-CMSO Get request</doc>
+<arguments>
+<arg>${OOF_CMSO_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create List" library="BuiltIn">
+<doc>Returns a list containing given items.</doc>
+<arguments>
+<arg>${GLOBAL_OOF_CMSO_USERNAME}</arg>
+<arg>${GLOBAL_OOF_CMSO_PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${auth}</var>
+</assign>
+<msg timestamp="20190625 16:08:16.832" level="FAIL">Variable '${GLOBAL_OOF_CMSO_USERNAME}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.832" starttime="20190625 16:08:16.829"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.832" starttime="20190625 16:08:16.829"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.832" starttime="20190625 16:08:16.828"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-oof</tag>
+<tag>medium</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.832" critical="yes" starttime="20190625 16:08:16.827">Variable '${GLOBAL_OOF_CMSO_USERNAME}' not found.</status>
+</test>
+<test id="s1-t28" name="Basic Policy Health Check">
+<kw name="Run Policy Health Check" library="policy_interface">
+<doc>Runs Policy Health check</doc>
+<kw name="Create List" library="BuiltIn">
+<doc>Returns a list containing given items.</doc>
+<arguments>
+<arg>${GLOBAL_POLICY_USERNAME}</arg>
+<arg>${GLOBAL_POLICY_PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${auth}</var>
+</assign>
+<msg timestamp="20190625 16:08:16.837" level="FAIL">Variable '${GLOBAL_POLICY_USERNAME}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.837" starttime="20190625 16:08:16.834"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.837" starttime="20190625 16:08:16.833"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-policy</tag>
+<tag>medium</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.837" critical="yes" starttime="20190625 16:08:16.833">Variable '${GLOBAL_POLICY_USERNAME}' not found.</status>
+</test>
+<test id="s1-t29" name="Basic Pomba AAI-context-builder Health Check">
+<kw name="Run Pomba Aai Context Builder Health Check" library="pomba_interface">
+<doc>Tests Pomba Aai Context Builder interface</doc>
+<kw name="Run Pomba Aai Context Builder Get Request" library="pomba_interface">
+<doc>Runs a Pomba Aai Context Builder request</doc>
+<arguments>
+<arg>${POMBA_AAICB_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Creating session ${POMBA_AAICONTEXTBUILDER_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.842" level="FAIL">Variable '${POMBA_AAICONTEXTBUILDER_ENDPOINT}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.842" starttime="20190625 16:08:16.839"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.842" starttime="20190625 16:08:16.839"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.842" starttime="20190625 16:08:16.838"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-pomba</tag>
+<tag>oom</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.842" critical="yes" starttime="20190625 16:08:16.838">Variable '${POMBA_AAICONTEXTBUILDER_ENDPOINT}' not found.</status>
+</test>
+<test id="s1-t30" name="Basic Pomba SDC-context-builder Health Check">
+<kw name="Run Pomba Sdc Context Builder Health Check" library="pomba_interface">
+<doc>Tests Sdc Context Builder interface</doc>
+<kw name="Run Pomba Sdc Context Builder Get Request" library="pomba_interface">
+<doc>Runs a Pomba Sdc Context Builder request</doc>
+<arguments>
+<arg>${POMBA_SDCCB_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Creating session ${POMBA_SDCCONTEXTBUILDER_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.847" level="FAIL">Variable '${POMBA_SDCCONTEXTBUILDER_ENDPOINT}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.847" starttime="20190625 16:08:16.844"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.847" starttime="20190625 16:08:16.844"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.847" starttime="20190625 16:08:16.843"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-pomba</tag>
+<tag>oom</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.847" critical="yes" starttime="20190625 16:08:16.843">Variable '${POMBA_SDCCONTEXTBUILDER_ENDPOINT}' not found.</status>
+</test>
+<test id="s1-t31" name="Basic Pomba Network-discovery-context-builder Health Check">
+<kw name="Run Pomba Network Discovery Context Builder Health Check" library="pomba_interface">
+<doc>Tests a Pomba Network Discovery Context Builder interface</doc>
+<kw name="Run Pomba Network Discovery Context Builder Get Request" library="pomba_interface">
+<doc>Runs a Pomba Network Discovery Context Builder request</doc>
+<arguments>
+<arg>${POMBA_NDCB_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Creating session ${POMBA_NETWORKDISCCONTEXTBUILDER_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.853" level="FAIL">Variable '${POMBA_NETWORKDISCCONTEXTBUILDER_ENDPOINT}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.853" starttime="20190625 16:08:16.850"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.853" starttime="20190625 16:08:16.849"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.853" starttime="20190625 16:08:16.848"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-pomba</tag>
+<tag>oom</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.853" critical="yes" starttime="20190625 16:08:16.848">Variable '${POMBA_NETWORKDISCCONTEXTBUILDER_ENDPOINT}' not found.</status>
+</test>
+<test id="s1-t32" name="Basic Pomba Service-Decomposition Health Check">
+<kw name="Run Pomba Service Decomposition Health Check" library="pomba_interface">
+<doc>Tests Pomba Service Decomposition interface</doc>
+<kw name="Run Pomba Service Decomposition Get Request" library="pomba_interface">
+<doc>Runs a Pomba Service Decomposition request</doc>
+<arguments>
+<arg>${POMBA_SERVICEDECOMPOSITION_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Creating session ${POMBA_SERVICEDECOMPOSITION_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.858" level="FAIL">Variable '${POMBA_SERVICEDECOMPOSITION_ENDPOINT}' not found. Did you mean:
+    ${POMBA_SERVICEDECOMPOSITION_PATH}</msg>
+<status status="FAIL" endtime="20190625 16:08:16.858" starttime="20190625 16:08:16.855"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.858" starttime="20190625 16:08:16.855"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.859" starttime="20190625 16:08:16.854"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-pomba</tag>
+<tag>oom</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.859" critical="yes" starttime="20190625 16:08:16.854">Variable '${POMBA_SERVICEDECOMPOSITION_ENDPOINT}' not found. Did you mean:
+    ${POMBA_SERVICEDECOMPOSITION_PATH}</status>
+</test>
+<test id="s1-t33" name="Basic Pomba Network-Discovery-MicroService Health Check">
+<kw name="Run Pomba Network Discovery MicroService Health Check" library="pomba_interface">
+<doc>Tests Pomba Network Discovery MicroService interface</doc>
+<kw name="Run Pomba Network Discovery MicroService Get Request" library="pomba_interface">
+<doc>Runs a Pomba Network Discovery MicroService request</doc>
+<arguments>
+<arg>${POMBA_NDMS_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Creating session ${POMBA_NETWORKDISCOVERY_MICROSERVICE_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.862" level="FAIL">Variable '${POMBA_NETWORKDISCOVERY_MICROSERVICE_ENDPOINT}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.862" starttime="20190625 16:08:16.860"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.863" starttime="20190625 16:08:16.860"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.863" starttime="20190625 16:08:16.860"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-pomba</tag>
+<tag>oom</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.863" critical="yes" starttime="20190625 16:08:16.859">Variable '${POMBA_NETWORKDISCOVERY_MICROSERVICE_ENDPOINT}' not found.</status>
+</test>
+<test id="s1-t34" name="Basic Pomba Pomba-Kibana Health Check">
+<kw name="Run Pomba Kibana Health Check" library="pomba_interface">
+<doc>Tests Pomba Kibana interface</doc>
+<kw name="Run Pomba Kibana Get Request" library="pomba_interface">
+<doc>Runs a Pomba Kibana request</doc>
+<arguments>
+<arg>${POMBA_KIBANA_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Creating session ${POMBA_KIBANA_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.867" level="FAIL">Variable '${POMBA_KIBANA_ENDPOINT}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.868" starttime="20190625 16:08:16.865"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.868" starttime="20190625 16:08:16.864"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.868" starttime="20190625 16:08:16.864"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-pomba</tag>
+<tag>oom</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.868" critical="yes" starttime="20190625 16:08:16.863">Variable '${POMBA_KIBANA_ENDPOINT}' not found.</status>
+</test>
+<test id="s1-t35" name="Basic Pomba Elastic-Search Health Check">
+<kw name="Run Pomba Elastic Search Health Check" library="pomba_interface">
+<doc>Tests Pomba Elastic Search interface</doc>
+<kw name="Run Pomba Elastic Search Get Request" library="pomba_interface">
+<doc>Runs a Pomba Elastic Search request</doc>
+<arguments>
+<arg>${POMBA_ELASTICSEARCH_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Creating session ${POMBA_ELASTICSEARCH_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.873" level="FAIL">Variable '${POMBA_ELASTICSEARCH_ENDPOINT}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.873" starttime="20190625 16:08:16.870"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.873" starttime="20190625 16:08:16.870"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.873" starttime="20190625 16:08:16.869"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-pomba</tag>
+<tag>oom</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.873" critical="yes" starttime="20190625 16:08:16.869">Variable '${POMBA_ELASTICSEARCH_ENDPOINT}' not found.</status>
+</test>
+<test id="s1-t36" name="Basic Pomba Sdnc-Context-Builder Health Check">
+<kw name="Run Pomba Sdnc Context Builder Health Check" library="pomba_interface">
+<doc>Tests Pomba Sdnc Context Builder interface</doc>
+<kw name="Run Pomba Sdnc Context Builder Get Request" library="pomba_interface">
+<doc>Runs a Pomba Sdnc Context Builder request</doc>
+<arguments>
+<arg>${POMBA_SDNCCTXBUILDER_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Creating session ${POMBA_SDNCCONTEXTBUILDER_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.878" level="FAIL">Variable '${POMBA_SDNCCONTEXTBUILDER_ENDPOINT}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.878" starttime="20190625 16:08:16.875"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.878" starttime="20190625 16:08:16.875"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.878" starttime="20190625 16:08:16.874"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-pomba</tag>
+<tag>oom</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.878" critical="yes" starttime="20190625 16:08:16.874">Variable '${POMBA_SDNCCONTEXTBUILDER_ENDPOINT}' not found.</status>
+</test>
+<test id="s1-t37" name="Basic Pomba Context-Aggregator Health Check">
+<kw name="Run Pomba Context Aggregator Health Check" library="pomba_interface">
+<doc>Tests Pomba Context-Aggregator interface</doc>
+<kw name="Run Pomba Context Aggregator Get Request" library="pomba_interface">
+<doc>Runs a Pomba Context Aggregator request</doc>
+<arguments>
+<arg>${POMBA_CONTEXTAGGREGATOR_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>Creating session ${POMBA_CONTEXTAGGREGATOR_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.883" level="FAIL">Variable '${POMBA_CONTEXTAGGREGATOR_ENDPOINT}' not found. Did you mean:
+    ${POMBA_CONTEXTAGGREGATOR_PATH}</msg>
+<status status="FAIL" endtime="20190625 16:08:16.883" starttime="20190625 16:08:16.880"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.883" starttime="20190625 16:08:16.879"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.883" starttime="20190625 16:08:16.879"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-pomba</tag>
+<tag>oom</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.883" critical="yes" starttime="20190625 16:08:16.878">Variable '${POMBA_CONTEXTAGGREGATOR_ENDPOINT}' not found. Did you mean:
+    ${POMBA_CONTEXTAGGREGATOR_PATH}</status>
+</test>
+<test id="s1-t38" name="Basic Portal Health Check">
+<kw name="Run Portal Health Check" library="portal_interface">
+<doc>Runs Portal Health check</doc>
+<kw name="Run Portal Get Request" library="portal_interface">
+<doc>Runs Portal Get request</doc>
+<arguments>
+<arg>${PORTAL_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>portal</arg>
+<arg>${PORTAL_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.894" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.894" starttime="20190625 16:08:16.894"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.894" starttime="20190625 16:08:16.884"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.894" starttime="20190625 16:08:16.884"></status>
+</kw>
+<tags>
+<tag>core</tag>
+<tag>health</tag>
+<tag>health-portal</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.894" critical="yes" starttime="20190625 16:08:16.883">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t39" name="Basic SDC Health Check">
+<kw name="Run ASDC Health Check" library="asdc_interface">
+<doc>Runs a ASDC health check</doc>
+<kw name="Create Session">
+<arguments>
+<arg>asdc</arg>
+<arg>${ASDC_FE_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.906" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.906" starttime="20190625 16:08:16.906"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.906" starttime="20190625 16:08:16.896"></status>
+</kw>
+<tags>
+<tag>core</tag>
+<tag>health</tag>
+<tag>health-sdc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.907" critical="yes" starttime="20190625 16:08:16.895">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t40" name="Basic SDNC Health Check">
+<kw name="Run SDNGC Health Check" library="sdngc_interface">
+<doc>Runs an SDNGC healthcheck</doc>
+<kw name="Run SDNGC Post Request" library="sdngc_interface">
+<doc>Runs an SDNGC post request</doc>
+<arguments>
+<arg>${SDNGC_INDEX PATH}${SDNCGC_HEALTHCHECK_OPERATION_PATH}</arg>
+<arg>${None}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create List" library="BuiltIn">
+<doc>Returns a list containing given items.</doc>
+<arguments>
+<arg>${GLOBAL_SDNGC_USERNAME}</arg>
+<arg>${GLOBAL_SDNGC_PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${auth}</var>
+</assign>
+<msg timestamp="20190625 16:08:16.912" level="FAIL">Variable '${GLOBAL_SDNGC_USERNAME}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.912" starttime="20190625 16:08:16.908"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.912" starttime="20190625 16:08:16.908"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.912" starttime="20190625 16:08:16.908"></status>
+</kw>
+<tags>
+<tag>core</tag>
+<tag>health</tag>
+<tag>health-sdnc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.913" critical="yes" starttime="20190625 16:08:16.907">Variable '${GLOBAL_SDNGC_USERNAME}' not found.</status>
+</test>
+<test id="s1-t41" name="Basic SO Health Check">
+<kw name="Run SO Global Health Check" library="so_interface">
+<kw name="Run SO Container Health Check" library="so_interface">
+<doc>Runs an MSO global health check</doc>
+<arguments>
+<arg>API_HANDLER</arg>
+<arg>${SO_APIHAND_ENDPOINT}</arg>
+</arguments>
+<msg timestamp="20190625 16:08:16.919" level="FAIL">Variable '${SO_APIHAND_ENDPOINT}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.920" starttime="20190625 16:08:16.915"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.920" starttime="20190625 16:08:16.914"></status>
+</kw>
+<tags>
+<tag>core</tag>
+<tag>health</tag>
+<tag>health-so</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.920" critical="yes" starttime="20190625 16:08:16.913">Variable '${SO_APIHAND_ENDPOINT}' not found.</status>
+</test>
+<test id="s1-t42" name="Basic UseCaseUI API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/iui/usecaseui/</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.933" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.933" starttime="20190625 16:08:16.933"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.933" starttime="20190625 16:08:16.922"></status>
+</kw>
+<tags>
+<tag>api</tag>
+<tag>health</tag>
+<tag>health-uui</tag>
+<tag>medium</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.934" critical="yes" starttime="20190625 16:08:16.921">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t43" name="Basic VFC catalog API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/catalog/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.945" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.945" starttime="20190625 16:08:16.944"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.945" starttime="20190625 16:08:16.935"></status>
+</kw>
+<tags>
+<tag>api</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.945" critical="yes" starttime="20190625 16:08:16.934">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t44" name="Basic VFC emsdriver API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/emsdriver/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.959" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.959" starttime="20190625 16:08:16.959"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.959" starttime="20190625 16:08:16.946"></status>
+</kw>
+<tags>
+<tag>3rdparty</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.959" critical="yes" starttime="20190625 16:08:16.946">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t45" name="Basic VFC gvnfmdriver API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/gvnfmdriver/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.970" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.970" starttime="20190625 16:08:16.970"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.970" starttime="20190625 16:08:16.960"></status>
+</kw>
+<tags>
+<tag>3rdparty</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.970" critical="yes" starttime="20190625 16:08:16.960">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t46" name="Basic VFC huaweivnfmdriver API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/huaweivnfmdriver/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.982" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.982" starttime="20190625 16:08:16.981"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.982" starttime="20190625 16:08:16.971"></status>
+</kw>
+<tags>
+<tag>3rdparty</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.982" critical="yes" starttime="20190625 16:08:16.971">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t47" name="Basic VFC jujuvnfmdriver API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/jujuvnfmdriver/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:16.995" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:16.995" starttime="20190625 16:08:16.994"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:16.995" starttime="20190625 16:08:16.983"></status>
+</kw>
+<tags>
+<tag>3rdparty</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:16.995" critical="yes" starttime="20190625 16:08:16.982">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t48" name="Basic VFC multivimproxy API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/multivimproxy/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.007" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.008" starttime="20190625 16:08:17.007"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.008" starttime="20190625 16:08:16.996"></status>
+</kw>
+<tags>
+<tag>3rdparty</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.008" critical="yes" starttime="20190625 16:08:16.995">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t49" name="Basic VFC nokiav2driver API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/NokiaSVNFM/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.021" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.021" starttime="20190625 16:08:17.021"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.021" starttime="20190625 16:08:17.009"></status>
+</kw>
+<tags>
+<tag>3rdparty</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.021" critical="yes" starttime="20190625 16:08:17.009">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t50" name="Basic VFC nslcm API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/nslcm/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.034" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.034" starttime="20190625 16:08:17.033"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.034" starttime="20190625 16:08:17.023"></status>
+</kw>
+<tags>
+<tag>api</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.034" critical="yes" starttime="20190625 16:08:17.022">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t51" name="Basic VFC resmgr API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/resmgr/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.046" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.046" starttime="20190625 16:08:17.045"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.046" starttime="20190625 16:08:17.036"></status>
+</kw>
+<tags>
+<tag>api</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.046" critical="yes" starttime="20190625 16:08:17.034">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t52" name="Basic VFC vnflcm API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/vnflcm/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.058" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.058" starttime="20190625 16:08:17.058"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.058" starttime="20190625 16:08:17.048"></status>
+</kw>
+<tags>
+<tag>api</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.059" critical="yes" starttime="20190625 16:08:17.047">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t53" name="Basic VFC vnfmgr API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/vnfmgr/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.069" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.069" starttime="20190625 16:08:17.069"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.069" starttime="20190625 16:08:17.060"></status>
+</kw>
+<tags>
+<tag>api</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.069" critical="yes" starttime="20190625 16:08:17.059">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t54" name="Basic VFC vnfres API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/vnfres/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.080" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.080" starttime="20190625 16:08:17.080"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.080" starttime="20190625 16:08:17.071"></status>
+</kw>
+<tags>
+<tag>api</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.080" critical="yes" starttime="20190625 16:08:17.070">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t55" name="Basic VFC workflow API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/workflow/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.090" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.090" starttime="20190625 16:08:17.090"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.090" starttime="20190625 16:08:17.081"></status>
+</kw>
+<tags>
+<tag>api</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.091" critical="yes" starttime="20190625 16:08:17.080">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t56" name="Basic VFC ztesdncdriver API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/ztesdncdriver/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.101" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.101" starttime="20190625 16:08:17.101"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.102" starttime="20190625 16:08:17.092"></status>
+</kw>
+<tags>
+<tag>3rdparty</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.102" critical="yes" starttime="20190625 16:08:17.091">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t57" name="Basic VFC ztevnfmdriver API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/ztevnfmdriver/v1/swagger.json</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.113" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.113" starttime="20190625 16:08:17.113"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.113" starttime="20190625 16:08:17.103"></status>
+</kw>
+<tags>
+<tag>3rdparty</tag>
+<tag>health</tag>
+<tag>health-vfc</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.113" critical="yes" starttime="20190625 16:08:17.102">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t58" name="Basic VID Health Check">
+<kw name="Run VID Health Check" library="vid_interface">
+<doc>Logs in to VID GUI</doc>
+<kw name="Run VID Get Request" library="vid_interface">
+<doc>Runs an VID get request</doc>
+<arguments>
+<arg>${VID_HEALTHCHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create List" library="BuiltIn">
+<doc>Returns a list containing given items.</doc>
+<arguments>
+<arg>${GLOBAL_VID_HEALTH_USERNAME}</arg>
+<arg>${GLOBAL_VID_HEALTH_PASSWORD}</arg>
+</arguments>
+<assign>
+<var>${auth}</var>
+</assign>
+<msg timestamp="20190625 16:08:17.119" level="FAIL">Variable '${GLOBAL_VID_HEALTH_USERNAME}' not found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.119" starttime="20190625 16:08:17.116"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.120" starttime="20190625 16:08:17.115"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.120" starttime="20190625 16:08:17.114"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-vid</tag>
+<tag>small</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.120" critical="yes" starttime="20190625 16:08:17.114">Variable '${GLOBAL_VID_HEALTH_USERNAME}' not found.</status>
+</test>
+<test id="s1-t59" name="Basic VNFSDK Health Check">
+<kw name="Run VNFSDK Health Check" library="vnfsdk_interface">
+<doc>Runs VNFSDK Health check</doc>
+<kw name="Run VNFSDK Get Request" library="vnfsdk_interface">
+<doc>Runs VNFSDK Get request</doc>
+<arguments>
+<arg>${VNFSDK_HEALTH_CHECK_PATH}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>vnfsdk</arg>
+<arg>${VNFSDK_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.131" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.131" starttime="20190625 16:08:17.131"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.131" starttime="20190625 16:08:17.121"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.131" starttime="20190625 16:08:17.121"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-vnfsdk</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.132" critical="yes" starttime="20190625 16:08:17.120">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t60" name="Health Distribution Test">
+<kw name="Model Distribution For Directory" library="model_test_template">
+<arguments>
+<arg>vFW</arg>
+</arguments>
+<kw name="Set Directory">
+<arguments>
+<arg>default</arg>
+<arg>./demo/service_mapping</arg>
+</arguments>
+<msg timestamp="20190625 16:08:17.143" level="FAIL">No keyword with name 'Set Directory' found. Did you mean:
+    OperatingSystem.List Directory
+    OperatingSystem.Empty Directory</msg>
+<status status="FAIL" endtime="20190625 16:08:17.143" starttime="20190625 16:08:17.143"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.143" starttime="20190625 16:08:17.133"></status>
+</kw>
+<tags>
+<tag>healthdist</tag>
+</tags>
+<timeout value="20 minutes"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.143" critical="yes" starttime="20190625 16:08:17.132">No keyword with name 'Set Directory' found. Did you mean:
+    OperatingSystem.List Directory
+    OperatingSystem.Empty Directory</status>
+</test>
+<test id="s1-t61" name="Portal Login Tests">
+<kw name="Run Portal Login Tests" library="portal_interface">
+<doc>Runs Portal Login Tests</doc>
+<kw name="Close All Browsers" library="SeleniumLibrary">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" endtime="20190625 16:08:17.146" starttime="20190625 16:08:17.145"></status>
+</kw>
+<kw name="Login To Portal GUI" library="portal_interface">
+<doc>Logs in to Portal GUI</doc>
+<arguments>
+<arg>demo</arg>
+<arg>demo123456!</arg>
+</arguments>
+<kw name="Setup Browser" library="browser_setup">
+<doc>Sets up browser based upon the value of chrome</doc>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${GLOBAL_SELENIUM_BROWSER}' == 'firefox'</arg>
+<arg>Setup Browser Firefox</arg>
+</arguments>
+<status status="PASS" endtime="20190625 16:08:17.149" starttime="20190625 16:08:17.147"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${GLOBAL_SELENIUM_BROWSER}' == 'chrome'</arg>
+<arg>Setup Browser Chrome</arg>
+</arguments>
+<kw name="Setup Browser Chrome" library="browser_setup">
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys</arg>
+</arguments>
+<assign>
+<var>${chrome options}</var>
+</assign>
+<msg timestamp="20190625 16:08:17.151" level="INFO">${chrome options} = &lt;selenium.webdriver.chrome.options.Options object at 0x0000000004A84048&gt;</msg>
+<status status="PASS" endtime="20190625 16:08:17.151" starttime="20190625 16:08:17.150"></status>
+</kw>
+<kw name="Call Method" library="BuiltIn">
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<arguments>
+<arg>${chrome options}</arg>
+<arg>add_argument</arg>
+<arg>no-sandbox</arg>
+</arguments>
+<status status="PASS" endtime="20190625 16:08:17.152" starttime="20190625 16:08:17.151"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${HEADLESS}==True</arg>
+<arg>Call Method</arg>
+<arg>${chrome options}</arg>
+<arg>add_argument</arg>
+<arg>headless</arg>
+</arguments>
+<kw name="Call Method" library="BuiltIn">
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<arguments>
+<arg>${chrome options}</arg>
+<arg>add_argument</arg>
+<arg>headless</arg>
+</arguments>
+<status status="PASS" endtime="20190625 16:08:17.156" starttime="20190625 16:08:17.155"></status>
+</kw>
+<status status="PASS" endtime="20190625 16:08:17.156" starttime="20190625 16:08:17.152"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>sys.modules['selenium.webdriver'].DesiredCapabilities.CHROME</arg>
+<arg>sys, selenium.webdriver</arg>
+</arguments>
+<assign>
+<var>${dc}</var>
+</assign>
+<msg timestamp="20190625 16:08:17.157" level="INFO">${dc} = {'platform': 'ANY', 'browserName': 'chrome', 'version': ''}</msg>
+<status status="PASS" endtime="20190625 16:08:17.157" starttime="20190625 16:08:17.156"></status>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${dc}</arg>
+<arg>elementScrollBehavior</arg>
+<arg>1</arg>
+</arguments>
+<status status="PASS" endtime="20190625 16:08:17.160" starttime="20190625 16:08:17.159"></status>
+</kw>
+<kw name="Create Webdriver" library="SeleniumLibrary">
+<doc>Creates an instance of Selenium WebDriver.</doc>
+<arguments>
+<arg>Chrome</arg>
+<arg>chrome_options=${chrome_options}</arg>
+<arg>desired_capabilities=${dc}</arg>
+</arguments>
+<kw name="Capture Page Screenshot" library="SeleniumLibrary">
+<doc>Takes screenshot of the current page and embeds it into log file.</doc>
+<msg timestamp="20190625 16:08:17.182" level="INFO">Cannot capture screenshot because no browser is open.</msg>
+<status status="PASS" endtime="20190625 16:08:17.183" starttime="20190625 16:08:17.182"></status>
+</kw>
+<msg timestamp="20190625 16:08:17.161" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20190625 16:08:17.185" level="FAIL">WebDriverException: Message: 'chromedriver' executable needs to be in PATH. Please see https://sites.google.com/a/chromium.org/chromedriver/home
+</msg>
+<status status="FAIL" endtime="20190625 16:08:17.185" starttime="20190625 16:08:17.161"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.185" starttime="20190625 16:08:17.150"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.185" starttime="20190625 16:08:17.149"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.186" starttime="20190625 16:08:17.147"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.186" starttime="20190625 16:08:17.146"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.186" starttime="20190625 16:08:17.145"></status>
+</kw>
+<tags>
+<tag>healthlogin</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.186" critical="yes" starttime="20190625 16:08:17.144">WebDriverException: Message: 'chromedriver' executable needs to be in PATH. Please see https://sites.google.com/a/chromium.org/chromedriver/home
+</status>
+</test>
+<test id="s1-t62" name="Portal Application Access Tests">
+<kw name="Run Portal Application Access Tests" library="portal_interface">
+<doc>Runs Portal Application Access Tests</doc>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>Testing SDC,VID,Policy</arg>
+</arguments>
+<status status="PASS" endtime="20190625 16:08:17.191" starttime="20190625 16:08:17.189"></status>
+</kw>
+<kw name="Run Portal Application Login Test" library="portal_interface">
+<doc>Login to Portal Application</doc>
+<arguments>
+<arg>cs0008</arg>
+<arg>demo123456!</arg>
+<arg>gridster-SDC-icon-link</arg>
+<arg>tabframe-SDC</arg>
+<arg>Welcome to SDC</arg>
+</arguments>
+<kw name="Setup Browser" library="browser_setup">
+<doc>Sets up browser based upon the value of chrome</doc>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${GLOBAL_SELENIUM_BROWSER}' == 'firefox'</arg>
+<arg>Setup Browser Firefox</arg>
+</arguments>
+<status status="PASS" endtime="20190625 16:08:17.194" starttime="20190625 16:08:17.194"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${GLOBAL_SELENIUM_BROWSER}' == 'chrome'</arg>
+<arg>Setup Browser Chrome</arg>
+</arguments>
+<kw name="Setup Browser Chrome" library="browser_setup">
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys</arg>
+</arguments>
+<assign>
+<var>${chrome options}</var>
+</assign>
+<msg timestamp="20190625 16:08:17.196" level="INFO">${chrome options} = &lt;selenium.webdriver.chrome.options.Options object at 0x0000000004ABF278&gt;</msg>
+<status status="PASS" endtime="20190625 16:08:17.196" starttime="20190625 16:08:17.195"></status>
+</kw>
+<kw name="Call Method" library="BuiltIn">
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<arguments>
+<arg>${chrome options}</arg>
+<arg>add_argument</arg>
+<arg>no-sandbox</arg>
+</arguments>
+<status status="PASS" endtime="20190625 16:08:17.197" starttime="20190625 16:08:17.197"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>${HEADLESS}==True</arg>
+<arg>Call Method</arg>
+<arg>${chrome options}</arg>
+<arg>add_argument</arg>
+<arg>headless</arg>
+</arguments>
+<kw name="Call Method" library="BuiltIn">
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<arguments>
+<arg>${chrome options}</arg>
+<arg>add_argument</arg>
+<arg>headless</arg>
+</arguments>
+<status status="PASS" endtime="20190625 16:08:17.201" starttime="20190625 16:08:17.201"></status>
+</kw>
+<status status="PASS" endtime="20190625 16:08:17.202" starttime="20190625 16:08:17.199"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>sys.modules['selenium.webdriver'].DesiredCapabilities.CHROME</arg>
+<arg>sys, selenium.webdriver</arg>
+</arguments>
+<assign>
+<var>${dc}</var>
+</assign>
+<msg timestamp="20190625 16:08:17.203" level="INFO">${dc} = {'goog:chromeOptions': {'args': [u'no-sandbox', u'headless'], 'extensions': []}, 'platform': 'ANY', 'browserName': 'chrome', 'version': '', u'elementScrollBehavior': u'1'}</msg>
+<status status="PASS" endtime="20190625 16:08:17.203" starttime="20190625 16:08:17.202"></status>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${dc}</arg>
+<arg>elementScrollBehavior</arg>
+<arg>1</arg>
+</arguments>
+<status status="PASS" endtime="20190625 16:08:17.205" starttime="20190625 16:08:17.204"></status>
+</kw>
+<kw name="Create Webdriver" library="SeleniumLibrary">
+<doc>Creates an instance of Selenium WebDriver.</doc>
+<arguments>
+<arg>Chrome</arg>
+<arg>chrome_options=${chrome_options}</arg>
+<arg>desired_capabilities=${dc}</arg>
+</arguments>
+<kw name="Capture Page Screenshot" library="SeleniumLibrary">
+<doc>Takes screenshot of the current page and embeds it into log file.</doc>
+<msg timestamp="20190625 16:08:17.213" level="INFO">Cannot capture screenshot because no browser is open.</msg>
+<status status="PASS" endtime="20190625 16:08:17.213" starttime="20190625 16:08:17.212"></status>
+</kw>
+<msg timestamp="20190625 16:08:17.207" level="INFO">Creating an instance of the Chrome WebDriver.</msg>
+<msg timestamp="20190625 16:08:17.214" level="FAIL">WebDriverException: Message: 'chromedriver' executable needs to be in PATH. Please see https://sites.google.com/a/chromium.org/chromedriver/home
+</msg>
+<status status="FAIL" endtime="20190625 16:08:17.214" starttime="20190625 16:08:17.205"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.214" starttime="20190625 16:08:17.195"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.214" starttime="20190625 16:08:17.194"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.214" starttime="20190625 16:08:17.193"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.216" starttime="20190625 16:08:17.191"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.217" starttime="20190625 16:08:17.189"></status>
+</kw>
+<tags>
+<tag>healthportalapp</tag>
+</tags>
+<timeout value="3 minutes"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.217" critical="yes" starttime="20190625 16:08:17.187">WebDriverException: Message: 'chromedriver' executable needs to be in PATH. Please see https://sites.google.com/a/chromium.org/chromedriver/home
+</status>
+</test>
+<test id="s1-t63" name="Basic Holmes Rule Management API Health Check">
+<kw name="Run Holmes Rule Mgmt Healthcheck" library="holmes_interface">
+<doc>Run Holmes Rule Management Health Check</doc>
+<kw name="Run Holmes Get Request" library="holmes_interface">
+<doc>Runs Holmes Get request</doc>
+<arguments>
+<arg>${HOLMES_RULE_HEALTH_CHECK}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>holmes</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.229" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.229" starttime="20190625 16:08:17.228"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.229" starttime="20190625 16:08:17.219"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.229" starttime="20190625 16:08:17.218"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-dcae</tag>
+<tag>medium</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.229" critical="yes" starttime="20190625 16:08:17.217">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t64" name="Basic Holmes Engine Management API Health Check">
+<kw name="Run Holmes Engine Mgmt Healthcheck" library="holmes_interface">
+<doc>Run Holmes Engine Management Health Check</doc>
+<kw name="Run Holmes Get Request" library="holmes_interface">
+<doc>Runs Holmes Get request</doc>
+<arguments>
+<arg>${HOLMES_ENGINE_HEALTH_CHECK}</arg>
+</arguments>
+<assign>
+<var>${resp}</var>
+</assign>
+<kw name="Create Session">
+<arguments>
+<arg>holmes</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.239" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.239" starttime="20190625 16:08:17.239"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.239" starttime="20190625 16:08:17.230"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.239" starttime="20190625 16:08:17.230"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-dcae</tag>
+<tag>medium</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.239" critical="yes" starttime="20190625 16:08:17.229">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t65" name="Basic Multicloud-fcaps API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/multicloud-fcaps/v1/healthcheck</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.250" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.250" starttime="20190625 16:08:17.250"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.251" starttime="20190625 16:08:17.242"></status>
+</kw>
+<tags>
+<tag>health</tag>
+<tag>health-multicloud</tag>
+<tag>multicloud</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.251" critical="yes" starttime="20190625 16:08:17.240">No keyword with name 'Create Session' found.</status>
+</test>
+<test id="s1-t66" name="Basic Modeling genericparser API Health Check">
+<kw name="Run MSB Get Request" library="msb_interface">
+<doc>Runs MSB Get request</doc>
+<arguments>
+<arg>/api/parser/v1/health_check</arg>
+</arguments>
+<kw name="Create Session">
+<arguments>
+<arg>msb</arg>
+<arg>${MSB_ENDPOINT}</arg>
+</arguments>
+<assign>
+<var>${session}=</var>
+</assign>
+<msg timestamp="20190625 16:08:17.264" level="FAIL">No keyword with name 'Create Session' found.</msg>
+<status status="FAIL" endtime="20190625 16:08:17.264" starttime="20190625 16:08:17.264"></status>
+</kw>
+<status status="FAIL" endtime="20190625 16:08:17.265" starttime="20190625 16:08:17.252"></status>
+</kw>
+<tags>
+<tag>api</tag>
+<tag>health</tag>
+<tag>health-modeling</tag>
+</tags>
+<timeout value="20 seconds"></timeout>
+<status status="FAIL" endtime="20190625 16:08:17.265" critical="yes" starttime="20190625 16:08:17.251">No keyword with name 'Create Session' found.</status>
+</test>
+<doc>Testing ecomp components are available via calls.
+
+Testing ecomp components are available via calls.</doc>
+<status status="FAIL" endtime="20190625 16:08:17.267" starttime="20190625 16:08:15.372"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="66" pass="0">Critical Tests</stat>
+<stat fail="66" pass="0">All Tests</stat>
+</total>
+<tag>
+<stat fail="8" pass="0">3rdparty</stat>
+<stat fail="10" pass="0">api</stat>
+<stat fail="6" pass="0">core</stat>
+<stat fail="1" pass="0">datarouter</stat>
+<stat fail="1" pass="0">externalapi</stat>
+<stat fail="62" pass="0">health</stat>
+<stat fail="2" pass="0">health-aaf</stat>
+<stat fail="1" pass="0">health-aai</stat>
+<stat fail="1" pass="0">health-appc</stat>
+<stat fail="1" pass="0">health-clamp</stat>
+<stat fail="1" pass="0">health-cli</stat>
+<stat fail="3" pass="0">health-dcae</stat>
+<stat fail="4" pass="0">health-dmaap</stat>
+<stat fail="3" pass="0">health-log</stat>
+<stat fail="1" pass="0">health-modeling</stat>
+<stat fail="1" pass="0">health-msb</stat>
+<stat fail="9" pass="0">health-multicloud</stat>
+<stat fail="3" pass="0">health-oof</stat>
+<stat fail="1" pass="0">health-policy</stat>
+<stat fail="9" pass="0">health-pomba</stat>
+<stat fail="1" pass="0">health-portal</stat>
+<stat fail="1" pass="0">health-sdc</stat>
+<stat fail="1" pass="0">health-sdnc</stat>
+<stat fail="1" pass="0">health-so</stat>
+<stat fail="1" pass="0">health-uui</stat>
+<stat fail="15" pass="0">health-vfc</stat>
+<stat fail="1" pass="0">health-vid</stat>
+<stat fail="1" pass="0">health-vnfsdk</stat>
+<stat fail="1" pass="0">healthdist</stat>
+<stat fail="1" pass="0">healthlogin</stat>
+<stat fail="1" pass="0">healthmr</stat>
+<stat fail="1" pass="0">healthportalapp</stat>
+<stat fail="9" pass="0">medium</stat>
+<stat fail="9" pass="0">multicloud</stat>
+<stat fail="12" pass="0">oom</stat>
+<stat fail="13" pass="0">small</stat>
+</tag>
+<suite>
+<stat fail="66" id="s1" name="Health-Check" pass="0">Health-Check</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20190625 16:08:15.405" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\dcae_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.406" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\dcae_interface.robot': Importing test library 'ONAPLibrary.Utilities' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.436" level="WARN">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sdngc_interface.robot': Escaping empty cells with '\' before line continuation marker '...' is deprecated. Remove escaping before Robot Framework 3.2.</msg>
+<msg timestamp="20190625 16:08:15.436" level="WARN">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sdngc_interface.robot': Escaping empty cells with '\' before line continuation marker '...' is deprecated. Remove escaping before Robot Framework 3.2.</msg>
+<msg timestamp="20190625 16:08:15.436" level="WARN">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sdngc_interface.robot': Escaping empty cells with '\' before line continuation marker '...' is deprecated. Remove escaping before Robot Framework 3.2.</msg>
+<msg timestamp="20190625 16:08:15.448" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sdngc_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.450" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sdngc_interface.robot': Importing test library 'ONAPLibrary.Utilities' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.679" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sdngc_interface.robot': Importing test library 'ONAPLibrary.ServiceMapping' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.681" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sdngc_interface.robot': Importing test library 'ONAPLibrary.Templating' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.690" level="WARN">Collapsing consecutive whitespace during parsing is deprecated. Fix ' Setup Browser Chrome' in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\browser_setup.robot' on line 25.</msg>
+<msg timestamp="20190625 16:08:15.703" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\aai\aai_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.705" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\aai\aai_interface.robot': Importing test library 'ONAPLibrary.Utilities' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.721" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\vid\vid_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.723" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\vid\vid_interface.robot': Importing test library 'ONAPLibrary.Utilities' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.745" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.748" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Importing test library 'SSHLibrary' failed: ImportError: No module named SSHLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.751" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Importing test library 'ONAPLibrary.Templating' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.754" level="WARN">Collapsing consecutive whitespace during parsing is deprecated. Fix ' Grep File on Host' in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\ssh\files.robot' on line 23.</msg>
+<msg timestamp="20190625 16:08:15.759" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\ssh\files.robot': Importing test library 'SSHLibrary' failed: ImportError: No module named SSHLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.774" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\so_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.775" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\so_interface.robot': Importing test library 'ONAPLibrary.Utilities' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.841" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\asdc_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.842" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\asdc_interface.robot': Importing test library 'ONAPLibrary.Utilities' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.844" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\asdc_interface.robot': Importing test library 'ONAPLibrary.JSON' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.847" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\asdc_interface.robot': Importing test library 'ArchiveLibrary' failed: ImportError: No module named ArchiveLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.849" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\asdc_interface.robot': Importing test library 'ONAPLibrary.Openstack' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.853" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\asdc_interface.robot': Importing test library 'ONAPLibrary.ServiceMapping' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.854" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\asdc_interface.robot': Importing test library 'ONAPLibrary.Templating' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.880" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\appc_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.882" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\appc_interface.robot': Importing test library 'ONAPLibrary.Utilities' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.883" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\appc_interface.robot': Importing test library 'ONAPLibrary.Templating' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.899" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\portal_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.901" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\portal_interface.robot': Importing test library 'ONAPLibrary.Utilities' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.915" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\mr_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.921" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\mr_interface.robot': Importing test library 'ONAPLibrary.JSON' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.923" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\mr_interface.robot': Importing test library 'ONAPLibrary.Utilities' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.925" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\mr_interface.robot': Importing test library 'ONAPLibrary.Templating' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.931" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\bc_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.937" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\aaf_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.939" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\aaf_interface.robot': Importing test library 'ONAPLibrary.Utilities' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.945" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\msb_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.957" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\clamp_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.960" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\clamp_interface.robot': Importing test library 'ONAPLibrary.JSON' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.962" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\clamp_interface.robot': Importing test library 'ONAPLibrary.Templating' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.972" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\test_templates\model_test_template.robot': Importing test library 'ArchiveLibrary' failed: ImportError: No module named ArchiveLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.979" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\test_templates\model_test_template.robot': Importing test library 'ONAPLibrary.ServiceMapping' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.986" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\nbi_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:15.995" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\cli_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:16.001" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\vnfsdk_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:16.011" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\log_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:16.027" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\oof_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:16.029" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\oof_interface.robot': Importing test library 'ONAPLibrary.Utilities' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:16.033" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\oof_interface.robot': Importing test library 'ONAPLibrary.JSON' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:16.034" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\oof_interface.robot': Importing test library 'ONAPLibrary.Templating' failed: ImportError: No module named ONAPLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:16.040" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sms_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:16.046" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\dr_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:16.061" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\pomba_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:16.068" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\holmes_interface.robot': Importing test library 'RequestsLibrary' failed: ImportError: No module named RequestsLibrary
+Traceback (most recent call last):
+  None
+PYTHONPATH:
+  C:\Windows\SYSTEM32\python27.zip
+  D:\Python27\DLLs
+  D:\Python27\lib
+  D:\Python27\lib\plat-win
+  D:\Python27\lib\lib-tk
+  D:\Python27
+  D:\Python27\lib\site-packages
+  D:\Python27\lib\site-packages\win32
+  D:\Python27\lib\site-packages\win32\lib
+  D:\Python27\lib\site-packages\Pythonwin</msg>
+<msg timestamp="20190625 16:08:16.073" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\aaf_interface.robot': Setting variable '${AAF_HEALTH_CHECK_PATH}' failed: Variable '${GLOBAL_AAF_USERNAME}' not found.</msg>
+<msg timestamp="20190625 16:08:16.082" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\aai\aai_interface.robot': Setting variable '${AAI_FRONTEND_ENDPOINT}' failed: Variable '${GLOBAL_AAI_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.091" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\appc_interface.robot': Setting variable '${APPC_CDT_ENDPOINT}' failed: Variable '${GLOBAL_APPC_CDT_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.103" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\appc_interface.robot': Setting variable '${APPC_CDT_LOGIN_URL}' failed: Variable '${APPC_CDT_ENDPOINT}' not found. Did you mean:
+    ${APPC_ENDPOINT}</msg>
+<msg timestamp="20190625 16:08:16.111" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\appc_interface.robot': Setting variable '${APPC_ENDPOINT}' failed: Variable '${GLOBAL_APPC_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.116" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\test_templates\model_test_template.robot': Setting variable '${ASDC_ASSETS_DIRECTORY}' failed: Variable '${GLOBAL_HEAT_TEMPLATES_FOLDER}' not found. Did you mean:
+    ${GLOBAL_TEMPLATE_FOLDER}</msg>
+<msg timestamp="20190625 16:08:16.124" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\asdc_interface.robot': Setting variable '${ASDC_BE_ENDPOINT}' failed: Variable '${GLOBAL_ASDC_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.131" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\asdc_interface.robot': Setting variable '${ASDC_BE_ONBOARD_ENDPOINT}' failed: Variable '${GLOBAL_ASDC_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.139" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\asdc_interface.robot': Setting variable '${ASDC_FE_ENDPOINT}' failed: Variable '${GLOBAL_ASDC_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.149" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\test_templates\model_test_template.robot': Setting variable '${ASDC_ZIP_DIRECTORY}' failed: Variable '${ASDC_ASSETS_DIRECTORY}' not found.</msg>
+<msg timestamp="20190625 16:08:16.158" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\bc_interface.robot': Setting variable '${BC_HTTPS_ENDPOINT}' failed: Variable '${GLOBAL_INJECTED_BC_IP_ADDR}' not found.</msg>
+<msg timestamp="20190625 16:08:16.165" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\clamp_interface.robot': Setting variable '${CLAMP_ENDPOINT}' failed: Variable '${GLOBAL_CLAMP_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.174" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\cli_interface.robot': Setting variable '${CLI_ENDPOINT}' failed: Variable '${GLOBAL_CLI_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.184" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\dcae_interface.robot': Setting variable '${DCAE_HEALTH_ENDPOINT}' failed: Variable '${GLOBAL_DCAE_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.193" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\dr_interface.robot': Setting variable '${DR_ENDPOINT}' failed: Variable '${GLOBAL_DMAAP_DR_NODE_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.200" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Setting variable '${DROOLS_ENDPOINT}' failed: Variable '${GLOBAL_POLICY_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.209" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\log_interface.robot': Setting variable '${LOG_ELASTICSEARCH_ENDPOINT}' failed: Variable '${GLOBAL_LOG_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.217" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\log_interface.robot': Setting variable '${LOG_KIBANA_ENDPOINT}' failed: Variable '${GLOBAL_LOG_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.224" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\log_interface.robot': Setting variable '${LOG_LOGSTASH_ENDPOINT}' failed: Variable '${GLOBAL_LOG_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.231" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\mr_interface.robot': Setting variable '${MR_ENDPOINT}' failed: Variable '${GLOBAL_MR_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.239" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\msb_interface.robot': Setting variable '${MSB_ENDPOINT}' failed: Variable '${GLOBAL_MSB_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.246" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\so_interface.robot': Setting variable '${MSO_ENDPOINT}' failed: Variable '${GLOBAL_MSO_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.253" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\nbi_interface.robot': Setting variable '${NBI_ENDPOINT}' failed: Variable '${GLOBAL_NBI_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.260" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\oof_interface.robot': Setting variable '${OOF_CMSO_ENDPOINT}' failed: Variable '${GLOBAL_OOF_CMSO_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.266" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\oof_interface.robot': Setting variable '${OOF_HOMING_ENDPOINT}' failed: Variable '${GLOBAL_OOF_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.274" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\oof_interface.robot': Setting variable '${OOF_OSDF_ENDPOINT}' failed: Variable '${GLOBAL_OOF_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.281" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\oof_interface.robot': Setting variable '${OOF_SNIRO_ENDPOINT}' failed: Variable '${GLOBAL_OOF_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.289" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Setting variable '${POLICY_APEX_PDP_IP}' failed: Variable '${GLOBAL_INJECTED_POLICY_APEX_PDP_IP_ADDR}' not found.</msg>
+<msg timestamp="20190625 16:08:16.299" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Setting variable '${POLICY_API_IP}' failed: Variable '${GLOBAL_INJECTED_POLICY_API_IP_ADDR}' not found.</msg>
+<msg timestamp="20190625 16:08:16.307" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Setting variable '${POLICY_DISTRIBUTION_IP}' failed: Variable '${GLOBAL_INJECTED_POLICY_DISTRIBUTION_IP_ADDR}' not found.</msg>
+<msg timestamp="20190625 16:08:16.315" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Setting variable '${POLICY_ENDPOINT}' failed: Variable '${GLOBAL_POLICY_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.321" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Setting variable '${POLICY_HEALTHCHECK_ENDPOINT}' failed: Variable '${GLOBAL_POLICY_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.329" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Setting variable '${POLICY_HEALTHCHECK_PASSWORD}' failed: Variable '${GLOBAL_POLICY_HEALTHCHECK_PASSWORD}' not found. Did you mean:
+    ${POLICY_HEALTHCHECK_PASSWORD}</msg>
+<msg timestamp="20190625 16:08:16.338" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Setting variable '${POLICY_HEALTHCHECK_USERNAME}' failed: Variable '${GLOBAL_POLICY_HEALTHCHECK_USERNAME}' not found. Did you mean:
+    ${POLICY_HEALTHCHECK_USERNAME}</msg>
+<msg timestamp="20190625 16:08:16.345" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Setting variable '${POLICY_PAP_IP}' failed: Variable '${GLOBAL_INJECTED_POLICY_PAP_IP_ADDR}' not found.</msg>
+<msg timestamp="20190625 16:08:16.352" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\policy_interface.robot': Setting variable '${POLICY_PDPX_IP}' failed: Variable '${GLOBAL_INJECTED_POLICY_PDPX_IP_ADDR}' not found.</msg>
+<msg timestamp="20190625 16:08:16.358" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\pomba_interface.robot': Setting variable '${POMBA_AAICONTEXTBUILDER_ENDPOINT}' failed: Variable '${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}' not found.</msg>
+<msg timestamp="20190625 16:08:16.369" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\pomba_interface.robot': Setting variable '${POMBA_CONTEXTAGGREGATOR_ENDPOINT}' failed: Variable '${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}' not found.</msg>
+<msg timestamp="20190625 16:08:16.378" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\pomba_interface.robot': Setting variable '${POMBA_ELASTICSEARCH_ENDPOINT}' failed: Variable '${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}' not found.</msg>
+<msg timestamp="20190625 16:08:16.384" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\pomba_interface.robot': Setting variable '${POMBA_KIBANA_ENDPOINT}' failed: Variable '${GLOBAL_POMBA_SERVER_PROTOCOL_HTTPS}' not found.</msg>
+<msg timestamp="20190625 16:08:16.392" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\pomba_interface.robot': Setting variable '${POMBA_NETWORKDISCCONTEXTBUILDER_ENDPOINT}' failed: Variable '${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}' not found.</msg>
+<msg timestamp="20190625 16:08:16.399" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\pomba_interface.robot': Setting variable '${POMBA_NETWORKDISCOVERY_MICROSERVICE_ENDPOINT}' failed: Variable '${GLOBAL_POMBA_SERVER_PROTOCOL_HTTPS}' not found.</msg>
+<msg timestamp="20190625 16:08:16.406" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\pomba_interface.robot': Setting variable '${POMBA_SDCCONTEXTBUILDER_ENDPOINT}' failed: Variable '${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}' not found.</msg>
+<msg timestamp="20190625 16:08:16.412" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\pomba_interface.robot': Setting variable '${POMBA_SDNCCONTEXTBUILDER_ENDPOINT}' failed: Variable '${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}' not found.</msg>
+<msg timestamp="20190625 16:08:16.418" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\pomba_interface.robot': Setting variable '${POMBA_SERVICEDECOMPOSITION_ENDPOINT}' failed: Variable '${GLOBAL_POMBA_SERVER_PROTOCOL_HTTP}' not found.</msg>
+<msg timestamp="20190625 16:08:16.423" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\portal_interface.robot': Setting variable '${PORTAL_ENDPOINT}' failed: Variable '${GLOBAL_PORTAL_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.429" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\portal_interface.robot': Setting variable '${PORTAL_GUI_ENDPOINT}' failed: Variable '${GLOBAL_PORTAL_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.435" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\portal_interface.robot': Setting variable '${PORTAL_HOME_URL}' failed: Variable '${PORTAL_GUI_ENDPOINT}' not found.</msg>
+<msg timestamp="20190625 16:08:16.440" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\portal_interface.robot': Setting variable '${PORTAL_LOGIN_URL}' failed: Variable '${PORTAL_GUI_ENDPOINT}' not found.</msg>
+<msg timestamp="20190625 16:08:16.446" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sdngc_interface.robot': Setting variable '${SDNGC_ADMIN_ENDPOINT}' failed: Variable '${GLOBAL_SDNGC_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.452" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sdngc_interface.robot': Setting variable '${SDNGC_ADMIN_LOGIN_URL}' failed: Variable '${SDNGC_ADMIN_ENDPOINT}' not found.</msg>
+<msg timestamp="20190625 16:08:16.458" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sdngc_interface.robot': Setting variable '${SDNGC_ADMIN_SIGNUP_URL}' failed: Variable '${SDNGC_ADMIN_ENDPOINT}' not found.</msg>
+<msg timestamp="20190625 16:08:16.464" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sdngc_interface.robot': Setting variable '${SDNGC_ADMIN_VNF_PROFILE_URL}' failed: Variable '${SDNGC_ADMIN_ENDPOINT}' not found.</msg>
+<msg timestamp="20190625 16:08:16.469" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sdngc_interface.robot': Setting variable '${SDNGC_REST_ENDPOINT}' failed: Variable '${GLOBAL_SDNGC_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.475" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\sms_interface.robot': Setting variable '${SMS_ENDPOINT}' failed: Variable '${GLOBAL_SMS_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.479" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\so_interface.robot': Setting variable '${SO_APIHAND_ENDPOINT}' failed: Variable '${GLOBAL_MSO_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.486" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\so_interface.robot': Setting variable '${SO_ASDCHAND_ENDPOINT}' failed: Variable '${GLOBAL_MSO_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.491" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\so_interface.robot': Setting variable '${SO_BPMN_ENDPOINT}' failed: Variable '${GLOBAL_MSO_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.498" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\so_interface.robot': Setting variable '${SO_CATDB_ENDPOINT}' failed: Variable '${GLOBAL_MSO_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.503" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\so_interface.robot': Setting variable '${SO_OPENSTACK_ENDPOINT}' failed: Variable '${GLOBAL_MSO_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.508" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\so_interface.robot': Setting variable '${SO_REQDB_ENDPOINT}' failed: Variable '${GLOBAL_MSO_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.514" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\so_interface.robot': Setting variable '${SO_SDNC_ENDPOINT}' failed: Variable '${GLOBAL_MSO_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.522" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\so_interface.robot': Setting variable '${SO_VFC_ENDPOINT}' failed: Variable '${GLOBAL_MSO_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.528" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\so_interface.robot': Setting variable '${SO_VNFM_ENDPOINT}' failed: Variable '${GLOBAL_MSO_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.533" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\vid\vid_interface.robot': Setting variable '${VID_ENDPOINT}' failed: Variable '${GLOBAL_VID_SERVER_PROTOCOL}' not found.</msg>
+<msg timestamp="20190625 16:08:16.538" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\vid\vid_interface.robot': Setting variable '${VID_HOME_URL}' failed: Variable '${VID_ENDPOINT}' not found.</msg>
+<msg timestamp="20190625 16:08:16.543" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\vid\vid_interface.robot': Setting variable '${VID_LOGIN_URL}' failed: Variable '${VID_ENDPOINT}' not found.</msg>
+<msg timestamp="20190625 16:08:16.548" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\vid\vid_interface.robot': Setting variable '${VID_SERVICE_MODELS_URL}' failed: Variable '${VID_ENDPOINT}' not found.</msg>
+<msg timestamp="20190625 16:08:16.555" level="ERROR">Error in file 'C:\Users\86187\Desktop\VFC\testsuite\robot\resources\vnfsdk_interface.robot': Setting variable '${VNFSDK_ENDPOINT}' failed: Variable '${GLOBAL_VNFSDK_SERVER_PROTOCOL}' not found.</msg>
+</errors>
+</robot>

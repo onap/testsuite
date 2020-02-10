@@ -207,7 +207,7 @@ Basic UseCaseUI API Health Check
 
 Basic VFC catalog API Health Check
     [Tags]    health    api   health-vfc
-    Run MSB Get Request    /api/catalog/v1/swagger.json
+    Run MSB Get Request    /api/catalog/v1/health_check
 
 Basic VFC emsdriver API Health Check
     [Tags]    health    3rdparty  health-vfc
@@ -215,7 +215,7 @@ Basic VFC emsdriver API Health Check
 
 Basic VFC gvnfmdriver API Health Check
     [Tags]    health    3rdparty   health-vfc
-    Run MSB Get Request    /api/gvnfmdriver/v1/swagger.json
+    Run MSB Get Request    /api/gvnfmdriver/v1/health_check
 
 Basic VFC huaweivnfmdriver API Health Check
     [Tags]    health    3rdparty   health-vfc
@@ -235,7 +235,7 @@ Basic VFC nokiav2driver API Health Check
 
 Basic VFC nslcm API Health Check
     [Tags]    health    api   health-vfc
-    Run MSB Get Request    /api/nslcm/v1/swagger.json
+    Run MSB Get Request    /api/nslcm/v1/health_check
 
 Basic VFC resmgr API Health Check
     [Tags]    health    api  health-vfc
@@ -243,15 +243,15 @@ Basic VFC resmgr API Health Check
 
 Basic VFC vnflcm API Health Check
     [Tags]    health    api  health-vfc
-    Run MSB Get Request    /api/vnflcm/v1/swagger.json
+    Run MSB Get Request    /api/vnflcm/v1/health_check
 
 Basic VFC vnfmgr API Health Check
     [Tags]    health    api  health-vfc
-    Run MSB Get Request    /api/vnfmgr/v1/swagger.json
+    Run MSB Get Request    /api/vnfmgr/v1/health_check
 
 Basic VFC vnfres API Health Check
     [Tags]    health    api   health-vfc
-    Run MSB Get Request    /api/vnfres/v1/swagger.json
+    Run MSB Get Request    /api/vnfres/v1/health_check
 
 Basic VFC workflow API Health Check
     [Tags]    health    api   health-vfc
@@ -263,7 +263,7 @@ Basic VFC ztesdncdriver API Health Check
 
 Basic VFC ztevnfmdriver API Health Check
     [Tags]    health    3rdparty   health-vfc
-    Run MSB Get Request    /api/ztevnfmdriver/v1/swagger.json
+    Run MSB Get Request    /api/ztevnfmdriver/v1/health_check
 
 Basic VID Health Check
     [Tags]    health    small  health-vid
