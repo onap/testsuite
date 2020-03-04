@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55d252aa_2f4487b9",
+        "filename": "docker/run.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T07:33:21Z",
+      "side": 1,
+      "message": "s/info/info",
+      "revId": "57e70f0ea200510fea890def69e090e45b53b981",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88a5bf91_a5d86ca1",
+        "filename": "docker/run.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T07:33:21Z",
+      "side": 1,
+      "message": "it does not realy clone (it is done in the Docker file) it updates the repo through the git pull",
+      "revId": "57e70f0ea200510fea890def69e090e45b53b981",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9600bb7c_be7b28cd",
+        "filename": "docker/run.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T07:33:21Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "57e70f0ea200510fea890def69e090e45b53b981",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "202dce07_6146d6d9",
+        "filename": "docker/run.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-04T07:33:21Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "57e70f0ea200510fea890def69e090e45b53b981",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
