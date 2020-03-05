@@ -27,6 +27,8 @@ Model Distribution For Directory
     ${ziplist}=    Create List
     ${uuid}=    Get Current Date
     ${service_name}=    Catenate    ${service}    ${uuid}
+    # ':' is not an allowed character in the service_name. '-' is allowed
+    S{service_name}=    Replace String    ${service_name}    :   -
     ${shortened_uuid}=     Evaluate    str("${service_name}")[:23]
     ${catalog_service_name}=   Set Variable If   '${catalog_service_name}' ==''   ${shortened_uuid}   ${catalog_service_name}
     Run Keyword If  '${resourceType}'=='PNF'  Create CSARSs in SDC Onboarding Packages Directory  ${directory_list}  ${ziplist}

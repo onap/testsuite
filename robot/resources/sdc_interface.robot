@@ -18,9 +18,6 @@ Resource          browser_setup.robot
 
 *** Variables ***
 ${SDC_DESIGNER_USER_ID}    cs0008
-${SDC_TESTER_USER_ID}    jm0007
-${SDC_GOVERNOR_USER_ID}    gv0001
-${SDC_OPS_USER_ID}    op0001
 ${SDC_HEALTH_CHECK_PATH}    /sdc1/rest/healthCheck
 ${SDC_VENDOR_LICENSE_MODEL_PATH}    /onboarding-api/v1.0/vendor-license-models
 ${SDC_VENDOR_SOFTWARE_PRODUCT_PATH}    /onboarding-api/v1.0/vendor-software-products
@@ -135,11 +132,8 @@ Distribute Model From SDC
     \    Setup SDC Catalog Resource Deployment Artifact Properties      ${catalog_service_id}   ${loop_catalog_resource_resp}  ${catalog_resource_unique_name}  ${deployment}
     Run Keyword If  ${cds} == True  Add CDS Parameters  ${catalog_service_name}
     Checkin SDC Catalog Service    ${catalog_service_id}
-    Wait Until Keyword Succeeds    600s    15s    Request Certify SDC Catalog Service    ${catalog_service_id}
-    Start Certify SDC Catalog Service    ${catalog_service_id}
     # on certify it gets a new id
     ${catalog_service_id}=    Certify SDC Catalog Service    ${catalog_service_id}
-    Approve SDC Catalog Service    ${catalog_service_id}
         :FOR   ${DIST_INDEX}    IN RANGE   1
         \   Log     Distribution Attempt ${DIST_INDEX}
         \   Distribute SDC Catalog Service    ${catalog_service_id}
@@ -214,11 +208,8 @@ Distribute vCPEResCust Model From SDC
     \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
     ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
     Checkin SDC Catalog Service    ${catalog_service_id}
-    Request Certify SDC Catalog Service    ${catalog_service_id}
-    Start Certify SDC Catalog Service    ${catalog_service_id}
     # on certify it gets a new id
     ${catalog_service_id}=    Certify SDC Catalog Service    ${catalog_service_id}
-    Approve SDC Catalog Service    ${catalog_service_id}
         :FOR   ${DIST_INDEX}    IN RANGE   1
         \   Log     Distribution Attempt ${DIST_INDEX}
         \   Distribute SDC Catalog Service    ${catalog_service_id}
@@ -766,26 +757,9 @@ Checkin SDC Catalog Resource
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Request Certify SDC Catalog Resource
-    [Documentation]    Requests certification of an SDC Catalog Resource by its id
-    [Arguments]    ${catalog_resource_id}
-    ${map}=    Create Dictionary    user_remarks=Robot remarks
-    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${SDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${SDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
-    Should Be Equal As Strings  ${resp.status_code}     200
-    [Return]    ${resp.json()}
-
-Start Certify SDC Catalog Resource
-    [Documentation]    Start certification of an SDC Catalog Resource by its id
-    [Arguments]    ${catalog_resource_id}
-    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_PATH}/${catalog_resource_id}${SDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${SDC_TESTER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
-    Should Be Equal As Strings  ${resp.status_code}     200
-    [Return]    ${resp.json()}
-
 Certify SDC Catalog Resource
     [Documentation]    Certifies an SDC Catalog Resource by its id and returns the new uniqueId and uuid
-    [Arguments]    ${catalog_resource_id}    ${user_id}=${SDC_TESTER_USER_ID}
+    [Arguments]    ${catalog_resource_id}    ${user_id}=${SDC_DESIGNER_USER_ID}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    sdc   ${SDC_USER_REMARKS_TEMPLATE}    ${map}
@@ -844,47 +818,20 @@ Checkin SDC Catalog Service
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
-Request Certify SDC Catalog Service
-    [Documentation]    Requests certification of an SDC Catalog Service by its id
-    [Arguments]    ${catalog_service_id}
-    ${map}=    Create Dictionary    user_remarks=Robot remarks
-    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=  Templating.Apply Template    sdc   ${SDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_LIFECYCLE_PATH}/certificationRequest    ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
-    Should Be Equal As Strings  ${resp.status_code}     200
-    [Return]    ${resp.json()}
-
-Start Certify SDC Catalog Service
-    [Documentation]    Start certification of an SDC Catalog Service by its id
-    [Arguments]    ${catalog_service_id}
-    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_LIFECYCLE_PATH}/startCertification    ${None}    ${SDC_TESTER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
-    Should Be Equal As Strings  ${resp.status_code}     200
-    [Return]    ${resp.json()}
-
 Certify SDC Catalog Service
     [Documentation]    Certifies an SDC Catalog Service by its id and returns the new id
     [Arguments]    ${catalog_service_id}
     ${map}=    Create Dictionary    user_remarks=Robot remarks
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=  Templating.Apply Template    sdc   ${SDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${SDC_TESTER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_LIFECYCLE_PATH}/certify    ${data}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['uniqueId']}
-
-Approve SDC Catalog Service
-    [Documentation]    Approves an SDC Catalog Service by its id
-    [Arguments]    ${catalog_service_id}
-    ${map}=    Create Dictionary    user_remarks=Robot remarks
-    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=   Templating.Apply Template    sdc   ${SDC_USER_REMARKS_TEMPLATE}    ${map}
-    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_SERVICE_DISTRIBUTION_STATE_PATH}${SDC_DISTRIBUTION_STATE_APPROVE_PATH}    ${data}    ${SDC_GOVERNOR_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
-    Should Be Equal As Strings  ${resp.status_code}     200
-    [Return]    ${resp.json()}
 
 Distribute SDC Catalog Service
     [Documentation]    distribute an SDC Catalog Service by its id
     [Arguments]    ${catalog_service_id}
-    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_SERVICE_DISTRIBUTION_ACTIVATE_PATH}    ${None}    ${SDC_OPS_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Post Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}${SDC_CATALOG_SERVICE_DISTRIBUTION_ACTIVATE_PATH}    ${None}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
@@ -917,7 +864,7 @@ Add SDC Resource Instance To Resource
 Get Catalog Service Distribution
     [Documentation]    Gets an SDC Catalog Service distribution
     [Arguments]    ${catalog_service_uuid}
-    ${resp}=    SDC.Run Get Request   ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_uuid}${SDC_CATALOG_SERVICE_DISTRIBUTION_PATH}    ${SDC_OPS_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request   ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_uuid}${SDC_CATALOG_SERVICE_DISTRIBUTION_PATH}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
 
@@ -945,7 +892,7 @@ Check Catalog Service Distributed
 Get Catalog Service Distribution Details
     [Documentation]    Gets SDC Catalog Service distribution details
     [Arguments]    ${catalog_service_distribution_id}
-    ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}${SDC_CATALOG_SERVICE_DISTRIBUTION_PATH}/${catalog_service_distribution_id}    ${SDC_OPS_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}${SDC_CATALOG_SERVICE_DISTRIBUTION_PATH}/${catalog_service_distribution_id}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
     
@@ -1069,12 +1016,8 @@ Generate Unique Postfix
 Certify And Approve SDC Catalog Service
     [Documentation]    Perform the required steps to certify and approve the given SDC catalog service
     [Arguments]    ${cs_unique_id}
-
     Checkin SDC Catalog Service    ${cs_unique_id}
-    Request Certify SDC Catalog Service    ${cs_unique_id}
-    Start Certify SDC Catalog Service    ${cs_unique_id}
     ${cert_cs_unique_id}=    Certify SDC Catalog Service    ${cs_unique_id}
-    Approve SDC Catalog Service    ${cert_cs_unique_id}
 
 Create Monitoring Configuration
     [Documentation]   Create a monitoring configuration for a given service based on a previously created VFCMT
