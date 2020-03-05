@@ -47,6 +47,7 @@ RUN apt-get install \
 RUN pip install robotframework==3.1.2 \
     && python --version
 
+RUN python3.7 -m pip install setuptools wheel
 RUN python3.7 -m pip install virtualenv
 
 # Copy the robot code
