@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "870d7dff_3cf18e58",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-03-05T21:37:24Z",
+      "side": 1,
+      "message": "cant you just run them all in the below layer?",
+      "revId": "4c4872c6ad56e95e53dbf4600465f84e1f2e4fa1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
