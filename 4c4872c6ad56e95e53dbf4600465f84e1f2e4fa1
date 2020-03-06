@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "163cb362_11889509",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-06T09:08:09Z",
+      "side": 1,
+      "message": "you use always the ubuntu latest image (currently 18.04.4 LTS), no risk to have dependency issues if you do not use a tagged version (bad practice)?",
+      "revId": "4c4872c6ad56e95e53dbf4600465f84e1f2e4fa1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f797bdf1_3f16f8b4",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-06T09:08:09Z",
+      "side": 1,
+      "message": "when building a docker it is usually recommended to have only 1 multilines RUN to optimize your docker\n\nIt is also recommended to clean the dev packages at the end of the build\n*-dev are needed at buildtime but not at run time\n \nsee an illustration here (I am building a docker on xtesting -based on alpine) to run the healthcheck test for the CI\nhttps://gitlab.com/Orange-OpenSource/lfn/onap/integration/xtesting/-/blob/master/healthcheck/docker/Dockerfile\n\nRUN apk --no-cache add --update openssl chromium chromium-chromedriver \u0026\u0026 \\\n    apk --no-cache add --virtual .build-deps --update \\\n....\n    apk del .build-deps\n\nin order to avoid running as root and be considered in the rooted pod scan, it would be possible to create a user",
+      "revId": "4c4872c6ad56e95e53dbf4600465f84e1f2e4fa1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "870d7dff_3cf18e58",
         "filename": "docker/Dockerfile",
         "patchSetId": 1
@@ -31,6 +65,23 @@
       "side": 1,
       "message": "That\u0027s how i originally had it. When I was building it locally it was still failing with the same error message so I moved them to their own line.",
       "parentUuid": "870d7dff_3cf18e58",
+      "revId": "4c4872c6ad56e95e53dbf4600465f84e1f2e4fa1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78249274_17c71de3",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-06T09:08:09Z",
+      "side": 1,
+      "message": "trailing spaces",
       "revId": "4c4872c6ad56e95e53dbf4600465f84e1f2e4fa1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
