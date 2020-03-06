@@ -8,6 +8,7 @@ Resource        model_test_template.robot
 Resource        ../openstack/neutron_interface.robot
 Resource          ../sdc_interface.robot
 Resource          vnf_orchestration_test_template.robot
+Resource         ../so/create_service_instance.robot
 
 
 Library         ONAPLibrary.Openstack
@@ -17,13 +18,12 @@ Library	        ONAPLibrary.Utilities
 
 *** Keywords ***
 
-Orchestrate PNF
+Orchestrate PNF Macro Flow
     [Documentation]   Use ONAP to Orchestrate a PNF Macro service.
-    [Arguments]    ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}  ${tenant_id}    ${tenant_name}   ${service_model_type}   ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
+    [Arguments]   ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}  ${tenant_id}    ${tenant_name}   ${service_model_type}   ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
     ${lcp_region}=   Set Variable   ${GLOBAL_INJECTED_REGION}
     ${uuid}=    Generate UUID4
     ${full_customer_name}=    Catenate    ${customer_name}_${uuid}
-    ${list}=    Create List
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
     ${service_type}=    Set Variable    ${service}
     Create Customer For PNF     ${full_customer_name}    ${full_customer_name}     INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}  ${tenant_id}  ${GLOBAL_INJECTED_REGION}
@@ -32,6 +32,49 @@ Orchestrate PNF
     ${service_instance_id}  ${request_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID PNF Service Instance    ${full_customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}  ${product_family}  ${lcp_region}  ${tenant_name}  ${pnf_correlation_id}
     Wait Until Keyword Succeeds   60s   20s       Validate Service Instance    ${service_instance_id}    ${service}    ${full_customer_name}
     [Return]     ${service_instance_id}  ${request_id}  ${full_customer_name}
+
+Orchestrate PNF Building Block Flow
+    [Documentation]   Use ONAP to Orchestrate a PNF using GR api
+    [Arguments]   ${service_model_name}  ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}   ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration  ${lineOfBusinessName}=LOB-Demonstration   ${platformName}=Platform-Demonstration
+    ${service_ctalog_json}=  Get Service Catalog  ${service_model_name}
+    ${service_model_uuid}=  Set Variable  ${json_resp["uuid"]}
+    ${service_model_invariant_uuid }=  Set Variable  ${json_resp["invariantUUID"]}
+    ${nf_resource_name}=  Set Variable  ${json_resp["componentInstances"][0]["name"]}
+    ${nf_resource_uuid}=  Set Variable  ${json_resp["componentInstances"][0]["customizationUUID"]}
+    ${componentName}=  Set Variable  ${json_resp["componentInstances"][0]["componentName"]}
+    ${resource_ctalog_json}=  Get Resource Catalog  ${componentName}
+    ${nf_model_invariant_uuid}=  Set Variable  ${json_resp["invariantUUID"]}
+    ${nf_model_uuid}=  Set Variable  ${json_resp["uuid]}
+    ${nf_model_name}=  Set Variable  ${json_resp["name"]}
+    ${productFamilyId}=  Get Service Id  ${product_family}
+    ${owningEntityId}=  Get Owning Entity Id  ${owningEntityName}
+    ${uuid}=   Generate UUID4
+    ${full_customer_name}=    Catenate    ${customer_name}_${uuid}
+    ${service_name}=    Catenate    Service_Ete_Name${uuid}
+    ${service_type}=    Set Variable    ${service}
+    Create Customer For PNF     ${full_customer_name}    ${full_customer_name}     INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}  ${tenant_id}  ${GLOBAL_INJECTED_REGION}
+    ${arguments}=    Create Dictionary   service_model_invariant_uuid=${service_model_invariant_uuid}
+    Set To Dictionary  ${arguments}  service_model_uuid  ${service_model_uuid}
+    Set To Dictionary  ${arguments}  service_model_name  ${service_model_name}
+    Set To Dictionary  ${arguments}  owningEntityId  ${owningEntityId}
+    Set To Dictionary  ${arguments}  owningEntityName  ${owningEntityName}
+    Set To Dictionary  ${arguments}  full_customer_name  ${full_customer_name}
+    Set To Dictionary  ${arguments}  service_name  ${service_name}
+    Set To Dictionary  ${arguments}  productFamilyId  ${productFamilyId}
+    Set To Dictionary  ${arguments}  service  ${service}
+    Set To Dictionary  ${arguments}  nf_resource_name  ${nf_resource_name}
+    Set To Dictionary  ${arguments}  nf_resource_uuid  ${nf_resource_uuid}
+    Set To Dictionary  ${arguments}  nf_model_invariant_uuid  ${nf_model_invariant_uuid}
+    Set To Dictionary  ${arguments}  nf_model_uuid  ${nf_model_uuid}
+    Set To Dictionary  ${arguments}  nf_model_name  ${nf_model_name}
+    Set To Dictionary  ${arguments}  platformName  ${platformName}
+    Set To Dictionary  ${arguments}  lineOfBusinessName  ${lineOfBusinessName}
+    Set To Dictionary  ${arguments}  productFamilyId  ${productFamilyId}
+    Set To Dictionary  ${arguments}  nf_instance_name  ${pnf_correlation_id}
+    ${service_instance_id}  ${request_id}=   Create PNF Service Using GR Api   ${arguments}
+    Wait Until Keyword Succeeds   60s   20s    Validate Service Instance    ${service_instance_id}    ${service}    ${full_customer_name}
+    Check PNF orchestration status in A&AI  ${pnf_correlation_id}  register
+    [Return]     ${service_instance_id}  ${request_id}
 
 
 Create Customer For PNF
