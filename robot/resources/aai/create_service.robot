@@ -59,6 +59,17 @@ Get Services
     Run Keyword If    '${status}' == 'PASS'    Update Service Dictionary    ${dict}    ${resp.json()}
 	[Return]  ${dict}
 
+Get Service Id
+    [Documentation]    Gets a service id in A&AI
+    [Arguments]    ${service_description}
+	${resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_SERVICE_PATH}        auth=${GLOBAL_AAI_AUTHENTICATION}
+    @{list}=  Copy List   ${resp.json['service']}
+    :FOR   ${map}    IN    @{list}
+    \    ${service_type}=     Run Keyword And Ignore Error    Get From Dictionary    ${map}    service-description
+    \    ${service_id}=      Run Keyword And Ignore Error    Get From Dictionary    ${map}    service-id
+    \    ${id}   Run Keyword If    '${service_type}' == '${service_description}'    Set Variable    ${service_id}
+	[Return]  ${id}
+
 Update Service Dictionary
     [Arguments]    ${dict}    ${json}
     @{list}=  Copy List   ${json['service']}
