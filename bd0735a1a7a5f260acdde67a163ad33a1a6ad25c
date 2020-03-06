@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2e7ff27_3b6ee72d",
+        "filename": "robot/resources/sdc_interface.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-03-06T16:15:14Z",
+      "side": 1,
+      "message": "good diea, can you refactor the above 2 methods to use this?",
+      "revId": "bd0735a1a7a5f260acdde67a163ad33a1a6ad25c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "074ed21b_7f04dba2",
+        "filename": "robot/resources/so/add_service_recipe.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-03-06T16:15:14Z",
+      "side": 1,
+      "message": "use the log with console option set to True so that it logs to both",
+      "revId": "bd0735a1a7a5f260acdde67a163ad33a1a6ad25c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d46716d_be95d027",
+        "filename": "robot/resources/so/create_service_instance.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-03-06T16:15:14Z",
+      "side": 1,
+      "message": "SO.Run Create Request already exists so use that",
+      "revId": "bd0735a1a7a5f260acdde67a163ad33a1a6ad25c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2abe2a31_cc3a3672",
+        "filename": "robot/resources/test_templates/pnf_registration_without_SO_template.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-03-06T16:15:14Z",
+      "side": 1,
+      "message": "this should be in aai resources folder somewhere",
+      "revId": "bd0735a1a7a5f260acdde67a163ad33a1a6ad25c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
