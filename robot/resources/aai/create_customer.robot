@@ -34,3 +34,14 @@ Delete Customer Exists
     [Arguments]    ${customer_id}    ${resource_version_id}
     ${put_resp}=    AAI.Run Delete Request    ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_CUSTOMER_PATH}${customer_id}    ${resource_version_id}        auth=${GLOBAL_AAI_AUTHENTICATION}
     Should Be Equal As Strings 	${put_resp.status_code} 	204
+
+Get OwningEntity Id
+    [Documentation]   Returns OwningEntity Id based on OwningEntity name
+    [Arguments]    ${name}
+    ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    /aai/v11/business/owning-entities   auth=${GLOBAL_AAI_AUTHENTICATION}
+    @{list}=  Copy List   ${resp.json['owning-entity']}
+    :FOR   ${map}    IN    @{list}
+    \    ${owning_entity_name}=     Run Keyword And Ignore Error    Get From Dictionary    ${map}    owning-entity-name
+    \    ${owning_entity_id}=      Run Keyword And Ignore Error    Get From Dictionary    ${map}    owning-entity-id
+    \    ${id}   Run Keyword If    '${owning_entity_name}' == '${name}'    Set Variable    ${owning_entity_id}
+	[Return]  ${id}
