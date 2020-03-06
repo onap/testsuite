@@ -19,6 +19,7 @@ ${SO_ADD_SERVICE_RECIPE}   so/service_recipe.jinja
 Add Service Recipe
     [Documentation]    Creates a macro service recipe in SO Catalog DB
     [Arguments]    ${service_model_UUID}  ${orchestrationUri}
+    Log To Console   Creating Service Recipe for TOSCA Based PNF Model
     ${id}=  Get First Free Service Recipe Id
     ${arguments}=    Create Dictionary     service_model_UUID=${service_model_UUID}  orchestrationUri=${orchestrationUri}   id=${id}
     Templating.Create Environment    so    ${GLOBAL_TEMPLATE_FOLDER}

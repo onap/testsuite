@@ -1,6 +1,7 @@
 *** Settings ***
 Documentation     PNF Registration Handler (PRH) test cases
 Resource        ../aai/aai_interface.robot
+Resource        ../aai/create_customer.robot
 Resource        ../sdc_interface.robot
 Resource        ../mr_interface.robot
 Resource        ../so/add_service_recipe.robot
@@ -77,6 +78,14 @@ Query PNF A&AI updated entry
     Should Be Equal As Strings  ${json_resp["pnf-name"]}       ${PNF_entry_dict.correlation_id}
     Log  PNF integration request in A&AI has been verified and contains all necessary entries
 
+Check PNF orchestration status in A&AI
+    [Documentation]   Query PNF A&AI updated entry
+    [Arguments]  ${PNF_entry_dict}  ${status}
+    ${get_resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    /aai/v11/network/pnfs/pnf/${pnf_correlation_id}    auth=${GLOBAL_AAI_AUTHENTICATION}
+    Should Be Equal As Strings  ${get_resp.status_code}        200
+    ${json_resp}=  Set Variable  ${get_resp.json()}
+    Should Be Equal As Strings  ${status}       ${PNF_entry_dict.orchestrationStatus}
+
 Check VES_PNFREG_OUTPUT topic presence in MR
     [Documentation]   Verify if unauthenticated.VES_PNFREG_OUTPUT topic is present in MR
     ${get_resp}=  Run MR Get Request  ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_VES_PNFREG_OUTPUT_PATH}
@@ -111,22 +120,23 @@ Check SO service completition status
     ${so_status}=    Set Variable     ${so_status_request_data['request']['requestStatus']['requestState']}
     Should Be Equal As Strings  ${so_status}     ${so_expected_status}
 
-
 Instantiate PNF_macro service and succesfully registrate PNF template
     [Documentation]   Test case template for design, create, instantiate PNF/macro service and succesfully registrate PNF
-    [Arguments]    ${service_name}   ${PNF_entry_dict}   ${pnf_correlation_id}   ${service}=pNF    ${product_family}=pNF  ${customer_name}=ETE_Customer
+    [Arguments]    ${service_name}   ${PNF_entry_dict}   ${pnf_correlation_id}   ${service}=pNF    ${product_family}=pNF  ${customer_name}=ETE_Customer  ${building_block_flow}=false
     Log To Console   \nDistributing TOSCA Based PNF Model
     ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}    ${catalog_resource_ids}   ${catalog_service_id}  Model Distribution For Directory  ${service}  ${service_name}  cds=False   instantiationType=Macro  resourceType=PNF
     ${UUID}=  Get Service Model Parameter from SDC Service Catalog  ${service_name}  uuid
-    Log To Console   Creating Service Recipe for TOSCA Based PNF Model
-    ${service_recipe_id}=   Add Service Recipe  ${UUID}  mso/async/services/CreateVcpeResCustService_simplified
+    ${service_recipe_id}=   Run Keyword If  "${building_block_flow}"=='false'  Add Service Recipe  ${UUID}  mso/async/services/CreateVcpeResCustService_simplified
     Inventory Tenant If Not Exists    CloudOwner   ${region}  SharedNode  OwnerType  v1  CloudZone  ${tenant_id}   ${tenant_name}
     Load OwningEntity  project  Project-${customer_name}
     Load OwningEntity  owningEntity  OE-${customer_name}
-    ${service_instance_id}  ${request_id}  ${full_customer_name}   Orchestrate PNF   ${customer_name}   ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}   Project-${customer_name}   OE-${customer_name}
+    Load OwningEntity  lineOfBusiness  LOB-${customer_name}
+    Load OwningEntity  platform  Platform-${customer_name}
+    ${service_instance_id}  ${request_id}  ${full_customer_name}   Run Keyword If  "${building_block_flow}"=='false'  Orchestrate PNF Macro Flow   ${customer_name}   ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}   Project-${customer_name}   OE-${customer_name}
+        ...  ELSE  Orchestrate PNF Building Block Flow   ${service_model_name}  ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}   ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration  ${lineOfBusinessName}=LOB-Demonstration   ${platformName}=Platform-Demonstration
     Wait Until Keyword Succeeds   120s  40s  Send and verify VES integration request in SO and A&AI   ${request_id}   ${PNF_entry_dict}
-    [Teardown]   Instantiate PNF_macro service Teardown      ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}  ${service_instance_id}  ${service_recipe_id}
-
+    Run Keyword If  "${building_block_flow}"=='true'  Check PNF orchestration status in A&AI  ${pnf_correlation_id}  registered
+    [Teardown]   Instantiate PNF_macro service Teardown      ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}  ${service_instance_id}  ${service_recipe_id}  ${building_block_flow}
 
 Send and verify VES integration request in SO and A&AI
     [Documentation]   Gets service status and compares with expected status
@@ -136,7 +146,7 @@ Send and verify VES integration request in SO and A&AI
     Wait Until Keyword Succeeds   30s  10s  Check SO service completition status   ${request_id}   COMPLETE
 
 Instantiate PNF_macro service Teardown
-    [Arguments]  ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}  ${service_instance_id}  ${service_recipe_id}
+    [Arguments]  ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}  ${service_instance_id}  ${service_recipe_id}  ${building_block_flow}
     Teardown Models  ${catalog_service_id}    ${catalog_resource_ids}
-    Delete Service Recipe  ${service_recipe_id}
+    Run Keyword If  "${building_block_flow}"=='false'  Delete Service Recipe  ${service_recipe_id}
     Cleanup PNF entry in A&AI  ${PNF_entry_dict}
