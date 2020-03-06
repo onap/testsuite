@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6218b7bd_7cfe7044",
+        "filename": "robot/resources/sdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-06T08:22:31Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "cc3c8693fe88fa6bdedbeba27cc7931ca0578874",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8adb17e1_3bf990ab",
+        "filename": "robot/resources/test_templates/model_test_template.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-03-06T08:22:31Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "cc3c8693fe88fa6bdedbeba27cc7931ca0578874",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
