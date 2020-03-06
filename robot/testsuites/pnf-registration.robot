@@ -31,9 +31,25 @@ Instantiate PNF_macro service and succesfully registrate PNF
      ...  Next service is instantied with random PNF id. VES integration event is send with this PNF ID.
      ...  At the end of the service is checked in terms
      ...  - service completion
-     ...  - PNF entry update about information form VES event
+     ...  - PNF entry update about information from VES event
      [Tags]   pnf_registrate   ete
      ${pnf_correlation_id}=    Generate Random String  20  [LETTERS][NUMBERS]
      ${PNF_entry_dict}=  Create Dictionary  correlation_id=${pnf_correlation_id}  PNF_IPv4_address=13.13.13.13  PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
      ${PNF_service_model}=  Set Variable  Demo_pNF_${pnf_correlation_id}
      Instantiate PNF_macro service and succesfully registrate PNF template   ${PNF_service_model}   ${PNF_entry_dict}   ${pnf_correlation_id}
+
+
+Instantiate PNF service (using building blocks) and succesfully registrate PNF
+     [Documentation]
+     ...  This test case creates TOSCA csar software package for PNF. Imports it as VSP package.
+     ...  Cretaes PNF resource, cretaes Macro service, attach PNF resource and distributes it.
+     ...  Next service is instantied with random PNF id. VES integration event is send with this PNF ID.
+     ...  At the end of the service is checked in terms
+     ...  - service completion
+     ...  - PNF entry update about information from VES event
+     ...  - PNF orchestration status
+     [Tags]   pnf_registrate   ete
+     ${pnf_correlation_id}=    Generate Random String  20  [LETTERS][NUMBERS]
+     ${PNF_entry_dict}=  Create Dictionary  correlation_id=${pnf_correlation_id}  PNF_IPv4_address=13.13.13.13  PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
+     ${PNF_service_model}=  Set Variable  Demo_pNF_${pnf_correlation_id}
+     Instantiate PNF service (using building blocks) and succesfully registrate PNF template   ${PNF_service_model}   ${PNF_entry_dict}   ${pnf_correlation_id}  true

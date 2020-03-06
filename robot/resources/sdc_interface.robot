@@ -278,6 +278,11 @@ Get AllottedResource UUID
    ${resp}=    SDC.Run Get Request   ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_QUERY_PATH}/AllottedResource/resourceVersion/1.0   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
    [Return]    ${resp.json()['allVersions']['1.0']}
 
+Get Resource Catalog
+   [Arguments]  ${resource_name}
+   ${resp}=    SDC.Run Get Request   ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_RESOURCES_QUERY_PATH}/${resource_name}/resourceVersion/1.0   ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
+   [Return]    ${resp.json()}
+
 Loop Over Check Catalog Service Distributed
     [Arguments]    ${catalog_service_id}
     # SO watchdog timeout is 300 seconds need buffer
