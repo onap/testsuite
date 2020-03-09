@@ -1,12 +1,12 @@
 {
-    "asdcResourceId": "",
-    "asdcServiceId": "",
-    "asdcServiceURL": "",
-    "blueprintTemplate": "",
-    "owner": "robot",
-    "serviceIds": [],
-    "serviceLocations": [],
-    "typeName": "",
-    "typeVersion": 100,
-    "vnfTypes": []
+  "asdcResourceId": "",
+  "asdcServiceId": "",
+  "asdcServiceURL": "",
+  "blueprintTemplate": "",
+  "owner": "robot",
+  "serviceIds": [],
+  "serviceLocations": [],
+  "typeName": "",
+  "typeVersion": 100,
+  "vnfTypes": []
 }
