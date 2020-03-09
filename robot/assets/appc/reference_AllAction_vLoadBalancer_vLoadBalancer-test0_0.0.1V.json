@@ -1,46 +1,46 @@
 {
-	"reference_data": [
-		{
-			"action": "ConfigScaleOut",
-			"action-level": "vnf",
-			"scope": {
-				"vnf-type": "vLoadBalancer/vLoadBalancer-test 0",
-				"vnfc-type": ""
-			},
-			"template": "Y",
-			"vm": [],
-			"device-protocol": "NETCONF-XML",
-			"user-name": "admin",
-			"port-number": "2831",
-			"artifact-list": [
-				{
-					"artifact-name": "template_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.xml",
-					"artifact-type": "config_template"
-				},
-				{
-					"artifact-name": "pd_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.yaml",
-					"artifact-type": "parameter_definitions"
-				}
-			],
-			"template-id-list": [
-				"vLB"
-			],
-			"template-id": "vLB",
-			"scopeType": "vnf-type"
-		},
-		{
-			"action": "AllAction",
-			"action-level": "vnf",
-			"scope": {
-				"vnf-type": "vLoadBalancer/vLoadBalancer-test 0",
-				"vnfc-type": ""
-			},
-			"artifact-list": [
-				{
-					"artifact-name": "reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json",
-					"artifact-type": "reference_template"
-				}
-			]
-		}
-	]
+  "reference_data": [
+    {
+      "action": "ConfigScaleOut",
+      "action-level": "vnf",
+      "scope": {
+        "vnf-type": "vLoadBalancer/vLoadBalancer-test 0",
+        "vnfc-type": ""
+      },
+      "template": "Y",
+      "vm": [],
+      "device-protocol": "NETCONF-XML",
+      "user-name": "admin",
+      "port-number": "2831",
+      "artifact-list": [
+        {
+          "artifact-name": "template_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.xml",
+          "artifact-type": "config_template"
+        },
+        {
+          "artifact-name": "pd_ConfigScaleOut_vLoadBalancer_vLoadBalancer-test0_0.0.1V_vLB.yaml",
+          "artifact-type": "parameter_definitions"
+        }
+      ],
+      "template-id-list": [
+        "vLB"
+      ],
+      "template-id": "vLB",
+      "scopeType": "vnf-type"
+    },
+    {
+      "action": "AllAction",
+      "action-level": "vnf",
+      "scope": {
+        "vnf-type": "vLoadBalancer/vLoadBalancer-test 0",
+        "vnfc-type": ""
+      },
+      "artifact-list": [
+        {
+          "artifact-name": "reference_AllAction_vLoadBalancer_vLoadBalancer-test0_0.0.1V.json",
+          "artifact-type": "reference_template"
+        }
+      ]
+    }
+  ]
 }
