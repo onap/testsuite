@@ -22,10 +22,10 @@ ${PORTAL_HOME_URL}                ${PORTAL_GUI_ENDPOINT}${PORTAL_ENV}/applicatio
 *** Keywords ***
 Run Portal Health Check
      [Documentation]    Runs Portal Health check
-     ${resp}=    Run Portal Get Request    ${PORTAL_HEALTH_CHECK_PATH}    
+     ${resp}=    Run Portal Get Request    ${PORTAL_HEALTH_CHECK_PATH}
      Should Be Equal As Strings 	${resp.status_code} 	200
      Should Be Equal As Strings 	${resp.json()['statusCode']} 	200
-         
+
 Run Portal Get Request
      [Documentation]    Runs Portal Get request
      [Arguments]    ${data_path}
@@ -65,7 +65,7 @@ Run Portal Application Access Tests
      ${status}   ${resp}    Run Keyword And Ignore Error   Run Portal Application Login Test   demo    demo123456!  gridster-Policy-icon-link   tabframe-Policy    Policy Editor
      Log    Policy ${status}    console=yes
      Close All Browsers
-     ${status}   ${resp}    Run Keyword And Ignore Error   Run Portal Application Login Test   demo    demo123456!  gridster-SO-Monitoring-icon-link   tabframe-SO-Monitoring   SO 
+     ${status}   ${resp}    Run Keyword And Ignore Error   Run Portal Application Login Test   demo    demo123456!  gridster-SO-Monitoring-icon-link   tabframe-SO-Monitoring   SO
      Log    SO-Monitoring ${status}   console=yes
      Close All Browsers
 
@@ -92,12 +92,12 @@ Login To Portal GUI
     Input Password    xpath=//input[@ng-model='password']    ${password}
     Click Element    xpath=//a[@id='loginBtn']
     Sleep   5s
-    #Go To     ${PORTAL_HOME_URL}                
+    #Go To     ${PORTAL_HOME_URL}
     #Wait Until Page Contains  Applications   ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Wait Until Page Contains  Applications   30
     Log    Logged in to ${PORTAL_ENDPOINT}${PORTAL_ENV}
     Log  ${loginId} SUCCESS
-    
+
 Logout From Portal GUI
     [Documentation]   Logs out of Portal GUI
     Go To    ${PORTAL_LOGIN_URL}
@@ -123,7 +123,7 @@ Run Portal Application Login Test
     Input Password    xpath=//input[@ng-model='password']    ${password}
     Click Element    xpath=//a[@id='loginBtn']
     Sleep   5s
-    #Go To     ${PORTAL_HOME_URL}                
+    #Go To     ${PORTAL_HOME_URL}
     Wait Until Page Contains  Applications   ${GLOBAL_SELENIUM_BROWSER_WAIT_TIMEOUT}
     Log    Logged in to ${PORTAL_ENDPOINT}${PORTAL_ENV}
     Log  ${loginId} SUCCESS
@@ -162,4 +162,3 @@ Input Text When Enabled
     Wait Until Page Contains Element    xpath=${xpath}    ${timeout}
     Wait Until Element Is Enabled    xpath=${xpath}    ${timeout}
     Input Text    xpath=${xpath}    ${value}
-

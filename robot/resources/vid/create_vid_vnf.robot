@@ -58,7 +58,7 @@ Create VID VNF
  	Should Not Contain    ${response text}    FAILED
     Click On Button When Enabled    //button[contains(text(),'Close')]
     ${instance_id}=    Parse Instance Id     ${response text}
-    # sometimes the page refreshes - a reload is required on timeout but next step for VF Module does that 
+    # sometimes the page refreshes - a reload is required on timeout but next step for VF Module does that
     Run Keyword And Ignore Error   Wait Until Page Contains    ${service_instance_name}    ${GLOBAL_VID_UI_TIMEOUT_LONG}
     [Return]     ${instance_id}
 
@@ -170,8 +170,8 @@ Fill Module Form And Submit
 
 Wait For Add VF Module
     [Documentation]   Retry by refresh if the ADD VF-Module is not visible
-    Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}  
-    
+    Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
+
     ${status}   ${value}   Run Keyword And Ignore Error   Wait Until Element Is Visible    //button[contains(text(),'Add VF-Module')]   timeout=${GLOBAL_VID_UI_TIMEOUT_SHORT}
     Return From Keyword If   '${status}' == 'PASS'
     Reload Page

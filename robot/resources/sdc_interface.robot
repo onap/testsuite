@@ -91,7 +91,7 @@ Distribute Model From SDC
                                   ...  ELSE   Get Regexp Matches    ${zip}   ${service}_(.*)\.zip    1
     #  Need to be able to distribute preload for vFWCL vFWSNK and vFWDT vFWSNK to prepend service to vnf_type
     \    ${resource_type_string}=   Set Variable If   len(${resource_type_match})==0    ${service}    ${service}${resource_type_match[0]}
-    \    Set To Dictionary    ${resource_types}    ${resource_type_string}    ${loop_catalog_resource_id}   
+    \    Set To Dictionary    ${resource_types}    ${resource_type_string}    ${loop_catalog_resource_id}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
 
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
@@ -457,7 +457,7 @@ Add SDC License Model
     ${resp}=    SDC.Run Post Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_LICENSE_MODEL_PATH}    ${data}  ${SDC_DESIGNER_USER_ID}      auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()['itemId']}    ${resp.json()['version']['id']}
-    
+
 Get SDC License Model
     [Documentation]    gets an SDC license model by its id
     [Arguments]    ${id}   ${version_id}=0.1
@@ -718,7 +718,7 @@ Set SDC Catalog Resource VNF Inputs
     [Return]    ${resp.json()}
 
 Get Service Catalog
-    [Arguments]  ${service_name}    
+    [Arguments]  ${service_name}
     ${resp}=  SDC.Run Get Request  ${SDC_BE_ENDPOINT}   ${SDC_CATALOG_SERVICES_PATH}/serviceName/${service_name}/serviceVersion/1.0  ${SDC_DESIGNER_USER_ID}  auth=${GLOBAL_SDC_AUTHENTICATION}
     [Return]   ${resp.json()}
 
@@ -895,7 +895,7 @@ Get Catalog Service Distribution Details
     ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}${SDC_CATALOG_SERVICE_DISTRIBUTION_PATH}/${catalog_service_distribution_id}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
     [Return]    ${resp.json()}
-    
+
 Run SDC Health Check
     [Documentation]    Runs a SDC health check
     ${resp}=    SDC.Run Get Request     ${SDC_FE_ENDPOINT}    ${SDC_HEALTH_CHECK_PATH}    user=${None}
@@ -946,8 +946,8 @@ Add CDS Parameters
 
 
 Set Input Parameter
-    [Arguments]   ${service_uuid}  ${component_uuid}  ${input}  ${input_type}  ${input_value}    
-    ${resp}=    SDC.Run Post Request  ${SDC_BE_ENDPOINT}   ${SDC_CATALOG_SERVICES_PATH}/${service_uuid}/resourceInstance/${component_uuid}/inputs    {"constraints":[],"name":"${input['name']}","parentUniqueId":"${input['parentUniqueId']}","password":false,"required":false,"schema":{"property":{}},"type":"${input_type}","uniqueId":"${input['uniqueId']}","value":"${input_value}","definition":false,"toscaPresentation":{"ownerId":"${input['ownerId']}"}}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
+    [Arguments]   ${service_uuid}  ${component_uuid}  ${input}  ${input_type}  ${input_value}
+    ${resp}=    SDC.Run Post Request  ${SDC_BE_ENDPOINT}   ${SDC_CATALOG_SERVICES_PATH}/${service_uuid}/resourceInstance/${component_uuid}/inputs    {"constraints":[],"name":"${input['name']}","parentUniqueId":"${input['parentUniqueId']}","password":false,"required":false,"schema":{"property":{}},"type":"${input_type}","uniqueId":"${input['uniqueId']}","value":"${input_value}","definition":false,"toscaPresentation":{"ownerId":"${input['ownerId']}"}}    ${SDC_DESIGNER_USER_ID} auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
 
 
@@ -1027,4 +1027,3 @@ Create Monitoring Configuration
     ${cs_unique_id}   ${cs_uuid}    Add Catalog Service For Monitoring Template   ${service_name}
     ${vfi_uuid}  ${vfi_name}   Add SDC Resource Instance   ${cs_unique_id}   ${vf_unique_id}   ${vf_name}
     [return]   ${cs_unique_id}   ${cs_uuid}    ${vfi_name}
-

@@ -34,7 +34,7 @@ Model Distribution For Directory
     Run Keyword If  '${resourceType}'=='PNF'  Create CSARSs in SDC Onboarding Packages Directory  ${directory_list}  ${ziplist}
     ...  ELSE  Create ZIPs in SDC ZIP Directory  ${directory_list}  ${ziplist}
     ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute Model From SDC    ${ziplist}    ${catalog_service_name}    ${cds}   ${service}  instantiationType=${instantiationType}  resourceType=${resourceType}
-    Download CSAR    ${catalog_service_id}   
+    Download CSAR    ${catalog_service_id}
     [Return]    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}    ${catalog_resource_ids}   ${catalog_service_id}
 
 Create ZIPs in SDC ZIP Directory

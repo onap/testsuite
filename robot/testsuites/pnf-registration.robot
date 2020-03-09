@@ -4,7 +4,7 @@ Test Timeout      10m
 
 Resource         ../resources/test_templates/pnf_registration_without_SO_template.robot
 Library	        String
-    
+
 
 
 *** Test Cases ***

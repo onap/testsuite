@@ -1,13 +1,13 @@
 *** Settings ***
-Documentation     Instantiate VNF 
+Documentation     Instantiate VNF
 
 Library    OperatingSystem
 Library    Collections
 Library    String
 Library    DateTime
-Library    SoUtils 
+Library    SoUtils
 Library    ONAPLibrary.PreloadData    WITH NAME     PreloadData
-Library    ONAPLibrary.Utilities    
+Library    ONAPLibrary.Utilities
 Library    ONAPLibrary.JSON
 Library    ONAPLibrary.ServiceMapping    WITH NAME     ServiceMapping
 Library    ONAPLibrary.Templating    WITH NAME     Templating
@@ -21,9 +21,9 @@ ${SO_CATALOGDB_PATH}  /ecomp/mso/catalog/v2/serviceVnfs?serviceModelName
 ${SO_APIHANDLER_PATH}    /onap/so/infra/serviceInstantiation/v7/serviceInstances
 
 *** Keywords ***
-Instantiate Service Direct To SO 
+Instantiate Service Direct To SO
     [Documentation]    Creates an entire service from a CSAR
-    [Arguments]    ${service}   ${csar_file}   ${vnf_template_file} 
+    [Arguments]    ${service}   ${csar_file}   ${vnf_template_file}
     # Example: ${csar_file}=  Set Variable   /tmp/csar/service-Vfw20190413133734-csar.csar
     # Example: ${vnf_template_file}=  Set Variable   /var/opt/ONAP/testsuite/vcpeutils/preload_templates/template.vfw_vfmodule.json
     PreloadData.Set Directory    preload    ./demo/preload_data
@@ -33,7 +33,7 @@ Instantiate Service Direct To SO
     ${parameters}=    Get Globally Injected Parameters
     :FOR   ${key}   IN   @{keys}
     \    ${value}=   Get From Dictionary    ${preload_dict}    ${key}
-    \    ${tmp_value}=   Set Variable If   'GLOBAL_' in $value     ${value}  
+    \    ${tmp_value}=   Set Variable If   'GLOBAL_' in $value     ${value}
     \    ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    \$      ${EMPTY}
     \    ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    {      ${EMPTY}
     \    ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    }      ${EMPTY}
@@ -52,29 +52,29 @@ Instantiate Service Direct To SO
 
     Set To Dictionary   ${template}    ${tmp_key1}     ${ecompnet}     ${tmp_key2}     ${GLOBAL_INJECTED_UBUNTU_1404_IMAGE}
 
-    Log    ${preload_dict}  
-    Log    ${template}  
+    Log    ${preload_dict}
+    Log    ${template}
     ${service_instance_id}=   Create Entire Service   ${csar_file}    ${vnf_template_file}   ${template}   ${GLOBAL_INJECTED_REGION}  ${GLOBAL_INJECTED_OPENSTACK_TENANT_ID}    ${GLOBAL_INJECTED_PUBLIC_KEY}
     Log     ServiceInstanceId:${service_instance_id}
     Should Not Be Equal As Strings  ${service_instance_id}   None
-    
+
 
 CDS Service Instantiate
     [Arguments]  ${cds_service_model}  ${service_uuid}  ${service_invariantUUID}
-    ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME}  ${GLOBAL_SO_PASSWORD}               
+    ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME}  ${GLOBAL_SO_PASSWORD}
     ${resp}=  SO.Run Get Request  ${GLOBAL_SO_CATDB_ENDPOINT}  ${SO_CATALOGDB_PATH}=${cds_service_model}  auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}  200
     ${time_now}=  Get Time
     @{date_time}=  Split String  ${time_now}
     ${time_stamp}=  Catenate  SEPARATOR=_  @{date_time}[0]  @{date_time}[1]
     ${customized_time_stamp}=  Remove String  ${time_stamp}  :
-    ${cds_instance_name}=   Set Variable   cds_vlb_svc_${customized_time_stamp}    
-    ${global_parameters}=  Get Globally Injected Parameters 
-    ${dict}=   Set To Dictionary  ${global_parameters}  service_instance_name=${cds_instance_name}  owning_entity=OE-Demonstration    homing_solution=none    owning_entity_id=67f2e84c-734d-4e90-a1e4-d2ffa2e75849    subscriber_id=Demonstration  cloud_owner=${GLOBAL_AAI_CLOUD_OWNER}  subscription_service_type=vLB  service_model_name=${cds_service_model}  service_model_uuid=${service_uuid}  service_model_invariantuuid=${service_invariantUUID}  resp=${resp.json()}    
+    ${cds_instance_name}=   Set Variable   cds_vlb_svc_${customized_time_stamp}
+    ${global_parameters}=  Get Globally Injected Parameters
+    ${dict}=   Set To Dictionary  ${global_parameters}  service_instance_name=${cds_instance_name}  owning_entity=OE-Demonstration    homing_solution=none    owning_entity_id=67f2e84c-734d-4e90-a1e4-d2ffa2e75849    subscriber_id=Demonstration  cloud_owner=${GLOBAL_AAI_CLOUD_OWNER}  subscription_service_type=vLB  service_model_name=${cds_service_model}  service_model_uuid=${service_uuid}  service_model_invariantuuid=${service_invariantUUID}  resp=${resp.json()}
     Templating.Create Environment    cds    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    cds    ${SO_TEMPLATE_PATH}/cds_service_template.jinja    ${dict}
     Log  ${data}
     ${auth}=  Create List  ${GLOBAL_SO_USERNAME}  ${GLOBAL_SO_PASSWORD}
     ${resp}=  SO.Run Post Request  ${GLOBAL_SO_APIHAND_ENDPOINT}  ${SO_APIHANDLER_PATH}  ${data}  auth=${auth}
-    Should Be Equal As Strings  ${resp.status_code}  202    
+    Should Be Equal As Strings  ${resp.status_code}  202
     [Return]  ${resp.json()['requestReferences']['requestId']}

@@ -24,7 +24,7 @@ Run Openstack Auth Request
     [Documentation]    Runs an Openstack Auth Request and returns the token and service catalog. you need to include the token in future request's x-auth-token headers. Service catalog describes what can be called
     [Arguments]    ${alias}    ${username}=    ${password}=
     ${username}    ${password}=   Set Openstack Credentials   ${username}    ${password}
-    ${keystone_api_version}=    Run Keyword If    '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'==''    Get KeystoneAPIVersion 
+    ${keystone_api_version}=    Run Keyword If    '${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}'==''    Get KeystoneAPIVersion
     ...    ELSE    Set Variable   ${GLOBAL_INJECTED_OPENSTACK_KEYSTONE_API_VERSION}
     ${url}   ${path}=   Get Keystone Url And Path   ${keystone_api_version}
     ${session}=    Create Session 	keystone 	${url}    verify=True
@@ -48,7 +48,7 @@ Get KeystoneAPIVersion
     Log   Keystone URL is ${url}
     ${session}=    Create Session    keystone    ${url}    verify=True
     ${uuid}=    Generate UUID4
-    ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json    
+    ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json
     ${resp}=    Get Request    keystone  /   headers=${headers}
     Log    Received response from keystone ${resp.text}
     Should Be Equal As Strings    ${resp.status_code}    300
@@ -58,11 +58,11 @@ Get KeystoneAPIVersion
        \  ${status}=    Get Variable Value    ${value["status"]}
        \  Run Keyword If    '${status}'=='stable'   Exit For Loop
     ${href}=  Set Variable     ${value["links"][0]["href"]}
-    ${keystone}=  Set Variable   ${GLOBAL_INJECTED_KEYSTONE}  
+    ${keystone}=  Set Variable   ${GLOBAL_INJECTED_KEYSTONE}
     ${version}=    Remove String  ${href}   ${keystone}  /
     Return From Keyword If   '${version}'=='v2.0' or '${version}'=='v3'    ${version}
-    Fail   Keystone API version not found or not supported    
-	
+    Fail   Keystone API version not found or not supported
+
 Get KeyStoneAuthv2 Data
     [Documentation]    Returns all the data for keystone auth v2 api
     [Arguments]    ${username}    ${password}    ${path}

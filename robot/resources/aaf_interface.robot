@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation	  The main interface for interacting with AAF. It handles low level stuff like managing the http request library and AAF required fields
 Library 	      RequestsLibrary
-Library	          ONAPLibrary.Utilities   
+Library	          ONAPLibrary.Utilities
 
 Resource          global_properties.robot
 
@@ -11,10 +11,10 @@ ${AAF_HEALTH_CHECK_PATH}        /authz/perms/user/${GLOBAL_AAF_USERNAME}
 *** Keywords ***
 Run AAF Health Check
      [Documentation]    Runs AAF Health check
-     ${resp}=    Run AAF Get Request    ${AAF_HEALTH_CHECK_PATH}    
+     ${resp}=    Run AAF Get Request    ${AAF_HEALTH_CHECK_PATH}
      Should Be Equal As Strings 	${resp.status_code} 	200
      #Should Contain    ${resp.json()}    access
-         
+
 Run AAF Get Request
      [Documentation]    Runs AAF Get request
      [Arguments]    ${data_path}
