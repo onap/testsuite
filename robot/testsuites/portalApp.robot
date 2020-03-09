@@ -23,7 +23,7 @@ Portal R1 Release for AAF
     Portal AAF new fields
 
 EP Admin widget layout reset
-    [TAGS]  portalSKIP   portal-ci 
+    [TAGS]  portalSKIP   portal-ci
     Reset widget layout option
 
 Validate Functional Top Menu Get Access
@@ -49,7 +49,7 @@ Create a Test User for Application Admin
     Portal admin Add Application admin User New user    ${login_id}    ${email_address}
 
 Add Application Admin for Existing User Test user
-    [TAGS]  portal   
+    [TAGS]  portal
     ${login_id}    ${email_address}=    Generate Random User    demoapp
     Portal admin Add Application Admin Existing User -APPDEMO    ${login_id}
 

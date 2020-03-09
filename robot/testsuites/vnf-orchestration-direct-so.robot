@@ -1,11 +1,11 @@
 *** Settings ***
-Documentation     Instantiate VNF via Direct SO Calls 
+Documentation     Instantiate VNF via Direct SO Calls
 ...
 Test Timeout      600 second
 Resource          ../resources/so/direct_instantiate.robot
 
 *** Variables ***
-${CSAR_FILE}   
+${CSAR_FILE}
 ${VFW_TEMPLATE}     robot/assets/templates/vcpeutils/template.vfw_vfmodule.json
 
 

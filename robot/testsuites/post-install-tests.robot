@@ -1,7 +1,7 @@
 *** Settings ***
-Documentation     Testing Installation 
+Documentation     Testing Installation
 ...           Tests that confirm an installation is valid and not meant as recurring health test
-...               
+...
 
 Test Timeout      10 second
 

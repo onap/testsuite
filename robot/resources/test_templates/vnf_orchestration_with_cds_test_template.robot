@@ -33,7 +33,7 @@ Library        ONAPLibrary.SO    WITH NAME    SO
 *** Variables ***
 ${service_template}    robot/assets/cds/service-Vfirewall0911-template.yml
 ${env}      robot/assets/cds/env.yml
-${so_request_template}    so/cds_request.jinja    
+${so_request_template}    so/cds_request.jinja
 ${vnf_template_name} 	so/cds_vnf.jinja
 ${vfmodule_template_name} 	so/cds_vfmodule.jinja
 ${so_uri_path}		/onap/so/infra/serviceInstantiation/v7/serviceInstances
@@ -81,14 +81,14 @@ Orchestrate VNF With CDS
     \	 Set To Dictionary	${dict}	  vf_modules=${vfmodules}
     \    ${vnf_payload}=   Templating.Apply Template    cds		${vnf_template_name}		${dict}
     \	 ${data}= 	Catenate	[${vnf_payload}]
-   
+
     Set To Dictionary 		${dict}		vnfs=${data}
     ${request}=     Templating.Apply Template    cds    ${so_request_template}    ${dict}
     Log     --------request--------
     Log     ${request}
     Log     --------end request--------
     ${auth}=  Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
-    ${resp}=    SO.Run Post Request  ${GLOBAL_SO_ENDPOINT}    ${so_uri_path}   ${data}    auth=${auth} 
+    ${resp}=    SO.Run Post Request  ${GLOBAL_SO_ENDPOINT}    ${so_uri_path}   ${data}    auth=${auth}
     Log 	--------response-------
     ${json_string}=    Evaluate    json.dumps(${resp.json()})    json
     Log	${json_string}
@@ -108,7 +108,7 @@ Get VNF Info
     Set To Dictionary   ${dict}	  vnf_model_version_id=${metadata['UUID']}
     Set To Dictionary   ${dict}	  vnf_model_customization_name=${metadata['name']}
     Set To Dictionary   ${dict}	  vnf_model_customization_id=${metadata['customizationUUID']}
-	
+
 
 Get VFModule Info
     [Documentation]   Dig the vf module names from the VID service model
@@ -136,4 +136,3 @@ set vfmodule param
     Set To Dictionary   ${dict}	  vf_module_model_version_id=${vfmodule['metadata']['vfModuleModelUUID']}
     Set To Dictionary 	${dict}	  vf_module_model_customization_id=${vfmodule['metadata']['vfModuleModelCustomizationUUID']}
     Set To Dictionary   ${dict}   vf_module_name=${vfmodule_name}
-

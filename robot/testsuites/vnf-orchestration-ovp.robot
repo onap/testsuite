@@ -37,7 +37,7 @@ VNF Instantiation
 
     #### Runtime Service Name ####
     ${new_vnf_service_name}=   Set Variable    ${new_vnf_name}_${GLOBAL_BUILD_NUMBER}
-    
+
     #### Getting Manifest Data ####
     ${subscriber}=          Retrieve Manifest Data      subscriber
     ${service_type}=        Retrieve Manifest Data      service_type
@@ -60,7 +60,7 @@ VNF Instantiation
     #### VID Stuff ####
     Log    Instantiating Service ${new_vnf_service_name}    console=yes
     ${vnf_details}=     Instantiate VNF    ${subscriber}    ${new_vnf_name}    ${service_type}    ${new_vnf_service_name}    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}    ${service_type}    ${tenant_name}    ${region_id}    ${cloud_owner}     ${project_name}   ${owning_entity}    ${api_type}    platform=${platform}    line_of_business=${line_of_business}
-    
+
     # sleeping after instantiation, seems to occasionally have some issues if running validation immediately
     Sleep    30
 
@@ -115,7 +115,7 @@ Add Service Mapping
     set to dictionary    ${SERVICE_MAPPING}    GLOBAL_SERVICE_FOLDER_MAPPING=${GLOBAL_SERVICE_FOLDER_MAPPING}    GLOBAL_SERVICE_VNF_MAPPING=${GLOBAL_SERVICE_VNF_MAPPING}    GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING=${GLOBAL_SERVICE_GEN_NEUTRON_NETWORK_MAPPING}    GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING=${GLOBAL_SERVICE_DEPLOYMENT_ARTIFACT_MAPPING}    GLOBAL_SERVICE_TEMPLATE_MAPPING=${GLOBAL_SERVICE_TEMPLATE_MAPPING}    GLOBAL_VALIDATE_NAME_MAPPING=
 
     ${json_string}=    evaluate    json.dumps(${SERVICE_MAPPING})    json
-    OperatingSystem.Create File    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}/${vnf_name}/service_mapping.json    ${json_string}    
+    OperatingSystem.Create File    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}/${vnf_name}/service_mapping.json    ${json_string}
     [Return]    ${vnf_name}
 
 Retrieve Manifest Data

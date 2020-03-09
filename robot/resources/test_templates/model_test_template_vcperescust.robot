@@ -30,5 +30,5 @@ Model Distribution For vCPEResCust Directory
     \    Create Zip From Files In Directory        ${folder}    ${zip}
     \    Append To List    ${ziplist}    ${zip}
     ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute vCPEResCust Model From SDC    ${ziplist}    ${catalog_service_name}    ${cds}   ${service}
-    Download CSAR    ${catalog_service_id}   
+    Download CSAR    ${catalog_service_id}
     [Return]    ${catalog_service_name}    ${catalog_resource_name}    ${vf_modules}   ${catalog_resources}
