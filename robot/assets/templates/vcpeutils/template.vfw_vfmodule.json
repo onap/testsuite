@@ -1,143 +1,142 @@
 {
-   "VNF-API:input": {
-     "VNF-API:request-information": {
-       "VNF-API:request-id": "robot12",
-       "VNF-API:notification-url": "https://so.onap.org",
-       "VNF-API:order-number": "robot12",
-       "VNF-API:request-sub-action": "SUPP",
-       "VNF-API:request-action": "PreloadVNFRequest",
-       "VNF-API:source": "VID",
-       "VNF-API:order-version": "1.0"
-     },
-     "VNF-API:sdnc-request-header": {
-       "VNF-API:svc-action": "reserve",
-       "VNF-API:svc-notification-url": "https://son.onap.org",
-       "VNF-API:svc-request-id": "robot12"
-     },
-     "VNF-API:vnf-topology-information": {
-             "vnf-topology-identifier": {
-               "service-type": "${service_type}",
-               "vnf-type": "${vnf_type}",
-               "generic-vnf-name": "${generic_vnf_name}",
-               "generic-vnf-type": "${generic_vnf_type}",
-               "vnf-name": "${vnf_name}"
-       },
-       "VNF-API:vnf-parameters": [
-   {
-	   "vnf-parameter-name": "unprotected_private_net_id" ,
-	   "vnf-parameter-value" : "demofwl_unprotected"
-   },
-   {
-	   "vnf-parameter-name": "unprotected_private_net_cidr" ,
-	   "vnf-parameter-value" : "192.168.110.0/24"
-   },
-   {
-	   "vnf-parameter-name": "protected_private_net_id" ,
-	   "vnf-parameter-value" : "demofwl_protected"
-   },
-   {
-	   "vnf-parameter-name": "protected_private_net_cidr" ,
-	   "vnf-parameter-value" : "192.168.120.0/24"
-   },
-   {
-	   "vnf-parameter-name": "vfw_int_unprotected_private_ip_0" ,
-	   "vnf-parameter-value" : "192.168.110.100"
-   },
-   {
-	   "vnf-parameter-name": "vfw_int_protected_private_ip_0" ,
-	   "vnf-parameter-value" : "192.168.120.100"
-   },
-   {
-	   "vnf-parameter-name": "vfw_onap_private_ip_0" ,
-	   "vnf-parameter-value" : "10.0.${ecompnet}.11"
-   },
-   {
-	   "vnf-parameter-name": "vpg_int_unprotected_private_ip_0" ,
-	   "vnf-parameter-value" : "192.168.110.200"
-   },
-   {
-	   "vnf-parameter-name": "vfw_int_protected_private_floating_ip" ,
-	   "vnf-parameter-value" : "192.168.110.200"
-   },
-   {
-	   "vnf-parameter-name": "vpg_onap_private_ip_0" ,
-	   "vnf-parameter-value" : "10.0.${ecompnet}.12"
-   },
-   {
-	   "vnf-parameter-name": "vsn_int_protected_private_ip_0" ,
-	   "vnf-parameter-value" : "192.168.120.250"
-   },
-   {
-	   "vnf-parameter-name": "vsn_onap_private_ip_0" ,
-	   "vnf-parameter-value" : "10.0.${ecompnet}.13"
-   },
-   {
-	   "vnf-parameter-name": "sec_group" ,
-	   "vnf-parameter-value" : "${sec_group}"
-   },
-   {
-	   "vnf-parameter-name": "vfw_name_0",
-	   "vnf-parameter-value" :"demofwl01fwl"
-   },
-   {
-	   "vnf-parameter-name": "vpg_name_0",
-	   "vnf-parameter-value" : "demofwl01pgn"
-   },
-   {
-	   "vnf-parameter-name": "vsn_name_0",
-	   "vnf-parameter-value": "demofwl01snk"
-   },
-   {
-	"vnf-parameter-name": "vfw_image_name",
-	"vnf-parameter-value": "${GLOBAL_INJECTED_UBUNTU_1404_IMAGE}"
-	},
-	{
-	"vnf-parameter-name": "vfw_flavor_name",
-	"vnf-parameter-value": "m1.medium"
-	},
-	{
-	"vnf-parameter-name": "vpg_image_name",
-	"vnf-parameter-value": "${GLOBAL_INJECTED_UBUNTU_1404_IMAGE}"
-	},
-	{
-	"vnf-parameter-name": "vpg_flavor_name",
-	"vnf-parameter-value": "m1.medium"
-	},
-	{
-	"vnf-parameter-name": "vsn_image_name",
-	"vnf-parameter-value": "${GLOBAL_INJECTED_UBUNTU_1404_IMAGE}"
-	},
-	{
-	"vnf-parameter-name": "vsn_flavor_name",
-	"vnf-parameter-value": "m1.medium"
-	},
-	{
-	"vnf-parameter-name": "public_net_id",
-	"vnf-parameter-value": "${public_net_id}"
-	},
-	{
-	"vnf-parameter-name": "onap_private_net_id",
-	"vnf-parameter-value": "${onap_private_net_id}"
-	},
-	{
-	"vnf-parameter-name": "onap_private_subnet_id",
-	"vnf-parameter-value": "${onap_private_subnet_id}"
-	},
-	{
-	"vnf-parameter-name": "onap_private_net_cidr",
-	"vnf-parameter-value": "10.0.0.0/16"
-	},
-	{
-	"vnf-parameter-name": "cloud_env",
-	"vnf-parameter-value": "openstack"
-	},
-	{
-	"vnf-parameter-name": "pub_key",
-        "vnf-parameter-value": "${pub_key}"
-	}
-       ],
-       "VNF-API:vnf-assignments": {
-         }
-       }
-     }
+  "VNF-API:input": {
+    "VNF-API:request-information": {
+      "VNF-API:request-id": "robot12",
+      "VNF-API:notification-url": "https://so.onap.org",
+      "VNF-API:order-number": "robot12",
+      "VNF-API:request-sub-action": "SUPP",
+      "VNF-API:request-action": "PreloadVNFRequest",
+      "VNF-API:source": "VID",
+      "VNF-API:order-version": "1.0"
+    },
+    "VNF-API:sdnc-request-header": {
+      "VNF-API:svc-action": "reserve",
+      "VNF-API:svc-notification-url": "https://son.onap.org",
+      "VNF-API:svc-request-id": "robot12"
+    },
+    "VNF-API:vnf-topology-information": {
+      "vnf-topology-identifier": {
+        "service-type": "${service_type}",
+        "vnf-type": "${vnf_type}",
+        "generic-vnf-name": "${generic_vnf_name}",
+        "generic-vnf-type": "${generic_vnf_type}",
+        "vnf-name": "${vnf_name}"
+      },
+      "VNF-API:vnf-parameters": [
+        {
+          "vnf-parameter-name": "unprotected_private_net_id",
+          "vnf-parameter-value": "demofwl_unprotected"
+        },
+        {
+          "vnf-parameter-name": "unprotected_private_net_cidr",
+          "vnf-parameter-value": "192.168.110.0/24"
+        },
+        {
+          "vnf-parameter-name": "protected_private_net_id",
+          "vnf-parameter-value": "demofwl_protected"
+        },
+        {
+          "vnf-parameter-name": "protected_private_net_cidr",
+          "vnf-parameter-value": "192.168.120.0/24"
+        },
+        {
+          "vnf-parameter-name": "vfw_int_unprotected_private_ip_0",
+          "vnf-parameter-value": "192.168.110.100"
+        },
+        {
+          "vnf-parameter-name": "vfw_int_protected_private_ip_0",
+          "vnf-parameter-value": "192.168.120.100"
+        },
+        {
+          "vnf-parameter-name": "vfw_onap_private_ip_0",
+          "vnf-parameter-value": "10.0.${ecompnet}.11"
+        },
+        {
+          "vnf-parameter-name": "vpg_int_unprotected_private_ip_0",
+          "vnf-parameter-value": "192.168.110.200"
+        },
+        {
+          "vnf-parameter-name": "vfw_int_protected_private_floating_ip",
+          "vnf-parameter-value": "192.168.110.200"
+        },
+        {
+          "vnf-parameter-name": "vpg_onap_private_ip_0",
+          "vnf-parameter-value": "10.0.${ecompnet}.12"
+        },
+        {
+          "vnf-parameter-name": "vsn_int_protected_private_ip_0",
+          "vnf-parameter-value": "192.168.120.250"
+        },
+        {
+          "vnf-parameter-name": "vsn_onap_private_ip_0",
+          "vnf-parameter-value": "10.0.${ecompnet}.13"
+        },
+        {
+          "vnf-parameter-name": "sec_group",
+          "vnf-parameter-value": "${sec_group}"
+        },
+        {
+          "vnf-parameter-name": "vfw_name_0",
+          "vnf-parameter-value": "demofwl01fwl"
+        },
+        {
+          "vnf-parameter-name": "vpg_name_0",
+          "vnf-parameter-value": "demofwl01pgn"
+        },
+        {
+          "vnf-parameter-name": "vsn_name_0",
+          "vnf-parameter-value": "demofwl01snk"
+        },
+        {
+          "vnf-parameter-name": "vfw_image_name",
+          "vnf-parameter-value": "${GLOBAL_INJECTED_UBUNTU_1404_IMAGE}"
+        },
+        {
+          "vnf-parameter-name": "vfw_flavor_name",
+          "vnf-parameter-value": "m1.medium"
+        },
+        {
+          "vnf-parameter-name": "vpg_image_name",
+          "vnf-parameter-value": "${GLOBAL_INJECTED_UBUNTU_1404_IMAGE}"
+        },
+        {
+          "vnf-parameter-name": "vpg_flavor_name",
+          "vnf-parameter-value": "m1.medium"
+        },
+        {
+          "vnf-parameter-name": "vsn_image_name",
+          "vnf-parameter-value": "${GLOBAL_INJECTED_UBUNTU_1404_IMAGE}"
+        },
+        {
+          "vnf-parameter-name": "vsn_flavor_name",
+          "vnf-parameter-value": "m1.medium"
+        },
+        {
+          "vnf-parameter-name": "public_net_id",
+          "vnf-parameter-value": "${public_net_id}"
+        },
+        {
+          "vnf-parameter-name": "onap_private_net_id",
+          "vnf-parameter-value": "${onap_private_net_id}"
+        },
+        {
+          "vnf-parameter-name": "onap_private_subnet_id",
+          "vnf-parameter-value": "${onap_private_subnet_id}"
+        },
+        {
+          "vnf-parameter-name": "onap_private_net_cidr",
+          "vnf-parameter-value": "10.0.0.0/16"
+        },
+        {
+          "vnf-parameter-name": "cloud_env",
+          "vnf-parameter-value": "openstack"
+        },
+        {
+          "vnf-parameter-name": "pub_key",
+          "vnf-parameter-value": "${pub_key}"
+        }
+      ],
+      "VNF-API:vnf-assignments": {}
+    }
+  }
 }
