@@ -121,7 +121,7 @@ OOF-CMSO Create Schedule
 	:FOR   ${vnf}   IN    @{nodelist}
 	\   Set To Dictionary    ${map}   node${nn}   ${vnf}
 	\   ${nn}=   Evaluate    ${nn}+1
-	\   Set To DIctionary   ${dict}   vnfName=${vnf} 
+	\   Set To DIctionary   ${dict}   vnfName=${vnf}
     \   ${requestInfo}=   Templating.Apply Template    oof    ${OOF_CMSO_TEMPLATE_FOLDER}/VidCallbackData.jinja   ${dict}
     \   Append To List   ${requestList}   ${requestInfo}
     ${callBackDataMap}=  Create Dictionary   requestType=Update   requestDetails=${requestList}
@@ -158,7 +158,7 @@ OOF-CMSO Json Escape
 
 Run OOF-OSDF Post Request
     [Documentation]    Runs a scheduler POST request
-    [Arguments]   ${data_path}   ${auth}    ${data}={}     
+    [Arguments]   ${data_path}   ${auth}    ${data}={}
 
     ${session}=    Create Session   session   ${OOF_OSDF_ENDPOINT}   auth=${auth}
     ${headers}=  Create Dictionary   Accept=application/json    Content-Type=application/json
@@ -177,5 +177,5 @@ Run OOF-OSDF Post PCI-OPT
     [Documentation]    Runs a osdf PCI-OPT request
     ${auth}=  Create List  ${GLOBAL_OOF_PCI_USERNAME}    ${GLOBAL_OOF_PCI_PASSWORD}
     ${data}=         Get Binary File     ${OOF_OSDF_TEMPLATE_FOLDER}${/}pci-opt-request.json
-    ${resp}=   Run OOF-OSDF Post Request  /api/oof/pci/v1   auth=${auth}    data=${data}    
+    ${resp}=   Run OOF-OSDF Post Request  /api/oof/pci/v1   auth=${auth}    data=${data}
     Should Be Equal As Strings    ${resp.status_code}   204

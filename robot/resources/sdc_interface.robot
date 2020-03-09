@@ -952,7 +952,7 @@ Add CDS Parameters
 
 Set Input Parameter
     [Arguments]   ${service_uuid}  ${component_uuid}  ${input}  ${input_type}  ${input_value}
-    ${resp}=    SDC.Run Post Request  ${SDC_BE_ENDPOINT}   ${SDC_CATALOG_SERVICES_PATH}/${service_uuid}/resourceInstance/${component_uuid}/inputs    {"constraints":[],"name":"${input['name']}","parentUniqueId":"${input['parentUniqueId']}","password":false,"required":false,"schema":{"property":{}},"type":"${input_type}","uniqueId":"${input['uniqueId']}","value":"${input_value}","definition":false,"toscaPresentation":{"ownerId":"${input['ownerId']}"}}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
+    ${resp}=    SDC.Run Post Request  ${SDC_BE_ENDPOINT}   ${SDC_CATALOG_SERVICES_PATH}/${service_uuid}/resourceInstance/${component_uuid}/inputs    {"constraints":[],"name":"${input['name']}","parentUniqueId":"${input['parentUniqueId']}","password":false,"required":false,"schema":{"property":{}},"type":"${input_type}","uniqueId":"${input['uniqueId']}","value":"${input_value}","definition":false,"toscaPresentation":{"ownerId":"${input['ownerId']}"}}    ${SDC_DESIGNER_USER_ID} auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings  ${resp.status_code}     200
 
 
@@ -1032,4 +1032,3 @@ Create Monitoring Configuration
     ${cs_unique_id}   ${cs_uuid}    Add Catalog Service For Monitoring Template   ${service_name}
     ${vfi_uuid}  ${vfi_name}   Add SDC Resource Instance   ${cs_unique_id}   ${vf_unique_id}   ${vf_name}
     [return]   ${cs_unique_id}   ${cs_uuid}    ${vfi_name}
-

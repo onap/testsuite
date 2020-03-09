@@ -10,11 +10,11 @@ ${PACKET_GENERATOR_HOST}
 VFW Closed Loop Test
     [TAGS]    closedloop    vfwcl
     VFW Policy
-    
+
 VDNS Closed Loop Test
     [TAGS]    closedloop    vdnscl
     VDNS Policy
-    
+
 VFWCL Closed Loop Test
     [TAGS]    vfwclosedloop
     Log     ${EMPTY}
@@ -26,4 +26,3 @@ VFWCL Repush Operation Policy
     [TAGS]   repushpolicy
     Undeploy Policy     operational.modifyconfig
     Update vVFWCL Policy     ${MODEL_INVARIANT_ID}
-

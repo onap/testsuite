@@ -89,6 +89,3 @@ Update Tenant Dictionary
     \    ${status}    ${tenant_id}=     Run Keyword And Ignore Error    Get From Dictionary    ${map}    tenant-id
     \    Run Keyword If    '${status}' == 'PASS'    Set To Dictionary    ${dict}    ${tenant_id}=${map}
     Log    ${dict}
-
-
-

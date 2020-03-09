@@ -52,14 +52,14 @@ Load OwningEntity
     ${uuid}=    Generate UUID4
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    USER_ID=${GLOBAL_VID_USERNAME}    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
     ${resp}= 	Post Request 	vid 	${data_path}   data=${vid_data}    headers=${headers}
-	
+
 Load Customer
     [Documentation]   Use ONAP to Orchestrate a service.
     [Arguments]    ${customer_name}
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF   ${GLOBAL_AAI_CLOUD_OWNER}   SharedNode    OwnerType    v1    CloudZone
     ${region}=   Get Openstack Region
     Create Customer For VNF Demo    ${customer_name}    ${customer_name}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${tenant_id}
-    Create Customer For VNF Demo    ${customer_name}    ${customer_name}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    RegionTlab  50b190410b2a4c229d8a6044a80ab7c1 
+    Create Customer For VNF Demo    ${customer_name}    ${customer_name}    INFRA    ${GLOBAL_AAI_CLOUD_OWNER}    RegionTlab  50b190410b2a4c229d8a6044a80ab7c1
     Create Availability Zone If Not Exists    ${GLOBAL_AAI_CLOUD_OWNER}    ${region}   ${GLOBAL_AAI_AVAILABILITY_ZONE_NAME}
 
 Load Models
@@ -80,7 +80,7 @@ Load vCPE Models
     Log   Distibuting vCPEvBNG
     Distribute Model   vCPEvBNG   ${DEMO_PREFIX}VCPEvBNG
     Log   Distibuting vCPEvBRGEMU
-    Distribute Model   vCPEvBRGEMU   ${DEMO_PREFIX}VCPEvBRGEMU 
+    Distribute Model   vCPEvBRGEMU   ${DEMO_PREFIX}VCPEvBRGEMU
     Log   Distibuting vCPEvGMUX
     Distribute Model   vCPEvGMUX    ${DEMO_PREFIX}VCPEvGMUX
     Log   Distibuting vCPEvGW (this is not vCPEResCust service)
@@ -154,7 +154,7 @@ Preload User Model GRA
     ${vf_modules}=   Get Module Names from VID    ${invariantUUID}
     Log    ${generic_vnf}
     Log   ${service_instance_id},${vnf_name},${vnf_type},${vf_module_name},${vf_modules},${service}
-    Preload Gra    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}  ${vnf}   demo   ${service}   
+    Preload Gra    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}  ${vnf}   demo   ${service}
     [Teardown]    Close All Browsers
 
 
@@ -223,10 +223,10 @@ Instantiate VNF CDS
     [Arguments]   ${service}   ${vf_module_label}=NULL
     ${status}   ${value}=   Run Keyword And Ignore Error   Distribute Model   vLB_CDS   demoVLB_CDS  True
     ${resp}=  Get Service Catalog  demoVLB_CDS
-    ${service-uuid}=     Set Variable    ${resp['uuid']}  
-    ${service-invariantUUID}=     Set Variable    ${resp['invariantUUID']}     
+    ${service-uuid}=     Set Variable    ${resp['uuid']}
+    ${service-invariantUUID}=     Set Variable    ${resp['invariantUUID']}
     ${requestid}=   CDS Service Instantiate  demoVLB_CDS  ${service-uuid}  ${service-invariantUUID}
-    ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME }  ${GLOBAL_SO_PASSWORD}        
+    ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME }  ${GLOBAL_SO_PASSWORD}
     SO.Run Polling Get Request  ${GLOBAL_SO_APIHAND_ENDPOINT}  ${GLOBAL_SO_ORCHESTRATION_REQUESTS_PATH}/${requestid}  tries=30   interval=60  auth=${auth}
 
 Instantiate Demo VNF
@@ -271,5 +271,3 @@ Save For Delete
     ${vars}=    Catenate  ${vars}]\n
     OperatingSystem.Create File   ${FILE_CACHE}/${stack_name}.py   ${vars}
     OperatingSystem.Create File   ${FILE_CACHE}/lastVNF4HEATBRIGE.py   ${vars}
-
-

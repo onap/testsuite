@@ -38,7 +38,7 @@ Delete VID
     # After tearing down a VF module, execute the reverse HB for it to remove the references from A&AI
     Run Keyword If   'Vfmodule_Ete' in '${vfmodule}'    Execute Reverse Heatbridge    ${uris_to_delete}
     Fail    Continue with Next Remove
-    
+
 Delete Next VID Entity
     [Documentation]    Teardown the next VID entity that has a Remove icon.
     [Arguments]    ${service_instance_id}    ${lcp_region}    ${tenant}   ${remove_order}   ${customer}
@@ -89,6 +89,6 @@ Handle VID Alert
     [Documentation]   When service instance has been deleted, an alert will be triggered on the search to end the loop
     ...   The various Alert keywords did not prevent the alert exception on the Click ELement, hence this roundabout way of handling the alert
     Run Keyword And Ignore Error        Click On Button When Enabled    //button[contains(text(),'Submit')]
-    ${status}   ${t}=    Run Keyword And Ignore Error    Handle Alert 
+    ${status}   ${t}=    Run Keyword And Ignore Error    Handle Alert
     Return From Keyword If   '${status}' == 'FAIL'
     Fail    ${t}

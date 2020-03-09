@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation	  The main interface for interacting with MUSIC. It handles low level stuff like managing the http request library and MUSIC required fields
 Library 	      RequestsLibrary
-Library	          ONAPLibrary.Utilities      
+Library	          ONAPLibrary.Utilities
 
 *** Variables ***
 ${MUSIC_HEALTH_CHECK_PATH}        /MUSIC/rest/v2/version

@@ -32,7 +32,7 @@ Check If Topic Exists
     [Arguments]      ${message_router}      ${message_router_port}      ${topic}
     ${session}=    Create Session   session   http://${message_router}:${message_router_port}/topics
     ${resp}=   Get Request   session   /
-    ${value}=    Catenate    ${resp.json()['topics']} 
+    ${value}=    Catenate    ${resp.json()['topics']}
     Should Contain    ${value}    ${topic}
 
 Send Message

@@ -13,7 +13,7 @@ Library         ONAPLibrary.ServiceMapping    WITH NAME    ServiceMapping
 
 *** Keywords ***
 Instantiate VNF
-    [Documentation]   Log into VID, create service instance, vnf instance, and module. This handles an arbitrary, single VNF service w/ volume modules. 
+    [Documentation]   Log into VID, create service instance, vnf instance, and module. This handles an arbitrary, single VNF service w/ volume modules.
     [Arguments]    ${customer_name}    ${service}    ${service_type}    ${service_name}    ${service_model_type}    ${vnf_type}    ${vf_modules}   ${catalog_resources}    ${product_family}    ${tenant_name}    ${lcp_region}    ${cloud_owner}    ${project_name}   ${owning_entity}    ${api_type}    ${line_of_business}=LOB-Demonstration    ${platform}=Platform-Demonstration
     ${uuid}=    Generate UUID4
     ${list}=    Create List
@@ -22,7 +22,7 @@ Instantiate VNF
     Login To VID GUI    api_type=${api_type}
 
     Log    Creating ${service_name} in VID    console=yes
-    ${service_instance_id}=   Wait Until Keyword Succeeds    900s   5s    Create VID Service Instance    ${customer_name}   ${service_model_type}    ${service_type}     ${service_name}   ${project_name}   ${owning_entity}    
+    ${service_instance_id}=   Wait Until Keyword Succeeds    900s   5s    Create VID Service Instance    ${customer_name}   ${service_model_type}    ${service_type}     ${service_name}   ${project_name}   ${owning_entity}
 
     Validate Service Instance    ${service_instance_id}    ${service_type}     ${customer_name}
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
@@ -65,7 +65,7 @@ Loop and Create Modules in VID
     \       ${preload_file}    ${isBase}=    Retrieve Module Preload and isBase    ${template_name}
     \       ${temp_dict_for_report} =    Run Keyword If    "${isBase}"=="false"    Create Module in VID    ${vnf_name}    ${template_name}    ${vf_module_type}    ${generic_vnf_type}    ${preload_file}    ${service_instance_id}    ${lcp_region}    ${tenant_name}    ${customer_name}    ${cloud_owner}
     \       Run Keyword If    "${isBase}"=="false"    Append To List    ${temp_list_for_report}    ${temp_dict_for_report}
-    
+
     [Return]     ${temp_list_for_report}
 
 Create Module in VID
@@ -73,7 +73,7 @@ Create Module in VID
 
     ${vf_module_name}=    Catenate    Vfmodule_${vnf_name}_${template_name}
     ${vf_module_name}=    Remove String        ${vf_module_name}    .yaml    .yml
-    ${Module_name}=    Set Variable    
+    ${Module_name}=    Set Variable
     ${api_type}=          Retrieve Manifest Data      api_type
 
     Create Preload From JSON    ${BUILD_DIR}/preloads/${preload_file}     ${api_type}    ${vf_module_name}     ${vf_module_type}    ${vnf_name}    ${generic_vnf_type}
@@ -122,7 +122,7 @@ Get Artifact Name From Artifacts
     \       ${artifactType}=    Get From Dictionary    ${artifact}    artifactType
     \       ${csar_id}=    Set Variable    ''
     \       ${csar_id}=    Run Keyword If    "${artifactType}"=="HEAT"   Get From Dictionary    ${artifact}    artifactUUID
-    \       ${artifactName}=    Run Keyword If    $csar_id in $artifact_ids    Get From Dictionary    ${artifact}    artifactName   
+    \       ${artifactName}=    Run Keyword If    $csar_id in $artifact_ids    Get From Dictionary    ${artifact}    artifactName
     \       Return From Keyword If    $csar_id in $artifact_ids    ${artifactName}
 
     [Return]    NOTFOUND

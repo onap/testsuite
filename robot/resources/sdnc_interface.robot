@@ -76,14 +76,14 @@ Preload Generic VfModule
     ${vfmodule_name}=     Catenate    SEPARATOR=_    vf	    ${short_model_customization_name}	    ${name_suffix}
     #TODO this became a mess, need to fix
     ${parameters}=     Create Dictionary    pub_key=${GLOBAL_INJECTED_PUBLIC_KEY}    suffix=${name_suffix}    mr_ip_addr=${GLOBAL_INJECTED_MR_IP_ADDR}    mr_ip_port=${GLOBAL_MR_SERVER_PORT}
-    Set To Dictionary    ${parameters}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2    cpe_public_net=${cpe_public_network_name}     cpe_public_subnet=${cpe_public_subnet_name}    
+    Set To Dictionary    ${parameters}    oam_onap_net=oam_network_2No2        oam_onap_subnet=oam_network_2No2    cpe_public_net=${cpe_public_network_name}     cpe_public_subnet=${cpe_public_subnet_name}
     Set To Dictionary    ${parameters}    cpe_signal_subnet=${cpe_signal_subnet_name}    cpe_signal_net=${cpe_signal_network_name}    public_net_id=${GLOBAL_INJECTED_PUBLIC_NET_ID}
     # vnf_type and generic_vnf_type are identical
-    Set To Dictionary    ${parameters}    vnf_type=${model_customization_name}    generic_vnf_type=${model_customization_name}    generic_vnf_name=${model_customization_name}    vnf_name=${vfmodule_name}    
+    Set To Dictionary    ${parameters}    vnf_type=${model_customization_name}    generic_vnf_type=${model_customization_name}    generic_vnf_name=${model_customization_name}    vnf_name=${vfmodule_name}
     Set To Dictionary    ${parameters}    service_type=${service_instance_id}    sdnc_oam_ip=${GLOBAL_INJECTED_SDNC_IP_ADDR}
 	${post_resp}=    SDNC.Preload Vfmodule    ${SDNC_REST_ENDPOINT}    ${SDNC_INDEX_PATH}${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}    ${GLOBAL_TEMPLATE_FOLDER}    ${PRELOAD_TOPOLOGY_OPERATION_BODY}/template.vcpe_infra_vfmodule.jinja    ${parameters}
     [Return]    ${post_resp}
-	    
+
 Preload Vnf
     [Arguments]    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_module_name}    ${vf_modules}    ${vnf}   ${uuid}    ${service}     ${server_id}
     ${base_vf_module_type}=    Catenate
@@ -97,14 +97,14 @@ Preload Vnf
             ...    ELSE IF  "${generic_vnf_name}".endswith('1')      Get From Mapping With Index    ${templates}    ${vf_module}   1
             ...    ELSE IF  "${generic_vnf_name}".endswith('2')      Get From Mapping With Index    ${templates}    ${vf_module}   2
             ...    ELSE   Get From Mapping    ${templates}    ${vf_module}
-    #     skip this iteration if no template 
+    #     skip this iteration if no template
     \       ${test_dict_length} =  Get Length  ${dict}
     \       Continue For Loop If   ${test_dict_length} == 0
     \       ${filename}=    Get From Dictionary    ${dict}    template
     \       ${base_vf_module_type}=   Set Variable If    '${dict['isBase']}' == 'true'     ${vf_module_type}    ${base_vf_module_type}
     \       ${closedloop_vf_module}=   Set Variable If    '${dict['isBase']}' == 'false'     ${vf_module}    ${closedloop_vf_module}
     \       ${vf_name}=     Update Module Name    ${dict}    ${vf_module_name}
-    #    Admin portal update no longer 
+    #    Admin portal update no longer
     #\       Preload Vnf Profile    ${vf_module_type}
     \       Preload One Vnf Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
     [Return]    ${base_vf_module_type}   ${closedloop_vf_module}
