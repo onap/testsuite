@@ -1,10 +1,10 @@
 {
-    "dcaeLocationName": "san-francisco",
-    "fqtn": "org.onap.dmaap.mr.PERFORMANCE_MEASUREMENTS",
-    "clientIdentity": "dcae@dcae.onap.org",
-    "action": [
-      "view",
-      "pub",
-      "sub"
-    ]
+  "dcaeLocationName": "san-francisco",
+  "fqtn": "org.onap.dmaap.mr.PERFORMANCE_MEASUREMENTS",
+  "clientIdentity": "dcae@dcae.onap.org",
+  "action": [
+    "view",
+    "pub",
+    "sub"
+  ]
 }
