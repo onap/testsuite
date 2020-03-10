@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20320684_5d215c7b",
+        "filename": "robot/assets/templates/vcpeutils/template.vcpe_gmux_vfmodule.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-03-10T14:56:49Z",
+      "side": 0,
+      "message": "You just wanted to reformat the jsons or remove some data? Highlighted key is just one example of missing ones in your patch.",
+      "revId": "4c4872c6ad56e95e53dbf4600465f84e1f2e4fa1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
