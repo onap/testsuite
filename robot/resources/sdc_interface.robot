@@ -133,7 +133,7 @@ Distribute Model From SDC
     Run Keyword If  ${cds} == True  Add CDS Parameters  ${catalog_service_name}
     Checkin SDC Catalog Service    ${catalog_service_id}
     # on certify it gets a new id
-    ${catalog_service_id}=    Certify SDC Catalog Service    ${catalog_service_id}
+    ${catalog_service_id}=    Wait Until Keyword Succeeds  60s  10s   Certify SDC Catalog Service    ${catalog_service_id}
         :FOR   ${DIST_INDEX}    IN RANGE   1
         \   Log     Distribution Attempt ${DIST_INDEX}
         \   Distribute SDC Catalog Service    ${catalog_service_id}
@@ -203,13 +203,13 @@ Distribute vCPEResCust Model From SDC
     #
     \    Run Keyword If   '${allottedresource}'=='TunnelXConn'    Setup SDC Catalog Resource AllottedResource Inputs  ${catalog_service_id}    ${allottedresource}   ${loop_catalog_resource_id}
     \    Run Keyword If   '${allottedresource}'=='BRG'    Setup SDC Catalog Resource AllottedResource Inputs  ${catalog_service_id}    ${allottedresource}   ${loop_catalog_resource_id}
-    \    ${loop_catalog_resource_id}    ${loop_catalog_resource_uuid}    Certify SDC Catalog Resource    ${loop_catalog_resource_id}  ${SDC_DESIGNER_USER_ID}
+    \    ${loop_catalog_resource_id}    ${loop_catalog_resource_uuid}    Wait Until Keyword Succeeds    60s   10s  Certify SDC Catalog Resource    ${loop_catalog_resource_id}  ${SDC_DESIGNER_USER_ID}
     \    Add SDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
     \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
     ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
     Checkin SDC Catalog Service    ${catalog_service_id}
     # on certify it gets a new id
-    ${catalog_service_id}=    Certify SDC Catalog Service    ${catalog_service_id}
+    ${catalog_service_id}=    Wait Until Keyword Succeeds   60s    10s   Certify SDC Catalog Service    ${catalog_service_id}
         :FOR   ${DIST_INDEX}    IN RANGE   1
         \   Log     Distribution Attempt ${DIST_INDEX}
         \   Distribute SDC Catalog Service    ${catalog_service_id}
@@ -308,8 +308,7 @@ Setup SDC Catalog Resource
     ${catalog_resource_id}=    Add SDC Catalog Resource     ${license_agreement_id}    ${software_product_resp['name']}    ${license_model_resp['vendorName']}    ${software_product_id}  ${resourceType}
     # Check if need to set up CDS properties
     Run Keyword If    '${cds}' == 'vfwng'    Setup SDC Catalog Resource CDS Properties    ${catalog_resource_id}
-
-    ${catalog_resource_id}   ${catalog_resource_uuid}   Certify SDC Catalog Resource    ${catalog_resource_id}  ${SDC_DESIGNER_USER_ID}
+    ${catalog_resource_id}   ${catalog_resource_uuid}   Wait Until Keyword Succeeds   60s    10s     Certify SDC Catalog Resource    ${catalog_resource_id}  ${SDC_DESIGNER_USER_ID}
     [Return]    ${catalog_resource_id}
 
 Setup SDC Catalog Resource Deployment Artifact Properties
@@ -973,7 +972,7 @@ Onboard DCAE Microservice
     Add Tosca Artifact to Resource   translate   ${vf_unique_id}
     Add Tosca Artifact to Resource   schema   ${vf_unique_id}
 
-    ${cert_vf_unique_id}    ${cert_vf_uuid}    Certify SDC Catalog Resource   ${vf_unique_id}   ${SDC_DESIGNER_USER_ID}
+    ${cert_vf_unique_id}    ${cert_vf_uuid}    Wait Until Keyword Succeeds   60s    10s    Certify SDC Catalog Resource   ${vf_unique_id}   ${SDC_DESIGNER_USER_ID}
     [return]   ${cert_vf_unique_id}    ${cert_vf_uuid}
 
 Create SDC Catalog Resource For DCAE Component MicroService Data
@@ -1017,7 +1016,7 @@ Certify And Approve SDC Catalog Service
     [Documentation]    Perform the required steps to certify and approve the given SDC catalog service
     [Arguments]    ${cs_unique_id}
     Checkin SDC Catalog Service    ${cs_unique_id}
-    ${cert_cs_unique_id}=    Certify SDC Catalog Service    ${cs_unique_id}
+    ${cert_cs_unique_id}=    Wait Until Keyword Succeeds   60s    10s   Certify SDC Catalog Service    ${cs_unique_id}
 
 Create Monitoring Configuration
     [Documentation]   Create a monitoring configuration for a given service based on a previously created VFCMT
