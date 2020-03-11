@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96a5211f_e6d8f542",
+        "filename": ".dockerignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-03-11T13:10:03Z",
+      "side": 1,
+      "message": "It\u0027s redundant now, isn\u0027t it?",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 10
+      },
+      "revId": "e1359aa1db544f3f841a306a855310b86c3d3636",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
