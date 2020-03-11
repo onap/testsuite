@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23425565_d26d08e8",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-03-11T14:06:59Z",
+      "side": 0,
+      "message": "today anything put in that directory is copied to the image, there may be things that people expect to be there. Have you verified everything still works?",
+      "revId": "4c4872c6ad56e95e53dbf4600465f84e1f2e4fa1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
