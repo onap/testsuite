@@ -1,5 +1,4 @@
-docker/
-Dockerfile
+docker/Dockerfile
 .dockerignore
 .git/
 .gitattributes
