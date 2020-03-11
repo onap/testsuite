@@ -51,9 +51,11 @@ RUN python3.7 -m pip install setuptools wheel
 RUN python3.7 -m pip install virtualenv
 
 # Copy the robot code
-COPY . /var/opt/ONAP/
-COPY lighttpd.conf /etc/lighttpd/lighttpd.conf
-COPY authorization /etc/lighttpd/authorization
+COPY html/ /var/opt/ONAP/html
+COPY robot/ /var/opt/ONAP/robot
+COPY *.sh /var/opt/ONAP/
+COPY docker/lighttpd.conf /etc/lighttpd/lighttpd.conf
+COPY docker/authorization /etc/lighttpd/authorization
 RUN chmod 777 /var/opt/ONAP/setup.sh \
     && chmod 777 /var/opt/ONAP/runTags.sh \
     && chmod 777 /var/opt/ONAP/dnstraffic.sh \
