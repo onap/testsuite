@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9fc6a1f_46346f60",
+        "filename": ".coafile",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-03-12T11:51:30Z",
+      "side": 1,
+      "message": "The yaml linter config is missing.",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "b582cd4a15ac91ea6fb4bf70ca23ee17866ad48b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "600e9d60_f9e5a045",
+        "filename": "tox.ini",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-03-12T11:51:30Z",
+      "side": 1,
+      "message": "Since the CI job for this is commented out it can be left as is for now but generally I don\u0027t think you\u0027d want to run verifier for _all_ robot files but for the files in review scope only.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 12
+      },
+      "revId": "b582cd4a15ac91ea6fb4bf70ca23ee17866ad48b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
