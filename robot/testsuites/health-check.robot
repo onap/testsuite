@@ -205,10 +205,6 @@ Basic UseCaseUI API Health Check
     [Tags]    health    api    medium   health-uui
     Run MSB Get Request    /iui/usecaseui/
 
-Basic VFC catalog API Health Check
-    [Tags]    health    api   health-vfc
-    Run MSB Get Request    /api/catalog/v1/health_check
-
 Basic VFC emsdriver API Health Check
     [Tags]    health    3rdparty  health-vfc
     Run MSB Get Request    /api/emsdriver/v1/swagger.json
