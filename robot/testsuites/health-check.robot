@@ -48,7 +48,7 @@ Basic APPC Health Check
     Run APPC Health Check
 
 Basic CLI Health Check
-    [Tags]    health-cli
+    [Tags]    health-cli    health
     Run CLI Health Check
 
 Basic CLAMP Health Check
