@@ -34,7 +34,8 @@ RUN apt-get update \
             x11-xserver-utils \
             xvfb \
             xxd  \
-            vim
+            vim  \
+            zip
 
 # install python 3 after so it isn't default python version
 RUN apt-get install \

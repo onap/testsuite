@@ -778,6 +778,7 @@ Upload SDC Heat Package
     Create Multi Part     ${files}  upload  ${file_path}    contentType=application/zip
     ${resp}=    SDC.Run Post Files Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_VENDOR_SOFTWARE_PRODUCT_PATH}/${software_product_id}/versions/${version_id}${SDC_VENDOR_SOFTWARE_UPLOAD_PATH}     ${files}    ${SDC_DESIGNER_USER_ID}    auth=${GLOBAL_SDC_AUTHENTICATION}
     Should Be Equal As Strings      ${resp.status_code}     200
+    [Return]   ${resp}
 
 Add SDC Catalog Service
     [Documentation]    Creates an SDC Catalog Service and returns its id
