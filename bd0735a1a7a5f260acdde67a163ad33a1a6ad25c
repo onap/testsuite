@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "0d4e4962_5ce437a1",
+        "filename": "robot/resources/sdc_interface.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-03-31T15:57:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bfd4c46_b5ef82d3",
+      "revId": "bd0735a1a7a5f260acdde67a163ad33a1a6ad25c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "074ed21b_7f04dba2",
         "filename": "robot/resources/so/add_service_recipe.robot",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "writtenOn": "2020-03-06T16:15:14Z",
       "side": 1,
       "message": "use the log with console option set to True so that it logs to both",
+      "revId": "bd0735a1a7a5f260acdde67a163ad33a1a6ad25c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a67d29b6_7e59d080",
+        "filename": "robot/resources/so/add_service_recipe.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-03-31T15:57:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "074ed21b_7f04dba2",
       "revId": "bd0735a1a7a5f260acdde67a163ad33a1a6ad25c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -89,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "2fa089c4_ce4aa883",
+        "filename": "robot/resources/so/create_service_instance.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-03-31T15:57:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc96012d_dc4b90fe",
+      "revId": "bd0735a1a7a5f260acdde67a163ad33a1a6ad25c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2abe2a31_cc3a3672",
         "filename": "robot/resources/test_templates/pnf_registration_without_SO_template.robot",
         "patchSetId": 3
@@ -118,6 +172,24 @@
       "side": 1,
       "message": "Done\n\nPlease check",
       "parentUuid": "2abe2a31_cc3a3672",
+      "revId": "bd0735a1a7a5f260acdde67a163ad33a1a6ad25c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97dfdffb_a18589e4",
+        "filename": "robot/resources/test_templates/pnf_registration_without_SO_template.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-03-31T15:57:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "694c6e17_018410d3",
       "revId": "bd0735a1a7a5f260acdde67a163ad33a1a6ad25c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
