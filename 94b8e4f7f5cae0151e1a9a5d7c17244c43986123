@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a02be68e_2bd11fcd",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-04-03T13:19:10Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces\n\nsame comment on other lines",
+      "revId": "94b8e4f7f5cae0151e1a9a5d7c17244c43986123",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81d74c01_e56f8269",
         "filename": "robot/testsuites/health-check.robot",
         "patchSetId": 2
