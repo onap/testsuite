@@ -6,7 +6,7 @@ Library            Collections
 Resource          global_properties.robot
 
 *** Variables ***
-${NBI_HEALTH_CHECK_PATH}        /nbi/api/v4/status
+${NBI_HEALTH_CHECK_PATH}        /nbi/api/v4/status?fullStatus=true
 ${NBI_ENDPOINT}     ${GLOBAL_NBI_SERVER_PROTOCOL}://${GLOBAL_INJECTED_NBI_IP_ADDR}:${GLOBAL_NBI_SERVER_PORT}
 
 
