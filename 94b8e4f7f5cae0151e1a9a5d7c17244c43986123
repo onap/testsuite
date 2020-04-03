@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81d74c01_e56f8269",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-03T13:11:36Z",
+      "side": 1,
+      "message": "Once we get lines 144-146 working, these 5 lines can be removed as they are the ones being replaced. We need to keep 137 as that still ensures the legacy components are still running. We\u0027ll open a JIRA for Guilen to remove lines 135-137 once we officially deprecate.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 0
+      },
+      "revId": "94b8e4f7f5cae0151e1a9a5d7c17244c43986123",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
