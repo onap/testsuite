@@ -11,8 +11,10 @@ Resource          ssh/files.robot
 
 *** Variables ***
 ${POLICY_HEALTH_CHECK_PATH}        /healthcheck
+${POLICY_HEALTHCHECK_PATH}        /policy/pap/v1/components/healthcheck
 ${POLICY_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_IP_ADDR}:${GLOBAL_POLICY_SERVER_PORT}
 ${POLICY_HEALTHCHECK_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_DROOLS_IP_ADDR}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+${POLICY_NEW_HEALTHCHECK_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_PAP_IP_ADDR}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
 ${POLICY_TEMPLATES}        policy
 ${DROOLS_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_DROOLS_IP_ADDR}:${GLOBAL_DROOLS_SERVER_PORT}
 ${POLICY_API_IP}    ${GLOBAL_INJECTED_POLICY_API_IP_ADDR}
@@ -40,6 +42,17 @@ Run Policy Health Check
      :FOR    ${ELEMENT}    IN    @{ITEMS}
      \    Should Be Equal As Strings 	${ELEMENT['code']} 	200
      \    Should Be True    ${ELEMENT['healthy']}
+
+Run Policy New Healthcheck
+     [Documentation]    Runs New Policy Health check
+     ${auth}=    Create List     ${GLOBAL_POLICY_HEALTHCHECK_USERNAME}   ${GLOBAL_POLICY_HEALTHCHECK_PASSWORD}
+     Log    Creating session ${POLICY_NEW_HEALTHCHECK_ENDPOINT}
+     ${session}=    Create Session  policy  ${POLICY_NEW_HEALTHCHECK_ENDPOINT}   auth=${auth}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}=   Get Request   policy  ${POLICY_HEALTHCHECK_PATH}    headers=${headers}
+     Log    Received response from policy ${resp.text}
+     Should Be Equal As Strings   ${resp.status_code}   200
+     Should Be True   ${resp.json()['healthy']}
 
 Run Drools Get Request
      [Documentation]    Runs Drools Get Request
@@ -164,11 +177,11 @@ Update vVFWCL Policy
 
 
 Delete vFWCL Policy
-	Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
+    Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
     ${dict}=   Create Dictionary   policyName=com.BRMSParamvFirewall
   	${data}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/FirewallPolicy_delete.jinja    ${dict}
-	${resp}=   Run Policy Delete Request    /pdp/api/deletePolicy    ${data}
-	Should Be Equal As Strings 	${resp.status_code} 	200
+    ${resp}=   Run Policy Delete Request    /pdp/api/deletePolicy    ${data}
+    Should Be Equal As Strings 	${resp.status_code} 	200
 
 Create vFWCL Policy
     [Arguments]   ${resource_id}
@@ -179,9 +192,9 @@ Create vFWCL Policy
     Should Be Equal As Strings 	${resp.status_code} 	200
 
 Push vFWCL Policy
-	Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
+    Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
     ${dict}=   Create Dictionary
- 	${data}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/FirewallPolicy_push.jinja   ${dict}
+    ${data}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/FirewallPolicy_push.jinja   ${dict}
     ${resp}=   Run Policy Put Request    /pdp/api/pushPolicy    ${data}
     Should Be Equal As Strings 	${resp.status_code} 	200
 
@@ -279,4 +292,3 @@ Run Policy APEX PDP Healthcheck
      Log    Received response from policy ${resp.text}
      Should Be Equal As Strings    ${resp.status_code}     200
      Should Be Equal As Strings    ${resp.json()['code']}  200
-

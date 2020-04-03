@@ -141,6 +141,10 @@ Basic Policy Health Check
     Run Policy XACML PDP Healthcheck
     Run Policy APEX PDP Healthcheck
 
+Basic Policy New Healthcheck
+    [Tags]    health    medium   health-policy
+    Run Policy New Healthcheck
+
 Basic Pomba AAI-context-builder Health Check
     [Tags]    oom   health-pomba
     Run Pomba Aai Context Builder Health Check
