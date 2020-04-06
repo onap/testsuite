@@ -1,0 +1,17 @@
+robotframework==3.1.2
+selenium
+robotframework-seleniumlibrary
+robotframework-archivelibrary
+robotframework-sshlibrary
+robotframework-httplibrary
+robotframework-ftplibrary
+requests>=2.20.0
+robotframework-selenium2library
+robotframework-databaselibrary
+robotframework-extendedselenium2library
+robotframework-requests
+deepdiff
+dnspython
+pyyaml>=4.2b1
+json5
+pytz
