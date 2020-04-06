@@ -45,6 +45,23 @@
       "revId": "a42fc36beb63c63766ad126775aa719e7320e808",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92d4ee58_1e9cf186",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-06T15:27:55Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "a42fc36beb63c63766ad126775aa719e7320e808",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
