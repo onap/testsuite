@@ -51,7 +51,13 @@ RUN pip install robotframework==3.1.2 \
 RUN python3.7 -m pip install setuptools wheel
 RUN python3.7 -m pip install virtualenv
 
-# Copy the robot code
+# Copy the robot code that LF tool chain cloned from demo repository
+COPY demo/ /var/opt/ONAP/demo
+# setup.sh assumes LF tool chain cloned testsuite/heatbridge repository
+COPY testsuite/heatbridge/  /var/opt/ONAP/testsuite/heatbridge
+# LF tools clone $GIT_NO_PROJECT/testsuite/python-testing-utils into testsuite/eteutils
+COPY testsuite/eteutils/ /var/opt/ONAP/testsuite/eteutils
+
 COPY html/ /var/opt/ONAP/html
 COPY robot/ /var/opt/ONAP/robot
 COPY *.sh /var/opt/ONAP/
