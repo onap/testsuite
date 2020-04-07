@@ -11,7 +11,7 @@ Resource          ssh/files.robot
 
 *** Variables ***
 ${POLICY_HEALTH_CHECK_PATH}        /healthcheck
-${POLICY_HEALTHCHECK_PATH}        /policy/pap/v1/components/healthcheck
+${POLICY_NEW_HEALTHCHECK_PATH}        /policy/pap/v1/components/healthcheck
 ${POLICY_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_IP_ADDR}:${GLOBAL_POLICY_SERVER_PORT}
 ${POLICY_HEALTHCHECK_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_DROOLS_IP_ADDR}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
 ${POLICY_NEW_HEALTHCHECK_ENDPOINT}     ${GLOBAL_POLICY_SERVER_PROTOCOL}://${GLOBAL_INJECTED_POLICY_PAP_IP_ADDR}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
@@ -49,7 +49,7 @@ Run Policy New Healthcheck
      Log    Creating session ${POLICY_NEW_HEALTHCHECK_ENDPOINT}
      ${session}=    Create Session  policy  ${POLICY_NEW_HEALTHCHECK_ENDPOINT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}=   Get Request   policy  ${POLICY_HEALTHCHECK_PATH}    headers=${headers}
+     ${resp}=   Get Request   policy  ${POLICY_NEW_HEALTHCHECK_PATH}    headers=${headers}
      Log    Received response from policy ${resp.text}
      Should Be Equal As Strings   ${resp.status_code}   200
      Should Be True   ${resp.json()['healthy']}
