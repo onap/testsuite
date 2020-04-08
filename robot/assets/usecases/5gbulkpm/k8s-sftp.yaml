@@ -1,9 +1,7 @@
 tosca_definitions_version: cloudify_dsl_1_3
-
 imports:
   - 'http://www.getcloudify.org/spec/cloudify/4.5.5/types.yaml'
-  - 'https://nexus.onap.org/service/local/repositories/raw/content/org.onap.dcaegen2.platform.plugins/R5/k8splugin/1.6.0/k8splugin_types.yaml'
-
+  - 'https://nexus.onap.org/service/local/repositories/raw/content/org.onap.dcaegen2.platform.plugins/R6/k8splugin/1.7.2/k8splugin_types.yaml'
 inputs:
   tag_version:
     type: string
@@ -13,7 +11,6 @@ inputs:
     type: integer
     description: Number of instances
     default: 1
-
 node_templates:
   sftpserver:
     type: dcae.nodes.ContainerizedPlatformComponent
@@ -25,10 +22,8 @@ node_templates:
               SFTP_USERS: bulkpm:bulkpm:::upload
             ports:
               - '22:32222'
-
     properties:
       name: "sftpserver"
       dns_name: "sftpserver"
-
       image: { get_input: tag_version }
       replicas: { get_input: replicas }
