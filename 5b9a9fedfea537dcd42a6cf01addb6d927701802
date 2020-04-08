@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eac79e2b_265fe91a",
+        "filename": "robot/assets/templates/policy/vFirewall_policy_monitoring_input_tosca.jinja",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-08T14:06:01Z",
+      "side": 1,
+      "message": "Probably shouldn\u0027t be deleting this policy - but it needs some updates.",
+      "revId": "5b9a9fedfea537dcd42a6cf01addb6d927701802",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
