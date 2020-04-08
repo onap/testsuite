@@ -18,8 +18,6 @@ Suite Teardown    Usecase Teardown
 
 *** Variables ***
 ${INVENTORY_ENDPOINT}               /dcae-service-types
-${DFC_BLUEPRINT_PATH}               ${EXECDIR}/robot/assets/usecases/5gbulkpm//k8s-datafile.yaml
-${PMMAPPER_BLUEPRINT_PATH}          ${EXECDIR}/robot/assets/usecases/5gbulkpm//k8s-pm-mapper.yaml
 ${XNF_SFTP_BLUEPRINT_PATH}          ${EXECDIR}/robot/assets/usecases/5gbulkpm/k8s-sftp.yaml
 ${BLUEPRINT_TEMPLATE_PATH}          ${EXECDIR}/robot/assets/usecases/5gbulkpm/blueprintTemplate.json
 ${FTP_FILE_PATH}                    ${EXECDIR}/robot/assets/usecases/5gbulkpm/pmfiles/A20181002.0000-1000-0015-1000_5G.xml.gz
@@ -34,27 +32,26 @@ ${JSON_DATA_FILE}                   ${EXECDIR}/robot/assets/usecases/5gbulkpm/No
 ${VES_LISTENER_PATH}                /eventListener/v7
 ${PMMAPPER_SUB_ROLE_DATA}           ${EXECDIR}/robot/assets/usecases/5gbulkpm/sub.json
 ${PMMAPPER_MR_CLUSTER_DATA}         ${EXECDIR}/robot/assets/usecases/5gbulkpm/mr_clusters.json
+${NEXUS3}                           ${GLOBAL_INJECTED_NEXUS_DOCKER_REPO}
 
 *** Test Cases ***
 
 Deploying Data File Collector
     [Tags]                              5gbulkpm
-    ${blueprint}=                       OperatingSystem.Get File           ${DFC_BLUEPRINT_PATH}
-    ${templatejson}=                    Load JSON From File                ${BLUEPRINT_TEMPLATE_PATH}
-    ${templatejson}=                    Update Value To Json               ${templatejson}                            blueprintTemplate             ${blueprint}
-    ${templatejson}=                    Update Value To Json               ${templatejson}                            typeName                      datafile
-    ${json_data}                        Convert JSON To String             ${templatejson}
     ${headers}=                         Create Dictionary                  content-type=application/json
     ${session}=                         Create Session                     dfc                 ${INVENTORY_SERVER}
-    ${resp}=                            Post Request                       dfc                 ${INVENTORY_ENDPOINT}          data=${json_data}             headers=${headers}
-    ${serviceTypeId-Dfc}                Set Variable                       ${resp.json().get('typeId')}
+    ${resp}=                            Get Request                       dfc                 ${INVENTORY_ENDPOINT}?typeName=k8s-datafile                      headers=${headers}
+    ${json}=                            Set Variable                       ${resp.json()}
+    ${serviceTypeId-Dfc}                Set Variable                       ${json['items'][0]['typeId']}
+    ${image}                            Get Regexp Matches                 ${json['items'][0]['blueprintTemplate']}            nexus3(.)*?(?=\\")
+    ${image}                            Replace String                     ${image}[0]      nexus3.onap.org:10001                 ${NEXUS3}
     Set Global Variable                 ${serviceTypeId-Dfc}
-    ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeId-Dfc}"}
+    ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeId-Dfc}", "inputs": {"tag_version": "${image}"}}
     ${session}=                         Create Session                     deployment-dfc                 ${DEPLOYMENT_SERVER}
     ${resp}=                            Put Request                        deployment-dfc                 /${DEPLOYMENT_ENDPOINT}/datafile         data=${deployment_data}     headers=${headers}
     ${operationLink}                    Set Variable                       ${resp.json().get('links').get('status')}
     ${operationId}                      Fetch From Right                   ${operationLink}                /
-    Wait Until Keyword Succeeds         3 minute                           20 sec            Deployment Status       ${DEPLOYMENT_SERVER}     ${DEPLOYMENT_ENDPOINT}     datafile     ${operationId}
+    Wait Until Keyword Succeeds         5 minute                           20 sec            Deployment Status       ${DEPLOYMENT_SERVER}     ${DEPLOYMENT_ENDPOINT}     datafile     ${operationId}
 
 Deploying 3GPP PM Mapper
     [Tags]                              5gbulkpm
@@ -62,21 +59,19 @@ Deploying 3GPP PM Mapper
     ${headers}=                         Create Dictionary                  content-type=application/json
     ${session}=                         Create Session                     dmaapbc                 ${DMAAP_BC_SERVER}
     ${resp}=                            Post Request                       dmaapbc                 ${DMAAP_BC_MR_CLUSTER_PATH}          data=${clusterdata}   headers=${headers}
-    ${blueprint}=                       OperatingSystem.Get File           ${PMMAPPER_BLUEPRINT_PATH}
-    ${templatejson}=                    Load JSON From File                ${BLUEPRINT_TEMPLATE_PATH}
-    ${templatejson}=                    Update Value To Json               ${templatejson}                            blueprintTemplate             ${blueprint}
-    ${templatejson}=                    Update Value To Json               ${templatejson}                            typeName                      pmmapper
-    ${json_data}                        Convert JSON To String             ${templatejson}
     ${session}=                         Create Session                     pmmapper                 ${INVENTORY_SERVER}
-    ${resp}=                            Post Request                       pmmapper                 ${INVENTORY_ENDPOINT}          data=${json_data}             headers=${headers}
-    ${serviceTypeId-Pmmapper}           Set Variable                       ${resp.json().get('typeId')}
+    ${resp}=                            Get Request                        pmmapper                 ${INVENTORY_ENDPOINT}?typeName=k8s-pm-mapper                     headers=${headers}
+    ${json}=                            Set Variable                       ${resp.json()}
+    ${serviceTypeId-Pmmapper}           Set Variable                       ${json['items'][0]['typeId']}
+    ${image}                            Get Regexp Matches                 ${json['items'][0]['blueprintTemplate']}            nexus3(.)*?(?=\')
+    ${image}                            Replace String                     ${image}[0]      nexus3.onap.org:10001                 ${NEXUS3}
     Set Global Variable                 ${serviceTypeId-Pmmapper}
-    ${deployment_data}=                 Set Variable                       {"inputs":{"client_password": "${GLOBAL_DCAE_PASSWORD}"},"serviceTypeId": "${serviceTypeId-Pmmapper}"}
+    ${deployment_data}=                 Set Variable                       {"inputs":{"client_password": "${GLOBAL_DCAE_PASSWORD}", "tag_version": "${image}"},"serviceTypeId": "${serviceTypeId-Pmmapper}"}
     ${session}=                         Create Session                     deployment-pmmapper                 ${DEPLOYMENT_SERVER}
     ${resp}=                            Put Request                        deployment-pmmapper                 /${DEPLOYMENT_ENDPOINT}/pmmapper         data=${deployment_data}     headers=${headers}
     ${operationLink}                    Set Variable                       ${resp.json().get('links').get('status')}
     ${operationId}                      Fetch From Right                   ${operationLink}                /
-    Wait Until Keyword Succeeds         2 minute                           10 sec            Deployment Status       ${DEPLOYMENT_SERVER}     ${DEPLOYMENT_ENDPOINT}     pmmapper     ${operationId}
+    Wait Until Keyword Succeeds         3 minute                           10 sec            Deployment Status       ${DEPLOYMENT_SERVER}     ${DEPLOYMENT_ENDPOINT}     pmmapper     ${operationId}
 
 Deploying SFTP Server As xNF
     [Tags]                              5gbulkpm
@@ -90,12 +85,12 @@ Deploying SFTP Server As xNF
     ${resp}=                            Post Request                       sftp                 ${INVENTORY_ENDPOINT}          data=${json_data}             headers=${headers}
     ${serviceTypeId-Sftp}=              Set Variable                       ${resp.json().get('typeId')}
     Set Global Variable                 ${serviceTypeId-Sftp}
-    ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeId-Sftp}"}
+    ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeId-Sftp}" }
     ${session}=                         Create Session                     deployment-sftpserver                 ${DEPLOYMENT_SERVER}
     ${resp}=                            Put Request                        deployment-sftpserver                 /${DEPLOYMENT_ENDPOINT}/sftpserver         data=${deployment_data}     headers=${headers}
     ${operationLink}=                   Set Variable                       ${resp.json().get('links').get('status')}
     ${operationId}                      Fetch From Right                   ${operationLink}                /
-    Wait Until Keyword Succeeds         1 minute                           5 sec            Deployment Status       ${DEPLOYMENT_SERVER}     ${DEPLOYMENT_ENDPOINT}     sftpserver     ${operationId}
+    Wait Until Keyword Succeeds         2 minute                           5 sec            Deployment Status       ${DEPLOYMENT_SERVER}     ${DEPLOYMENT_ENDPOINT}     sftpserver     ${operationId}
 
 
 Checking PERFORMANCE_MEASUREMENTS Topic In Message Router
@@ -133,7 +128,8 @@ Sending File Ready Event to VES Collector
     [Tags]                              5gbulkpm
     ${headers}=                         Create Dictionary                   content-type=application/json
     ${fileready}=                       OperatingSystem.Get File            ${JSON_DATA_FILE}
-    ${session}=                         Create Session                      ves                         ${VES_HEALTH_CHECK_PATH}
+    ${auth}=                            Create List                         ${GLOBAL_DCAE_VES_USERNAME}    ${GLOBAL_DCAE_VES_PASSWORD}
+    ${session}=                         Create Session                      ves                         ${VES_HEALTH_CHECK_PATH}      auth=${auth}
     ${resp}=                            Post Request                        ves                         ${VES_LISTENER_PATH}          data=${fileready}   headers=${headers}
     Should Be Equal As Strings          ${resp.status_code}                 202
     ${VES_FILE_READY_NOTIFICATION}      Set Variable                        {"event":{"commonEventHeader":{"version":"4.0.1","vesEventListenerVersion":"7.0.1","domain":"notification","eventName":"Noti_RnNode-Ericsson_FileReady","eventId":"FileReady_1797490e-10ae-4d48-9ea7-3d7d790b25e1","lastEpochMicrosec":8745745764578,"priority":"Normal","reportingEntityName":"otenb5309","sequence":0,"sourceName":"oteNB5309","startEpochMicrosec":8745745764578,"timeZoneOffset":"UTC+05.30"},"notificationFields":{"changeIdentifier":"PM_MEAS_FILES","changeType":"FileReady","notificationFieldsVersion":"2.0","arrayOfNamedHashMap":[{"name":"A${epoch}.xml.gz","hashMap":{"location":"sftp://bulkpm:bulkpm@sftpserver:22/upload/A${epoch}.xml.gz","compression":"gzip","fileFormatType":"org.3GPP.32.435#measCollec","fileFormatVersion":"V10"}}]}}}
