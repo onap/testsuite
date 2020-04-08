@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9efec21e_84da87ac",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-04-08T06:22:48Z",
+      "side": 1,
+      "message": "Could you set this and following repositories as build arg, so that one could easily build docker image from modified repositories?",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "49279c1f129d8fd07bb43b37c7e264f66415337c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
