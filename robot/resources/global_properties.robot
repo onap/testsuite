@@ -35,6 +35,7 @@ ${GLOBAL_AAI_ZONE_NAME}    nova
 ${GLOBAL_AAI_DESIGN_TYPE}    integration
 ${GLOBAL_AAI_ZONE_CONTEXT}    labs
 ${GLOBAL_TEMPLATE_FOLDER}    robot/assets/templates
+${GLOBAL_ASSETS_FOLDER}    robot/assets
 ${GLOBAL_SERVICE_MAPPING_DIRECTORY}    ./demo/service_mapping
 ${GLOBAL_SO_HEALTH_CHECK_PATH}    /manage/health
 ${GLOBAL_SO_CLOUD_CONFIG_PATH}    /cloudSite

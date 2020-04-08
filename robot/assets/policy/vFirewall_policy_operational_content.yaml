@@ -1,0 +1,35 @@
+---
+topology_template:
+  policies:
+    -
+      operational.modifyconfig:
+        metadata:
+          policy-id: operational.modifyconfig
+        properties:
+          abatement: false
+          id: ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a
+          operations:
+            -
+              controllerName: frankfurt
+              description: "Modify the packet generator"
+              id: unique-policy-id-1-modifyConfig
+              operation:
+                actor: APPC
+                failure: final_failure
+                failure_exception: final_failure_exception
+                failure_guard: final_failure_guard
+                failure_retries: final_failure_retries
+                failure_timeout: final_failure_timeout
+                operation: ModifyConfig
+                retries: 0
+                success: final_success
+                target:
+                  entityIds:
+                    resourceID: __RESOURCE_ID__
+                  targetType: VNF
+                timeout: 300
+          timeout: 1200
+          trigger: unique-policy-id-1-modifyConfig
+        type: onap.policies.controlloop.operational.common.Drools
+        type_version: "1.0.0"
+tosca_definitions_version: tosca_simple_yaml_1_1_0
