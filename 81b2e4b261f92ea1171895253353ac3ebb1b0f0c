@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5301955_4e6ca723",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2020-04-08T15:59:38Z",
+      "side": 1,
+      "message": "I think this need to change to: onap.policies.controlloop.operational.common.Drools",
+      "range": {
+        "startLine": 230,
+        "startChar": 73,
+        "endLine": 230,
+        "endChar": 110
+      },
+      "revId": "81b2e4b261f92ea1171895253353ac3ebb1b0f0c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
