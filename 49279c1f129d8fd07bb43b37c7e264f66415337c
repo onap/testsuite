@@ -46,6 +46,30 @@
       "revId": "49279c1f129d8fd07bb43b37c7e264f66415337c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca726a01_7bb6c8a7",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2020-04-09T10:59:15Z",
+      "side": 1,
+      "message": "Sorry for not being clear. I\u0027ve meant adding parameters (with defaults equal to current values) for repositories url like `HEATBRIDGE_REPO\u003dgit+https://git.onap.org/testsuite/heatbridge.git`.\nThis would enable building robot image for local test purposes from local changes without the need of modifying Dockerfile. What I mean, is you can modify something in testsuite/demo/heatbridge repo and check modified robot container without the need of pushing it upstream (creating review). Example flow you can do is:\n \u003e git init --bare ../loc.git\n \u003e git remote add loc ../loc.git\n \u003e git push loc master\n \u003e git -C ../loc.git/ update-server-info\n \u003e cd ../ \u0026\u0026 python3 -m http.server 8000\nServing your modified git repo locally, and later build docker image passing relevant build arg to download from there, eg: `docker build --build-arg DEMO_REPO\u003dhttp://some_ip:8000/loc.git`\n\nHopefully I\u0027ve described it better now 😊?",
+      "parentUuid": "76ab228b_2523582b",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "49279c1f129d8fd07bb43b37c7e264f66415337c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
