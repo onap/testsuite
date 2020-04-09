@@ -22,6 +22,30 @@
       "revId": "49279c1f129d8fd07bb43b37c7e264f66415337c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76ab228b_2523582b",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-04-09T08:48:48Z",
+      "side": 1,
+      "message": "not 100% sure I get your point\n\nheatbridge , python-testing-utils, testuite and demo are needed, there are not optional to build the image used by the robot pod\nyou want to get the possibility to customize each component using different tags provided as argument?\nso add\n\nARG HEATBRIDGE_TAG\u003dmaster\nARG PYTHON_TESTING_UTILS_TAG\u003dmaster\n....\n\nand use these tags here\n\nso you shall be able to buil adding --build-arg HEATBRIDGE_TAG\u003dmy_customized_tag\n\nor do you have something different in mind?",
+      "parentUuid": "9efec21e_84da87ac",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "49279c1f129d8fd07bb43b37c7e264f66415337c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
