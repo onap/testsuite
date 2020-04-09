@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Jorge Hernandez <jorge.hernandez-herrero@att.com>
+Code-Review+1: Pamela Dragosh <pdragosh@research.att.com>
+Code-Review+2: Morgan Richomme <morgan.richomme@orange.com>
+Submitted-by: Morgan Richomme <morgan.richomme@orange.com>
+Submitted-at: Thu, 09 Apr 2020 08:48:20 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/testsuite/+/105502
+Project: testsuite
+Branch: refs/heads/master
