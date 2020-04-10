@@ -22,11 +22,11 @@ Library         ONAPLibrary.SO    WITH NAME     SO
 ${aai_so_registration_entry_template}=  aai/add_pnf_registration_info.jinja
 ${pnf_ves_integration_request}=  ves/pnf_registration_request.jinja
 ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_VES_PNFREG_OUTPUT_PATH}  /events/unauthenticated.VES_PNFREG_OUTPUT/2/1
-${VES_ENDPOINT}     ${GLOBAL_DCAE_VES_PROTOCOL}://${GLOBAL_INJECTED_DCAE_VES_HOST}:${GLOBAL_DCAE_VES_SERVER_PORT}
+${VES_ENDPOINT}    ${GLOBAL_DCAE_VES_HTTPS_PROTOCOL}://${GLOBAL_INJECTED_DCAE_VES_HOST}:${GLOBAL_DCAE_VES_HTTPS_SERVER_PORT}
 ${VES_data_path}   /eventListener/v7
 ${tenant_name}    dummy_tenant_for_pnf
 ${tenant_id}  dummy_tenant_id_for_pnf
-${region}   ${GLOBAL_INJECTED_REGION}
+${region}   RegionForPNF
 
 
 *** Keywords ***
@@ -96,7 +96,8 @@ Run VES HTTP Post Request
     [Documentation]    Runs a VES Post request
     [Arguments]     ${data}
     Disable Warnings
-    ${session}=    Create Session       ves     ${VES_ENDPOINT}
+    ${auth}=  Create List   ${GLOBAL_DCAE_VES_USERNAME}    ${GLOBAL_DCAE_VES_PASSWORD}
+    ${session}=    Create Session       ves     ${VES_ENDPOINT}   auth=${auth}
     ${headers}=  Create Dictionary   Accept=application/json    Content-Type=application/json
     ${post_resp}=       Post Request    ves     ${VES_data_path}      data=${data}    headers=${headers}
     Log  PNF integration request ${data}
@@ -132,8 +133,8 @@ Instantiate PNF_macro service and succesfully registrate PNF template
     Load OwningEntity  owningEntity  OE-${customer_name}
     Load OwningEntity  lineOfBusiness  LOB-${customer_name}
     Load OwningEntity  platform  Platform-${customer_name}
-    ${service_instance_id}  ${request_id}  ${full_customer_name}   Run Keyword If  "${building_block_flow}"=='false'  Orchestrate PNF Macro Flow   ${customer_name}   ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}   Project-${customer_name}   OE-${customer_name}
-        ...  ELSE  Orchestrate PNF Building Block Flow   ${service_model_name}  ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}   ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration  ${lineOfBusinessName}=LOB-Demonstration   ${platformName}=Platform-Demonstration
+    ${service_instance_id}  ${request_id}  ${full_customer_name}   Run Keyword If  "${building_block_flow}"=='false'  Orchestrate PNF Macro Flow   ${customer_name}   ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}  ${region}  Project-${customer_name}   OE-${customer_name}
+        ...  ELSE  Orchestrate PNF Building Block Flow   ${catalog_service_name}  ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}   ${region}   project_name=Project-${customer_name}   owning_entity=OE-${customer_name}  lineOfBusinessName=LOB-${customer_name}   platformName=Platform-${customer_name}
     Wait Until Keyword Succeeds   120s  40s  Send and verify VES integration request in SO and A&AI   ${request_id}   ${PNF_entry_dict}
     Run Keyword If  "${building_block_flow}"=='true'  Check PNF orchestration status in A&AI  ${pnf_correlation_id}  registered
     [Teardown]   Instantiate PNF_macro service Teardown      ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}  ${service_instance_id}  ${service_recipe_id}  ${building_block_flow}
