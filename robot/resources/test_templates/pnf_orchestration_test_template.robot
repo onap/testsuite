@@ -20,13 +20,13 @@ Library	        ONAPLibrary.Utilities
 
 Orchestrate PNF Macro Flow
     [Documentation]   Use ONAP to Orchestrate a PNF Macro service.
-    [Arguments]   ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}  ${tenant_id}    ${tenant_name}   ${service_model_type}   ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
+    [Arguments]   ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}  ${tenant_id}    ${tenant_name}   ${service_model_type}   ${region}  ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
     ${lcp_region}=   Set Variable   ${GLOBAL_INJECTED_REGION}
     ${uuid}=    Generate UUID4
     ${full_customer_name}=    Catenate    ${customer_name}_${uuid}
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
     ${service_type}=    Set Variable    ${service}
-    Create Customer For PNF     ${full_customer_name}    ${full_customer_name}     INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}  ${tenant_id}  ${GLOBAL_INJECTED_REGION}
+    Create Customer For PNF     ${full_customer_name}    ${full_customer_name}     INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}  ${tenant_id}  ${region}
     Setup Browser
     Login To VID GUI
     ${service_instance_id}  ${request_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID PNF Service Instance    ${full_customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}  ${product_family}  ${lcp_region}  ${tenant_name}  ${pnf_correlation_id}
@@ -35,8 +35,8 @@ Orchestrate PNF Macro Flow
 
 Orchestrate PNF Building Block Flow
     [Documentation]   Use ONAP to Orchestrate a PNF using GR api
-    [Arguments]   ${service_model_name}  ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}   ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration  ${lineOfBusinessName}=LOB-Demonstration   ${platformName}=Platform-Demonstration
-    ${service_ctalog_json}=  Get Service Catalog  ${service_model_name}
+    [Arguments]   ${service_model_name}  ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}   ${region}   ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration   ${lineOfBusinessName}=LOB-Demonstration    ${platformName}=Platform-Demonstration
+    ${json_resp}=  Get Service Catalog  ${service_model_name}
     ${service_model_uuid}=  Set Variable  ${json_resp["uuid"]}
     ${service_model_invariant_uuid }=  Set Variable  ${json_resp["invariantUUID"]}
     ${nf_resource_name}=  Set Variable  ${json_resp["componentInstances"][0]["name"]}
@@ -44,15 +44,15 @@ Orchestrate PNF Building Block Flow
     ${componentName}=  Set Variable  ${json_resp["componentInstances"][0]["componentName"]}
     ${resource_ctalog_json}=  Get Resource Catalog  ${componentName}
     ${nf_model_invariant_uuid}=  Set Variable  ${json_resp["invariantUUID"]}
-    ${nf_model_uuid}=  Set Variable  ${json_resp["uuid]}
+    ${nf_model_uuid}=  Set Variable  ${json_resp["uuid"]}
     ${nf_model_name}=  Set Variable  ${json_resp["name"]}
     ${productFamilyId}=  Get Service Id  ${product_family}
-    ${owningEntityId}=  Get Owning Entity Id  ${owningEntityName}
+    ${owningEntityId}=  Get Owning Entity Id  ${owning_entity}
     ${uuid}=   Generate UUID4
     ${full_customer_name}=    Catenate    ${customer_name}_${uuid}
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
     ${service_type}=    Set Variable    ${service}
-    Create Customer For PNF     ${full_customer_name}    ${full_customer_name}     INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}  ${tenant_id}  ${GLOBAL_INJECTED_REGION}
+    Create Customer For PNF     ${full_customer_name}    ${full_customer_name}     INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}  ${tenant_id}  ${region}
     ${arguments}=    Create Dictionary   service_model_invariant_uuid=${service_model_invariant_uuid}
     Set To Dictionary  ${arguments}  service_model_uuid  ${service_model_uuid}
     Set To Dictionary  ${arguments}  service_model_name  ${service_model_name}
