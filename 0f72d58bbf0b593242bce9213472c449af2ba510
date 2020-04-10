@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aeb11626_0ade997d",
+        "filename": "robot/resources/test_templates/pnf_registration_without_SO_template.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-04-10T17:21:26Z",
+      "side": 1,
+      "message": "is there a need to create a new region? I dont think theres any issue with the existing region",
+      "revId": "0f72d58bbf0b593242bce9213472c449af2ba510",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
