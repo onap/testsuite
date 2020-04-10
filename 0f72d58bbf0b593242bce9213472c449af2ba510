@@ -16,6 +16,24 @@
       "revId": "0f72d58bbf0b593242bce9213472c449af2ba510",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c06f154d_758530c1",
+        "filename": "robot/resources/test_templates/pnf_registration_without_SO_template.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-04-10T19:45:37Z",
+      "side": 1,
+      "message": "I think yes.\nTest is used in xtesting and pnf service instantiation using VNF api requires some region and tenant. In order to not execute whole init for xtesting purpose in past I created mechanism that creates dummy tenants together with region one. \nUnfortunately after this init cannot be executed because it tries to create valid tenant together with region one using put method ... and it fails because region one already exists. \nSo I decided to completely independent test cases for PNF services and VNF services. VNF will use valid region and tenant. PNF some dummy.",
+      "parentUuid": "aeb11626_0ade997d",
+      "revId": "0f72d58bbf0b593242bce9213472c449af2ba510",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
