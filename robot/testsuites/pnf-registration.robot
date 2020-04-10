@@ -52,4 +52,4 @@ Instantiate PNF service (using building blocks) and succesfully registrate PNF
      ${pnf_correlation_id}=    Generate Random String  20  [LETTERS][NUMBERS]
      ${PNF_entry_dict}=  Create Dictionary  correlation_id=${pnf_correlation_id}  PNF_IPv4_address=13.13.13.13  PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
      ${PNF_service_model}=  Set Variable  Demo_pNF_${pnf_correlation_id}
-     Instantiate PNF service (using building blocks) and succesfully registrate PNF template   ${PNF_service_model}   ${PNF_entry_dict}   ${pnf_correlation_id}  true
+     Instantiate PNF_macro service and succesfully registrate PNF template   ${PNF_service_model}   ${PNF_entry_dict}   ${pnf_correlation_id}  building_block_flow=true
