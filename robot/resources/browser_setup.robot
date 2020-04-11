@@ -22,14 +22,20 @@ Setup Browser Firefox
     ${wd}=   Create WebDriver   Firefox   capabilities=${caps}
     Set Global Variable    ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}    ${caps}
 
+
 Setup Browser Chrome
     ${chrome options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
     Call Method    ${chrome options}    add_argument    no-sandbox
+    Call Method    ${chrome options}    add_argument    ignore-certificate-errors
     Run Keyword If  ${HEADLESS}==True  Call Method    ${chrome options}    add_argument    headless
     ${dc}   Evaluate    sys.modules['selenium.webdriver'].DesiredCapabilities.CHROME  sys, selenium.webdriver
     Set To Dictionary   ${dc}   elementScrollBehavior    1
+    Set To Dictionary   ${dc}   ACCEPT_SSL_CERTS    True
     Create Webdriver    Chrome   chrome_options=${chrome_options}    desired_capabilities=${dc}
     Set Global Variable    ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}    ${dc}
+
+
+
 
 Handle Proxy Warning
     [Documentation]    Handle Intermediate Warnings from Proxies
