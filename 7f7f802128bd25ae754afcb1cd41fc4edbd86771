@@ -45,6 +45,30 @@
       "revId": "7f7f802128bd25ae754afcb1cd41fc4edbd86771",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20e813f7_531048c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2020-04-14T12:39:52Z",
+      "side": 1,
+      "message": "It is SDC but for the CDS processing.",
+      "parentUuid": "e0d82768_7bda7782",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "7f7f802128bd25ae754afcb1cd41fc4edbd86771",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
