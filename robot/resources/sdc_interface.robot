@@ -230,8 +230,8 @@ Create Allotted Resource Data File
    :FOR   ${key}   IN   @{keys}
    \    ${csar}=    Get From Dictionary    ${allotted_csar_map}    ${key}
    \    ${dir}    ${ext}=    Split String From Right    ${csar}    -    1
-   \    Extract Zip File    /tmp/csar/${csar}    /tmp/csar/${dir}
-   \    ${template}=    Catenate    /tmp/csar/${dir}/Definitions/${dir}-template.yml
+   \    Extract Zip File    /share/csar/${csar}    /share/csar/${dir}
+   \    ${template}=    Catenate    /share/csar/${dir}/Definitions/${dir}-template.yml
    \    ${json_str}=    Template Yaml To Json    ${template}
    \    ${json_obj}=    To Json   ${json_str}
    \    ${attrs}=    Create Dictionary
@@ -245,7 +245,7 @@ Create Allotted Resource Data File
 
 Download CSAR
    [Documentation]   Download CSAR
-   [Arguments]    ${catalog_service_id}    ${save_directory}=/tmp/csar
+   [Arguments]    ${catalog_service_id}    ${save_directory}=/share/csar
    Return From Keyword If     '${catalog_service_id}'=='None'
    # get meta data
    ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/filteredDataByParams?include=toscaArtifacts    ${SDC_DESIGNER_USER_ID}        auth=${GLOBAL_SDC_AUTHENTICATION}

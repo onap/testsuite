@@ -188,8 +188,12 @@ Preload One Gra Topology
 Get Template Parameters
     [Arguments]   ${generic_vnf_name}    ${template}    ${uuid}    ${service}     ${server_id}   ${api_type}=vnf_api
     ${hostid}=    Get Substring    ${uuid}    -4
-    ${ecompnet}=    Evaluate    (${GLOBAL_BUILD_NUMBER}%128)+128
-
+    # in Azure the ONAP OAM network is a /24 on 10.0.200 so 10.0 CIDR is too short
+    # ecompnet should be 200 if AKS
+    # Check GLOBAL VARIABLE for Openstack OAM Network 3RD_OCTET and if specified use it instead of
+    # dyanmic ecompnet  (Decompnet)
+    ${Decompnet}=   Evaluate    (${GLOBAL_BUILD_NUMBER}%128)+128
+    ${ecompnet}=   Set Variable If    "${GLOBAL_INJECTED_OPENSTACK_OAM_NETWORK_3RD_OCTET}"=="${EMPTY}"  ${Decompnet}      ${GLOBAL_INJECTED_OPENSTACK_OAM_NETWORK_3RD_OCTET}
     ${valuemap}=   Get Globally Injected Parameters
     # update the value map with unique values.
     Set To Dictionary   ${valuemap}   uuid=${uuid}   hostid=${hostid}    ecompnet=${ecompnet}    generic_vnf_name=${generic_vnf_name}      server_id=${server_id}
