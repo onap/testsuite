@@ -12,14 +12,6 @@ ${HVVES_KAFKA_TOPIC}    HV_VES_PERF3GPP
 ${HVVES_KAFKA_TOPIC_SSL}    HV_VES_PERF3GPP_SSL
 
 *** Test Cases ***
-HV-VES test case
-    Check Message Router Api    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_NAME}    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_PORT}    ${HVVES_KAFKA_TOPIC}
-    Send Message     ${GLOBAL_DCAE_HVVES_SERVER_NAME}   ${GLOBAL_DCAE_HVVES_SERVER_PORT}
-    Wait Until Keyword Succeeds      10s      2s      Check If Topic Exists     ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_NAME}      ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_PORT}      ${HVVES_KAFKA_TOPIC}
-    Check Message Router Api    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_NAME}    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_PORT}    ${HVVES_KAFKA_TOPIC}
-    ${msg}=    Decode Last Message From Topic    ${GLOBAL_DMAAP_KAFKA_SERVER_NAME}    ${GLOBAL_DMAAP_KAFKA_SERVER_PORT}    ${HVVES_KAFKA_TOPIC}    ${GLOBAL_DMAAP_KAFKA_JAAS_USERNAME}    ${GLOBAL_DMAAP_KAFKA_JAAS_PASSWORD}
-    ${results}=     Compare File To Message    ${EXECDIR}/robot/assets/dcae/hvves_msg.raw    ${msg}
-    Should Be True    ${results}
 HV-VES SSL test case
     Mode    ${HVVES_CONFIG_SSL}
     Send Message Over Ssl    ${GLOBAL_DCAE_HVVES_SERVER_NAME}    ${GLOBAL_DCAE_HVVES_SERVER_PORT}
