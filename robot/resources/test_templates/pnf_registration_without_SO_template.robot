@@ -149,5 +149,4 @@ Send and verify VES integration request in SO and A&AI
 Instantiate PNF_macro service Teardown
     [Arguments]  ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}  ${service_instance_id}  ${service_recipe_id}  ${building_block_flow}
     Teardown Models  ${catalog_service_id}    ${catalog_resource_ids}
-    Run Keyword If  "${building_block_flow}"=='false'  Delete Service Recipe  ${service_recipe_id}
     Cleanup PNF entry in A&AI  ${PNF_entry_dict}
