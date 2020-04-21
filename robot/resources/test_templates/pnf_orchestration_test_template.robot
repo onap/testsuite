@@ -21,7 +21,7 @@ Library	        ONAPLibrary.Utilities
 Orchestrate PNF Macro Flow
     [Documentation]   Use ONAP to Orchestrate a PNF Macro service.
     [Arguments]   ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}  ${tenant_id}    ${tenant_name}   ${service_model_type}   ${region}  ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration
-    ${lcp_region}=   Set Variable   ${GLOBAL_INJECTED_REGION}
+    ${lcp_region}=   Set Variable   ${region}
     ${uuid}=    Generate UUID4
     ${full_customer_name}=    Catenate    ${customer_name}_${uuid}
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
