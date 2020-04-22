@@ -1,0 +1,8 @@
+distribution_type: 'container'
+container_release_tag: '1.6.0'
+project: 'testsuite'
+log_dir: 'testsuite-master-3scm-docker-shell-daily/4697/'
+ref: d34b796de259a338ccd2ce5711ee0d3fa43ec7ea
+containers:
+    - name: 'testsuite'
+      version: '1.6.0-STAGING-20200422T082644Z'
