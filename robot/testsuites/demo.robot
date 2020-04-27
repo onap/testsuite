@@ -81,6 +81,11 @@ Instantiate VFWCL GRA
     Set Global Variable    ${API_TYPE}   GRA_API
     Instantiate VNF   vFWCL  base_vpkg
 
+Instantiate VFWCL DANOS
+    [Tags]   instantiateVFWCLDN
+    Set Global Variable    ${API_TYPE}   GRA_API
+    Instantiate VNF   vFWCLDN   base_vpkg
+
 Instantiate VLB GRA
     [Tags]   instantiateVLBGRA
     Set Global Variable    ${API_TYPE}   GRA_API

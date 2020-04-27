@@ -93,7 +93,7 @@ Wait For Model
     Page Should Contain Element    xpath=//div/h1[text() = 'Browse SDC Service Models']
     Wait Until Page Contains Element    xpath=//button[text() = 'Deploy']    ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Input Text When Enabled    //input[@ng-model='searchString']    ${service_model_type}
-    Wait Until Element Is Visible    xpath=//tr[td/span/text() = '${service_model_type}']/td/button[contains(text(),'Deploy')]    ${GLOBAL_VID_UI_TIMEOUT_SHORT}
+    Wait Until Element Is Visible    xpath=//tr[td/span/text() = '${service_model_type}']/td/button[contains(text(),'Deploy')]    ${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
 
 Delete Service Instance By GUI
     [Arguments]    ${service_instance_id}
