@@ -72,9 +72,9 @@ Orchestrate PNF Building Block Flow
     Set To Dictionary  ${arguments}  productFamilyId  ${productFamilyId}
     Set To Dictionary  ${arguments}  nf_instance_name  ${pnf_correlation_id}
     ${request_id}  ${service_instance_id}=   Create PNF Service Using GR Api   ${arguments}
-    Wait Until Keyword Succeeds   60s   20s    Validate Service Instance    ${service_instance_id}    ${service}    ${full_customer_name}
-    Check PNF orchestration status in A&AI  ${pnf_correlation_id}  register
-    [Return]     ${service_instance_id}  ${request_id}
+    Wait Until Keyword Succeeds   120s   20s    Validate Service Instance    ${service_instance_id}    ${service}    ${full_customer_name}
+    Wait Until Keyword Succeeds   60s   20s    Check PNF orchestration status in A&AI  ${pnf_correlation_id}  Register
+    [Return]     ${service_instance_id}  /onap/so/infra/orchestrationRequests/v7/${request_id}  ${full_customer_name}
 
 
 Create Customer For PNF

@@ -80,11 +80,11 @@ Query PNF A&AI updated entry
 
 Check PNF orchestration status in A&AI
     [Documentation]   Query PNF A&AI updated entry
-    [Arguments]  ${PNF_entry_dict}  ${status}
-    ${get_resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    /aai/v11/network/pnfs/pnf/${pnf_correlation_id}    auth=${GLOBAL_AAI_AUTHENTICATION}
+    [Arguments]  ${pnf_correlation_id}  ${status}
+    ${get_resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    /aai/v19/network/pnfs/pnf/${pnf_correlation_id}    auth=${GLOBAL_AAI_AUTHENTICATION}
     Should Be Equal As Strings  ${get_resp.status_code}        200
     ${json_resp}=  Set Variable  ${get_resp.json()}
-    Should Be Equal As Strings  ${status}       ${PNF_entry_dict.orchestrationStatus}
+    Should Be Equal As Strings  ${status}       ${json_resp['orchestration-status']}
 
 Check VES_PNFREG_OUTPUT topic presence in MR
     [Documentation]   Verify if unauthenticated.VES_PNFREG_OUTPUT topic is present in MR
@@ -136,8 +136,8 @@ Instantiate PNF_macro service and succesfully registrate PNF template
     ${service_instance_id}  ${request_id}  ${full_customer_name}   Run Keyword If  "${building_block_flow}"=='false'  Orchestrate PNF Macro Flow   ${customer_name}   ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}  ${region}  Project-${customer_name}   OE-${customer_name}
         ...  ELSE  Orchestrate PNF Building Block Flow   ${catalog_service_name}  ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}   ${region}   project_name=Project-${customer_name}   owning_entity=OE-${customer_name}  lineOfBusinessName=LOB-${customer_name}   platformName=Platform-${customer_name}
     Wait Until Keyword Succeeds   120s  40s  Send and verify VES integration request in SO and A&AI   ${request_id}   ${PNF_entry_dict}
-    Run Keyword If  "${building_block_flow}"=='true'  Check PNF orchestration status in A&AI  ${pnf_correlation_id}  registered
-    [Teardown]   Instantiate PNF_macro service Teardown      ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}  ${service_instance_id}  ${service_recipe_id}  ${building_block_flow}
+    Run Keyword If  "${building_block_flow}"=='true'  Check PNF orchestration status in A&AI  ${pnf_correlation_id}  Active
+    [Teardown]   Instantiate PNF_macro service Teardown      ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}
 
 Send and verify VES integration request in SO and A&AI
     [Documentation]   Gets service status and compares with expected status
@@ -147,6 +147,6 @@ Send and verify VES integration request in SO and A&AI
     Wait Until Keyword Succeeds   30s  10s  Check SO service completition status   ${request_id}   COMPLETE
 
 Instantiate PNF_macro service Teardown
-    [Arguments]  ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}  ${service_instance_id}  ${service_recipe_id}  ${building_block_flow}
+    [Arguments]  ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}
     Teardown Models  ${catalog_service_id}    ${catalog_resource_ids}
     Cleanup PNF entry in A&AI  ${PNF_entry_dict}

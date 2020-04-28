@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     Executes the PNF registration  test cases including setup and teardown
-Test Timeout      10m
+Test Timeout      15m
 
 Resource         ../resources/test_templates/pnf_registration_without_SO_template.robot
 Library	        String
@@ -14,7 +14,7 @@ PNF Registration only DCAE part: AAI, VES, PRH, DMaaP
      ...  This test case creates A&AI entry for PNF without SDC model distribution and service instantiation in SO.
      ...  Test case verify PNF Registration only in DCAE part: AAI, VES, PRH, DMaaP.
      ...  During test case Robot adds PNF entry to A&AI that contains: correlation ID, PNF_IPv4_address and PNF_IPv6_address
-     [Tags]   pnf_registrate   ete
+     [Tags]   pnf_registrate   ete   pnf_registrate_all
      ${pnf_correlation_id}=    Generate Random String  20  [LETTERS][NUMBERS]
      ${PNF_entry_dict}=  Create Dictionary  correlation_id=${pnf_correlation_id}  PNF_IPv4_address=13.13.13.13  PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
      Log  Initial PNF entry ${PNF_entry_dict}
@@ -32,7 +32,7 @@ Instantiate PNF_macro service and succesfully registrate PNF
      ...  At the end of the service is checked in terms
      ...  - service completion
      ...  - PNF entry update about information from VES event
-     [Tags]   pnf_registrate   ete
+     [Tags]   pnf_registrate   ete   pnf_registrate_all
      ${pnf_correlation_id}=    Generate Random String  20  [LETTERS][NUMBERS]
      ${PNF_entry_dict}=  Create Dictionary  correlation_id=${pnf_correlation_id}  PNF_IPv4_address=13.13.13.13  PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
      ${PNF_service_model}=  Set Variable  Demo_pNF_${pnf_correlation_id}
@@ -48,7 +48,7 @@ Instantiate PNF service (using building blocks) and succesfully registrate PNF
      ...  - service completion
      ...  - PNF entry update about information from VES event
      ...  - PNF orchestration status
-     [Tags]   pnf_registrate_gr_api
+     [Tags]   pnf_registrate_gr_api   pnf_registrate_all  ete
      ${pnf_correlation_id}=    Generate Random String  20  [LETTERS][NUMBERS]
      ${PNF_entry_dict}=  Create Dictionary  correlation_id=${pnf_correlation_id}  PNF_IPv4_address=13.13.13.13  PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
      ${PNF_service_model}=  Set Variable  Demo_pNF_${pnf_correlation_id}
