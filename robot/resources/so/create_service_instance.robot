@@ -20,5 +20,8 @@ Create PNF Service Using GR Api
     Templating.Create Environment    so    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=    Templating.Apply Template    so    ${CREATE_PNF_SERVICE_GR_API}     ${arguments}
     ${auth}=  Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
-    ${request_id}  ${service_instance_id}  SO.Run Create Request   ${GLOBAL_SO_ENDPOINT}    ${CREATE_SERVICE_PATH}   ${data}    auth=${auth}
+    ${requestReferences}  SO.Run Post Request   ${GLOBAL_SO_ENDPOINT}    ${CREATE_SERVICE_PATH}   ${data}    auth=${auth}
+    ${requestReferences_json}   Set Variable  ${requestReferences.json()}
+    ${request_id}  Set Variable  ${requestReferences_json['requestReferences']['requestId']}
+    ${service_instance_id}  Set Variable  ${requestReferences_json['requestReferences']['instanceId']}
     [Return]  ${request_id}  ${service_instance_id}
