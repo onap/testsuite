@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae7f79d2_efd2ea47",
+        "filename": "robot/resources/so/create_service_instance.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-04-28T11:38:25Z",
+      "side": 1,
+      "message": "I tried to Use Create method, but using it I got always following exception from this keyword:\n\n12:43:04.870 \tINFO \tReceived response from [so]: {\"requestReferences\":{\"requestId\":\"87ca9175-3da3-442e-b952-6954e1514b19\",\"instanceId\":\"be456334-b136-423a-b2dd-cb2908253a6f\",\"requestSelfLink\":\"http://so.onap:8080/orchestrationRequests/v7/87ca9175-3da3-442e-b952-6954e1514b19\"}} \t\n12:43:04.870 \tINFO \tCreation request submitted to SO, got response \t\n12:43:04.871 \tFAIL \tAttributeError: \u0027Response\u0027 object has no attribute \u0027get\u0027 \t\n12:43:04.871 \tDEBUG \tTraceback (most recent call last):\n  File \"/var/opt/ONAP/robot/library/ONAPLibrary/RequestSOKeywords.py\", line 57, in run_create_request\n    req_id \u003d response.get(\u0027requestReferences\u0027, {}).get(\u0027requestId\u0027, \u0027\u0027)\n\nI am using GR api not VNF api",
+      "range": {
+        "startLine": 23,
+        "startChar": 33,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "d72abef4919c3f48dc462fcc7a9815dd9add9068",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
