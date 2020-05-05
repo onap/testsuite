@@ -164,7 +164,7 @@ Run Policy Get Configs Request
 Update vVFWCL Policy
     [Arguments]   ${resource_id}
     Log   Create vFWCL Monitoring Policy
-    Create vFirewall Monitoring Policy
+    Create vFirewall Monitoring Policy    ${resource_id}
     Sleep   5s
     Log   Create vFWCL Operational Policy
     ${op_policy_version}=   Create vFirewall Operational Policy   ${resource_id}
@@ -210,7 +210,8 @@ Validate the vFWCL Policy
     Should Be Equal As Strings         ${resp.status_code}     200
 
 Create vFirewall Monitoring Policy
-     ${dict}=   Create Dictionary
+    [Arguments]   ${resource_id}
+     ${dict}=   Create Dictionary   RESOURCE_ID=${resource_id}
     Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
      ${data}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/vFirewall_policy_monitoring_input_tosca.jinja    ${dict}
      ${resp}=   Run Policy Api Post Request    /policy/api/v1/policytypes/onap.policies.monitoring.cdap.tca.hi.lo.app/versions/1.0.0/policies     ${data}

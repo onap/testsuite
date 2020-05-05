@@ -24,5 +24,5 @@ VFWCL Closed Loop Test
 
 VFWCL Repush Operation Policy
     [TAGS]   repushpolicy
-    Undeploy Policy     operational.modifyconfig
+    Run Keyword And Ignore Error    Undeploy Policy     operational.modifyconfig
     Update vVFWCL Policy     ${MODEL_INVARIANT_ID}
