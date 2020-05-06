@@ -222,15 +222,18 @@ Create vFirewall Operational Policy
     ${dict}=   Create Dictionary   RESOURCE_ID=${resource_id}
     Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
     #${content_data}    OperatingSystem.Get File    ${GLOBAL_TEMPLATE_FOLDER}/${POLICY_TEMPLATES}/vFirewall_policy_operational_content.yaml
-    ${content_data}    OperatingSystem.Get File    ${GLOBAL_ASSETS_FOLDER}/policy/vFirewall_policy_operational_content.yaml
-    ${content_data}=    Replace String Using Regexp   ${content_data}    __RESOURCE_ID__     ${resource_id}
-    ${encoded_content_data}=    Evaluate    urllib.quote_plus('''${content_data}''')   urllib
-    ${content_dictionary}=   Create Dictionary    URL_ENCODED_CONTENT    ${encoded_content_data}
-    ${data_2}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/vFirewall_policy_operational_url_enc_content_input.jinja   ${content_dictionary}
+    #${content_data}    OperatingSystem.Get File    ${GLOBAL_ASSETS_FOLDER}/policy/vFirewall_policy_operational_content.yaml
+    #${content_data}=    Replace String Using Regexp   ${content_data}    __RESOURCE_ID__     ${resource_id}
+    #${encoded_content_data}=    Evaluate    urllib.quote_plus('''${content_data}''')   urllib
+    #${content_dictionary}=   Create Dictionary    URL_ENCODED_CONTENT    ${encoded_content_data}
+    #${content_dictionary}=   Create Dictionary    URL_ENCODED_CONTENT    ${content_data}
+    #${data_2}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/vFirewall_policy_operational_url_enc_content_input.jinja   ${content_dictionary}
+    ${data_2}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/vFirewall_policy_operational_content_input.jinja   ${dict}
     Log    ${data_2}
-    ${resp}=   Run Policy Api Post Request    /policy/api/v1/policytypes/onap.policies.controlloop.Operational/versions/1.0.0/policies    ${data_2}
+    #${resp}=   Run Policy Api Post Request    /policy/api/v1/policytypes/onap.policies.controlloop.Operational/versions/1.0.0/policies    ${data_2}
+    ${resp}=   Run Policy Api Post Request    /policy/api/v1/policytypes/onap.policies.controlloop.operational.common.Drools/versions/1.0.0/policies    ${data_2}
     Should Be Equal As Strings         ${resp.status_code}     200
-    [Return]    ${resp.json()['policy-version']}
+    [Return]    ${resp.json()['version']}
 
 Push vFirewall Policies To PDP Group
     [Arguments]    ${op_policy_version}

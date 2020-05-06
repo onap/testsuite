@@ -1,0 +1,51 @@
+{
+    "tosca_definitions_version": "tosca_simple_yaml_1_1_0",
+    "topology_template": {
+        "policies": [
+            {
+                "operational.modifyconfig": {
+                    "type": "onap.policies.controlloop.operational.common.Drools",
+                    "type_version": "1.0.0",
+                    "version": "1.0.0",
+                    "metadata": {
+                        "policy-id": "operational.modifyconfig"
+                    },
+                    "properties": {
+                        "id": "ControlLoop-vFirewall-{{RESOURCE_ID}}",
+                        "timeout": 1200,
+                        "abatement": false,
+                        "trigger": "unique-policy-id-1-modifyConfig",
+                        "operations": [
+                            {
+                                "id": "unique-policy-id-1-modifyConfig",
+                                "description": "Modify the packet generator",
+                                "operation": {
+                                    "actor": "APPC",
+                                    "operation": "ModifyConfig",
+                                    "target": {
+                                        "targetType": "VNF",
+                                        "entityIds": {
+                                            "resourceID": "{{RESOURCE_ID}}"
+                                        }
+                                    },
+                                    "payload": {
+					"streams": "{\"active-streams\": 5 }"
+                                     }
+                                },
+                                "timeout": 300,
+                                "retries": 0,
+                                "success": "final_success",
+                                "failure": "final_failure",
+                                "failure_timeout": "final_failure_timeout",
+                                "failure_retries": "final_failure_retries",
+                                "failure_exception": "final_failure_exception",
+                                "failure_guard": "final_failure_guard"
+                            }
+                        ],
+                        "controllerName": "frankfurt"
+                    }
+                }
+            }
+        ]
+    }
+}
