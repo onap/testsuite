@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf186b59_abf080d3",
+        "filename": "robot/assets/templates/policy/vFirewall_policy_operational_content_input.jinja",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-05-06T23:06:11Z",
+      "side": 1,
+      "message": "tabs for this line vs. rest of file space indented",
+      "revId": "00715e96f7e3ac3381b5dc2ce34fb9a4e84c7a5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
