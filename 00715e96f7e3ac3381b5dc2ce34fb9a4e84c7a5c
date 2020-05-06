@@ -16,6 +16,23 @@
       "revId": "00715e96f7e3ac3381b5dc2ce34fb9a4e84c7a5c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f08a8c24_f32390d5",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-05-06T23:45:08Z",
+      "side": 1,
+      "message": "its kind of hard to follow whats changed with all the comments",
+      "revId": "00715e96f7e3ac3381b5dc2ce34fb9a4e84c7a5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
