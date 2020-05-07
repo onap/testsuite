@@ -22,33 +22,60 @@ ${VNFSDK_CSAR_DIRECTORY}   ${VNFSDK_TOSCA_ONBOARDING_PACKAGES_DIRECTORY}/temp
 *** Keywords ***
 
 Validate Onboarding Package
-    [Arguments]   ${package_folder}   ${scenario}=onap-vtp  ${test_suite_name}=validation  ${test_case_name}=csar-validate  ${pnf}=TRUE  ${secured_package}=FALSE  ${negative_test_case}=TRUE  ${failed_vnfreqNames}=@{empty_list}  ${sdc_response}=@{empty_list}  ${secure_type}=CMS  ${sdc_cert}=sdc-valid
+    [Arguments]   ${package_folder}   ${scenario}=onap-dublin  ${test_suite_name}=validation  ${test_case_name}=csar-validate  ${pnf}=TRUE  ${integrity_check}=FALSE  ${secured_package}=FALSE  ${negative_test_case}=TRUE  ${failed_vnfreqNames}=@{empty_list}  ${sdc_response}=@{empty_list}  ${secure_type}=CMS  ${sdc_cert}=sdc-valid
+    Disable Warnings
     Create Directory   ${VNFSDK_CSAR_DIRECTORY}
-    ${onboarding_package_path}=   Run Keyword If  "${secured_package}"=='FALSE'   Create CSAR Package  ${package_folder}
-                    ...  ELSE  Create Secured CSAR ZIP Package   ${package_folder}  ${secure_type}  ${sdc_cert}
+    ${onboarding_package_path}=   Run Keyword If  "${secured_package}"=='FALSE'   Create CSAR Package  ${package_folder}  ${integrity_check}  ${sdc_cert}
+                    ...  ELSE  Create Secured CSAR Package   ${package_folder}  ${integrity_check}  ${secure_type}  ${sdc_cert}
+    Validate Onboarding Package In SDC  ${onboarding_package_path}  ${package_folder}   ${sdc_cert}  ${negative_test_case}  ${sdc_response}  ${sdc_cert}
     Run Keyword If  "${negative_test_case}"=='FALSE'   Validate Valid Onboarding Package  ${package_folder}  ${onboarding_package_path}  ${scenario}  ${test_suite_name}  ${test_case_name}  ${pnf}  ${secured_package}
     ...  ELSE  Validate Not Valid Onboarding Package  ${package_folder}  ${onboarding_package_path}  ${scenario}  ${test_suite_name}  ${test_case_name}  ${pnf}  ${failed_vnfreqNames}  ${secured_package}
-    Validate Onboarding Package In SDC  ${onboarding_package_path}  ${package_folder}   ${sdc_cert}  ${negative_test_case}  ${sdc_response}  ${sdc_cert}
-
 
 Create CSAR Package
+    [Arguments]  ${package_folder}   ${integrity_check}  ${cert}
+    ${csar} =   Run Keyword If   "${integrity_check}"=='FALSE'  Create CSAR Package without integrity check  ${package_folder}
+    ...  ELSE  Create CSAR Package with integrity check   ${package_folder}  ${integrity_check}  ${cert}
+    [Return]  ${csar}
+
+Create CSAR Package without integrity check
     [Arguments]  ${package_folder}
     Empty Directory  ${VNFSDK_CSAR_DIRECTORY}
     ${csar}=    Catenate    ${VNFSDK_CSAR_DIRECTORY}/${package_folder}.csar
     Copy File   ${GLOBAL_TOSCA_ONBOARDING_PACKAGES_FOLDER}/vnfsdk/${package_folder}.csar  ${csar}
     [Return]  ${csar}
 
-Create Secured CSAR ZIP Package
-    [Arguments]  ${package_folder}  ${secure_type}  ${sdc_cert}
-    ${zip}=  Run Keyword If   "${secure_type}"=='CMS'  Create Secured CSAR ZIP Package with CMS   ${package_folder}  ${sdc_cert}
-                    ...  ELSE  Create Secured CSAR ZIP Package with CMS and CERT    ${package_folder}  ${sdc_cert}
+Create CSAR Package with integrity check
+    [Arguments]  ${package_folder}  ${integrity_check}  ${cert}
+    Empty Directory  ${VNFSDK_CSAR_DIRECTORY}
+    ${csar}=    Catenate    ${VNFSDK_CSAR_DIRECTORY}/${package_folder}.csar
+    Copy Directory   ${GLOBAL_TOSCA_ONBOARDING_PACKAGES_FOLDER}/vnfsdk/${package_folder}  ${VNFSDK_CSAR_DIRECTORY}
+    ${meta}=  OperatingSystem.Get File   ${VNFSDK_CSAR_DIRECTORY}/${package_folder}/TOSCA-Metadata/TOSCA.meta
+    ${cert_name}=  Get Regexp Matches  ${meta}  (?<=\ETSI-Entry-Certificate: )(.*)
+    Copy File  /tmp/package-robot-${cert}.cert   ${VNFSDK_CSAR_DIRECTORY}/${package_folder}/${cert_name}[0]
+    ${files} = 	List Files In Directory 	 ${VNFSDK_CSAR_DIRECTORY}/${package_folder} 	*.mf  absolute
+    Sign csar manifest file   ${integrity_check}  ${cert}  ${files}[0]
+    ${rc} =     Run and Return RC   cd ${VNFSDK_CSAR_DIRECTORY}/${package_folder}; zip -r ${csar} *
+    Should Be Equal As Integers         ${rc}    0
+    Remove Directory 	${VNFSDK_CSAR_DIRECTORY}/${package_folder}	recursive=True
+    [Return]  ${csar}
+
+Sign csar manifest file
+    [Arguments]  ${integrity_check}  ${cert}  ${manifest}
+     ${rc} =   Run Keyword If  "${integrity_check}"=='CMS_with_cert'   Run and Return RC   openssl cms -sign -signer /tmp/package-robot-${cert}.cert -inkey /tmp/package-private-robot-${cert}.key -outform PEM -binary -in ${manifest} >> ${manifest}
+     ...  ELSE   Run and Return RC   openssl cms -sign -signer /tmp/package-robot-${cert}.cert -inkey /tmp/package-private-robot-${cert}.key -outform PEM -binary -nocerts -in ${manifest} >> ${manifest}
+     Should Be Equal As Integers         ${rc}    0
+
+Create Secured CSAR Package
+    [Arguments]  ${package_folder}  ${integrity_check}  ${secure_type}  ${sdc_cert}
+    ${zip}=  Run Keyword If   "${secure_type}"=='CMS'  Create Secured CSAR ZIP Package with CMS   ${package_folder}  ${integrity_check}  ${sdc_cert}
+                    ...  ELSE  Create Secured CSAR ZIP Package with CMS and CERT    ${package_folder}  ${integrity_check}  ${sdc_cert}
     [Return]  ${zip}
 
 Create Secured CSAR ZIP Package with CMS
-    [Arguments]   ${package_folder}  ${cert}
+    [Arguments]   ${package_folder}  ${integrity_check}  ${cert}
     ${zip}=   Catenate   ${VNFSDK_CSAR_DIRECTORY}/${package_folder}.zip
     ${cms}=   Catenate   ${VNFSDK_CSAR_DIRECTORY}/${package_folder}.cms
-    ${csar}=  Create CSAR Package   ${package_folder}
+    ${csar}=  Create CSAR Package   ${package_folder}  ${integrity_check}  ${cert}
     ${rc} =     Run and Return RC   openssl cms -sign -signer /tmp/package-robot-${cert}.cert -inkey /tmp/package-private-robot-${cert}.key -outform PEM -binary -in ${csar} -out ${cms}
     Should Be Equal As Integers         ${rc}    0
     ${rc} =     Run and Return RC   cd ${VNFSDK_CSAR_DIRECTORY}; zip -r ${zip} *
@@ -56,10 +83,10 @@ Create Secured CSAR ZIP Package with CMS
     [Return]  ${zip}
 
 Create Secured CSAR ZIP Package with CMS and CERT
-    [Arguments]   ${package_folder}  ${cert}
+    [Arguments]   ${package_folder}  ${integrity_check}  ${cert}
     ${zip}=   Catenate   ${VNFSDK_CSAR_DIRECTORY}/${package_folder}.zip
     ${cms}=   Catenate   ${VNFSDK_CSAR_DIRECTORY}/${package_folder}.cms
-    ${csar}=  Create CSAR Package   ${package_folder}
+    ${csar}=  Create CSAR Package   ${package_folder}  ${integrity_check}  ${cert}
     Copy File  /tmp/package-robot-${cert}.cert   ${VNFSDK_CSAR_DIRECTORY}/${package_folder}.cert
     ${rc} =     Run and Return RC   openssl cms -sign -signer /tmp/package-robot-${cert}.cert -inkey /tmp/package-private-robot-${cert}.key -outform PEM -binary -nocerts -in ${csar} -out ${cms}
     Should Be Equal As Integers         ${rc}    0
