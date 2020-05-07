@@ -24,7 +24,7 @@ Run VNFSDK Get Request
 
 Run VNFSDK Post Request
      [Documentation]    Runs VNFSDK Get request
-     [Arguments]    ${data_path}     ${files}   ${headers}
+     [Arguments]    ${data_path}     ${files}
      ${session}=    Create Session    vnfsdk    ${VNFSDK_ENDPOINT}
      ${resp}=     Post Request     vnfsdk     ${data_path}   files=${files}
      Log    Received response from VNFSDK ${resp}
