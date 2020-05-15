@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57936e53_74d2e815",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2020-05-15T12:47:29Z",
+      "side": 1,
+      "message": "Not related but I did see this timing out on my env",
+      "range": {
+        "startLine": 74,
+        "startChar": 40,
+        "endLine": 74,
+        "endChar": 48
+      },
+      "revId": "556a2a0b4626e0abe05f1981442d51341ebfefbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
