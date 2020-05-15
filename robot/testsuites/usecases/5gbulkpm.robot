@@ -11,9 +11,9 @@ Library           JSONLibrary
 Library           Process
 Library           ONAPLibrary.JSON
 Library           ONAPLibrary.Utilities
-Resource          ../resources/usecases/5gbulkpm_interface.robot
-Resource          ../resources/mr_interface.robot
-Resource          ../resources/dr_interface.robot
+Resource          ../../resources/usecases/5gbulkpm_interface.robot
+Resource          ../../resources/mr_interface.robot
+Resource          ../../resources/dr_interface.robot
 Suite Teardown    Usecase Teardown
 
 *** Variables ***
@@ -71,7 +71,7 @@ Deploying 3GPP PM Mapper
     ${resp}=                            Put Request                        deployment-pmmapper                 /${DEPLOYMENT_ENDPOINT}/pmmapper         data=${deployment_data}     headers=${headers}
     ${operationLink}                    Set Variable                       ${resp.json().get('links').get('status')}
     ${operationId}                      Fetch From Right                   ${operationLink}                /
-    Wait Until Keyword Succeeds         3 minute                           10 sec            Deployment Status       ${DEPLOYMENT_SERVER}     ${DEPLOYMENT_ENDPOINT}     pmmapper     ${operationId}
+    Wait Until Keyword Succeeds         6 minute                           10 sec            Deployment Status       ${DEPLOYMENT_SERVER}     ${DEPLOYMENT_ENDPOINT}     pmmapper     ${operationId}
 
 Deploying SFTP Server As xNF
     [Tags]                              5gbulkpm
