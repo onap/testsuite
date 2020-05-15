@@ -11,9 +11,9 @@ Library           JSONLibrary
 Library           Process
 Library           ONAPLibrary.JSON
 Library           ONAPLibrary.Utilities
-Resource          ../resources/usecases/5gbulkpm_interface.robot
-Resource          ../resources/mr_interface.robot
-Resource          ../resources/dr_interface.robot
+Resource          ../../resources/usecases/5gbulkpm_interface.robot
+Resource          ../../resources/mr_interface.robot
+Resource          ../../resources/dr_interface.robot
 Suite Teardown    Usecase Teardown
 
 *** Variables ***
