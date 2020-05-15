@@ -5,7 +5,7 @@
 # Copy the stuff to HV-VES and Robot pods.
 #
 NAMESPACE=${NAMESPACE:-onap}
-DIR=${DIR:"/tmp"}
+DIR=${DIR:-/tmp}
 
 HVVESPOD=$(kubectl -n $NAMESPACE get pods --no-headers=true -o custom-columns=:metadata.name | grep hv-ves)
 
@@ -60,4 +60,3 @@ generate_client_key_csr "$DIR"
 sign_server_and_client_cert "$DIR"
 create_pkcs12_ca_and_server "$DIR"
 copy_server_certs_to_hvves "$DIR" "$NAMESPACE" "$HVVESPOD" "$DIR"
-cleanup "$DIR"

@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation   HV-VES 'Sunny Scenario' Robot Framework test - message is sent to the collector and Kafka topic is checked if the message has been published. Content is decoded and checked.
 Default Tags    hvves   ete
-Test Timeout    1m
+Test Timeout    5m
 Resource    ../resources/global_properties.robot
 Resource    ../resources/dcae/hvves.robot
 Library    OperatingSystem
@@ -13,7 +13,7 @@ ${HVVES_KAFKA_TOPIC_SSL}    HV_VES_PERF3GPP_SSL
 
 *** Test Cases ***
 HV-VES SSL test case
-    [Setup] Run Process /app/setup-hvves.sh  shell=yes   --option  argument
+    [Setup]    Run Process    /app/setup-hvves.sh    shell=yes
     Mode    ${HVVES_CONFIG_SSL}
     Send Message Over Ssl    ${GLOBAL_DCAE_HVVES_SERVER_NAME}    ${GLOBAL_DCAE_HVVES_SERVER_PORT}
     Wait Until Keyword Succeeds    10s    2s    Check If Topic Exists    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_NAME}    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_PORT}    ${HVVES_KAFKA_TOPIC_SSL}
