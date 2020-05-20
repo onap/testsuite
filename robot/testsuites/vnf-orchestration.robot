@@ -12,13 +12,12 @@ ${API_TYPE}   VNF_API
 
 *** Test Cases ***              CUSTOMER           SERVICE   PRODUCT_FAMILY
 Instantiate Virtual DNS             ETE_Customer    vLB      vLB
-    [Tags]    instantiate  stability72hr   stability72hrvLB
+    [Tags]    instantiateVNFAPI
 Instantiate Virtual Volume Group    ETE_Customer    vVG      vVG
-    [Tags]    instantiate  stability72hr   stability72hrvVG
+    [Tags]    instantiateVNFAPI
 Instantiate Virtual FirewallCL      ETE_Customer    vFWCL      vFWCL
-    [Tags]    instantiate  stability72hr   stability72hrvFWCL
+    [Tags]    instantiateVNFAPI
 Instantiate Virtual DNS No Delete             ETE_Customer    vLB      vLB          KEEP
-    [Tags]    instantiateNoDelete
+    [Tags]    instantiateNoDeleteVNFAPI
 Instantiate Virtual FirewallCL No Delete      ETE_Customer    vFWCL      vFWCL         KEEP
-    [Tags]    instantiateNoDelete
-Instantiate Virtual Firewall        ETE_Customer    vFW      vFW
+    [Tags]    instantiateNoDeleteVNFAPI

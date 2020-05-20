@@ -245,7 +245,7 @@ Create Allotted Resource Data File
 
 Download CSAR
    [Documentation]   Download CSAR
-   [Arguments]    ${catalog_service_id}    ${save_directory}=/share/csar
+   [Arguments]    ${catalog_service_id}    ${save_directory}=/share/logs/csars
    Return From Keyword If     '${catalog_service_id}'=='None'
    # get meta data
    ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_CATALOG_SERVICES_PATH}/${catalog_service_id}/filteredDataByParams?include=toscaArtifacts    ${SDC_DESIGNER_USER_ID}        auth=${GLOBAL_SDC_AUTHENTICATION}
