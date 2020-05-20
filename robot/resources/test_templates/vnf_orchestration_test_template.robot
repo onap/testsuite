@@ -90,7 +90,8 @@ Orchestrate Demo VNF
     ...                      '${service}'=='vFW'       demoVFW
     ...                      '${service}'=='vLB'       demoVLB
     ${lcp_region}=   Get Openstack Region
-    ${uuid}=    Generate UUID4
+    ${full_uuid}=    Generate UUID4
+    ${uuid}=     Evaluate    str("${full_uuid}")[:8]
     ${full_customer_name}=    Catenate    ${customer_name}_${uuid}
     ${list}=    Create List
     ${vf_module_name_list}=    Create List
@@ -100,7 +101,8 @@ Orchestrate Demo VNF
     ${server_id}=     Run Keyword If   '${service}' == 'vVG'    Create VVG Server    ${uuid}
     Create Customer For VNF    ${full_customer_name}    ${full_customer_name}    INFRA    ${service_type}    ${GLOBAL_AAI_CLOUD_OWNER}    ${tenant_id}
     Setup Browser
-    Login To VID GUI
+    Run Keyword If   "${API_TYPE}"=="GRA_API"    Login To VID GUI    gr_api
+    ...   ELSE   Login To VID GUI
     ${service_instance_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID Service Instance    ${full_customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}
     Wait Until Keyword Succeeds    120s    15s    Validate Service Instance    ${service_instance_id}    ${service}      ${full_customer_name}
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
@@ -154,6 +156,8 @@ Get Catalog Resource
     \    ${cr}=   Get From Dictionary    ${resources}    ${key}
     \    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat1']['artifactDisplayName']}'    ${cr}
     \    Run Keyword If    'heat2' in ${cr['allArtifacts']}    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat2']['artifactDisplayName']}'    ${cr}
+    \    Run Keyword If    'heat3' in ${cr['allArtifacts']}    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat3']['artifactDisplayName']}'    ${cr}
+    \    Run Keyword If    'heat4' in ${cr['allArtifacts']}    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat4']['artifactDisplayName']}'    ${cr}
     Fail    Unable to find catalog resource for ${vnf} ${base_name}
 
 Get Name Pattern
