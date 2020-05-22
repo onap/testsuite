@@ -13,7 +13,7 @@ Default Tags      vnfsdk
 @{no_pnfd_release_date_time_error}       r57019  r130206
 @{non_mano_artifact_sets_is_mandatory}   r146092  r130206
 @{noETSI-Entry-ManifestOrETSI-Entry-Change-Log}  r293901  r130206
-@{PNFD_missing}  SOL004  r10087  r87234  r35854  r15837  r17852  r293901  r146092  r57019  r787965  r130206
+@{PNFD_missing}  SOL004  r10087  r87234  r35854  r15837  r17852  r293901  r146092  r57019  r787965  r130206  r972082
 @{missing_entry_in_manifest}
 @{allMandatoryEntriesDefinedInTOSCAMeta_sdc_message}  Following entry not supported in TOSCA.meta Entry-Tests  Manifest contains invalid line: 7: #The manifest file shall include a list of all files contained in or referenced from the VNF package with their location
 @{no_pnfd_release_date_time_error_sdc_message}   Following entry not supported in TOSCA.meta Entry-Tests  Invalid Manifest metadata entry: '#The manifest file shall include a list of all files contained in or referenced from the VNF package with their location'.;\nAt line 6: '#The manifest file shall include a list of all files contained in or referenced from the VNF package with their location'.
@@ -30,6 +30,8 @@ Validate Onboarding allMandatoryEntriesDefinedInTOSCAMeta
      ...  This test case creates TOSCA csar software package for PNF, based on /var/opt/ONAP/demo/tosca/vnfsdk/allMandatoryEntriesDefinedInTOSCAMeta
      ...  Imports it as csar VSP package to SDC and comapres with list of expected errors.
      ...  Runs VNFSDK validation and comapres with list of expected errors.
+     ...  Expected failed requirements from VNFSDK  @{allMandatoryEntriesDefinedInTOSCAMeta}
+     ...  Expected errors from SDC Onboarding  @{allMandatoryEntriesDefinedInTOSCAMeta_sdc_message}
      allMandatoryEntriesDefinedInTOSCAMeta   failed_vnfreqNames=@{allMandatoryEntriesDefinedInTOSCAMeta}  sdc_response=@{allMandatoryEntriesDefinedInTOSCAMeta_sdc_message}
 
 Validate Onboarding non_mano_artifact_sets_is_mandatory
@@ -37,6 +39,8 @@ Validate Onboarding non_mano_artifact_sets_is_mandatory
      ...  This test case creates TOSCA csar software package for PNF, based on /var/opt/ONAP/demo/tosca/vnfsdk/non_mano_artifact_sets_is_mandatory
      ...  Imports it as csar VSP package to SDC and comapres with list of expected errors.
      ...  Runs VNFSDK validation and comapres with list of expected errors.
+     ...  Expected failed requirements from VNFSDK  @{non_mano_artifact_sets_is_mandatory}
+     ...  Expected errors from SDC Onboarding  @{non_mano_artifact_sets_is_mandatory_sdc_message}
      non_mano_artifact_sets_is_mandatory   failed_vnfreqNames=@{non_mano_artifact_sets_is_mandatory}  sdc_response=@{non_mano_artifact_sets_is_mandatory_sdc_message}
 
 Validate Onboarding no_pnfd_release_date_time_error
@@ -44,6 +48,8 @@ Validate Onboarding no_pnfd_release_date_time_error
      ...  This test case creates TOSCA csar software package for PNF, based on /var/opt/ONAP/demo/tosca/vnfsdk/no_pnfd_release_date_time_error
      ...  Imports it as csar VSP package to SDC and comapres with list of expected errors.
      ...  Runs VNFSDK validation and comapres with list of expected errors.
+     ...  Expected failed requirements from VNFSDK  @{no_pnfd_release_date_time_error}
+     ...  Expected errors from SDC Onboarding  @{no_pnfd_release_date_time_error_sdc_message}
      no_pnfd_release_date_time_error   failed_vnfreqNames=@{no_pnfd_release_date_time_error}  sdc_response=@{no_pnfd_release_date_time_error_sdc_message}
 
 Validate Onboarding noETSI-Entry-ManifestOrETSI-Entry-Change-Log
@@ -51,6 +57,8 @@ Validate Onboarding noETSI-Entry-ManifestOrETSI-Entry-Change-Log
      ...  This test case creates TOSCA csar software package for PNF, based on /var/opt/ONAP/demo/tosca/vnfsdk/noETSI-Entry-ManifestOrETSI-Entry-Change-Log
      ...  Imports it as csar VSP package to SDC and comapres with list of expected errors.
      ...  Runs VNFSDK validation and comapres with list of expected errors.
+     ...  Expected failed requirements from VNFSDK  @{noETSI-Entry-ManifestOrETSI-Entry-Change-Log}
+     ...  Expected errors from SDC Onboarding  @{noETSI-Entry-ManifestOrETSI-Entry-Change-Log_sdc_message}
      noETSI-Entry-ManifestOrETSI-Entry-Change-Log   failed_vnfreqNames=@{noETSI-Entry-ManifestOrETSI-Entry-Change-Log}  sdc_response=@{noETSI-Entry-ManifestOrETSI-Entry-Change-Log_sdc_message}
 
 Validate Onboarding PNFD_missing
@@ -58,6 +66,8 @@ Validate Onboarding PNFD_missing
      ...  This test case creates TOSCA csar software package for PNF, based on /var/opt/ONAP/demo/tosca/vnfsdk/PNFD_missing
      ...  Imports it as csar VSP package to SDC and comapres with list of expected errors.
      ...  Runs VNFSDK validation and comapres with list of expected errors.
+     ...  Expected failed requirements from VNFSDK  @{PNFD_missing}
+     ...  Expected errors from SDC Onboarding  @{PNFD_missing_sdc_message}
      PNFD_missing   failed_vnfreqNames=@{PNFD_missing}  sdc_response=@{PNFD_missing_sdc_message}
 
 Validate Onboarding test_SDC_and_VNFSDK_API, integrity_check CMS_with_cert
@@ -73,13 +83,6 @@ Validate Onboarding test_SDC_and_VNFSDK_API, integrity_check CMS_without_cert
      ...  Imports it as csar VSP package to SDC and expects success.
      ...  Runs VNFSDK validation and and expects success.
      test_SDC_and_VNFSDK_API_with_hash   negative_test_case=FALSE   integrity_check=CMS_without_cert
-
-Validate Onboarding package with missing entry in manifest, integrity_check CMS_with_cert
-     [Documentation]
-     ...  This test case creates TOSCA csar software package for PNF, based on /var/opt/ONAP/demo/tosca/vnfsdk/test_SDC_and_VNFSDK_API
-     ...  Imports it as csar VSP package to SDC and expects success.
-     ...  Runs VNFSDK validation and and expects success.
-     test_SDC_and_VNFSDK_API_missing_entry_in_manifest   negative_test_case=TRUE   failed_vnfreqNames=@{missing_entry_in_manifest}  sdc_response=@{missing_entry_in_manifest_sdc_message}  integrity_check=CMS_with_cert
 
 Validate Onboarding test_SDC_and_VNFSDK_API, secured csar - CMS only - sdc valid certificate, integrity_check CMS_without_cert
      [Documentation]

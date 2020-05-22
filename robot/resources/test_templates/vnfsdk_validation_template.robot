@@ -134,6 +134,8 @@ Validate Not Valid Onboarding Package
     \    ${req_status}=  Get From Dictionary   ${status_req}     passed
     \    Run Keyword If  "${req_status}"=='False'  Add Failed Requirement To List  ${status_req}   ${failed_req_from_test_run}  vnfreqName
     Log  ${failed_req_from_test_run}
+    Sort List  ${failed_req_from_test_run}
+    Sort List  ${failed_req_list}
     Lists Should Be Equal   ${failed_req_from_test_run}    ${failed_req_list}
 
 Add Failed Requirement To List
@@ -150,7 +152,10 @@ Get And Comapre Error Responses From SDC API
     \    ${req_status}=  Get From Dictionary   ${message_item}     level
     \    Run Keyword If  "${req_status}"=='ERROR'  Add Failed Requirement To List  ${message_item}   ${failed_req_from_test_run}  message
     Log  ${failed_req_from_test_run}
+    Sort List  ${sdc_response}
+    Sort List  ${failed_req_from_test_run}
     Lists Should Be Equal   ${failed_req_from_test_run}    ${sdc_response}
+
 
 Validate Onboarding Package In SDC
     [Arguments]  ${onboarding_package_path}  ${package_folder}  ${sdc_validation}  ${negative_test_case}  ${sdc_response}  ${sdc_cert}
