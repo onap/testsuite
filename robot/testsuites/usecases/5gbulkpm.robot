@@ -138,4 +138,4 @@ Sending File Ready Event to VES Collector
 
 Verifying 3GPP Perf VES Content On PERFORMANCE_MEASUREMENTS Topic
     [Tags]                              5gbulkpm
-    Wait Until Keyword Succeeds         1 minute                            5 sec            xNF PM File Validate      perf3gpp_RnNode-Ericsson_pmMeasResult
+    Wait Until Keyword Succeeds         5 minute                            5 sec            xNF PM File Validate      perf3gpp_RnNode-Ericsson_pmMeasResult
