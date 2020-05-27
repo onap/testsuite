@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48c89b29_4bc58ac0",
+        "filename": "version.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-05-27T13:10:50Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be 2?",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "85ab0219843461b997ac16e6761b78aec4b62c3c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
