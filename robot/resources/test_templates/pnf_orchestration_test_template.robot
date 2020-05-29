@@ -30,7 +30,7 @@ Orchestrate PNF Macro Flow
     Setup Browser
     Login To VID GUI
     ${service_instance_id}  ${request_id}=   Wait Until Keyword Succeeds    300s   5s    Create VID PNF Service Instance    ${full_customer_name}    ${service_model_type}    ${service}     ${service_name}   ${project_name}   ${owning_entity}  ${product_family}  ${lcp_region}  ${tenant_name}  ${pnf_correlation_id}
-    Wait Until Keyword Succeeds   60s   20s       Validate Service Instance    ${service_instance_id}    ${service}    ${full_customer_name}
+    Wait Until Keyword Succeeds   120s   20s       Validate Service Instance    ${service_instance_id}    ${service}    ${full_customer_name}
     [Return]     ${service_instance_id}  ${request_id}  ${full_customer_name}
 
 Orchestrate PNF Building Block Flow
@@ -72,8 +72,8 @@ Orchestrate PNF Building Block Flow
     Set To Dictionary  ${arguments}  productFamilyId  ${productFamilyId}
     Set To Dictionary  ${arguments}  nf_instance_name  ${pnf_correlation_id}
     ${request_id}  ${service_instance_id}=   Create PNF Service Using GR Api   ${arguments}
-    Wait Until Keyword Succeeds   120s   20s    Validate Service Instance    ${service_instance_id}    ${service}    ${full_customer_name}
-    Wait Until Keyword Succeeds   60s   20s    Check PNF orchestration status in A&AI  ${pnf_correlation_id}  Register
+    Wait Until Keyword Succeeds   180  20s    Validate Service Instance    ${service_instance_id}    ${service}    ${full_customer_name}
+    Wait Until Keyword Succeeds   180  20s    Check PNF orchestration status in A&AI  ${pnf_correlation_id}  Register
     [Return]     ${service_instance_id}  /onap/so/infra/orchestrationRequests/v7/${request_id}  ${full_customer_name}
 
 

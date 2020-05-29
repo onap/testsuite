@@ -5,7 +5,7 @@ Test Timeout      1m
 Resource          ../resources/test_templates/vnfsdk_validation_template.robot
 Library           String
 Test Template     Validate Onboarding Package
-Default Tags      vnfsdk
+Default Tags      vnfsdk  pnf_preonboarding_onboarding
 
 
 *** Variables ***

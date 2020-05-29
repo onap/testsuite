@@ -135,7 +135,7 @@ Instantiate PNF_macro service and succesfully registrate PNF template
     Load OwningEntity  platform  Platform-${customer_name}
     ${service_instance_id}  ${request_id}  ${full_customer_name}   Run Keyword If  "${building_block_flow}"=='false'  Orchestrate PNF Macro Flow   ${customer_name}   ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}  ${region}  Project-${customer_name}   OE-${customer_name}
         ...  ELSE  Orchestrate PNF Building Block Flow   ${catalog_service_name}  ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}   ${region}   project_name=Project-${customer_name}   owning_entity=OE-${customer_name}  lineOfBusinessName=LOB-${customer_name}   platformName=Platform-${customer_name}
-    Wait Until Keyword Succeeds   120s  40s  Send and verify VES integration request in SO and A&AI   ${request_id}   ${PNF_entry_dict}
+    Wait Until Keyword Succeeds   180s  40s  Send and verify VES integration request in SO and A&AI   ${request_id}   ${PNF_entry_dict}
     Run Keyword If  "${building_block_flow}"=='true'  Check PNF orchestration status in A&AI  ${pnf_correlation_id}  Active
     [Teardown]   Instantiate PNF_macro service Teardown      ${catalog_service_id}    ${catalog_resource_ids}  ${PNF_entry_dict}
 

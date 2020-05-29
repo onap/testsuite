@@ -14,6 +14,7 @@ Library           ONAPLibrary.Utilities
 Resource          ../../resources/usecases/5gbulkpm_interface.robot
 Resource          ../../resources/mr_interface.robot
 Resource          ../../resources/dr_interface.robot
+Suite Setup       Send File Ready Event to VES Collector   test
 Suite Teardown    Usecase Teardown
 
 *** Variables ***
@@ -25,6 +26,7 @@ ${DEPLOYMENT_ENDPOINT}              dcae-deployments
 ${MR_TOPIC_CHECK_PATH}              /topics
 ${DR_SUB_CHECK_PATH}                /internal/prov
 ${MR_TOPIC_URL_PATH}                /events/org.onap.dmaap.mr.PERFORMANCE_MEASUREMENTS/CG1/C1
+${MR_TOPIC_URL_PATH_FOR_POST}       /events/org.onap.dmaap.mr.PERFORMANCE_MEASUREMENTS
 ${DMAAP_BC_MR_CLIENT_PATH}          /webapi/mr_clients
 ${DMAAP_BC_MR_CLUSTER_PATH}         /webapi/mr_clusters
 ${PMMAPPER_HEALTH_CHECK_PATH}       /healthcheck
@@ -33,6 +35,8 @@ ${VES_LISTENER_PATH}                /eventListener/v7
 ${PMMAPPER_SUB_ROLE_DATA}           ${EXECDIR}/robot/assets/usecases/5gbulkpm/sub.json
 ${PMMAPPER_MR_CLUSTER_DATA}         ${EXECDIR}/robot/assets/usecases/5gbulkpm/mr_clusters.json
 ${NEXUS3}                           ${GLOBAL_INJECTED_NEXUS_DOCKER_REPO}
+
+
 
 *** Test Cases ***
 
@@ -57,8 +61,8 @@ Deploying 3GPP PM Mapper
     [Tags]                              5gbulkpm
     ${clusterdata}=                     OperatingSystem.Get File           ${PMMAPPER_MR_CLUSTER_DATA}
     ${headers}=                         Create Dictionary                  content-type=application/json
-    ${session}=                         Create Session                     dmaapbc                 ${DMAAP_BC_SERVER}
-    ${resp}=                            Post Request                       dmaapbc                 ${DMAAP_BC_MR_CLUSTER_PATH}          data=${clusterdata}   headers=${headers}
+    ${session}=                         Create Session                     dmaapbc                          ${DMAAP_BC_SERVER}
+    ${resp}=                            Post Request                       dmaapbc                          ${DMAAP_BC_MR_CLUSTER_PATH}          data=${clusterdata}   headers=${headers}
     ${session}=                         Create Session                     pmmapper                 ${INVENTORY_SERVER}
     ${resp}=                            Get Request                        pmmapper                 ${INVENTORY_ENDPOINT}?typeName=k8s-pm-mapper                     headers=${headers}
     ${json}=                            Set Variable                       ${resp.json()}
@@ -97,13 +101,14 @@ Checking PERFORMANCE_MEASUREMENTS Topic In Message Router
     [Tags]                              5gbulkpm
     ${headers}=                         Create Dictionary                  content-type=application/json
     ${subdata}=                         OperatingSystem.Get File           ${PMMAPPER_SUB_ROLE_DATA}
-    ${session}=                         Create Session                     dmaapbc                 ${DMAAP_BC_SERVER}
-    ${resp}=                            Post Request                       dmaapbc                 ${DMAAP_BC_MR_CLIENT_PATH}          data=${subdata}   headers=${headers}
+    ${session}=                         Create Session                     dmaapbc                          ${DMAAP_BC_SERVER}
+    ${resp}=                            Post Request                       dmaapbc                          ${DMAAP_BC_MR_CLIENT_PATH}      data=${subdata}        headers=${headers}
+    Wait Until Keyword Succeeds         5 minute                           5 sec                            Topic Validate                  success
     ${resp}=                            Run MR Get Request                 ${MR_TOPIC_CHECK_PATH}
     Should Be Equal As Strings          ${resp.status_code}                200
     ${topics}=                          Set Variable                       ${resp.json().get('topics')}
     List Should Contain Value           ${topics}                          org.onap.dmaap.mr.PERFORMANCE_MEASUREMENTS
-    ${resp}=                            Run MR Auth Get Request            ${MR_TOPIC_URL_PATH}     ${GLOBAL_DCAE_USERNAME}      ${GLOBAL_DCAE_PASSWORD}
+    ${resp}=                            Run MR Auth Get Request            ${MR_TOPIC_URL_PATH}            ${GLOBAL_DCAE_USERNAME}         ${GLOBAL_DCAE_PASSWORD}
     Should Be Equal As Strings          ${resp.status_code}                200
 
 Upload PM Files to xNF SFTP Server
@@ -126,15 +131,7 @@ DR PM Mapper Subscriber Check
 
 Sending File Ready Event to VES Collector
     [Tags]                              5gbulkpm
-    ${headers}=                         Create Dictionary                   content-type=application/json
-    ${fileready}=                       OperatingSystem.Get File            ${JSON_DATA_FILE}
-    ${auth}=                            Create List                         ${GLOBAL_DCAE_VES_USERNAME}    ${GLOBAL_DCAE_VES_PASSWORD}
-    ${session}=                         Create Session                      ves                         ${VES_HEALTH_CHECK_PATH}      auth=${auth}
-    ${resp}=                            Post Request                        ves                         ${VES_LISTENER_PATH}          data=${fileready}   headers=${headers}
-    Should Be Equal As Strings          ${resp.status_code}                 202
-    ${VES_FILE_READY_NOTIFICATION}      Set Variable                        {"event":{"commonEventHeader":{"version":"4.0.1","vesEventListenerVersion":"7.0.1","domain":"notification","eventName":"Noti_RnNode-Ericsson_FileReady","eventId":"FileReady_1797490e-10ae-4d48-9ea7-3d7d790b25e1","lastEpochMicrosec":8745745764578,"priority":"Normal","reportingEntityName":"otenb5309","sequence":0,"sourceName":"oteNB5309","startEpochMicrosec":8745745764578,"timeZoneOffset":"UTC+05.30"},"notificationFields":{"changeIdentifier":"PM_MEAS_FILES","changeType":"FileReady","notificationFieldsVersion":"2.0","arrayOfNamedHashMap":[{"name":"A${epoch}.xml.gz","hashMap":{"location":"sftp://bulkpm:bulkpm@sftpserver:22/upload/A${epoch}.xml.gz","compression":"gzip","fileFormatType":"org.3GPP.32.435#measCollec","fileFormatVersion":"V10"}}]}}}
-    ${resp}=                            Post Request                        ves                         ${VES_LISTENER_PATH}          data=${VES_FILE_READY_NOTIFICATION}   headers=${headers}
-    Should Be Equal As Strings          ${resp.status_code}                 202
+    Send File Ready Event to VES Collector                       ${epoch}
 
 Verifying 3GPP Perf VES Content On PERFORMANCE_MEASUREMENTS Topic
     [Tags]                              5gbulkpm
