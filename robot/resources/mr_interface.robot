@@ -106,6 +106,19 @@ Run MR Auth Get Request
      Log    Received response from message router ${resp.text}
      [Return]    ${resp}
 
+Run MR Auth Post Request (User And Pass)
+     [Documentation]    Runs MR Authenticated Post Request
+     [Arguments]     ${data_path}     ${username}   ${password}   ${data}
+     ${auth}=            Create List              ${username}      ${password}
+     ${session}=    Create Session      mr      ${MR_ENDPOINT}     auth=${auth}
+     ${uuid}=    Generate UUID4
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}
+     ${resp}=   Post Request     mr      ${data_path}     headers=${headers}   data=${data}
+     ${status_string}=    Convert To String    ${resp.status_code}
+     Should Match Regexp    ${status_string}    ^(204|200)$
+     Log    Received response from message router ${resp.text}
+     [Return]    ${resp}
+
 Run MR Get Request
      [Documentation]    Runs MR Get request
      [Arguments]    ${data_path}
