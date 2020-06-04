@@ -70,7 +70,8 @@ CDS Service Instantiate
     ${customized_time_stamp}=  Remove String  ${time_stamp}  :
     ${cds_instance_name}=   Set Variable   cds_vlb_svc_${customized_time_stamp}
     ${global_parameters}=  Get Globally Injected Parameters
-    ${dict}=   Set To Dictionary  ${global_parameters}  service_instance_name=${cds_instance_name}  owning_entity=OE-Demonstration    homing_solution=none    owning_entity_id=67f2e84c-734d-4e90-a1e4-d2ffa2e75849    subscriber_id=Demonstration  cloud_owner=${GLOBAL_AAI_CLOUD_OWNER}  subscription_service_type=vLB  service_model_name=${cds_service_model}  service_model_uuid=${service_uuid}  service_model_invariantuuid=${service_invariantUUID}  resp=${resp.json()}
+    ${owning_entity_id}=  Get OwningEntity Id  OE-Demonstration
+    ${dict}=   Set To Dictionary  ${global_parameters}  service_instance_name=${cds_instance_name}  owning_entity=OE-Demonstration    homing_solution=none    owning_entity_id=${owning_entity_id}    subscriber_id=Demonstration  cloud_owner=${GLOBAL_AAI_CLOUD_OWNER}  subscription_service_type=vLB  service_model_name=${cds_service_model}  service_model_uuid=${service_uuid}  service_model_invariantuuid=${service_invariantUUID}  resp=${resp.json()}
     Templating.Create Environment    cds    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    cds    ${SO_TEMPLATE_PATH}/cds_service_template.jinja    ${dict}
     Log  ${data}
