@@ -12,7 +12,6 @@ Resource          global_properties.robot
 *** Variables ***
 ${MR_HEALTH_CHECK_PATH}        /topics
 ${MR_PUB_HEALTH_CHECK_PATH}        /events/TEST_TOPIC
-${MR_SUB_HEALTH_CHECK_PATH}        /events/TEST_TOPIC/g1/c4?timeout=5000
 ${MR_CREATE_TOPIC_PATH}        /topics/create
 ${MR_UPDATE_ACL_TOPIC_PATH}        /topics/TEST_TOPIC_ACL/producers
 ${MR_ENDPOINT}     ${GLOBAL_MR_SERVER_PROTOCOL}://${GLOBAL_INJECTED_MR_IP_ADDR}:${GLOBAL_MR_SERVER_PORT}
@@ -29,16 +28,16 @@ Run MR Health Check
 
 Run MR PubSub Health Check
      [Documentation]    Runs MR PubSub Health check
-     #${resp}=    Run MR Get Request    ${MR_SUB_HEALTH_CHECK_PATH}
-     # topic may not be created which is a 400 error
-
+     ${HOSTNAME}=    Get Environment Variable   HOSTNAME      c4
+     ${MR_SUB_HEALTH_CHECK_PATH}=  Set Variable    /events/TEST_TOPIC/g1/${HOSTNAME}?timeout=5000
+     # topic may not be created which is a 400 error so need to POST before GET
      ${resp}=    Run MR Post Request    ${MR_PUB_HEALTH_CHECK_PATH}
      Should Be Equal As Strings         ${resp.status_code}     200
      Should Contain    ${resp.json()}    serverTimeMs    Failed to Write Data
      ${resp}=    Run MR Get Request    ${MR_SUB_HEALTH_CHECK_PATH}
      # Always Write twice to catch lost first message
      ${resp}=    Run MR Post Request    ${MR_PUB_HEALTH_CHECK_PATH}
-     ${resp}=    Run MR Get Request    ${MR_SUB_HEALTH_CHECK_PATH}
+     ${resp}=    Wait Until Keyword Succeeds   60s    10s    Run MR Get Request    ${MR_SUB_HEALTH_CHECK_PATH}
      # ${resp} is an array
      Should Be Equal As Strings         ${resp.status_code}     200
      Should Contain    ${resp.json()[0]}    timestamp    Failed to Read Data
