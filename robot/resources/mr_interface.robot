@@ -38,7 +38,7 @@ Run MR PubSub Health Check
      ${resp}=    Run MR Get Request    ${MR_SUB_HEALTH_CHECK_PATH}
      # Always Write twice to catch lost first message
      ${resp}=    Run MR Post Request    ${MR_PUB_HEALTH_CHECK_PATH}
-     ${resp}=    Run MR Get Request    ${MR_SUB_HEALTH_CHECK_PATH}
+     ${resp}=    Wait Until Keyword Succeeds   60s    10s    Run MR Get Request    ${MR_SUB_HEALTH_CHECK_PATH}
      # ${resp} is an array
      Should Be Equal As Strings         ${resp.status_code}     200
      Should Contain    ${resp.json()[0]}    timestamp    Failed to Read Data
