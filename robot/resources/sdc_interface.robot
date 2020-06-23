@@ -86,10 +86,10 @@ Distribute Model From SDC
 
     :FOR    ${zip}     IN     @{model_zip_path}
     \    ${loop_catalog_resource_id}=    Setup SDC Catalog Resource    ${zip}    ${cds}  ${resourceType}
-    #     zip can be vFW.zip or vFWDT_VFWSNK.zip
+    \    #     zip can be vFW.zip or vFWDT_VFWSNK.zip
     \     ${resource_type_match}=  Run Keyword If  "${resourceType}"=='PNF'   Get Regexp Matches    ${zip}    ${service}_(.*)\.csar    1
-                                  ...  ELSE   Get Regexp Matches    ${zip}   ${service}_(.*)\.zip    1
-    #  Need to be able to distribute preload for vFWCL vFWSNK and vFWDT vFWSNK to prepend service to vnf_type
+  ...  ELSE   Get Regexp Matches    ${zip}   ${service}_(.*)\.zip    1
+    \    #  Need to be able to distribute preload for vFWCL vFWSNK and vFWDT vFWSNK to prepend service to vnf_type
     \    ${resource_type_string}=   Set Variable If   len(${resource_type_match})==0    ${service}    ${service}${resource_type_match[0]}
     \    Set To Dictionary    ${resource_types}    ${resource_type_string}    ${loop_catalog_resource_id}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
@@ -108,7 +108,7 @@ Distribute Model From SDC
     #
     # do this here because the loop_catalog_resource_resp is different format after adding networks
     ${vf_module}=   Run Keyword If  "${resourceType}"=='PNF'  Set Variable   It is PNF
-                    ...  ELSE  Find Element In Array    ${loop_catalog_resource_resp['groups']}    type    org.openecomp.groups.VfModule
+  ...  ELSE  Find Element In Array    ${loop_catalog_resource_resp['groups']}    type    org.openecomp.groups.VfModule
     #
     #  do network
     ${networklist}=    ServiceMapping.Get Service Neutron Mapping    default    ${service}
@@ -193,14 +193,14 @@ Distribute vCPEResCust Model From SDC
     \    ${loop_catalog_resource_id}=    Add SDC Allotted Resource Catalog Resource     00000    ${allottedresource}_${random}    ONAP     ${loop_catalog_resource_id}   ${allottedresource}
     \    ${loop_catalog_resource_id2}=   Add SDC Resource Instance To Resource     ${loop_catalog_resource_id}    ${allottedresource_uuid}    ${allottedresource}    ${xoffset}      ${0}
     \    ${loop_catalog_resource_resp}=    Get SDC Catalog Resource    ${loop_catalog_resource_id}
-    #
-    #   Set the properties to relate to the brg and gmux
-    #
+    \    #
+    \    #   Set the properties to relate to the brg and gmux
+    \    #
     \    Run Keyword If   '${allottedresource}'=='TunnelXConn'    Setup SDC Catalog Resource AllottedResource Properties      ${catalog_service_id}    ${allottedresource}   ${loop_catalog_resource_id}   ${tunnelxconn_dict['invariantUUID']}   ${tunnelxconn_dict['UUID']}   ${tunnelxconn_dict['node_type']}
     \    Run Keyword If   '${allottedresource}'=='BRG'   Setup SDC Catalog Resource AllottedResource Properties      ${catalog_service_id}    ${allottedresource}   ${loop_catalog_resource_id}   ${brg_dict['invariantUUID']}   ${brg_dict['UUID']}   ${brg_dict['node_type']}
-    #
-    #    Set the nf_role nf_type
-    #
+    \    #
+    \    #    Set the nf_role nf_type
+    \    #
     \    Run Keyword If   '${allottedresource}'=='TunnelXConn'    Setup SDC Catalog Resource AllottedResource Inputs  ${catalog_service_id}    ${allottedresource}   ${loop_catalog_resource_id}
     \    Run Keyword If   '${allottedresource}'=='BRG'    Setup SDC Catalog Resource AllottedResource Inputs  ${catalog_service_id}    ${allottedresource}   ${loop_catalog_resource_id}
     \    ${loop_catalog_resource_id}    ${loop_catalog_resource_uuid}    Wait Until Keyword Succeeds    60s   10s  Certify SDC Catalog Resource    ${loop_catalog_resource_id}  ${SDC_DESIGNER_USER_ID}
@@ -302,7 +302,7 @@ Setup SDC Catalog Resource
     Submit SDC License Model    ${license_model_id}   ${license_model_version_id}
     ${license_model_resp}=    Get SDC License Model    ${license_model_id}   ${license_model_version_id}
     ${matches}=   Run Keyword If   '${resourceType}'=='PNF'   Get Regexp Matches  ${model_zip_path}  temp/(.*)\.csar  1
-                  ...  ELSE   Get Regexp Matches  ${model_zip_path}  temp/(.*)\.zip  1
+  ...  ELSE   Get Regexp Matches  ${model_zip_path}  temp/(.*)\.zip  1
     ${software_product_name_prefix}=    Set Variable   ${matches[0]}
     ${software_product_id}   ${software_product_version_id}=    Add SDC Software Product    ${license_agreement_id}    ${feature_group_id}    ${license_model_resp['vendorName']}    ${license_model_id}    ${license_model_version_id}    ${software_product_name_prefix}
     Upload SDC Heat Package    ${software_product_id}    ${model_zip_path}   ${software_product_version_id}
@@ -389,7 +389,7 @@ Setup SDC Catalog Resource AllottedResource Properties
     \    Run Keyword If   '${name}'=='providing_service_invariant_uuid'   Set To Dictionary    ${dict}    providing_service_invariant_uuid=${invariantUUID}
     \    Run Keyword If   '${name}'=='providing_service_uuid'   Set To Dictionary    ${dict}    providing_service_uuid=${UUID}
     \    Run Keyword If   '${name}'=='providing_service_name'   Set To Dictionary    ${dict}    providing_service_name=${node_type}
-    #    Sets it for each loop but should be one
+    \    #    Sets it for each loop but should be one
     \    ${uniqueId}    Set Variable     ${comp['uniqueId']}
     \    ${uniqueId}   Fetch From Left   ${uniqueId}   .
     \    Set To Dictionary    ${dict}    uniqueId=${uniqueId}
@@ -746,9 +746,7 @@ Get VNF From Group Name
     [Documentation]   Looks up VNF key from service mapping for a regex on group_name and service_name
     [Arguments]   ${group_name}    ${service_name}
     ${vnf}=   Set Variable If
-    ...                      ('${service_name}'=='demoVFWCL') and ('base_vfw' in '${group_name}')   vFWCLvFWSNK
-    ...                      ('${service_name}'=='demoVFWCL') and ('base_vpkg' in '${group_name}')   vFWCLvPKG
-    ...                      ('${service_name}'=='demoVLB') and ('base_vlb' in '${group_name}')   vLB
+                      ...                      ('${service_name}'=='demoVFWCL') and ('base_vfw' in '${group_name}')   vFWCLvFWSNK                      ('${service_name}'=='demoVFWCL') and ('base_vpkg' in '${group_name}')   vFWCLvPKG                      ('${service_name}'=='demoVLB') and ('base_vlb' in '${group_name}')   vLB
     [Return]   ${vnf}
 
 Checkin SDC Catalog Resource
@@ -948,7 +946,7 @@ Add CDS Parameters
         ...  ELSE IF  '${input['name']}' == "sdnc_model_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  vLB_CDS
         ...  ELSE IF  '${input['name']}' == "sdnc_model_version"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  1.0.0
         ...  ELSE IF  '${input['name']}' == "skip_post_instantiation_configuration"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  boolean  ${skip_post_instatiation}
-
+        ...  ELSE IF  '${input['name']}' == "controller_actor"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  CDS
 
 Set Input Parameter
     [Arguments]   ${service_uuid}  ${component_uuid}  ${input}  ${input_type}  ${input_value}

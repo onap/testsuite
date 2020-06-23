@@ -50,6 +50,15 @@
                            "instanceName":"{{resp['serviceVnfs'][0]['modelInfo']['modelInstanceName']}}",
                            "instanceParams":[  
                               {  
+                                 "dcae_collector_ip":"{{dcae_collector_ip}}",
+                                 "dcae_collector_port":"{{dcae_collector_port}}",
+                                 "vlb_0_int_pktgen_private_port_0_mac":"{{vlb_0_int_pktgen_private_port_0_mac}}",
+                                 "vpg_0_int_pktgen_private_port_0_mac":"{{vpg_0_int_pktgen_private_port_0_mac}}",
+                                 "key_name":"olc-key",
+								 "nb_api_version":"1.2.0",
+								 "nexus_artifact_repo":"https://nexus.onap.org",
+								 "repo_url_artifacts":"https://nexus.onap.org/content/groups/staging",
+					             "repo_url_blob":"https://nexus.onap.org/content/repositories/raw",              
                                  "onap_private_net_id":"{{GLOBAL_INJECTED_NETWORK}}",
                                  "onap_private_subnet_id":"{{GLOBAL_INJECTED_OPENSTACK_PRIVATE_SUBNET_ID}}",
                                  "pub_key":"{{GLOBAL_INJECTED_PUBLIC_KEY}}",
