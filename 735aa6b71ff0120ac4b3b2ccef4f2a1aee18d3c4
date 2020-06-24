@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53551b7d_d7dc9779",
+        "filename": "robot/resources/so/direct_instantiate.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-06-24T13:50:20Z",
+      "side": 1,
+      "message": "i think these should be properties and not hard coded",
+      "revId": "735aa6b71ff0120ac4b3b2ccef4f2a1aee18d3c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
