@@ -948,7 +948,7 @@ Add CDS Parameters
         ...  ELSE IF  '${input['name']}' == "sdnc_model_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  vLB_CDS
         ...  ELSE IF  '${input['name']}' == "sdnc_model_version"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  1.0.0
         ...  ELSE IF  '${input['name']}' == "skip_post_instantiation_configuration"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  boolean  ${skip_post_instatiation}
-
+        ...  ELSE IF  '${input['name']}' == "controller_actor"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  CDS
 
 Set Input Parameter
     [Arguments]   ${service_uuid}  ${component_uuid}  ${input}  ${input_type}  ${input_value}
