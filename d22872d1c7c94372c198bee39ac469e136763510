@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf424ac2_d4a3534f",
+        "filename": "robot/testsuites/health-check-ingress.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-07-13T08:46:15Z",
+      "side": 1,
+      "message": "Aren\u0027t just L9, L12 and L30 sufficient?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 50
+      },
+      "revId": "d22872d1c7c94372c198bee39ac469e136763510",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73c8135f_68299c89",
+        "filename": "robot/testsuites/health-check-ingress.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-07-13T08:46:15Z",
+      "side": 1,
+      "message": "I\u0027m not sure if the set of Core tests should be extended with this suite right away",
+      "range": {
+        "startLine": 34,
+        "startChar": 32,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "d22872d1c7c94372c198bee39ac469e136763510",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a77a141d_5b47f83c",
+        "filename": "robot/testsuites/health-check-ingress.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-07-13T08:46:15Z",
+      "side": 1,
+      "message": "Please see L34",
+      "range": {
+        "startLine": 39,
+        "startChar": 32,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "d22872d1c7c94372c198bee39ac469e136763510",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b27416af_5308727f",
+        "filename": "robot/testsuites/health-check-ingress.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-07-13T08:46:15Z",
+      "side": 1,
+      "message": "Please see L34",
+      "range": {
+        "startLine": 43,
+        "startChar": 32,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "d22872d1c7c94372c198bee39ac469e136763510",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a36ac192_9073a281",
+        "filename": "robot/testsuites/health-check-ingress.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5047
+      },
+      "writtenOn": "2020-07-13T08:46:15Z",
+      "side": 1,
+      "message": "Please see L34",
+      "range": {
+        "startLine": 49,
+        "startChar": 32,
+        "endLine": 49,
+        "endChar": 38
+      },
+      "revId": "d22872d1c7c94372c198bee39ac469e136763510",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
