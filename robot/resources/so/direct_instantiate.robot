@@ -6,6 +6,7 @@ Library    Collections
 Library    String
 Library    DateTime
 Library    SoUtils
+Library    RequestsLibrary
 Library    ONAPLibrary.PreloadData    WITH NAME     PreloadData
 Library    ONAPLibrary.Utilities
 Library    ONAPLibrary.JSON
@@ -19,6 +20,9 @@ Resource       ../global_properties.robot
 ${SO_TEMPLATE_PATH}        so
 ${SO_CATALOGDB_PATH}  /ecomp/mso/catalog/v2/serviceVnfs?serviceModelName
 ${SO_APIHANDLER_PATH}    /onap/so/infra/serviceInstantiation/v7/serviceInstances
+${CDS_BLUEPRINTS_ENDPOINT}    http://cds-blueprints-processor-http:8080 
+${CDS_BOOTSTRAP_PATH}    /api/v1/blueprint-model/bootstrap
+${CDS_AUTH}    Y2NzZGthcHBzOmNjc2RrYXBwcw==
 
 *** Keywords ***
 Instantiate Service Direct To SO
@@ -64,6 +68,12 @@ CDS Service Instantiate
     ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME}  ${GLOBAL_SO_PASSWORD}
     ${resp}=  SO.Run Get Request  ${GLOBAL_SO_CATDB_ENDPOINT}  ${SO_CATALOGDB_PATH}=${cds_service_model}  auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}  200
+    ${session}=  Create Session  cds  ${CDS_BLUEPRINTS_ENDPOINT}
+    ${data}=  Create Dictionary  loadModelType=true  loadResourceDictionary=true  loadCBA=true
+    ${headers}=  Create Dictionary  Content-Type=application/json  Authorization=Basic ${CDS_AUTH}
+    ${resp}=  Post Request  cds  ${CDS_BOOTSTRAP_PATH}  data=${data}  headers=${headers}
+    ${status_string}=    Convert To String    ${resp.status_code}
+    Should Match Regexp    ${status_string}    ^(200|201|202)$
     ${time_now}=  Get Time
     @{date_time}=  Split String  ${time_now}
     ${time_stamp}=  Catenate  SEPARATOR=_  @{date_time}[0]  @{date_time}[1]
