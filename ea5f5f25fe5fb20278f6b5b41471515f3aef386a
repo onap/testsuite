@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d831090b_08505071",
+        "filename": "robot/resources/so/direct_instantiate.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-07-13T20:09:04Z",
+      "side": 1,
+      "message": "dont put url inline, put in properties",
+      "revId": "ea5f5f25fe5fb20278f6b5b41471515f3aef386a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4cef2ca_7257a8ca",
+        "filename": "robot/resources/so/direct_instantiate.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-07-13T20:09:04Z",
+      "side": 1,
+      "message": "dont put authinline, put in properties",
+      "revId": "ea5f5f25fe5fb20278f6b5b41471515f3aef386a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
