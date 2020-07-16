@@ -22,10 +22,9 @@ description: >
   This blueprint deploys/manages the TCA module as a Docker container
 
 imports:
-  - http://www.getcloudify.org/spec/cloudify/3.4/types.yaml
-  - https://nexus.onap.org/service/local/repositories/raw/content/org.onap.dcaegen2.platform.plugins/R4/k8splugin/1.4.13/k8splugin_types.yaml
-#  - https://nexus.onap.org/service/local/repositories/raw/content/org.onap.dcaegen2.platform.plugins/R4/dcaepolicyplugin/2.3.0/dcaepolicyplugin_types.yaml
-  - https://nexus.onap.org/service/local/repositories/raw/content/org.onap.dcaegen2.platform.plugins/R4/clamppolicyplugin/1.0.0/clamppolicyplugin_types.yaml
+  - https://www.getcloudify.org/spec/cloudify/4.5.5/types.yaml
+  - "https://nexus.onap.org/service/local/repositories/raw/content/org.onap.dcaegen2.platform.plugins/R6/k8splugin/1.7.2/k8splugin_types.yaml"
+  - "https://nexus.onap.org/service/local/repositories/raw/content/org.onap.dcaegen2.platform.plugins/R6/clamppolicyplugin/1.1.0/clamppolicyplugin_types.yaml"
 inputs:
   aaiEnrichmentHost:
     type: string
@@ -35,25 +34,25 @@ inputs:
     default: "8443"
   enableAAIEnrichment:
     type: string
-    default: true
+    default: "true"
   dmaap_host:
     type: string
-    default: message-router.onap
+    default: "message-router.onap.svc.cluster.local"
   dmaap_port:
     type: string
     default: "3904"
   enableRedisCaching:
     type: string
-    default: false
+    default: "false"
   redisHosts:
     type: string
-    default: dcae-redis.onap.svc.cluster.local:6379
+    default: "dcae-redis.onap.svc.cluster.local:6379"
   tag_version:
     type: string
-    default: "nexus3.onap.org:10001/onap/org.onap.dcaegen2.deployments.tca-cdap-container:1.1.1"
+    default: "nexus3.onap.org:10001/onap/org.onap.dcaegen2.deployments.tca-cdap-container:1.2.2"
   consul_host:
     type: string
-    default: consul-server.onap
+    default: "consul-server.onap"
   consul_port:
     type: string
     default: "8500"
@@ -147,22 +146,18 @@ node_templates:
             envs:
                 DMAAPHOST:
                     { get_input: dmaap_host }
-                DMAAPPORT:
-                    { get_input: dmaap_port }
+                DMAAPPORT: "3904"
                 DMAAPPUBTOPIC: "unauthenticated.DCAE_CL_OUTPUT"
                 DMAAPSUBTOPIC: "unauthenticated.VES_MEASUREMENT_OUTPUT"
                 AAIHOST:
                     { get_input: aaiEnrichmentHost }
-                AAIPORT:
-                    { get_input: aaiEnrichmentPort }
+                AAIPORT: "8443"
                 CONSUL_HOST:
                     { get_input: consul_host }
-                CONSUL_PORT:
-                    { get_input: consul_port }
+                CONSUL_PORT: "8500"
                 CBS_HOST:
                     { get_input: cbs_host }
-                CBS_PORT:
-                    { get_input: cbs_port }
+                CBS_PORT: "10000"
                 CONFIG_BINDING_SERVICE: "config_binding_service"
             ports:
               - concat: ["11011:", { get_input: external_port }]
@@ -171,5 +166,5 @@ node_templates:
     properties:
       policy_id:
            get_input: policy_id
-      policy_model_id: 
+      policy_model_id:
            get_input: policy_model_id
