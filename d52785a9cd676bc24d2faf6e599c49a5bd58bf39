@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98f0b1b0_b9d8aadb",
+        "filename": "robot/assets/sdc/blueprints/k8s-tca-clamp-policy-05082019.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-07-16T17:59:34Z",
+      "side": 1,
+      "message": "why include commented out items?",
+      "revId": "d52785a9cd676bc24d2faf6e599c49a5bd58bf39",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
