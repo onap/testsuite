@@ -217,25 +217,9 @@ Basic VFC huaweivnfmdriver API Health Check
     [Tags]    health    3rdparty   health-vfc
     Run MSB Get Request    /api/huaweivnfmdriver/v1/swagger.json
 
-Basic VFC jujuvnfmdriver API Health Check
-    [Tags]    health    3rdparty   health-vfc
-    Run MSB Get Request    /api/jujuvnfmdriver/v1/swagger.json
-
-Basic VFC multivimproxy API Health Check
-    [Tags]    health    3rdparty   health-vfc
-    Run MSB Get Request    /api/multivimproxy/v1/swagger.json
-
-Basic VFC nokiav2driver API Health Check
-    [Tags]    health    3rdparty   health-vfc
-    Run MSB Get Request    /api/NokiaSVNFM/v1/swagger.json
-
 Basic VFC nslcm API Health Check
     [Tags]    health    api   health-vfc
     Run MSB Get Request    /api/nslcm/v1/health_check
-
-Basic VFC resmgr API Health Check
-    [Tags]    health    api  health-vfc
-    Run MSB Get Request    /api/resmgr/v1/swagger.json
 
 Basic VFC vnflcm API Health Check
     [Tags]    health    api  health-vfc
@@ -248,14 +232,6 @@ Basic VFC vnfmgr API Health Check
 Basic VFC vnfres API Health Check
     [Tags]    health    api   health-vfc
     Run MSB Get Request    /api/vnfres/v1/health_check
-
-Basic VFC workflow API Health Check
-    [Tags]    health    api   health-vfc
-    Run MSB Get Request    /api/workflow/v1/swagger.json
-
-Basic VFC ztesdncdriver API Health Check
-    [Tags]    health    3rdparty   health-vfc
-    Run MSB Get Request    /api/ztesdncdriver/v1/swagger.json
 
 Basic VFC ztevnfmdriver API Health Check
     [Tags]    health    3rdparty   health-vfc
