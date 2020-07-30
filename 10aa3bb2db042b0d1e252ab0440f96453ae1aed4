@@ -16,6 +16,24 @@
       "revId": "10aa3bb2db042b0d1e252ab0440f96453ae1aed4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f7c1c6a_1464ca52",
+        "filename": "robot/resources/test_templates/pnf_registration_without_SO_template.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-07-30T11:03:56Z",
+      "side": 1,
+      "message": "Yes you have right :). I forgot to remove that. I will remove it tomorrow when I will be at office. Thx for comment",
+      "parentUuid": "a4061d9a_7cd83d9c",
+      "revId": "10aa3bb2db042b0d1e252ab0440f96453ae1aed4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
