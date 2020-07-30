@@ -41,6 +41,7 @@ Get OwningEntity Id
     ${resp}=    AAI.Run Get Request    ${AAI_FRONTEND_ENDPOINT}    /aai/v11/business/owning-entities   auth=${GLOBAL_AAI_AUTHENTICATION}
   	${resp_json}=  Set Variable  ${resp.json()}
     @{list}=  Copy List   ${resp_json['owning-entity']}
+    ${id}=  Set Variable
     :FOR   ${map}    IN    @{list}
     \    ${owning_entity_name}=       Get From Dictionary    ${map}    owning-entity-name
     \    ${owning_entity_id}=       Get From Dictionary    ${map}    owning-entity-id
