@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ba742fb_1e24a4eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2020-08-07T16:57:08Z",
+      "side": 1,
+      "message": "TCA/CDAP blueprint",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "601206588f31ec951e68305cc346297b51203e3e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "481a3c56_380ded4e",
+        "filename": "robot/assets/sdc/blueprints/k8s-tca-clamp-policy-05082019.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2020-08-07T16:57:08Z",
+      "side": 1,
+      "message": "import/plugin version not consistent to Guilin - should be in below format \n  - plugin:k8splugin?version\u003d3.0.0\n  - plugin:clamppolicyplugin?version\u003d1.1.0\n\n(p.s - k8splugin 3.0.0 is latest for now; may have some revisions before M4)",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 158
+      },
+      "revId": "601206588f31ec951e68305cc346297b51203e3e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
