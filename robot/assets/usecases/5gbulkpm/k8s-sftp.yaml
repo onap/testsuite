@@ -1,7 +1,7 @@
 tosca_definitions_version: cloudify_dsl_1_3
 imports:
-  - 'http://www.getcloudify.org/spec/cloudify/4.5.5/types.yaml'
-  - 'https://nexus.onap.org/service/local/repositories/raw/content/org.onap.dcaegen2.platform.plugins/R6/k8splugin/1.7.2/k8splugin_types.yaml'
+  - 'https://www.getcloudify.org/spec/cloudify/4.5.5/types.yaml'
+  - 'plugin:k8splugin?version=2.0.0'
 inputs:
   tag_version:
     type: string
