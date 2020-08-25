@@ -135,15 +135,6 @@ Basic OOF-CMSO Health Check
 Basic Policy Health Check
     [Tags]    health    medium   health-policy
     Run Policy Health Check
-    Run Policy API Healthcheck
-    Run Policy PAP Healthcheck
-    Run Policy Distribution Healthcheck
-    Run Policy XACML PDP Healthcheck
-    Run Policy APEX PDP Healthcheck
-
-Basic Policy New Healthcheck
-    [Tags]    health    medium   health-policy
-    Run Policy New Healthcheck
 
 Basic Pomba AAI-context-builder Health Check
     [Tags]    oom   health-pomba
