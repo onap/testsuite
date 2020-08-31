@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dc55590_ae8d7883",
+        "filename": "robot/resources/aai/aai_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-08-31T18:21:00Z",
+      "side": 1,
+      "message": "should the main version be updated to 14 if you are updating the health check?",
+      "revId": "9e0fc02530c2f0b33e7d9b5052cf67e2a4ce90e3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0776e35_e45dd65a",
+        "filename": "robot/resources/aai/aai_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-08-31T18:21:00Z",
+      "side": 1,
+      "message": "why not just run a delete if needed and then always run resource api call after?",
+      "revId": "9e0fc02530c2f0b33e7d9b5052cf67e2a4ce90e3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59e7e9ce_777ac34e",
+        "filename": "robot/resources/aai/aai_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-08-31T18:21:00Z",
+      "side": 1,
+      "message": "its not clear to me what this does over just calling AAI.Run Put Request directly in the test case you want to run",
+      "revId": "9e0fc02530c2f0b33e7d9b5052cf67e2a4ce90e3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
