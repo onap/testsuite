@@ -35,6 +35,11 @@ Basic A&AI Health Check
     [Tags]    health    core  health-aai
     Run A&AI Health Check
 
+Enhanced A&AI Health Check
+    [Tags]    health    core  health-aai
+    Run Resource API AAI Inventory check
+    Run Traversal API AAI Inventory check
+
 Basic AAF Health Check
     [Tags]    health    small  health-aaf
     Run AAF Health Check
