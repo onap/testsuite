@@ -136,6 +136,14 @@ Basic Policy Health Check
     [Tags]    health    medium   health-policy
     Run Policy Health Check
 
+Enhanced Policy New Healthcheck
+    [Tags]    health    medium   health-policy
+    Run Create Policy Post Request
+    Run Get Policy Get Request
+    Run Deploy Policy Pap Post Request
+    Run Undeploy Policy
+    Run Delete Policy Request
+
 Basic Pomba AAI-context-builder Health Check
     [Tags]    oom   health-pomba
     Run Pomba Aai Context Builder Health Check
