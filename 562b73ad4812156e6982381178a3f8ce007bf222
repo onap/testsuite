@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44408091_3ecb59bd",
+        "filename": "robot/resources/aai/aai_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-09-08T08:01:59Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "562b73ad4812156e6982381178a3f8ce007bf222",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
