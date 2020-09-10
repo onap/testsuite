@@ -197,6 +197,10 @@ Basic SDNC Health Check
     [Tags]    health    core   health-sdnc
     Run SDNC Health Check
 
+Enhanced SDNC Health Check
+    [Tags]    health    core   health-sdnc
+    Run SDNC Health Check Generic Resource API
+
 Basic SO Health Check
     [Tags]    health    core   health-so
     SO.Run Get Request    ${GLOBAL_SO_APIHAND_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
