@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63064d5b_f7a31ce2",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-09-10T20:33:42Z",
+      "side": 0,
+      "message": "wonder why it said that this was not defined?",
+      "revId": "92b3b581276247ed828a33bc8e35d84b0bf31e5f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
