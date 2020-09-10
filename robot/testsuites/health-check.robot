@@ -323,3 +323,13 @@ Basic Modeling genericparser API Health Check
 Basic CDS Health Check
     [Tags]    health    medium   health-cds
     Run CDS Health Check
+
+Enhanced CDS Health Check
+    [Tags]    health    medium   health-cds
+    Run CDS Create Data Dictionary Health Check
+    Run CDS GET Data Dictionary Health Check
+    Run CDS Bootstrap Health Check
+    Run CDS Enrich CBA Health Check
+    Run CDS Publish CBA Health Check
+    Run CDS Process CBA Health Check
+    Run CDS Delete CBA Health Check
