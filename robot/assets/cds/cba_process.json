@@ -1,0 +1,20 @@
+{
+  "actionIdentifiers":{
+    "mode":"sync",
+    "blueprintName":"test101",
+    "blueprintVersion":"1.0.1",
+    "actionName":"helloworld"
+  },
+  "payload":{
+    "helloworld-request":{
+      "template-prefix":[
+        "hello-world"
+      ]
+    }
+  },
+  "commonHeader":{
+    "subRequestId":"654-654",
+    "requestId":"654321",
+    "originatorId":"CDS"
+  }
+}

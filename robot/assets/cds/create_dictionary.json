@@ -1,0 +1,27 @@
+{
+  "tags":"restmock",
+  "name":"restmock",
+  "property":{
+    "description":"calls a rest mock",
+    "type":"string"
+  },
+  "updated-by":"titans",
+  "sources":{
+    "rest":{
+      "type":"source-rest",
+      "properties":{
+        "type":"json",
+        "verb":"GET",
+        "url-path":"/test",
+        "endpoint-selector":"rest-endpoint",
+        "path":"",
+        "input-key-mapping":{
+          
+        },
+        "output-key-mapping":{
+          "res":"myvalue"
+        }
+      }
+    }
+  }
+}
