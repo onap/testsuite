@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7b45d3c_b9fb293a",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-09-10T15:57:31Z",
+      "side": 1,
+      "message": "you can put under Enhanced SDNC Heatlh Check to match with the rest of the new health checks people are putting",
+      "revId": "e5df9132d07ec1eb03beadafe83bd73f9b02a884",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
