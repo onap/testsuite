@@ -28,6 +28,9 @@ ${SDNC_ADMIN_ENDPOINT}    ${GLOBAL_SDNC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDN
 ${SDNC_ADMIN_SIGNUP_URL}    ${SDNC_ADMIN_ENDPOINT}/signup
 ${SDNC_ADMIN_LOGIN_URL}    ${SDNC_ADMIN_ENDPOINT}/login
 ${SDNC_ADMIN_VNF_PROFILE_URL}    ${SDNC_ADMIN_ENDPOINT}/mobility/getVnfProfile
+${GRAPI_SIPath}     ${SDNC_INDEX_PATH}/config/GENERIC-RESOURCE-API:services/service/${GR_SI}
+${Data_GRAPI}    { "service": [ { "service-instance-id": "GRSIdummy123" } ] }
+${GR_SI}    GRSIdummy123
 
 *** Keywords ***
 Run SDNC Health Check
@@ -35,6 +38,30 @@ Run SDNC Health Check
     ${resp}= 	SDNC.Run Post Request 	${SDNC_REST_ENDPOINT} 	${SDNC_INDEX PATH}${SDNCGC_HEALTHCHECK_OPERATION_PATH}     data=${None}    auth=${GLOBAL_SDNC_AUTHENTICATION}
     Should Be Equal As Strings 	${resp.status_code} 	200
     Should Be Equal As Strings 	${resp.json()['output']['response-code']} 	200
+
+Run SDNC Health Check Generic Resource API
+    [Documentation]    Runs an GENERIC-RESOURCE-API API check for SDNC healthcheck
+    ${delete_response}    Run SDNC Delete Request    ${GRAPI_SIPath}
+    #Put Dummy data
+    ${Put_resp}=    SDNC.Run Put Request   ${SDNC_REST_ENDPOINT}    ${GRAPI_SIPath}    data=${Data_GRAPI}    auth=${GLOBAL_SDNC_AUTHENTICATION}
+    Should Be Equal As Strings  ${Put_resp.status_code}     201
+    #Get request and validation
+    ${resp}=    SDNC.Run Get Request    ${SDNC_REST_ENDPOINT}    ${GRAPI_SIPath}    auth=${GLOBAL_SDNC_AUTHENTICATION}
+    Should Be Equal As Strings  ${resp.status_code}     200
+    ${res_body}=   Convert to string     ${resp.content}
+    Should contain    ${res_body}   ${GR_SI}
+    #Delete Dummy Data
+    ${delete_response}    Run SDNC Delete Request    ${GRAPI_SIPath}
+    Should Be Equal As Strings  ${delete_response.status_code}     200
+
+Run SDNC Delete Request
+    [Documentation]    Runs an SDNC Delete Request
+    [Arguments]    ${URL}
+    Disable Warnings
+    ${session}=    Create Session       SDNC     ${SDNC_REST_ENDPOINT}    auth=${GLOBAL_SDNC_AUTHENTICATION}
+    ${headers}=  Create Dictionary     Accept=*/*    Accept-Encoding=gzip, deflate, br    Connection=keep-alive
+    ${resp}=    Delete Request  SDNC     ${URL}     data=${None}    headers=${headers}
+    [Return]    ${resp}
 
 Preload Vcpe Networks
     Preload Network    cpe_public    10.2.0.2	 10.2.0.1
