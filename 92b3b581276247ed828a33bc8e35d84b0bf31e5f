@@ -16,6 +16,24 @@
       "revId": "92b3b581276247ed828a33bc8e35d84b0bf31e5f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd56facb_b3a3db9e",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-09-11T14:57:52Z",
+      "side": 0,
+      "message": "odd, it should be unless one of the varaibles that comprises it is not defined.",
+      "parentUuid": "63064d5b_f7a31ce2",
+      "revId": "92b3b581276247ed828a33bc8e35d84b0bf31e5f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
