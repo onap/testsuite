@@ -177,12 +177,12 @@ Run Undeploy Policy
 
 Run Delete Policy Request
      [Documentation]    Runs Policy Delete request
-     #[Arguments]    ${data_path}  ${data}
      ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}=   Delete Request  policy  ${POLICY_GET_POLICY_URI}    headers=${headers}
+     ${resp}=   Delete Request    policy   ${POLICY_GET_POLICY_URI}     headers=${headers}
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
      Should Be Equal As Strings    ${resp.status_code}     200
+     Should Be Equal As Strings    ${resp.json()['version']}  1.0.0
