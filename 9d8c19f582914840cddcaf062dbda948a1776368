@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbb4a3b5_e73aabb9",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2020-09-14T17:09:03Z",
+      "side": 1,
+      "message": "I think this is more or less very similar to what it is in master.   I would leave out this line as not need to check the delete response, not sure what it returns right now, but it may change, the important thing is to check the 200.\n\nYou could do instead this test that we have in the csit tests, a second delete that should return a 404 (not found).   See this file for reference on how it\u0027s done:\n\nhttps://git.onap.org/integration/csit/tree/tests/policy/api/api-test.robot#n158\n\nIf you do any changes, please also rename \"Enhanced Policy Healthcheck\" to something more reflective of what is doing, such as \"Validation of Operational Policies\".",
+      "revId": "9d8c19f582914840cddcaf062dbda948a1776368",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
