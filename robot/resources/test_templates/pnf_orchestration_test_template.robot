@@ -35,7 +35,7 @@ Orchestrate PNF Macro Flow
 
 Orchestrate PNF Building Block Flow
     [Documentation]   Use ONAP to Orchestrate a PNF using GR api
-    [Arguments]   ${service_model_name}  ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}   ${region}   ${project_name}=Project-Demonstration   ${owning_entity}=OE-Demonstration   ${lineOfBusinessName}=LOB-Demonstration    ${platformName}=Platform-Demonstration
+    [Arguments]   ${service_model_name}  ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}   ${region}   ${project_name}=Project-Demonstration   ${owning_entity}  ${owningEntityId}  ${project_name}=Project-Demonstration  ${lineOfBusinessName}=LOB-Demonstration    ${platformName}=Platform-Demonstration
     ${json_resp}=  Get Service Catalog  ${service_model_name}
     ${service_model_uuid}=  Set Variable  ${json_resp["uuid"]}
     ${service_model_invariant_uuid }=  Set Variable  ${json_resp["invariantUUID"]}
@@ -47,7 +47,6 @@ Orchestrate PNF Building Block Flow
     ${nf_model_uuid}=  Set Variable  ${json_resp["uuid"]}
     ${nf_model_name}=  Set Variable  ${json_resp["name"]}
     ${productFamilyId}=  Get Service Id  ${product_family}
-    ${owningEntityId}=  Get Owning Entity Id  ${owning_entity}
     ${uuid}=   Generate UUID4
     ${full_customer_name}=    Catenate    ${customer_name}_${uuid}
     ${service_name}=    Catenate    Service_Ete_Name${uuid}
