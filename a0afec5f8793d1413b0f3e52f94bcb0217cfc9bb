@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b056cc9a_571f456e",
+        "filename": "robot/resources/aai/aai_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-09-16T13:38:20Z",
+      "side": 1,
+      "message": "can you mentioned its a healtch check?",
+      "revId": "a0afec5f8793d1413b0f3e52f94bcb0217cfc9bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

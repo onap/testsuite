@@ -16,6 +16,24 @@
       "revId": "616ceaf41dce6e01e1742da5f60d44b841a9761b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "540005a7_ec46db89",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 37
+      },
+      "writtenOn": "2020-09-16T13:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef197eda_5ea8fe92",
+      "revId": "616ceaf41dce6e01e1742da5f60d44b841a9761b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
