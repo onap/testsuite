@@ -64,6 +64,7 @@ Get Service Id
     [Arguments]    ${service_description}
 	${resp}=    AAI.Run Get Request     ${AAI_FRONTEND_ENDPOINT}    ${INDEX PATH}${ROOT_SERVICE_PATH}        auth=${GLOBAL_AAI_AUTHENTICATION}
 	${resp_json}=  Set Variable  ${resp.json()}
+    ${id}=  Set Variable
     @{list}=  Copy List   ${resp_json['service']}
     :FOR   ${map}    IN    @{list}
     \    ${service_type}=    Get From Dictionary    ${map}    service-description
