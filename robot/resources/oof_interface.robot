@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     The main interface for interacting with OOF: SNIRO and Homing Service
+Documentation     The main interface for interacting with OOF: OSDF and Homing Service
 Library           RequestsLibrary
 Library	          ONAPLibrary.Utilities
 Library           OperatingSystem
@@ -13,7 +13,7 @@ Resource          global_properties.robot
 
 *** Variables ***
 ${OOF_HOMING_HEALTH_CHECK_PATH}       /v1/plans/healthcheck
-${OOF_SNIRO_HEALTH_CHECK_PATH}        /api/oof/v1/healthcheck
+${OOF_OSDF_HEALTH_CHECK_PATH}        /api/oof/v1/healthcheck
 ${OOF_CMSO_HEALTH_CHECK_PATH}        /cmso/v1/health?checkInterfaces=true
 
 ${OOF_CMSO_TEMPLATE_FOLDER}   cmso
@@ -22,7 +22,7 @@ ${OOF_HOMING_PLAN_FOLDER}    robot/assets/oof/optf-has
 ${OOF_OSDF_TEMPLATE_FOLDER}   robot/assets/oof/optf-osdf
 
 ${OOF_HOMING_ENDPOINT}    ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_HOMING_IP_ADDR}:${GLOBAL_OOF_HOMING_SERVER_PORT}
-${OOF_SNIRO_ENDPOINT}     ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_SNIRO_IP_ADDR}:${GLOBAL_OOF_SNIRO_SERVER_PORT}
+${OOF_OSDF_ENDPOINT}     ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_SNIRO_IP_ADDR}:${GLOBAL_OOF_SNIRO_SERVER_PORT}
 ${OOF_CMSO_ENDPOINT}      ${GLOBAL_OOF_CMSO_PROTOCOL}://${GLOBAL_INJECTED_OOF_CMSO_IP_ADDR}:${GLOBAL_OOF_CMSO_SERVER_PORT}
 ${OOF_OSDF_ENDPOINT}      ${GLOBAL_OOF_SERVER_PROTOCOL}://${GLOBAL_INJECTED_OOF_HOMING_IP_ADDR}:${GLOBAL_OOF_HOMING_SERVER_PORT}
 
@@ -59,9 +59,19 @@ RUN OOF-Homing SendPlanWithWrongVersion
     Should Be Equal As Integers    ${resp.status_code}    201
     Sleep    10s    Wait Plan Resolution
 
-Run OOF-SNIRO Health Check
-     [Documentation]    Runs OOF-SNIRO Health check
-     ${resp}=    OOF.Run SNIRO Get Request    ${OOF_SNIRO_ENDPOINT}    ${OOF_SNIRO_HEALTH_CHECK_PATH}
+Run OOF-OSDF Health Check
+    [Documentation]    Runs OOF-OSDF Health check
+    ${resp}=    Run OOF-OSDF Get Request    ${OOF_OSDF_HEALTH_CHECK_PATH}
+    Should Be Equal As Integers   ${resp.status_code}   200
+
+Run OOF-OSDF Get Request
+    [Documentation]    Runs OOF-OSDF Get request
+    [Arguments]    ${data_path}
+    ${session}=    Create Session   session   ${OOF_OSDF_ENDPOINT}
+    ${resp}=   Get Request   session   ${data_path}
+    Should Be Equal As Integers   ${resp.status_code}   200
+    Log    Received response from OOF-OSDF ${resp.text}
+    [Return]    ${resp}
 
 Run OOF-CMSO Health Check
      [Documentation]    Runs OOF-CMSO Health check

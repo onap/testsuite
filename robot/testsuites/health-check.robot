@@ -129,9 +129,9 @@ Basic OOF-Homing Health Check
     [Tags]    health    medium   health-oof
     Run OOF-Homing Health Check
 
-Basic OOF-SNIRO Health Check
+Basic OOF-OSDF Health Check
     [Tags]    health    medium  health-oof
-    Run OOF-SNIRO Health Check
+    Run OOF-OSDF Health Check
 
 Basic OOF-CMSO Health Check
     [Tags]    health    medium  health-oof
