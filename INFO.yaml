@@ -2,13 +2,13 @@
 project: 'testsuite'
 project_creation_date: '2017-02-15'
 lifecycle_state: 'Incubation'
-project_lead: &onap_releng_ptl
+project_lead: &onap_testsuite_ptl
     name: 'Morgan Richomme'
     email: 'morgan.richomme@orange.com'
     id: 'mrichomme'
     company: 'Orange'
     timezone: 'France/Paris'
-primary_contact: *onap_releng_ptl
+primary_contact: *onap_testsuite_ptl
 project_category: ''
 issue_tracking:
     type: 'jira'
@@ -30,7 +30,7 @@ meetings:
 repositories:
     - 'testsuite'
 committers:
-    - <<: *onap_releng_ptl
+    - <<: *onap_testsuite_ptl
     - name: 'Christophe Closset'
       email: 'cc697w@intl.att.com'
       company: 'ATT'
@@ -71,11 +71,6 @@ committers:
       company: 'nokia'
       id: 'mprzybys'
       timezone: 'Poland/Warsaw'
-    - name: 'Eric Multanen'
-      email: 'eric.w.multanen@intel.com'
-      company: 'intel'
-      id: 'ewmulta'
-      timezone: 'America/Los_Angeles'
     - name: 'Krzysztof Kuzmicki'
       email: 'krzysztof.kuzmicki@nokia.com'
       company: 'nokia'
@@ -91,6 +86,21 @@ committers:
       company: 'Deutsche Telekom'
       id: 'andreasgeissler'
       timezone: 'Europe/Berlin'
+    - name: 'Michal Jagiello'
+      email: 'Michal.Jagiello@t-mobile.pl'
+      company: 'T-Mobile'
+      id: 'MichalJagielloTMPL'
+      timezone: 'Europe/Warsaw'
+    - name: 'Lukasz Rajewski'
+      email: 'lukasz.rajewski@orange.com'
+      company: 'Orange'
+      id: 'rajewluk'
+      timezone: 'Europe/Warsaw'
+    - name: 'Thierry Hardy'
+      email: 'thierry.hardy@orange.com'
+      company: 'orange'
+      id: 'jardellos'
+      timezone: 'Europe/Paris'
 tsc:
     # yamllint disable rule:line-length
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
@@ -113,3 +123,12 @@ tsc:
         - type: 'Addition'
           name: 'Andreas Geissler'
           link: 'https://lists.onap.org/g/onap-tsc/topic/onap_integration_committer/73303461'
+        - type: 'Addition'
+          name: 'Michal Jagiello'
+          link: 'https://lists.onap.org/g/onap-tsc/message/7102'
+        - type: 'Addition'
+          name: 'Lukasz Rajewski'
+          link: 'https://lists.onap.org/g/onap-tsc/message/7102'
+        - type: 'Addition'
+          name: 'Thierry Hardy'
+          link: 'https://lists.onap.org/g/onap-tsc/message/7102'
