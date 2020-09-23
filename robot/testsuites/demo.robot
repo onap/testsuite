@@ -40,7 +40,7 @@ Initialize SO Openstack Identity For V3
 
 Initialize vCPE Models
    [Tags]  distributeVCPE
-   Load vCPE Models
+   Load vCPE Models  Demonstration
 
 Initialize Customer
     [Tags]   InitCustomer
