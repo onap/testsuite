@@ -1,4 +1,5 @@
 robotframework==3.1.2
+pyrsistent==0.16.1
 selenium
 robotframework-seleniumlibrary
 robotframework-archivelibrary
