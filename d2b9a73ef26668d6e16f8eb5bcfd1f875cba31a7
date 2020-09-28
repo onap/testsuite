@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "627ce7b0_ec3b7bab",
+        "filename": "releases/1.7.0-container.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-09-28T05:43:30Z",
+      "side": 1,
+      "message": "Is this correct? Doesn\u0027t seem to correspond to released version.",
+      "range": {
+        "startLine": 8,
+        "startChar": 16,
+        "endLine": 8,
+        "endChar": 21
+      },
+      "revId": "d2b9a73ef26668d6e16f8eb5bcfd1f875cba31a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
