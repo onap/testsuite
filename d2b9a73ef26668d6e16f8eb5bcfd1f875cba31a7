@@ -22,6 +22,30 @@
       "revId": "d2b9a73ef26668d6e16f8eb5bcfd1f875cba31a7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8d13483_830ec923",
+        "filename": "releases/1.7.0-container.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2020-09-29T07:27:00Z",
+      "side": 1,
+      "message": "it is correct\nfor the release N, we always take the staging of the version N-1\nso it is the usual way\nFor me it woud make more sense to have the 1.7.0-STAGING but is was always done this way (would be possible to change by adapting the versions.txt)",
+      "parentUuid": "627ce7b0_ec3b7bab",
+      "range": {
+        "startLine": 8,
+        "startChar": 16,
+        "endLine": 8,
+        "endChar": 21
+      },
+      "revId": "d2b9a73ef26668d6e16f8eb5bcfd1f875cba31a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
