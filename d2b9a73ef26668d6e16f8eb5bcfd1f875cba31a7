@@ -46,6 +46,30 @@
       "revId": "d2b9a73ef26668d6e16f8eb5bcfd1f875cba31a7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60920474_ef5d64d6",
+        "filename": "releases/1.7.0-container.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2020-09-29T11:11:09Z",
+      "side": 1,
+      "message": "Ack, thanks for clarification.",
+      "parentUuid": "c8d13483_830ec923",
+      "range": {
+        "startLine": 8,
+        "startChar": 16,
+        "endLine": 8,
+        "endChar": 21
+      },
+      "revId": "d2b9a73ef26668d6e16f8eb5bcfd1f875cba31a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
