@@ -19,6 +19,8 @@ Resource          browser_setup.robot
 *** Variables ***
 ${SDC_DESIGNER_USER_ID}    cs0008
 ${SDC_HEALTH_CHECK_PATH}    /sdc1/rest/healthCheck
+${SDC_HEALTH_CHECK_PATH_ONBOARD}    /onboarding-api/v1.0/healthcheck
+${SDC_HEALTH_CHECK_PATH_BE}    /sdc2/rest/healthCheck
 ${SDC_VENDOR_LICENSE_MODEL_PATH}    /onboarding-api/v1.0/vendor-license-models
 ${SDC_VENDOR_SOFTWARE_PRODUCT_PATH}    /onboarding-api/v1.0/vendor-software-products
 ${SDC_VENDOR_KEY_GROUP_PATH}    /license-key-groups
@@ -912,6 +914,16 @@ Run SDC Health Check
     \    Log    ${ELEMENT['healthCheckStatus']}
     \    ${SDC_DE_HEALTH}  Set Variable If   (('DE' in '${ELEMENT['healthCheckComponent']}') and ('${ELEMENT['healthCheckStatus']}' == 'UP')) or ('${SDC_DE_HEALTH}'=='UP')  UP
     Log   (DMaaP:${SDC_DE_HEALTH})    console=True
+
+Run SDC BE ONBOARD Healthcheck
+    [Documentation]    Runs a SDC BE ONBOARD health check
+    ${resp}=    SDC.Run Get Request    ${SDC_BE_ONBOARD_ENDPOINT}    ${SDC_HEALTH_CHECK_PATH_ONBOARD}    user=${None}
+    Should Be Equal As Strings  ${resp.status_code}     200
+
+Run SDC BE Healthcheck
+    [Documentation]    Runs a SDC BE health check
+    ${resp}=    SDC.Run Get Request    ${SDC_BE_ENDPOINT}    ${SDC_HEALTH_CHECK_PATH_BE}    user=${None}     auth=${GLOBAL_SDC_AUTHENTICATION}
+    Should Be Equal As Strings  ${resp.status_code}     200
 
 Open SDC GUI
     [Documentation]   Logs in to SDC GUI

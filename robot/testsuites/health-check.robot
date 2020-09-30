@@ -193,6 +193,11 @@ Basic SDC Health Check
     [Tags]    health    core   health-sdc
     Run SDC Health Check
 
+Enhanced SDC Health Check
+    [Tags]    health    core   health-sdc
+    Run SDC BE ONBOARD Healthcheck
+    Run SDC BE Healthcheck
+
 Basic SDNC Health Check
     [Tags]    health    core   health-sdnc
     Run SDNC Health Check
