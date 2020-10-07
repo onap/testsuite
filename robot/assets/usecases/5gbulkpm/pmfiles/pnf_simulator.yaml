@@ -1,0 +1,29 @@
+tosca_definitions_version: cloudify_dsl_1_3
+imports:
+  - 'http://www.getcloudify.org/spec/cloudify/4.5.5/types.yaml'
+  - 'plugin:k8splugin?version=3.0.0'
+inputs:
+  tag_version:
+    type: string
+    description: Docker image to be used
+    default: 'atmoz/sftp'
+  replicas:
+    type: integer
+    description: Number of instances
+    default: 1
+node_templates:
+  sftpserver:
+    type: dcae.nodes.ContainerizedServiceComponent
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            envs:
+              SFTP_USERS: bulkpm:bulkpm:::upload
+            ports:
+              - '22:32222'
+    properties:
+      service_component_type: sftpserver
+      service_component_name_override: sftpserver
+      image: { get_input: tag_version }
+      replicas: { get_input: replicas }
