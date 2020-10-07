@@ -1,0 +1,64 @@
+tosca_definitions_version: cloudify_dsl_1_3
+imports:
+  - 'http://www.getcloudify.org/spec/cloudify/4.5.5/types.yaml'
+  - 'plugin:k8splugin?version=3.4.2'
+inputs:
+  tag_version:
+    type: string
+    description: Docker image to be used
+    default: 'nexus3.onap.org:10001/onap/org.onap.integration.simulators.pnfsimulator:latest'
+  replicas:
+    type: integer
+    description: Number of instances
+    default: 1
+  external_cert_cert_type:
+    type: string
+    description: Output type
+    default: 'P12'
+  external_cert_ca_name:
+    type: string
+    description: Name of Certificate Authority configured on CertService side.
+    default: 'RA'
+  external_cert_common_name:
+    type: string
+    description: Common name which should be present in certificate.
+    default: 'pnf-simulator'
+  external_cert_sans:
+    type: string
+    description: 'List of Subject Alternative Names (SANs) which should be present
+      in certificate. Delimiter - : Should contain common_name value and other FQDNs
+      under which given component is accessible.'
+    default: 'pnf-simulator'
+  external_cert_use_external_tls:
+    type: boolean
+    description: Flag to indicate external tls enable/disable.
+    default: true
+node_templates:
+  pnf-simulator:
+    type: dcae.nodes.ContainerizedServiceComponent
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            ports:
+              - '5000:32225'
+    properties:
+      service_component_type: pnf-simulator
+      service_component_name_override: pnf-simulator
+      image: { get_input: tag_version }
+      replicas: { get_input: replicas }
+      tls_info:
+        cert_directory: '/app/store/'
+      external_cert:
+        external_cert_directory: '/app/store/'
+        use_external_tls:
+          get_input: external_cert_use_external_tls
+        cert_type:
+          get_input: external_cert_cert_type
+        ca_name:
+          get_input: external_cert_ca_name
+        external_certificate_parameters:
+          common_name:
+            get_input: external_cert_common_name
+          sans:
+            get_input: external_cert_sans
