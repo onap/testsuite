@@ -1,0 +1,31 @@
+tosca_definitions_version: cloudify_dsl_1_3
+imports:
+  - 'http://www.getcloudify.org/spec/cloudify/4.5.5/types.yaml'
+  - 'plugin:k8splugin?version=3.4.2'
+inputs:
+  tag_version:
+    type: string
+    description: Docker image to be used
+    default: 'mongo'
+  replicas:
+    type: integer
+    description: Number of instances
+    default: 1
+node_templates:
+  mongo:
+    type: dcae.nodes.ContainerizedServiceComponent
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            envs:
+              MONGO_INITDB_ROOT_USERNAME: root
+              MONGO_INITDB_ROOT_PASSWORD: zXcVbN123!
+              MONGO_INITDB_DATABASE: pnf_simulator
+            ports:
+              - '27017:0'
+    properties:
+      service_component_type: mongo
+      service_component_name_override: mongo
+      image: { get_input: tag_version }
+      replicas: { get_input: replicas }
