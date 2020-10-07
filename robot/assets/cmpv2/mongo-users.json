@@ -1,0 +1,28 @@
+{
+  user: 'pnf_simulator_user',
+  db: 'pnf_simulator',
+  credentials: {
+    'SCRAM-SHA-1': {
+      iterationCount: 10000,
+      salt: 'AtXr8dkfAQ+zXsUeanY99Q==',
+      storedKey: 'suYAdbiotJ04x/bCd+ve68yQg/4=',
+      serverKey: 'abT0iqYHa636s+WKmMvGtwUtrFA='
+    },
+    'SCRAM-SHA-256': {
+      iterationCount: 15000,
+      salt: 'uPK37wACrLbF+BhHmKmkd9/64NdenchtSM83ww==',
+      storedKey: 'HWnpYZZSFJd+shGbzkTHd73tR3jL6rXeayf2cQGYGQk=',
+      serverKey: '5EYM3T22BkRLrTTzIeR6L1YLLUvRWEbCnWrqVrEA+/U='
+    }
+  },
+  roles: [
+    {
+      role: 'readWrite',
+      db: 'pnf_simulator'
+    },
+    {
+      role: 'dbAdmin',
+      db: 'pnf_simulator'
+    }
+  ]
+}
