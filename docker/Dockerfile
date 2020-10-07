@@ -10,6 +10,8 @@ ARG TESTSUITE_TAG=master
 ARG HEATBRIDGE_TAG=master
 ARG PYTHON_UTILS_TAG=master
 ARG DEMO_TAG=master
+ARG KUBERNETES_VERSION="v1.15.11"
+
 
 ARG TESTSUITE_REPO=git.onap.org/testsuite
 ARG HEATBRIDGE_REPO=git.onap.org/testsuite/heatbridge.git
@@ -17,6 +19,11 @@ ARG PYTHON_UTILS_REPO=git.onap.org/testsuite/python-testing-utils.git
 ARG DEMO_REPO=git.onap.org/demo
 
 COPY requirements.txt requirements.txt
+
+# Install kubectl
+# Note: Latest version may be found on:
+# https://aur.archlinux.org/packages/kubectl-bin/
+ADD https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl /usr/local/bin/kubectl
 
 # Install Python, Pip, Robot framework, chromium, lighttpd web server
 RUN apt-get update \
@@ -47,7 +54,8 @@ RUN apt-get update \
     git+https://$HEATBRIDGE_REPO@$HEATBRIDGE_TAG#egg=heatbridge\&subdirectory=heatbridge \
     git+https://$PYTHON_UTILS_REPO@$PYTHON_UTILS_TAG#egg=robotframework-onap\&subdirectory=robotframework-onap && \
     git clone --depth 1 https://$TESTSUITE_REPO -b $TESTSUITE_TAG /var/opt/ONAP && \
-    git clone --depth 1 https://$DEMO_REPO -b $DEMO_TAG /var/opt/ONAP/demo
+    git clone --depth 1 https://$DEMO_REPO -b $DEMO_TAG /var/opt/ONAP/demo && \
+    chmod +x /usr/local/bin/kubectl && \
 
 RUN python3.7 -m pip install setuptools wheel
 RUN python3.7 -m pip install virtualenv
