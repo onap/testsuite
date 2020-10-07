@@ -1,0 +1,30 @@
+tosca_definitions_version: cloudify_dsl_1_3
+imports:
+  - 'http://www.getcloudify.org/spec/cloudify/4.5.5/types.yaml'
+  - 'plugin:k8splugin?version=3.0.0'
+inputs:
+  tag_version:
+    type: string
+    description: Docker image to be used
+    default: 'mongo-express'
+  replicas:
+    type: integer
+    description: Number of instances
+    default: 1
+node_templates:
+  mongo-express:
+    type: dcae.nodes.ContainerizedServiceComponent
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            envs:
+              ME_CONFIG_MONGODB_ADMINUSERNAME: root
+              ME_CONFIG_MONGODB_ADMINPASSWORD: zXcVbN123!
+            ports:
+              - '8081:32224'
+    properties:
+      service_component_type: mongo-express
+      service_component_name_override: mongo-express
+      image: { get_input: tag_version }
+      replicas: { get_input: replicas }

@@ -1,0 +1,25 @@
+{
+  "serviceTypeId": "{{serviceTypeId}}",
+  "inputs": {
+    "external_port": 0,
+    "external_port_tls": {{external_port_tls}},
+    "auth_method": "certBasicAuth",
+    "service_component_name_override": "{{service_component_name_override}}",
+    "service_id": "{{service_component_name_override}}",
+    "service_component_type": "{{service_component_name_override}}",
+    "enable_tls": true,
+    "ves_other_publish_url": "http://message-router:3904/events/unauthenticated.SEC_OTHER_OUTPUT/",
+    "ves_heartbeat_publish_url": "http://message-router:3904/events/unauthenticated.SEC_HEARTBEAT_OUTPUT/",
+    "ves_fault_publish_url": "http://message-router:3904/events/unauthenticated.SEC_FAULT_OUTPUT/",
+    "ves_measurement_publish_url": "http://message-router:3904/events/unauthenticated.VES_MEASUREMENT_OUTPUT/",
+    "ves_pnfRegistration_publish_url": "http://message-router:3904/events/unauthenticated.VES_PNFREG_OUTPUT/",
+    "ves_notification_publish_url": "http://message-router:3904/events/unauthenticated.VES_NOTIFICATION_OUTPUT/",
+    "user_list": "sample1,$2a$10$0buh.2WeYwN868YMwnNNEuNEAMNYVU9.FSMJGyIKV3dGET/7oGOi6|demouser,$2a$10$1cc.COcqV/d3iT2N7BjPG.S6ZKv2jpb9a5MV.o7lMih/GpjJRX.Ce",
+    "external_cert_ca_name": "RA",
+    "external_cert_common_name": "{{service_component_name_override}}",
+    "external_cert_sans": "{{external_cert_sans}}",
+    "external_cert_cert_type": "JKS",
+    "external_cert_use_external_tls": true,
+    "tag_version": "{{image}}"
+  }
+}
