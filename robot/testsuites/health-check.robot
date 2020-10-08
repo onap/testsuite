@@ -217,6 +217,7 @@ Basic SO Health Check
     SO.Run Get Request    ${GLOBAL_SO_SDNC_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
     SO.Run Get Request    ${GLOBAL_SO_VFC_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
     SO.Run Get Request    ${GLOBAL_SO_VNFM_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
+    SO.Run Get Request    ${GLOBAL_SO_NSSMF_ENDPOINT}    ${GLOBAL_SO_HEALTH_CHECK_PATH}
 
 Basic UseCaseUI API Health Check
     [Tags]    health    api    medium   health-uui
