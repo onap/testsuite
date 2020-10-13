@@ -10,3 +10,11 @@ json_sort = False
 indent_size = 2
 ignore =
   .tox/**
+  ves7_batch_valid.json
+  ves7_valid.json
+  ves_stdnDefined_3GPP-FaultSupervision.json
+  ves_stdnDefined_3GPP-Heartbeat.json
+  ves_stdnDefined_3GPP-PerformanceAssurance.json
+  ves_stdnDefined_3GPP-Provisioning.json
+
+
