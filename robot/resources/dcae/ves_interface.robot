@@ -1,0 +1,43 @@
+Documentation	  The main interface for interacting with VES Collector
+Library 	      RequestsLibrary
+Library           OperatingSystem
+Library           String
+
+*** Variables ***
+${INVENTORY_SERVER}                                 ${GLOBAL_INVENTORY_SERVER_PROTOCOL}://${GLOBAL_INVENTORY_SERVER_NAME}:${GLOBAL_INVENTORY_SERVER_PORT}
+${DEPLOYMENT_SERVER}                                ${GLOBAL_DEPLOYMENT_HANDLER_SERVER_PROTOCOL}://${GLOBAL_DEPLOYMENT_HANDLER_SERVER_NAME}:${GLOBAL_DEPLOYMENT_HANDLER_SERVER_PORT}
+${DR_ENDPOINT}                                      ${GLOBAL_DMAAP_DR_PROV_SERVER_PROTOCOL}://${GLOBAL_INJECTED_DMAAP_DR_PROV_IP_ADDR}:${GLOBAL_DMAAP_DR_PROV_SERVER_PORT}
+${DMAAP_BC_SERVER}                                  ${GLOBAL_BC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_BC_IP_ADDR}:${GLOBAL_BC_HTTPS_SERVER_PORT}
+${VES_HEALTH_CHECK_PATH}                            ${GLOBAL_DCAE_VES_HTTPS_PROTOCOL}://${GLOBAL_INJECTED_DCAE_VES_HOST}:${GLOBAL_DCAE_VES_HTTPS_SERVER_PORT}
+${MR_PUBLISH_TEMPLATE}                              mr/mr_publish.jinja
+
+*** Keywords ***
+
+
+Send Event to VES Collector
+    [Documentation]  keyword wich is used to send events through VES Collector Event Listener path
+    [Arguments]                         ${event}
+    ${headers}=                         Create Dictionary                   content-type=application/json
+    ${fileready}=                       OperatingSystem.Get File            ${JSON_DATA_FILE}
+    ${auth}=                            Create List                         ${GLOBAL_DCAE_VES_USERNAME}     ${GLOBAL_DCAE_VES_PASSWORD}
+    ${session}=                         Create Session                      ves                             ${VES_HEALTH_CHECK_PATH}      auth=${auth}
+    ${resp}=                            Post Request                        ves                             ${VES_LISTENER_PATH}          data=${event}   headers=${headers}
+    Should Be Equal As Strings          ${resp.status_code}                 202
+
+Topic Validate
+    [Documentation]   Keyword checks content of DMAAP topic and evaluate it's content with desired value
+    [Arguments]                         ${topic_name}   ${expected_text}
+    ${timestamp}=                       Get Current Date
+    ${dict}=                            Create Dictionary                           timestamp=${timestamp}
+    Templating.Create Environment       mr                                          ${GLOBAL_TEMPLATE_FOLDER}
+    ${data}=                            Templating.Apply Template                   mr                                  ${MR_PUBLISH_TEMPLATE}              ${dict}
+    ${resp}=                            Run MR Auth Post Request (User And Pass)i    ${MR_TOPIC_URL_PATH_FOR_POST}       ${GLOBAL_DCAE_USERNAME}             ${GLOBAL_DCAE_PASSWORD}       ${data}
+    Should Be Equal As Strings          ${resp.status_code}                         200
+    ${resp}=                            Run MR Auth Get Request                     ${MR_TOPIC_URL_PATH}                ${GLOBAL_DCAE_USERNAME}             ${GLOBAL_DCAE_PASSWORD}
+    Should Contain                      ${resp.text}                                ${expected_text}
+
+Send Event to VES & Validate Topic
+    [Documentation]   Keyword is a test template which alows to send event through VES Collector and check if ivent is routed to proper DMAAP topic
+    [Arguments]                         ${event}   ${topic_name}   ${expected_text}
+    Send Event to VES Collector         ${event}
+    Topic Validate                      ${topic_name}   ${expected_text}
