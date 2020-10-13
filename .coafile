@@ -9,4 +9,7 @@ bears = JSONFormatBear
 json_sort = False
 indent_size = 2
 ignore =
-  .tox/**
+  .tox/**,
+  robot/assets/dcae/ves*.json
+
+
