@@ -10,3 +10,6 @@ json_sort = False
 indent_size = 2
 ignore =
   .tox/**
+  /robot/assets/dcae/ves*.json
+
+
