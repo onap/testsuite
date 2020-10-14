@@ -55,7 +55,7 @@ RUN apt-get update \
     git+https://$PYTHON_UTILS_REPO@$PYTHON_UTILS_TAG#egg=robotframework-onap\&subdirectory=robotframework-onap && \
     git clone --depth 1 https://$TESTSUITE_REPO -b $TESTSUITE_TAG /var/opt/ONAP && \
     git clone --depth 1 https://$DEMO_REPO -b $DEMO_TAG /var/opt/ONAP/demo && \
-    chmod +x /usr/local/bin/kubectl && \
+    chmod +x /usr/local/bin/kubectl
 
 RUN python3.7 -m pip install setuptools wheel
 RUN python3.7 -m pip install virtualenv
