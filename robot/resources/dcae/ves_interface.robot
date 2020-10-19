@@ -10,6 +10,11 @@ ${DR_ENDPOINT}                                      ${GLOBAL_DMAAP_DR_PROV_SERVE
 ${DMAAP_BC_SERVER}                                  ${GLOBAL_BC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_BC_IP_ADDR}:${GLOBAL_BC_HTTPS_SERVER_PORT}
 ${VES_HEALTH_CHECK_PATH}                            ${GLOBAL_DCAE_VES_HTTPS_PROTOCOL}://${GLOBAL_INJECTED_DCAE_VES_HOST}:${GLOBAL_DCAE_VES_HTTPS_SERVER_PORT}
 ${MR_PUBLISH_TEMPLATE}                              mr/mr_publish.jinja
+${ves7_valid_json}                                  ${EXECDIR}/robot/assets/dcae/ves7_valid.json
+${FaultSupervision_json}                            ${EXECDIR}/robot/assets/dcae/ves_stdnDefined_3GPP-FaultSupervision.json
+${Heartbeat_json}                                   ${EXECDIR}/robot/assets/dcae/ves_stdnDefined_3GPP-Heartbeat.json
+${PerformanceAssurance_json}                        ${EXECDIR}/robot/assets/dcae/ves_stdnDefined_3GPP-PerformanceAssurance.json
+${Provisioning_json}                                ${EXECDIR}/robot/assets/dcae/ves_stdnDefined_3GPP-Provisioning.json
 
 *** Keywords ***
 
@@ -39,3 +44,12 @@ Send Event to VES & Validate Topic
     [Arguments]                         ${event}   ${topic_name}   ${expected_text}
     Send Event to VES Collector         ${event}
     Wait Until Keyword Succeeds  10x  5s   Topic Validate    ${topic_name}   ${expected_text}
+
+Activate DMAAP Topics
+    [Documentation]   Currently first event routed to empty DMAAP topic is gone, so there is need to "activate" topics for testing pourposes
+    Send Event to VES Collector    ${ves7_valid_json}
+    Send Event to VES Collector    ${FaultSupervision_json}
+    Send Event to VES Collector    ${Heartbeat_json}
+    Send Event to VES Collector    ${PerformanceAssurance_json}
+    Send Event to VES Collector    ${Provisioning_json}
+    Sleep   30s
