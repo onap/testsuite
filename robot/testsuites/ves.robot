@@ -11,9 +11,9 @@ Library           JSONLibrary
 Library           Process
 Library           ONAPLibrary.JSON
 Library           ONAPLibrary.Utilities
-Resource          ../../resources/dcae/ves_interface.robot
-Resource          ../../resources/mr_interface.robot
-Resource          ../../resources/dr_interface.robot
+Resource          ../resources/dcae/ves_interface.robot
+Resource          ../resources/mr_interface.robot
+Resource          ../resources/dr_interface.robot
 Suite Setup       Activate DMAAP Topics
 
 *** Variables ***
