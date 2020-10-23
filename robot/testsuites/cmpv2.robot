@@ -23,8 +23,10 @@ ${PNF_SIMULATOR_BLUEPRINT_PATH}          ${EXECDIR}/robot/assets/cmpv2/k8s-pnf-s
 ${VES_INPUTS}                            deployment/VesTlsCmpv2Inputs.jinja
 ${pnf_ves_integration_request}           ves/pnf_registration_request.jinja
 ${NEXUS3}                                ${GLOBAL_INJECTED_NEXUS_DOCKER_REPO}
-&{initial entry}                         correlation_id=dummy    PNF_IPv4_address=11.11.11.1    PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
-${PNF_SIMULATOR_ERROR_GREP_COMMAND}      kubectl logs $(kubectl get pods -n onap | grep pnf-simulator | awk '{print $1}' | grep -v NAME) -n onap --tail=2 --since=20s | grep 'Error sending message to ves: Received fatal alert: certificate_unknown'
+&{initial entry}                              correlation_id=dummy    PNF_IPv4_address=11.11.11.1    PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
+${PNF_SIMULATOR_ERROR_GREP_COMMAND_CERT}      kubectl logs $(kubectl get pods -n onap | grep pnf-simulator | awk '{print $1}' | grep -v NAME) -n onap --tail=2 --since=20s | grep 'Error sending message to ves: Received fatal alert: certificate_unknown'
+${PNF_SIMULATOR_ERROR_GREP_COMMAND_SANS}      kubectl logs $(kubectl get pods -n onap | grep pnf-simulator | awk '{print $1}' | grep -v NAME) -n onap --tail=2 --since=20s | egrep  "Error(.)*dcae-ves-collector-cmpv2-cert-wrong-sans(.)*wrong-sans(.)*"
+
 
 *** Test Cases ***
 
@@ -64,6 +66,25 @@ Deploying VES collector with CMPv2
     ${deployment_data}=                 Templating.Apply Template          deployment                                           ${VES_INPUTS}            ${arguments}
     Deploy Service                      ${deployment_data}                 ves-collector-cmpv2-dep                    4 minutes
 
+Deploying VES collector with CMPv2 and wrong SANs
+    [Documentation]
+     ...  This test case deploys second VES instance with "enable_tls": set to true and "external_cert_use_external_tls" (CMPv2) set to true as DCAE applictaion, CMPv2 certificate has wrong SANs
+     ...  Both CMPv2 and AAF certificates are present
+    [Tags]                              CMPv2
+    ${resp}=                            Get Blueprint From Inventory       k8s-ves
+    ${json}=                            Set Variable                       ${resp.json()}
+    ${serviceTypeIdVes}                 Set Variable                       ${json['items'][0]['typeId']}
+    ${image}                            Get Regexp Matches                 ${json['items'][0]['blueprintTemplate']}             nexus3(.)*?(?=\")
+    ${image}                            Replace String                     ${image}[0]      nexus3.onap.org:10001               ${NEXUS3}
+    ${arguments}=                       Create Dictionary                  serviceTypeId=${serviceTypeIdVes}
+    Set To Dictionary                   ${arguments}                       image                                                ${image}
+    Set To Dictionary                   ${arguments}                       external_port_tls                                    32227
+    Set To Dictionary                   ${arguments}                       service_component_name_override                      dcae-ves-collector-cmpv2-cert-wrong-sans
+    Set To Dictionary                   ${arguments}                       external_cert_sans                                   wrong-sans
+    Templating.Create Environment       deployment                         ${GLOBAL_TEMPLATE_FOLDER}
+    ${deployment_data}=                 Templating.Apply Template          deployment                                           ${VES_INPUTS}            ${arguments}
+    Deploy Service                      ${deployment_data}                 ves-collector-cmpv2-wrong-sans-dep                   4 minutes
+
 Send registration request to CMPv2 VES
     [Documentation]
     ...  This test case triggers registration request from PNF Simulator(where is present only CMPv2 certificate) to VES collector
@@ -79,17 +100,30 @@ Send registration request to CMPv2 VES
      Pnf simulator send single VES event        ${template}                         dcae-ves-collector-cmpv2-cert           8443                             pnf-simulator              5000
      Verify PNF Integration Request in A&AI     ${PNF_entry_dict}
 
+Send registration request to CMPv2 VES with wrong SAN-s
+    [Documentation]
+    ...  This test case triggers registration request from PNF Simulator (where is present only CMPv2 certificate)  to VES collector
+    ...  ith enabled CMPv2 (both CMPv2 and AAF certificates are present). CMPv2 certificate has wrong SANs.
+    ...  Test expects exception in PNF Simulator logs due to wrong subject alternatives
+    [Tags]                                     CMPv2
+    ${pnf_correlation_id}=                      Generate Random String              20                                      [LETTERS][NUMBERS]
+    ${PNF_entry_dict}=                         Create Dictionary                   correlation_id=${pnf_correlation_id}    PNF_IPv4_address=14.14.14.14    PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
+    Templating.Create Environment              ves                                 ${GLOBAL_TEMPLATE_FOLDER}
+    ${template}=                               Templating.Apply Template           ves                                     ${pnf_ves_integration_request}   ${PNF_entry_dict}
+    Pnf simulator send single VES event        ${template}                         dcae-ves-collector-cmpv2-cert-wrong-sans      8443                             pnf-simulator              5000
+    ${rc} =                                    Run and Return RC                   ${PNF_SIMULATOR_ERROR_GREP_COMMAND_SANS}
+    Should Be Equal As Integers                ${rc}                               0
 
 Send registration request to VES without CMPv2 certificate
     [Documentation]
     ...  This test case triggers registration request from PNF Simulator (where is present only CMPv2 certificate)  to VES collector
     ...  with disabled CMPv2 (only AAF certificate is present - VES collector deployed during whole ONAP deploy).
-    ...  Test expects exceptyion in PNF Simualtor logs
+    ...  Test expects exception in PNF Simulator logs due to wrong certificate
     [Tags]                                     CMPv2
     ${pnf_correlation_id}=                      Generate Random String              20                                      [LETTERS][NUMBERS]
     ${PNF_entry_dict}=                         Create Dictionary                   correlation_id=${pnf_correlation_id}    PNF_IPv4_address=14.14.14.14    PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
     Templating.Create Environment              ves                                 ${GLOBAL_TEMPLATE_FOLDER}
     ${template}=                               Templating.Apply Template           ves                                     ${pnf_ves_integration_request}   ${PNF_entry_dict}
     Pnf simulator send single VES event        ${template}                         dcae-ves-collector           8443                             pnf-simulator              5000
-    ${rc} =                                    Run and Return RC                   ${PNF_SIMULATOR_ERROR_GREP_COMMAND}
+    ${rc} =                                    Run and Return RC                   ${PNF_SIMULATOR_ERROR_GREP_COMMAND_CERT}
     Should Be Equal As Integers                ${rc}                               0
