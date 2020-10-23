@@ -40,6 +40,8 @@ node_templates:
       cloudify.interfaces.lifecycle:
         start:
           inputs:
+            envs:
+              STRICT_HOSTNAME_VERIFICATION: true
             ports:
               - '5000:0'
     properties:
