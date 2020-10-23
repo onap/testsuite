@@ -41,5 +41,6 @@ Usecase Teardown
     Undeploy Service                    mongo-dep
     Undeploy Service                    pnf-simulator-dep
     Undeploy Service                    ves-collector-cmpv2-dep
+    Undeploy Service                    ves-collector-cmpv2-wrong-sans-dep
     Delete Blueprint From Inventory     ${serviceTypeIdMongo}
     Delete Blueprint From Inventory     ${serviceTypeIdPnfSimulator}
