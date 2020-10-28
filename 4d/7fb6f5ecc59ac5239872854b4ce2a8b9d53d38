@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Verified+1: Krzysztof Kuzmicki <krzysztof.kuzmicki@nokia.com>
+Code-Review+2: Krzysztof Kuzmicki <krzysztof.kuzmicki@nokia.com>
+Submitted-by: Krzysztof Kuzmicki <krzysztof.kuzmicki@nokia.com>
+Submitted-at: Wed, 28 Oct 2020 11:29:10 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/testsuite/+/114354
+Project: testsuite
+Branch: refs/heads/master
