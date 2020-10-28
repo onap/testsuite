@@ -1,0 +1,8 @@
+Code-Review+1: Sylvain Desbureaux <sylvain.desbureaux@orange.com>
+Code-Review+2: Thierry Hardy <thierry.hardy@orange.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Thierry Hardy <thierry.hardy@orange.com>
+Submitted-at: Wed, 28 Oct 2020 12:24:25 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/testsuite/+/114352
+Project: testsuite
+Branch: refs/heads/master
