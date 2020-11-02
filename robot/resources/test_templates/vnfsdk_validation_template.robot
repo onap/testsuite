@@ -51,7 +51,7 @@ Create CSAR Package with integrity check
     Copy Directory   ${GLOBAL_TOSCA_ONBOARDING_PACKAGES_FOLDER}/vnfsdk/${package_folder}  ${VNFSDK_CSAR_DIRECTORY}
     ${meta}=  OperatingSystem.Get File   ${VNFSDK_CSAR_DIRECTORY}/${package_folder}/TOSCA-Metadata/TOSCA.meta
     ${cert_name}=  Get Regexp Matches  ${meta}  (?<=\ETSI-Entry-Certificate: )(.*)
-    Copy File  /tmp/package-robot-${cert}.cert   ${VNFSDK_CSAR_DIRECTORY}/${package_folder}/${cert_name}[0]
+    Run Keyword And Ignore Error  Copy File  /tmp/package-robot-${cert}.cert   ${VNFSDK_CSAR_DIRECTORY}/${package_folder}/${cert_name}[0]
     ${files} = 	List Files In Directory 	 ${VNFSDK_CSAR_DIRECTORY}/${package_folder} 	*.mf  absolute
     Sign csar manifest file   ${integrity_check}  ${cert}  ${files}[0]
     ${rc} =     Run and Return RC   cd ${VNFSDK_CSAR_DIRECTORY}/${package_folder}; zip -r ${csar} *
