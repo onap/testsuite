@@ -15,6 +15,16 @@ ${FaultSupervision_json}                            ${EXECDIR}/robot/assets/dcae
 ${Heartbeat_json}                                   ${EXECDIR}/robot/assets/dcae/ves_stdnDefined_3GPP-Heartbeat.json
 ${PerformanceAssurance_json}                        ${EXECDIR}/robot/assets/dcae/ves_stdnDefined_3GPP-PerformanceAssurance.json
 ${Provisioning_json}                                ${EXECDIR}/robot/assets/dcae/ves_stdnDefined_3GPP-Provisioning.json
+${MR_TOPIC_CHECK_PATH}                              /topics
+${DR_SUB_CHECK_PATH}                                /internal/prov
+${MR_TOPIC_URL_PATH}                                /events/unauthenticated.SEC_FAULT_OUTPUT/CG1/C1
+${MR_FAULTSUPERVISION_TOPIC_URL_PATH}               /events/unauthenticated.SEC_3GPP_FAULTSUPERVISION_OUTPUT/CG1/C1
+${MR_HEARTBEAT_TOPIC_URL_PATH}                      /events/unauthenticated.SEC_3GPP_HEARTBEAT_OUTPUT/CG1/C1
+${MR_PERFORMANCEASSURANCE_TOPIC_URL_PATH}           /events/unauthenticated.SEC_3GPP_PERFORMANCEASSURANCE_OUTPUT/CG1/C1
+${MR_PROVISIONING_TOPIC_URL_PATH}                   /events/unauthenticated.SEC_3GPP_PROVISIONING_OUTPUT/CG1/C1
+${DMAAP_BC_MR_CLIENT_PATH}                          /webapi/mr_clients
+${DMAAP_BC_MR_CLUSTER_PATH}                         /webapi/mr_clusters
+${VES_LISTENER_PATH}                                /eventListener/v7
 
 *** Keywords ***
 
@@ -43,13 +53,13 @@ Send Event to VES & Validate Topic
     [Documentation]   Keyword is a test template which alows to send event through VES Collector and check if ivent is routed to proper DMAAP topic
     [Arguments]                         ${event}   ${topic_name}   ${expected_text}
     Send Event to VES Collector         ${event}
-    Wait Until Keyword Succeeds  10x  5s   Topic Validate    ${topic_name}   ${expected_text}
+    Wait Until Keyword Succeeds  10x  1s   Topic Validate    ${topic_name}   ${expected_text}
 
 Activate DMAAP Topics
     [Documentation]   Currently first event routed to empty DMAAP topic is gone, so there is need to "activate" topics for testing pourposes
-    Send Event to VES Collector    ${ves7_valid_json}
-    Send Event to VES Collector    ${FaultSupervision_json}
-    Send Event to VES Collector    ${Heartbeat_json}
-    Send Event to VES Collector    ${PerformanceAssurance_json}
-    Send Event to VES Collector    ${Provisioning_json}
-    Sleep   30s
+    Wait Until Keyword Succeeds  10x  5s   Send Event to VES & Validate Topic      ${ves7_valid_json}   ${MR_TOPIC_URL_PATH}   Fault_Vscf:Acs-Ericcson_PilotNumberPoolExhaustion
+    Wait Until Keyword Succeeds  10x  5s   Send Event to VES & Validate Topic      ${FaultSupervision_json}   ${MR_FAULTSUPERVISION_TOPIC_URL_PATH}   ves_stdnDefined_3GPP-FaultSupervision
+    Wait Until Keyword Succeeds  10x  5s   Send Event to VES & Validate Topic      ${Heartbeat_json}   ${MR_HEARTBEAT_TOPIC_URL_PATH}   ves_stdnDefined_3GPP-Heartbeat
+    Wait Until Keyword Succeeds  10x  5s   Send Event to VES & Validate Topic      ${PerformanceAssurance_json}   ${MR_PERFORMANCEASSURANCE_TOPIC_URL_PATH}   ves_stdnDefined_3GPP-PerformanceAssurance
+    Wait Until Keyword Succeeds  10x  5s   Send Event to VES & Validate Topic      ${Provisioning_json}   ${MR_PROVISIONING_TOPIC_URL_PATH}   ves_stdnDefined_3GPP-Provisioning
+    Sleep   10s
