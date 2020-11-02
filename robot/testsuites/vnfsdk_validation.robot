@@ -9,15 +9,15 @@ Default Tags      vnfsdk  pnf_preonboarding_onboarding
 
 
 *** Variables ***
-@{allMandatoryEntriesDefinedInTOSCAMeta}       r146092  r130206
-@{no_pnfd_release_date_time_error}       r57019  r130206
-@{non_mano_artifact_sets_is_mandatory}   r146092  r130206
-@{noETSI-Entry-ManifestOrETSI-Entry-Change-Log}  r293901  r130206
-@{PNFD_missing}  SOL004  r10087  r87234  r35854  r15837  r17852  r293901  r146092  r57019  r787965  r130206  r972082
+@{allMandatoryEntriesDefinedInTOSCAMeta}       r146092   r816745  r01123
+@{no_pnfd_release_date_time_error}       r57019  r01123  r816745
+@{non_mano_artifact_sets_is_mandatory}   r146092  r01123
+@{noETSI-Entry-ManifestOrETSI-Entry-Change-Log}  r293901  r01123  r130206
+@{PNFD_missing}  SOL004  r10087  r87234  r35854  r15837  r17852  r293901  r146092  r57019  r787965    r972082  r01123  r130206  r816745
 @{missing_entry_in_manifest}
-@{allMandatoryEntriesDefinedInTOSCAMeta_sdc_message}  Following entry not supported in TOSCA.meta Entry-Tests  Manifest contains invalid line: 7: #The manifest file shall include a list of all files contained in or referenced from the VNF package with their location
-@{no_pnfd_release_date_time_error_sdc_message}   Following entry not supported in TOSCA.meta Entry-Tests  Invalid Manifest metadata entry: '#The manifest file shall include a list of all files contained in or referenced from the VNF package with their location'.;\nAt line 6: '#The manifest file shall include a list of all files contained in or referenced from the VNF package with their location'.
-@{non_mano_artifact_sets_is_mandatory_sdc_message}   Following entry not supported in TOSCA.meta Entry-Tests  Manifest contains invalid line: 7: #The manifest file shall include a list of all files contained in or referenced from the VNF package with their location
+@{allMandatoryEntriesDefinedInTOSCAMeta_sdc_message}   Manifest contains invalid line: 7: #The manifest file shall include a list of all files contained in or referenced from the VNF package with their location
+@{no_pnfd_release_date_time_error_sdc_message}    Invalid Manifest metadata entry: '#The manifest file shall include a list of all files contained in or referenced from the VNF package with their location'.;\nAt line 6: '#The manifest file shall include a list of all files contained in or referenced from the VNF package with their location'.
+@{non_mano_artifact_sets_is_mandatory_sdc_message}   Manifest contains invalid line: 7: #The manifest file shall include a list of all files contained in or referenced from the VNF package with their location
 @{noETSI-Entry-ManifestOrETSI-Entry-Change-Log_sdc_message}   Manifest contains invalid line: 7: #The manifest file shall include a list of all files contained in or referenced from the VNF package with their location   Manifest contains invalid line: 7: #The manifest file shall include a list of all files contained in or referenced from the VNF package with their location
 @{PNFD_missing_sdc_message}   TOSCA.meta file in TOSCA-metadata directory missing entry Created-By
 @{invalid_certificate}  Could not verify signature!
@@ -75,7 +75,7 @@ Validate Onboarding test_SDC_and_VNFSDK_API, integrity_check CMS_with_cert
      ...  This test case creates TOSCA csar software package for PNF, based on /var/opt/ONAP/demo/tosca/vnfsdk/test_SDC_and_VNFSDK_API
      ...  Imports it as csar VSP package to SDC and expects success.
      ...  Runs VNFSDK validation and and expects success.
-     test_SDC_and_VNFSDK_API_with_hash   negative_test_case=FALSE   integrity_check=CMS_with_cert
+     test_SDC_and_VNFSDK_API_with_hash_cert_in_CMS   negative_test_case=FALSE   integrity_check=CMS_with_cert
 
 Validate Onboarding test_SDC_and_VNFSDK_API, integrity_check CMS_without_cert
      [Documentation]
@@ -98,7 +98,7 @@ Validate Onboarding test_SDC_and_VNFSDK_API, secured csar - CMS and CERT - sdc v
      ...  Next sign with certificate that is imported to SDC onabarding POD using CMS and CERT  method (CMS file signs csar, zip contains csar, certificate and cms files )
      ...  Imports it as zip VSP package to SDC and expects success.
      ...  Runs VNFSDK validation and and expects success.
-     test_SDC_and_VNFSDK_API_with_hash   secured_package=TRUE   negative_test_case=FALSE  integrity_check=CMS_with_cert  secure_type=CMS_AND_CERT  sdc_cert=sdc-valid
+     test_SDC_and_VNFSDK_API_with_hash_cert_in_CMS   secured_package=TRUE   negative_test_case=FALSE  integrity_check=CMS_with_cert  secure_type=CMS_AND_CERT  sdc_cert=sdc-valid
 
 Validate Onboarding test_SDC_and_VNFSDK_API, secured csar - CMS only - sdc invalid certificate, integrity_check CMS_without_cert
      [Documentation]
@@ -114,5 +114,5 @@ Validate Onboarding test_SDC_and_VNFSDK_API, secured csar - CMS and CERT - sdc i
      ...  Next sign with certificate that is not imported to SDC onabarding POD using CMS and CERT  method (CMS file signs csar, zip contains csar, certificate and cms files )
      ...  Imports it as zip VSP package to SDC and expects error due to issues with certificate validation.
      ...  Runs VNFSDK validation and and expects success
-     test_SDC_and_VNFSDK_API_with_hash   secured_package=TRUE   negative_test_case=FALSE  integrity_check=CMS_with_cert  sdc_response=@{invalid_certificate}  secure_type=CMS_AND_CERT  sdc_cert=sdc-invalid
+     test_SDC_and_VNFSDK_API_with_hash_cert_in_CMS   secured_package=TRUE   negative_test_case=FALSE  integrity_check=CMS_with_cert  sdc_response=@{invalid_certificate}  secure_type=CMS_AND_CERT  sdc_cert=sdc-invalid
 
