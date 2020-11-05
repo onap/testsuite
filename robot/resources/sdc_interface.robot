@@ -309,7 +309,7 @@ Setup SDC Catalog Resource
     ${software_product_id}   ${software_product_version_id}=    Add SDC Software Product    ${license_agreement_id}    ${feature_group_id}    ${license_model_resp['vendorName']}    ${license_model_id}    ${license_model_version_id}    ${software_product_name_prefix}
     Upload SDC Heat Package    ${software_product_id}    ${model_zip_path}   ${software_product_version_id}
     Validate SDC Software Product    ${software_product_id}  ${software_product_version_id}
-    Submit SDC Software Product    ${software_product_id}  ${software_product_version_id}
+    Wait Until Keyword Succeeds   30s    10s   Submit SDC Software Product    ${software_product_id}  ${software_product_version_id}
     Package SDC Software Product    ${software_product_id}   ${software_product_version_id}
     ${software_product_resp}=    Get SDC Software Product    ${software_product_id}    ${software_product_version_id}
     ${catalog_resource_id}=    Add SDC Catalog Resource     ${license_agreement_id}    ${software_product_resp['name']}    ${license_model_resp['vendorName']}    ${software_product_id}  ${resourceType}
