@@ -24,7 +24,7 @@ ${CATALOG_RESOURCE_IDS}
 ${REVERSE_HEATBRIDGE}
 ${HB_VNF}
 
-${API_TYPE}   VNF_API
+${API_TYPE}   GRA_API
 
 *** Test Cases ***
 Initialize Customer And Models

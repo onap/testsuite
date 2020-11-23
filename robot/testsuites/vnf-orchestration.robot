@@ -7,7 +7,7 @@ Resource         ../resources/test_templates/vnf_orchestration_test_template.rob
 Test Template         Orchestrate VNF Template
 
 *** Variables ***
-${API_TYPE}   VNF_API
+${API_TYPE}   GRA_API
 
 
 *** Test Cases ***              CUSTOMER           SERVICE   PRODUCT_FAMILY
