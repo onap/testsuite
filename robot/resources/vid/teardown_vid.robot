@@ -36,7 +36,8 @@ Delete VID
     Return From Keyword If    '${status}' == 'FAIL'    ${status}    ${vfmodule}
     Return From Keyword If    '${vfmodule}' == 'FAIL'    ${status}    ${vfmodule}
     # After tearing down a VF module, execute the reverse HB for it to remove the references from A&AI
-    Run Keyword If   'Vfmodule_Ete' in '${vfmodule}'    Execute Reverse Heatbridge    ${uris_to_delete}
+    ## Removed heatbridge
+    ## Run Keyword If   'Vfmodule_Ete' in '${vfmodule}'    Execute Reverse Heatbridge    ${uris_to_delete}
     Fail    Continue with Next Remove
 
 Delete Next VID Entity

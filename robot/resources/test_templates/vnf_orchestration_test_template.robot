@@ -76,7 +76,10 @@ Orchestrate VNF
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
-    \   ${uris_to_delete}=    Execute Heatbridge    ${vf_module_name}    ${vnf}  ${service}    ipv4_oam_interface
+    ##  Part of removale of heatbridge
+    ##  \   ${uris_to_delete}=    Execute Heatbridge    ${vf_module_name}    ${vnf}  ${service}    ipv4_oam_interface
+    ##  set a fake urils_to_delete until we confirm heatbridge can be fully removed
+    \   ${uris_to_delete}=   Set Variable   'http://devnull'
     \   Validate VF Module      ${vf_module_name}    ${vnf}
     \   Append To List   ${vf_module_name_list}    ${vf_module_name}
     [Return]     ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${catalog_resource_ids}   ${catalog_service_id}    ${uris_to_delete}
@@ -125,7 +128,8 @@ Orchestrate Demo VNF
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
-    \   Execute Heatbridge    ${vf_module_name}    ${vnf}  ${service}    ipv4_oam_interface
+    ##  Part of remove Heatbridge
+    ##\   Execute Heatbridge    ${vf_module_name}    ${vnf}  ${service}    ipv4_oam_interface
     \   Validate VF Module      ${vf_module_name}    ${vnf}
     \   Append To List   ${vf_module_name_list}   ${vf_module_name}
     [Return]     ${vf_module_name}    ${service}    ${generic_vnfs}
