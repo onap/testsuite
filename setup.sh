@@ -37,31 +37,37 @@ pip install \
 # i dont why we need this, but lets protobuf work in docker
 touch /var/opt/ONAP/robot/library/google/__init__.py
 
-if [ -d $path/testsuite/heatbridge ]
-then
-    # Support LF build location
-	cd $path/testsuite/heatbridge
-else
-	cd ~
-	git config --global http.sslVerify false
-	if [ -d ~/heatbridge ]
-	then
-		cd heatbridge
-		git pull origin master
-	else
-		git clone https://gerrit.onap.org/r/testsuite/heatbridge.git
-		cd heatbridge
-	fi
-fi
+###############################
+# remove heatbridge
+# commented out for testing
+################################################################
+#if [ -d $path/testsuite/heatbridge ]
+#then
+#    # Support LF build location
+#	cd $path/testsuite/heatbridge
+#else
+#	cd ~
+#	git config --global http.sslVerify false
+#	if [ -d ~/heatbridge ]
+#	then
+#		cd heatbridge
+#		git pull origin master
+#	else
+#		git clone https://gerrit.onap.org/r/testsuite/heatbridge.git
+#		cd heatbridge
+#	fi
+#fi
 
-pip install \
---no-cache-dir \
---upgrade \
---exists-action s \
---target="$path/robot/library" \
-./heatbridge
+#pip install \
+#--no-cache-dir \
+#--upgrade \
+#--exists-action s \
+#--target="$path/robot/library" \
+#./heatbridge
 
-sed -i 's/cinderclient\.v1\.client/cinderclient\.v2\.client/g' /var/opt/ONAP/robot/library/heatbridge/OpenstackManager.py
+#sed -i 's/cinderclient\.v1\.client/cinderclient\.v2\.client/g' /var/opt/ONAP/robot/library/heatbridge/OpenstackManager.py
+
+################################################################
 
 # Go back to execution folder
 cd $path
