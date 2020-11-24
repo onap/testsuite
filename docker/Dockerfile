@@ -14,7 +14,7 @@ ARG KUBERNETES_VERSION="v1.15.11"
 
 
 ARG TESTSUITE_REPO=git.onap.org/testsuite
-ARG HEATBRIDGE_REPO=git.onap.org/testsuite/heatbridge.git
+#ARG HEATBRIDGE_REPO=git.onap.org/testsuite/heatbridge.git
 ARG PYTHON_UTILS_REPO=git.onap.org/testsuite/python-testing-utils.git
 ARG DEMO_REPO=git.onap.org/demo
 
@@ -51,11 +51,12 @@ RUN apt-get update \
     mkdir -p /var/opt/ONAP && \
     pip install -r requirements.txt && \
     pip install --no-cache-dir \
-    git+https://$HEATBRIDGE_REPO@$HEATBRIDGE_TAG#egg=heatbridge\&subdirectory=heatbridge \
     git+https://$PYTHON_UTILS_REPO@$PYTHON_UTILS_TAG#egg=robotframework-onap\&subdirectory=robotframework-onap && \
     git clone --depth 1 https://$TESTSUITE_REPO -b $TESTSUITE_TAG /var/opt/ONAP && \
     git clone --depth 1 https://$DEMO_REPO -b $DEMO_TAG /var/opt/ONAP/demo && \
     chmod +x /usr/local/bin/kubectl
+    # moved in case line extension with comment isnt supported
+    #git+https://$HEATBRIDGE_REPO@$HEATBRIDGE_TAG#egg=heatbridge\&subdirectory=heatbridge \
 
 RUN python3.7 -m pip install setuptools wheel
 RUN python3.7 -m pip install virtualenv
