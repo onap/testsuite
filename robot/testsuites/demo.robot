@@ -119,11 +119,11 @@ Delete Instantiated VNF
     Delete VNF    ${TENANT_NAME}    ${VVG_SERVER_ID}    ${CUSTOMER_NAME}    ${SERVICE_INSTANCE_ID}    ${STACK_NAMES}    ${REVERSE_HEATBRIDGE}
     [Teardown]   Teardown VNF    ${CUSTOMER_NAME}    ${CATALOG_SERVICE_ID}    ${CATALOG_RESOURCE_IDS}
 
-Run Heatbridge
-    [Documentation]
-    ...    Try to run heatbridge
-    [Tags]   heatbridge
-    Execute Heatbridge   ${HB_STACK}   ${HB_VNF}    ${HB_SERVICE}    ${HB_IPV4_OAM_ADDRESS}
+#Run Heatbridge
+#    [Documentation]
+#    ...    Try to run heatbridge
+#    [Tags]   heatbridge
+#    Execute Heatbridge   ${HB_STACK}   ${HB_VNF}    ${HB_SERVICE}    ${HB_IPV4_OAM_ADDRESS}
 
 Preload APPC CDT GUI
     [Documentation]
