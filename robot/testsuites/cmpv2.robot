@@ -61,7 +61,7 @@ Deploying VES collector with CMPv2
     Set To Dictionary                   ${arguments}                       image                                                ${image}
     Set To Dictionary                   ${arguments}                       external_port_tls                                    32226
     Set To Dictionary                   ${arguments}                       service_component_name_override                      dcae-ves-collector-cmpv2-cert
-    Set To Dictionary                   ${arguments}                       external_cert_sans                                   dcae-ves-collector-cmpv2-cert:ves-collector-cmpv2-cert:ves-cmpv2-cert
+    Set To Dictionary                   ${arguments}                       external_cert_sans                                   dcae-ves-collector-cmpv2-cert,ves-collector-cmpv2-cert,ves-cmpv2-cert
     Templating.Create Environment       deployment                         ${GLOBAL_TEMPLATE_FOLDER}
     ${deployment_data}=                 Templating.Apply Template          deployment                                           ${VES_INPUTS}            ${arguments}
     Deploy Service                      ${deployment_data}                 ves-collector-cmpv2-dep                    4 minutes
