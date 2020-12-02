@@ -61,3 +61,38 @@ Send File Ready Event to VES Collector
     ${VES_FILE_READY_NOTIFICATION}      Set Variable                        {"event":{"commonEventHeader":{"version":"4.0.1","vesEventListenerVersion":"7.0.1","domain":"notification","eventName":"Noti_RnNode-Ericsson_FileReady","eventId":"FileReady_1797490e-10ae-4d48-9ea7-3d7d790b25e1","lastEpochMicrosec":8745745764578,"priority":"Normal","reportingEntityName":"otenb5309","sequence":0,"sourceName":"oteNB5309","startEpochMicrosec":8745745764578,"timeZoneOffset":"UTC+05.30"},"notificationFields":{"changeIdentifier":"PM_MEAS_FILES","changeType":"FileReady","notificationFieldsVersion":"2.0","arrayOfNamedHashMap":[{"name":"A${epoch}.xml.gz","hashMap":{"location":"sftp://bulkpm:bulkpm@sftpserver:22/upload/A${epoch}.xml.gz","compression":"gzip","fileFormatType":"org.3GPP.32.435#measCollec","fileFormatVersion":"V10"}}]}}}
     ${resp}=                            Post Request                        ves                             ${VES_LISTENER_PATH}          data=${VES_FILE_READY_NOTIFICATION}   headers=${headers}
     Should Be Equal As Strings          ${resp.status_code}                 202
+
+Upload PM Files to xNF SFTP Server
+    [Arguments]                         ${ftp_file_path}
+    Open Connection                     sftpserver
+    Login                               bulkpm                             bulkpm
+    ${epoch}=                           Get Current Date                   result_format=epoch
+    Set Global Variable                 ${epoch}
+    Put File                            ${ftp_file_path}                   upload/A${epoch}.xml.gz
+    [Return]                            ${epoch}
+
+Check Given Print In DFC Log
+    [Arguments]  ${CHECK_DFC_LOGS}
+    ${dfc_logs}=                     Run Given Command On DFC Container      ${CHECK_DFC_LOGS}
+    Should Contain                   ${dfc_logs}                             HostKey has been changed
+
+Run Given Command On DFC Container
+    [Arguments]  ${user_command}
+    ${run_command} =   Run And Return Rc And Output  ${user_command}
+    ${command_output} =  Set Variable  ${run_command[1]}
+    ${regexp_matches} =  Get Regexp Matches  ${command_output}  .*(\\s|\\[)+(.+-datafile-collector).*  2
+    ${dfc_container_name} =  Set Variable  ${regexp_matches[0]}
+    ${new_command} =  Set Variable  ${user_command} ${dfc_container_name}
+    ${command_output} =  Run And Return Rc And Output  ${new_command}
+    Should Be Equal As Integers  ${command_output[0]}  0
+    ${log} =  Set Variable  ${command_output[1]}
+    [Return]  ${log}
+
+Check Known Hosts In Env
+    [Arguments]    ${CHECK_KNOWN_HOSTS}
+    ${check} =  Run And Return Rc And Output  ${CHECK_KNOWN_HOSTS}
+    Should Be Equal As Integers  ${check[0]}  0
+    ${env} =  Set Variable  ${check[1]}
+    ${string_matches} =  Get Lines Containing String  ${env}  KNOWN_HOSTS_FILE_PATH=/home/datafile/.ssh/known_host  case_insensitive=True
+    ${output} =  Should Not Be Empty  ${string_matches} 
+    [Return]    ${output}

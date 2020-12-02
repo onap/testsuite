@@ -17,6 +17,8 @@ Resource          ../../resources/dr_interface.robot
 Suite Setup       Send File Ready Event to VES Collector   test
 Suite Teardown    Usecase Teardown
 
+
+
 *** Variables ***
 ${INVENTORY_ENDPOINT}               /dcae-service-types
 ${XNF_SFTP_BLUEPRINT_PATH}          ${EXECDIR}/robot/assets/usecases/5gbulkpm/k8s-sftp.yaml
@@ -35,16 +37,20 @@ ${VES_LISTENER_PATH}                /eventListener/v7
 ${PMMAPPER_SUB_ROLE_DATA}           ${EXECDIR}/robot/assets/usecases/5gbulkpm/sub.json
 ${PMMAPPER_MR_CLUSTER_DATA}         ${EXECDIR}/robot/assets/usecases/5gbulkpm/mr_clusters.json
 ${NEXUS3}                           ${GLOBAL_INJECTED_NEXUS_DOCKER_REPO}
-
-
+${SET_KNOWN_HOSTS_FILE_PATH}        kubectl set env deployment/$(kubectl get deployment -n onap | grep datafile | awk '{print $1}') KNOWN_HOSTS_FILE_PATH=/home/datafile/.ssh/known_hosts -n onap
+${CHECK_ENV_SET}                    kubectl set env pod/$(kubectl get pod -n onap | grep datafile | awk '{print $1}') --list -n onap
+${GET_RSA_KEY}                      kubectl exec $(kubectl get pod -n onap | grep sftpserver | awk '{print $1}') -n onap -- ssh-keyscan -t rsa sftpserver > /tmp/known_hosts
+${COPY_RSA_KEY}                     kubectl cp /tmp/known_hosts $(kubectl get pod -n onap | grep datafile | awk '{print $1}'):/home/datafile/.ssh/known_hosts -n onap
+${CHECK_DFC_LOGS}                   kubectl logs $(kubectl get pod -n onap | grep datafile | awk '{print $1}') -n onap --tail=4
+${EXPECTED_PRINT}                   StrictHostKeyChecking is enabled but environment variable KNOWN_HOSTS_FILE_PATH is not set or points to not existing file
 
 *** Test Cases ***
 
 Deploying Data File Collector
-    [Tags]                              5gbulkpm
+    [Tags]                              5gbulkpm                           5gbulkpm_checking_sftp_rsa_key
     ${headers}=                         Create Dictionary                  content-type=application/json
     ${session}=                         Create Session                     dfc                 ${INVENTORY_SERVER}
-    ${resp}=                            Get Request                       dfc                 ${INVENTORY_ENDPOINT}?typeName=k8s-datafile                      headers=${headers}
+    ${resp}=                            Get Request                        dfc                 ${INVENTORY_ENDPOINT}?typeName=k8s-datafile                      headers=${headers}
     ${json}=                            Set Variable                       ${resp.json()}
     ${serviceTypeId-Dfc}                Set Variable                       ${json['items'][0]['typeId']}
     ${image}                            Get Regexp Matches                 ${json['items'][0]['blueprintTemplate']}            nexus3(.)*?(?=\\")
@@ -58,7 +64,7 @@ Deploying Data File Collector
     Wait Until Keyword Succeeds         5 minute                           20 sec            Deployment Status       ${DEPLOYMENT_SERVER}     ${DEPLOYMENT_ENDPOINT}     datafile     ${operationId}
 
 Deploying 3GPP PM Mapper
-    [Tags]                              5gbulkpm
+    [Tags]                              5gbulkpm                           5gbulkpm_checking_sftp_rsa_key
     ${clusterdata}=                     OperatingSystem.Get File           ${PMMAPPER_MR_CLUSTER_DATA}
     ${headers}=                         Create Dictionary                  content-type=application/json
     ${session}=                         Create Session                     dmaapbc                          ${DMAAP_BC_SERVER}
@@ -78,7 +84,7 @@ Deploying 3GPP PM Mapper
     Wait Until Keyword Succeeds         6 minute                           10 sec            Deployment Status       ${DEPLOYMENT_SERVER}     ${DEPLOYMENT_ENDPOINT}     pmmapper     ${operationId}
 
 Deploying SFTP Server As xNF
-    [Tags]                              5gbulkpm
+    [Tags]                              5gbulkpm                           5gbulkpm_checking_sftp_rsa_key
     ${blueprint}=                       OperatingSystem.Get File           ${XNF_SFTP_BLUEPRINT_PATH}
     ${templatejson}=                    Load JSON From File                ${BLUEPRINT_TEMPLATE_PATH}
     ${templatejson}=                    Update Value To Json               ${templatejson}                            blueprintTemplate             ${blueprint}
@@ -98,7 +104,7 @@ Deploying SFTP Server As xNF
 
 
 Checking PERFORMANCE_MEASUREMENTS Topic In Message Router
-    [Tags]                              5gbulkpm
+    [Tags]                              5gbulkpm                           5gbulkpm_checking_sftp_rsa_key
     ${headers}=                         Create Dictionary                  content-type=application/json
     ${subdata}=                         OperatingSystem.Get File           ${PMMAPPER_SUB_ROLE_DATA}
     ${session}=                         Create Session                     dmaapbc                          ${DMAAP_BC_SERVER}
@@ -111,28 +117,74 @@ Checking PERFORMANCE_MEASUREMENTS Topic In Message Router
     ${resp}=                            Run MR Auth Get Request            ${MR_TOPIC_URL_PATH}            ${GLOBAL_DCAE_USERNAME}         ${GLOBAL_DCAE_PASSWORD}
     Should Be Equal As Strings          ${resp.status_code}                200
 
-Upload PM Files to xNF SFTP Server
-    [Tags]                              5gbulkpm
-    Open Connection                     sftpserver
-    Login                               bulkpm                             bulkpm
-    ${epoch}=                           Get Current Date                   result_format=epoch
+Upload PM Files to xNF SFTP Server After Services Deployed
+    [Tags]                              5gbulkpm                           5gbulkpm_checking_sftp_rsa_key
+    Upload PM Files to xNF SFTP Server  ${FTP_FILE_PATH}
     Set Global Variable                 ${epoch}
-    Put File                            ${FTP_FILE_PATH}                   upload/A${epoch}.xml.gz
 
 DR Bulk PM Feed Check
-    [Tags]                              5gbulkpm
+    [Tags]                              5gbulkpm                            5gbulkpm_checking_sftp_rsa_key
     ${resp}=                            Run DR Get Request                  ${DR_SUB_CHECK_PATH}
     Should Contain                      ${resp.text}                        bulk_pm_feed
 
 DR PM Mapper Subscriber Check
-    [Tags]                              5gbulkpm
+    [Tags]                              5gbulkpm                            5gbulkpm_checking_sftp_rsa_key
     ${resp}=                            Run DR Get Request                  ${DR_SUB_CHECK_PATH}
     Should Contain                      ${resp.text}                        https://dcae-pm-mapper:8443/delivery
 
-Sending File Ready Event to VES Collector
-    [Tags]                              5gbulkpm
-    Send File Ready Event to VES Collector                       ${epoch}
+Sending File Ready Event to VES Collector After Services Deployed
+    [Tags]                              5gbulkpm                 5gbulkpm_checking_sftp_rsa_key
+    Send File Ready Event to VES Collector  ${epoch}
 
-Verifying 3GPP Perf VES Content On PERFORMANCE_MEASUREMENTS Topic
-    [Tags]                              5gbulkpm
+Verifying 3GPP Perf VES Content On PERFORMANCE_MEASUREMENTS Topic After Services Deployed
+    [Tags]                              5gbulkpm                            5gbulkpm_checking_sftp_rsa_key
     Wait Until Keyword Succeeds         5 minute                            5 sec            xNF PM File Validate      perf3gpp_RnNode-Ericsson_pmMeasResult
+
+Setting Known_Hosts Environment Set
+    [Tags]                             5gbulkpm_checking_sftp_rsa_key
+    ${rc}=                             Run and Return RC                   ${SET_KNOWN_HOSTS_FILE_PATH}
+    Should Be Equal As Integers        ${rc}                               0
+    Wait Until Keyword Succeeds        5 min                               10s               Check Known Hosts In Env             ${CHECK_ENV_SET}
+    ${rc}=                             Run and Return RC                   ${GET_RSA_KEY}
+    Should Be Equal As Integers        ${rc}                               0
+    ${rc}=                             Run and Return RC                   ${COPY_RSA_KEY}
+    Should Be Equal As Integers        ${rc}                               0
+
+Uploading PM Files to xNF SFTP Server After Known_Host Set
+    [Tags]                              5gbulkpm_checking_sftp_rsa_key
+    Upload PM Files to xNF SFTP Server  ${FTP_FILE_PATH}
+    Set Global Variable                 ${epoch}
+
+Sending File Ready Event to VES Collector After Known_Host Set
+    [Tags]                              5gbulkpm_checking_sftp_rsa_key
+    Send File Ready Event to VES Collector  ${epoch}
+
+Verifying 3GPP Perf VES Content On PERFORMANCE_MEASUREMENTS Topic After Known_Host Set
+    [Tags]                              5gbulkpm_checking_sftp_rsa_key
+    Wait Until Keyword Succeeds         5 minute                            5 sec            xNF PM File Validate      perf3gpp_RnNode-Ericsson_pmMeasResult
+
+Checking DFC Logs After Known_Hosts Set
+    [Tags]                           5gbulkpm_checking_sftp_rsa_key
+    ${dfc_logs}=                     Run Given Command On DFC Container      ${CHECK_DFC_LOGS}
+    Should Not Contain               ${dfc_logs}                             ${EXPECTED_PRINT}
+
+Changing RSA Key Known_Hosts
+    [Tags]                            5gbulkpm_checking_sftp_rsa_key
+    ${get_known_hosts_file}=          OperatingSystem.Get File  /tmp/known_hosts
+    ${change_rsa_key}=                Replace String            ${get_known_hosts_file}        A  a
+    Create File                       /tmp/known_hosts          ${change_rsa_key}
+    ${rc}=                            Run and Return RC         ${COPY_RSA_KEY}
+    Should Be Equal As Integers       ${rc}                     0
+
+Uploading PM Files to xNF SFTP Server After RSA Key Change
+    [Tags]                              5gbulkpm_checking_sftp_rsa_key
+    Upload PM Files to xNF SFTP Server  ${FTP_FILE_PATH}
+    Set Global Variable                 ${epoch}
+
+Sending File Ready Event to VES Collector After RSA Key Change
+    [Tags]                              5gbulkpm_checking_sftp_rsa_key
+    Send File Ready Event to VES Collector  ${epoch}
+
+Checking DFC Logs After RSA Key Change
+    [Tags]                              5gbulkpm_checking_sftp_rsa_key
+    Wait Until Keyword Succeeds         5 sec  30 sec            Check Given Print In DFC LOG  ${CHECK_DFC_LOGS}
