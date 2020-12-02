@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6d9c39f_1fc6470c",
+        "filename": "robot/resources/usecases/5gbulkpm_interface.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-12-02T13:26:50Z",
+      "side": 1,
+      "message": "could you change this to variable that is set in test case",
+      "range": {
+        "startLine": 77,
+        "startChar": 77,
+        "endLine": 77,
+        "endChar": 101
+      },
+      "revId": "029182a9efada861213bd0f92fea8cf7802ef77d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fca22a6d_bd5edc9f",
+        "filename": "robot/resources/usecases/5gbulkpm_interface.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-12-02T13:26:50Z",
+      "side": 1,
+      "message": "please add check for return code for each bash command evaluation",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 68
+      },
+      "revId": "029182a9efada861213bd0f92fea8cf7802ef77d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05e209e0_627a332a",
+        "filename": "robot/resources/usecases/5gbulkpm_interface.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-12-02T13:26:50Z",
+      "side": 1,
+      "message": "please add check for return code for each bash command evaluation",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 69
+      },
+      "revId": "029182a9efada861213bd0f92fea8cf7802ef77d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fce663a1_0cd22b81",
+        "filename": "robot/resources/usecases/5gbulkpm_interface.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-12-02T13:26:50Z",
+      "side": 1,
+      "message": "please add check for return code for each bash command evaluation",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 1
+      },
+      "revId": "029182a9efada861213bd0f92fea8cf7802ef77d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}

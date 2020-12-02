@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9791625_e4f6ed5b",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-12-02T13:26:50Z",
+      "side": 1,
+      "message": "please add check for return code for each bash command evaluation \n\n${rc}\u003d   Run and Return RC        ${SET_KNOWN_HOSTS_FILE_PATH}\nShould Be Equal As Integers       ${rc}                        0",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 1
+      },
+      "revId": "7fd7b373845a25dc2dd4f97b04aedc8c5062b9aa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ae3d2e7_3f4b240d",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-12-02T13:26:50Z",
+      "side": 1,
+      "message": "same as above check return codes",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 54
+      },
+      "revId": "7fd7b373845a25dc2dd4f97b04aedc8c5062b9aa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "334233c3_89c5c2b1",
+        "filename": "robot/testsuites/usecases/5gbulkpm.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2020-12-02T13:26:50Z",
+      "side": 1,
+      "message": "same as above check return codes",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 1
+      },
+      "revId": "7fd7b373845a25dc2dd4f97b04aedc8c5062b9aa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
