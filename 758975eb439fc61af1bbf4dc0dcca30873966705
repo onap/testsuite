@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74860563_2a978e19",
+        "filename": "releases/1.7.3-container.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6044
+      },
+      "writtenOn": "2020-12-04T12:12:08Z",
+      "side": 1,
+      "message": "Hi, doesn\u0027t the container - 1.7.2-STAGING-20201202T160206Z contain changes meant only for Honolulu? I think it does.\n\nI think there should be a job - testsuite-master-3scm-docker-shell-daily for Guilin maybe, and it should be used for the release?",
+      "revId": "758975eb439fc61af1bbf4dc0dcca30873966705",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
