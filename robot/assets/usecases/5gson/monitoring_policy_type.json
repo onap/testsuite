@@ -1,0 +1,33 @@
+{
+   "tosca_definitions_version": "tosca_simple_yaml_1_1_0",
+   "policy_types": 
+     {
+      "onap.policies.monitoring.docker.sonhandler.app": {
+         "version": "1.0.0",
+         "description": "son handler policy type",
+         "derived_from": "onap.policies.Monitoring:1.0.0",
+         "properties": {
+            "PCI_NEIGHBOR_CHANGE_CLUSTER_TIMEOUT_IN_SECS": {
+               "required": true,
+               "type": "string"
+            },
+            "PCI_MODCONFIG_POLICY_NAME": {
+               "required": true,
+               "type": "string"
+            },
+            "PCI_MODCONFIGANR_POLICY_NAME": {
+               "required": true,
+               "type": "string"
+            },
+            "PCI_OPTMIZATION_ALGO_CATEGORY_IN_OOF": {
+               "required": true,
+               "type": "string"
+            },
+            "PCI_SDNR_TARGET_NAME": {
+               "required": true,
+               "type": "string"
+            }
+         }
+      }
+   }
+}

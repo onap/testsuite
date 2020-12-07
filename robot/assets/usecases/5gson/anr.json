@@ -1,0 +1,46 @@
+{
+   "tosca_definitions_version":"tosca_simple_yaml_1_1_0",
+   "topology_template":{
+      "policies":[
+         {
+            "operational.sonhandler":{
+               "type":"onap.policies.controlloop.operational.common.Drools",
+               "type_version":"1.0.0",
+               "name":"operational.sonhandler",
+               "version":"1.0.0",
+               "metadata":{
+                  "policy-id":"operational.sonhandler"
+               },
+               "properties":{
+                  "controllerName":"usecases",
+                  "id":"ControlLoop-vSONH-7d4baf04-8875-4d1f-946d-06b874048b61",
+                  "timeout":900,
+                  "abatement":false,
+                  "trigger":"unique-policy-id-123-modifyconfig",
+                  "operations":[
+                     {
+                        "id":"unique-policy-id-123-modifyconfig",
+                        "description":"Modify the packet generator",
+                        "operation":{
+                           "actor":"SDNR",
+                           "operation":"ModifyConfigANR",
+                           "target":{
+                              "targetType":"PNF"
+                           }
+                        },
+                        "timeout":300,
+                        "retries":0,
+                        "success":"final_success",
+                        "failure":"final_failure",
+                        "failure_timeout":"final_failure_timeout",
+                        "failure_retries":"final_failure_retries",
+                        "failure_exception":"final_failure_exception",
+                        "failure_guard":"final_failure_guard"
+                     }
+                  ]
+               }
+            }
+         }
+      ]
+   }
+}
