@@ -1,0 +1,23 @@
+tosca_definitions_version: cloudify_dsl_1_3
+imports:
+  - 'http://www.getcloudify.org/spec/cloudify/4.5.5/types.yaml'
+  - 'plugin:k8splugin?version=3.4.3'
+inputs:
+  tag_version:
+    type: string
+    description: Docker image to be used
+    default: 'krishnaa96/configdb'
+node_templates:
+  configdb:
+    type: dcae.nodes.ContainerizedServiceComponent
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        start:
+          inputs:
+            ports:
+              - "8080:0"
+    properties:
+      service_component_type: configdb
+      service_component_name_override: configdb
+      image: { get_input: tag_version }
+      replicas: 1
