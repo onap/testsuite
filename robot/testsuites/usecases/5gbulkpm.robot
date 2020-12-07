@@ -17,8 +17,6 @@ Resource          ../../resources/dr_interface.robot
 Suite Setup       Send File Ready Event to VES Collector   test
 Suite Teardown    Usecase Teardown
 
-
-
 *** Variables ***
 ${INVENTORY_ENDPOINT}               /dcae-service-types
 ${XNF_SFTP_BLUEPRINT_PATH}          ${EXECDIR}/robot/assets/usecases/5gbulkpm/k8s-sftp.yaml
