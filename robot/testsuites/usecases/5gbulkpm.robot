@@ -17,8 +17,6 @@ Resource          ../../resources/dr_interface.robot
 Suite Setup       Send File Ready Event to VES Collector   test
 Suite Teardown    Usecase Teardown
 
-
-
 *** Variables ***
 ${INVENTORY_ENDPOINT}               /dcae-service-types
 ${XNF_SFTP_BLUEPRINT_PATH}          ${EXECDIR}/robot/assets/usecases/5gbulkpm/k8s-sftp.yaml
@@ -45,6 +43,12 @@ ${CHECK_DFC_LOGS}                   kubectl logs $(kubectl get pod -n onap | gre
 ${EXPECTED_PRINT}                   StrictHostKeyChecking is enabled but environment variable KNOWN_HOSTS_FILE_PATH is not set or points to not existing file
 
 *** Test Cases ***
+
+Set Global Variables
+    [Tags]                              5gbulkpm
+    ${env_variables} =  Get Environment Variables
+    Set Global Variable  ${ENV_VARIABLES}  ${env_variables}
+    log   ${ENV_VARIABLES}
 
 Deploying Data File Collector
     [Tags]                              5gbulkpm                           5gbulkpm_checking_sftp_rsa_key
