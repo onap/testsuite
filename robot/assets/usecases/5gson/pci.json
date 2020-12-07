@@ -1,0 +1,46 @@
+{
+  "topology_template": {
+    "policies": [
+      {
+        "operational.pcihandler": {
+          "metadata": {
+            "policy-id": "operational.pcihandler"
+          },
+          "name": "operational.pcihandler",
+          "properties": {
+            "abatement": false,
+            "controllerName": "usecases",
+            "id": "ControlLoop-vPCI-fb41f388-a5f2-11e8-98d0-529269fb1459",
+            "operations": [
+              {
+                "description": "Modify the packet generator",
+                "failure": "final_failure",
+                "failure_exception": "final_failure_exception",
+                "failure_guard": "final_failure_guard",
+                "failure_retries": "final_failure_retries",
+                "failure_timeout": "final_failure_timeout",
+                "id": "unique-policy-id-123-modifyconfig",
+                "operation": {
+                  "actor": "SDNR",
+                  "operation": "ModifyConfig",
+                  "target": {
+                    "targetType": "PNF"
+                  }
+                },
+                "retries": 0,
+                "success": "final_success",
+                "timeout": 300
+              }
+            ],
+            "timeout": 900,
+            "trigger": "unique-policy-id-123-modifyconfig"
+          },
+          "type": "onap.policies.controlloop.operational.common.Drools",
+          "type_version": "1.0.0",
+          "version": "1.0.0"
+        }
+      }
+    ]
+  },
+  "tosca_definitions_version": "tosca_simple_yaml_1_1_0"
+}
