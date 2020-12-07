@@ -14,16 +14,13 @@ Library           ONAPLibrary.Utilities
 Resource          ../../resources/usecases/5gbulkpm_interface.robot
 Resource          ../../resources/mr_interface.robot
 Resource          ../../resources/dr_interface.robot
-Suite Setup       Send File Ready Event to VES Collector   test
+Suite Setup       Send File Ready Event to VES Collector   test  org.3GPP.32.435#measCollec  V10
 Suite Teardown    Usecase Teardown
-
-
 
 *** Variables ***
 ${INVENTORY_ENDPOINT}               /dcae-service-types
 ${XNF_SFTP_BLUEPRINT_PATH}          ${EXECDIR}/robot/assets/usecases/5gbulkpm/k8s-sftp.yaml
 ${BLUEPRINT_TEMPLATE_PATH}          ${EXECDIR}/robot/assets/usecases/5gbulkpm/blueprintTemplate.json
-${FTP_FILE_PATH}                    ${EXECDIR}/robot/assets/usecases/5gbulkpm/pmfiles/A20181002.0000-1000-0015-1000_5G.xml.gz
 ${DEPLOYMENT_ENDPOINT}              dcae-deployments
 ${MR_TOPIC_CHECK_PATH}              /topics
 ${DR_SUB_CHECK_PATH}                /internal/prov
@@ -45,6 +42,21 @@ ${CHECK_DFC_LOGS}                   kubectl logs $(kubectl get pod -n onap | gre
 ${EXPECTED_PRINT}                   StrictHostKeyChecking is enabled but environment variable KNOWN_HOSTS_FILE_PATH is not set or points to not existing file
 
 *** Test Cases ***
+
+Setting Global Variables
+    [Tags]                              5gbulkpm                           5gbulkpm_checking_sftp_rsa_key
+    ${env_variables} =  Get Environment Variables
+    Set Global Variable  ${ENV_VARIABLES}  ${env_variables}
+    Log  Environment Variables: ${ENV_VARIABLES}
+    ${default_env_variables} =  Create Dictionary
+    Set To Dictionary  ${default_env_variables}  FILE_FORMAT_TYPE=org.3GPP.32.435#measCollec
+    ...                                          PM_FILE_PATH=${EXECDIR}/robot/assets/usecases/5gbulkpm/pmfiles/A20181002.0000-1000-0015-1000_5G.xml.gz
+    ...                                          TOPIC_OUTPUT=perf3gpp_RnNode-Ericsson_pmMeasResult
+    ...                                          FILE_FORMAT_VERSION=V10
+    Set Global Variable   ${DEFAULT_ENV_VARIABLES}  ${default_env_variables}
+
+    ${bulk_pm_mode}=   Get Variable Value  ${ENV_VARIABLES["BULK_PM_MODE"]}  default
+    Set Global Variable  ${BULK_PM_MODE}  ${bulk_pm_mode}
 
 Deploying Data File Collector
     [Tags]                              5gbulkpm                           5gbulkpm_checking_sftp_rsa_key
@@ -117,10 +129,12 @@ Checking PERFORMANCE_MEASUREMENTS Topic In Message Router
     ${resp}=                            Run MR Auth Get Request            ${MR_TOPIC_URL_PATH}            ${GLOBAL_DCAE_USERNAME}         ${GLOBAL_DCAE_PASSWORD}
     Should Be Equal As Strings          ${resp.status_code}                200
 
-Upload PM Files to xNF SFTP Server After Services Deployed
+Uploading PM Files to xNF SFTP Server After Services Deployed
     [Tags]                              5gbulkpm                           5gbulkpm_checking_sftp_rsa_key
-    Upload PM Files to xNF SFTP Server  ${FTP_FILE_PATH}
-    Set Global Variable                 ${epoch}
+
+    ${pm_file_path}=  Set Variable If  "${BULK_PM_MODE}" == "custom"  ${ENV_VARIABLES["PM_FILE_PATH"]}  ${DEFAULT_ENV_VARIABLES["PM_FILE_PATH"]}
+    ${pm_file}=  Upload PM Files to xNF SFTP Server  ${pm_file_path}  ${BULK_PM_MODE}
+    Set Global Variable  ${PM_FILE}  ${pm_file}
 
 DR Bulk PM Feed Check
     [Tags]                              5gbulkpm                            5gbulkpm_checking_sftp_rsa_key
@@ -134,13 +148,24 @@ DR PM Mapper Subscriber Check
 
 Sending File Ready Event to VES Collector After Services Deployed
     [Tags]                              5gbulkpm                 5gbulkpm_checking_sftp_rsa_key
-    Send File Ready Event to VES Collector  ${epoch}
+    ${file_format_type}  ${file_format_version}=   Run Keyword If  "${BULK_PM_MODE}" == "custom"  Set Variable  ${ENV_VARIABLES["FILE_FORMAT_TYPE"]}  ${ENV_VARIABLES["FILE_FORMAT_VERSION"]}
+    ...                                                      ELSE                                 Set Variable  ${DEFAULT_ENV_VARIABLES["FILE_FORMAT_TYPE"]}  ${DEFAULT_ENV_VARIABLES["FILE_FORMAT_VERSION"]}
+    Send File Ready Event to VES Collector  ${PM_FILE}  ${file_format_type}  ${file_format_version}
 
 Verifying 3GPP Perf VES Content On PERFORMANCE_MEASUREMENTS Topic After Services Deployed
     [Tags]                              5gbulkpm                            5gbulkpm_checking_sftp_rsa_key
-    Wait Until Keyword Succeeds         5 minute                            5 sec            xNF PM File Validate      perf3gpp_RnNode-Ericsson_pmMeasResult
 
-Setting Known_Hosts Environment Set
+    ${topic_output}  ${expected_result_path}=   Run Keyword If  "${BULK_PM_MODE}" == "custom"  Set Variable  ${ENV_VARIABLES["TOPIC_OUTPUT"]}  ${ENV_VARIABLES["EXPECTED_RESULT_PATH"]}
+    ...                                                   ELSE                                 Set Variable  ${DEFAULT_ENV_VARIABLES["TOPIC_OUTPUT"]}  none
+
+
+    Run Keyword If  "${BULK_PM_MODE}" == "custom"  Wait Until Keyword Succeeds  3x  3 min  Run Keyword And Expect Error  *  Get Event From Topic  ${expected_result_path}
+    ...       ELSE                                 Wait Until Keyword Succeeds  3 min  5 s  xNF PM File Validate  ${topic_output}
+
+    Run Keyword If  "${BULK_PM_MODE}" == "custom"  Validate Json Event From Topic   ${expected_result_path}  ${topic_output}
+
+
+Setting KNOWN_HOSTS_FILE_PATH Environment Variable
     [Tags]                             5gbulkpm_checking_sftp_rsa_key
     ${rc}=                             Run and Return RC                   ${SET_KNOWN_HOSTS_FILE_PATH}
     Should Be Equal As Integers        ${rc}                               0
@@ -150,25 +175,37 @@ Setting Known_Hosts Environment Set
     ${rc}=                             Run and Return RC                   ${COPY_RSA_KEY}
     Should Be Equal As Integers        ${rc}                               0
 
-Uploading PM Files to xNF SFTP Server After Known_Host Set
+Uploading PM Files to xNF SFTP Server After KNOWN_HOSTS_FILE_PATH Env Variable Added
     [Tags]                              5gbulkpm_checking_sftp_rsa_key
-    Upload PM Files to xNF SFTP Server  ${FTP_FILE_PATH}
-    Set Global Variable                 ${epoch}
 
-Sending File Ready Event to VES Collector After Known_Host Set
+    ${pm_file_path}=  Set Variable If  "${BULK_PM_MODE}" == "custom"  ${ENV_VARIABLES["PM_FILE_PATH"]}  ${DEFAULT_ENV_VARIABLES["PM_FILE_PATH"]}
+    ${pm_file}=  Upload PM Files to xNF SFTP Server  ${pm_file_path}  ${BULK_PM_MODE}
+    Set Global Variable  ${PM_FILE}  ${pm_file}
+
+Sending File Ready Event to VES Collector After KNOWN_HOSTS_FILE_PATH Env Variable Added
     [Tags]                              5gbulkpm_checking_sftp_rsa_key
-    Send File Ready Event to VES Collector  ${epoch}
 
-Verifying 3GPP Perf VES Content On PERFORMANCE_MEASUREMENTS Topic After Known_Host Set
+    ${file_format_type}  ${file_format_version}=   Run Keyword If  "${BULK_PM_MODE}" == "custom"  Set Variable  ${ENV_VARIABLES["FILE_FORMAT_TYPE"]}  ${ENV_VARIABLES["FILE_FORMAT_VERSION"]}
+    ...                                                      ELSE                                 Set Variable  ${DEFAULT_ENV_VARIABLES["FILE_FORMAT_TYPE"]}  ${DEFAULT_ENV_VARIABLES["FILE_FORMAT_VERSION"]}
+    Send File Ready Event to VES Collector  ${PM_FILE}  ${file_format_type}  ${file_format_version}
+
+Verifying 3GPP Perf VES Content On PERFORMANCE_MEASUREMENTS Topic After KNOWN_HOSTS_FILE_PATH Env Variable Added
     [Tags]                              5gbulkpm_checking_sftp_rsa_key
-    Wait Until Keyword Succeeds         5 minute                            5 sec            xNF PM File Validate      perf3gpp_RnNode-Ericsson_pmMeasResult
 
-Checking DFC Logs After Known_Hosts Set
+    ${topic_output}  ${expected_result_path}=   Run Keyword If  "${BULK_PM_MODE}" == "custom"  Set Variable  ${ENV_VARIABLES["TOPIC_OUTPUT"]}  ${ENV_VARIABLES["EXPECTED_RESULT_PATH"]}
+    ...                                                   ELSE                                 Set Variable  ${DEFAULT_ENV_VARIABLES["TOPIC_OUTPUT"]}  none
+
+
+    Run Keyword If  "${BULK_PM_MODE}" == "custom"  Run Keywords  Wait Until Keyword Succeeds  3x  3 min  Run Keyword And Expect Error  *  Get Event From Topic  ${expected_result_path}
+    ...                                                     AND  Validate Json Event From Topic  ${topic_output}  ${expected_result_path}
+    ...       ELSE                                 Wait Until Keyword Succeeds  5 minute  5 sec  xNF PM File Validate  ${topic_output}
+
+Checking DFC Logs After KNOWN_HOSTS_FILE_PATH Env Variable Added
     [Tags]                           5gbulkpm_checking_sftp_rsa_key
     ${dfc_logs}=                     Run Given Command On DFC Container      ${CHECK_DFC_LOGS}
     Should Not Contain               ${dfc_logs}                             ${EXPECTED_PRINT}
 
-Changing RSA Key Known_Hosts
+Changing SFTP Server RSA Key
     [Tags]                            5gbulkpm_checking_sftp_rsa_key
     ${get_known_hosts_file}=          OperatingSystem.Get File  /tmp/known_hosts
     ${change_rsa_key}=                Replace String            ${get_known_hosts_file}        A  a
@@ -176,15 +213,20 @@ Changing RSA Key Known_Hosts
     ${rc}=                            Run and Return RC         ${COPY_RSA_KEY}
     Should Be Equal As Integers       ${rc}                     0
 
-Uploading PM Files to xNF SFTP Server After RSA Key Change
+Uploading PM Files to xNF SFTP Server After SFTP Server RSA Key Changed
     [Tags]                              5gbulkpm_checking_sftp_rsa_key
-    Upload PM Files to xNF SFTP Server  ${FTP_FILE_PATH}
-    Set Global Variable                 ${epoch}
 
-Sending File Ready Event to VES Collector After RSA Key Change
+    ${pm_file_path}=  Set Variable If  "${BULK_PM_MODE}" == "custom"  ${ENV_VARIABLES["PM_FILE_PATH"]}  ${DEFAULT_ENV_VARIABLES["PM_FILE_PATH"]}
+    ${pm_file}=  Upload PM Files to xNF SFTP Server  ${pm_file_path}  ${BULK_PM_MODE}
+    Set Global Variable  ${PM_FILE}  ${pm_file}
+
+Sending File Ready Event to VES Collector After SFTP Server RSA Key Changed
     [Tags]                              5gbulkpm_checking_sftp_rsa_key
-    Send File Ready Event to VES Collector  ${epoch}
 
-Checking DFC Logs After RSA Key Change
+    ${file_format_type}  ${file_format_version}=   Run Keyword If  "${BULK_PM_MODE}" == "custom"  Set Variable  ${ENV_VARIABLES["FILE_FORMAT_TYPE"]}  ${ENV_VARIABLES["FILE_FORMAT_VERSION"]}
+    ...                                                      ELSE                                 Set Variable  ${DEFAULT_ENV_VARIABLES["FILE_FORMAT_TYPE"]}  ${DEFAULT_ENV_VARIABLES["FILE_FORMAT_VERSION"]}
+    Send File Ready Event to VES Collector  ${PM_FILE}  ${file_format_type}  ${file_format_version}
+
+Checking DFC Logs After SFTP Server RSA Key Changed
     [Tags]                              5gbulkpm_checking_sftp_rsa_key
     Wait Until Keyword Succeeds         5 sec  30 sec            Check Given Print In DFC LOG  ${CHECK_DFC_LOGS}
