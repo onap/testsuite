@@ -1,0 +1,8 @@
+{
+  "policies": [
+    {
+      "policy-id": "operational.pcihandler",
+      "policy-version": 1
+    }
+  ]
+}
