@@ -1,0 +1,35 @@
+{
+    "event": {
+        "commonEventHeader": {
+            "domain": "fault",
+            "eventId": "fault000001",
+            "eventName": "Fault_RansimAgent-Wipro_RanPCIProblem",
+            "lastEpochMicrosec": 1451772403000000,
+            "nfNamingCode": "RansimAgent",
+            "nfVendorName": "Wipro",
+            "priority": "High",
+            "reportingEntityId": "de305d54-75b4-431b-adb2-eb6b9e546014",
+            "reportingEntityName": "ncserver1",
+            "sequence": 1,
+            "sourceId": "cc305d54-75b4-431b-adb2-eb6b9e541234",
+            "sourceName": "Chn0005",
+            "startEpochMicrosec": 1451772223000000,
+            "timeZoneOffset": "UTC-05:30",
+            "version": "4.0.1",
+            "vesEventListenerVersion": "7.0.1"
+        },
+        "faultFields": {
+            "alarmAdditionalInformation": {
+                "collisions": "1",
+                "confusions": "1",
+                "networkId": "ran-1"
+            },
+            "alarmCondition": "RanPciCollisionConfusionOccurred",
+            "eventSeverity": "CRITICAL",
+            "eventSourceType": "other",
+            "faultFieldsVersion": "4.0",
+            "specificProblem": "Collision",
+            "vfStatus": "Active"
+        }
+    }
+}
