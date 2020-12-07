@@ -1,0 +1,8 @@
+{
+  "policies": [
+    {
+      "policy-id": "com.Config_PCIMS_CONFIG_POLICY",
+      "policy-version": 1
+    }
+  ]
+}
