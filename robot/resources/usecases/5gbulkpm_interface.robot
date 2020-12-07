@@ -27,8 +27,10 @@ Deployment Status
     Should Be Equal As Strings                      ${status}               succeeded
 
 xNF PM File Validate
-    [Arguments]         ${value}
+    [Arguments]         ${value}                    ${expected_result_path}
     ${resp}=            Run MR Auth Get Request     ${MR_TOPIC_URL_PATH}     ${GLOBAL_DCAE_USERNAME}      ${GLOBAL_DCAE_PASSWORD}
+    ${json_file}=       To Json                     ${resp.text}             pretty_print=True
+    Create File         ${expected_result_path}     ${json_file}
     Should Contain      ${resp.text}                ${value}
 
 Topic Validate
@@ -51,28 +53,29 @@ Usecase Teardown
 
 
 Send File Ready Event to VES Collector
-    [Arguments]                         ${epoch}
+    [Arguments]                         ${pm_file}                          ${file_format_type}             ${file_format_version}
     ${headers}=                         Create Dictionary                   content-type=application/json
     ${fileready}=                       OperatingSystem.Get File            ${JSON_DATA_FILE}
     ${auth}=                            Create List                         ${GLOBAL_DCAE_VES_USERNAME}     ${GLOBAL_DCAE_VES_PASSWORD}
     ${session}=                         Create Session                      ves                             ${VES_HEALTH_CHECK_PATH}      auth=${auth}
     ${resp}=                            Post Request                        ves                             ${VES_LISTENER_PATH}          data=${fileready}   headers=${headers}
     Should Be Equal As Strings          ${resp.status_code}                 202
-    ${VES_FILE_READY_NOTIFICATION}      Set Variable                        {"event":{"commonEventHeader":{"version":"4.0.1","vesEventListenerVersion":"7.0.1","domain":"notification","eventName":"Noti_RnNode-Ericsson_FileReady","eventId":"FileReady_1797490e-10ae-4d48-9ea7-3d7d790b25e1","lastEpochMicrosec":8745745764578,"priority":"Normal","reportingEntityName":"otenb5309","sequence":0,"sourceName":"oteNB5309","startEpochMicrosec":8745745764578,"timeZoneOffset":"UTC+05.30"},"notificationFields":{"changeIdentifier":"PM_MEAS_FILES","changeType":"FileReady","notificationFieldsVersion":"2.0","arrayOfNamedHashMap":[{"name":"A${epoch}.xml.gz","hashMap":{"location":"sftp://bulkpm:bulkpm@sftpserver:22/upload/A${epoch}.xml.gz","compression":"gzip","fileFormatType":"org.3GPP.32.435#measCollec","fileFormatVersion":"V10"}}]}}}
+    ${VES_FILE_READY_NOTIFICATION}      Set Variable                        {"event":{"commonEventHeader":{"version":"4.0.1","vesEventListenerVersion":"7.0.1","domain":"notification","eventName":"Noti_RnNode-Ericsson_FileReady","eventId":"FileReady_1797490e-10ae-4d48-9ea7-3d7d790b25e1","lastEpochMicrosec":8745745764578,"priority":"Normal","reportingEntityName":"otenb5309","sequence":0,"sourceName":"oteNB5309","startEpochMicrosec":8745745764578,"timeZoneOffset":"UTC+05.30"},"notificationFields":{"changeIdentifier":"PM_MEAS_FILES","changeType":"FileReady","notificationFieldsVersion":"2.0","arrayOfNamedHashMap":[{"name":"${pm_file}","hashMap":{"location":"sftp://bulkpm:bulkpm@sftpserver:22/upload/${pm_file}","compression":"gzip","fileFormatType":"${file_format_type}","fileFormatVersion":"${file_format_version}"}}]}}}
     ${resp}=                            Post Request                        ves                             ${VES_LISTENER_PATH}          data=${VES_FILE_READY_NOTIFICATION}   headers=${headers}
     Should Be Equal As Strings          ${resp.status_code}                 202
 
 Upload PM Files to xNF SFTP Server
-    [Arguments]                         ${ftp_file_path}
+    [Arguments]                         ${pm_file_path}                   ${bulk_pm_mode}
     Open Connection                     sftpserver
     Login                               bulkpm                             bulkpm
     ${epoch}=                           Get Current Date                   result_format=epoch
-    Set Global Variable                 ${epoch}
-    Put File                            ${ftp_file_path}                   upload/A${epoch}.xml.gz
-    [Return]                            ${epoch}
+    ${pm_file} =  Run Keyword If        "${bulk_pm_mode}" == "custom"      Fetch From Right                  ${pm_file_path}               marker=/
+    ...                     ELSE                                           Set Variable                      A${epoch}.xml.gz
+    Put File                            ${pm_file_path}                    upload/${pm_file}
+    [Return]  ${pm_file}
 
 Check Given Print In DFC Log
-    [Arguments]  ${CHECK_DFC_LOGS}
+    [Arguments]  ${check_dfc_logs}
     ${dfc_logs}=                     Run Given Command On DFC Container      ${CHECK_DFC_LOGS}
     Should Contain                   ${dfc_logs}                             HostKey has been changed
 
@@ -94,5 +97,6 @@ Check Known Hosts In Env
     Should Be Equal As Integers  ${check[0]}  0
     ${env} =  Set Variable  ${check[1]}
     ${string_matches} =  Get Lines Containing String  ${env}  KNOWN_HOSTS_FILE_PATH=/home/datafile/.ssh/known_host  case_insensitive=True
-    ${output} =  Should Not Be Empty  ${string_matches} 
+    ${output} =  Should Not Be Empty  ${string_matches}
     [Return]    ${output}
+
