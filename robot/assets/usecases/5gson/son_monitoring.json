@@ -1,0 +1,28 @@
+{
+  "name": "ToscaServiceTemplateSimple",
+  "topology_template": {
+    "policies": [
+      {
+        "com.Config_PCIMS_CONFIG_POLICY": {
+          "metadata": {
+            "policy-id": "com.Config_PCIMS_CONFIG_POLICY",
+            "policy-version": "1"
+          },
+          "name": "com.Config_PCIMS_CONFIG_POLICY",
+          "properties": {
+            "PCI_MODCONFIGANR_POLICY_NAME": "ControlLoop-vSONH-7d4baf04-8875-4d1f-946d-06b874048b61",
+            "PCI_MODCONFIG_POLICY_NAME": "ControlLoop-vPCI-fb41f388-a5f2-11e8-98d0-529269fb1459",
+            "PCI_NEIGHBOR_CHANGE_CLUSTER_TIMEOUT_IN_SECS": 60,
+            "PCI_OPTMIZATION_ALGO_CATEGORY_IN_OOF": "OOF-PCI-OPTIMIZATION",
+            "PCI_SDNR_TARGET_NAME": "SDNR"
+          },
+          "type": "onap.policies.monitoring.docker.sonhandler.app",
+          "type_version": "1.0.0",
+          "version": "1.0.0"
+        }
+      }
+    ]
+  },
+  "tosca_definitions_version": "tosca_simple_yaml_1_1_0",
+  "version": "1.0.0"
+}
