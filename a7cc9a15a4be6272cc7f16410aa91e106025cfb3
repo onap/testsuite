@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05ea4c0b_f1eaee76",
+        "filename": "robot/testsuites/usecases/5gson.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2020-12-08T11:43:46Z",
+      "side": 1,
+      "message": "You define ${POLICY_TYPE_PATH} for this later, you could use it here as well",
+      "range": {
+        "startLine": 22,
+        "startChar": 36,
+        "endLine": 22,
+        "endChar": 63
+      },
+      "revId": "a7cc9a15a4be6272cc7f16410aa91e106025cfb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ce69609_5e3aa035",
+        "filename": "robot/testsuites/usecases/5gson.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2020-12-08T11:43:46Z",
+      "side": 1,
+      "message": "${POLICY_TYPE_PATH}",
+      "range": {
+        "startLine": 23,
+        "startChar": 36,
+        "endLine": 23,
+        "endChar": 62
+      },
+      "revId": "a7cc9a15a4be6272cc7f16410aa91e106025cfb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d17ef007_830f81bf",
+        "filename": "robot/testsuites/usecases/5gson.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2020-12-08T11:43:46Z",
+      "side": 1,
+      "message": "You could use ${RESOURCES_PATH} here (you might want to rename that as 5GSON_RESOURCES_PATH or something though)",
+      "range": {
+        "startLine": 33,
+        "startChar": 36,
+        "endLine": 33,
+        "endChar": 74
+      },
+      "revId": "a7cc9a15a4be6272cc7f16410aa91e106025cfb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1b9fc4e_fef53103",
+        "filename": "robot/testsuites/usecases/5gson.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2020-12-08T11:43:46Z",
+      "side": 1,
+      "message": "What is this? I can\u0027t even reach this address",
+      "range": {
+        "startLine": 118,
+        "startChar": 75,
+        "endLine": 118,
+        "endChar": 179
+      },
+      "revId": "a7cc9a15a4be6272cc7f16410aa91e106025cfb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32aa0b51_eae7ed16",
+        "filename": "robot/testsuites/usecases/5gson.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2020-12-08T11:43:46Z",
+      "side": 1,
+      "message": "This is a pretty long sleep. Can it be rewritten with retry loop somehow?",
+      "range": {
+        "startLine": 138,
+        "startChar": 40,
+        "endLine": 138,
+        "endChar": 49
+      },
+      "revId": "a7cc9a15a4be6272cc7f16410aa91e106025cfb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
