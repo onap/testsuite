@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b97751a8_bd94a6ee",
+        "filename": "robot/testsuites/usecases/5gson.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2671
+      },
+      "writtenOn": "2020-12-08T12:04:24Z",
+      "side": 1,
+      "message": "okay",
+      "parentUuid": "05ea4c0b_f1eaee76",
+      "range": {
+        "startLine": 22,
+        "startChar": 36,
+        "endLine": 22,
+        "endChar": 63
+      },
+      "revId": "a7cc9a15a4be6272cc7f16410aa91e106025cfb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ce69609_5e3aa035",
         "filename": "robot/testsuites/usecases/5gson.robot",
         "patchSetId": 4
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "715216cf_36744cd7",
+        "filename": "robot/testsuites/usecases/5gson.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2671
+      },
+      "writtenOn": "2020-12-08T12:04:24Z",
+      "side": 1,
+      "message": "Will do",
+      "parentUuid": "d17ef007_830f81bf",
+      "range": {
+        "startLine": 33,
+        "startChar": 36,
+        "endLine": 33,
+        "endChar": 74
+      },
+      "revId": "a7cc9a15a4be6272cc7f16410aa91e106025cfb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d1b9fc4e_fef53103",
         "filename": "robot/testsuites/usecases/5gson.robot",
         "patchSetId": 4
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "20bc44b7_3e458807",
+        "filename": "robot/testsuites/usecases/5gson.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 2671
+      },
+      "writtenOn": "2020-12-08T12:04:24Z",
+      "side": 1,
+      "message": "We use a dump file which has the topology info that we initially load into config db. Initially I thought of add it in the assets directory. Since the file is around 700 KB, I am directly downloading it from the config db github repo. You can find it in the below repo link. I can add it to the assets directory if it\u0027s okay, so that we don\u0027t need to download it from the internet.\n\nhttps://github.com/onap-oof-pci-poc/sdnc/tree/master/ConfigDB/Dublin",
+      "parentUuid": "d1b9fc4e_fef53103",
+      "range": {
+        "startLine": 118,
+        "startChar": 75,
+        "endLine": 118,
+        "endChar": 179
+      },
+      "revId": "a7cc9a15a4be6272cc7f16410aa91e106025cfb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32aa0b51_eae7ed16",
         "filename": "robot/testsuites/usecases/5gson.robot",
         "patchSetId": 4
@@ -105,6 +177,30 @@
       "writtenOn": "2020-12-08T11:43:46Z",
       "side": 1,
       "message": "This is a pretty long sleep. Can it be rewritten with retry loop somehow?",
+      "range": {
+        "startLine": 138,
+        "startChar": 40,
+        "endLine": 138,
+        "endChar": 49
+      },
+      "revId": "a7cc9a15a4be6272cc7f16410aa91e106025cfb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef32b36b_10d5843f",
+        "filename": "robot/testsuites/usecases/5gson.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 2671
+      },
+      "writtenOn": "2020-12-08T12:04:24Z",
+      "side": 1,
+      "message": "Yeah. I will try to rewrite with a retry loop.",
+      "parentUuid": "32aa0b51_eae7ed16",
       "range": {
         "startLine": 138,
         "startChar": 40,
