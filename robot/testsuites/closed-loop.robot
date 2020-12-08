@@ -19,10 +19,20 @@ VFWCL Closed Loop Test
     [TAGS]    vfwclosedloop
     Log     ${EMPTY}
     VFWCL High Test   ${PACKET_GENERATOR_HOST}
+    Sleep  60
     VFWCL Low Test   ${PACKET_GENERATOR_HOST}
     [Teardown]  VFWCL Set To Medium    ${PACKET_GENERATOR_HOST}
 
-VFWCL Repush Operation Policy
+VFWCL Repush Monitoring And Operational Policies
     [TAGS]   repushpolicy
-    Run Keyword And Ignore Error    Undeploy Policy     operational.modifyconfig
+    Validate the vFWCL Policy
+    Run Keyword And Ignore Error     Run Undeploy vFW Monitoring Policy
+    Validate the vFWCL Policy
+    Run Keyword and Ignore Error     Run Delete vFW Monitoring Policy
+    Validate the vFWCL Policy
+    Run Keyword And Ignore Error     Run Undeploy vFW Operational Policy
+    Validate the vFWCL Policy
+    Run Keyword And Ignore Error     Run Delete vFW Operational Policy
+    Validate the vFWCL Policy
     Update vVFWCL Policy     ${MODEL_INVARIANT_ID}
+    Validate the vFWCL Policy
