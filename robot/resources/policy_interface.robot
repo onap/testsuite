@@ -47,6 +47,17 @@ Run Policy Pap Get Request
      Log    Received response from Policy Pap ${resp.text}
      [Return]   ${resp}
 
+Run Policy Api Get Request
+     [Documentation]    Runs Policy Api Get request
+     [Arguments]    ${data_path}
+     ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}= 	Get Request 	policy   ${data_path}     headers=${headers}
+     Log    Received response from policy API ${resp.text}
+     [Return]    ${resp}
+
 Run Policy Api Post Request
      [Documentation]    Runs Policy Api Post request
      [Arguments]    ${data_path}  ${data}
@@ -96,7 +107,10 @@ Update vVFWCL Policy
 
 Validate the vFWCL Policy
     ${resp}=   Run Policy Pap Get Request   /policy/pap/v1/pdps
-    Log    Received response from policy ${resp.text}
+    Log    Received response from policy PAP ${resp.text}
+    Should Be Equal As Strings         ${resp.status_code}     200
+    ${resp}=   Run Policy Api Get Request   /policy/api/v1/policytypes/onap.policies.monitoring.tcagen2
+    Log    Received response from policy API policytypes ${resp.text}
     Should Be Equal As Strings         ${resp.status_code}     200
 
 Create vFirewall Monitoring Policy
@@ -116,6 +130,17 @@ Create vFirewall Operational Policy
     ${resp}=   Run Policy Api Post Request    /policy/api/v1/policytypes/onap.policies.controlloop.operational.common.Drools/versions/1.0.0/policies    ${data_2}
     Should Be Equal As Strings         ${resp.status_code}     200
     [Return]    ${resp.json()['version']}
+
+Update vFWCL Operational and Monitoring Policies
+    [Documentation]   Undeploy, Delete and Create Operational and Monitoring policies for vFWCL
+    [Arguments]    ${model_invariant_id}
+    Run Keyword And Ignore Error     Run Undeploy vFW Monitoring Policy
+    Run Keyword And Ignore Error     Run Undeploy vFW Operational Policy
+    # Need to wait a little for undeploy
+    Validate the vFWCL Policy
+    Run Keyword and Ignore Error     Run Delete vFW Monitoring Policy
+    Run Keyword And Ignore Error     Run Delete vFW Operational Policy
+    Update vVFWCL Policy     ${model_invariant_id}
 
 Push vFirewall Policies To PDP Group
     [Arguments]    ${op_policy_version}
@@ -171,6 +196,29 @@ Run Undeploy Policy
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Delete Request     policy  /policy/pap/v1/pdps/policies/operational.modifyconfig     headers=${headers}
+     Log    Received response from policy ${resp.text}
+     Should Be Equal As Strings    ${resp.status_code}     200
+
+Run Undeploy vFW Monitoring Policy
+     [Documentation]    Runs Policy PAP Undeploy vFW  Monitoring  Policy from PDP Groups
+     #[Arguments]    ${policy_name}
+     ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}=   Delete Request     policy  /policy/pap/v1/pdps/policies/onap.vfirewall.tca     headers=${headers}
+     Log    Received response from policy ${resp.text}
+     Should Be Equal As Strings    ${resp.status_code}     200
+
+
+Run Delete vFW Monitoring Policy
+     [Documentation]    Runs Policy API Undeploy a Monitoring Policy
+     #[Arguments]    ${policy_name}
+     ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}=   Delete Request     policy   /policy/api/v1/policytypes/onap.policies.monitoring.tcagen2/versions/1.0.0/policies/onap.vfirewall.tca/versions/1.0.0   headers=${headers}
      Log    Received response from policy ${resp.text}
      Should Be Equal As Strings    ${resp.status_code}     200
 

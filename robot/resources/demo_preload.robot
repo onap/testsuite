@@ -241,9 +241,8 @@ Instantiate Demo VNF
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
     \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'   ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
     Log   ModelInvariantID=${model_invariant_id}
-    ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
+    ${status}   ${value}=   Run Keyword And Ignore Error  Update vFWCL Operational and Monitoring Policies    ${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
-
 
 Save For Delete
     [Documentation]   Create a variable file to be loaded for save for delete
