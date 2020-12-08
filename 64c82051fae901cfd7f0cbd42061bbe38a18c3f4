@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c156acae_3cce98a7",
+        "filename": "robot/testsuites/closed-loop.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2020-12-08T16:52:41Z",
+      "side": 1,
+      "message": "Letting DMaaP messages propagate before starting the next test. Noticed in SB00 that messages are slow in DMaaP for somre reason",
+      "parentUuid": "53d1abc6_5876f0a6",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 13
+      },
+      "revId": "64c82051fae901cfd7f0cbd42061bbe38a18c3f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6035e068_a8fb2ca6",
         "filename": "robot/testsuites/closed-loop.robot",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-12-08T14:44:24Z",
       "side": 1,
       "message": "Why are errors ignored in all of these undeploy and delete steps?",
+      "range": {
+        "startLine": 29,
+        "startChar": 20,
+        "endLine": 29,
+        "endChar": 32
+      },
+      "revId": "64c82051fae901cfd7f0cbd42061bbe38a18c3f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7eb24b6_d9d4f074",
+        "filename": "robot/testsuites/closed-loop.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2020-12-08T16:52:41Z",
+      "side": 1,
+      "message": "if the policy was not deployed or created you can get a false negative so this covers that case",
+      "parentUuid": "6035e068_a8fb2ca6",
       "range": {
         "startLine": 29,
         "startChar": 20,
