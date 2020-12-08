@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "f6ca1165_5eccd5f6",
+        "filename": "robot/testsuites/closed-loop.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2020-12-08T17:29:15Z",
+      "side": 1,
+      "message": "could watch dmaap topics for notifications from policy - we use that approach in some of our CSITs (wait_topic.sh).  Policy deployment/undeployment notifications are published on one topic, and event processing is published on another.  If you want to go that approach, let me know what you\u0027re waiting for and I can identify the topic and appropriate text to match for use by wait_topic.sh.  (This assumes, of course, that the item of interest can be identified via a policy notification.)",
+      "parentUuid": "2a8372fd_13223705",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 13
+      },
+      "revId": "64c82051fae901cfd7f0cbd42061bbe38a18c3f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6035e068_a8fb2ca6",
         "filename": "robot/testsuites/closed-loop.robot",
         "patchSetId": 1
