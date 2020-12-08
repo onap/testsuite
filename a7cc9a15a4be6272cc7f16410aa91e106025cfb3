@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "d045fe6e_9f2fdb01",
+        "filename": "robot/testsuites/usecases/5gson.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2020-12-08T12:44:59Z",
+      "side": 1,
+      "message": "Ok, so how and why raw.githubusercontent.com would have worked from Robot container? In any case, I think test config files under 1 MB should still be bearable in git at least if you don\u0027t have many of them.",
+      "parentUuid": "20bc44b7_3e458807",
+      "range": {
+        "startLine": 118,
+        "startChar": 75,
+        "endLine": 118,
+        "endChar": 179
+      },
+      "revId": "a7cc9a15a4be6272cc7f16410aa91e106025cfb3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32aa0b51_eae7ed16",
         "filename": "robot/testsuites/usecases/5gson.robot",
         "patchSetId": 4
