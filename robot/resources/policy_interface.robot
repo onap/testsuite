@@ -188,7 +188,7 @@ Run Deploy Policy Pap Post Request
      [Return]    ${resp}
      Should Be Equal As Strings    ${resp.status_code}     200
 
-Run Undeploy Policy
+Run Undeploy vFW Operational Policy
      [Documentation]    Runs Policy PAP Undeploy a Policy from PDP Groups
      #[Arguments]    ${policy_name}
      ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
@@ -222,6 +222,16 @@ Run Delete vFW Monitoring Policy
      Log    Received response from policy ${resp.text}
      Should Be Equal As Strings    ${resp.status_code}     200
 
+Run Delete vFW Operational Policy
+     [Documentation]    Runs Policy API Delete Operational Policy
+     #[Arguments]    ${policy_name}
+     ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp}=   Delete Request     policy   /policy/api/v1/policytypes/onap.policies.controlloop.operational.common.Drools/versions/1.0.0/policies/operational.modifyconfig/versions/1.0.0     headers=${headers}
+     Log    Received response from policy ${resp.text}
+     Should Be Equal As Strings    ${resp.status_code}     200
 
 Run Delete Policy Request
      [Documentation]    Runs Policy Delete request

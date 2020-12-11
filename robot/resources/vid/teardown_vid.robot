@@ -7,7 +7,6 @@ Library        ONAPLibrary.SO    WITH NAME     SO
 Resource        vid_interface.robot
 Resource        create_vid_vnf.robot
 Resource        create_service_instance.robot
-Resource        ../heatbridge.robot
 
 *** Variables ***
 ${VID_ENV}            /vid

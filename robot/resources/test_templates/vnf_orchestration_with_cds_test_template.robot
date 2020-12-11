@@ -15,7 +15,6 @@ Resource        ../aai/create_complex.robot
 Resource        ../aai/create_tenant.robot
 Resource        ../aai/create_service.robot
 Resource        ../openstack/neutron_interface.robot
-Resource        ../heatbridge.robot
 
 Resource    	../global_properties.robot
 

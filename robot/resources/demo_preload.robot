@@ -212,7 +212,7 @@ Instantiate VNF
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
     \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'   ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
     Log   Update old vFWCL Policy for ModelInvariantID=${model_invariant_id}
-    ${status}   ${value}=   Run Keyword And Ignore Error  Update vVFWCL Policy   ${model_invariant_id}
+    ${status}   ${value}=   Run Keyword And Ignore Error  Update vFWCL Operational and Monitoring Policies    ${model_invariant_id}
     :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
     \   Log   APPC Mount Point for VNF Module Name=${vf_module_name}
     \   ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
