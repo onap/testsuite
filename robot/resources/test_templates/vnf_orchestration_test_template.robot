@@ -15,7 +15,6 @@ Resource        ../aai/create_complex.robot
 Resource        ../aai/create_tenant.robot
 Resource        ../aai/create_service.robot
 Resource        ../openstack/neutron_interface.robot
-Resource        ../heatbridge.robot
 
 
 Library         ONAPLibrary.Openstack
@@ -76,9 +75,6 @@ Orchestrate VNF
     \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
     \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
-    ##  Part of removale of heatbridge
-    ##  \   ${uris_to_delete}=    Execute Heatbridge    ${vf_module_name}    ${vnf}  ${service}    ipv4_oam_interface
-    ##  set a fake urils_to_delete until we confirm heatbridge can be fully removed
     \   ${uris_to_delete}=   Set Variable   'http://devnull'
     \   Validate VF Module      ${vf_module_name}    ${vnf}
     \   Append To List   ${vf_module_name_list}    ${vf_module_name}

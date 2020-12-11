@@ -28,9 +28,9 @@ VFWCL Repush Monitoring And Operational Policies
     Validate the vFWCL Policy
     Run Keyword And Ignore Error     Run Undeploy vFW Monitoring Policy
     Validate the vFWCL Policy
-    Run Keyword and Ignore Error     Run Delete vFW Monitoring Policy
-    Validate the vFWCL Policy
     Run Keyword And Ignore Error     Run Undeploy vFW Operational Policy
+    Validate the vFWCL Policy
+    Run Keyword and Ignore Error     Run Delete vFW Monitoring Policy
     Validate the vFWCL Policy
     Run Keyword And Ignore Error     Run Delete vFW Operational Policy
     Validate the vFWCL Policy
