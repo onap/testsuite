@@ -135,7 +135,7 @@ Update vFWCL Operational and Monitoring Policies
     [Documentation]   Undeploy, Delete and Create Operational and Monitoring policies for vFWCL
     [Arguments]    ${model_invariant_id}
     Run Keyword And Ignore Error     Run Undeploy vFW Monitoring Policy
-    Run Keyword And Ignore Error     Run Undeploy vFW Operational Policy
+    Run Keyword And Ignore Error     Run Undeploy Policy
     # Need to wait a little for undeploy
     Validate the vFWCL Policy
     Run Keyword and Ignore Error     Run Delete vFW Monitoring Policy
@@ -188,7 +188,7 @@ Run Deploy Policy Pap Post Request
      [Return]    ${resp}
      Should Be Equal As Strings    ${resp.status_code}     200
 
-Run Undeploy vFW Operational Policy
+Run Undeploy Policy
      [Documentation]    Runs Policy PAP Undeploy a Policy from PDP Groups
      #[Arguments]    ${policy_name}
      ${auth}=    Create List    ${POLICY_HEALTHCHECK_USERNAME}    ${POLICY_HEALTHCHECK_PASSWORD}
