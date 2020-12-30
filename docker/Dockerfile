@@ -49,7 +49,7 @@ RUN apt-get update \
             wget vim  \
             python3.7 python3.7-dev python3-pip && \
     mkdir -p /var/opt/ONAP && \
-    pip install -r requirements.txt && \
+    pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir \
     git+https://$PYTHON_UTILS_REPO@$PYTHON_UTILS_TAG#egg=robotframework-onap\&subdirectory=robotframework-onap && \
     git clone --depth 1 https://$TESTSUITE_REPO -b $TESTSUITE_TAG /var/opt/ONAP && \
@@ -58,8 +58,8 @@ RUN apt-get update \
     # moved in case line extension with comment isnt supported
     #git+https://$HEATBRIDGE_REPO@$HEATBRIDGE_TAG#egg=heatbridge\&subdirectory=heatbridge \
 
-RUN python3.7 -m pip install setuptools wheel
-RUN python3.7 -m pip install virtualenv
+RUN python3.7 -m pip install --no-cache-dir setuptools wheel
+RUN python3.7 -m pip install --no-cache-dir virtualenv
 
 # Copy the robot code
 RUN mkdir -p /etc/lighttpd && \
