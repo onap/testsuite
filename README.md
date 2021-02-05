@@ -1,6 +1,6 @@
 # Getting Started
 ## Prerequisites
-This guide assumes you have run git clone on https://gerrit.onap.org/r/p/testsuite.git
+This guide assumes you have run git clone on https://gerrit.onap.org/r/testsuite.git
 
 For more info please see the [Development Guide](https://wiki.onap.org/display/DW/Robot+Framework+Development+Guide)
 

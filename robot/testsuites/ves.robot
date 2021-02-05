@@ -37,16 +37,16 @@ ${Provisioning_json}                ${EXECDIR}/robot/assets/dcae/ves_stdnDefined
 
 Send standard event to VES and check if is routed to proper topic
     [Documentation]
-     ...  This test case checks wheather fault event is send to proper DMAAP topic.
-     ...  Fault event should be routed by VES Collector to unauthenticated.SEC_FAULT_OUTPUT topic on DMAAP MR .
+     ...  This test case checks whether fault event is sent to proper DMAAP topic.
+     ...  Fault event should be routed by VES Collector to unauthenticated.SEC_FAULT_OUTPUT topic on DMAAP MR.
     [Tags]     vescollector   ete
     ${expected_fault_on_mr}      Set Variable     Fault_Vscf:Acs-Ericcson_PilotNumberPoolExhaustion
     Send Event to VES & Validate Topic      ${ves7_valid_json}   ${MR_TOPIC_URL_PATH}   ${expected_fault_on_mr}
 
 Send 3GPP Fault Supervision event to VES and check if is routed to proper topic
     [Documentation]
-     ...  This test case checks wheather fault event is send to proper DMAAP topic.
-     ...  Fault Supervision event should be routed by domain = "stndDefined" and stndDefinedNamespace = "3GPP-FaultSupervision" .
+     ...  This test case checks whether fault event is sent to proper DMAAP topic.
+     ...  Fault Supervision event should be routed by domain = "stndDefined" and stndDefinedNamespace = "3GPP-FaultSupervision".
      ...  Fault should be routed to mr topic unauthenticated.SEC_3GPP_FAULTSUPERVISION_OUTPUT
     [Tags]     vescollector   ete
     ${expected_fault_on_mr}      Set Variable     ves_stdnDefined_3GPP-FaultSupervision
@@ -54,8 +54,8 @@ Send 3GPP Fault Supervision event to VES and check if is routed to proper topic
 
 Send 3GPP Heartbeat event to VES and check if is routed to proper topic
     [Documentation]
-     ...  This test case checks wheather fault event is send to proper DMAAP topic.
-     ...  Fault Supervision event should be routed by domain = "stndDefined" and stndDefinedNamespace = "3GPP-Heartbeat" .
+     ...  This test case checks whether fault event is sent to proper DMAAP topic.
+     ...  Fault Supervision event should be routed by domain = "stndDefined" and stndDefinedNamespace = "3GPP-Heartbeat".
      ...  Fault should be routed to mr topic unauthenticated.SEC_3GPP_HEARTBEAT_OUTPUT
     [Tags]     vescollector   ete
     ${expected_fault_on_mr}      Set Variable     ves_stdnDefined_3GPP-Heartbeat
@@ -63,8 +63,8 @@ Send 3GPP Heartbeat event to VES and check if is routed to proper topic
 
 Send 3GPP Performance Assurance event to VES and check if is routed to proper topic
     [Documentation]
-     ...  This test case checks wheather fault event is send to proper DMAAP topic.
-     ...  Fault Supervision event should be routed by domain = "stndDefined" and stndDefinedNamespace = "3GPP-PerformanceAssurance" .
+     ...  This test case checks whether fault event is sent to proper DMAAP topic.
+     ...  Fault Supervision event should be routed by domain = "stndDefined" and stndDefinedNamespace = "3GPP-PerformanceAssurance".
      ...  Fault should be routed to mr topic unauthenticated.SEC_3GPP_PERFORMANCEASSURANCE_OUTPUT
     [Tags]     vescollector   ete
     ${expected_fault_on_mr}      Set Variable     ves_stdnDefined_3GPP-PerformanceAssurance
@@ -72,8 +72,8 @@ Send 3GPP Performance Assurance event to VES and check if is routed to proper to
 
 Send 3GPP Provisioning event to VES and check if is routed to proper topic
     [Documentation]
-     ...  This test case checks wheather fault event is send to proper DMAAP topic.
-     ...  Fault Supervision event should be routed by domain = "stndDefined" and stndDefinedNamespace = "3GPP-Provisioning" .
+     ...  This test case checks whether fault event is sent to proper DMAAP topic.
+     ...  Fault Supervision event should be routed by domain = "stndDefined" and stndDefinedNamespace = "3GPP-Provisioning".
      ...  Fault should be routed to mr topic unauthenticated.SEC_3GPP_PROVISIONING_OUTPUT
     [Tags]     vescollector   ete
     ${expected_fault_on_mr}      Set Variable     ves_stdnDefined_3GPP-Provisioning
