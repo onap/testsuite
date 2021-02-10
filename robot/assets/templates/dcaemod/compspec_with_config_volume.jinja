@@ -1,0 +1,50 @@
+{"owner": "owner-name", "spec":
+{
+  "self": {
+    "version": "1.0.0",
+    "name": "{{comp_spec_name}}",
+    "description": "Dummy DCAE app with config volume",
+    "component_type": "docker"
+  },
+  "streams": {
+    "subscribes": [],
+    "publishes": []
+  },
+  "services": {
+    "calls": [],
+    "provides": []
+  },
+  "parameters": [],
+  "auxilary": {
+      "healthcheck": {
+        "type": "docker",
+        "interval": "45s",
+        "timeout": "15s",
+        "script": "service nginx status"
+      },
+      "volumes": [{
+        "config_volume": {
+          "name": "{{config_map_name}}"
+        },
+        "container": {
+          "bind": "{{volume_mount_path}}"
+        }
+      }],
+      "ports": [
+        "80:0",
+        "99:0"
+      ],
+      "tls_info":{
+          "cert_directory":"/opt/app/dcae-certificate/",
+          "use_tls": false,
+          "use_external_tls": false
+       }
+    },
+  "artifacts": [
+    {
+      "type": "docker image",
+      "uri": "docker.io/nginx:latest"
+    }
+  ]
+}
+}

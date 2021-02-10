@@ -40,4 +40,8 @@ Get Blueprint From Inventory
     ${headers}=                         Create Dictionary                   content-type=application/json
     ${session}=                         Create Session                      inventory_session                           ${INVENTORY_SERVER}
     ${resp}=                            Get Request                         inventory_session                           ${INVENTORY_ENDPOINT}?typeName=${typeName}      headers=${headers}
+    ${value} =                          Convert To Integer                  0
+    Should Not Be Equal  ${resp.json().get('totalCount')}  ${value}  msg=Blueprint ${typeName} does not exist in inventory!
     [Return]                            ${resp}
+
+
