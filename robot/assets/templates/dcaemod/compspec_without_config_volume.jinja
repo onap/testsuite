@@ -1,0 +1,42 @@
+{"owner": "owner-name", "spec":
+{
+  "self": {
+    "version": "1.0.0",
+    "name": "{{comp_spec_name}}",
+    "description": "Dummy DCAE app",
+    "component_type": "docker"
+  },
+  "streams": {
+    "subscribes": [],
+    "publishes": []
+  },
+  "services": {
+    "calls": [],
+    "provides": []
+  },
+  "parameters": [],
+  "auxilary": {
+    "healthcheck": {
+      "type": "docker",
+      "interval": "300s",
+      "timeout": "120s",
+      "script": "service nginx status"
+    },
+    "ports": [
+      "80:0",
+      "99:0"
+    ],
+    "tls_info":{
+        "cert_directory":"/opt/app/dcae-certificate/",
+        "use_tls": false,
+        "use_external_tls": false
+     }
+  },
+  "artifacts": [
+    {
+      "type": "docker image",
+      "uri": "docker.io/nginx:latest"
+    }
+  ]
+}
+}
