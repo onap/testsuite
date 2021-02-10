@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51640107_520d4e08",
+        "filename": "robot/testsuites/dcaemod.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-10T14:01:39Z",
+      "side": 1,
+      "message": "Could we have an actual test case description here?",
+      "range": {
+        "startLine": 16,
+        "startChar": 24,
+        "endLine": 16,
+        "endChar": 43
+      },
+      "revId": "9504efdb697b3efc81208a55653d71133a77d1ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
