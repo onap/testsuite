@@ -22,7 +22,7 @@ ${users}  ${EXECDIR}/robot/assets/cmpv2/mongo-users.json
 
 *** Keywords ***
 Pnf simulator send single VES event
-    [Arguments]  ${event}   ${ves_host}   ${ves_port}  ${pnf_sim_host}  ${pnf_sim_port}
+    [Arguments]  ${event}   ${ves_host}   ${ves_port}  ${pnf_sim_host}  ${pnf_sim_port}  ${http_reposnse_code}=202
     ${pnf_sim_endpoint}=            Set Variable                http://${pnf_sim_host}:${pnf_sim_port}
     ${ves_url}=                     Set Variable                ${GLOBAL_DCAE_VES_HTTPS_PROTOCOL}://${ves_host}:${ves_port}/${VES_data_path}
     ${single_event}=                Create Dictionary           event=${event}              ves_url=${ves_url}
@@ -33,7 +33,7 @@ Pnf simulator send single VES event
     ${headers}=                     Create Dictionary            Accept=application/json    Content-Type=application/json
     ${post_resp}=                   Post Request                pnf_sim                     ${single_event_data_path}       data=${data}        headers=${headers}
     Log                             PNF registration request ${data}
-    Should Be Equal As Strings      ${post_resp.status_code}    202
+    Should Be Equal As Strings      ${post_resp.status_code}    ${http_reposnse_code}
     Log                             VES has accepted event with status code ${post_resp.status_code}
 
 
