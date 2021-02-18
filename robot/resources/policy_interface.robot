@@ -89,7 +89,7 @@ Undeploy Policy
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Delete Request     policy  /policy/pap/v1/pdps/policies/${policy_name}     headers=${headers}
      Log    Received response from policy ${resp.text}
-     Should Be Equal As Strings    ${resp.status_code}     200
+     Should Be Equal As Strings    ${resp.status_code}     202
 
 Update vVFWCL Policy
     [Arguments]   ${resource_id}
@@ -148,7 +148,7 @@ Push vFirewall Policies To PDP Group
     Templating.Create Environment    policy    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    policy    ${POLICY_TEMPLATES}/vFirewall_push.jinja    ${dict}
     ${resp}=   Run Policy Pap Post Request    /policy/pap/v1/pdps/policies   ${data}
-    Should Be Equal As Strings    ${resp.status_code}     200
+    Should Be Equal As Strings    ${resp.status_code}     202
 
 Run Create Policy Post Request
      [Documentation]    Runs Create Policy Post request
@@ -186,7 +186,7 @@ Run Deploy Policy Pap Post Request
      ${resp}=   Post Request    policy   /policy/pap/v1/pdps/policies     data=${json_deploy}    headers=${headers}
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
-     Should Be Equal As Strings    ${resp.status_code}     200
+     Should Be Equal As Strings    ${resp.status_code}     202
 
 Run Undeploy Policy
      [Documentation]    Runs Policy PAP Undeploy a Policy from PDP Groups
@@ -197,7 +197,7 @@ Run Undeploy Policy
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Delete Request     policy  /policy/pap/v1/pdps/policies/operational.modifyconfig     headers=${headers}
      Log    Received response from policy ${resp.text}
-     Should Be Equal As Strings    ${resp.status_code}     200
+     Should Be Equal As Strings    ${resp.status_code}     202
 
 Run Undeploy vFW Monitoring Policy
      [Documentation]    Runs Policy PAP Undeploy vFW  Monitoring  Policy from PDP Groups
@@ -208,7 +208,7 @@ Run Undeploy vFW Monitoring Policy
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   Delete Request     policy  /policy/pap/v1/pdps/policies/onap.vfirewall.tca     headers=${headers}
      Log    Received response from policy ${resp.text}
-     Should Be Equal As Strings    ${resp.status_code}     200
+     Should Be Equal As Strings    ${resp.status_code}     202
 
 
 Run Delete vFW Monitoring Policy
