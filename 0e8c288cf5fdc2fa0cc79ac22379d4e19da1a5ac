@@ -1,0 +1,441 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bde5eb4_fd45ecc1",
+        "filename": "robot/resources/dcae/inventory.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Consider https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Should%20Not%20Be%20Equal%20As%20Integers",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 123
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c272866_9d38f0ab",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "File",
+      "range": {
+        "startLine": 26,
+        "startChar": 38,
+        "endLine": 26,
+        "endChar": 41
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0178db99_810c6382",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "\"Get Request\" is deprecated; consider https://marketsquare.github.io/robotframework-requests/doc/RequestsLibrary.html#GET%20On%20Session",
+      "range": {
+        "startLine": 94,
+        "startChar": 14,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97a542e3_ad97fae8",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "\"Post Request\" is deprecated; consider https://marketsquare.github.io/robotframework-requests/doc/RequestsLibrary.html#POST%20On%20Session",
+      "range": {
+        "startLine": 105,
+        "startChar": 14,
+        "endLine": 105,
+        "endChar": 27
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a104fed_8d8af4f9",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 117,
+        "startChar": 15,
+        "endLine": 117,
+        "endChar": 28
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70b06332_eecdcd66",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 128,
+        "startChar": 15,
+        "endLine": 128,
+        "endChar": 27
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec76a0ca_dd068558",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 136,
+        "startChar": 15,
+        "endLine": 136,
+        "endChar": 26
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8a08018_e51206d9",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 142,
+        "startChar": 15,
+        "endLine": 142,
+        "endChar": 27
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca3683df_e046c895",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 155,
+        "startChar": 14,
+        "endLine": 155,
+        "endChar": 26
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68dde9db_469681bd",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 166,
+        "startChar": 15,
+        "endLine": 166,
+        "endChar": 27
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91ce68ad_457d81a0",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 176,
+        "startChar": 14,
+        "endLine": 176,
+        "endChar": 26
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8fef387_dc14e0a4",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 184,
+        "startChar": 15,
+        "endLine": 184,
+        "endChar": 27
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bf9a411_634b67ae",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 192,
+        "startChar": 14,
+        "endLine": 192,
+        "endChar": 26
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e89962b_6f45af89",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 197,
+        "startChar": 15,
+        "endLine": 197,
+        "endChar": 27
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b004ba4a_51037a16",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 214,
+        "startChar": 16,
+        "endLine": 214,
+        "endChar": 27
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd80ed62_bf1803f7",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "\"Delete Request\" is deprecated; consider https://marketsquare.github.io/robotframework-requests/doc/RequestsLibrary.html#DELETE%20On%20Session",
+      "range": {
+        "startLine": 223,
+        "startChar": 15,
+        "endLine": 223,
+        "endChar": 29
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be959876_abb09395",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 230,
+        "startChar": 15,
+        "endLine": 230,
+        "endChar": 29
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0842969_bf41f897",
+        "filename": "robot/resources/dcaemod_interface.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "Deprecated (see above)",
+      "range": {
+        "startLine": 235,
+        "startChar": 15,
+        "endLine": 235,
+        "endChar": 29
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55dd3329_331883d0",
+        "filename": "robot/testsuites/dcaemod.robot",
+        "patchSetId": 45
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2021-02-23T14:34:49Z",
+      "side": 1,
+      "message": "File",
+      "range": {
+        "startLine": 116,
+        "startChar": 140,
+        "endLine": 116,
+        "endChar": 143
+      },
+      "revId": "0e8c288cf5fdc2fa0cc79ac22379d4e19da1a5ac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
