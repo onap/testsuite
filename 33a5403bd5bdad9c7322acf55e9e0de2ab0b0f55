@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3a27437_75b57f5a",
+        "filename": "robot/testsuites/dcaemod.robot",
+        "patchSetId": 46
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4543
+      },
+      "writtenOn": "2021-02-25T16:53:34Z",
+      "side": 1,
+      "message": "can you please use more decriptive name of keyword, which somehow describe what this setup does?",
+      "revId": "33a5403bd5bdad9c7322acf55e9e0de2ab0b0f55",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "31bb1112_97f0e417",
+        "filename": "robot/testsuites/dcaemod.robot",
+        "patchSetId": 46
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4543
+      },
+      "writtenOn": "2021-02-25T16:53:34Z",
+      "side": 1,
+      "message": "the same as in setup, please use more descriptive name",
+      "revId": "33a5403bd5bdad9c7322acf55e9e0de2ab0b0f55",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fc530e4_d00d8878",
+        "filename": "robot/testsuites/dcaemod.robot",
+        "patchSetId": 46
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4543
+      },
+      "writtenOn": "2021-02-25T16:53:34Z",
+      "side": 1,
+      "message": "there is no need to duplicate sentence \"test teardown -\" in keyword name . keyword name \"Delete Process Group And Blueprint And Deployment\" is enought",
+      "revId": "33a5403bd5bdad9c7322acf55e9e0de2ab0b0f55",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98d3eda1_57cc7d5c",
+        "filename": "robot/testsuites/dcaemod.robot",
+        "patchSetId": 46
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4543
+      },
+      "writtenOn": "2021-02-25T16:53:34Z",
+      "side": 1,
+      "message": "please move variables to external resource, where variables are hold",
+      "revId": "33a5403bd5bdad9c7322acf55e9e0de2ab0b0f55",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42153e54_f9787c4c",
+        "filename": "robot/testsuites/dcaemod.robot",
+        "patchSetId": 46
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4543
+      },
+      "writtenOn": "2021-02-25T16:53:34Z",
+      "side": 1,
+      "message": "please make a keyword or test template out of this test. It apears in rest tests too and code duplication is quite big.\nAfter that next test could be two liner, like:\nDeploy DCAE Simple Application With Config Map In Config Spec Json But Not Present In K8s\n    Deploy DCAE Simple Application Without Config Map In Config Spec Json {$comp_spec_name}..\n    Check config map in k8s {$config_map_name}..",
+      "range": {
+        "startLine": 26,
+        "startChar": 31,
+        "endLine": 26,
+        "endChar": 39
+      },
+      "revId": "33a5403bd5bdad9c7322acf55e9e0de2ab0b0f55",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f8334a1_36947ab7",
+        "filename": "robot/testsuites/dcaemod.robot",
+        "patchSetId": 46
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4543
+      },
+      "writtenOn": "2021-02-25T16:53:34Z",
+      "side": 1,
+      "message": "please add documentation for each test case",
+      "revId": "33a5403bd5bdad9c7322acf55e9e0de2ab0b0f55",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f85f067d_e5915e88",
+        "filename": "robot/testsuites/dcaemod.robot",
+        "patchSetId": 46
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4543
+      },
+      "writtenOn": "2021-02-25T16:53:34Z",
+      "side": 1,
+      "message": "there is no need to name teardown \"Test Teardown -\" . Just \"Delete Process Group And Blueprint And Deployment  AND  Delete Config Map With Mounted Config File\" is enought",
+      "revId": "33a5403bd5bdad9c7322acf55e9e0de2ab0b0f55",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
