@@ -28,9 +28,10 @@ Deploy DCAE Simple Application Without Config Map In Config Spec Json
     ...  - Distributes the flow for blueprint generation via distributor API and pushes it to the DCAE Inventory and the DCAE Dashboard.
     ...  - Deploys such a blueprint from Inventory.
 
-    ${dict_values} =  Create Dictionary  comp_spec_name=nginx1
+    ${timestamp}=  Get Time  epoch
+    Set Test Variable  ${processGroupName}  nginx-${timestamp}
+    ${dict_values} =  Create Dictionary  comp_spec_name=${processGroupName}
     ${compSpecName} =  Set Variable  ${dict_values['comp_spec_name']}
-    Set Test Variable  ${processGroupName}  nginx1
 
     Deploy DCAE Application  ${COMPSPEC_WITHOUT_CONFIG_VOLUME}  ${dict_values}  ${compSpecName}  ${processGroupName}
 
@@ -46,13 +47,14 @@ Deploy DCAE Simple Application With Config Map In Config Spec Json But Not Prese
     ...  - Deploys such a blueprint from Inventory.
     ...  - Verifies if config map is mounted as a volume and if mounted folder is empty
 
-     ${dict_values} =  Create Dictionary  comp_spec_name=nginx2
+     ${timestamp}=  Get Time  epoch
+     Set Test Variable  ${processGroupName}  nginx-${timestamp}
+     ${dict_values} =  Create Dictionary  comp_spec_name=${processGroupName}
      ...                                  volume_mount_path=/opt/app/etc/config
      ...                                  config_map_name=test-config-volume
      ${compSpecName} =  Set Variable  ${dict_values['comp_spec_name']}
      ${volumeMountPath} =  Set Variable  ${dict_values['volume_mount_path']}
      ${configMapName} =  Set Variable  ${dict_values['config_map_name']}
-     Set Test Variable  ${processGroupName}  nginx2
 
      Deploy DCAE Application  ${COMPSPEC_WITH_CONFIG_VOLUME}  ${dict_values}  ${compSpecName}  ${processGroupName}
      ${podYaml} =  Get Pod Yaml  ${compSpecName}
@@ -74,14 +76,15 @@ Deploy DCAE Simple Application With Config Map In Config Spec Json AND Present I
     ...  - Deploys such a blueprint from Inventory.
     ...  - Verifies if mounted folder contains created file and this file contains user content
 
-     ${dict_values} =  Create Dictionary  comp_spec_name=nginx3
+     ${timestamp}=  Get Time  epoch
+     Set Test Variable  ${processGroupName}  nginx-${timestamp}
+     ${dict_values} =  Create Dictionary  comp_spec_name=${processGroupName}
      ...                                  volume_mount_path=/opt/app/etc/config
      ...                                  config_map_name=test-config-volume
      ${compSpecName} =  Set Variable  ${dict_values['comp_spec_name']}
      ${volumeMountPath} =  Set Variable  ${dict_values['volume_mount_path']}
      ${configMapName} =  Set Variable  ${dict_values['config_map_name']}
      Set Test Variable  ${CONFIG_MAP_NAME}  ${configMapName}
-     Set Test Variable  ${processGroupName}  nginx3
      ${content} =  Set Variable  Hello, world!
      ${configMapDir}  ${configMapFile} =  Split Path  ${CONFIG_MAP_FILE}
 

@@ -186,6 +186,7 @@ Create Processor
     ${session}=  Create Session   ${SESSION_NAME}  ${DCAEMOD_DESIGNTOOL_SERVER}
     ${headers}=  Create Dictionary  content-type=application/json
     ${typeName} =  Evaluate  $compSpecName.title()
+    ${typeName} =  Remove String  ${typeName}  -
     ${data} =  Set Variable  {"revision": {"clientId": "${CLIENT_ID}", "version": 0},"component": {"parentGroupId": "${processGroupId}", "name": "${compSpecName}", "type": "org.onap.dcae.${typeName}"}}
     Wait Until Keyword Succeeds  60s  5s  Verify If NIFI Processor Is Created  ${typeName}
     ${resp} =  Post Request  ${SESSION_NAME}  /nifi-api/process-groups/${processGroupId}/processors  data=${data}  headers=${headers}
