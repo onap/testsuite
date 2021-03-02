@@ -10,7 +10,6 @@ topology_template:
           id: ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a
           operations:
             -
-              controllerName: frankfurt
               description: "Modify the packet generator"
               id: unique-policy-id-1-modifyConfig
               operation:
