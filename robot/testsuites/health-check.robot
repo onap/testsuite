@@ -28,6 +28,7 @@ Resource          ../resources/dr_interface.robot
 Resource          ../resources/pomba_interface.robot
 Resource          ../resources/holmes_interface.robot
 Resource          ../resources/cds_interface.robot
+Resource          ../resources/dcae_ms_interface.robot
 
 
 *** Test Cases ***
@@ -63,6 +64,10 @@ Basic CLAMP Health Check
 Basic DCAE Health Check
     [Tags]    health    medium   health-dcaegen2
     Run DCAE Health Check
+
+Basic DCAE Microservices Health Check
+    [Tags]    health    medium   health-dcaegen2-services
+    Run DCAE Microservices Health Check
 
 Basic DMAAP Data Router Health Check
     [Tags]    health    datarouter   health-dmaap
