@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a3db39b_19418402",
+        "filename": "version.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-03-08T08:10:41Z",
+      "side": 0,
+      "message": "this file is used to release the robot pod\nhowever the tests executed in CI do not use the robot pod but xtesting dockers that are build daily. So as far as the patch is merged, the dockers will include the testuite change you made.\n\nTo get a 1.7.4, I need to update this file and create a new release file.\n\nin other words, we can decorelate the new test and the creation of a new release for the robot pod. This change could be done in another patch",
+      "revId": "5dc8c14dd0994e6154f2f2786bf428b50344b7cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
