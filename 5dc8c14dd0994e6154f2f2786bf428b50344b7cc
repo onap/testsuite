@@ -16,6 +16,24 @@
       "revId": "5dc8c14dd0994e6154f2f2786bf428b50344b7cc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42fc3433_d8c9bdc0",
+        "filename": "version.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 511
+      },
+      "writtenOn": "2021-03-08T15:55:08Z",
+      "side": 0,
+      "message": "Before you merge this change, we probably want to have the OOM change to robot_properties.py submitted and merged.  Otherwise the xtesting docker images that pull the testsuite repo will try to run the new test case and will not find the necessary global variables.",
+      "parentUuid": "6a3db39b_19418402",
+      "revId": "5dc8c14dd0994e6154f2f2786bf428b50344b7cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
