@@ -34,6 +34,24 @@
       "revId": "5dc8c14dd0994e6154f2f2786bf428b50344b7cc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eca1ba0c_aac90511",
+        "filename": "version.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2021-03-15T22:18:15Z",
+      "side": 0,
+      "message": "Jack - Can you submit the relevant OOM change (for robot_properties.py) and link to this submission",
+      "parentUuid": "42fc3433_d8c9bdc0",
+      "revId": "5dc8c14dd0994e6154f2f2786bf428b50344b7cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
