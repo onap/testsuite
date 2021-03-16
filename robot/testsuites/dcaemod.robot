@@ -3,7 +3,7 @@
 Library           RequestsLibrary
 Library           Collections
 Library           OperatingSystem
-Resource          ../../resources/dcaemod_interface.robot
+Resource          ../resources/dcaemod_interface.robot
 Suite Setup       Configure Nifi Registry And Distribution Target
 Suite Teardown    Delete Nifi Registry And Distribution Target
 Test Teardown     Delete Process Group And Blueprint And Deployment
