@@ -319,11 +319,11 @@ Portal CLI Application Access Test
 
 
 Basic Holmes Rule Management API Health Check
-    [Tags]    health-dcaegen2
+    [Tags]    health-holmes    health
     Run Holmes Rule Mgmt Healthcheck
 
 Basic Holmes Engine Management API Health Check
-    [Tags]    health-dcaegen2
+    [Tags]    health-holmes    health
     Run Holmes Engine Mgmt Healthcheck
 
 Basic Multicloud-fcaps API Health Check
