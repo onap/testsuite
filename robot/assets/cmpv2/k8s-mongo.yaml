@@ -11,6 +11,12 @@ inputs:
     type: integer
     description: Number of instances
     default: 1
+  service_component_type:
+    type: string
+    default: "mongo"
+  service_component_name_override:
+    type: string
+    default: "mongo"
 node_templates:
   mongo:
     type: dcae.nodes.ContainerizedServiceComponent
@@ -25,7 +31,7 @@ node_templates:
             ports:
               - '27017:0'
     properties:
-      service_component_type: mongo
-      service_component_name_override: mongo
+      service_component_type: { get_input: service_component_type }
+      service_component_name_override: { get_input: service_component_name_override }
       image: { get_input: tag_version }
       replicas: { get_input: replicas }
