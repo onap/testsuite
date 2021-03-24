@@ -10,7 +10,7 @@ ${DEPLOYMENT_ENDPOINT}                  dcae-deployments
 
 *** Keywords ***
 Deploy Service
-    [Arguments]                         ${inputs}                   ${deployment_name}                      ${wait_time}=5 minute
+    [Arguments]                         ${inputs}                   ${deployment_name}                      ${wait_time}=5 minute      ${check_deployment_status}=true
     Disable Warnings
     ${headers}=                         Create Dictionary           content-type=application/json
     ${deployment_data}=                 Set Variable                ${inputs}
@@ -18,7 +18,13 @@ Deploy Service
     ${resp}=                            Put Request                 deployment_session                       /${DEPLOYMENT_ENDPOINT}/${deployment_name}         data=${deployment_data}     headers=${headers}
     ${operationLink}                    Set Variable                ${resp.json().get('links').get('status')}
     ${operationId}                      Fetch From Right            ${operationLink}                /
-    Wait Until Keyword Succeeds         ${wait_time}                20 sec           Deployment Status       ${deployment_name}     ${operationId}
+    Run Keyword If  "${check_deployment_status}"="true"             Check Deployment Status   ${deployment_name}     ${operationId}   ${wait_time}
+    Wait Until Keyword Succeeds         ${wait_time}                20 sec                                  Deployment Status       ${deployment_name}     ${operationId}
+    [Return]                            ${operationId}
+
+Check Deployment Status
+    [Arguments]                         ${deployment_name}          ${operationId}                          ${wait_time}
+    Wait Until Keyword Succeeds         ${wait_time}                20 sec                                  Deployment Status       ${deployment_name}     ${operationId}
 
 Deployment Status
     [Arguments]         ${deployment_name}          ${operationId}
@@ -27,6 +33,7 @@ Deployment Status
     ${resp}=            Get Request                 deployment_session     /${DEPLOYMENT_ENDPOINT}/${deployment_name}/operation/${operationId}
     ${status}           Set Variable                ${resp.json().get('status')}
     Should Be Equal As Strings                      ${status}               succeeded
+    [Return]            ${status}
 
 Undeploy Service
     [Arguments]         ${deployment_name}
