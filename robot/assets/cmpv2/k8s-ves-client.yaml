@@ -6,7 +6,7 @@ inputs:
   tag_version:
     type: string
     description: Docker image to be used
-    default: 'nexus3.onap.org:10001/onap/org.onap.integration.simulators.pnfsimulator:latest'
+    default: 'nexus3.onap.org:10001/onap/org.onap.integration.nfsimulator.vesclient:latest'
   replicas:
     type: integer
     description: Number of instances
@@ -22,25 +22,25 @@ inputs:
   external_cert_common_name:
     type: string
     description: Common name which should be present in certificate.
-    default: 'pnf-simulator'
+    default: 'ves-client'
   external_cert_sans:
     type: string
     description: 'List of Subject Alternative Names (SANs) which should be present
       in certificate. Delimiter - , Should contain common_name value and other FQDNs
       under which given component is accessible.'
-    default: 'pnf-simulator'
+    default: 'ves-client'
   external_cert_use_external_tls:
     type: boolean
     description: Flag to indicate external tls enable/disable.
     default: true
   service_component_type:
     type: string
-    default: "pnf-simulator"
+    default: "ves-client"
   service_component_name_override:
     type: string
-    default: "pnf-simulator"
+    default: "ves-client"
 node_templates:
-  pnf-simulator:
+  ves-client:
     type: dcae.nodes.ContainerizedServiceComponent
     interfaces:
       cloudify.interfaces.lifecycle:
@@ -48,6 +48,8 @@ node_templates:
           inputs:
             envs:
               STRICT_HOSTNAME_VERIFICATION: 'true'
+              MONGO_HOSTNAME:
+                concat: ["mongo-", {get_input: service_component_name_override}]
             ports:
               - '5000:0'
     properties:
