@@ -143,7 +143,7 @@ Usecase Teardown
     Undeploy Service                    ${serviceTypeId-Sftp}
     Undeploy Service                    datafile
     Undeploy Service                    pmmapper
-    Undeploy Service                    mongo-dep
+    Undeploy Service                    mongo-dep-5gbulkpm
     Undeploy Service                    ves-rest-client-dep
     Undeploy Service                    ves-collector-for-bulkpm-over-https
     Delete Blueprint From Inventory     ${serviceTypeIdMongo}
@@ -316,12 +316,12 @@ Deploying HTTPS server with wrong certificates - wrong SAN-s
     Set Global Variable                 ${httpsServerWrongSansOperationId}
 
 Deploying VES Client with correct certificates
-    ${serviceTypeIdMongo}               Load Blueprint To Inventory        ${MONGO_BLUEPRINT_PATH}              mongo
+    ${serviceTypeIdMongo}               Load Blueprint To Inventory        ${MONGO_BLUEPRINT_PATH}              mongo-5g-bulk-pm
     ${serviceTypeIdVesClient}           Load Blueprint To Inventory        ${PNF_SIMULATOR_BLUEPRINT_PATH}      ves-rest-client
     Set Suite Variable                  ${serviceTypeIdMongo}
     Set Suite Variable                  ${serviceTypeIdVesClient}
     ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeIdMongo}"}
-    Deploy Service                      ${deployment_data}                 mongo-dep                            2 minutes
+    Deploy Service                      ${deployment_data}                 mongo-dep-5gbulkpm                            2 minutes
     ${resp}=                            Get Blueprint From Inventory       ves-rest-client
     ${json}=                            Set Variable                       ${resp.json()}
     ${image}                            Get Regexp Matches                 ${json['items'][0]['blueprintTemplate']}               nexus3(.)*?(?=\')
