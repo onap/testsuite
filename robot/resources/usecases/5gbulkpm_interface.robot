@@ -320,7 +320,7 @@ Deploying VES Client with correct certificates
     ${serviceTypeIdVesClient}           Load Blueprint To Inventory        ${PNF_SIMULATOR_BLUEPRINT_PATH}      ves-rest-client
     Set Suite Variable                  ${serviceTypeIdMongo}
     Set Suite Variable                  ${serviceTypeIdVesClient}
-    ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeIdMongo}"}
+    ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeIdMongo}", "inputs": { "service_component_type": "mongo-ves-client", "service_component_name_override": "mongo-ves-client"}}
     Deploy Service                      ${deployment_data}                 mongo-dep-5gbulkpm                            2 minutes
     ${resp}=                            Get Blueprint From Inventory       ves-rest-client
     ${json}=                            Set Variable                       ${resp.json()}
