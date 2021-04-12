@@ -42,6 +42,8 @@ ${CHECK_DFC_LOGS}                                   kubectl logs $(kubectl get p
 ${EXPECTED_PRINT}                                   StrictHostKeyChecking is enabled but environment variable KNOWN_HOSTS_FILE_PATH is not set or points to not existing file
 ${MONGO_BLUEPRINT_PATH}                             ${EXECDIR}/robot/assets/cmpv2/k8s-mongo.yaml
 ${PNF_SIMULATOR_BLUEPRINT_PATH}                     ${EXECDIR}/robot/assets/cmpv2/k8s-pnf-simulator.yaml
+${MONGO_VES_CLIENT_BLUEPRINT_PATH}                  ${EXECDIR}/robot/assets/cmpv2/k8s-mongo-ves-client.yaml
+${VES_CLIENT_BLUEPRINT_PATH}                        ${EXECDIR}/robot/assets/cmpv2/k8s-ves-client.yaml
 ${VES_INPUTS}                                       deployment/VesTlsCmpv2Inputs.jinja
 ${pm_notification_event}                            dfc/notification.jinja
 ${consul_change_event}                              dfc/consul.jinja
@@ -139,19 +141,26 @@ Send File Ready Event to VES Collector and Deploy all DCAE Applications
 
 Usecase Teardown
     Disable Warnings
-    Undeploy Service                    sftpserver
-    Undeploy Service                    ${serviceTypeId-Sftp}
-    Undeploy Service                    datafile
-    Undeploy Service                    pmmapper
-    Undeploy Service                    mongo-dep-5gbulkpm
-    Undeploy Service                    ves-rest-client-dep
-    Undeploy Service                    ves-collector-for-bulkpm-over-https
+    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    datafile
+    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    pmmapper
+    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                   sftpserver
+    Delete Blueprint From Inventory     ${serviceTypeId-Sftp}
+    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    ves-collector-for-bulkpm-over-https
+    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    https-server-dep
+    Delete Blueprint From Inventory     ${serviceTypeId-Https}
+    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    https-server-wrong-sans-dep
+    Delete Blueprint From Inventory     ${serviceTypeId-Https-wrong-sans}
+    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    mongo-dep-5gbulkpm
+    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    ves-rest-client-dep
     Delete Blueprint From Inventory     ${serviceTypeIdMongo}
     Delete Blueprint From Inventory     ${serviceTypeIdVesClient}
-    Undeploy Service                    https-server-dep
-    Delete Blueprint From Inventory     ${serviceTypeId-Https}
-    Undeploy Service                    https-server-wrong-sans-dep
-    Delete Blueprint From Inventory     ${serviceTypeId-Https-wrong-sans}
+
+
+Undeploy Service With Check
+    [Arguments]                          ${deployment_name}
+    ${resp}                              Undeploy Service               ${deployment_name}
+    Should Not Be Equal As Strings       ${resp.status_code}            400
+
 
 Setting Global Variables
     [Documentation]
@@ -316,12 +325,12 @@ Deploying HTTPS server with wrong certificates - wrong SAN-s
     Set Global Variable                 ${httpsServerWrongSansOperationId}
 
 Deploying VES Client with correct certificates
-    ${serviceTypeIdMongo}               Load Blueprint To Inventory        ${MONGO_BLUEPRINT_PATH}              mongo-5g-bulk-pm
-    ${serviceTypeIdVesClient}           Load Blueprint To Inventory        ${PNF_SIMULATOR_BLUEPRINT_PATH}      ves-rest-client
+    ${serviceTypeIdMongo}               Load Blueprint To Inventory        ${MONGO_VES_CLIENT_BLUEPRINT_PATH}   mongo-5g-bulk-pm
+    ${serviceTypeIdVesClient}           Load Blueprint To Inventory        ${VES_CLIENT_BLUEPRINT_PATH}         ves-rest-client
     Set Suite Variable                  ${serviceTypeIdMongo}
     Set Suite Variable                  ${serviceTypeIdVesClient}
-    ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeIdMongo}"}
-    Deploy Service                      ${deployment_data}                 mongo-dep-5gbulkpm                            2 minutes
+    ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeIdMongo}", "inputs": {"service_component_type": "mongo-ves-client", "service_component_name_override": "mongo-ves-client"}}
+    Deploy Service                      ${deployment_data}                 mongo-dep-5gbulkpm                             2 minutes
     ${resp}=                            Get Blueprint From Inventory       ves-rest-client
     ${json}=                            Set Variable                       ${resp.json()}
     ${image}                            Get Regexp Matches                 ${json['items'][0]['blueprintTemplate']}               nexus3(.)*?(?=\')
@@ -442,5 +451,4 @@ Change DFC httpsHostnameVerify configuration in Consul
     ${rc} = 	                    Run and Return RC 	            kubectl delete pods -n onap $(kubectl get pods -n onap | grep datafile-collector | awk '{print $1}' | grep -v NAME)
     Should Be Equal As Integers 	${rc} 	                        0
     Wait Until Keyword Succeeds         60 sec          5 sec       Check DFC logs                  kubectl logs -n onap $(kubectl get pods -n onap | grep datafile-collector | awk '{print $1}' | grep -v NAME) ${container_name}-datafile-collector
-
 
