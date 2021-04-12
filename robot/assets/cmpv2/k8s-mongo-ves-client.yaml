@@ -13,10 +13,10 @@ inputs:
     default: 1
   service_component_type:
     type: string
-    default: "mongo"
+    default: 'mongo-ves-client'
   service_component_name_override:
     type: string
-    default: "mongo"
+    default: 'mongo-ves-client'
 node_templates:
   mongo:
     type: dcae.nodes.ContainerizedServiceComponent
