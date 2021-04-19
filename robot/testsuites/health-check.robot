@@ -42,15 +42,15 @@ Enhanced A&AI Health Check
     Run Traversal API AAI Inventory check
 
 Basic AAF Health Check
-    [Tags]    health    small  health-aaf
+    [Tags]    health  health-aaf
     Run AAF Health Check
 
 Basic AAF SMS Health Check
-    [Tags]    health    small  health-aaf
+    [Tags]    health  health-aaf
     Run SMS Health Check
 
 Basic APPC Health Check
-    [Tags]    health    small   health-appc
+    [Tags]    health-appc
     Run APPC Health Check
 
 Basic CLI Health Check
@@ -87,7 +87,7 @@ Basic DMAAP Bus Controller Health Check With Basic Auth
     Run BC Health Check With Basic Auth
 
 Basic External API NBI Health Check
-    [Tags]    health    externalapi    api    small
+    [Tags]    health    externalapi    api    medium
     Run NBI Health Check
 
 Basic Log Elasticsearch Health Check
@@ -103,7 +103,7 @@ Basic Log Logstash Health Check
     Run Log Logstash Health Check
 
 Basic Microservice Bus Health Check
-    [Tags]    health    small  health-msb
+    [Tags]    health    medium  health-msb
     Run MSB Health Check
 
 Basic Multicloud API Health Check
@@ -191,7 +191,7 @@ Basic Pomba Context-Aggregator Health Check
     Run Pomba Context Aggregator Health Check
 
 Basic Portal Health Check
-    [Tags]    health    core   health-portal
+    [Tags]    health    medium   health-portal
     Run Portal Health Check
 
 Basic SDC Health Check
@@ -340,7 +340,7 @@ Basic Modeling genericparser API Health Check
     Run MSB Get Request    /api/parser/v1/health_check
 
 Enhanced CDS Health Check
-    [Tags]    health    medium   health-cds
+    [Tags]    health    small   health-cds
     Run CDS Basic Health Check
     Run CDS Create Data Dictionary Health Check
     Run CDS GET Data Dictionary Health Check
