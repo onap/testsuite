@@ -260,6 +260,8 @@ Basic VID Health Check
     [Timeout]    120
     Setup Browser
     Run VID Health Check
+    [Teardown]  Close All Browsers
+
 
 Basic VNFSDK Health Check
     [Tags]    health    health-vnfsdk
