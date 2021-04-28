@@ -29,6 +29,7 @@ Resource          ../resources/pomba_interface.robot
 Resource          ../resources/holmes_interface.robot
 Resource          ../resources/cds_interface.robot
 
+Suite Teardown     Close All Browsers
 
 *** Test Cases ***
 Basic A&AI Health Check
