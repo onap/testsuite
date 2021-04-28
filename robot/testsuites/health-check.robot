@@ -30,6 +30,7 @@ Resource          ../resources/holmes_interface.robot
 Resource          ../resources/cds_interface.robot
 Resource          ../resources/dcae_ms_interface.robot
 
+Suite Teardown     Close All Browsers
 
 *** Test Cases ***
 Basic A&AI Health Check
