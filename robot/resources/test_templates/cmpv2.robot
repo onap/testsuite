@@ -21,7 +21,7 @@ ${users}  ${EXECDIR}/robot/assets/cmpv2/mongo-users.json
 
 
 *** Keywords ***
-Pnf simulator send single VES event
+VES Client send single VES event
     [Arguments]  ${event}   ${ves_host}   ${ves_port}  ${pnf_sim_host}  ${pnf_sim_port}  ${http_reposnse_code}=202
     ${pnf_sim_endpoint}=            Set Variable                http://${pnf_sim_host}:${pnf_sim_port}
     ${ves_url}=                     Set Variable                ${GLOBAL_DCAE_VES_HTTPS_PROTOCOL}://${ves_host}:${ves_port}/${VES_data_path}
@@ -35,11 +35,12 @@ Pnf simulator send single VES event
     Log                             PNF registration request ${data}
     Should Be Equal As Strings      ${post_resp.status_code}    ${http_reposnse_code}
     Log                             VES has accepted event with status code ${post_resp.status_code}
+    [Return]                        ${post_resp}
 
 
 Usecase Teardown
-    Undeploy Service                    mongo-dep
-    Undeploy Service                    pnf-simulator-dep
+    Undeploy Service                    ${mongo-dep}
+    Undeploy Service                    ${ves-client-dep}
     Undeploy Service                    ves-collector-cmpv2-dep
     Undeploy Service                    ves-collector-cmpv2-wrong-sans-dep
     Delete Blueprint From Inventory     ${serviceTypeIdMongo}
