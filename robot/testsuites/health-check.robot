@@ -139,10 +139,6 @@ Basic OOF-OSDF Health Check
     [Tags]    health    medium  health-oof
     Run OOF-OSDF Health Check
 
-Basic OOF-CMSO Health Check
-    [Tags]    health    medium  health-oof
-    Run OOF-CMSO Health Check
-
 Basic Policy Health Check
     [Tags]    health    medium   health-policy
     Run Policy Health Check
