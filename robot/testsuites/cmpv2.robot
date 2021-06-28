@@ -100,7 +100,7 @@ Send registration request to CMPv2 VES
      Create PNF initial entry in A&AI           ${PNF_entry_dict}
      Templating.Create Environment              ves                                 ${GLOBAL_TEMPLATE_FOLDER}
      ${template}=                               Templating.Apply Template           ves                                     ${pnf_ves_integration_request}   ${PNF_entry_dict}
-     Pnf simulator send single VES event        ${template}                         dcae-ves-collector-cmpv2-cert           8443                             ${ves_client_hostname}              5000
+     VES Client send single VES event           ${template}                         dcae-ves-collector-cmpv2-cert           8443                             ${ves_client_hostname}              5000
      Verify PNF Integration Request in A&AI     ${PNF_entry_dict}
 
 Send registration request to CMPv2 VES with wrong SAN-s
@@ -112,7 +112,7 @@ Send registration request to CMPv2 VES with wrong SAN-s
     ${PNF_entry_dict}=                         Create Dictionary                   correlation_id=${pnf_correlation_id}    PNF_IPv4_address=14.14.14.14    PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
     Templating.Create Environment              ves                                 ${GLOBAL_TEMPLATE_FOLDER}
     ${template}=                               Templating.Apply Template           ves                                     ${pnf_ves_integration_request}   ${PNF_entry_dict}
-    ${resp}=                                   Pnf simulator send single VES event        ${template}                         dcae-ves-collector-cmpv2-cert-wrong-sans      8443                             ${ves_client_hostname}              5000     421
+    ${resp}=                                   VES Client send single VES event        ${template}                         dcae-ves-collector-cmpv2-cert-wrong-sans      8443                             ${ves_client_hostname}              5000     421
     Should Contain                             ${resp.json().get('message')}                               wrong-sans
 
 Send registration request to VES without CMPv2 certificate
@@ -124,6 +124,6 @@ Send registration request to VES without CMPv2 certificate
     ${PNF_entry_dict}=                         Create Dictionary                   correlation_id=${pnf_correlation_id}    PNF_IPv4_address=14.14.14.14    PNF_IPv6_address=2001:0db8:0:0:0:0:1428:57ab
     Templating.Create Environment              ves                                 ${GLOBAL_TEMPLATE_FOLDER}
     ${template}=                               Templating.Apply Template           ves                                     ${pnf_ves_integration_request}   ${PNF_entry_dict}
-    ${resp}=                                   Pnf simulator send single VES event        ${template}                         dcae-ves-collector           8443                             ${ves_client_hostname}              5000     421
+    ${resp}=                                   VES Client send single VES event        ${template}                         dcae-ves-collector           8443                             ${ves_client_hostname}              5000     421
     Should Contain                              ${resp.json().get('message')}                               certificate_unknown
 
