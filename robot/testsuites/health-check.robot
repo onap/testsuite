@@ -116,15 +116,15 @@ Basic Multicloud-pike API Health Check
     Run MSB Get Request    /api/multicloud-pike/v0/swagger.json
 
 Basic Multicloud-starlingx API Health Check
-    [Tags]    health    multicloud   health-multicloud
+    [Tags]    multicloud   health-multicloud
     Run MSB Get Request    /api/multicloud-starlingx/v0/swagger.json
 
 Basic Multicloud-titanium_cloud API Health Check
-    [Tags]    health    multicloud   health-multicloud
+    [Tags]    multicloud   health-multicloud
     Run MSB Get Request    /api/multicloud-titaniumcloud/v1/swagger.json
 
 Basic Multicloud-vio API Health Check
-    [Tags]    health    multicloud   health-multicloud
+    [Tags]    multicloud   health-multicloud
     Run MSB Get Request    /api/multicloud-vio/v0/swagger.json
 
 Basic Multicloud-k8s API Health Check
