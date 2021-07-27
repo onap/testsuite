@@ -23,12 +23,11 @@ ${users}  ${EXECDIR}/robot/assets/cmpv2/mongo-users.json
 *** Keywords ***
 VES Client send single VES event
     [Arguments]  ${event}   ${ves_host}   ${ves_port}  ${pnf_sim_host}  ${pnf_sim_port}  ${http_reposnse_code}=202
-    ${pnf_sim_endpoint}=            Set Variable                http://${pnf_sim_host}:${pnf_sim_port}
+    ${pnf_sim_endpoint}=            Set Variable                http://${pnf_sim_host}.onap:${pnf_sim_port}
     ${ves_url}=                     Set Variable                ${GLOBAL_DCAE_VES_HTTPS_PROTOCOL}://${ves_host}:${ves_port}/${VES_data_path}
     ${single_event}=                Create Dictionary           event=${event}              ves_url=${ves_url}
     Templating.Create Environment   pnf                         ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=                        Templating.Apply Template   pnf                         ${pnf_simulator_single_event}   ${single_event}
-    ${pnf_sim_endpoint}=            Set Variable                http://${pnf_sim_host}:${pnf_sim_port}
     ${session}=                     Create Session              pnf_sim                     ${pnf_sim_endpoint}
     ${headers}=                     Create Dictionary            Accept=application/json    Content-Type=application/json
     ${post_resp}=                   Post Request                pnf_sim                     ${single_event_data_path}       data=${data}        headers=${headers}
