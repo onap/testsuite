@@ -1,0 +1,20 @@
+data:
+  application_config.yaml: |
+    security.sslDisable: false
+    logLevel: INFO
+    security.keys.trustStoreFile: /tmp/ca.p12
+    server.listenPort: 6061
+    server.idleTimeoutSec: 300
+    cbs.requestIntervalSec: 5
+    streams_publishes:
+      perf3gpp:
+        type: kafka
+        aaf_credentials:
+          username: admin
+          password: admin_secret
+        kafka_info:
+          bootstrap_servers: message-router-kafka:9092
+          topic_name: HV_VES_PERF3GPP_SSL
+    security.keys.keyStoreFile: /tmp/server.p12
+    security.keys.trustStorePasswordFile: /dev/null
+    security.keys.keyStorePasswordFile: /dev/null
