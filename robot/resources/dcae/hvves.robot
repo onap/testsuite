@@ -17,15 +17,11 @@ ${CLIENT_KEY}    /tmp/client.key
 
 ${PREV_CM_FILE}                   /tmp/prevCm.json
 ${CURRENT_CONFIG_FILE}            /tmp/currentConfig.yaml
-${CM_NAME}                        dev-dcae-hv-ves-collector-application-config-configmap
-${GET_PREV_CM}                    kubectl -n onap get cm ${CM_NAME} -o json
-
-${TEST_TRUSTSTORE_PASS_PATH}      security.keys.trustStorePasswordFile: /dev/null
-
-${COPY_CURRENT_CONFIG}            kubectl -n onap cp $(kubectl get pods -n onap | grep hv-ves | awk '{print $1}' | grep -v NAME):/app-config-input/..data/application_config.yaml ${CURRENT_CONFIG_FILE}
+${COPY_CURRENT_CONFIG}            kubectl -n onap cp $(kubectl get pods -n onap | grep hv-ves | awk '{print $1}'):/app-config-input/..data/application_config.yaml ${CURRENT_CONFIG_FILE}
+${GET_PREFIX}                     echo "%{HOSTNAME}" | awk -F- '{print $1}'
+${NO_PREFIX_CM_NAME}              -dcae-hv-ves-collector-application-config-configmap
 ${GET_TRUSTSTORE_PASS_PATH}       cat ${CURRENT_CONFIG_FILE} | grep security.keys.trustStorePasswordFile
-
-${GET_CONFIG_FROM_CM}             kubectl -n onap get cm ${CM_NAME} -o jsonpath="{.data.application_config\\.yaml}"
+${TEST_TRUSTSTORE_PASS_PATH}      security.keys.trustStorePasswordFile: /dev/null
 ${TEST_CONFIG_YAML_PATH}          ${EXECDIR}/robot/assets/dcae/hvves_test_config.yaml
 
 
@@ -70,17 +66,11 @@ Set Test Config
 
     ${TEST_CONFIG}=                            Get File                                       ${TEST_CONFIG_YAML_PATH}    encoding=UTF-8
 
-    ${rc}    ${prev_conf} =                    Run and Return RC and Output                   ${GET_PREV_CM}
-    Should Be Equal As Integers                ${rc}                                          0
-    Create File                                ${PREV_CM_FILE}                                ${prev_conf}
-
-    ${rc}    ${prev_conf_yaml} =               Run and Return RC and Output                   ${GET_CONFIG_FROM_CM}
-    Should Be Equal As Integers                ${rc}                                          0
-    Set Environment Variable                   OLD_CONFIG_YAML                                ${prev_conf_yaml}
-
+    Save Configuration From Config Map
     Set Environment Variable                   TEST_CONFIG                                    ${TEST_CONFIG}
 
-    ${rc} =                                    Run and Return RC                              kubectl -n onap patch cm ${CM_NAME} --type strategic -p "%{TEST_CONFIG}"
+    ${cm_name} =                               Get Config Map Name
+    ${rc} =                                    Run and Return RC                              kubectl -n onap patch cm ${cm_name} --type strategic -p "%{TEST_CONFIG}"
     Should Be Equal As Integers                ${rc}                                          0
 
     Wait Until Keyword Succeeds                2 min                5 sec                    Check If Config Is Applied    ${TEST_TRUSTSTORE_PASS_PATH}
@@ -98,6 +88,26 @@ Check If Config Is Applied
     Should Be Equal As Integers                ${rc}                                          0
 
     Should Be Equal As Strings                 ${truststore_pass_path}                        ${current_trust_pass_path}
+
+Save Configuration From Config Map
+    [Documentation]    Saves current configuration from hv-ves config map in OLD_CONFIG_YAML env
+
+    ${cm_name} =                               Get Config Map Name
+    ${rc}    ${prev_conf} =                    Run and Return RC and Output                   kubectl -n onap get cm ${cm_name} -o json
+    Should Be Equal As Integers                ${rc}                                          0
+    Create File                                ${PREV_CM_FILE}                                ${prev_conf}
+
+    ${rc}    ${prev_conf_yaml} =               Run and Return RC and Output                   kubectl -n onap get cm ${cm_name} -o jsonpath="{.data.application_config\\.yaml}"
+    Should Be Equal As Integers                ${rc}                                          0
+    Set Environment Variable                   OLD_CONFIG_YAML                                ${prev_conf_yaml}
+
+Get Config Map Name
+    [Documentation]    Retrieves HV-VES Config Map name
+
+    ${rc}    ${cm_prefix} =                    Run and Return RC and Output                   ${GET_PREFIX}
+    Should Be Equal As Integers                ${rc}                                          0
+    ${cm_name} =                               Catenate                                       SEPARATOR=    ${cm_prefix}         ${NO_PREFIX_CM_NAME}
+    [Return]           ${cm_name}
 
 Set Old Config
     [Documentation]     Changes HV-VES config back to normal mode.
