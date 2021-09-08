@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee556ae2_914569c2",
+        "filename": "robot/resources/dcae/hvves.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-09-08T10:44:03Z",
+      "side": 1,
+      "message": "This command might return several results in some scenarios (old failed pods of hv-ves exist).\n\nHow about this command instead?:\n\nkubectl get --no-headers pods -l app.kubernetes.io/name\u003ddcae-hv-ves-collector -o custom-columns\u003dCONTAINER:.spec.containers[0].name --field-selector status.phase\u003dRunning",
+      "range": {
+        "startLine": 20,
+        "startChar": 55,
+        "endLine": 20,
+        "endChar": 112
+      },
+      "revId": "defef576771e2fdaa8ef188532617aa3df53eacf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7a77a62_ea1603a4",
+        "filename": "robot/resources/dcae/hvves.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-09-08T10:44:03Z",
+      "side": 1,
+      "message": "Is this path correct (missing slash, no?)",
+      "range": {
+        "startLine": 20,
+        "startChar": 132,
+        "endLine": 20,
+        "endChar": 134
+      },
+      "revId": "defef576771e2fdaa8ef188532617aa3df53eacf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
