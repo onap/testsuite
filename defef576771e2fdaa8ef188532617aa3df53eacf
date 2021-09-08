@@ -93,6 +93,30 @@
       "revId": "defef576771e2fdaa8ef188532617aa3df53eacf",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c91a795f_ac21420a",
+        "filename": "robot/resources/dcae/hvves.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5097
+      },
+      "writtenOn": "2021-09-08T12:31:19Z",
+      "side": 1,
+      "message": "Right, didn\u0027t notice. Yet still no need to grep:)\n\nTry this:\n\nkubectl get --no-headers pods -l app.kubernetes.io/name\u003ddcae-hv-ves-collector --field-selector status.phase\u003dRunning -o custom-columns\u003dNAME:.metadata.name",
+      "parentUuid": "84cfd768_ccf3087b",
+      "range": {
+        "startLine": 20,
+        "startChar": 55,
+        "endLine": 20,
+        "endChar": 112
+      },
+      "revId": "defef576771e2fdaa8ef188532617aa3df53eacf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
