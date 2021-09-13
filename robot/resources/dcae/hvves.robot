@@ -18,11 +18,12 @@ ${CLIENT_KEY}    /tmp/client.key
 ${PREV_CM_FILE}                   /tmp/prevCm.json
 ${CURRENT_CONFIG_FILE}            /tmp/currentConfig.yaml
 ${COPY_CURRENT_CONFIG}            kubectl -n onap cp $(kubectl -n onap get --no-headers pods -l app.kubernetes.io/name=dcae-hv-ves-collector --field-selector status.phase=Running -o custom-columns=NAME:.metadata.name):/app-config-input/..data/application_config.yaml ${CURRENT_CONFIG_FILE}
-${GET_PREFIX}                     echo "%{HOSTNAME}" | awk -F- '{print $1}'
-${NO_PREFIX_CM_NAME}              -dcae-hv-ves-collector-application-config-configmap
 ${GET_TRUSTSTORE_PASS_PATH}       cat ${CURRENT_CONFIG_FILE} | grep security.keys.trustStorePasswordFile
 ${TEST_TRUSTSTORE_PASS_PATH}      security.keys.trustStorePasswordFile: /dev/null
 ${TEST_CONFIG_YAML_PATH}          ${EXECDIR}/robot/assets/dcae/hvves_test_config.yaml
+
+${GET_CM_NAME}                    kubectl -n onap get --no-headers cm -l app.kubernetes.io/name=dcae-hv-ves-collector -o custom-columns=NAME:.metadata.name | grep application-config-configmap
+
 
 
 *** Keywords ***
@@ -104,9 +105,8 @@ Save Configuration From Config Map
 Get Config Map Name
     [Documentation]    Retrieves HV-VES Config Map name
 
-    ${rc}    ${cm_prefix} =                    Run and Return RC and Output                   ${GET_PREFIX}
+    ${rc}    ${cm_name} =                      Run and Return RC and Output                   ${GET_CM_NAME}
     Should Be Equal As Integers                ${rc}                                          0
-    ${cm_name} =                               Catenate                                       SEPARATOR=    ${cm_prefix}         ${NO_PREFIX_CM_NAME}
     [Return]           ${cm_name}
 
 Set Old Config
