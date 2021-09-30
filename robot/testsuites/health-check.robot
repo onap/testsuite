@@ -7,7 +7,6 @@ Library           ONAPLibrary.SO    WITH NAME    SO
 Resource          ../resources/dcae_interface.robot
 Resource          ../resources/sdnc_interface.robot
 Resource          ../resources/aai/aai_interface.robot
-Resource          ../resources/vid/vid_interface.robot
 Resource          ../resources/policy_interface.robot
 Resource          ../resources/sdc_interface.robot
 Resource          ../resources/appc_interface.robot
@@ -252,12 +251,6 @@ Basic VFC vnfres API Health Check
 Basic VFC ztevnfmdriver API Health Check
     [Tags]    health    3rdparty   health-vfc
     Run MSB Get Request    /api/ztevnfmdriver/v1/health_check
-
-Basic VID Health Check
-    [Tags]    health    small  health-vid
-    [Timeout]    120
-    Setup Browser
-    Run VID Health Check
 
 Basic VNFSDK Health Check
     [Tags]    health    health-vnfsdk
