@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "sftp.fullname" . }}
+  namespace: {{ include "sftp.namespace" . }}
+  labels:
+    {{ include "sftp.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.pod.port }}
+      targetPort: {{ .Values.pod.port }}
+      protocol: TCP
+      name: {{ .Values.fullnameOverride }}
+      nodePort: {{ .Values.service.port }}
+  selector:
+    {{ include "sftp.selectorLabels" . | nindent 4 }}

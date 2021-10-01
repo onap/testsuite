@@ -7,14 +7,12 @@ LABEL usage="docker run -e ROBOT_TEST=<testname> -ti onapete"
 ENV BUILDTIME=true
 
 ARG TESTSUITE_TAG=master
-ARG HEATBRIDGE_TAG=master
 ARG PYTHON_UTILS_TAG=master
 ARG DEMO_TAG=master
-ARG KUBERNETES_VERSION="v1.15.11"
-
+ARG KUBERNETES_VERSION="v1.19.11"
+ARG HELM_VERSION="v3.3.4"
 
 ARG TESTSUITE_REPO=git.onap.org/testsuite
-#ARG HEATBRIDGE_REPO=git.onap.org/testsuite/heatbridge.git
 ARG PYTHON_UTILS_REPO=git.onap.org/testsuite/python-testing-utils.git
 ARG DEMO_REPO=git.onap.org/demo
 
@@ -24,6 +22,7 @@ COPY requirements.txt requirements.txt
 # Note: Latest version may be found on:
 # https://aur.archlinux.org/packages/kubectl-bin/
 ADD https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl /usr/local/bin/kubectl
+ADD https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 get_helm.sh
 
 # Install Python, Pip, Robot framework, chromium, lighttpd web server
 RUN apt-get update \
@@ -54,9 +53,9 @@ RUN apt-get update \
     git+https://$PYTHON_UTILS_REPO@$PYTHON_UTILS_TAG#egg=robotframework-onap\&subdirectory=robotframework-onap && \
     git clone --depth 1 https://$TESTSUITE_REPO -b $TESTSUITE_TAG /var/opt/ONAP && \
     git clone --depth 1 https://$DEMO_REPO -b $DEMO_TAG /var/opt/ONAP/demo && \
-    chmod +x /usr/local/bin/kubectl
-    # moved in case line extension with comment isnt supported
-    #git+https://$HEATBRIDGE_REPO@$HEATBRIDGE_TAG#egg=heatbridge\&subdirectory=heatbridge \
+    chmod +x /usr/local/bin/kubectl && \
+    chmod 700 get_helm.sh  && \
+    ./get_helm.sh --version $HELM_VERSION
 
 RUN python3.7 -m pip install --no-cache-dir setuptools wheel
 RUN python3.7 -m pip install --no-cache-dir virtualenv
