@@ -11,7 +11,7 @@ Library           JSONLibrary
 Library           Process
 Library           ONAPLibrary.JSON
 Library           ONAPLibrary.Utilities
-Resource          ../../resources/usecases/5gbulkpm_interface.robot
+Resource          ../../resources/usecases/5gbulkpm_helm_interface.robot
 Resource          ../../resources/chart_museum.robot
 Suite Setup       Send File Ready Event to VES Collector and Deploy all DCAE Applications   test  org.3GPP.32.435#measCollec  V10
 Suite Teardown    Usecase Teardown
