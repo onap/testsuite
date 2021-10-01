@@ -24,6 +24,7 @@ COPY requirements.txt requirements.txt
 # Note: Latest version may be found on:
 # https://aur.archlinux.org/packages/kubectl-bin/
 ADD https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl /usr/local/bin/kubectl
+ADD https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 get_helm.sh
 
 # Install Python, Pip, Robot framework, chromium, lighttpd web server
 RUN apt-get update \
@@ -54,7 +55,9 @@ RUN apt-get update \
     git+https://$PYTHON_UTILS_REPO@$PYTHON_UTILS_TAG#egg=robotframework-onap\&subdirectory=robotframework-onap && \
     git clone --depth 1 https://$TESTSUITE_REPO -b $TESTSUITE_TAG /var/opt/ONAP && \
     git clone --depth 1 https://$DEMO_REPO -b $DEMO_TAG /var/opt/ONAP/demo && \
-    chmod +x /usr/local/bin/kubectl
+    chmod +x /usr/local/bin/kubectl && \
+    chmod 700 get_helm.sh && \
+    ./get_helm.sh
     # moved in case line extension with comment isnt supported
     #git+https://$HEATBRIDGE_REPO@$HEATBRIDGE_TAG#egg=heatbridge\&subdirectory=heatbridge \
 
