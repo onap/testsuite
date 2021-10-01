@@ -11,7 +11,7 @@ Library           JSONLibrary
 Library           Process
 Library           ONAPLibrary.JSON
 Library           ONAPLibrary.Utilities
-Resource          ../../resources/usecases/5gbulkpm_interface.robot
+Resource          ../../resources/usecases/5gbulkpm_helm_interface.robot
 Resource          ../../resources/chart_museum.robot
 Suite Setup       Send File Ready Event to VES Collector and Deploy all DCAE Applications   test  org.3GPP.32.435#measCollec  V10
 Suite Teardown    Usecase Teardown
@@ -23,7 +23,7 @@ ${chart_repo_fqdn}                  ${GLOBAL_K8S_CHART_REPOSTORY_SERVER_PROTOCOL
 *** Test Cases ***
 
 SFTP Server based bulk PM test, no SFTP Server know host veryfication on DFC side
-    [Tags]                              5gbulkpm                           5gbulkpm_sftp              5gbulkpm_cust_pm_validate
+    [Tags]                              5gbulkpm_helm                           5gbulkpm_sftp              5gbulkpm_cust_pm_validate
     [Documentation]
     ...  This test case triggers successful bulk pm upload from SFTP server without SFTP server host verification in DFC known host file.
     ...  Known host verification is turned off on DFC
