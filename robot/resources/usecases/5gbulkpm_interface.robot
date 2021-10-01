@@ -9,6 +9,7 @@ Resource          ../dcae/inventory.robot
 Resource          ../mr_interface.robot
 Resource          ../dr_interface.robot
 Resource          ../consul_interface.robot
+Resource          ../chart_museum.robot
 
 *** Variables ***
 ${INVENTORY_SERVER}                                 ${GLOBAL_INVENTORY_SERVER_PROTOCOL}://${GLOBAL_INVENTORY_SERVER_NAME}:${GLOBAL_INVENTORY_SERVER_PORT}
@@ -141,8 +142,8 @@ Send File Ready Event to VES Collector and Deploy all DCAE Applications
 
 Usecase Teardown
     Disable Warnings
-    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    datafile
-    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    pmmapper
+    Uninstall helm charts               datafile-collector
+    Uninstall helm charts               pm-mapper
     Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                   sftpserver
     Delete Blueprint From Inventory     ${serviceTypeId-Sftp}
     Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    ves-collector-for-bulkpm-over-https
