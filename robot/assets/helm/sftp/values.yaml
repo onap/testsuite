@@ -1,0 +1,53 @@
+global:
+
+replicaCount: 1
+
+nameOverride: "sftp"
+
+image:
+  repository: atmoz/sftp
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+
+imagePullSecrets: []
+
+pod:
+  port: 22
+
+ingress:
+  enabled: false
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+env:
+  users: "bulkpm:bulkpm:::upload"
+
+service:
+  type: NodePort
+  port: 32222
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+
+
