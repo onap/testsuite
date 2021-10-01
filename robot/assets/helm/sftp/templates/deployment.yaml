@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sftp.fullname" . }}
+  namespace: {{ include "sftp.namespace" . }}
+  labels:
+    {{ include "sftp.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{ include "sftp.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{ include "sftp.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Values.fullnameOverride }}
+          image: {{ .Values.image.repository }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.pod.port }}
+              protocol: TCP
+          env:
+          - name: SFTP_USERS
+            value: {{ .Values.env.users }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.pod.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.pod.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 10
