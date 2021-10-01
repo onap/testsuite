@@ -1,0 +1,17 @@
+Application Configuration
+
+Basic authentication:
+config:
+  useCerts: false
+
+Certificate authentication with AAF:
+config:
+  useCerts: true
+
+certMethod: "aaf"
+
+Certificate authentication with CMPv2:
+config:
+  useCerts: true
+
+certMethod: "cmpv2"
