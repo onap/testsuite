@@ -4,11 +4,10 @@ Library 	      RequestsLibrary
 Library           OperatingSystem
 Library           String
 Library           JSONLibrary
-Resource          ../dcae/deployment.robot
-Resource          ../dcae/inventory.robot
 Resource          ../mr_interface.robot
 Resource          ../dr_interface.robot
 Resource          ../consul_interface.robot
+Resource          ../chart_museum.robot
 
 *** Variables ***
 ${INVENTORY_SERVER}                                 ${GLOBAL_INVENTORY_SERVER_PROTOCOL}://${GLOBAL_INVENTORY_SERVER_NAME}:${GLOBAL_INVENTORY_SERVER_PORT}
@@ -48,6 +47,8 @@ ${VES_INPUTS}                                       deployment/VesTlsCmpv2Inputs
 ${pm_notification_event}                            dfc/notification.jinja
 ${consul_change_event}                              dfc/consul.jinja
 ${ves_client_single_event}=                         ves/pnf_simulator_single_event.jinja
+${SFTP_HELM_CHARTS}                                 ${EXECDIR}/robot/assets/helm/sftp
+
 
 
 
@@ -55,34 +56,11 @@ ${ves_client_single_event}=                         ves/pnf_simulator_single_eve
 *** Keywords ***
 
 
-Check Next Event From Topic
-    [Documentation]
-    ...  This keyword checks if on MR topic there is no existing messageses.
-    ...  If there is no more messageses then it reports success and finish "Wait Until Keyword Succeeds  2 min  1 s  Check Next Event From Topic" step from "xNF PM File Validate" keyword
-    ...  In other case it triggers "Get Next Event From Topic".
-    ...  NOTE: Keyword "Get Next Event From Topic" will always fails in order to not finsh "Wait Until Keyword Succeeds  2 min  1 s  Check Next Event From Topic" step from "xNF PM File Validate" keyword
-    ${resp}=        Run MR Auth Get Request         ${MR_TOPIC_URL_PATH}     ${GLOBAL_DCAE_USERNAME}      ${GLOBAL_DCAE_PASSWORD}
-    Run keyword If  ${resp.text} == @{EMPTY}        Log                         Event is empty! There is no more events on topic!
-    ...     ELSE    Get Next Event From Topic       ${resp}
-
-Get Next Event From Topic
-    [Documentation]
-    ...  This keyword adds new events from MR topic to list ${all_event_json_list} in a recursive way and sets ${all_event_json_list} as a suite variable in order to be able to add new items/evnts in a next iteration
-    ...  NOTE: Keyword "Get Next Event From Topic" will always fails in order to not finish "Wait Until Keyword Succeeds  2 min  1 s  Check Next Event From Topic" step from "xNF PM File Validate" keyword
-    [Arguments]                 ${resp}
-    ${resp_list}=               Set Variable        ${resp.json()}
-    Log                         ${resp_list}
-    ${combained_list}=          Combine Lists       ${all_event_json_list}      ${resp_list}
-    ${all_event_json_list}=     Set Variable        ${combained_list}
-    Set Suite Variable 	        ${all_event_json_list}
-    Fail
-
 xNF PM File Validate
     [Documentation]
     ...  This keyword gathers all events from message router topic and validates if in recived data is present an expected string: "${expected_pm_str}" .
     ...  Only in custom mode it saves a response as a json file "${PM_FILE}-${timestamp}.json" located in "${expected_event_json_path}"
     [Arguments]                 ${bulk_pm_mode}                 ${expected_pm_str}              ${expected_event_json_path}
-    Run Keyword If              '${bulk_pm_mode}' == 'custom'   Set Log Level                   ${PM_LOG_LEVEL}
     ${timestamp}=               Get Time                        epoch
     ${resp}=                    Run MR Auth Get Request         ${MR_TOPIC_URL_PATH}            ${GLOBAL_DCAE_USERNAME}         ${GLOBAL_DCAE_PASSWORD}
     Run keyword If              ${resp.text} == @{EMPTY}        Fail                            msg=Event is empty!
@@ -91,17 +69,6 @@ xNF PM File Validate
     Wait Until Keyword Succeeds  2 min                          5 sec                           Check Next Event From Topic
     ${all_event_json_string}=   Convert To String               ${all_event_json_list}
     Should Contain              ${all_event_json_string}        ${expected_pm_str}
-    Run Keyword If              '${bulk_pm_mode}' == 'custom'   Print Evnets From Topic to JSON file        ${expected_event_json_path}     ${all_event_json_string}
-    Run Keyword If              '${bulk_pm_mode}' == 'custom'   Set Log Level                               TRACE
-
-Print Evnets From Topic to JSON file
-     [Arguments]                ${expected_event_json_path}         ${all_event_json_string}
-     ${str}=                    Replace String                      ${all_event_json_string}                '{          {
-     ${str2}=                   Replace String                      ${str}                                  }'          }
-     ${all_event_json_string}=  Replace String                      ${str2}                                 u{          {
-     ${json}=                   To Json                             ${all_event_json_string}                pretty_print=True
-     ${timestamp}=              Get Time                            epoch
-     Create File                ${expected_event_json_path}/${PM_FILE}-${timestamp}.json                    ${json}
 
 Topic Validate
     [Arguments]                         ${value}
@@ -119,6 +86,7 @@ Send File Ready Event to VES Collector and Deploy all DCAE Applications
     Disable Warnings
     Send File Ready Event to VES Collector      ${pm_file}              ${file_format_type}             ${file_format_version}
     Setting Global Variables
+    Add chart repository                        chart_museum                  http://chart-museum:80      onapinitializer      demo123456!
     Log To Console                              Deploying Data File Collector
     Deploying Data File Collector
     Log To Console                              Deploying 3GPP PM Mapper
@@ -128,38 +96,14 @@ Send File Ready Event to VES Collector and Deploy all DCAE Applications
     Checking PERFORMANCE_MEASUREMENTS Topic In Message Router
     DR Bulk PM Feed Check
     DR PM Mapper Subscriber Check
-    Log To Console                              Deploying VES collector with CMPv2 for bulkpm over https
-    Deploying VES collector with CMPv2 for bulkpm over https
-    Log To Console                              Deploying HTTPS server with correct CMPv2 certificates
-    Deploying HTTPS server with correct certificates
-    Log To Console                              Deploying HTTPS server with wrong CMPv2 certificates - wrong SAN-s
-    Deploying HTTPS server with wrong certificates - wrong SAN-s
-    Log To Console                              Deploying VES Client with CMPv2 certificates
-    Deploying VES Client with correct certificates
-    Log To Console                              Checking status of deployed applictions
-    Wait Until Keyword Succeeds                 5 min                                           20 sec                             Checking Status Of Deployed Applictions
 
 Usecase Teardown
     Disable Warnings
-    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    datafile
-    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    pmmapper
-    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                   sftpserver
-    Delete Blueprint From Inventory     ${serviceTypeId-Sftp}
-    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    ves-collector-for-bulkpm-over-https
-    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    https-server-dep
-    Delete Blueprint From Inventory     ${serviceTypeId-Https}
-    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    https-server-wrong-sans-dep
-    Delete Blueprint From Inventory     ${serviceTypeId-Https-wrong-sans}
-    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    mongo-dep-5gbulkpm
-    Wait Until Keyword Succeeds         2 min                      20 sec                       Undeploy Service With Check                    ves-rest-client-dep
-    Delete Blueprint From Inventory     ${serviceTypeIdMongo}
-    Delete Blueprint From Inventory     ${serviceTypeIdVesClient}
+    Uninstall helm charts               e2edfc
+    Uninstall helm charts               e2epmmapper
+    Uninstall helm charts               e2esftp
 
 
-Undeploy Service With Check
-    [Arguments]                          ${deployment_name}
-    ${resp}                              Undeploy Service               ${deployment_name}
-    Should Not Be Equal As Strings       ${resp.status_code}            400
 
 
 Setting Global Variables
@@ -271,34 +215,13 @@ Check Known Hosts In Env
     [Return]                            ${output}
 
 Deploying Data File Collector
-    ${resp}=                            Get Blueprint From Inventory       k8s-datafile
-    ${json}=                            Set Variable                       ${resp.json()}
-    ${serviceTypeId-Dfc}                Set Variable                       ${json['items'][0]['typeId']}
-    ${image}                            Get Regexp Matches                 ${json['items'][0]['blueprintTemplate']}             nexus3(.)*?(?=\\")
-    ${image}                            Replace String                     ${image}[0]      nexus3.onap.org:10001               ${NEXUS3}
-    ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeId-Dfc}", "inputs": {"tag_version": "${image}", "external_cert_use_external_tls": true}}
-    Deploy Service                      ${deployment_data}                 datafile                                            4 minutes
+    Install helm charts                 chart-museum                       dcae-datafile-collector         e2edfc          3 min
 
 Deploying 3GPP PM Mapper
-    ${clusterdata}=                     OperatingSystem.Get File           ${PMMAPPER_MR_CLUSTER_DATA}
-    ${headers}=                         Create Dictionary                  content-type=application/json
-    ${session}=                         Create Session                     dmaapbc                          ${DMAAP_BC_SERVER}
-    ${resp}=                            Post Request                       dmaapbc                          ${DMAAP_BC_MR_CLUSTER_PATH}          data=${clusterdata}   headers=${headers}
-    ${resp}=                            Get Blueprint From Inventory       k8s-pm-mapper
-    ${json}=                            Set Variable                       ${resp.json()}
-    ${serviceTypeId-Pmmapper}           Set Variable                       ${json['items'][0]['typeId']}
-    ${image}                            Get Regexp Matches                 ${json['items'][0]['blueprintTemplate']}             nexus3(.)*?(?=\')
-    ${image}                            Replace String                     ${image}[0]      nexus3.onap.org:10001               ${NEXUS3}
-    ${deployment_data}=                 Set Variable                       {"inputs":{"client_password": "${GLOBAL_DCAE_PASSWORD}", "tag_version": "${image}"},"serviceTypeId": "${serviceTypeId-Pmmapper}"}
-    ${pmMapperOperationId}=             Deploy Service                      ${deployment_data}                 pmmapper                        check_deployment_status=false
-    Set Global Variable                 ${pmMapperOperationId}
+    Install helm charts                 chart-museum                       dcae-pm-mapper         e2epmmapper             3 min
 
 Deploying SFTP Server As xNF
-    ${serviceTypeId-Sftp}               Load Blueprint To Inventory        ${XNF_SFTP_BLUEPRINT_PATH}              sftp
-    Set Global Variable                 ${serviceTypeId-Sftp}
-    ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeId-Sftp}"}
-    ${sftpServerOperationId}=           Deploy Service                      ${deployment_data}                 sftpserver                        check_deployment_status=false
-    Set Global Variable                 ${sftpServerOperationId}
+    Install helm charts from folder     ${SFTP_HELM_CHARTS}                e2esftp                 3 min
 
 Deploying HTTPS server with correct certificates
     ${serviceTypeId-Https}              Load Blueprint To Inventory        ${XNF_HTTPS_BLUEPRINT_PATH}              https
@@ -355,20 +278,6 @@ Deploying VES collector with CMPv2 for bulkpm over https
     ${vesCollectorForBulkpmOverHttpsOperationId}=  Deploy Service                      ${deployment_data}                 ves-collector-for-bulkpm-over-https                  check_deployment_status=false
     Set Global Variable                 ${vesCollectorForBulkpmOverHttpsOperationId}
 
-
-Checking Status Of Deployed Applictions
-    ${statusDict}=                          Create Dictionary
-    ${status} 	                            ${value} =          Run Keyword And Ignore Error 	        Deployment Status                   pmmapper                                            ${pmMapperOperationId}
-    Set To Dictionary                       ${statusDict}       pmmapper                                ${status}
-    ${status} 	                            ${value} =          Run Keyword And Ignore Error 	        Deployment Status                   ves-rest-client-dep                                 ${vesRestClientOperationId}
-    Set To Dictionary                       ${statusDict}       ves-rest-client-dep                     ${status}
-    ${status} 	                            ${value} =          Run Keyword And Ignore Error 	        Deployment Status                   ves-collector-for-bulkpm-over-https                 ${vesCollectorForBulkpmOverHttpsOperationId}
-    Set To Dictionary                       ${statusDict}       ves-collector-for-bulkpm-over-https     ${status}
-    ${status} 	                            ${value} =          Run Keyword And Ignore Error 	        Deployment Status                   https-server-dep                                    ${httpsServerOperationId}
-    Set To Dictionary                       ${statusDict}       https-server-dep                        ${status}
-    ${status} 	                            ${value} =          Run Keyword And Ignore Error 	        Deployment Status                   https-server-wrong-sans-dep                         ${httpsServerWrongSansOperationId}
-    Set To Dictionary                       ${statusDict}       https-server-wrong-sans-dep             ${status}
-    Dictionary Should Not Contain Value     ${statusDict}       FAIL
 
 Checking PERFORMANCE_MEASUREMENTS Topic In Message Router
     ${headers}=                         Create Dictionary                  content-type=application/json
