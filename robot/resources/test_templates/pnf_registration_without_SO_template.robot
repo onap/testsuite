@@ -129,10 +129,6 @@ Instantiate PNF_macro service and succesfully registrate PNF template
     ${UUID}=  Get Service Model Parameter from SDC Service Catalog  ${service_name}  uuid
     ${service_recipe_id}=   Run Keyword If  "${building_block_flow}"=='false'  Add Service Recipe  ${UUID}  mso/async/services/CreateVcpeResCustService_simplified
     Inventory Tenant If Not Exists    CloudOwner   ${region}  SharedNode  OwnerType  v1  CloudZone  ${tenant_id}   ${tenant_name}
-    Load OwningEntity  project  Project-${customer_name}
-    Load OwningEntity  owningEntity  OE-${customer_name}
-    Load OwningEntity  lineOfBusiness  LOB-${customer_name}
-    Load OwningEntity  platform  Platform-${customer_name}
     ${uuid_oe}=   Generate UUID4
     ${service_instance_id}  ${request_id}  ${full_customer_name}   Run Keyword If  "${building_block_flow}"=='false'  Orchestrate PNF Macro Flow   ${customer_name}   ${service}    ${product_family}  ${pnf_correlation_id}  ${tenant_id}   ${tenant_name}  ${service_name}  ${region}  Project-${customer_name}   OE-${customer_name}
         ...  ELSE  Orchestrate PNF Building Block Flow   ${catalog_service_name}  ${customer_name}    ${service}    ${product_family}    ${pnf_correlation_id}   ${region}   owning_entity=OE-${customer_name}-${uuid_oe}  owningEntityId=${uuid_oe}  project_name=Project-${customer_name}   lineOfBusinessName=LOB-${customer_name}   platformName=Platform-${customer_name}
