@@ -1,0 +1,64 @@
+# Release a new robot docker
+
+We rely on the LF self-service procedure.
+
+For a new release, you need to cretae a new file under testsuite/releases.
+This file shall follow the format:
+X.Y.Z-container.yaml
+
+the content of the file is described as follows:
+
+```yaml
+distribution_type: 'container'
+container_release_tag: '1.9.0'
+project: 'testsuite'
+log_dir: 'testsuite-master-3scm-docker-shell-daily/7989/'
+ref: 6c01c7eb8989305ea4981426765d8979e5f9422e
+containers:
+    - name: 'testsuite'
+      version: '1.8.1-STAGING-20211012T120203Z'
+
+```
+
+you must change the following parameters:
+- container_release_tag
+- log_dir
+- ref
+- version
+
+It may sound a bit strange but almost all the needed information are in the log of the console of a jenkins job
+https://jenkins.onap.org/view/testsuite/job/testsuite-master-3scm-docker-shell-daily/
+
+This job is in charge of creating a snapshot docker on any testsuite repository changes.
+
+A release is a promoted snapshot, we this must indicate the id of the job for log dir
+
+for example let's consider 7989: https://jenkins.onap.org/view/testsuite/job/testsuite-master-3scm-docker-shell-daily/7989/
+
+you can already set log_dir: 'testsuite-master-3scm-docker-shell-daily/7989/'
+For the other information you need to pen the console of this job (complete log)
+At the beginning of the logs you need to find the ref parameter
+
+```
+14:02:01  > git checkout -f 6c01c7eb8989305ea4981426765d8979e5f9422e # timeout=30
+```
+
+Then you need to find the version, search for "-STAGING"
+
+```
+14:02:05 1.8.1-STAGING-20211012T120203Z: digest: sha256:fdad6fbb8d1731c0e95a2aee72798eaedb791d2ce93be7e94c93942e9364717f size: 1795
+```
+
+Only container_release_tag has to be incremented according to the release you want.
+Do not forget to update the versions.txt.
+The versions.txt is used to generated the snapshot, so the values correspond to the future snapshot dockers.
+
+if you modify the file versions.properties
+
+```
+major=1
+minor=9
+patch=0
+```
+once committed all the snapshot docker will look like "1.9.0-STAGING-*"
+
