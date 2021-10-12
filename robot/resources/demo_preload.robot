@@ -34,10 +34,6 @@ ${VPKG_MODULE_LABEL}    base_vpkg
 Load Customer And Models
     [Documentation]   Use ONAP to Orchestrate a service.
     [Arguments]    ${customer_name}
-    Load OwningEntity  lineOfBusiness  LOB-${customer_name}
-    Load OwningEntity  platform  Platform-${customer_name}
-    Load OwningEntity  project  Project-${customer_name}
-    Load OwningEntity  owningEntity  OE-${customer_name}
     Load Customer  ${customer_name}
     Load Models  ${customer_name}
 
