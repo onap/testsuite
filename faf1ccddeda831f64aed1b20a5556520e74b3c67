@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffa5c543_9f503c3d",
+        "filename": "robot/resources/demo_preload.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2021-10-12T08:35:46Z",
+      "side": 1,
+      "message": "I think we can delete it as well",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 17
+      },
+      "revId": "faf1ccddeda831f64aed1b20a5556520e74b3c67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
