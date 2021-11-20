@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     Test that ONAP components are available via basic API calls
-Test Timeout      20 seconds
+Test Timeout      100 seconds
 
 Library           ONAPLibrary.SO    WITH NAME    SO
 
