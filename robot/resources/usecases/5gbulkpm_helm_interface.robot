@@ -47,6 +47,7 @@ ${pm_notification_event}                            dfc/notification.jinja
 ${consul_change_event}                              dfc/consul.jinja
 ${ves_client_single_event}=                         ves/pnf_simulator_single_event.jinja
 ${SFTP_HELM_CHARTS}                                 ${EXECDIR}/robot/assets/helm/sftp
+${HTTPS_SERVER_HELM_CHARTS}                         ${EXECDIR}/robot/assets/helm/pm-https-server
 ${HELM_RELEASE}                                     kubectl --namespace onap get pods | sed 's/ .*//' | grep robot | sed 's/-.*//'
 
 *** Keywords ***
@@ -82,15 +83,21 @@ Send File Ready Event to VES Collector and Deploy all DCAE Applications
     Deploying 3GPP PM Mapper
     Log To Console                              Deploying SFTP Server As xNF
     Deploying SFTP Server As xNF
+    Log To Console                              Deploying HTTPS Server with correct CMPv2 certificates as xNF
+    Deploying HTTPS server with correct certificates
+    Log To Console                              Deploying HTTPS Server with wrong subject alternatives in CMPv2 certificates as xNF
+    Deploying HTTPS server with wrong certificates - wrong SAN-s
     Checking PERFORMANCE_MEASUREMENTS Topic In Message Router
     DR Bulk PM Feed Check
     DR PM Mapper Subscriber Check
 
 Usecase Teardown
     Disable Warnings
-    Uninstall helm charts               ${ONAP_HELM_RELEASE}-dfc
-    Uninstall helm charts               ${ONAP_HELM_RELEASE}-pmmapper
+    Uninstall helm charts               ${ONAP_HELM_RELEASE}-dcae-datafile-collector
+    Uninstall helm charts               ${ONAP_HELM_RELEASE}-dcae-pm-mapper
     Uninstall helm charts               ${ONAP_HELM_RELEASE}-sftp
+    Uninstall helm charts               ${ONAP_HELM_RELEASE}-pm-https-server-correct-sans
+    Uninstall helm charts               ${ONAP_HELM_RELEASE}-pm-https-server-wrong-sans
 
 Setting Global Variables
     ${test_variables} =  Create Dictionary
@@ -125,21 +132,6 @@ Upload PM Files to xNF SFTP Server
     Put File                            ${pm_file_path}                    upload/${pm_file}
     [Return]  ${pm_file}
 
-Upload PM Files to xNF HTTPS Server
-    [Arguments]                         ${pm_file_path}                     ${https_server}
-    ${epoch}=                           Get Current Date                    result_format=epoch
-    Set Variable                       A${epoch}.xml.gz
-    Copy File                           ${pm_file_path}                     tmp/${pm_file}
-    ${fileData}=                        Get Binary File                     tmp/${pm_file}
-    ${file_part}=                       Create List                         ${pm_file}                         ${fileData}                   application/octet-stream
-    ${fileParts}=                       Create Dictionary
-    Set to Dictionary                   ${fileParts}                        uploaded_file=${file_part}
-    ${auth}=                            Create List                         demo                                demo123456!
-    ${session}=                         Create Session                      https                               http://${https_server}:80   auth=${auth}
-    ${resp}=                            Post Request                        https                               /upload.php                 files=${fileParts}
-    Should Be Equal As Strings          ${resp.status_code}                 200
-    [Return]                            ${pm_file}
-
 Check Given Print In DFC Log
     [Arguments]                         ${check_dfc_logs}
     ${dfc_logs}=                        Run Given Command On DFC Container                                      ${CHECK_DFC_LOGS}
@@ -167,14 +159,24 @@ Check Known Hosts In Env
     [Return]                            ${output}
 
 Deploying Data File Collector
-    Install helm charts                 chart-museum                       dcae-datafile-collector         ${ONAP_HELM_RELEASE}-dfc          3 min
+    Install helm charts                 chart-museum                       dcae-datafile-collector         ${ONAP_HELM_RELEASE}-dcae-datafile-collector           3 min
 
 Deploying 3GPP PM Mapper
-    Install helm charts                 chart-museum                       dcae-pm-mapper         ${ONAP_HELM_RELEASE}-pmmapper             3 min
+    Install helm charts                 chart-museum                       dcae-pm-mapper         ${ONAP_HELM_RELEASE}-dcae-pm-mapper             3 min
 
 Deploying SFTP Server As xNF
     ${override} =                       Set Variable                       --set fullnameOverride=${ONAP_HELM_RELEASE}-sftp
     Install helm charts from folder     ${SFTP_HELM_CHARTS}                ${ONAP_HELM_RELEASE}-sftp                 set_values_override=${override}
+
+Deploying HTTPS server with correct certificates
+    ${name} =                           Set Variable                       ${ONAP_HELM_RELEASE}-pm-https-server-correct-sans
+    ${override} =                       Set Variable                       --set fullnameOverride=${name} --set nameOverride=${name} --set certificates.name=${name} --set certificates.commonName=${name} --set certificates.dnsNames={${name}}
+    Install helm charts from folder     ${HTTPS_SERVER_HELM_CHARTS}        ${name}                 set_values_override=${override}
+
+Deploying HTTPS server with wrong certificates - wrong SAN-s
+    ${name} =                           Set Variable                       ${ONAP_HELM_RELEASE}-pm-https-server-wrong-sans
+    ${override} =                       Set Variable                       --set fullnameOverride=${name} --set nameOverride=${name} --set certificates.name=${name} --set certificates.commonName=wrong-sans-1 --set certificates.dnsNames={wrong-sans-2}
+    Install helm charts from folder     ${HTTPS_SERVER_HELM_CHARTS}        ${name}                 set_values_override=${override}
 
 Checking PERFORMANCE_MEASUREMENTS Topic In Message Router
     ${headers}=                         Create Dictionary                  content-type=application/json
@@ -235,3 +237,58 @@ Check DFC logs
     [Arguments]  ${DFC_LOG_CHECK}
     ${rc} =                                    Run and Return RC                   ${DFC_LOG_CHECK}
     Should Be Equal As Integers                ${rc}                               0
+
+Change DFC httpsHostnameVerify configuration in Consul
+    [Documentation]     Changes DFC httpsHostnameVerify config.
+    [Arguments]                     ${httpsHostnameVerify}
+    ${httpsHostnameVerify_conf}     Create Dictionary               httpsHostnameVerify=${httpsHostnameVerify}
+    Templating.Create Environment   pm                              ${GLOBAL_TEMPLATE_FOLDER}
+    ${event}=                       Templating.Apply Template       pm                              ${consul_change_event}      ${httpsHostnameVerify_conf}
+    ${rc}   ${container_name} =   Run and Return RC and Output  kubectl get pods -n onap | grep datafile-collector | awk '{print $1}' | grep -v NAME | awk -F'-' '{print $2}'
+    Should Be Equal As Integers   ${rc}                           0
+    ${resp}=                        Run Consul Put Request          /v1/kv/${container_name}-datafile-collector?dc=dc1          ${event}
+    Should Be Equal As Strings      ${resp.status_code}             200
+    ${rc} =                       Run and Return RC               kubectl delete pods -n onap $(kubectl get pods -n onap | grep datafile-collector | awk '{print $1}' | grep -v NAME)
+    Should Be Equal As Integers   ${rc}                           0
+    Wait Until Keyword Succeeds         60 sec          5 sec       Check DFC logs                  kubectl logs -n onap $(kubectl get pods -n onap | grep datafile-collector | awk '{print $1}' | grep -v NAME) ${container_name}-datafile-collector
+
+Sending File Ready Event to VES Collector for HTTPS Server
+    [Arguments]  ${https-server_host}
+    Send File Ready Event to VES Collector for HTTPS Server  ${PM_FILE}  ${GLOBAL_TEST_VARIABLES["FILE_FORMAT_TYPE"]}  ${GLOBAL_TEST_VARIABLES["FILE_FORMAT_VERSION"]}    ${https-server_host}
+
+Send File Ready Event to VES Collector for HTTPS Server
+    [Arguments]                         ${pm_file}                          ${file_format_type}             ${file_format_version}     ${https_server_host}
+    Disable Warnings
+    ${pm_event}                         Create Dictionary                   https_server_host=${https_server_host}  pm_file=${pm_file}   fileFormatType=${file_format_type}   fileFormatVersion=${file_format_version}
+    Templating.Create Environment       pm                                  ${GLOBAL_TEMPLATE_FOLDER}
+    ${VES_FILE_READY_NOTIFICATION}=     Templating.Apply Template           pm                              ${pm_notification_event}   ${pm_event}
+    ${headers}=                         Create Dictionary                   content-type=application/json
+    ${fileready}=                       OperatingSystem.Get File            ${JSON_DATA_FILE}
+    ${auth}=                            Create List                         ${GLOBAL_DCAE_VES_USERNAME}     ${GLOBAL_DCAE_VES_PASSWORD}
+    ${session}=                         Create Session                      ves                             ${VES_HEALTH_CHECK_PATH}      auth=${auth}
+    ${resp}=                            Post Request                        ves                             ${VES_LISTENER_PATH}          data=${fileready}   headers=${headers}
+    Should Be Equal As Strings          ${resp.status_code}                 202
+    ${resp}=                            Post Request                        ves                             ${VES_LISTENER_PATH}          data=${VES_FILE_READY_NOTIFICATION}   headers=${headers}
+    Should Be Equal As Strings          ${resp.status_code}                 202
+
+
+Uploading PM Files to xNF HTTPS Server
+    [Arguments]                         ${https-server_host}
+    ${pm_file}=                         Upload PM Files to xNF HTTPS Server     ${GLOBAL_TEST_VARIABLES["PM_FILE_PATH"]}    ${BULK_PM_MODE}     ${https-server_host}
+    Set Global Variable                 ${PM_FILE}                              ${pm_file}
+
+Upload PM Files to xNF HTTPS Server
+    [Arguments]                         ${pm_file_path}                     ${bulk_pm_mode}                     ${https_server}
+    ${epoch}=                           Get Current Date                    result_format=epoch
+    ${pm_file} =  Run Keyword If        "${bulk_pm_mode}" == "custom"       Fetch From Right                   ${pm_file_path}               marker=/
+    ...                     ELSE                                            Set Variable                       A${epoch}.xml.gz
+    Copy File                           ${pm_file_path}                     tmp/${pm_file}
+    ${fileData}=                        Get Binary File                     tmp/${pm_file}
+    ${file_part}=                       Create List                         ${pm_file}                         ${fileData}                   application/octet-stream
+    ${fileParts}=                       Create Dictionary
+    Set to Dictionary                   ${fileParts}                        uploaded_file=${file_part}
+    ${auth}=                            Create List                         demo                                demo123456!
+    ${session}=                         Create Session                      https                               http://${https_server}:80   auth=${auth}
+    ${resp}=                            Post Request                        https                               /upload.php                 files=${fileParts}
+    Should Be Equal As Strings          ${resp.status_code}                 200
+    [Return]                            ${pm_file}
