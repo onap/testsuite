@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pmhttpsserver.fullname" . }}
+  namespace: {{ include "pmhttpsserver.namespace" . }}
+  labels:
+    {{ include "pmhttpsserver.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{ include "pmhttpsserver.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{ include "pmhttpsserver.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: '{{ include "repositoryGenerator.repository" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: http2
+              containerPort: 8080
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
+          volumeMounts:
+            - name: certstore
+              mountPath: {{ .Values.certsDir }}
+      volumes:
+        - name: certstore
+          projected:
+            sources:
+              - secret:
+                  name: '{{.Values.certificates.name}}-secret'
+                  items:
+                    - key: tls.key
+                      path: key.pem
+                    - key: tls.crt
+                      path: keystore.pem
+                    - key: ca.crt
+                      path: truststore.pem
