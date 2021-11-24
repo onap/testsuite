@@ -22,7 +22,7 @@ ${DFC_ERROR_GREP_COMMAND_SANS}      kubectl logs $(kubectl get pods -n onap | gr
 *** Test Cases ***
 
 SFTP Server based bulk PM test, no SFTP Server know host veryfication on DFC side
-    [Tags]                              5gbulkpm                           5gbulkpm_sftp              5gbulkpm_cust_pm_validate
+    [Tags]                              5gbulkpm                           5gbulkpm_sftp
     [Documentation]
     ...  This test case triggers successful bulk pm upload from SFTP server without SFTP server host verification in DFC known host file.
     ...  Known host verification is turned off on DFC
@@ -50,4 +50,41 @@ SFTP Server based bulk PM test, not successful SFTP Server know host verificatio
     Uploading PM Files to xNF SFTP Server
     Sending File Ready Event to VES Collector
     Checking DFC Logs After KNOWN_HOSTS_FILE_PATH Env Variable Added
+
+HTTPS Server based bulk PM test (correct server certificate - correct SANs), successful HTTPS server certificate verification on DFC side
+    [Tags]                              5gbulkpm                           5gbulkpm_https
+    [Documentation]
+    ...  This test case triggers successful bulk pm upload from HTTPS server using CMPv2 Certificate-based authentication
+    ...  Both HTTPS server and DFC have correct certs with correct SAN-s.
+    ...  DFC has turned on hostname verification option, verifies HTTPS server host name and downloads pm file from HTTPS server.
+    Change DFC httpsHostnameVerify configuration in Consul   true
+    Uploading PM Files to xNF HTTPS Server      ${ONAP_HELM_RELEASE}-pm-https-server-correct-sans
+    Sending File Ready Event to VES Collector for HTTPS Server  ${ONAP_HELM_RELEASE}-pm-https-server-correct-sans
+    Verifying 3GPP Perf VES Content On PERFORMANCE_MEASUREMENTS Topic
+
+
+HTTPS Server based bulk PM test (wrong server certificate - wrong SANs), unsuccessful validation on DFC side due to turned on host checking
+    [Tags]                              5gbulkpm                           5gbulkpm_https
+    [Documentation]
+    ...  This test case triggers unsuccessful bulk pm upload from HTTPS server using CMPv2 Certificate-based authentication
+    ...  HTTPS server has incorrect cert with wrong correct SAN-s. DFC has turned on hostname verification option.
+    ...  DFC verifies HTTPS server host name against SAN-s and closes connection.
+    Change DFC httpsHostnameVerify configuration in Consul   true
+    Uploading PM Files to xNF HTTPS Server      ${ONAP_HELM_RELEASE}-pm-https-server-wrong-sans
+    Sending File Ready Event to VES Collector for HTTPS Server   ${ONAP_HELM_RELEASE}-pm-https-server-wrong-sans
+    Wait Until Keyword Succeeds         60 sec               5 sec    Check DFC logs  ${DFC_ERROR_GREP_COMMAND_SANS}
+
+
+HTTPS Server based bulk PM test (wrong server certificate - wrong SANs), successful validation on DFC side due to turned off host checking
+    [Tags]                              5gbulkpm                           5gbulkpm_https
+    [Documentation]
+    ...  This test case triggers successful bulk pm upload from HTTPS server using CMPv2 Certificate-based authentication
+    ...  HTTPS server has incorrect cert with wrong correct SAN-s. DFC has turned off hostname verification option.
+    ...  DFC does not verify HTTPS server host name against SAN-s and downloads pm file from HTTPS server.
+    Change DFC httpsHostnameVerify configuration in Consul   false
+    Uploading PM Files to xNF HTTPS Server      ${ONAP_HELM_RELEASE}-pm-https-server-wrong-sans
+    Sending File Ready Event to VES Collector for HTTPS Server   ${ONAP_HELM_RELEASE}-pm-https-server-wrong-sans
+    Verifying 3GPP Perf VES Content On PERFORMANCE_MEASUREMENTS Topic
+
+
 
