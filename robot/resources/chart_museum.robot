@@ -57,11 +57,11 @@ Install helm charts from folder
 
 Checking Status Of Deployed Appliction Using Helm
     [Arguments]                         ${dcae_servcie_helm_charts}                 ${dcae_service_helm_name}
-    ${pod_status}=                      Set Variable                                kubectl get pods -n onap | grep ${ONAP_HELM_RELEASE}-${dcae_servcie_helm_charts} | awk '{print $3}'
+    ${pod_status}=                      Set Variable                                kubectl get pods -n onap | grep ${dcae_service_helm_name} | awk '{print $3}'
     ${pod_status_command_output} =      Run And Return Rc And Output                ${pod_status}
     Should Be Equal As Integers         ${pod_status_command_output[0]}             0
     Should Be Equal As Strings          ${pod_status_command_output[1]}             Running
-    ${pod_ready}=                       Set Variable                                kubectl get pods -n onap | grep ${ONAP_HELM_RELEASE}-${dcae_servcie_helm_charts} | awk '{print $2}'
+    ${pod_ready}=                       Set Variable                                kubectl get pods -n onap | grep ${dcae_service_helm_name} | awk '{print $2}'
     ${pod_ready_command_output} =       Run And Return Rc And Output                ${pod_ready}
     Should Be Equal As Integers         ${pod_ready_command_output[0]}              0
     ${pre}       ${post} = 	Split String 	${pod_ready_command_output[1]} 	        / 	    1
