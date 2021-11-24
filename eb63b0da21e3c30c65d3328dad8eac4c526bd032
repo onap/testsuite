@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d688b3c_a5986f09",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 41
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-11-24T12:58:35Z",
+      "side": 1,
+      "message": "you still need heatbridge, python_utils?\nthis libraries are old and not very maintained, keeping them in the docker will force some old python dependencies",
+      "revId": "eb63b0da21e3c30c65d3328dad8eac4c526bd032",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e599b10e_a046253f",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 41
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-11-24T12:58:35Z",
+      "side": 1,
+      "message": "old version we are more on 1.19 no?",
+      "revId": "eb63b0da21e3c30c65d3328dad8eac4c526bd032",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eade0244_406d99c0",
+        "filename": "robot/assets/helm/sftp/templates/deployment.yaml",
+        "patchSetId": 41
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-11-24T12:58:35Z",
+      "side": 1,
+      "message": "no namespace specified?",
+      "revId": "eb63b0da21e3c30c65d3328dad8eac4c526bd032",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
