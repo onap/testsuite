@@ -25,3 +25,11 @@ Return dmaap details with basic auth
      Log    Received response from bus controller ${resp.text}
      [Return]    ${resp}
 
+Delete MR topic
+    [Documentation]    Runs Bus Controller to remove topic
+    [Arguments]    ${data_path}
+    ${auth}=  Create List     ${GLOBAL_BC_USERNAME}   ${GLOBAL_BC_PASSWORD}
+    ${session}=    Create Session      bs      ${BC_HTTPS_ENDPOINT}    auth=${auth}
+    ${resp}=   Delete Request     bs      ${data_path}
+    Log    Received response from bus controller ${resp.status_code}
+    [Return]    ${resp}
