@@ -143,3 +143,12 @@ Run MR Post Request
      Log    Received response from message router ${resp.text}
      [Return]    ${resp}
 
+Run MR Delete Request
+     [Documentation]    Runs MR Delete request
+     [Arguments]    ${data_path}
+     ${session}=    Create Session      mr      ${MR_ENDPOINT}
+     ${uuid}=    Generate UUID4
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
+     ${resp}=   Delete Request     mr      ${data_path}     headers=${headers}
+     Log    Received response from message router ${resp.status_code}
+     [Return]    ${resp}
