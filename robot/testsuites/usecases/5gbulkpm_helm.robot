@@ -22,7 +22,7 @@ ${DFC_ERROR_GREP_COMMAND_SANS}      kubectl logs $(kubectl get pods -n onap | gr
 *** Test Cases ***
 
 SFTP Server based bulk PM test, no SFTP Server know host veryfication on DFC side
-    [Tags]                              5gbulkpm                           5gbulkpm_sftp              5gbulkpm_cust_pm_validate
+    [Tags]                              5gbulkpm                           5gbulkpm_sftp
     [Documentation]
     ...  This test case triggers successful bulk pm upload from SFTP server without SFTP server host verification in DFC known host file.
     ...  Known host verification is turned off on DFC
