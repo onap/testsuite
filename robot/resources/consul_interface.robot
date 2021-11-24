@@ -6,7 +6,9 @@ Library           String
 Resource          global_properties.robot
 
 *** Variables ***
-${CONSUL_ENDPOINT}              http://consul.onap:8500
+${CONSUL_ENDPOINT}              http://consul-server-ui:8500
+#${CONSUL_ENDPOINT}              ${GLOBAL_CONSUL_SERVER_PROTOCOL}://${GLOBAL_CONSUL_SERVER_NAME}:${GLOBAL_CONSUL_SERVER_PORT}
+
 
 
 *** Keywords ***
