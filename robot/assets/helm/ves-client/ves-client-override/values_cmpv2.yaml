@@ -1,0 +1,33 @@
+certMethod: "cmpv2"
+
+fullnameOverride: "ves-client-cmpv2"
+secretName: ves-client-secret-cmpv2
+configMapName: ves-client-configmap-cmpv2
+certificateName: ves-client-certificate-cmpv2
+
+config:
+  useCerts: true
+  mongoDbName: ves-client-db-cmpv2
+
+mongodb:
+  fullnameOverride: "ves-client-db-cmpv2"
+
+certInitializer:
+  nameOverride: vesclient-cert-initializer-cmpv2
+            
+
+certificates:
+  name: ves-client-cert-cmpv2
+  secretName: ves-client-secret-cmpv2
+  keystores:
+    jks:
+      create: true
+      passwordSecretRef:
+        name: ves-client-secret-cmpv2
+        key:  p12.pass
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        name: ves-client-secret-cmpv2
+        key: p12.pass
+
