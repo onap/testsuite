@@ -1,0 +1,29 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  namespace: {{ include "pmhttpsserver.namespace" . }}
+  name: '{{ .Values.certificates.name }}-cert'
+spec:
+  commonName: {{ .Values.certificates.commonName }}
+  secretName: '{{ .Values.certificates.name }}-secret'
+  renewBefore: {{ .Values.certificates.renewBefore }}
+  duration: {{ .Values.certificates.duration }}
+  subject:
+    organizations:
+      - {{ .Values.certificates.subject.organization }}
+    countries:
+      - {{ .Values.certificates.subject.country }}
+    localities:
+      - {{ .Values.certificates.subject.locality }}
+    provinces:
+      - {{ .Values.certificates.subject.province }}
+    organizationalUnits:
+      - {{ .Values.certificates.subject.organizationalUnit }}
+  issuerRef:
+    group: {{ .Values.certificates.issuerRef.group }}
+    kind: {{ .Values.certificates.issuerRef.kind }}
+    name: {{ .issuerRef.name }}
+  dnsNames:
+    {{ - range $dnsName = $.Values.certificates.dnsNames }}
+      - {{ $dnsName }}
+    {{ - end }}
