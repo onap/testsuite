@@ -1,0 +1,58 @@
+# Default values for myhttpsserver.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: onap/org.onap.integration.nfsimulator.pmhttpsserver
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+namespace: onap
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+certsDir: "/etc/apache2/certs/external"
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+certificates:
+  name: http-server
+  dnsNames:
+    - http-server
+  renewBefore: 720h #30 days
+  duration: 8760h #365 days
+  subject:
+    organization: "Linux-Foundation"
+    country: "US"
+    locality: "San-Francisco"
+    province: "California"
+    organizationalUnit: "ONAP"
+  #    issuer:
+  #      group: certmanager.onap.org
+  #      kind: CMPv2Issuer
+  #      name: cmpv2-issuer-onap
+  issuerRef:
+    group: certmanager.onap.org
+    kind: CMPv2Issuer
+    name: cmpv2-issuer-onap
+  #  ipAddresses: "127.0.0.1"
