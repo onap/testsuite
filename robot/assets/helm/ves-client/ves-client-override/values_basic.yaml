@@ -1,0 +1,15 @@
+fullnameOverride: "ves-client-basic"
+secretName: "ves-client-secret-basic"
+configMapName: "ves-client-configmap-basic"
+certificateName: "ves-client-certificate-basic"
+
+config:
+  useCerts: false
+  mongoDbName: ves-client-db-basic
+
+mongodb:
+  fullnameOverride: "ves-client-db-basic"
+
+certInitializer:
+  nameOverride: vesclient-cert-initializer-basic
+            
