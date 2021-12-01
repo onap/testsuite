@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "65b44e38_da66c618",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 41
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2021-12-01T10:40:19Z",
+      "side": 1,
+      "message": "not needed - removed",
+      "parentUuid": "7d688b3c_a5986f09",
+      "revId": "eb63b0da21e3c30c65d3328dad8eac4c526bd032",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e599b10e_a046253f",
         "filename": "docker/Dockerfile",
         "patchSetId": 41
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a86cf168_a820795f",
+        "filename": "docker/Dockerfile",
+        "patchSetId": 41
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2021-12-01T10:40:19Z",
+      "side": 1,
+      "message": "upgraded to 1.19.11",
+      "parentUuid": "e599b10e_a046253f",
+      "revId": "eb63b0da21e3c30c65d3328dad8eac4c526bd032",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eade0244_406d99c0",
         "filename": "robot/assets/helm/sftp/templates/deployment.yaml",
         "patchSetId": 41
@@ -50,6 +86,24 @@
       "revId": "eb63b0da21e3c30c65d3328dad8eac4c526bd032",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bcad232_ae70eca6",
+        "filename": "robot/assets/helm/sftp/templates/deployment.yaml",
+        "patchSetId": 41
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2021-12-01T10:40:19Z",
+      "side": 1,
+      "message": "namespace has been added",
+      "parentUuid": "eade0244_406d99c0",
+      "revId": "eb63b0da21e3c30c65d3328dad8eac4c526bd032",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
