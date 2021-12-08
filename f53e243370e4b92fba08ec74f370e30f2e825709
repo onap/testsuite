@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51373da4_22300e79",
+        "filename": "robot/assets/helm/pm-https-server/README.md",
+        "patchSetId": 62
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2021-12-08T12:54:53Z",
+      "side": 1,
+      "message": "trailing spaces in severla places here",
+      "revId": "f53e243370e4b92fba08ec74f370e30f2e825709",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
