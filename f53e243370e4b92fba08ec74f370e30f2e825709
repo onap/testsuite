@@ -16,6 +16,24 @@
       "revId": "f53e243370e4b92fba08ec74f370e30f2e825709",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65ae43a6_3e8b4da7",
+        "filename": "robot/assets/helm/pm-https-server/README.md",
+        "patchSetId": 62
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4481
+      },
+      "writtenOn": "2021-12-10T13:15:33Z",
+      "side": 1,
+      "message": "fixed",
+      "parentUuid": "51373da4_22300e79",
+      "revId": "f53e243370e4b92fba08ec74f370e30f2e825709",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
