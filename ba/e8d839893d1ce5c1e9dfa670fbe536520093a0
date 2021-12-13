@@ -1,0 +1,9 @@
+Code-Review+2: Morgan Richomme <morgan.richomme@orange.com>
+Code-Review+1: Krzysztof Kuzmicki <krzysztof.kuzmicki@nokia.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Verified+1: Krzysztof Kuzmicki <krzysztof.kuzmicki@nokia.com>
+Submitted-by: Morgan Richomme <morgan.richomme@orange.com>
+Submitted-at: Mon, 13 Dec 2021 17:01:24 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/testsuite/+/125860
+Project: testsuite
+Branch: refs/heads/master
