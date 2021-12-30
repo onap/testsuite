@@ -28,6 +28,7 @@ Resource          ../resources/pomba_interface.robot
 Resource          ../resources/holmes_interface.robot
 Resource          ../resources/cds_interface.robot
 Resource          ../resources/dcae_ms_interface.robot
+Resource          ../resources/mariadb_galera_interface.robot
 
 Suite Teardown     Close All Browsers
 
@@ -340,3 +341,11 @@ Enhanced CDS Health Check
     Run CDS Publish CBA Health Check
     Run CDS Process CBA Health Check
     Run CDS Delete CBA Health Check
+
+Mariadb Galera Pod Connectivity Test
+    [Tags]    core    health-mariadb-galera
+    Check for Mariadb Galera Pod Connection
+	
+Mariadb Galera SO Connectivity Test
+    [Tags]    core    health-mariadb-galera
+    Check for SO Databases Connection
