@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "503d13c9_2327ee49",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2022-01-03T14:23:50Z",
+      "side": 1,
+      "message": "it is a new healthcheck test\nas you indicated the tag \"core\" it will be automatically added in the core results \u003d\u003e https://logs.onap.org/onap-integration/daily/onap_daily_pod4_master/2021-12/20_02-13/xtesting-healthcheck/core/core/report.html\n\nno problem to test the mariadb connectivity\n\nis it not partially covered by the onap-k8s test that checks the status of the kubernetes cluster...and some pods can only start if the mariadb is available (liveness/readiness pods will fail if not), if so, this test will be a confirmation or do you have in mind some cases where the pods successfully started without a mariadb pod connectivity?",
+      "revId": "3345f898c3b81e25a3fbea155f3e033044894689",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac516d97_d69ac268",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2022-01-03T14:23:50Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "3345f898c3b81e25a3fbea155f3e033044894689",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
