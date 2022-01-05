@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b445de3f_73cf6695",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 6903
+      },
+      "writtenOn": "2022-01-05T08:02:03Z",
+      "side": 1,
+      "message": "Yes mariadb connectivity is partially covered by the onap-k8s test.\n\nBelow are the steps that we are proposing\n\n1. We are checking if the MariaDB pod is in running state by logging into the pod and printing custom message \n\n2. \u0027SO\u0027 has 3 DB(catalogdb,requestdb,camundabpmn) hosted in MariaDB, so to check the connectivity between \u0027SO-MariaDB\u0027 we are logging into \u0027MariaDB-SO\u0027 databases and validate connectivity of all three SO-databases.",
+      "parentUuid": "503d13c9_2327ee49",
+      "revId": "3345f898c3b81e25a3fbea155f3e033044894689",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ac516d97_d69ac268",
         "filename": "robot/testsuites/health-check.robot",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "3345f898c3b81e25a3fbea155f3e033044894689",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13d00022_004b5d12",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 6903
+      },
+      "writtenOn": "2022-01-05T08:02:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ac516d97_d69ac268",
+      "revId": "3345f898c3b81e25a3fbea155f3e033044894689",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
