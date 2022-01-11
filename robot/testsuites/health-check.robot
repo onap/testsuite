@@ -28,6 +28,7 @@ Resource          ../resources/pomba_interface.robot
 Resource          ../resources/holmes_interface.robot
 Resource          ../resources/cds_interface.robot
 Resource          ../resources/dcae_ms_interface.robot
+Resource          ../resources/cps_interface.robot
 
 Suite Teardown     Close All Browsers
 
@@ -340,3 +341,7 @@ Enhanced CDS Health Check
     Run CDS Publish CBA Health Check
     Run CDS Process CBA Health Check
     Run CDS Delete CBA Health Check
+
+Run CPS Healthcheck Test
+    [Tags]    health    core    health-cps
+    Run CPS Healthcheck
