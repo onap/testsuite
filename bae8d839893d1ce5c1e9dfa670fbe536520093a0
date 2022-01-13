@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4ff6c13_db5a4cb6",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2022-01-13T10:00:13Z",
+      "side": 0,
+      "message": "remove \u0027core\u0027 tag as CPS is not part of the core components\nhealth is OK, it will be trigerred when we execute the full healthcheck tests",
+      "revId": "bae8d839893d1ce5c1e9dfa670fbe536520093a0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
