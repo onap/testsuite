@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35095240_3021e67b",
+        "filename": "robot/resources/cps_interface.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6738
+      },
+      "writtenOn": "2022-01-17T14:27:38Z",
+      "side": 1,
+      "message": "these health checks are already included in cps CSIT : https://github.com/onap/cps/blob/master/csit/tests/actuator/actuator.robot\nDo we really intent to duplicate them ?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "b65518329578ec25e91f583d364da24e61410540",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
