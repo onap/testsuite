@@ -28,6 +28,7 @@ Resource          ../resources/pomba_interface.robot
 Resource          ../resources/holmes_interface.robot
 Resource          ../resources/cds_interface.robot
 Resource          ../resources/dcae_ms_interface.robot
+Resource          ../resources/cassandra_interface.robot
 
 Suite Teardown     Close All Browsers
 
@@ -340,3 +341,23 @@ Enhanced CDS Health Check
     Run CDS Publish CBA Health Check
     Run CDS Process CBA Health Check
     Run CDS Delete CBA Health Check
+
+Cassandra Pods Connectivity Test
+    [Tags]  core  health-cassandra
+    Check for Cassandra Pod Connection
+
+Cassandra cqlsh Connectivity Test
+    [Tags]  core  health-cassandra
+    Check for cqlsh Connection
+
+Cassandra CQL Healthcheck
+    [Tags]  core  health-cassandra
+    Fetch Value from a Table in CQL Keyspace
+
+Cassandra Replica Pods Healthcheck
+    [Tags]  core  health-cassandra
+    Run Cassandra Replica Pods Healthcheck
+
+Non-Running Cassandra Pods Validation
+    [Tags]  core  health-cassandra
+    Check For Non-Running Cassandra Pods and Validate
