@@ -244,3 +244,10 @@ Run Delete Policy Request
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
      Should Be Equal As Strings    ${resp.status_code}     200
+
+Check for Existing Policy and Clean up
+     [Documentation]    Policy not created then exit this method. If policy is created only or created and deployed both then run Delete request with policy name. Same request will work for both the cases and will give 200 status code.
+     ${resp}=    Run Get Policy Get Request
+     Return From Keyword If    ${resp.status_code}==404
+     Should Be Equal As Strings    ${resp.status_code}    200
+     Run Delete Policy Request
