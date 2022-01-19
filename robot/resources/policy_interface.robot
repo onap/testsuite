@@ -19,9 +19,15 @@ ${POLICY_PDPX_IP}       ${GLOBAL_INJECTED_POLICY_PDPX_IP_ADDR}
 ${POLICY_ADMIN_USERNAME}    ${GLOBAL_POLICY_ADMIN_USERNAME}
 ${POLICY_ADMIN_PASSWORD}		${GLOBAL_POLICY_ADMIN_PASSWORD}
 ${json_path_policy}     /var/opt/ONAP/robot/assets/policy/
+${POLICY_STATE_FIELD}            SUCCESS
+${PDP_GROUP_NAME}                defaultGroup
+${POLICY_NAME}                   operational.modifyconfig
+${POLICY_VERSION}                1.0.0
+${POLICY_TYPE}                   onap.policies.controlloop.operational.common.Drools
+${POLICY_TYPE_VERSION}           1.0.0
 ${POLICY_GET_POLICY_URI}        /policy/api/v1/policytypes/onap.policies.controlloop.operational.common.Drools/versions/1.0.0/policies/operational.modifyconfig/versions/1.0.0
 ${POLICY_CREATE_POLICY_URI}     /policy/api/v1/policytypes/onap.policies.controlloop.operational.common.Drools/versions/1.0.0/policies
-
+${POLICY_PAP_STATUS_QUERY}      /policy/pap/v1/policies/status/${PDP_GROUP_NAME}/${POLICY_NAME}/${POLICY_VERSION}
 
 *** Keywords ***
 
@@ -244,3 +250,26 @@ Run Delete Policy Request
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
      Should Be Equal As Strings    ${resp.status_code}     200
+
+Run Policy Deployment Verification
+     [Documentation]    Runs Get Request to validate if the policy is deployed. Also, it verify the policy name, version, pdp group name and policy state field.
+     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
+     Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
+     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
+     ${resp_deployed_policy}=    Get Request    policy    ${POLICY_PAP_STATUS_QUERY}    headers=${headers}
+     Log    Received response from policy status ${resp_deployed_policy.text}
+     Return From Keyword If   ${resp_deployed_policy.status_code}==404
+     Should Be Equal As Strings   ${resp_deployed_policy.status_code}   200
+     ${resp_deployed_policy_string}=   Convert to string   ${resp_deployed_policy.content}
+     ${resp_deployed_policy_flag}=   Run Keyword And Return Status   Should Contain   ${resp_deployed_policy_string}   ${POLICY_NAME}   ${POLICY_VERSION}   ${PDP_GROUP_NAME}   ${POLICY_STATE_FIELD}
+     [Return]    ${resp_deployed_policy_flag}
+
+Check for Existing Policy and Clean up
+     [Documentation]   Policy not created then exit this method. If policy is created only then run Delete request with policy name. If policy created and deployed then run undeploy and then delete policy.
+     ${resp_policy_created}=   Run Get Policy Get Request
+     Return From Keyword If   ${resp_policy_created.status_code}==404
+     Should Be Equal As Strings   ${resp_policy_created.status_code}   200
+     ${resp_policy_deployed}=   Run Policy Deployment Verification
+     Run Keyword If   ${resp_policy_deployed}==True   Run Undeploy Policy
+     Run Delete Policy Request

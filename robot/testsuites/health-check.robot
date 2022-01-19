@@ -145,6 +145,7 @@ Basic Policy Health Check
 Enhanced Policy New Healthcheck
     [Tags]    health    medium   health-policy
     [Timeout]   60
+    Check for Existing Policy and Clean up
     Run Create Policy Post Request
     Run Get Policy Get Request
     Run Deploy Policy Pap Post Request
