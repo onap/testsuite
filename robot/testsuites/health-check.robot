@@ -343,9 +343,9 @@ Enhanced CDS Health Check
     Run CDS Delete CBA Health Check
 
 Mariadb Galera Pod Connectivity Test
-    [Tags]    core    health-mariadb-galera
+    [Tags]    health-mariadb-galera
     Check for Mariadb Galera Pod Connection
 
 Mariadb Galera SO Connectivity Test
-    [Tags]    core    health-mariadb-galera
+    [Tags]    health-mariadb-galera
     Check for SO Databases Connection
