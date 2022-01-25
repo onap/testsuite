@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5090e9e1_65cd0654",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-01-25T16:30:17Z",
+      "side": 1,
+      "message": "Take a look at this Rommel, https://wiki.onap.org/display/DW/Commit+Messages.\n72 chars line recommendation instead of 1 long line.",
+      "revId": "f7b106d16a9ec5d647c3d90ff60f38ddfb79ca65",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f5e7a64_d7529135",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-01-25T16:30:17Z",
+      "side": 1,
+      "message": "Question, what would happen if there is no existing policy and get 404 here, which I would think is the usual case.   Would it fail all together the \"Enhanced Policy New Healthcheck\" or continue execution as normal?",
+      "revId": "f7b106d16a9ec5d647c3d90ff60f38ddfb79ca65",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
