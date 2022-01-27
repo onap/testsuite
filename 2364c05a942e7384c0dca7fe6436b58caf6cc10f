@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c95ab655_c2739f18",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2022-01-27T22:32:28Z",
+      "side": 1,
+      "message": "If the policy is created and deployed, then the delete request will fail. You need to first undeploy the policy and then attempt the delete.",
+      "range": {
+        "startLine": 249,
+        "startChar": 95,
+        "endLine": 249,
+        "endChar": 115
+      },
+      "revId": "2364c05a942e7384c0dca7fe6436b58caf6cc10f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
