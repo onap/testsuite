@@ -33,6 +33,24 @@
       "revId": "f7b106d16a9ec5d647c3d90ff60f38ddfb79ca65",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8115b91_195cbfe5",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 7974
+      },
+      "writtenOn": "2022-01-27T14:56:59Z",
+      "side": 1,
+      "message": "Yes, the test case will continue it\u0027s execution even if there is no existing policy. New addition will not fail the full testcase rather it\u0027s just a check for the cleanup.",
+      "parentUuid": "4f5e7a64_d7529135",
+      "revId": "f7b106d16a9ec5d647c3d90ff60f38ddfb79ca65",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }

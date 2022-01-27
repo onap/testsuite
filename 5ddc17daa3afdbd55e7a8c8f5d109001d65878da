@@ -16,6 +16,24 @@
       "revId": "5ddc17daa3afdbd55e7a8c8f5d109001d65878da",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "207890f2_6c50c59a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7974
+      },
+      "writtenOn": "2022-01-27T14:56:59Z",
+      "side": 1,
+      "message": "Commit message updated and added description for the enhancements done in the test case.",
+      "parentUuid": "080b1b3c_ef3e9068",
+      "revId": "5ddc17daa3afdbd55e7a8c8f5d109001d65878da",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
