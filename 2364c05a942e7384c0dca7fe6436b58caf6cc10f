@@ -22,6 +22,30 @@
       "revId": "2364c05a942e7384c0dca7fe6436b58caf6cc10f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "592a5e7a_50ce93ef",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 7974
+      },
+      "writtenOn": "2022-01-28T03:26:31Z",
+      "side": 1,
+      "message": "I agree to the flow that you stated. But Run Delete Policy Request keyword is using an API which is undeploying and deleting the policy simultaneously. Also, even if the policy is not deployed then the same API will only delete created policy. In both the scenarios a single API is performing the action to undeploy and delete.",
+      "parentUuid": "c95ab655_c2739f18",
+      "range": {
+        "startLine": 249,
+        "startChar": 95,
+        "endLine": 249,
+        "endChar": 115
+      },
+      "revId": "2364c05a942e7384c0dca7fe6436b58caf6cc10f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
