@@ -46,6 +46,30 @@
       "revId": "2364c05a942e7384c0dca7fe6436b58caf6cc10f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9391f4b5_ca679a36",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2022-01-31T16:46:25Z",
+      "side": 1,
+      "message": "As discussed over call, the delete api call will not work in case policy is deployed. This api will only work if the policy is not deployed or failed an attempt of deployment (this is the reason your pipeline was working as the policy failed during deployment \u0026 cannot be considered as deployed).",
+      "parentUuid": "592a5e7a_50ce93ef",
+      "range": {
+        "startLine": 249,
+        "startChar": 95,
+        "endLine": 249,
+        "endChar": 115
+      },
+      "revId": "2364c05a942e7384c0dca7fe6436b58caf6cc10f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
