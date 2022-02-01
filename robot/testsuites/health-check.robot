@@ -187,10 +187,6 @@ Basic Pomba Context-Aggregator Health Check
     [Tags]    oom   health-pomba
     Run Pomba Context Aggregator Health Check
 
-Basic Portal Health Check
-    [Tags]    health    medium   health-portal
-    Run Portal Health Check
-
 Basic SDC Health Check
     [Tags]    health    core   health-sdc
     Run SDC Health Check
