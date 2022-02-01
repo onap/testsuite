@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d288b3c4_8bb92366",
+        "filename": "robot/testsuites/health-check.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1215
+      },
+      "writtenOn": "2022-02-01T13:49:00Z",
+      "side": 0,
+      "message": "if we remove the test shall we not also remove all the associate code \u003d\u003e \nhttps://github.com/onap/testsuite/blob/master/robot/resources/portal_interface.robot\nand clean also the property file set in oom?",
+      "revId": "a93a8881de7253dca565678814920349b061bef7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
