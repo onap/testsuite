@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a281406_e25499c5",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2022-02-17T10:47:51Z",
+      "side": 1,
+      "message": "There is an assertion here for 200, so in case of 404, it will just fail.",
+      "range": {
+        "startLine": 182,
+        "startChar": 5,
+        "endLine": 182,
+        "endChar": 62
+      },
+      "revId": "b6b943d4ef604e7e8430335928b499812a288788",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00c5b456_b12ae34f",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2022-02-17T10:47:51Z",
+      "side": 1,
+      "message": "You are expecting a 404 here, but the \"Run Get Policy Get Request\" will always fail if the response is not 200.",
+      "range": {
+        "startLine": 271,
+        "startChar": 5,
+        "endLine": 271,
+        "endChar": 69
+      },
+      "revId": "b6b943d4ef604e7e8430335928b499812a288788",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
