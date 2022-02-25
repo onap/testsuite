@@ -37,7 +37,7 @@ ${NEXUS3}                                           ${GLOBAL_INJECTED_NEXUS_DOCK
 ${SET_KNOWN_HOSTS_FILE_PATH}                        kubectl set env deployment/$(kubectl get deployment -n onap | grep datafile | awk '{print $1}') KNOWN_HOSTS_FILE_PATH=/home/datafile/.ssh/known_hosts -n onap
 ${CHECK_ENV_SET}                                    kubectl set env pod/$(kubectl get pod -n onap | grep datafile | awk '{print $1}') --list -n onap
 ${COPY_RSA_KEY}                                     kubectl cp /tmp/known_hosts $(kubectl get pod -n onap | grep datafile | awk '{print $1}'):/home/datafile/.ssh/known_hosts -n onap
-${CHECK_DFC_LOGS}                                   kubectl logs $(kubectl get pod -n onap | grep datafile | awk '{print $1}') -n onap --tail=4
+${CHECK_DFC_LOGS}                                   kubectl logs $(kubectl get pod -n onap | grep datafile | awk '{print $1}') -n onap --tail=10
 ${CHECK_ALL_DFC_LOGS}                               kubectl logs $(kubectl get pod -n onap | grep datafile | awk '{print $1}') -n onap --all-containers
 ${CHECK_ALL_PMMAPPER_LOGS}                          kubectl logs $(kubectl get pod -n onap | grep pm-mapper | awk '{print $1}') -n onap --all-containers
 ${EXPECTED_PRINT}                                   StrictHostKeyChecking is enabled but environment variable KNOWN_HOSTS_FILE_PATH is not set or points to not existing file
@@ -149,13 +149,21 @@ Check Given Print In DFC Log
 Run Given Command On DFC Container
     [Arguments]                         ${user_command}
     ${run_command} =                    Run And Return Rc And Output        ${user_command}
+    Should Be Equal As Integers         ${run_command[0]}                   0
     ${command_output} =                 Set Variable                        ${run_command[1]}
     ${regexp_matches} =                 Get Regexp Matches                  ${command_output}                   .*(\\s|\\[)+(.+-datafile-collector).*  2
+    ${matches_length} =                 Get length                          ${regexp_matches}
+    ${log} =                            Run Keyword If   "${matches_length}"!='0'  Get DFC log by container name   ${command_output}  ${regexp_matches}
+                                        ...  ELSE   Set Variable   ${command_output}
+    [Return]                            ${log}
+
+Get DFC log by container name
+    [Arguments]                         ${command_output}                   ${regexp_matches}
     ${dfc_container_name} =             Set Variable                        ${regexp_matches[0]}
     ${new_command} =                    Set Variable                        ${user_command} ${dfc_container_name}
     ${command_output} =                 Run And Return Rc And Output        ${new_command}
-    Should Be Equal As Integers         ${command_output[0]}                0
-    ${log} =                            Set Variable                        ${command_output[1]}
+    Should Be Equal As Integers         ${run_command[0]}                   0
+    ${log} =                            Set Variable                        ${run_command[1]}
     [Return]                            ${log}
 
 Check Known Hosts In Env
@@ -168,10 +176,10 @@ Check Known Hosts In Env
     [Return]                            ${output}
 
 Deploying Data File Collector
-    Install helm charts                 chart-museum                       dcae-datafile-collector         ${ONAP_HELM_RELEASE}-dcae-datafile-collector           3 min      --set useCmpv2Certificates=true --set global.cmpv2Enabled=true --set masterPasswordOverride=test --debug
+    Install helm charts                 chart-museum                       dcae-datafile-collector         ${ONAP_HELM_RELEASE}-dcae-datafile-collector           3 min      --set useCmpv2Certificates=true --set global.cmpv2Enabled=true --set masterPasswordOverride=test --set global.centralizedLoggingEnabled=false --debug
 
 Deploying 3GPP PM Mapper
-    Install helm charts                 chart-museum                       dcae-pm-mapper         ${ONAP_HELM_RELEASE}-dcae-pm-mapper             3 min  --debug
+    Install helm charts                 chart-museum                       dcae-pm-mapper         ${ONAP_HELM_RELEASE}-dcae-pm-mapper             3 min   --set global.centralizedLoggingEnabled=false --set applicationConfig.enable_tls=true --set applicationConfig.enable_http=false --set applicationConfig.aaf_identity=${AAF_IDENTITY} --set applicationConfig.aaf_password=${AAF_PASSWORD} --set applicationConfig.key_store_path=/opt/app/pm-mapper/etc/cert/cert.jks --set applicationConfig.key_store_pass_path=/opt/app/pm-mapper/etc/cert/jks.pass --set applicationConfig.trust_store_path=/opt/app/pm-mapper/etc/cert/trust.jks --set applicationConfig.trust_store_pass_path=/opt/app/pm-mapper/etc/cert/trust.pass --debug
 
 Deploying SFTP Server As xNF
     ${override} =                       Set Variable                       --set fullnameOverride=${ONAP_HELM_RELEASE}-sftp --debug

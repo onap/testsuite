@@ -23,5 +23,5 @@ version: 0.1.0
 appVersion: 1.0.1
 dependencies:
   - name: repositoryGenerator
-    version: ~9.x-0
+    version: x.x-x
     repository: '@chart-museum'
