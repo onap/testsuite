@@ -176,10 +176,10 @@ Check Known Hosts In Env
     [Return]                            ${output}
 
 Deploying Data File Collector
-    Install helm charts                 chart-museum                       dcae-datafile-collector         ${ONAP_HELM_RELEASE}-dcae-datafile-collector           3 min      --set useCmpv2Certificates=true --set global.cmpv2Enabled=true --set masterPasswordOverride=test --set global.centralizedLoggingEnabled=false --debug
+    Install helm charts                 chart-museum                       dcae-datafile-collector         ${ONAP_HELM_RELEASE}-dcae-datafile-collector           6m      --set useCmpv2Certificates=true --set global.cmpv2Enabled=true --set masterPasswordOverride=test --debug
 
 Deploying 3GPP PM Mapper
-    Install helm charts                 chart-museum                       dcae-pm-mapper         ${ONAP_HELM_RELEASE}-dcae-pm-mapper             3 min   --set global.centralizedLoggingEnabled=false --set applicationConfig.enable_tls=true --set applicationConfig.enable_http=false --set applicationConfig.aaf_identity=dcae@dcae.onap.org --set applicationConfig.aaf_password=demo123456! --set applicationConfig.key_store_path=/opt/app/pm-mapper/etc/cert/cert.jks --set applicationConfig.key_store_pass_path=/opt/app/pm-mapper/etc/cert/jks.pass --set applicationConfig.trust_store_path=/opt/app/pm-mapper/etc/cert/trust.jks --set applicationConfig.trust_store_pass_path=/opt/app/pm-mapper/etc/cert/trust.pass --debug
+    Install helm charts                 chart-museum                       dcae-pm-mapper         ${ONAP_HELM_RELEASE}-dcae-pm-mapper             6m  --debug
 
 Deploying SFTP Server As xNF
     ${override} =                       Set Variable                       --set fullnameOverride=${ONAP_HELM_RELEASE}-sftp --debug
@@ -219,7 +219,7 @@ DR PM Mapper Subscriber Check
 Setting KNOWN_HOSTS_FILE_PATH Environment Variable in DFC
     ${rc}=                             Run and Return RC                   ${SET_KNOWN_HOSTS_FILE_PATH}
     Should Be Equal As Integers        ${rc}                               0
-    Wait Until Keyword Succeeds        5 min                               10s               Check Known Hosts In Env             ${CHECK_ENV_SET}
+    Wait Until Keyword Succeeds        7 min                               10s               Check Known Hosts In Env             ${CHECK_ENV_SET}
     ${GET_RSA_KEY}=                    Set Variable                        kubectl exec $(kubectl get pod -n onap | grep ${ONAP_HELM_RELEASE}-sftp | awk '{print $1}') -n onap -- ssh-keyscan -t rsa ${ONAP_HELM_RELEASE}-sftp > /tmp/known_hosts
     ${rc}=                             Run and Return RC                   ${GET_RSA_KEY}
     Should Be Equal As Integers        ${rc}                               0
@@ -276,7 +276,7 @@ Change DFC httpsHostnameVerify configuration in Consul
     Should Be Equal As Strings      ${resp.status_code}             200
     ${rc} =                       Run and Return RC               kubectl delete pods -n onap $(kubectl get pods -n onap | grep datafile-collector | awk '{print $1}' | grep -v NAME)
     Should Be Equal As Integers   ${rc}                           0
-    Wait Until Keyword Succeeds         120 sec          5 sec       Check logs                  kubectl logs -n onap $(kubectl get pods -n onap | grep datafile-collector | awk '{print $1}' | grep -v NAME) ${container_name}-datafile-collector
+    Wait Until Keyword Succeeds         360 sec          15 sec       Check logs                  kubectl logs -n onap $(kubectl get pods -n onap | grep datafile-collector | awk '{print $1}' | grep -v NAME) ${container_name}-datafile-collector
 
 Sending File Ready Event to VES Collector for HTTPS Server
     [Arguments]  ${https-server_host}

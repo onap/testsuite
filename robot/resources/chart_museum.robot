@@ -40,38 +40,24 @@ Package and add charts to repository
 
 Install helm charts
     [Documentation]  Install DCAE Servcie using helm charts
-    [Arguments]                             ${chart_repo_name}                      ${dcae_servcie_helm_charts}         ${dcae_service_helm_name}       ${wait_time}=2 min    ${set_values_override}=${EMPTY}
-    ${helm_install}=                        Set Variable                            helm install ${dcae_service_helm_name} ${chart_repo_name}/${dcae_servcie_helm_charts} --set global.repository=${registry_ovveride} ${set_values_override}
+    [Arguments]                             ${chart_repo_name}                      ${dcae_servcie_helm_charts}         ${dcae_service_helm_name}       ${wait_time}=6m0s   ${set_values_override}=${EMPTY}
+    ${helm_install}=                        Set Variable                            helm install ${dcae_service_helm_name} ${chart_repo_name}/${dcae_servcie_helm_charts} --set global.repository=${registry_ovveride} ${set_values_override} --wait --timeout ${wait_time}
     ${helm_install_command_output} =        Run And Return Rc And Output            ${helm_install}
     Log                                     ${helm_install_command_output[1]}
     Should Be Equal As Integers             ${helm_install_command_output[0]}       0
-    Wait Until Keyword Succeeds             ${wait_time}                            20 sec                             Checking Status Of Deployed Appliction Using Helm      ${dcae_servcie_helm_charts}                 ${dcae_service_helm_name}
 
 Install helm charts from folder
     [Documentation]  Install DCAE Servcie using helm charts not in repo
-    [Arguments]                             ${chart_folder}                         ${dcae_service_helm_name}       ${wait_time}=2 min  ${set_values_override}=${EMPTY}
+    [Arguments]                             ${chart_folder}                         ${dcae_service_helm_name}       ${wait_time}=2m0s  ${set_values_override}=${EMPTY}
     ${helm_dependency_update}=              Set Variable                            helm dependency update ${chart_folder}
     ${helm_dependency_update_output} =      Run And Return Rc And Output            ${helm_dependency_update}
     Log                                     ${helm_dependency_update_output[1]}
     Should Be Equal As Integers             ${helm_dependency_update_output[0]}     0
     ${rest}  ${dcae_servcie_helm_charts} = 	Split String From Right 	            ${chart_folder} 	            / 	        1
-    ${helm_install}=                        Set Variable                            helm install ${dcae_service_helm_name} ${chart_folder} --set global.repository=${registry_ovveride} ${set_values_override}
+    ${helm_install}=                        Set Variable                            helm install ${dcae_service_helm_name} ${chart_folder} --set global.repository=${registry_ovveride} ${set_values_override} --wait --timeout ${wait_time}
     ${helm_install_command_output} =        Run And Return Rc And Output            ${helm_install}
     Log                                     ${helm_install_command_output[1]}
     Should Be Equal As Integers             ${helm_install_command_output[0]}       0
-    Wait Until Keyword Succeeds             ${wait_time}                            20 sec                             Checking Status Of Deployed Appliction Using Helm      ${dcae_servcie_helm_charts}                 ${dcae_service_helm_name}
-
-Checking Status Of Deployed Appliction Using Helm
-    [Arguments]                         ${dcae_servcie_helm_charts}                 ${dcae_service_helm_name}
-    ${pod_status}=                      Set Variable                                kubectl get pods -n onap | grep ${dcae_service_helm_name} | awk '{print $3}'
-    ${pod_status_command_output} =      Run And Return Rc And Output                ${pod_status}
-    Should Be Equal As Integers         ${pod_status_command_output[0]}             0
-    Should Be Equal As Strings          ${pod_status_command_output[1]}             Running
-    ${pod_ready}=                       Set Variable                                kubectl get pods -n onap | grep ${dcae_service_helm_name} | awk '{print $2}'
-    ${pod_ready_command_output} =       Run And Return Rc And Output                ${pod_ready}
-    Should Be Equal As Integers         ${pod_ready_command_output[0]}              0
-    ${pre}       ${post} = 	Split String 	${pod_ready_command_output[1]} 	        / 	    1
-    Should Be Equal As Strings          ${pre}                                      ${post}
 
 Uninstall helm charts
     [Documentation]  Uninstall DCAE Servcie using helm charts
