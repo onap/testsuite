@@ -1,0 +1,41 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+{{- with .Values.certificates }}
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace }}
+spec:
+  secretName:  {{ .secretName }}
+  commonName:  {{ .commonName }}
+  renewBefore: {{ .renewBefore }}
+  {{- if .duration }}
+  duration:    {{ .duration }}
+  {{- end }}
+  subject:
+    organizations:
+      - {{ .subject.organization }}
+    countries:
+      - {{ .subject.country }}
+    localities:
+      - {{ .subject.locality }}
+    provinces:
+      - {{ .subject.province }}
+    organizationalUnits:
+      - {{ .subject.organizationalUnit }}
+  issuerRef:
+    group: {{ .issuerRef.group }}
+    kind: {{ .issuerRef.kind }}
+    name: {{ .issuerRef.name }}
+  {{- if .dnsNames }}
+  dnsNames:
+    {{- range $.Values.certificates.dnsNames }}
+    - {{ . }}
+    {{- end }}
+  {{- end }}
+  {{- if .ipAddresses }}
+  ipAddresses:
+    - {{ .ipAddresses }}
+  {{- end }}
+  keystores:
+    {{- toYaml .keystores | nindent 4 }}
+{{- end }}
