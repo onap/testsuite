@@ -1,0 +1,33 @@
+certMethod: "aaf"
+
+fullnameOverride: "ves-client-aaf"
+secretName: ves-client-secret-aaf
+configMapName: ves-client-configmap-aaf
+certificateName: ves-client-certificate-aaf
+
+config:
+  useCerts: true
+  mongoDbName: ves-client-db-aaf
+
+mongodb:
+  fullnameOverride: "ves-client-db-aaf"
+
+certInitializer:
+  nameOverride: vesclient-cert-initializer-aaf
+            
+
+certificates:
+  name: ves-client-cert-aaf
+  secretName: ves-client-secret-aaf
+  keystores:
+    jks:
+      create: true
+      passwordSecretRef:
+        name: ves-client-secret-aaf
+        key:  p12.pass
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        name: ves-client-secret-aaf
+        key: p12.pass
+
