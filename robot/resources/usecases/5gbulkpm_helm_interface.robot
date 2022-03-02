@@ -168,10 +168,10 @@ Check Known Hosts In Env
     [Return]                            ${output}
 
 Deploying Data File Collector
-    Install helm charts                 chart-museum                       dcae-datafile-collector         ${ONAP_HELM_RELEASE}-dcae-datafile-collector           3 min      --set useCmpv2Certificates=true --set global.cmpv2Enabled=true --set masterPasswordOverride=test --debug
+    Install helm charts                 chart-museum                       dcae-datafile-collector         ${ONAP_HELM_RELEASE}-dcae-datafile-collector           3m      --set useCmpv2Certificates=true --set global.cmpv2Enabled=true --set masterPasswordOverride=test --debug
 
 Deploying 3GPP PM Mapper
-    Install helm charts                 chart-museum                       dcae-pm-mapper         ${ONAP_HELM_RELEASE}-dcae-pm-mapper             3 min  --debug
+    Install helm charts                 chart-museum                       dcae-pm-mapper         ${ONAP_HELM_RELEASE}-dcae-pm-mapper             3m  --debug
 
 Deploying SFTP Server As xNF
     ${override} =                       Set Variable                       --set fullnameOverride=${ONAP_HELM_RELEASE}-sftp --debug
