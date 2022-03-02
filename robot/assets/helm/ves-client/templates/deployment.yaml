@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ves-client.fullname" . }}
+  labels:
+    {{ include "ves-client.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{ include "ves-client.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{ include "ves-client.selectorLabels" . | nindent 8 }}
+    spec:
+      initContainers:
+        {{ include "ves-client.init" . | nindent 8 }}
+      containers:
+        {{ include "ves-client.containers" . | nindent 8 }}
+      volumes:
+        {{ include "ves-client.volumes" . | nindent 8 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
