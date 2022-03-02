@@ -1,0 +1,34 @@
+certMethod: "cmpv2"
+
+fullnameOverride: "ves-client"
+secretName: ves-client-secret
+configMapName: ves-client-configmap
+certificateName: ves-client-certificate
+
+config:
+  useCerts: true
+  mongoDbName: ves-client-db
+
+mongodb:
+  fullnameOverride: "ves-client-db"
+
+certInitializer:
+  nameOverride: vesclient-cert-initializer
+
+
+certificates:
+  name: ves-client-cert
+  secretName: ves-client-secret
+  commonName: dcae-ves-collector
+  keystores:
+    jks:
+      create: true
+      passwordSecretRef:
+        name: ves-client-secret
+        key:  p12.pass
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        name: ves-client-secret
+        key: p12.pass
+
