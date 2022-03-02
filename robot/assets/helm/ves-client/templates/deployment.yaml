@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ves-client.fullname" . }}
+  labels:
+    {{ include "ves-client.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{ include "ves-client.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{ include "ves-client.selectorLabels" . | nindent 8 }}
+    spec:
+      {{ if eq .Values.certMethod "wrongCert" }}
+      initContainers:
+        - name: {{ include "common.name" . }}-tls
+          env:
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          image: {{ .Values.certInitializer.image }}
+          imagePullPolicy: {{ .Values.pullPolicy | default .Values.pullPolicy }}
+          volumeMounts:
+            - name: {{ .Values.aafVolumeName }}
+              mountPath: /opt/app/osaaf
+        {{- end }}
+      containers:
+        - env:
+          - name: MONGO_HOSTNAME
+            value: {{ .Values.config.mongoDbName | quote }}
+          - name: USE_CERTIFICATE_FOR_AUTHORIZATION
+            value: {{ .Values.config.useCerts | quote }}
+          - name: STRICT_HOSTNAME_VERIFICATION
+            value: {{ .Values.config.strictHost | quote }}
+          name: {{ .Values.configMapName }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /simulator/config
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /simulator/config
+              port: 5000
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            {{ if eq .Values.certMethod "wrongCert" }}
+            - name: certstore
+              mountPath: /app/store/cert.p12
+              subPath: cert.p12
+            - name: certstore
+              mountPath: /app/store/p12.pass
+              subPath: p12.pass
+            - name: {{ .Values.aafVolumeName }}
+              mountPath: /app/store
+            {{- end }}
+            {{ if eq .Values.certMethod "cmpv2" }}
+            - name: certstore
+              mountPath: /app/store
+            {{- end }}
+      volumes:
+        {{ if or ( eq .Values.certMethod "cmpv2" ) ( eq .Values.certMethod "wrongCert" ) }}
+        - name: certstore
+          projected:
+            sources:
+              - secret:
+                  name: ves-client-secret-cmpv2
+                  items:
+                    - key: keystore.p12
+                      path: cert.p12
+                    - key: p12.pass
+                      path: p12.pass
+                    - key: p12.pass
+                      path: truststore.pass
+                    - key: truststore.jks
+                      path: trust.jks
+        {{- end }}
+        {{ if eq .Values.certMethod "wrongCert" }}
+        {{ include "common.certInitializer.volumes" . | nindent 8 }}
+        - name: {{ .Values.aafVolumeName }}
+          emptyDir: {}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
