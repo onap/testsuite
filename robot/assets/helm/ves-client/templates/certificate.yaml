@@ -1,0 +1,38 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: '{{ .Values.fullnameOverride }}-cert'
+  namespace: {{ include "ves-client.namespace" . }}
+spec:
+  secretName:  '{{ .Values.fullnameOverride }}-secret'
+  commonName:  {{ .Values.fullnameOverride }}
+  renewBefore: {{ .Values.certificates..renewBefore }}
+  {{- if .Values.certificates.duration }}
+  duration:    {{ .Values.certificates..duration }}
+  {{- end }}
+  subject:
+    organizations:
+      - {{ .Values.certificates.subject.organization }}
+    countries:
+      - {{ .Values.certificates.subject.country }}
+    localities:
+      - {{ .Values.certificates.subject.locality }}
+    provinces:
+      - {{ .Values.certificates.subject.province }}
+    organizationalUnits:
+      - {{ .Values.certificates.subject.organizationalUnit }}
+  issuerRef:
+    group: {{ .Values.certificates..issuerRef.group }}
+    kind: {{ .Values.certificates..issuerRef.kind }}
+    name: {{ .Values.certificates..issuerRef.name }}
+  {{- if .Values.certificates..dnsNames }}
+  dnsNames:
+    {{- range $.Values.certificates.dnsNames }}
+    - {{ . }}
+    {{- end }}
+  {{- end }}
+  {{- if .Values.certificates..ipAddresses }}
+  ipAddresses:
+    - {{ .Values.certificates..ipAddresses }}
+  {{- end }}
+
