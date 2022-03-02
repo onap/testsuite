@@ -1,0 +1,134 @@
+global:
+  importCustomCertsEnabled: false
+
+certMethod: "aaf"
+aafVolumeName: aaf-vol-store
+
+replicaCount: 1
+
+image:
+  repository: onap/org.onap.integration.nfsimulator.vesclient
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: "ves-client"
+
+config:
+  strictHost: false
+  useCerts: false
+  mongoDbName: ves-client-db
+
+templatesDir: "/app/template"
+certsDir: "/app/store"
+
+ingress:
+  enabled: false
+
+certInitializer:
+  nameOverride: vesclient-cert-initializer
+  aafDeployFqi: deployer@people.osaaf.org
+  aafDeployPass: demo123456!
+  # aafDeployCredsExternalSecret: some secret
+  fqdn: ves-client
+  fqi: ves-client@vesclient.onap.org
+  public_fqdn: ves-client.onap.org
+  fqi_namespace: "org.onap.vesclient"
+  cadi_longitude: "0.0"
+  cadi_latitude: "0.0"
+  app_ns: org.osaaf.aaf
+  credsPath: /opt/app/osaaf/local
+  image: onap/org.onap.dcaegen2.deployments.tls-init-container:2.1.0
+  mountPath: "/opt/app/osaaf"
+  appMountPath: "/opt/app/osaaf"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: NodePort
+  port: 5000
+  name: ves-client-port-name
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+mongodb:
+  fullnameOverride: "ves-client-db"
+  persistence:
+    enabled: false
+  auth:
+    rootPassword: zXcVbN123!
+    database: simulator
+    username: root
+
+certificates:
+  name: ves-client-cert
+  secretName: ves-client-secret
+  commonName: ves-client
+  dnsNames:
+    - ves-client
+  renewBefore: 720h #30 days
+  duration: 8760h #365 days
+  subject:
+    organization: "Linux-Foundation"
+    country: "US"
+    locality: "San-Francisco"
+    province: "California"
+    organizationalUnit: "ONAP"
+#    issuer:
+#      group: certmanager.onap.org
+#      kind: CMPv2Issuer
+#      name: cmpv2-issuer-onap
+  issuerRef:
+    group: certmanager.onap.org
+    kind: CMPv2Issuer
+    name: cmpv2-issuer-onap
+
+#  ipAddresses: "127.0.0.1"
+  keystores:
+    jks:
+      create: true
+      passwordSecretRef:
+        name: ves-client-secret-cmpv2
+        key:  p12.pass
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        name: ves-client-secret-cmpv2
+        key: p12.pass
+
