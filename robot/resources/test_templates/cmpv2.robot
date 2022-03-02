@@ -7,9 +7,10 @@ Library         ONAPLibrary.JSON
 Library         ONAPLibrary.Utilities
 Library         ONAPLibrary.Templating    WITH NAME    Templating
 Resource        pnf_registration_without_SO_template.robot
-Resource        ../dcae/deployment.robot
-Resource        ../dcae/inventory.robot
 Resource        ../global_properties.robot
+Resource        ../resources/test_templates/pnf_registration_without_SO_template.robot
+Resource        ../chart_museum.robot
+
 
 
 *** Variables ***
@@ -18,9 +19,37 @@ ${VES_ENDPOINT}    ${GLOBAL_DCAE_VES_HTTPS_PROTOCOL}://${GLOBAL_INJECTED_DCAE_VE
 ${VES_data_path}   eventListener/v7
 ${single_event_data_path}   /simulator/event
 ${users}  ${EXECDIR}/robot/assets/cmpv2/mongo-users.json
-
+${HELM_RELEASE}   kubectl --namespace onap get pods | sed 's/ .*//' | grep robot | sed 's/-.*//'
+${CMPv2_helm_values}   ${EXECDIR}/robot/assets/cmpv2
+${VES_Client_helm_charts}   ${EXECDIR}/robot/assets/helm/ves-client
 
 *** Keywords ***
+
+Suite setup
+    [Arguments]  ${PNF_entry_dict}
+    Send VES integration request    ${PNF_entry_dict}
+    ${command_output} =                 Run And Return Rc And Output        ${HELM_RELEASE}
+    Should Be Equal As Integers         ${command_output[0]}                0
+    Set Global Variable   ${ONAP_HELM_RELEASE}   ${command_output[1]}
+    Log To Console                              Deploying VES Client
+    Install VES Client
+    Log To Console                              Deploying VES collector with CMPv2
+    Install VES collector with CMPv2
+    Log To Console                              VES collector with CMPv2 and wrong SANs
+    Install VES collector with CMPv2 and wrong SANs
+
+Install VES Client
+    ${override} =                       Set Variable                       -f ${CMPv2_helm_values}/ves_client_values_cmpv2.yaml --set fullnameOverride=${ONAP_HELM_RELEASE}-ves-client-cmpv2 --set mongodb.fullnameOverride=${ONAP_HELM_RELEASE}-ves-client-cmpv2-db --set config.mongoDbName=${ONAP_HELM_RELEASE}-ves-db-client-cmpv2 --debug
+    Install helm charts from folder     ${VES_Client_helm_charts}           ${ONAP_HELM_RELEASE}-ves-client                 set_values_override=${override}
+
+Install VES collector with CMPv2
+    ${override} =                       Set Variable                       -f ${CMPv2_helm_values}/ves_correct_sans_cmpv2.yaml --debug
+    Install helm charts                 chart-museum                       dcae-ves-collector         ${ONAP_HELM_RELEASE}-dcae-ves-cmpv2-cert-corect-sans           3 min      ${override}
+
+Install VES collector with CMPv2 and wrong SANs
+    ${override} =                       Set Variable                       -f ${CMPv2_helm_values}/ves_wrong_sans_cmpv2.yaml --debug
+    Install helm charts                 chart-museum                       dcae-ves-collector         ${ONAP_HELM_RELEASE}-dcae-ves-cmpv2-cert-wrong-san           3 min      ${override}
+
 VES Client send single VES event
     [Arguments]  ${event}   ${ves_host}   ${ves_port}  ${pnf_sim_host}  ${pnf_sim_port}  ${http_reposnse_code}=202
     ${pnf_sim_endpoint}=            Set Variable                http://${pnf_sim_host}.onap:${pnf_sim_port}
@@ -36,11 +65,7 @@ VES Client send single VES event
     Log                             VES has accepted event with status code ${post_resp.status_code}
     [Return]                        ${post_resp}
 
-
 Usecase Teardown
-    Undeploy Service                    ${mongo-dep}
-    Undeploy Service                    ${ves-client-dep}
-    Undeploy Service                    ves-collector-cmpv2-dep
-    Undeploy Service                    ves-collector-cmpv2-wrong-sans-dep
-    Delete Blueprint From Inventory     ${serviceTypeIdMongo}
-    Delete Blueprint From Inventory     ${serviceTypeIdPnfSimulator}
+    Uninstall helm charts               ${ONAP_HELM_RELEASE}-ves-client
+    Uninstall helm charts               ${ONAP_HELM_RELEASE}-dcae-ves-cmpv2-cert-corect-sans
+    Uninstall helm charts               ${ONAP_HELM_RELEASE}-dcae-ves-cmpv2-cert-wrong-sans
