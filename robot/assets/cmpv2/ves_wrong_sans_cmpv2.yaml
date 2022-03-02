@@ -1,0 +1,50 @@
+# TLS role -- set to true if microservice acts as server
+# If true, an init container will retrieve a server cert
+# and key from AAF and mount them in certDirectory.
+tlsServer: false
+
+global:
+  centralizedLoggingEnabled: false
+
+nameOverride: "dcae-ves-cmpv2-cert-wrong-sans"
+fullnameOverride: "dcae-ves-cmpv2-cert-wrong-sans"
+
+
+# CMPv2 certificate
+# It is used only when:
+# - certDirectory is set
+# - global cmpv2Enabled flag is set to true
+# - flag useCmpv2Certificates is set to true
+# Disabled by default
+useCmpv2Certificates: true
+certificates:
+  - mountPath: /opt/app/dcae-certificate/external
+    commonName: wrong-sans
+    dnsNames:
+      - wrong-sans
+    keystore:
+      outputType:
+        - jks
+      passwordSecretRef:
+        name: ves-cmpv2-keystore-password-wrong-sans
+        key: password
+        create: true
+
+# service configuration
+service:
+  type: NodePort
+  name: dcae-ves-collector-cmpv2-cert-wrong-sans
+  ports:
+    - name: http
+      port: 8443
+      plain_port: 8080
+      port_protocol: http
+      nodePort: 19
+      useNodePortExt: true
+
+
+#Pods Service Account
+serviceAccount:
+  nameOverride: dcae-ves-cmpv2-cert-wrong-sans
+  roles:
+    - read
