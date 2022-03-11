@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "784c000e_8c0e2158",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 7498
+      },
+      "writtenOn": "2022-03-11T15:24:54Z",
+      "side": 1,
+      "message": "I\u0027m trying to understand if this might fail in case undeployment takes a long time. The calls for undeploy and delete are consecutive without any breaks. There might be a situation where you get a 202 Accepted but the undeployment is still processing in the background. In the meanwhile you run the delete request, it\u0027s gonna give you a 406 error. Have you faced this situation intermittently while testing this?\n\nAlso I see your undeploy policy request is running a DELETE call and not POST.",
+      "revId": "644abb6035ca5200311f91c5f8a95c0c44c651d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
