@@ -16,6 +16,24 @@
       "revId": "644abb6035ca5200311f91c5f8a95c0c44c651d0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffc13658_dd05feec",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 7974
+      },
+      "writtenOn": "2022-03-11T17:28:01Z",
+      "side": 1,
+      "message": "I never faced the situation where I get 202 accepted and the process of undeploy policy is still running in the background. I think that situation has never occurred during the execution of tests because the enhanced policy test case is already running cleanup at the end in a similar way i.e consecutively undeploy and delete. \nAlso, the same keywords for cleanup are added initially which runs at the later stage of the test case.\nFor the second query as I mentioned earlier for cleanup i.e undeploy I\u0027m reusing the undeploy step that are already running in the test case before enhancement.",
+      "parentUuid": "784c000e_8c0e2158",
+      "revId": "644abb6035ca5200311f91c5f8a95c0c44c651d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
