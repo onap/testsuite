@@ -34,6 +34,24 @@
       "revId": "644abb6035ca5200311f91c5f8a95c0c44c651d0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f79a1465_1ed93360",
+        "filename": "robot/resources/policy_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 7498
+      },
+      "writtenOn": "2022-03-11T20:46:09Z",
+      "side": 1,
+      "message": "You\u0027re right - there\u0027s no lag during undeployment. The only situation I can think of is if the undeployment fails for some reason after giving 202 Accepted then the test suite might fail with the situation described above. However, since this test suite is considering a simple sunny day scenario it\u0027s gonna work fine.\n\nThis might be an enhancement for the future though - basically adding another GET call to really verify if the policy has been undeployed.",
+      "parentUuid": "ffc13658_dd05feec",
+      "revId": "644abb6035ca5200311f91c5f8a95c0c44c651d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
