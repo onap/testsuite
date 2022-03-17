@@ -45,11 +45,11 @@ Install VES Client
 
 Install VES collector with CMPv2
     ${override} =                       Set Variable                       -f ${CMPv2_helm_values}/ves_correct_sans_cmpv2.yaml --debug
-    Install helm charts                 chart-museum                       dcae-ves-collector         ${ONAP_HELM_RELEASE}-dcae-ves-cmpv2-cert-corect-sans           3m      ${override}
+    Install helm charts                 chart-museum                       dcae-ves-collector         ${ONAP_HELM_RELEASE}-dcae-ves-cmpv2-cert-corect-sans           6m      ${override}
 
 Install VES collector with CMPv2 and wrong SANs
     ${override} =                       Set Variable                       -f ${CMPv2_helm_values}/ves_wrong_sans_cmpv2.yaml --debug
-    Install helm charts                 chart-museum                       dcae-ves-collector         ${ONAP_HELM_RELEASE}-dcae-ves-cmpv2-cert-wrong-sans           3m      ${override}
+    Install helm charts                 chart-museum                       dcae-ves-collector         ${ONAP_HELM_RELEASE}-dcae-ves-cmpv2-cert-wrong-sans           6m      ${override}
 
 VES Client send single VES event
     [Arguments]  ${event}   ${ves_host}   ${ves_port}  ${pnf_sim_host}  ${pnf_sim_port}  ${http_reposnse_code}=202

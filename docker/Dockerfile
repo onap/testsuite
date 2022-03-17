@@ -55,7 +55,10 @@ RUN apt-get update \
     git clone --depth 1 https://$DEMO_REPO -b $DEMO_TAG /var/opt/ONAP/demo && \
     chmod +x /usr/local/bin/kubectl && \
     chmod 700 get_helm.sh  && \
-    ./get_helm.sh --version $HELM_VERSION
+    ./get_helm.sh --version $HELM_VERSION && \
+    mkdir -p /app && \
+    cp /var/opt/ONAP/setup-hvves.sh /app
+
 
 RUN python3.7 -m pip install --no-cache-dir setuptools wheel
 RUN python3.7 -m pip install --no-cache-dir virtualenv

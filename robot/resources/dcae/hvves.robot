@@ -47,13 +47,13 @@ Send Message
     [Documentation]     Sends message to HV-VES over TCP.
     [Arguments]     ${hvves_server_ip}     ${hvves_server_port}
     ${msg}=    Convert To Bytes     ${HVVES_MESSAGE}
-    Send Binary Data    ${hvves_server_ip}    ${hvves_server_port}    ${msg}
+    Wait Until Keyword Succeeds         300 sec          15 sec    Send Binary Data    ${hvves_server_ip}    ${hvves_server_port}    ${msg}
 
 Send Message Over Ssl
     [Documentation]     Sends message to HV-VES over TCP wih SSL enabled.
     [Arguments]     ${hvves_server_ip}     ${hvves_server_port}
     ${msg}=    Convert To Bytes     ${HVVES_MESSAGE}
-    Send Binary Data    ${hvves_server_ip}    ${hvves_server_port}    ${msg}    ${TRUE}    ${TRUE}    ${CA_CERT}    ${CLIENT_CERT}    ${CLIENT_KEY}
+    Wait Until Keyword Succeeds          300 sec             15 sec              Send Binary Data    ${hvves_server_ip}    ${hvves_server_port}    ${msg}    ${TRUE}    ${TRUE}    ${CA_CERT}    ${CLIENT_CERT}    ${CLIENT_KEY}
 
 Decode Last Message From Topic
     [Documentation]     Decode last message from Kafka topic.
@@ -76,7 +76,6 @@ Set Test Config
 
     Wait Until Keyword Succeeds                2 min                5 sec                    Check If Config Is Applied    ${TEST_TRUSTSTORE_PASS_PATH}
     Sleep                                      5s
-
 
 Check If Config Is Applied
     [Documentation]    Checks if the config is applied.
