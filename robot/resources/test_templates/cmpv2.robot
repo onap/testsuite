@@ -27,6 +27,7 @@ ${VES_Client_helm_charts}   ${EXECDIR}/robot/assets/helm/ves-client
 
 Suite setup
     [Arguments]  ${PNF_entry_dict}
+    Add chart repository                        chart-museum                  http://chart-museum:80      onapinitializer      demo123456!
     Send VES integration request    ${PNF_entry_dict}
     ${command_output} =                 Run And Return Rc And Output        ${HELM_RELEASE}
     Should Be Equal As Integers         ${command_output[0]}                0
