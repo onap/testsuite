@@ -62,10 +62,6 @@ Basic CLAMP Health Check
     [Tags]    health    medium  health-clamp
     Run CLAMP Health Check
 
-Basic DCAE Health Check
-    [Tags]    health    medium   health-dcaegen2
-    Run DCAE Health Check
-
 Basic DCAE Microservices Health Check
     [Tags]    health    medium   health-dcaegen2-services
     Run DCAE Microservices Health Check
