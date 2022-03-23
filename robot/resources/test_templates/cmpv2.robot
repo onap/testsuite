@@ -8,7 +8,6 @@ Library         ONAPLibrary.Utilities
 Library         ONAPLibrary.Templating    WITH NAME    Templating
 Resource        pnf_registration_without_SO_template.robot
 Resource        ../global_properties.robot
-Resource        ../resources/test_templates/pnf_registration_without_SO_template.robot
 Resource        ../chart_museum.robot
 
 
