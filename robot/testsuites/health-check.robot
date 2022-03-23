@@ -59,7 +59,7 @@ Basic CLI Health Check
     Run CLI Health Check
 
 Basic CLAMP Health Check
-    [Tags]    health    medium  health-clamp
+    [Tags]    health-clamp
     Run CLAMP Health Check
 
 Basic DCAE Microservices Health Check
