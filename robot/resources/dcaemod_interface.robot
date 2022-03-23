@@ -6,8 +6,7 @@ Library          Collections
 Library          String
 Library          OperatingSystem
 Resource         ../resources/global_properties.robot
-Resource         ../resources/dcae/inventory.robot
-Resource         ../resources/dcae/deployment.robot
+Resource         chart_museum.robot
 
 
 *** Variables ***
@@ -26,6 +25,10 @@ ${REGISTRY_CLIENT_ID}                         ${EMPTY}
 ${DCAEMOD_ONBOARDING_API_SERVER}              ${GLOBAL_DCAEMOD_ONBOARDING_API_SERVER_PROTOCOL}://${GLOBAL_DCAEMOD_ONBOARDING_API_SERVER_NAME}:${GLOBAL_DCAEMOD_ONBOARDING_API_SERVER_PORT}
 ${DCAEMOD_DESIGNTOOL_SERVER}                  ${GLOBAL_DCAEMOD_DESIGNTOOL_SERVER_PROTOCOL}://${GLOBAL_DCAEMOD_DESIGNTOOL_SERVER_NAME}:${GLOBAL_DCAEMOD_DESIGNTOOL_SERVER_PORT}
 ${DCAEMOD_DISTRIBUTOR_API_SERVER}             ${GLOBAL_DCAEMOD_DISTRIBUTOR_API_SERVER_PROTOCOL}://${GLOBAL_DCAEMOD_DISTRIBUTOR_API_SERVER_NAME}:${GLOBAL_DCAEMOD_DISTRIBUTOR_API_SERVER_PORT}
+${HELM_RELEASE}                               kubectl --namespace onap get pods | sed 's/ .*//' | grep robot | sed 's/-.*//'
+
+
+
 
 *** Keywords ***
 
@@ -42,10 +45,10 @@ Deploy DCAE Application
     Distribute The Flow  ${PROCESS_GROUP_ID}
     Set Test Variable  ${IS_FLOW_DISTRIBUTED}  True
 
-    ${typeId}  ${blueprintName} =  Deploy Blueprint From Inventory  ${processGroupName}  ${compSpecName}
+    Deploy Applictaion  ${processGroupName}  ${compSpecName}
     Set Test Variable  ${IS_SERVICE_DEPLOYED}  True
-    Set Test Variable  ${TYPE_ID}  ${typeId}
-    Set Test Variable  ${BLUEPRINT_NAME}  ${blueprintName}
+    Set Test Variable  ${CHART_NAME}  ${compSpecName}
+
 
 
 Delete Config Map With Mounted Config File
@@ -223,15 +226,30 @@ Distribute The Flow
     ${resp} =  Post Request  distributor  /distributor/distribution-targets/${DISTRIBUTION_TARGET_ID}/process-groups  data=${data}  headers=${headers}
     Should Be True  ${resp.status_code} < 300
 
-Deploy Blueprint From Inventory
-    [Arguments]  ${processGroupName}  ${compSpecName}
-    ${blueprintName} =  Set Variable  ${processGroupName}_${compSpecName}
-    ${resp} =  Wait Until Keyword Succeeds  7 min  20s  Get Blueprint From Inventory  ${blueprintName}
-    ${typeId} =  Set Variable  ${resp.json().get('items')[0].get('typeId')}
-    ${data} =  Set Variable  {"serviceTypeId": "${typeId}"}
-    Deploy Service  ${data}  ${blueprintName}  10 minute
+Deploy Applictaion
+     [Arguments]  ${processGroupName}  ${compSpecName}
+     ${command_output} =                     Run And Return Rc And Output            helm repo update
+     Should Be Equal As Integers             ${command_output[0]}                    0
+     ${helm_install}=                        Set Variable                            helm install ${ONAP_HELM_RELEASE}-${compSpecName} chart-museum/${compSpecName} --set global.repository=${registry_ovveride}
+     ${helm_install_command_output} =        Run And Return Rc And Output            ${helm_install}
+     Log                                     ${helm_install_command_output[1]}
+     Should Be Equal As Integers             ${helm_install_command_output[0]}       0
+     ${kubectl_patch}=                       Set Variable                            kubectl patch deployment ${ONAP_HELM_RELEASE}-${compSpecName} -p '{"spec":{"template":{"spec":{"containers":[{"name": "${compSpecName}","image":"docker.io/nginx:latest"}]}}}}'
+     ${kubectl_patch_command_output}=        Run And Return Rc And Output            ${kubectl_patch}
+     Log                                     ${kubectl_patch_command_output[1]}
+     Should Be Equal As Integers             ${kubectl_patch_command_output[0]}       0
+     Wait Until Keyword Succeeds             4 min                                    15s           Check NGINX Applictaion    ${compSpecName}
 
-    [Return]  ${typeId}  ${blueprintName}
+Check NGINX Applictaion
+     [Arguments]    ${compSpecName}
+      ${check_command}=                       Set Variable                             kubectl get pods -n onap | grep  ${compSpecName} | grep Running | grep 1/1
+      ${check_command_command_output}=        Run And Return Rc And Output             ${kubectl_patch}
+      Log                                     ${kubectl_patch_command_output[1]}
+      Should Be Equal As Integers             ${kubectl_patch_command_output[0]}       0
+
+Undeploy Application
+     [Arguments]  ${CHART_NAME}
+     Uninstall helm charts               ${ONAP_HELM_RELEASE}-${CHART_NAME}
 
 Get Process Group Revision
      [Arguments]  ${processGroupId}
@@ -264,6 +282,11 @@ Delete Registry Client
 Configure Nifi Registry And Distribution Target
      Add Registry Client
      Add Distribution Target
+     Add chart repository                        chart-museum                  http://chart-museum:80      onapinitializer      demo123456!
+     ${command_output} =                 Run And Return Rc And Output        ${HELM_RELEASE}
+     Should Be Equal As Integers         ${command_output[0]}                0
+     Set Global Variable   ${ONAP_HELM_RELEASE}   ${command_output[1]}
+
 
 Delete Nifi Registry And Distribution Target
     Run Keyword If  '${DISTRIBUTION_TARGET_ID}' != '${EMPTY}'  Wait Until Keyword Succeeds  2 min  5s  Delete Distribution Target
@@ -272,7 +295,5 @@ Delete Nifi Registry And Distribution Target
 Delete Process Group And Blueprint And Deployment
     Run Keyword If  ${IS_PROCESS_GROUP_SET}  Run Keywords  Delete Process Group  ${PROCESS_GROUP_ID}
     ...                                               AND  Set Suite Variable  ${IS_PROCESS_GROUP_SET}  False
-    Run Keyword If  ${IS_FLOW_DISTRIBUTED}   Run Keywords  Delete Blueprint From Inventory  ${TYPE_ID}
-    ...                                               AND  Set Suite Variable  ${IS_FLOW_DISTRIBUTED}  False
-    Run Keyword If  ${IS_SERVICE_DEPLOYED}   Run Keywords  Undeploy Service  ${BLUEPRINT_NAME}
+    Run Keyword If  ${IS_SERVICE_DEPLOYED}   Run Keywords  Undeploy Application   ${CHART_NAME}
     ...                                               AND  Set Suite Variable  ${IS_SERVICE_DEPLOYED}  False
