@@ -16,12 +16,23 @@
   },
   "parameters": [],
   "auxilary": {
-      "healthcheck": {
-        "type": "docker",
-        "interval": "45s",
-        "timeout": "15s",
-        "script": "service nginx status"
-      },
+    "helm": {
+      "service": {
+      "type": "ClusterIP",
+      "name": "{{comp_spec_name}}",
+      "ports": [{
+        "name": "http",
+        "port": 80
+         }]
+       }
+     },
+    "healthcheck": {
+      "type": "HTTP",
+      "interval": "45s",
+      "timeout": "15s",
+      "port": 80,
+      "endpoint": "/"
+    },
       "volumes": [{
         "config_volume": {
           "name": "{{config_map_name}}"

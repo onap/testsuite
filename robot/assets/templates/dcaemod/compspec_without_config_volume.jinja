@@ -16,16 +16,31 @@
   },
   "parameters": [],
   "auxilary": {
+    "helm": {
+      "service": {
+      "type": "ClusterIP",
+      "name": "{{comp_spec_name}}",
+      "ports": [{
+        "name": "http",
+        "port": 80
+         }]
+       }
+     },
     "healthcheck": {
-      "type": "docker",
-      "interval": "300s",
-      "timeout": "120s",
-      "script": "service nginx status"
+      "type": "HTTP",
+      "interval": "45s",
+      "timeout": "15s",
+      "port": 80,
+      "endpoint": "/"
     },
     "ports": [
       "80:0",
       "99:0"
     ],
+        "log_info": {
+        "log_directory": "/opt/logs/test"
+     },
+
     "tls_info":{
         "cert_directory":"/opt/app/dcae-certificate/",
         "use_tls": false,
