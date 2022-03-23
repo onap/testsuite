@@ -6,7 +6,7 @@ Library           OperatingSystem
 Resource          ../resources/dcaemod_interface.robot
 Suite Setup       Configure Nifi Registry And Distribution Target
 Suite Teardown    Delete Nifi Registry And Distribution Target
-Test Teardown     Delete Process Group And Blueprint And Deployment
+Test Teardown     Delete Process Group And Deployment
 
 
 *** Variables ***
@@ -60,7 +60,7 @@ Deploy DCAE Simple Application With Config Map In Config Spec Json But Not Prese
      ${podYaml} =  Get Pod Yaml  ${compSpecName}
      Verify If Volume Is Mounted  ${podYaml}  ${volumeMountPath}
      Verify If Config Map Is Mounted As Volume  ${podYaml}  ${configMapName}
-     ${mountedFolderContent} =  Get Content Of Mounted Folder Inside Container  ${compSpecName}  ${volumeMountPath}
+     ${mountedFolderContent}=   Wait Until Keyword Succeeds   1 min   10s  Get Content Of Mounted Folder Inside Container  ${compSpecName}  ${volumeMountPath}
      Verify If Mounted Folder Is Empty  ${mountedFolderContent}
 
 Deploy DCAE Simple Application With Config Map In Config Spec Json AND Present In K8s
@@ -91,7 +91,7 @@ Deploy DCAE Simple Application With Config Map In Config Spec Json AND Present I
      Create File  ${CONFIG_MAP_FILE}  ${content}
      Create Config Map From File  ${configMapName}  ${CONFIG_MAP_FILE}
      Deploy DCAE Application  ${COMPSPEC_WITH_CONFIG_VOLUME}  ${dict_values}  ${compSpecName}  ${processGroupName}
-     Verify If Mounted Folder Contains File  ${compSpecName}  ${configMapFile}  ${volumeMountPath}
+     Wait Until Keyword Succeeds   1 min   10s   Verify If Mounted Folder Contains File  ${compSpecName}  ${configMapFile}  ${volumeMountPath}
      Verify File Content  ${compSpecName}  ${volumeMountPath}/${CONFIG_MAP_FILE}  ${content}
 
-    [Teardown]  Run Keywords  Delete Process Group And Blueprint And Deployment  AND  Delete Config Map With Mounted Config File
+    [Teardown]  Run Keywords  Delete Process Group And Deployment  AND  Delete Config Map With Mounted Config File
