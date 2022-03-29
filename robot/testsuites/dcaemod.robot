@@ -25,8 +25,8 @@ Deploy DCAE Simple Application Without Config Map In Config Spec Json
     ...  - Configures DCAE MOD by adding a registry client and a distribution target in the controller settings via NIFI API.
     ...  - Onboards component spec via onboarding API.
     ...  - Creates Process Group, Processor and saves created flows (by version controlling) via NIFI API.
-    ...  - Distributes the flow for blueprint generation via distributor API and pushes it to the DCAE Inventory and the DCAE Dashboard.
-    ...  - Deploys such a blueprint from Inventory.
+    ...  - Distributes the flow for helm charts generation via distributor API and pushes it to the Chart Museum.
+    ...  - Deploys such a helm charts.
 
     ${timestamp}=  Get Time  epoch
     Set Test Variable  ${processGroupName}  nginx-${timestamp}
@@ -43,8 +43,8 @@ Deploy DCAE Simple Application With Config Map In Config Spec Json But Not Prese
     ...  Configures DCAE MOD by adding a registry client and a distribution target in the controller settings via NIFI API.
     ...  - Onboards component spec with config map via onboarding API.
     ...  - Creates Process Group, Processor and saves created flows (by version controlling) via NIFI API.
-    ...  - Distributes the flow for blueprint generation via distributor API and pushes it to the DCAE Inventory and the DCAE Dashboard.
-    ...  - Deploys such a blueprint from Inventory.
+    ...  - Distributes the flow for helm charts generation via distributor API and pushes it to the Chart Museum.
+    ...  - Deploys such a helm charts.
     ...  - Verifies if config map is mounted as a volume and if mounted folder is empty
 
      ${timestamp}=  Get Time  epoch
@@ -72,8 +72,8 @@ Deploy DCAE Simple Application With Config Map In Config Spec Json AND Present I
     ...  - Onboards component spec with config map via onboarding API.
     ...  - Creates Process Group, Processor and saves created flows (by version controlling) via NIFI API.
     ...  - Creates config map from file
-    ...  - Distributes the flow for blueprint generation via distributor API and pushes it to the DCAE Inventory and the DCAE Dashboard.
-    ...  - Deploys such a blueprint from Inventory.
+    ...  - Distributes the flow for helm charts generation via distributor API and pushes it to the Chart Museum.
+    ...  - Deploys such a helm charts.
     ...  - Verifies if mounted folder contains created file and this file contains user content
 
      ${timestamp}=  Get Time  epoch
