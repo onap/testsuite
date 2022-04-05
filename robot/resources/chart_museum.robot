@@ -62,9 +62,17 @@ Install helm charts from folder
 Uninstall helm charts
     [Documentation]  Uninstall DCAE Servcie using helm charts
     [Arguments]                             ${dcae_service_helm_name}
-    ${helm_uninstall}=                      Set Variable                                    helm uninstall ${dcae_service_helm_name}
+    ${helm_uninstall}=                      Set Variable                                    helm uninstall ${dcae_service_helm_name} --timeout
     ${helm_uninstall_command_output}=       Run And Return Rc And Output                    ${helm_uninstall}
     Should Be Equal As Integers             ${helm_uninstall_command_output[0]}             0
+    ${helm_check}=                          Set Variable                                    kubectl get pods -n onap | grep ${dcae_service_helm_name}
+    Wait Until Keyword Succeeds             5 minute                                        5 sec                            Helm charts uninstallation check       ${helm_check}             success
+
+Helm charts uninstallation check
+    [Arguments]                             ${helm_check}
+    ${helm_uninstall_check_output}=         Run And Return Rc And Output                    ${helm_check}
+    Should Be Equal As Integers             ${helm_uninstall_check_output[0]}               0
+    Log                                     ${helm_uninstall_check_output[1]}
 
 
 
