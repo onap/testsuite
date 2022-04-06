@@ -79,7 +79,7 @@ HTTPS Server based bulk PM test (wrong server certificate - wrong SANs), unsucce
     Get all logs from Data File Collector
 
 HTTPS Server based bulk PM test (wrong server certificate - wrong SANs), successful validation on DFC side due to turned off host checking
-    [Tags]                              5gbulkpm                           5gbulkpm_https
+    [Tags]                                                         5gbulkpm_https
     [Documentation]
     ...  This test case triggers successful bulk pm upload from HTTPS server using CMPv2 Certificate-based authentication
     ...  HTTPS server has incorrect cert with wrong correct SAN-s. DFC has turned off hostname verification option.
