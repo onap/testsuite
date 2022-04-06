@@ -24,8 +24,8 @@ ${BLUEPRINT_TEMPLATE_PATH}                          ${EXECDIR}/robot/assets/usec
 ${DEPLOYMENT_ENDPOINT}                              dcae-deployments
 ${MR_TOPIC_CHECK_PATH}                              /topics
 ${DR_SUB_CHECK_PATH}                                /internal/prov
-${MR_TOPIC_URL_PATH}                                /events/org.onap.dmaap.mr.PERFORMANCE_MEASUREMENTS/CG1/C1
-${MR_TOPIC_URL_PATH_FOR_POST}                       /events/org.onap.dmaap.mr.PERFORMANCE_MEASUREMENTS
+${MR_TOPIC_URL_PATH}                                /events/unauthenticated.PERFORMANCE_MEASUREMENTS/CG1/C1
+${MR_TOPIC_URL_PATH_FOR_POST}                       /events/unauthenticated.PERFORMANCE_MEASUREMENTS
 ${DMAAP_BC_MR_CLIENT_PATH}                          /webapi/mr_clients
 ${DMAAP_BC_MR_CLUSTER_PATH}                         /webapi/mr_clusters
 ${PMMAPPER_HEALTH_CHECK_PATH}                       /healthcheck
@@ -179,7 +179,7 @@ Deploying Data File Collector
     Install helm charts                 chart-museum                       dcae-datafile-collector         ${ONAP_HELM_RELEASE}-dcae-datafile-collector           6m      --set useCmpv2Certificates=true --set global.cmpv2Enabled=true --set masterPasswordOverride=test --set global.centralizedLoggingEnabled=false --debug
 
 Deploying 3GPP PM Mapper
-    Install helm charts                 chart-museum                       dcae-pm-mapper         ${ONAP_HELM_RELEASE}-dcae-pm-mapper             6m  --set global.centralizedLoggingEnabled=false --set readiness.scheme=HTTP --set readiness.port=8081 --debug
+    Install helm charts                 chart-museum                       dcae-pm-mapper         ${ONAP_HELM_RELEASE}-dcae-pm-mapper             6m  --set global.centralizedLoggingEnabled=false --set drSubConfig.deliveryURL=http://dcae-pm-mapper:8081/delivery --set readiness.scheme=HTTP --set readiness.port=8081 --debug
 
 Deploying SFTP Server As xNF
     ${override} =                       Set Variable                       --set fullnameOverride=${ONAP_HELM_RELEASE}-sftp --debug
