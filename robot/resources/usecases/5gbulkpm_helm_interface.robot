@@ -24,8 +24,8 @@ ${BLUEPRINT_TEMPLATE_PATH}                          ${EXECDIR}/robot/assets/usec
 ${DEPLOYMENT_ENDPOINT}                              dcae-deployments
 ${MR_TOPIC_CHECK_PATH}                              /topics
 ${DR_SUB_CHECK_PATH}                                /internal/prov
-${MR_TOPIC_URL_PATH}                                /events/org.onap.dmaap.mr.PERFORMANCE_MEASUREMENTS/CG1/C1
-${MR_TOPIC_URL_PATH_FOR_POST}                       /events/org.onap.dmaap.mr.PERFORMANCE_MEASUREMENTS
+${MR_TOPIC_URL_PATH}                                /events/unauthenticated.PERFORMANCE_MEASUREMENTS/CG1/C1
+${MR_TOPIC_URL_PATH_FOR_POST}                       /events/unauthenticated.PERFORMANCE_MEASUREMENTS
 ${DMAAP_BC_MR_CLIENT_PATH}                          /webapi/mr_clients
 ${DMAAP_BC_MR_CLUSTER_PATH}                         /webapi/mr_clusters
 ${PMMAPPER_HEALTH_CHECK_PATH}                       /healthcheck
