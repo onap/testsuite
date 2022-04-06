@@ -179,7 +179,8 @@ Deploying Data File Collector
     Install helm charts                 chart-museum                       dcae-datafile-collector         ${ONAP_HELM_RELEASE}-dcae-datafile-collector           6m      --set useCmpv2Certificates=true --set global.cmpv2Enabled=true --set masterPasswordOverride=test --set global.centralizedLoggingEnabled=false --debug
 
 Deploying 3GPP PM Mapper
-    Install helm charts                 chart-museum                       dcae-pm-mapper         ${ONAP_HELM_RELEASE}-dcae-pm-mapper             6m  --set global.centralizedLoggingEnabled=false --set readiness.scheme=HTTP --set readiness.port=8081 --debug
+    ${override} =                       Set Variable                       --set global.centralizedLoggingEnabled=false --set readiness.scheme=HTTP --set readiness.port=8081 --set applicationConfig.key_store_path=/opt/app/pm-mapper/etc/cert/cert.jks --set applicationConfig.key_store_pass_path=/opt/app/pm-mapper/etc/cert/jks.pass --set applicationConfig.trust_store_path=/opt/app/pm-mapper/etc/cert/trust.jks --set applicationConfig.trust_store_pass_path=/opt/app/pm-mapper/etc/cert/trust.pass --set applicationConfig.aaf_identity=dcae@dcae.onap.org --set applicationConfig.aaf_password=demo123456! --debug
+    Install helm charts                 chart-museum                       dcae-pm-mapper         ${ONAP_HELM_RELEASE}-dcae-pm-mapper             6m   set_values_override=${override}
 
 Deploying SFTP Server As xNF
     ${override} =                       Set Variable                       --set fullnameOverride=${ONAP_HELM_RELEASE}-sftp --debug
