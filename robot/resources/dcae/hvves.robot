@@ -16,15 +16,13 @@ ${CLIENT_CERT}    /tmp/client.pem
 ${CLIENT_KEY}    /tmp/client.key
 
 ${PREV_CM_FILE}                   /tmp/prevCm.json
-${CURRENT_CONFIG_FILE}            /tmp/currentConfig.yaml
+${CURRENT_CONFIG_FILE}            /tmp/xz.yaml
 ${COPY_CURRENT_CONFIG}            kubectl -n onap cp $(kubectl -n onap get --no-headers pods -l app.kubernetes.io/name=dcae-hv-ves-collector --field-selector status.phase=Running -o custom-columns=NAME:.metadata.name):/app-config-input/..data/application_config.yaml ${CURRENT_CONFIG_FILE}
 ${GET_TRUSTSTORE_PASS_PATH}       cat ${CURRENT_CONFIG_FILE} | grep security.keys.trustStorePasswordFile
 ${TEST_TRUSTSTORE_PASS_PATH}      security.keys.trustStorePasswordFile: /dev/null
 ${TEST_CONFIG_YAML_PATH}          ${EXECDIR}/robot/assets/dcae/hvves_test_config.yaml
-
 ${GET_CM_NAME}                    kubectl -n onap get --no-headers cm -l app.kubernetes.io/name=dcae-hv-ves-collector -o custom-columns=NAME:.metadata.name | grep application-config-configmap
-
-
+${KAFKA_GET_PASSWORD}             kubectl -n onap get secret strimzi-kafka-admin -o jsonpath="{.data.password}" | base64 --decode
 
 *** Keywords ***
 Check Message Router Api
@@ -62,6 +60,16 @@ Decode Last Message From Topic
     ${msg}=     Consume    kafka    ${kafka_topic}
     [Return]    ${msg}
 
+Decode Last Message From Topic STRIMZI User
+    [Documentation]     Decode last message from Kafka topic using STRIMZI User.
+    [Arguments]     ${kafka_server}   ${kafka_topic}    ${username}
+    ${command_output} =                 Run And Return Rc And Output        ${KAFKA_GET_PASSWORD}
+    Should Be Equal As Integers         ${command_output[0]}                0
+    ${password}   Set Variable  ${command_output[1]}
+    Connect    kafka    ${kafka_server}    ${username}    ${password}   SCRAM-SHA-512
+    ${msg}=     Consume    kafka    ${kafka_topic}
+    [Return]    ${msg}
+
 Set Test Config
     [Documentation]     Changes HV-VES config.
 
@@ -80,13 +88,10 @@ Set Test Config
 Check If Config Is Applied
     [Documentation]    Checks if the config is applied.
     [Arguments]        ${truststore_pass_path}
-
     ${rc} =                                    Run and Return RC                              ${COPY_CURRENT_CONFIG}
     Should Be Equal As Integers                ${rc}                                          0
-
     ${rc}      ${current_trust_pass_path} =    Run and Return RC and Output                   ${GET_TRUSTSTORE_PASS_PATH}
     Should Be Equal As Integers                ${rc}                                          0
-
     Should Be Equal As Strings                 ${truststore_pass_path}                        ${current_trust_pass_path}
 
 Save Configuration From Config Map
@@ -96,7 +101,6 @@ Save Configuration From Config Map
     ${rc}    ${prev_conf} =                    Run and Return RC and Output                   kubectl -n onap get cm ${cm_name} -o json
     Should Be Equal As Integers                ${rc}                                          0
     Create File                                ${PREV_CM_FILE}                                ${prev_conf}
-
     ${rc}    ${prev_conf_yaml} =               Run and Return RC and Output                   kubectl -n onap get cm ${cm_name} -o jsonpath="{.data.application_config\\.yaml}"
     Should Be Equal As Integers                ${rc}                                          0
     Set Environment Variable                   OLD_CONFIG_YAML                                ${prev_conf_yaml}
