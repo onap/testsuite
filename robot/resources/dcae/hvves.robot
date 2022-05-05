@@ -23,7 +23,7 @@ ${TEST_TRUSTSTORE_PASS_PATH}      security.keys.trustStorePasswordFile: /dev/nul
 ${TEST_CONFIG_YAML_PATH}          ${EXECDIR}/robot/assets/dcae/hvves_test_config.yaml
 
 ${GET_CM_NAME}                    kubectl -n onap get --no-headers cm -l app.kubernetes.io/name=dcae-hv-ves-collector -o custom-columns=NAME:.metadata.name | grep application-config-configmap
-
+${KAFKA_GET_PASSWORD}             kubectl -n onap get secret strimzi-kafka-admin -o jsonpath="{.data.password}" | base64 --decode
 
 
 *** Keywords ***
@@ -61,6 +61,17 @@ Decode Last Message From Topic
     Connect    kafka    ${kafka_server}:${kafka_port}    ${username}    ${password}
     ${msg}=     Consume    kafka    ${kafka_topic}
     [Return]    ${msg}
+
+Decode Last Message From Topic STRIMZI User
+    [Documentation]     Decode last message from Kafka topic using STRIMZI User.
+    [Arguments]     ${kafka_server}   ${kafka_topic}    ${username}
+    ${command_output} =                 Run And Return Rc And Output        ${KAFKA_GET_PASSWORD}
+    Should Be Equal As Integers         ${command_output[0]}                0
+    ${password}   Set Variable  ${command_output[1]}
+    Connect    kafka    ${kafka_server}    ${username}    ${password}
+    ${msg}=     Consume    kafka    ${kafka_topic}
+    [Return]    ${msg}
+
 
 Set Test Config
     [Documentation]     Changes HV-VES config.
