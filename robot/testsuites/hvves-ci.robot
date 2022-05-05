@@ -18,7 +18,12 @@ HV-VES SSL test case
     Send Message Over Ssl    ${GLOBAL_DCAE_HVVES_SERVER_NAME}    ${GLOBAL_DCAE_HVVES_SERVER_PORT}
     Wait Until Keyword Succeeds    10s    2s    Check If Topic Exists    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_NAME}    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_PORT}    ${HVVES_KAFKA_TOPIC_SSL}
     Check Message Router Api    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_NAME}    ${GLOBAL_DMAAP_MESSAGE_ROUTER_SERVER_PORT}    ${HVVES_KAFKA_TOPIC_SSL}
-    ${msg}=    Decode Last Message From Topic    ${GLOBAL_DMAAP_KAFKA_SERVER_NAME}    ${GLOBAL_DMAAP_KAFKA_SERVER_PORT}    ${HVVES_KAFKA_TOPIC_SSL}    ${GLOBAL_DMAAP_KAFKA_JAAS_USERNAME}    ${GLOBAL_DMAAP_KAFKA_JAAS_PASSWORD}
+    ${variables}  Get Variables
+    IF  "\${GLOBAL_KAFKA_BOOTSTRAP_SERVICE }" in "${variables}"
+        ${msg}=    Decode Last Message From Topic STRIMZI User    ${GLOBAL_KAFKA_BOOTSTRAP_SERVICE}   ${HVVES_KAFKA_TOPIC_SSL}  ${GLOBAL_KAFKA_USER }
+    ELSE
+        ${msg}=    Decode Last Message From Topic    ${GLOBAL_DMAAP_KAFKA_SERVER_NAME}    ${GLOBAL_DMAAP_KAFKA_SERVER_PORT}    ${HVVES_KAFKA_TOPIC_SSL}    ${GLOBAL_DMAAP_KAFKA_JAAS_USERNAME}    ${GLOBAL_DMAAP_KAFKA_JAAS_PASSWORD}
+    END
     ${results}=    Compare File To Message    ${EXECDIR}/robot/assets/dcae/hvves_msg.raw    ${msg}
     Should Be True    ${results}
     [Teardown]      Set Old Config
