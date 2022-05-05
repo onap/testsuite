@@ -1,20 +1,52 @@
 data:
   application_config.yaml: |
-    security.sslDisable: false
-    logLevel: INFO
-    security.keys.trustStoreFile: /tmp/ca.p12
-    server.listenPort: 6061
-    server.idleTimeoutSec: 300
     cbs.requestIntervalSec: 5
+    logLevel: INFO
+    security.keys.keyStoreFile: /tmp/server.p12
+    security.keys.keyStorePasswordFile: /dev/null
+    security.keys.trustStoreFile: /tmp/ca.p12
+    security.keys.trustStorePasswordFile: /dev/null
+    security.sslDisable: false
+    server.idleTimeoutSec: 300
+    server.listenPort: 6061
     streams_publishes:
       perf3gpp:
-        type: kafka
         aaf_credentials:
-          username: admin
-          password: admin_secret
+          password: ${AAF_PASSWORD}
+          username: ${AAF_USER}
         kafka_info:
           bootstrap_servers: message-router-kafka:9092
-          topic_name: HV_VES_PERF3GPP_SSL
-    security.keys.keyStoreFile: /tmp/server.p12
-    security.keys.trustStorePasswordFile: /dev/null
-    security.keys.keyStorePasswordFile: /dev/null
+          topic_name: HV_VES_PERF3GPP
+        type: kafka
+      ves-3gpp-fault-supervision:
+        aaf_credentials:
+          password: ${AAF_PASSWORD}
+          username: ${AAF_USER}
+        kafka_info:
+          bootstrap_servers: message-router-kafka:9092
+          topic_name: SEC_3GPP_FAULTSUPERVISION_OUTPUT
+        type: kafka
+      ves-3gpp-heartbeat:
+        aaf_credentials:
+          password: ${AAF_PASSWORD}
+          username: ${AAF_USER}
+        kafka_info:
+          bootstrap_servers: message-router-kafka:9092
+          topic_name: SEC_3GPP_HEARTBEAT_OUTPUT
+        type: kafka
+      ves-3gpp-performance-assurance:
+        aaf_credentials:
+          password: ${AAF_PASSWORD}
+          username: ${AAF_USER}
+        kafka_info:
+          bootstrap_servers: message-router-kafka:9092
+          topic_name: SEC_3GPP_PERFORMANCEASSURANCE_OUTPUT
+        type: kafka
+      ves-3gpp-provisioning:
+        aaf_credentials:
+          password: ${AAF_PASSWORD}
+          username: ${AAF_USER}
+        kafka_info:
+          bootstrap_servers: message-router-kafka:9092
+          topic_name: SEC_3GPP_PROVISIONING_OUTPUT
+        type: kafka
