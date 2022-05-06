@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b90f628_1badcff5",
+        "filename": "robot/assets/dcae/hvves_test_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2022-05-06T12:53:06Z",
+      "side": 1,
+      "message": "These can be removed",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "5eb732382fb214d979ba29e82a113fd6379d94d4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea113f44_7b917d5c",
+        "filename": "robot/assets/dcae/hvves_test_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4405
+      },
+      "writtenOn": "2022-05-06T12:53:06Z",
+      "side": 1,
+      "message": "We only really need this topic for testing strimzi",
+      "range": {
+        "startLine": 19,
+        "startChar": 22,
+        "endLine": 19,
+        "endChar": 37
+      },
+      "revId": "5eb732382fb214d979ba29e82a113fd6379d94d4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
