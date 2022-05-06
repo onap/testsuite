@@ -72,12 +72,12 @@ Decode Last Message From Topic STRIMZI User
 
 Set Test Config
     [Documentation]     Changes HV-VES config.
-
+    [Arguments]   ${kafka_server}
+    ${SED}=                                    Set Variable                                   sed -i 's/placeholder/${kafka_server}/g' ${TEST_CONFIG_YAML_PATH}
+    Run                                        ${SED}
     ${TEST_CONFIG}=                            Get File                                       ${TEST_CONFIG_YAML_PATH}    encoding=UTF-8
-
     Save Configuration From Config Map
     Set Environment Variable                   TEST_CONFIG                                    ${TEST_CONFIG}
-
     ${cm_name} =                               Get Config Map Name
     ${rc} =                                    Run and Return RC                              kubectl -n onap patch cm ${cm_name} --type strategic -p "%{TEST_CONFIG}"
     Should Be Equal As Integers                ${rc}                                          0

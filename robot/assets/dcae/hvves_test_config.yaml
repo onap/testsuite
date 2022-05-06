@@ -15,7 +15,7 @@ data:
           password: ${AAF_PASSWORD}
           username: ${AAF_USER}
         kafka_info:
-          bootstrap_servers: message-router-kafka:9092
+          bootstrap_servers: placeholder
           topic_name: HV_VES_PERF3GPP
         type: kafka
       ves-3gpp-fault-supervision:
@@ -23,7 +23,7 @@ data:
           password: ${AAF_PASSWORD}
           username: ${AAF_USER}
         kafka_info:
-          bootstrap_servers: message-router-kafka:9092
+          bootstrap_servers: placeholder
           topic_name: SEC_3GPP_FAULTSUPERVISION_OUTPUT
         type: kafka
       ves-3gpp-heartbeat:
@@ -31,7 +31,7 @@ data:
           password: ${AAF_PASSWORD}
           username: ${AAF_USER}
         kafka_info:
-          bootstrap_servers: message-router-kafka:9092
+          bootstrap_servers: placeholder
           topic_name: SEC_3GPP_HEARTBEAT_OUTPUT
         type: kafka
       ves-3gpp-performance-assurance:
@@ -39,7 +39,7 @@ data:
           password: ${AAF_PASSWORD}
           username: ${AAF_USER}
         kafka_info:
-          bootstrap_servers: message-router-kafka:9092
+          bootstrap_servers: placeholder
           topic_name: SEC_3GPP_PERFORMANCEASSURANCE_OUTPUT
         type: kafka
       ves-3gpp-provisioning:
@@ -47,6 +47,6 @@ data:
           password: ${AAF_PASSWORD}
           username: ${AAF_USER}
         kafka_info:
-          bootstrap_servers: message-router-kafka:9092
+          bootstrap_servers: placeholder
           topic_name: SEC_3GPP_PROVISIONING_OUTPUT
         type: kafka
