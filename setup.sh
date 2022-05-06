@@ -30,9 +30,11 @@ pip install \
 --pre \
 --no-cache-dir \
 --exists-action s \
+--force-reinstall \
+--upgrade \
 --target="$path/robot/library" \
---extra-index-url="https://nexus3.onap.org/repository/PyPi.staging/simple" \
-'robotframework-onap==0.6.0.*'
+git+https://git.onap.org/testsuite/python-testing-utils.git@master#egg=robotframework-onap\&subdirectory=robotframework-onap
+
 
 # i dont why we need this, but lets protobuf work in docker
 touch /var/opt/ONAP/robot/library/google/__init__.py
