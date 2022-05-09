@@ -22,7 +22,7 @@ ${GET_TRUSTSTORE_PASS_PATH}       cat ${CURRENT_CONFIG_FILE} | grep security.key
 ${TEST_TRUSTSTORE_PASS_PATH}      security.keys.trustStorePasswordFile: /dev/null
 ${TEST_CONFIG_YAML_PATH}          ${EXECDIR}/robot/assets/dcae/hvves_test_config.yaml
 ${GET_CM_NAME}                    kubectl -n onap get --no-headers cm -l app.kubernetes.io/name=dcae-hv-ves-collector -o custom-columns=NAME:.metadata.name | grep application-config-configmap
-${KAFKA_GET_PASSWORD}             kubectl -n onap get secret strimzi-kafka-admin -o jsonpath="{.data.password}" | base64 --decode
+${KAFKA_GET_PASSWORD}             kubectl -n onap get secret strimzi-kafka-admin -o jsonpath="{.data.password}" | base64 -d
 
 *** Keywords ***
 Check Message Router Api
