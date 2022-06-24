@@ -91,7 +91,6 @@ Send File Ready Event to VES Collector and Deploy all DCAE Applications
     Deploying HTTPS server with correct certificates
     Log To Console                              Deploying HTTPS Server with wrong subject alternatives in CMPv2 certificates as xNF
     Deploying HTTPS server with wrong certificates - wrong SAN-s
-    Checking PERFORMANCE_MEASUREMENTS Topic In Message Router
     DR Bulk PM Feed Check
     DR PM Mapper Subscriber Check
 
