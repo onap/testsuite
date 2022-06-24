@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfc34e89_b8d2c2b3",
+        "filename": "robot/resources/usecases/5gbulkpm_helm_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2022-06-24T12:48:21Z",
+      "side": 1,
+      "message": "This could be removed",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 129
+      },
+      "revId": "70f35d7b148f4192705e5a68a28e9ef1ce6adb3d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b874931c_c845577c",
+        "filename": "robot/resources/usecases/5gbulkpm_helm_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 93
+      },
+      "writtenOn": "2022-06-24T12:48:21Z",
+      "side": 1,
+      "message": "This testcase could be removed completely",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 0
+      },
+      "revId": "70f35d7b148f4192705e5a68a28e9ef1ce6adb3d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
