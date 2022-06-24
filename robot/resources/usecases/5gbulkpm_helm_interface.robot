@@ -91,7 +91,6 @@ Send File Ready Event to VES Collector and Deploy all DCAE Applications
     Deploying HTTPS server with correct certificates
     Log To Console                              Deploying HTTPS Server with wrong subject alternatives in CMPv2 certificates as xNF
     Deploying HTTPS server with wrong certificates - wrong SAN-s
-    Checking PERFORMANCE_MEASUREMENTS Topic In Message Router
     DR Bulk PM Feed Check
     DR PM Mapper Subscriber Check
 
@@ -104,9 +103,6 @@ Usecase Teardown
     Uninstall helm charts               ${ONAP_HELM_RELEASE}-sftp
     Uninstall helm charts               ${ONAP_HELM_RELEASE}-pm-https-server-correct-sans
     Uninstall helm charts               ${ONAP_HELM_RELEASE}-pm-https-server-wrong-sans
-
-Delete PERFORMANCE_MEASUREMENTS topic
-    ${resp}=                            Delete MR topic                 /webapi/topics/org.onap.dmaap.mr.PERFORMANCE_MEASUREMENTS
 
 Setting Global Variables
     ${test_variables} =  Create Dictionary
@@ -195,19 +191,6 @@ Deploying HTTPS server with wrong certificates - wrong SAN-s
     ${name} =                           Set Variable                       ${ONAP_HELM_RELEASE}-pm-https-server-wrong-sans
     ${override} =                       Set Variable                       --set fullnameOverride=${name} --set nameOverride=${name} --set certificates.name=${name} --set certificates.commonName=wrong-sans-1 --set certificates.dnsNames={wrong-sans-2} --debug
     Install helm charts from folder     ${HTTPS_SERVER_HELM_CHARTS}        ${name}                 set_values_override=${override}
-
-Checking PERFORMANCE_MEASUREMENTS Topic In Message Router
-    ${headers}=                         Create Dictionary                  content-type=application/json
-    ${subdata}=                         OperatingSystem.Get File           ${PMMAPPER_SUB_ROLE_DATA}
-    ${session}=                         Create Session                     dmaapbc                          ${DMAAP_BC_SERVER}
-    ${resp}=                            Post Request                       dmaapbc                          ${DMAAP_BC_MR_CLIENT_PATH}      data=${subdata}        headers=${headers}
-    Wait Until Keyword Succeeds         5 minute                           5 sec                            Topic Validate                  success
-    ${resp}=                            Run MR Get Request                 ${MR_TOPIC_CHECK_PATH}
-    Should Be Equal As Strings          ${resp.status_code}                200
-    ${topics}=                          Set Variable                       ${resp.json().get('topics')}
-    List Should Contain Value           ${topics}                          org.onap.dmaap.mr.PERFORMANCE_MEASUREMENTS
-    ${resp}=                            Run MR Auth Get Request            ${MR_TOPIC_URL_PATH}            ${GLOBAL_DCAE_USERNAME}         ${GLOBAL_DCAE_PASSWORD}
-    Should Be Equal As Strings          ${resp.status_code}                200
 
 DR Bulk PM Feed Check
     ${resp}=                            Run DR Get Request                  ${DR_SUB_CHECK_PATH}
