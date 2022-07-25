@@ -77,7 +77,6 @@ Topic Validate
 Send File Ready Event to VES Collector and Deploy all DCAE Applications
     [Arguments]                                 ${pm_file}              ${file_format_type}             ${file_format_version}
     Disable Warnings
-    Delete PERFORMANCE_MEASUREMENTS topic
     Setting Global Variables
     Send File Ready Event to VES Collector      ${pm_file}              ${file_format_type}             ${file_format_version}
     Add chart repository                        chart-museum                  http://chart-museum:80      onapinitializer      demo123456!
