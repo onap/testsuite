@@ -240,7 +240,7 @@ Deploy Applictaion
 
 Check NGINX Applictaion
      [Arguments]    ${compSpecName}
-      ${check_command}=                       Set Variable                             kubectl get pods -n onap | grep ${compSpecName} | grep Running | grep 1/1
+      ${check_command}=                       Set Variable                             kubectl get deployment -n onap | grep ${compSpecName} | grep 1/1
       ${check_command_command_output}=        Run And Return Rc And Output             ${check_command}
       Log                                     ${check_command_command_output[1]}
       Should Be Equal As Integers             ${check_command_command_output[0]}       0
