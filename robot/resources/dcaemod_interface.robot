@@ -294,7 +294,7 @@ Restart Runtime API
       Wait Until Keyword Succeeds  2 min  5s    Check Runtime API
 
 Check Runtime API
-      ${check_command}=                       Set Variable                             kubectl get pods -n onap | grep dcaemod-runtime-api | grep Running | grep 1/1
+      ${check_command}=                       Set Variable                             kubectl get deployment -n onap | grep dcaemod-runtime-api | grep 1/1
       ${check_command_command_output}=        Run And Return Rc And Output             ${check_command}
       Log                                     ${check_command_command_output[1]}
       Should Be Equal As Integers             ${check_command_command_output[0]}       0
