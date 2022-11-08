@@ -10,7 +10,7 @@ requests>=2.20.0
 robotframework-selenium2library
 robotframework-databaselibrary
 robotframework-extendedselenium2library
-robotframework-requests
+robotframework-requests==0.9.3
 deepdiff
 dnspython
 pyyaml>=4.2b1
