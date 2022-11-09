@@ -80,7 +80,7 @@ Get Pod Yaml
 
 Get Content Of Mounted Folder Inside Container
     [Arguments]  ${compSpecName}  ${volumeMountPath}
-    ${mountedFolderContent} =  Run And Return Rc And Output  kubectl -n onap exec $(kubectl get pod -n onap | grep ${compSpecName} | awk '{print $1}') -- ls ${volumeMountPath}
+    ${mountedFolderContent} =  Run And Return Rc And Output  kubectl -n onap exec $(kubectl get pod -n onap | grep ${compSpecName} | awk '{print $1}') -c ${compSpecName} -- ls ${volumeMountPath}
     Should Be Equal As Integers  ${mountedFolderContent[0]}  0
     ${mountedFolderContent} =  Set Variable  ${mountedFolderContent[1]}
 
@@ -101,14 +101,14 @@ Verify If Mounted Folder Is Empty
 Verify If Mounted Folder Contains File
     [Arguments]  ${compSpecName}  ${fileName}  ${configMapDir}
 
-    ${dirContent} =  Run And Return Rc And Output  kubectl -n onap exec $(kubectl get pod -n onap | grep ${compSpecName} | awk '{print $1}') -- ls ${configMapDir}
+    ${dirContent} =  Run And Return Rc And Output  kubectl -n onap exec $(kubectl get pod -n onap | grep ${compSpecName} | awk '{print $1}') -c ${compSpecName} -- ls ${configMapDir}
     Should Be Equal As Integers  ${dirContent[0]}  0
     Should Contain  ${dirContent[1]}  ${fileName}
 
 Verify File Content
     [Arguments]  ${compSpecName}  ${configMapFilePath}  ${content}
 
-    ${fileContent} =  Run And Return Rc And Output  kubectl -n onap exec $(kubectl get pod -n onap | grep ${compSpecName} | awk '{print $1}') -- cat ${configMapFilePath}
+    ${fileContent} =  Run And Return Rc And Output  kubectl -n onap exec $(kubectl get pod -n onap | grep ${compSpecName} | awk '{print $1}') -c ${compSpecName} -- cat ${configMapFilePath}
     Should Be Equal As Integers  ${fileContent[0]}  0
     Should Contain  ${fileContent[1]}  ${content}
 
