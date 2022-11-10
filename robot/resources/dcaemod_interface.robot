@@ -227,12 +227,12 @@ Deploy Applictaion
      [Arguments]  ${processGroupName}  ${compSpecName}
      ${command_output} =                     Run And Return Rc And Output            helm repo update
      Should Be Equal As Integers             ${command_output[0]}                    0
-     ${helm_install}=                        Set Variable                            helm install ${ONAP_HELM_RELEASE}-${compSpecName} chart-museum/${compSpecName} --set global.repository=${registry_ovveride}
+     ${helm_install}=                        Set Variable                            helm -n onap install ${ONAP_HELM_RELEASE}-${compSpecName} chart-museum/${compSpecName} --set global.repository=${registry_ovveride}
      ${helm_install_command_output} =        Run And Return Rc And Output            ${helm_install}
      Log                                     ${helm_install_command_output[1]}
      Should Be Equal As Integers             ${helm_install_command_output[0]}       0
      Set Test Variable  ${IS_SERVICE_DEPLOYED}  True
-     ${kubectl_patch}=                       Set Variable                            kubectl patch deployment ${ONAP_HELM_RELEASE}-${compSpecName} -p '{"spec":{"template":{"spec":{"containers":[{"name": "${compSpecName}","image":"docker.io/nginx:latest"}]}}}}'
+     ${kubectl_patch}=                       Set Variable                            kubectl -n onap patch deployment ${ONAP_HELM_RELEASE}-${compSpecName} -p '{"spec":{"template":{"spec":{"containers":[{"name": "${compSpecName}","image":"docker.io/nginx:latest"}]}}}}'
      ${kubectl_patch_command_output}=        Run And Return Rc And Output            ${kubectl_patch}
      Log                                     ${kubectl_patch_command_output[1]}
      Should Be Equal As Integers             ${kubectl_patch_command_output[0]}       0

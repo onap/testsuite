@@ -6,7 +6,7 @@ data:
     security.keys.keyStorePasswordFile: /dev/null
     security.keys.trustStoreFile: /tmp/ca.p12
     security.keys.trustStorePasswordFile: /dev/null
-    security.sslDisable: false
+    security.sslDisable: true
     server.idleTimeoutSec: 300
     server.listenPort: 6061
     streams_publishes:
