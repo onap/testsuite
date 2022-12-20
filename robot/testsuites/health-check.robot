@@ -9,7 +9,6 @@ Resource          ../resources/sdnc_interface.robot
 Resource          ../resources/aai/aai_interface.robot
 Resource          ../resources/policy_interface.robot
 Resource          ../resources/sdc_interface.robot
-Resource          ../resources/appc_interface.robot
 Resource          ../resources/portal_interface.robot
 Resource          ../resources/mr_interface.robot
 Resource          ../resources/bc_interface.robot
@@ -49,10 +48,6 @@ Basic AAF Health Check
 Basic AAF SMS Health Check
     [Tags]    health  health-aaf
     Run SMS Health Check
-
-Basic APPC Health Check
-    [Tags]    health-appc
-    Run APPC Health Check
 
 Basic CLI Health Check
     [Tags]    health-cli    health

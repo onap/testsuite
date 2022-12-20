@@ -35,7 +35,6 @@
 {{aai1}} aai1 aai.api.simpledemo.onap.org
 
 {{robot}} robot
-{{appc}} appc
 {{so}}  so
 {{sdnc}} sdnc
 {{openo}} multi-service
@@ -50,7 +49,6 @@
 {{policy}} {{prefix}}-policy
 {{aai1}} {{prefix}}-aai1
 {{robot}} {{prefix}}-robot
-{{appc}} {{prefix}}-appc
 {{so}}  {{prefix}}-so
 {{sdnc}} {{prefix}}-sdnc
 {{openo}} {{prefix}}-multi-service
@@ -86,7 +84,6 @@ GLOBAL_INJECTED_OPENSTACK_TENANT_ID = "{{GLOBAL_INJECTED_OPENSTACK_TENANT_ID}}"
 GLOBAL_INJECTED_REGION = "{{GLOBAL_INJECTED_REGION}}"
 GLOBAL_INJECTED_KEYSTONE = "{{GLOBAL_INJECTED_KEYSTONE}}"
 GLOBAL_INJECTED_AAI_IP_ADDR = "{{aai1}}"
-GLOBAL_INJECTED_APPC_IP_ADDR = "{{appc}}"
 GLOBAL_INJECTED_DCAE_IP_ADDR = "{{dcae_controller}}"
 GLOBAL_INJECTED_SO_IP_ADDR = "{{so}}"
 GLOBAL_INJECTED_MR_IP_ADDR = "{{message_router}}"
@@ -110,10 +107,6 @@ GLOBAL_INJECTED_PUBLIC_NET_ID = "{{GLOBAL_INJECTED_PUBLIC_NET_ID}}"
 
     <a  href="http://{{sdnc}}:8843/signup"> To sign up </a> <p>
     <a  href="http://{{sdnc}}:8843/login"> Admin </a> <p>
-
-    <h2> App-C </h2>
-
-    <a  href="http://admin:Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U@{{appc}}:8282/apidoc/explorer/index.html"> Controller </a>  with admin/Kp8bJ4SXszM0WXlhak3eHlcse2gAw84vaoGGmJvUy2U <p>
 
     <h2> Policy </h2>
 
@@ -157,7 +150,6 @@ GLOBAL_INJECTED_PUBLIC_NET_ID = "{{GLOBAL_INJECTED_PUBLIC_NET_ID}}"
     some important once listed below. <p>
 
     <ul>
-      <li> <a href="http://{{message_router}}:3904/events/APPC-CL/monitor/0?timeout=10000"> APPC-CL Topic -- Policy Publishes Requests and APP-C publishes response </a>
       <li> <a href="http://{{message_router}}:3904/events/PDPP-CONFIGURATION/monitor/0?timeout=10000"> PDPD-CONFIGURATION Topic  </a>
       <li> <a href="http://{{message_router}}:3904/events/POLICY-CL-MGT/monitor/0?timeout=10000"> POLICY-CL-MGT Topic -- Control loop operational policy </a>
       <li> <a href="http://{{message_router}}:3904/events/DCAE-CL-EVENT/monitor/0?timeout=10000"> DCAE-CL-EVENT Topic -- Provides the Analytics output from DCAE</a>
@@ -173,7 +165,6 @@ GLOBAL_INJECTED_PUBLIC_NET_ID = "{{GLOBAL_INJECTED_PUBLIC_NET_ID}}"
       <a href="ssh://{{sdc}}"> SDC </a><p>
       <a href="ssh://{{portal}}"> Portal </a><p>
       <a href="ssh://{{dcae_controller}}"> DCAE </a><p>
-      <a href="ssh://{{appc}}"> APP-C </a><p>
       <a href="ssh://{{so}}"> SO </a><p>
       <a href="ssh://{{sdnc}}"> SDN-C </a><p>
       <a href="ssh://{{vid}}"> VID </a><p>
