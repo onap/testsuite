@@ -1,9 +1,0 @@
-<vlb-business-vnf-onap-plugin xmlns="urn:opendaylight:params:xml:ns:yang:vlb-business-vnf-onap-plugin">
-    <vdns-instances>
-        <vdns-instance>
-            <ip-addr>${ip-addr}</ip-addr>
-            <oam-ip-addr>${oam-ip-addr}</oam-ip-addr>
-            <enabled>${enabled}</enabled>
-        </vdns-instance>
-    </vdns-instances>
-</vlb-business-vnf-onap-plugin>

@@ -60,7 +60,6 @@ Orchestrate VNF
     ${vf_module_name_list}=    Create List
     ${uuid}=    Evaluate    str("${uuid}")[:8]
     :FOR   ${vnf}   IN   @{vnflist}
-    # APPC max is 50 characters
     \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}_${vnf_name_index}
     \   ${vf_module_name}=    Catenate    Vfmodule_Ete_${vnf}_${uuid}_${vnf_name_index}
     \   ${vnf_name_index}=   Evaluate   ${vnf_name_index} + 1

@@ -30,7 +30,6 @@ Update ONAP Page
     ${oam_ip_map}=   Create Dictionary
     Set To Dictionary    ${oam_ip_map}   10.0.0.1=onapdns
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_AAI_IP_ADDR}=aai1
-    Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_APPC_IP_ADDR}=appc
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_DCAE_IP_ADDR}=dcae_controller
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_SO_APIHAND_IP_ADDR}=so
     Set To Dictionary    ${oam_ip_map}   ${GLOBAL_INJECTED_MR_IP_ADDR}=message_router

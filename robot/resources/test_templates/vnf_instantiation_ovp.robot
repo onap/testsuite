@@ -33,7 +33,6 @@ Instantiate VNF
 
     ##### INSTANTIATING VNF IN VID #####
     :FOR   ${vnf}   IN   @{vnflist}
-    # APPC max is 50 characters
     \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}_${vnf_name_index}
     \   ${generic_vnf_type}=    Set Variable    ${service_name}/${vnf_type} ${vnf_name_index}
     \   ${vnf_name_index}=   Evaluate   ${vnf_name_index} + 1

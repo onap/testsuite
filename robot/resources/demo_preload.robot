@@ -168,18 +168,6 @@ Get Persona Model Id
     ${persona_model_id}=   Get From DIctionary   ${resp.json()['service-instance'][0]}    model-invariant-id
     [Return]   ${persona_model_id}
 
-APPC Mount Point
-    [Arguments]   ${vf_module_name}
-    Run Openstack Auth Request    auth
-    ${status}   ${stack_info}=   Run Keyword and Ignore Error    Wait for Stack to Be Deployed    auth    ${vf_module_name}   timeout=120s
-    Run Keyword if   '${status}' == 'FAIL'   FAIL   ${vf_module_name} Stack is not found
-    ${stack_id}=    Get From Dictionary    ${stack_info}    id
-    ${server_list}=    Get Openstack Servers    auth
-    ${vpg_name_0}=    Get From Dictionary    ${stack_info}    vpg_name_0
-    ${vnf_id}=    Get From Dictionary    ${stack_info}    vnf_id
-    ${vpg_public_ip}=    Get Server Ip    ${server_list}    ${stack_info}   vpg_name_0    network_name=${GLOBAL_INJECTED_OPENSTACK_PUBLIC_NETWORK}
-    ${appc}=    Create Mount Point In APPC    ${vnf_id}    ${vpg_public_ip}
-
 Instantiate VNF
     [Arguments]   ${service}   ${vf_module_label}=NULL
     ${tenant_id}    ${tenant_name}=    Setup Orchestrate VNF    ${GLOBAL_AAI_CLOUD_OWNER}    SharedNode    OwnerType    v1    CloudZone
@@ -197,9 +185,6 @@ Instantiate VNF
     \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'   ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
     Log   Update old vFWCL Policy for ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vFWCL Operational and Monitoring Policies    ${model_invariant_id}
-    :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
-    \   Log   APPC Mount Point for VNF Module Name=${vf_module_name}
-    \   ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
     Log   Update Tca ControlLoopName
     Update Tca ControlLoopName    ${model_invariant_id}
 
@@ -226,7 +211,6 @@ Instantiate Demo VNF
     \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'   ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
     Log   ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vFWCL Operational and Monitoring Policies    ${model_invariant_id}
-    ${status}   ${value}=   Run Keyword And Ignore Error  APPC Mount Point    ${vf_module_name}
 
 Save For Delete
     [Documentation]   Create a variable file to be loaded for save for delete

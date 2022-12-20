@@ -60,10 +60,6 @@ Preload VNF GRA
     Set Global Variable    ${API_TYPE}   GRA_API
     Preload User Model   ${VNF_NAME}   ${MODULE_NAME}    ${SERVICE}    ${SERVICE_INSTANCE_ID}
 
-Create APPC Mount Point
-    [Tags]   APPCMountPointDemo
-    APPC Mount Point    ${MODULE_NAME}
-
 Instantiate VFW
     [Tags]   instantiateVFW
     Instantiate VNF   vFW   base_vfw
@@ -124,13 +120,6 @@ Delete Instantiated VNF
 #    ...    Try to run heatbridge
 #    [Tags]   heatbridge
 #    Execute Heatbridge   ${HB_STACK}   ${HB_VNF}    ${HB_SERVICE}    ${HB_IPV4_OAM_ADDRESS}
-
-Preload APPC CDT GUI
-    [Documentation]
-    ...    APPC CDT Preload Demo
-    [Tags]   APPCCDTPreloadDemo
-    Setup Browser
-    Preload APPC CDT GUI
 
 Distribute vFWNG CDS Model
     [Documentation]    Distribute vFWNG for CDS
