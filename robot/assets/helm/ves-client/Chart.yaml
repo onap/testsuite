@@ -24,7 +24,7 @@ appVersion: 1.0.1
 dependencies:
   - name: mongodb
     version: 10.x
-    repository: https://charts.bitnami.com/bitnami
+    repository: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
     condition: mongodb.enabled
   - name: certInitializer
     version: ~x.x-0
