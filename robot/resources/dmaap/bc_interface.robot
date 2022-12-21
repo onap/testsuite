@@ -6,7 +6,7 @@ Resource          global_properties.robot
 
 *** Variables ***
 ${BC_HEALTH_CHECK_PATH}        /webapi/dmaap
-${BC_HTTPS_ENDPOINT}     https://${GLOBAL_INJECTED_BC_IP_ADDR}:${GLOBAL_BC_HTTPS_SERVER_PORT}
+${DMAAP_BC_ENDPOINT}     ${GLOBAL_BC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_BC_IP_ADDR}:${GLOBAL_BC_HTTPS_SERVER_PORT}
 
 
 *** Keywords ***
@@ -20,7 +20,7 @@ Return dmaap details with basic auth
      [Documentation]    Runs Bus Controller get details request with basic authentication
      [Arguments]    ${data_path}
      ${auth}=  Create List     ${GLOBAL_BC_USERNAME}   ${GLOBAL_BC_PASSWORD}
-     ${session}=    Create Session      bs      ${BC_HTTPS_ENDPOINT}    auth=${auth}
+     ${session}=    Create Session      bs      ${DMAAP_BC_ENDPOINT}    auth=${auth}
      ${resp}=   Get Request     bs      ${data_path}
      Log    Received response from bus controller ${resp.text}
      [Return]    ${resp}
@@ -29,7 +29,7 @@ Delete MR topic
     [Documentation]    Runs Bus Controller to remove topic
     [Arguments]    ${data_path}
     ${auth}=  Create List     ${GLOBAL_BC_USERNAME}   ${GLOBAL_BC_PASSWORD}
-    ${session}=    Create Session      bs      ${BC_HTTPS_ENDPOINT}    auth=${auth}
+    ${session}=    Create Session      bs      ${DMAAP_BC_ENDPOINT}    auth=${auth}
     ${resp}=   Delete Request     bs      ${data_path}
     Log    Received response from bus controller ${resp.status_code}
     [Return]    ${resp}
