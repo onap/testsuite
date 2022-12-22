@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ## Be careful of Windows newlines
 MAINTAINER "ONAP"
@@ -15,6 +15,7 @@ ARG HELM_VERSION="v3.3.4"
 ARG TESTSUITE_REPO=git.onap.org/testsuite
 ARG PYTHON_UTILS_REPO=git.onap.org/testsuite/python-testing-utils.git
 ARG DEMO_REPO=git.onap.org/demo
+ARG DEBIAN_FRONTEND=noninteractive
 
 COPY requirements.txt requirements.txt
 
@@ -39,17 +40,16 @@ RUN apt-get update \
             lighttpd \
             make \
             net-tools \
-            python2.7 python-dev python-setuptools python-wheel python-pip \
             netbase \
             unzip zip \
             x11-utils x11-xserver-utils \
             xvfb \
             xxd  \
             wget vim  \
-            python3.7 python3.7-dev python3-pip && \
+            python3.8 python3.8-dev python3-pip && \
     mkdir -p /var/opt/ONAP && \
-    pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir \
+    pip3 install --no-cache-dir -r requirements.txt && \
+    pip3 install --no-cache-dir \
     git+https://$PYTHON_UTILS_REPO@$PYTHON_UTILS_TAG#egg=robotframework-onap\&subdirectory=robotframework-onap && \
     git clone --depth 1 https://$TESTSUITE_REPO -b $TESTSUITE_TAG /var/opt/ONAP && \
     git clone --depth 1 https://$DEMO_REPO -b $DEMO_TAG /var/opt/ONAP/demo && \
@@ -60,8 +60,8 @@ RUN apt-get update \
     cp /var/opt/ONAP/setup-hvves.sh /app
 
 
-RUN python3.7 -m pip install --no-cache-dir setuptools wheel
-RUN python3.7 -m pip install --no-cache-dir virtualenv
+RUN python3.8 -m pip install --no-cache-dir setuptools wheel
+RUN python3.8 -m pip install --no-cache-dir virtualenv
 
 # Copy the robot code
 RUN mkdir -p /etc/lighttpd && \
