@@ -46,7 +46,7 @@ Topic Validate
     ${dict}=                            Create Dictionary                           timestamp=${timestamp}
     Templating.Create Environment       mr                                          ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=                            Templating.Apply Template                   mr                                  ${MR_PUBLISH_TEMPLATE}              ${dict}
-    ${resp}=                            Run MR Auth Get Request                     ${topic_name}                ${GLOBAL_DCAE_USERNAME}             ${GLOBAL_DCAE_PASSWORD}
+    ${resp}=                            Run MR Get Request                          ${topic_name}
     Should Contain                      ${resp.text}                                ${expected_text}
 
 Send Event to VES & Validate Topic
