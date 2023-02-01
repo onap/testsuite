@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e955569_231e2ebd",
+        "filename": "releases/1.12.0-container.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2023-02-01T09:39:38Z",
+      "side": 1,
+      "message": "I\u0027m afraid https://jenkins.onap.org/view/testsuite/job/testsuite-master-3scm-docker-shell-daily/10882/ is correct",
+      "revId": "656c1c2cabc1ac2044ef52f3f124568f6fd98658",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
