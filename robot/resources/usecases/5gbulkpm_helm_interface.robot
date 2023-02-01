@@ -4,9 +4,9 @@ Library 	      RequestsLibrary
 Library           OperatingSystem
 Library           String
 Library           JSONLibrary
-Resource          ../mr_interface.robot
-Resource          ../dr_interface.robot
-Resource          ../bc_interface.robot
+Resource          ../dmaap/mr_interface.robot
+Resource          ../dmaap/dr_interface.robot
+Resource          ../dmaap/bc_interface.robot
 Resource          ../consul_interface.robot
 Resource          ../chart_museum.robot
 

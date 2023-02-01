@@ -3,7 +3,7 @@ Documentation     PNF Registration Handler (PRH) test cases
 Resource        ../aai/aai_interface.robot
 Resource        ../aai/create_customer.robot
 Resource        ../sdc_interface.robot
-Resource        ../mr_interface.robot
+Resource        ../dmaap/mr_interface.robot
 Resource        ../so/add_service_recipe.robot
 Resource        ../test_templates/pnf_orchestration_test_template.robot
 Resource        ../demo_preload.robot

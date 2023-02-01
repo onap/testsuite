@@ -10,8 +10,8 @@ Resource          ../resources/aai/aai_interface.robot
 Resource          ../resources/policy_interface.robot
 Resource          ../resources/sdc_interface.robot
 Resource          ../resources/portal_interface.robot
-Resource          ../resources/mr_interface.robot
-Resource          ../resources/bc_interface.robot
+Resource          ../resources/dmaao/mr_interface.robot
+Resource          ../resources/dmaap/bc_interface.robot
 Resource          ../resources/aaf_interface.robot
 Resource          ../resources/msb_interface.robot
 Resource          ../resources/clamp_interface.robot
@@ -22,7 +22,7 @@ Resource          ../resources/vnfsdk_interface.robot
 Resource          ../resources/log_interface.robot
 Resource          ../resources/oof_interface.robot
 Resource          ../resources/sms_interface.robot
-Resource          ../resources/dr_interface.robot
+Resource          ../resources/dmaap/dr_interface.robot
 Resource          ../resources/pomba_interface.robot
 Resource          ../resources/holmes_interface.robot
 Resource          ../resources/cds_interface.robot

@@ -2,7 +2,7 @@
 Documentation     The main interface for interacting with Bus Controller.
 Library           RequestsLibrary
 
-Resource          global_properties.robot
+Resource          ../global_properties.robot
 
 *** Variables ***
 ${BC_HEALTH_CHECK_PATH}        /webapi/dmaap

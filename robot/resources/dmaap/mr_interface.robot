@@ -7,7 +7,7 @@ Library           ONAPLibrary.JSON
 Library	          ONAPLibrary.Utilities
 Library	          ONAPLibrary.Templating    WITH NAME    Templating
 
-Resource          global_properties.robot
+Resource          ../global_properties.robot
 
 *** Variables ***
 ${MR_HEALTH_CHECK_PATH}        /topics

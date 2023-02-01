@@ -2,7 +2,7 @@
 Documentation     The main interface for interacting with Data-Router.
 Library           RequestsLibrary
 
-Resource          global_properties.robot
+Resource          ../global_properties.robot
 
 *** Variables ***
 ${DR_HEALTH_CHECK_PATH}    /internal/fetchProv
