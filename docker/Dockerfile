@@ -47,6 +47,7 @@ RUN apt-get update \
             xxd  \
             wget vim  \
             python3.8 python3.8-dev python3-pip && \
+    ln -s /usr/bin/python3 /usr/bin/python && \
     mkdir -p /var/opt/ONAP && \
     pip3 install --no-cache-dir -r requirements.txt && \
     pip3 install --no-cache-dir \
