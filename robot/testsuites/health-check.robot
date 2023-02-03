@@ -10,7 +10,7 @@ Resource          ../resources/aai/aai_interface.robot
 Resource          ../resources/policy_interface.robot
 Resource          ../resources/sdc_interface.robot
 Resource          ../resources/portal_interface.robot
-Resource          ../resources/dmaao/mr_interface.robot
+Resource          ../resources/dmaap/mr_interface.robot
 Resource          ../resources/dmaap/bc_interface.robot
 Resource          ../resources/aaf_interface.robot
 Resource          ../resources/msb_interface.robot
@@ -42,11 +42,11 @@ Enhanced A&AI Health Check
     Run Traversal API AAI Inventory check
 
 Basic AAF Health Check
-    [Tags]    health  health-aaf
+    [Tags]    health-aaf
     Run AAF Health Check
 
 Basic AAF SMS Health Check
-    [Tags]    health  health-aaf
+    [Tags]    health-aaf
     Run SMS Health Check
 
 Basic CLI Health Check

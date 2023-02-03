@@ -6,46 +6,31 @@ data:
     security.keys.keyStorePasswordFile: /dev/null
     security.keys.trustStoreFile: /tmp/ca.p12
     security.keys.trustStorePasswordFile: /dev/null
-    security.sslDisable: false
+    security.sslDisable: true
     server.idleTimeoutSec: 300
     server.listenPort: 6061
     streams_publishes:
       perf3gpp:
-        aaf_credentials:
-          password: ${AAF_PASSWORD}
-          username: ${AAF_USER}
         kafka_info:
           bootstrap_servers: placeholder
           topic_name: HV_VES_PERF3GPP
         type: kafka
       ves-3gpp-fault-supervision:
-        aaf_credentials:
-          password: ${AAF_PASSWORD}
-          username: ${AAF_USER}
         kafka_info:
           bootstrap_servers: placeholder
           topic_name: SEC_3GPP_FAULTSUPERVISION_OUTPUT
         type: kafka
       ves-3gpp-heartbeat:
-        aaf_credentials:
-          password: ${AAF_PASSWORD}
-          username: ${AAF_USER}
         kafka_info:
           bootstrap_servers: placeholder
           topic_name: SEC_3GPP_HEARTBEAT_OUTPUT
         type: kafka
       ves-3gpp-performance-assurance:
-        aaf_credentials:
-          password: ${AAF_PASSWORD}
-          username: ${AAF_USER}
         kafka_info:
           bootstrap_servers: placeholder
           topic_name: SEC_3GPP_PERFORMANCEASSURANCE_OUTPUT
         type: kafka
       ves-3gpp-provisioning:
-        aaf_credentials:
-          password: ${AAF_PASSWORD}
-          username: ${AAF_USER}
         kafka_info:
           bootstrap_servers: placeholder
           topic_name: SEC_3GPP_PROVISIONING_OUTPUT
