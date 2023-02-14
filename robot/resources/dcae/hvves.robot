@@ -17,7 +17,7 @@ ${CLIENT_KEY}    /tmp/client.key
 
 ${PREV_CM_FILE}                   /tmp/prevCm.json
 ${CURRENT_CONFIG_FILE}            /tmp/xz.yaml
-${COPY_CURRENT_CONFIG}            kubectl -n onap cp $(kubectl -n onap get --no-headers pods -l app.kubernetes.io/name=dcae-hv-ves-collector --field-selector status.phase=Running -o custom-columns=NAME:.metadata.name):/app-config-input/..data/application_config.yaml ${CURRENT_CONFIG_FILE}
+${COPY_CURRENT_CONFIG}            kubectl -n onap -c dcae-hv-ves-collector cp $(kubectl -n onap get --no-headers pods -l app.kubernetes.io/name=dcae-hv-ves-collector --field-selector status.phase=Running -o custom-columns=NAME:.metadata.name):/app-config-input/..data/application_config.yaml ${CURRENT_CONFIG_FILE}
 ${GET_TRUSTSTORE_PASS_PATH}       cat ${CURRENT_CONFIG_FILE} | grep security.keys.trustStorePasswordFile
 ${TEST_TRUSTSTORE_PASS_PATH}      security.keys.trustStorePasswordFile: /dev/null
 ${TEST_CONFIG_YAML_PATH}          ${EXECDIR}/robot/assets/dcae/hvves_test_config.yaml
