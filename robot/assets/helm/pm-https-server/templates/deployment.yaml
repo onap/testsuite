@@ -13,6 +13,8 @@ spec:
     metadata:
       labels:
         {{ include "pmhttpsserver.selectorLabels" . | nindent 8 }}
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
         - name: {{ .Chart.Name }}
