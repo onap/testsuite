@@ -14,6 +14,8 @@ spec:
     metadata:
       labels:
         {{ include "sftp.selectorLabels" . | nindent 8 }}
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
         - name: {{ .Values.fullnameOverride }}
