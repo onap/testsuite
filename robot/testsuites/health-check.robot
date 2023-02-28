@@ -28,6 +28,9 @@ Resource          ../resources/holmes_interface.robot
 Resource          ../resources/cds_interface.robot
 Resource          ../resources/dcae_ms_interface.robot
 Resource          ../resources/mariadb_galera_interface.robot
+Resource          ../resources/multicloud_interface.robot
+Resource          ../resources/uui_interface.robot
+Resource          ../resources/vfc_interface.robot
 
 Suite Teardown     Close All Browsers
 
@@ -95,32 +98,40 @@ Basic Log Logstash Health Check
     Run Log Logstash Health Check
 
 Basic Microservice Bus Health Check
-    [Tags]    health    medium  health-msb
+    [Tags]    medium  health-msb
     Run MSB Health Check
 
 Basic Multicloud API Health Check
     [Tags]    health    multicloud    small  health-multicloud
-    Run MSB Get Request    /api/multicloud/v0/swagger.json
+    Run MultiCloud Health Check
 
 Basic Multicloud-pike API Health Check
     [Tags]    health    multicloud    small   health-multicloud
-    Run MSB Get Request    /api/multicloud-pike/v0/swagger.json
+    Run MultiCloud-pike Health Check
 
 Basic Multicloud-starlingx API Health Check
     [Tags]    multicloud   health-multicloud
-    Run MSB Get Request    /api/multicloud-starlingx/v0/swagger.json
+    Run MultiCloud-starlingx Health Check
 
 Basic Multicloud-titanium_cloud API Health Check
     [Tags]    multicloud   health-multicloud
-    Run MSB Get Request    /api/multicloud-titaniumcloud/v1/swagger.json
+    Run MultiCloud-titanium_cloud Health Check
 
 Basic Multicloud-vio API Health Check
     [Tags]    multicloud   health-multicloud
-    Run MSB Get Request    /api/multicloud-vio/v0/swagger.json
+    Run MultiCloud-vio Health Check
 
 Basic Multicloud-k8s API Health Check
     [Tags]    health    multicloud   health-multicloud
-    Run MSB Get Request    /api/multicloud-k8s/v1/v1/healthcheck
+    Run MultiCloud-k8s Health Check
+
+Basic Multicloud-fcaps API Health Check
+    [Tags]    health    multicloud   health-multicloud
+    Run MultiCloud-fcaps Health Check
+
+Basic Multicloud-prometheus API Health Check
+    [Tags]    multicloud   health-multicloud
+    Run MultiCloud-prometheus Health Check
 
 Basic OOF-Homing Health Check
     [Tags]    health    medium   health-oof
@@ -211,35 +222,35 @@ Basic SO Health Check
 
 Basic UseCaseUI API Health Check
     [Tags]    health    api    medium   health-uui
-    Run MSB Get Request    /iui/usecaseui/
+    Run UUI Health Check
 
 Basic VFC gvnfmdriver API Health Check
     [Tags]    health    3rdparty   health-vfc
-    Run MSB Get Request    /api/gvnfmdriver/v1/health_check
+    Run VFC gvnfmdriver Health Check
 
 Basic VFC huaweivnfmdriver API Health Check
     [Tags]    health    3rdparty   health-vfc
-    Run MSB Get Request    /api/huaweivnfmdriver/v1/swagger.json
+    Run VFC huaweivnfmdriver Health Check
 
 Basic VFC nslcm API Health Check
     [Tags]    health    api   health-vfc
-    Run MSB Get Request    /api/nslcm/v1/health_check
+    Run VFC nslcm Health Check
 
 Basic VFC vnflcm API Health Check
     [Tags]    health    api  health-vfc
-    Run MSB Get Request    /api/vnflcm/v1/health_check
+    Run VFC vnflcm Health Check
 
 Basic VFC vnfmgr API Health Check
     [Tags]    health    api  health-vfc
-    Run MSB Get Request    /api/vnfmgr/v1/health_check
+    Run VFC vnfmgr Health Check
 
 Basic VFC vnfres API Health Check
     [Tags]    health    api   health-vfc
-    Run MSB Get Request    /api/vnfres/v1/health_check
+    Run VFC vnfres Health Check
 
 Basic VFC ztevnfmdriver API Health Check
     [Tags]    health    3rdparty   health-vfc
-    Run MSB Get Request    /api/ztevnfmdriver/v1/health_check
+    Run VFC ztevnfmdriver Health Check
 
 Basic VNFSDK Health Check
     [Tags]    health    health-vnfsdk
@@ -310,10 +321,6 @@ Basic Holmes Rule Management API Health Check
 Basic Holmes Engine Management API Health Check
     [Tags]    health-holmes    health
     Run Holmes Engine Mgmt Healthcheck
-
-Basic Multicloud-fcaps API Health Check
-    [Tags]    health    multicloud   health-multicloud
-    Run MSB Get Request    /api/multicloud-fcaps/v1/healthcheck
 
 Basic Modeling genericparser API Health Check
     [Tags]    health    api   health-modeling
