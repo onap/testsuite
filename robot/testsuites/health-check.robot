@@ -31,6 +31,7 @@ Resource          ../resources/mariadb_galera_interface.robot
 Resource          ../resources/multicloud_interface.robot
 Resource          ../resources/uui_interface.robot
 Resource          ../resources/vfc_interface.robot
+Resource          ../resources/modeling_interface.robot
 
 Suite Teardown     Close All Browsers
 
@@ -322,9 +323,9 @@ Basic Holmes Engine Management API Health Check
     [Tags]    health-holmes    health
     Run Holmes Engine Mgmt Healthcheck
 
-Basic Modeling genericparser API Health Check
+Basic Modeling Parser API Health Check
     [Tags]    health    api   health-modeling
-    Run MSB Get Request    /api/parser/v1/health_check
+    Run Modeling Parser Healthcheck
 
 Enhanced CDS Health Check
     [Tags]    health    small   health-cds
