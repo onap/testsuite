@@ -25,42 +25,42 @@ ${VFC_ZTEVNFDRIVER_ENDPOINT}     ${GLOBAL_VFC_ZTEVNFDRIVER_SERVER_PROTOCOL}://${
 *** Keywords ***
 Run VFC gvnfmdriver Health Check
      [Documentation]    Runs VFC gvnfmdriver Health check
-     ${resp}=    Run VFC Get Request  ${VFC_GVNFMDRIVER_ENDPOINT}  ${VFC_GVNFMDRIVER_HEALTH_CHECK_PATH}
+     ${resp}=    Run VFC Get Request   ${VFC_GVNFMDRIVER_ENDPOINT}   ${VFC_GVNFMDRIVER_HEALTH_CHECK_PATH}
      Should Be Equal As Integers   ${resp.status_code}   200
 
 Run VFC huaweivnfmdriver Health Check
      [Documentation]    Runs VFC huaweivnfmdriver Health check
-     ${resp}=    Run VFC Get Request  ${VFC_HUAWEIVNFMDRIVER_ENDPOINT}  ${VFC_HUAWEIVNFMDRIVER_HEALTH_CHECK_PATH}
+     ${resp}=    Run VFC Get Request   ${VFC_HUAWEIVNFMDRIVER_ENDPOINT}   ${VFC_HUAWEIVNFMDRIVER_HEALTH_CHECK_PATH}
      Should Be Equal As Integers   ${resp.status_code}   200
 
 Run VFC nslcm Health Check
      [Documentation]    Runs VFC nslcm Health check
-     ${resp}=    Run VFC Get Request  ${VFC_NSLCM_ENDPOINT}  ${VFC_NSLCM_HEALTH_CHECK_PATH}
+     ${resp}=    Run VFC Get Request   ${VFC_NSLCM_ENDPOINT}   ${VFC_NSLCM_HEALTH_CHECK_PATH}
      Should Be Equal As Integers   ${resp.status_code}   200
 
 Run VFC vnflcm Health Check
      [Documentation]    Runs VFC vnflcm Health check
-     ${resp}=    Run VFC Get Request  ${VFC_VNFLCM_ENDPOINT}  ${VFC_VNFLCM_HEALTH_CHECK_PATH}
+     ${resp}=    Run VFC Get Request   ${VFC_VNFLCM_ENDPOINT}   ${VFC_VNFLCM_HEALTH_CHECK_PATH}
      Should Be Equal As Integers   ${resp.status_code}   200
 
 Run VFC vnfmgr Health Check
      [Documentation]    Runs VFC vnfmgr Health check
-     ${resp}=    Run VFC Get Request  ${VFC_VNFMGR_ENDPOINT}  ${VFC_VNFMGR_HEALTH_CHECK_PATH}
+     ${resp}=    Run VFC Get Request   ${VFC_VNFMGR_ENDPOINT}   ${VFC_VNFMGR_HEALTH_CHECK_PATH}
      Should Be Equal As Integers   ${resp.status_code}   200
 
 Run VFC vnfres Health Check
      [Documentation]    Runs VFC vnfres Health check
-     ${resp}=    Run VFC Get Request  ${VFC_VNFRES_ENDPOINT}  ${VFC_VNFRES_HEALTH_CHECK_PATH}
+     ${resp}=    Run VFC Get Request   ${VFC_VNFRES_ENDPOINT}   ${VFC_VNFRES_HEALTH_CHECK_PATH}
      Should Be Equal As Integers   ${resp.status_code}   200
 
 Run VFC ztevnfmdriver Health Check
      [Documentation]    Runs VFC ztevnfmdriver Health check
-     ${resp}=    Run VFC Get Request  ${VFC_ZTEVNFDRIVER_ENDPOINT}  ${VFC_ZTEVNFDRIVER_HEALTH_CHECK_PATH}
+     ${resp}=    Run VFC Get Request   ${VFC_ZTEVNFDRIVER_ENDPOINT}   ${VFC_ZTEVNFDRIVER_HEALTH_CHECK_PATH}
      Should Be Equal As Integers   ${resp.status_code}   200
 
 Run VFC Get Request
      [Documentation]    Runs VFC Get request
-     [Arguments]    ${endpoint} ${data_path}
+     [Arguments]    ${endpoint}   ${data_path}
      ${session}=    Create Session   session   ${endpoint}
      ${resp}=   Get Request   session   ${data_path}
      Should Be Equal As Integers   ${resp.status_code}   200
