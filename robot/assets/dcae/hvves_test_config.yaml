@@ -1,7 +1,7 @@
 data:
   application_config.yaml: |
     cbs.requestIntervalSec: 5
-    logLevel: INFO
+    logLevel: DEBUG
     security.keys.keyStoreFile: /tmp/server.p12
     security.keys.keyStorePasswordFile: /dev/null
     security.keys.trustStoreFile: /tmp/ca.p12
