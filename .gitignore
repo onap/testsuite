@@ -12,3 +12,4 @@
 /*.zip
 .project
 .tox/
+/docker/requirements.txt
