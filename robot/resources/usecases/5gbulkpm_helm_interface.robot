@@ -6,104 +6,62 @@ Library           String
 Library           JSONLibrary
 Resource          ../dmaap/mr_interface.robot
 Resource          ../dmaap/dr_interface.robot
-Resource          ../dmaap/bc_interface.robot
 Resource          ../consul_interface.robot
 Resource          ../chart_museum.robot
+Resource          ../strimzi_kafka.robot
 
 *** Variables ***
-${INVENTORY_SERVER}                                 ${GLOBAL_INVENTORY_SERVER_PROTOCOL}://${GLOBAL_INVENTORY_SERVER_NAME}:${GLOBAL_INVENTORY_SERVER_PORT}
-${DEPLOYMENT_SERVER}                                ${GLOBAL_DEPLOYMENT_HANDLER_SERVER_PROTOCOL}://${GLOBAL_DEPLOYMENT_HANDLER_SERVER_NAME}:${GLOBAL_DEPLOYMENT_HANDLER_SERVER_PORT}
 ${DR_ENDPOINT}                                      ${GLOBAL_DMAAP_DR_PROV_SERVER_PROTOCOL}://${GLOBAL_INJECTED_DMAAP_DR_PROV_IP_ADDR}:${GLOBAL_DMAAP_DR_PROV_SERVER_PORT}
-${DMAAP_BC_SERVER}                                  ${GLOBAL_BC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_BC_IP_ADDR}:${GLOBAL_BC_HTTPS_SERVER_PORT}
 ${VES_HEALTH_CHECK_PATH}                            ${GLOBAL_DCAE_VES_HTTPS_PROTOCOL}://${GLOBAL_INJECTED_DCAE_VES_HOST}:${GLOBAL_DCAE_VES_HTTPS_SERVER_PORT}
-${MR_PUBLISH_TEMPLATE}                              mr/mr_publish.jinja
-${INVENTORY_ENDPOINT}                               /dcae-service-types
-${XNF_SFTP_BLUEPRINT_PATH}                          ${EXECDIR}/robot/assets/usecases/5gbulkpm/k8s-sftp.yaml
-${XNF_HTTPS_BLUEPRINT_PATH}                          ${EXECDIR}/robot/assets/usecases/5gbulkpm/k8s-https.yaml
-${BLUEPRINT_TEMPLATE_PATH}                          ${EXECDIR}/robot/assets/usecases/5gbulkpm/blueprintTemplate.json
-${DEPLOYMENT_ENDPOINT}                              dcae-deployments
-${MR_TOPIC_CHECK_PATH}                              /topics
 ${DR_SUB_CHECK_PATH}                                /internal/prov
-${MR_TOPIC_URL_PATH}                                /events/unauthenticated.PERFORMANCE_MEASUREMENTS/CG1/C1
-${MR_TOPIC_URL_PATH_FOR_POST}                       /events/unauthenticated.PERFORMANCE_MEASUREMENTS
-${DMAAP_BC_MR_CLIENT_PATH}                          /webapi/mr_clients
-${DMAAP_BC_MR_CLUSTER_PATH}                         /webapi/mr_clusters
-${PMMAPPER_HEALTH_CHECK_PATH}                       /healthcheck
+${MR_TOPIC_URL_PATH}                                /events/unauthenticated.PERFORMANCE_MEASUREMENTS/CG1/robot
 ${JSON_DATA_FILE}                                   ${EXECDIR}/robot/assets/usecases/5gbulkpm/Notification.json
 ${VES_LISTENER_PATH}                                /eventListener/v7
-${PMMAPPER_SUB_ROLE_DATA}                           ${EXECDIR}/robot/assets/usecases/5gbulkpm/sub.json
-${PMMAPPER_MR_CLUSTER_DATA}                         ${EXECDIR}/robot/assets/usecases/5gbulkpm/mr_clusters.json
-${NEXUS3}                                           ${GLOBAL_INJECTED_NEXUS_DOCKER_REPO}
 ${SET_KNOWN_HOSTS_FILE_PATH}                        kubectl set env deployment/$(kubectl get deployment -n onap | grep datafile | awk '{print $1}') KNOWN_HOSTS_FILE_PATH=/home/datafile/.ssh/known_hosts -n onap
+${DR_NODE_FECTH_PROV}                               kubectl exec $(kubectl get pods -n onap | grep dmaap-dr-node | awk '{print $1}' | grep -v NAME) -n onap -- curl http://localhost:8080/internal/fetchProv
 ${CHECK_ENV_SET}                                    kubectl set env pod/$(kubectl get pod -n onap | grep datafile | awk '{print $1}') -c dcae-datafile-collector --list -n onap
 ${COPY_RSA_KEY}                                     kubectl cp /tmp/known_hosts $(kubectl get pod -n onap | grep datafile | awk '{print $1}'):/home/datafile/.ssh/known_hosts -c dcae-datafile-collector -n onap
 ${CHECK_DFC_LOGS}                                   kubectl logs $(kubectl get pod -n onap | grep datafile | awk '{print $1}') -c dcae-datafile-collector -n onap --tail=10
 ${CHECK_ALL_DFC_LOGS}                               kubectl logs $(kubectl get pod -n onap | grep datafile | awk '{print $1}') -n onap --all-containers
 ${CHECK_ALL_PMMAPPER_LOGS}                          kubectl logs $(kubectl get pod -n onap | grep pm-mapper | awk '{print $1}') -n onap --all-containers
 ${EXPECTED_PRINT}                                   StrictHostKeyChecking is enabled but environment variable KNOWN_HOSTS_FILE_PATH is not set or points to not existing file
-${MONGO_BLUEPRINT_PATH}                             ${EXECDIR}/robot/assets/cmpv2/k8s-mongo.yaml
-${PNF_SIMULATOR_BLUEPRINT_PATH}                     ${EXECDIR}/robot/assets/cmpv2/k8s-pnf-simulator.yaml
-${MONGO_VES_CLIENT_BLUEPRINT_PATH}                  ${EXECDIR}/robot/assets/cmpv2/k8s-mongo-ves-client.yaml
-${VES_CLIENT_BLUEPRINT_PATH}                        ${EXECDIR}/robot/assets/cmpv2/k8s-ves-client.yaml
-${VES_INPUTS}                                       deployment/VesTlsCmpv2Inputs.jinja
 ${pm_notification_event}                            dfc/notification.jinja
 ${consul_change_event}                              dfc/consul.jinja
-${ves_client_single_event}=                         ves/pnf_simulator_single_event.jinja
 ${SFTP_HELM_CHARTS}                                 ${EXECDIR}/robot/assets/helm/sftp
 ${HTTPS_SERVER_HELM_CHARTS}                         ${EXECDIR}/robot/assets/helm/pm-https-server
 ${HELM_RELEASE}                                     kubectl --namespace onap get pods | sed 's/ .*//' | grep robot | sed 's/-.*//'
 
 *** Keywords ***
-
 xNF PM File Validate
     [Documentation]
-    ...  This keyword gathers all events from message router topic and validates if in recived data is present an expected string: "${expected_pm_str}" .
+    ...  This keyword gets the last event from the PM topic and validates if the expected string is present: "${expected_pm_str}" .
     [Arguments]                 ${expected_pm_str}
-    ${timestamp}=               Get Time                        epoch
-    #${resp}=                    Run MR Auth Get Request         ${MR_TOPIC_URL_PATH}            ${GLOBAL_DCAE_USERNAME}         ${GLOBAL_DCAE_PASSWORD}
-    ${resp}=                    Run MR Get Request         ${MR_TOPIC_URL_PATH}
-    Should Contain              ${resp.text}                  ${expected_pm_str}
+    ${bytes} =	Encode String To Bytes	         ${expected_pm_str}	     UTF-8
+    ${msg}=  Run Keyword        Get Last Message From Topic    ${GLOBAL_KAFKA_BOOTSTRAP_SERVICE}    unauthenticated.PERFORMANCE_MEASUREMENTS   ${GLOBAL_KAFKA_USER}
+    Should Contain              ${msg}                    ${bytes}
 
-Topic Validate
-    [Arguments]                         ${value}
-    ${timestamp}=                       Get Current Date
-    ${dict}=                            Create Dictionary                           timestamp=${timestamp}
-    Templating.Create Environment       mr                                          ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=                            Templating.Apply Template                   mr                                  ${MR_PUBLISH_TEMPLATE}              ${dict}
-    ${resp}=                            Run MR Auth Post Request (User And Pass)    ${MR_TOPIC_URL_PATH_FOR_POST}       ${GLOBAL_DCAE_USERNAME}             ${GLOBAL_DCAE_PASSWORD}       ${data}
-    Should Be Equal As Strings          ${resp.status_code}                         200
-    #${resp}=                            Run MR Auth Get Request                     ${MR_TOPIC_URL_PATH}                ${GLOBAL_DCAE_USERNAME}             ${GLOBAL_DCAE_PASSWORD}
-    ${resp}=                            Run MR Get Request                     ${MR_TOPIC_URL_PATH}
-    Should Contain                      ${resp.text}                                ${value}
 
 Send File Ready Event to VES Collector and Deploy all DCAE Applications
     [Arguments]                                 ${pm_file}              ${file_format_type}             ${file_format_version}
     Disable Warnings
     Setting Global Variables
+    DR Node Fetch Prov
+    Sleep     10s
     Send File Ready Event to VES Collector      ${pm_file}              ${file_format_type}             ${file_format_version}
+    Add OOM test chart repository               onap-testing                  https://nexus3.onap.org/repository/onap-helm-testing/
     Add chart repository                        chart-museum                  http://chart-museum:80      onapinitializer      demo123456!
-#    Log To Console                              Deploying Data File Collector
-#    Deploying Data File Collector
-#    Log To Console                              Deploying 3GPP PM Mapper
-#    Deploying 3GPP PM Mapper
     Log To Console                              Deploying SFTP Server As xNF
     Deploying SFTP Server As xNF
 #    Log To Console                              Deploying HTTPS Server with correct CMPv2 certificates as xNF
 #    Deploying HTTPS server with correct certificates
-#    Log To Console                              Deploying HTTPS Server with wrong subject alternatives in CMPv2 certificates as xNF
-#    Deploying HTTPS server with wrong certificates - wrong SAN-s
-    DR Bulk PM Feed Check
     DR PM Mapper Subscriber Check
 
 Usecase Teardown
     Disable Warnings
     Get all logs from PM Mapper
     Get all logs from Data File Collector
-#    Uninstall helm charts               ${ONAP_HELM_RELEASE}-dcae-datafile-collector
-#    Uninstall helm charts               ${ONAP_HELM_RELEASE}-dcae-pm-mapper
     Uninstall helm charts               ${ONAP_HELM_RELEASE}-sftp
 #    Uninstall helm charts               ${ONAP_HELM_RELEASE}-pm-https-server-correct-sans
-#    Uninstall helm charts               ${ONAP_HELM_RELEASE}-pm-https-server-wrong-sans
 
 Setting Global Variables
     ${test_variables} =  Create Dictionary
@@ -193,9 +151,10 @@ Deploying HTTPS server with wrong certificates - wrong SAN-s
     ${override} =                       Set Variable                       --set fullnameOverride=${name} --set nameOverride=${name} --set certificates.name=${name} --set certificates.commonName=wrong-sans-1 --set certificates.dnsNames={wrong-sans-2} --debug
     Install helm charts from folder     ${HTTPS_SERVER_HELM_CHARTS}        ${name}                 set_values_override=${override}
 
-DR Bulk PM Feed Check
-    ${resp}=                            Run DR Get Request                  ${DR_SUB_CHECK_PATH}
-    Should Contain                      ${resp.text}                        bulk_pm_feed
+DR Node Fetch Prov
+    ${rc}=                              Run and Return RC                   ${DR_NODE_FECTH_PROV}
+    Should Be Equal As Integers         ${rc}                               0
+
 
 DR PM Mapper Subscriber Check
     ${resp}=                            Run DR Get Request                  ${DR_SUB_CHECK_PATH}
@@ -263,39 +222,39 @@ Change DFC httpsHostnameVerify configuration in Consul
     Should Be Equal As Integers   ${rc}                           0
     Wait Until Keyword Succeeds         360 sec          15 sec       Check logs                  kubectl logs -n onap $(kubectl get pods -n onap | grep datafile-collector | awk '{print $1}' | grep -v NAME) ${container_name}-datafile-collector
 
-#Sending File Ready Event to VES Collector for HTTPS Server
-#    [Arguments]  ${https-server_host}
-#    Send File Ready Event to VES Collector for HTTPS Server  ${PM_FILE}  ${GLOBAL_TEST_VARIABLES["FILE_FORMAT_TYPE"]}  ${GLOBAL_TEST_VARIABLES["FILE_FORMAT_VERSION"]}    ${https-server_host}
+Sending File Ready Event to VES Collector for HTTPS Server
+    [Arguments]  ${https-server_host}
+    Send File Ready Event to VES Collector for HTTPS Server  ${PM_FILE}  ${GLOBAL_TEST_VARIABLES["FILE_FORMAT_TYPE"]}  ${GLOBAL_TEST_VARIABLES["FILE_FORMAT_VERSION"]}    ${https-server_host}
 
-#Send File Ready Event to VES Collector for HTTPS Server
-#    [Arguments]                         ${pm_file}                          ${file_format_type}             ${file_format_version}     ${https_server_host}
-#    Disable Warnings
-#    ${pm_event}                         Create Dictionary                   https_server_host=${https_server_host}  pm_file=${pm_file}   fileFormatType=${file_format_type}   fileFormatVersion=${file_format_version}
-#    Templating.Create Environment       pm                                  ${GLOBAL_TEMPLATE_FOLDER}
-#    ${VES_FILE_READY_NOTIFICATION}=     Templating.Apply Template           pm                              ${pm_notification_event}   ${pm_event}
-#    ${headers}=                         Create Dictionary                   content-type=application/json
-#    ${auth}=                            Create List                         ${GLOBAL_DCAE_VES_USERNAME}     ${GLOBAL_DCAE_VES_PASSWORD}
-#    ${session}=                         Create Session                      ves                             ${VES_HEALTH_CHECK_PATH}      auth=${auth}
-#    ${resp}=                            Post Request                        ves                             ${VES_LISTENER_PATH}          data=${VES_FILE_READY_NOTIFICATION}   headers=${headers}
-#    Should Be Equal As Strings          ${resp.status_code}                 202
+Send File Ready Event to VES Collector for HTTPS Server
+    [Arguments]                         ${pm_file}                          ${file_format_type}             ${file_format_version}     ${https_server_host}
+    Disable Warnings
+    ${pm_event}                         Create Dictionary                   https_server_host=${https_server_host}  pm_file=${pm_file}   fileFormatType=${file_format_type}   fileFormatVersion=${file_format_version}
+    Templating.Create Environment       pm                                  ${GLOBAL_TEMPLATE_FOLDER}
+    ${VES_FILE_READY_NOTIFICATION}=     Templating.Apply Template           pm                              ${pm_notification_event}   ${pm_event}
+    ${headers}=                         Create Dictionary                   content-type=application/json
+    ${auth}=                            Create List                         ${GLOBAL_DCAE_VES_USERNAME}     ${GLOBAL_DCAE_VES_PASSWORD}
+    ${session}=                         Create Session                      ves                             ${VES_HEALTH_CHECK_PATH}      auth=${auth}
+    ${resp}=                            Post Request                        ves                             ${VES_LISTENER_PATH}          data=${VES_FILE_READY_NOTIFICATION}   headers=${headers}
+    Should Be Equal As Strings          ${resp.status_code}                 202
 
 
-#Uploading PM Files to xNF HTTPS Server
-#    [Arguments]                         ${https-server_host}
-#    ${pm_file}=                         Upload PM Files to xNF HTTPS Server     ${GLOBAL_TEST_VARIABLES["PM_FILE_PATH"]}    ${https-server_host}
-#    Set Global Variable                 ${PM_FILE}                              ${pm_file}
+Uploading PM Files to xNF HTTPS Server
+    [Arguments]                         ${https-server_host}
+    ${pm_file}=                         Upload PM Files to xNF HTTPS Server     ${GLOBAL_TEST_VARIABLES["PM_FILE_PATH"]}    ${https-server_host}
+    Set Global Variable                 ${PM_FILE}                              ${pm_file}
 
-#Upload PM Files to xNF HTTPS Server
-#    [Arguments]                         ${pm_file_path}                     ${https_server}
-#    ${epoch}=                           Get Current Date                    result_format=epoch
-#    ${pm_file} =                        Set Variable                        A${epoch}.xml.gz
-#    Copy File                           ${pm_file_path}                     tmp/${pm_file}
-#    ${fileData}=                        Get Binary File                     tmp/${pm_file}
-#    ${file_part}=                       Create List                         ${pm_file}                         ${fileData}                   application/octet-stream
-#    ${fileParts}=                       Create Dictionary
-#    Set to Dictionary                   ${fileParts}                        uploaded_file=${file_part}
-#    ${auth}=                            Create List                         demo                                demo123456!
-#    ${session}=                         Create Session                      https                               http://${https_server}:80   auth=${auth}
-#    ${resp}=                            Post Request                        https                               /upload.php                 files=${fileParts}
-#    Should Be Equal As Strings          ${resp.status_code}                 200
-#    [Return]                            ${pm_file}
+Upload PM Files to xNF HTTPS Server
+    [Arguments]                         ${pm_file_path}                     ${https_server}
+    ${epoch}=                           Get Current Date                    result_format=epoch
+    ${pm_file} =                        Set Variable                        A${epoch}.xml.gz
+    Copy File                           ${pm_file_path}                     tmp/${pm_file}
+    ${fileData}=                        Get Binary File                     tmp/${pm_file}
+    ${file_part}=                       Create List                         ${pm_file}                         ${fileData}                   application/octet-stream
+    ${fileParts}=                       Create Dictionary
+    Set to Dictionary                   ${fileParts}                        uploaded_file=${file_part}
+    ${auth}=                            Create List                         demo                                demo123456!
+    ${session}=                         Create Session                      https                               http://${https_server}:80   auth=${auth}
+    ${resp}=                            Post Request                        https                               /upload.php                 files=${fileParts}
+    Should Be Equal As Strings          ${resp.status_code}                 200
+    [Return]                            ${pm_file}

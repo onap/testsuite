@@ -10,6 +10,15 @@ Library           String
 ${registry_ovveride}                                            ${GLOBAL_INJECTED_NEXUS_DOCKER_REPO}
 
 *** Keywords ***
+Add OOM test chart repository
+    [Documentation]  Add OOM test chart repository to helm in robot/xtesting pod
+    [Arguments]                         ${chart_repo_name}                  ${chart_repo_fqdn}
+    ${helm_repo_add}=                   Set Variable                        helm repo add ${chart_repo_name} ${chart_repo_fqdn}
+    ${command_output} =                 Run And Return Rc And Output        ${helm_repo_add}
+    Should Be Equal As Integers         ${command_output[0]}                0
+    ${command_output} =                 Run And Return Rc And Output        helm repo update
+    Should Be Equal As Integers         ${command_output[0]}                0
+
 Add chart repository
     [Documentation]  Add chart repository to helm in robot/xtesting pod
     [Arguments]                         ${chart_repo_name}                  ${chart_repo_fqdn}      ${chart_repo_username}      ${chart_repo_password}

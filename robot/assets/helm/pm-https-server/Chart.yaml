@@ -24,4 +24,4 @@ appVersion: 1.0.1
 dependencies:
   - name: repositoryGenerator
     version: x.x-x
-    repository: '@chart-museum'
+    repository: 'https://nexus3.onap.org/repository/onap-helm-testing/'
