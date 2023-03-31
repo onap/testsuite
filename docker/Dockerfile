@@ -1,82 +1,78 @@
-FROM ubuntu:20.04
+FROM ubuntu:20.04 as base
 
 ## Be careful of Windows newlines
 MAINTAINER "ONAP"
 LABEL name="Docker image for the ONAP Robot Testing Framework"
 LABEL usage="docker run -e ROBOT_TEST=<testname> -ti onapete"
 ENV BUILDTIME=true
+ENV DEBIAN_FRONTEND noninteractive
 
-ARG TESTSUITE_TAG=master
-ARG PYTHON_UTILS_TAG=master
-ARG DEMO_TAG=master
-ARG KUBERNETES_VERSION="v1.19.11"
-ARG HELM_VERSION="v3.3.4"
+ARG KUBERNETES_VERSION="v1.23.8"
+ARG HELM_VERSION="v3.8.2"
 
-ARG TESTSUITE_REPO=git.onap.org/testsuite
 ARG PYTHON_UTILS_REPO=git.onap.org/testsuite/python-testing-utils.git
+ARG PYTHON_UTILS_TAG=master
+
 ARG DEMO_REPO=git.onap.org/demo
-ARG DEBIAN_FRONTEND=noninteractive
+ARG DEMO_TAG=master
+
+# Install apt packages, Python, Pip, etc
+RUN apt-get update &&  \
+    apt-get install --no-install-recommends --assume-yes  \
+    chromium-browser  \
+    chromium-chromedriver  \
+    dnsutils  \
+    git  \
+    gcc  \
+    libffi-dev  \
+    libssl-dev  \
+    lighttpd  \
+    make  \
+    net-tools  \
+    netbase  \
+    unzip  \
+    zip  \
+    x11-utils  \
+    x11-xserver-utils  \
+    xvfb  \
+    xxd  \
+    wget  \
+    vim  \
+    python3.8  \
+    python3.8-dev  \
+    python3-pip &&  \
+    ln -s /usr/bin/python3 /usr/bin/python && \
+    apt-get autoremove --assume-yes &&  \
+    rm -rf /var/lib/apt/lists/* &&  \
+    apt-get clean
+
+# Get kubectl
+ADD https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl /usr/local/bin/kubectl
+# Get helm
+ADD https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 get_helm.sh
 
 COPY requirements.txt requirements.txt
 
-# Install kubectl
-# Note: Latest version may be found on:
-# https://aur.archlinux.org/packages/kubectl-bin/
-ADD https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl /usr/local/bin/kubectl
-ADD https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 get_helm.sh
-
-# Install Python, Pip, Robot framework, chromium, lighttpd web server
-RUN apt-get update \
-    && apt-get install \
-        --no-install-recommends \
-        --assume-yes \
-            chromium-browser \
-            chromium-chromedriver \
-            dnsutils \
-            git \
-            gcc \
-            libffi-dev \
-            libssl-dev \
-            lighttpd \
-            make \
-            net-tools \
-            netbase \
-            unzip zip \
-            x11-utils x11-xserver-utils \
-            xvfb \
-            xxd  \
-            wget vim  \
-            python3.8 python3.8-dev python3-pip && \
-    ln -s /usr/bin/python3 /usr/bin/python && \
-    mkdir -p /var/opt/ONAP && \
-    pip3 install --no-cache-dir -r requirements.txt && \
-    pip3 install --no-cache-dir \
-    git+https://$PYTHON_UTILS_REPO@$PYTHON_UTILS_TAG#egg=robotframework-onap\&subdirectory=robotframework-onap && \
-    git clone --depth 1 https://$TESTSUITE_REPO -b $TESTSUITE_TAG /var/opt/ONAP && \
-    git clone --depth 1 https://$DEMO_REPO -b $DEMO_TAG /var/opt/ONAP/demo && \
-    chmod +x /usr/local/bin/kubectl && \
-    chmod 700 get_helm.sh  && \
-    ./get_helm.sh --version $HELM_VERSION && \
-    mkdir -p /app && \
-    cp /var/opt/ONAP/setup-hvves.sh /app
+RUN mkdir -p /var/opt/ONAP &&  \
+    pip3 install --no-cache-dir -r requirements.txt setuptools wheel virtualenv &&  \
+    pip3 install --no-cache-dir git+https://$PYTHON_UTILS_REPO@$PYTHON_UTILS_TAG#egg=robotframework-onap\&subdirectory=robotframework-onap && \
+    git clone --depth 1 https://$DEMO_REPO -b $DEMO_TAG /var/opt/ONAP/demo &&  \
+    chmod +x /usr/local/bin/kubectl &&  \
+    chmod 700 get_helm.sh &&  \
+    ./get_helm.sh --version $HELM_VERSION
 
 
-RUN python3.8 -m pip install --no-cache-dir setuptools wheel
-RUN python3.8 -m pip install --no-cache-dir virtualenv
+COPY html/ /var/opt/ONAP/html
+COPY robot/ /var/opt/ONAP/robot
+COPY *.sh /var/opt/ONAP/
+COPY docker/lighttpd.conf /etc/lighttpd/lighttpd.conf
+COPY docker/authorization /etc/lighttpd/authorization
 
-# Copy the robot code
-RUN mkdir -p /etc/lighttpd && \
-    rm /etc/lighttpd/lighttpd.conf && \
-    ln -s /var/opt/ONAP/docker/lighttpd.conf /etc/lighttpd/lighttpd.conf && \
-    ln -s /var/opt/ONAP/docker/authorization /etc/lighttpd/authorization && \
-    chmod 777 /var/opt/ONAP/setup.sh \
-    && chmod 777 /var/opt/ONAP/runTags.sh \
-    && chmod 777 /var/opt/ONAP/dnstraffic.sh \
-    && chmod 777 /var/opt/ONAP/runSoak.sh \
-    && chmod 777 /var/opt/ONAP/runEteTag.sh \
-    && chmod 600 /var/opt/ONAP/robot/assets/keys/* && \
-    cd /var/opt/ONAP && ./setup.sh \
-    && apt-get autoremove --assume-yes \
-    && rm -rf /var/lib/apt/lists/*  \
-    && apt-get clean
+RUN mkdir -p /app &&  \
+    cp /var/opt/ONAP/setup-hvves.sh /app &&  \
+    chmod 600 /var/opt/ONAP/robot/assets/keys/* &&  \
+    chmod 777 /var/opt/ONAP/*.sh &&  \
+    cd /var/opt/ONAP &&  \
+    ./setup.sh
+
 CMD ["lighttpd", "-D", "-f",  "/etc/lighttpd/lighttpd.conf"]
