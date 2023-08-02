@@ -1,0 +1,81 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Release.Name }}-tests-cluster-role
+rules:
+- apiGroups:
+    - ''
+    - apps
+    - batch
+    - extensions
+    - networking.k8s.io
+    - tf.galleybytes.com
+  resources:
+    - pods
+    - deployments
+    - deployments/status
+    - jobs
+    - jobs/status
+    - statefulsets
+    - replicasets
+    - replicasets/status
+    - daemonsets
+    - secrets
+    - services
+    - events
+    - configmaps
+    - ingresses
+    - persistentvolumeclaims
+    - nodes
+    - terraforms
+  verbs:
+    - get
+    - watch
+    - list
+- apiGroups:
+    - ''
+    - apps
+  resources:
+    - statefulsets
+    - configmaps
+  verbs:
+    - patch
+- apiGroups:
+    - ''
+    - apps
+    - tf.galleybytes.com
+  resources:
+    - deployments
+    - secrets
+    - services
+    - pods
+    - terraforms
+  verbs:
+    - create
+- apiGroups:
+    - ''
+    - apps
+    - tf.galleybytes.com
+  resources:
+    - pods
+    - persistentvolumeclaims
+    - secrets
+    - deployments
+    - services
+    - terraforms
+  verbs:
+    - delete
+- apiGroups:
+    - ''
+    - apps
+  resources:
+    - pods/exec
+  verbs:
+    - create
+- apiGroups:
+    - cert-manager.io
+  resources:
+    - certificates
+  verbs:
+    - create
+    - delete

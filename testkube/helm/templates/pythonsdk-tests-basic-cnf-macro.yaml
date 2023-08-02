@@ -1,0 +1,3 @@
+{{- if .Values.tests.basicCnfMacro.enabled }}
+{{ include "smoke.test" (dict "testName" "basic-cnf-macro" "onapTestName" "basic_cnf_macro" "dot" .) }}
+{{- end }}

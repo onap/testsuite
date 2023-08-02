@@ -1,0 +1,3 @@
+{{- if .Values.tests.vesPublish.enabled }}
+{{ include "smoke.test" (dict "testName" "ves-publish" "onapTestName" "ves_publish" "dot" .) }}
+{{- end }}

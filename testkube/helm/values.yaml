@@ -1,0 +1,75 @@
+# Declare variables to be passed into your templates.
+
+global:
+  ingress:
+    enabled: false
+  serviceMesh:
+    enabled: false
+
+ingress:
+  host: onap.org
+  class: traefik
+
+services:
+  dashboard:
+    name: testkube-dashboard
+    port: 8080
+  apiserver:
+    name: testkube-api-server
+    port: 8088
+
+serviceMesh:
+  envVariable:
+    SERVICE_MESH_ENABLED: True
+  sidecarKiller:
+    image: artifactory.devops.telekom.de/onap-repo/onap/oom/readiness:4.1.0
+
+#imagePullSecrets:
+#  - name: onap-docker-registry-key
+
+smokeTests:
+  executor:
+    name: pythonsdk-tests-basic-executor
+    type: pythonsdk-tests/smoke-test
+  testsuite:
+    name: onap-testsuite
+    cron: 0 10 * * *
+
+slackNotifications:
+  enabled: false
+  slackConfig:
+    token: xyz
+    baseUrl: https://slack.com
+    channel: xyz
+
+storage:
+  class: cinder-os
+  volumeMountPath: /tmp
+
+tests:
+  configuration:
+    uri: https://gerrit.onap.org/r/testsuite
+    branch: master
+    path: /testkube
+  basicCds:
+    enabled: true
+  basicCnfMacro:
+    enabled: true
+  basicCps:
+    enabled: true
+  basicOnboard:
+    enabled: true
+  basicSdnc:
+    enabled: true
+  basicStatus:
+    enabled: true
+  fullStatus:
+    enabled: true
+  resultAnalysis:
+    enabled: true
+  vesPublish:
+    enabled: true
+  pnfMacro:
+    enabled: true
+  terraformOperator:
+    enabled: false

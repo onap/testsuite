@@ -1,0 +1,3 @@
+{{- if .Values.tests.pnfMacro.enabled }}
+{{ include "smoke.test" (dict "testName" "pnf-macro" "onapTestName" "pnf_macro" "dot" .) }}
+{{- end }}

@@ -1,0 +1,3 @@
+{{- if .Values.tests.basicCps.enabled }}
+{{ include "smoke.test" (dict "testName" "basic-cps" "onapTestName" "basic_cps" "dot" .) }}
+{{- end }}

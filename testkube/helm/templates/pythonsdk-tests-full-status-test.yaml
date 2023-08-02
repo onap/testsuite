@@ -1,0 +1,3 @@
+{{- if .Values.tests.fullStatus.enabled }}
+{{ include "smoke.test" (dict "testName" "full-status" "onapTestName" "status" "configurationName" "full_status" "dot" .) }}
+{{- end }}

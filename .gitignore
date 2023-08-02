@@ -13,3 +13,6 @@
 .project
 .tox/
 /docker/requirements.txt
+/testkube/helm/Chart.lock
+*.tar.gz
+*.tgz

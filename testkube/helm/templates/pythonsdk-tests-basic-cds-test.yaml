@@ -1,0 +1,3 @@
+{{- if .Values.tests.basicCds.enabled }}
+{{ include "smoke.test" (dict "testName" "basic-cds" "onapTestName" "basic_cds" "dot" .) }}
+{{- end }}

@@ -7,7 +7,7 @@ robotframework-sshlibrary
 robotframework-httplibrary
 robotframework-ftplibrary
 requests>=2.20.0
-robotframework-selenium2library
+robotframework-selenium2library==3.0.0
 robotframework-databaselibrary
 robotframework-extendedselenium2library
 robotframework-requests==0.9.3

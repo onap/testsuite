@@ -1,0 +1,56 @@
+apiVersion: tests.testkube.io/v2
+kind: TestSuite
+metadata:
+  name: {{ .Values.smokeTests.testsuite.name }}
+spec:
+  schedule: "{{ .Values.smokeTests.testsuite.cron }}"
+  steps:
+  {{- if .Values.tests.basicCps.enabled }}
+  - execute:
+      stopOnFailure: false
+      name: basic-cps
+  {{- end }}
+  {{- if .Values.tests.basicOnboard.enabled }}
+  - execute:
+      stopOnFailure: false
+      name: basic-onboard
+  {{- end }}
+  {{- if .Values.tests.basicCds.enabled }}
+  - execute:
+      stopOnFailure: false
+      name: basic-cds
+  {{- end }}
+  {{- if .Values.tests.basicSdnc.enabled }}
+  - execute:
+      stopOnFailure: false
+      name: basic-sdnc
+  {{- end }}
+  {{- if .Values.tests.vesPublish.enabled }}
+  - execute:
+      stopOnFailure: false
+      name: ves-publish
+  {{- end }}
+  {{- if .Values.tests.basicStatus.enabled }}
+  - execute:
+      stopOnFailure: false
+      name: basic-status
+  {{- end }}
+  {{- if .Values.tests.resultAnalysis.enabled }}
+  - execute:
+      stopOnFailure: false
+      name: result-analysis
+  {{- end }}
+  {{- if .Values.global.serviceMesh.enabled }}
+  executionRequest:
+    cronJobTemplate: |
+      apiVersion: batch/v1
+      kind: CronJob
+      spec:
+        jobTemplate:
+          spec:
+            template:
+              spec:
+                serviceAccountName: {{ .Release.Name }}-tests-service-account
+                containers:
+                {{ include "sidecarKiller" (dict "containerName" "curlimage" "Values" .Values) | indent 16 | trim }}
+  {{- end }}

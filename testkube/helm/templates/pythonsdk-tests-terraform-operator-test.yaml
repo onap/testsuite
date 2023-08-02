@@ -1,0 +1,3 @@
+{{- if .Values.tests.terraformOperator.enabled }}
+{{ include "smoke.test" (dict "testName" "terraform-operator" "onapTestName" "terraform_operator" "dot" .) }}
+{{- end }}

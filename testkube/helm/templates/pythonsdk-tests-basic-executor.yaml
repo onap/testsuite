@@ -1,0 +1,15 @@
+apiVersion: executor.testkube.io/v1
+kind: Executor
+metadata:
+  name: {{ .Values.smokeTests.executor.name }}
+spec:
+  image: nexus3.onap.org:10001/onap/xtesting-smoke-usecases-pythonsdk:master
+  command:
+    - /bin/sh
+    - -c
+    - run_tests -t ${TESTNAME}
+  executor_type: container
+  types:
+  - {{ .Values.smokeTests.executor.type }}
+  features:
+  - artifacts

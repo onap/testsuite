@@ -1,0 +1,3 @@
+{{- if .Values.tests.resultAnalysis.enabled }}
+{{ include "smoke.test" (dict "testName" "result-analysis" "onapTestName" "result_analysis" "dot" .) }}
+{{- end }}

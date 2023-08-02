@@ -1,0 +1,3 @@
+{{- if .Values.tests.basicOnboard.enabled }}
+{{ include "smoke.test" (dict "testName" "basic-onboard" "onapTestName" "basic_onboard" "dot" .) }}
+{{- end }}
