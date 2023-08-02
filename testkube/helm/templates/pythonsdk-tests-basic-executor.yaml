@@ -1,0 +1,19 @@
+apiVersion: executor.testkube.io/v1
+kind: Executor
+metadata:
+  name: {{ .Values.smokeTests.executor.name }}
+spec:
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  image: artifactory.devops.telekom.de/tnap-docker/xtesting-pythonsdk:tnap
+  command:
+    - /bin/bash
+    - -c
+    - run_tests -t ${TESTNAME}
+  executor_type: container
+  types:
+  - {{ .Values.smokeTests.executor.type }}
+  features:
+  - artifacts

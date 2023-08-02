@@ -1,0 +1,37 @@
+# Default values for tnap-testkube.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  ingress:
+    enabled: false
+
+ingress:
+  host: onap.org
+  class: traefik
+
+services:
+  dashboard:
+    name: testkube-dashboard
+    port: 8080
+  apiserver:
+    name: testkube-api-server
+    port: 8088
+
+smokeTests:
+  executor:
+    name: pythonsdk-tests-basic-executor
+    type: pythonsdk-tests/smoke-test
+  testsuite:
+    name: tnap-testsuite
+    cron: 0 10 * * *
+
+slackNotifications:
+  enabled: false
+  slackConfig:
+    token: xyz
+    baseUrl: https://slack.com
+    channel: xyz
+
+storage:
+  class: cinder-os

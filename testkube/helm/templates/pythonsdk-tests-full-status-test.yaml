@@ -1,0 +1,1 @@
+{{ include "smoke.test" (dict "testName" "full-status" "onapTestName" "status" "Values" .Values) }}

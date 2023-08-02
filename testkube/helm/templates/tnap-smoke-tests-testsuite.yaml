@@ -1,0 +1,28 @@
+apiVersion: tests.testkube.io/v2
+kind: TestSuite
+metadata:
+  name: {{ .Values.smokeTests.testsuite.name }}
+spec:
+  schedule: "{{ .Values.smokeTests.testsuite.cron }}"
+  steps:
+  - execute:
+      stopOnFailure: false
+      name: basic-cps
+  - execute:
+      stopOnFailure: false
+      name: basic-onboard
+  - execute:
+      stopOnFailure: false
+      name: basic-cds
+  - execute:
+      stopOnFailure: false
+      name: basic-sdnc
+  - execute:
+      stopOnFailure: false
+      name: ves-publish
+  - execute:
+      stopOnFailure: false
+      name: basic-status
+  - execute:
+      stopOnFailure: false
+      name: result-analysis

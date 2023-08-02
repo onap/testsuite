@@ -1,0 +1,9 @@
+apiVersion: v2
+name: onap-testkube
+description: A Helm chart with tests for onap
+type: application
+version: 0.1.3
+dependencies:
+  - name: testkube
+    version: 1.13.29
+    repository: https://kubeshop.github.io/helm-charts
