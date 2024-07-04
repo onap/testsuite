@@ -53,7 +53,7 @@ Basic AAF SMS Health Check
     Run SMS Health Check
 
 Basic CLI Health Check
-    [Tags]    health-cli    health
+    [Tags]    health-cli
     Run CLI Health Check
 
 Basic CLAMP Health Check
@@ -69,16 +69,16 @@ Basic DMAAP Data Router Health Check
     Run DR Health Check
 
 Basic DMAAP Message Router Health Check
-    [Tags]    health    core  health-dmaap
+    [Tags]    messagerouter
     Run MR Health Check
 
 Basic DMAAP Message Router PubSub Health Check
-    [Tags]    healthmr    core    health-dmaap
+    [Tags]    healthmr    messagerouter
     [Timeout]   30
     Run MR PubSub Health Check
 
 Basic External API NBI Health Check
-    [Tags]    health    externalapi    api    medium
+    [Tags]    externalapi    api    medium
     Run NBI Health Check
 
 Basic Log Elasticsearch Health Check
@@ -94,7 +94,7 @@ Basic Log Logstash Health Check
     Run Log Logstash Health Check
 
 Basic Microservice Bus Health Check
-    [Tags]    medium  health-msb
+    [Tags]    health-msb
     Run MSB Health Check
 
 Basic Multicloud API Health Check
@@ -130,11 +130,11 @@ Basic Multicloud-prometheus API Health Check
     Run MultiCloud-prometheus Health Check
 
 Basic OOF-Homing Health Check
-    [Tags]    health    medium   health-oof
+    [Tags]    health-oof
     Run OOF-Homing Health Check
 
 Basic OOF-OSDF Health Check
-    [Tags]    health    medium  health-oof
+    [Tags]    health-oof
     Run OOF-OSDF Health Check
 
 Basic Policy Health Check
@@ -221,35 +221,35 @@ Basic UseCaseUI API Health Check
     Run UUI Health Check
 
 Basic VFC gvnfmdriver API Health Check
-    [Tags]    health    3rdparty   health-vfc
+    [Tags]    3rdparty   health-vfc
     Run VFC gvnfmdriver Health Check
 
 Basic VFC huaweivnfmdriver API Health Check
-    [Tags]    health    3rdparty   health-vfc
+    [Tags]    3rdparty   health-vfc
     Run VFC huaweivnfmdriver Health Check
 
 Basic VFC nslcm API Health Check
-    [Tags]    health    api   health-vfc
+    [Tags]    api   health-vfc
     Run VFC nslcm Health Check
 
 Basic VFC vnflcm API Health Check
-    [Tags]    health    api  health-vfc
+    [Tags]    api  health-vfc
     Run VFC vnflcm Health Check
 
 Basic VFC vnfmgr API Health Check
-    [Tags]    health    api  health-vfc
+    [Tags]    api  health-vfc
     Run VFC vnfmgr Health Check
 
 Basic VFC vnfres API Health Check
-    [Tags]    health    api   health-vfc
+    [Tags]    api   health-vfc
     Run VFC vnfres Health Check
 
 Basic VFC ztevnfmdriver API Health Check
-    [Tags]    health    3rdparty   health-vfc
+    [Tags]    3rdparty   health-vfc
     Run VFC ztevnfmdriver Health Check
 
 Basic VNFSDK Health Check
-    [Tags]    health    health-vnfsdk
+    [Tags]    health-vnfsdk
     Run VNFSDK Health Check
 
 Health Distribution Test
