@@ -66,16 +66,18 @@ Get Service Id
 	${resp_json}=  Set Variable  ${resp.json()}
     ${id}=  Set Variable
     @{list}=  Copy List   ${resp_json['service']}
-    :FOR   ${map}    IN    @{list}
-    \    ${service_type}=    Get From Dictionary    ${map}    service-description
-    \    ${service_id}=     Get From Dictionary    ${map}    service-id
-    \    ${id}   Run Keyword If    '${service_type}' == '${service_description}'    Set Variable    ${service_id}
-	[Return]  ${id}
+    FOR   ${map}    IN    @{list}
+        ${service_type}=    Get From Dictionary    ${map}    service-description
+        ${service_id}=     Get From Dictionary    ${map}    service-id
+        ${id}   Run Keyword If    '${service_type}' == '${service_description}'    Set Variable    ${service_id}
+    END
+    [Return]  ${id}
 
 Update Service Dictionary
     [Arguments]    ${dict}    ${json}
     @{list}=  Copy List   ${json['service']}
-    :FOR   ${map}    IN    @{list}
-    \    ${status}    ${service_type}=     Run Keyword And Ignore Error    Get From Dictionary    ${map}    service-description
-    \    Run Keyword If    '${status}' == 'PASS'    Set To Dictionary    ${dict}    ${service_type}=${map}
+    FOR   ${map}    IN    @{list}
+        ${status}    ${service_type}=     Run Keyword And Ignore Error    Get From Dictionary    ${map}    service-description
+        Run Keyword If    '${status}' == 'PASS'    Set To Dictionary    ${dict}    ${service_type}=${map}
+    END
     Log    ${dict}

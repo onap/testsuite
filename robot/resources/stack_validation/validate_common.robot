@@ -74,26 +74,29 @@ Find Openstack 2
 
 Get V4 IP
     [Arguments]   ${ipmaps}
-    :FOR   ${ipmap}   IN   @{ipmaps}
-    \    ${ip}   Get From Dictionary   ${ipmap}   addr
-    \    ${version}   Get From Dictionary   ${ipmap}   version
-    \    Return from Keyword if   '${version}' == '4'   ${ip}
+    FOR   ${ipmap}   IN   @{ipmaps}
+        ${ip}   Get From Dictionary   ${ipmap}   addr
+        ${version}   Get From Dictionary   ${ipmap}   version
+        Return from Keyword if   '${version}' == '4'   ${ip}
+    END
     Fail  No Version 4 IP
 
 Get V4 IP Openstack
     [Arguments]   ${addresses}   ${testtype}
     ${ipmaps}=   Get From Dictionary   ${addresses}   ${testtype}
-    :FOR   ${ipmap}   IN   @{ipmaps}
-    \    ${ip}   Get From Dictionary   ${ipmap}   addr
-    \    ${version}   Get From Dictionary   ${ipmap}   version
-    \    Return from Keyword if   '${version}'=='4'   ${ip}
+    FOR   ${ipmap}   IN   @{ipmaps}
+        ${ip}   Get From Dictionary   ${ipmap}   addr
+        ${version}   Get From Dictionary   ${ipmap}   version
+        Return from Keyword if   '${version}'=='4'   ${ip}
+    END
     Fail  No Version 4 IP
 
 Get V4 IP Openstack 2
     [Arguments]   ${ipmaps}   ${testtype}
-    :FOR   ${ipmap}   IN   @{ipmaps}
-    \    ${type}   Get From Dictionary   ${ipmap}   OS-EXT-IPS:type
-    \    ${ip}   Get From Dictionary   ${ipmap}   addr
-    \    ${version}   Get From Dictionary   ${ipmap}   version
-    \    Return from Keyword if   '${version}'=='4' and '${type}'=='${testtype}'   ${ip}
+    FOR   ${ipmap}   IN   @{ipmaps}
+        ${type}   Get From Dictionary   ${ipmap}   OS-EXT-IPS:type
+        ${ip}   Get From Dictionary   ${ipmap}   addr
+        ${version}   Get From Dictionary   ${ipmap}   version
+        Return from Keyword if   '${version}'=='4' and '${type}'=='${testtype}'   ${ip}
+    END
     Fail  No Version 4 IP

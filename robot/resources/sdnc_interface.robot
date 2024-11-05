@@ -17,18 +17,18 @@ Resource        browser_setup.robot
 *** Variables ***
 ${PRELOAD_VNF_TOPOLOGY_OPERATION_PATH}  /operations/VNF-API:preload-vnf-topology-operation
 ${PRELOAD_NETWORK_TOPOLOGY_OPERATION_PATH}  /operations/VNF-API:preload-network-topology-operation
-${PRELOAD_VNF_CONFIG_PATH}  /config/VNF-API:preload-vnfs/vnf-preload-list
+${PRELOAD_VNF_CONFIG_PATH}  /data/VNF-API:preload-vnfs/vnf-preload-list
 ${PRELOAD_GRA_TOPOLOGY_OPERATION_PATH}     /operations/GENERIC-RESOURCE-API:preload-vf-module-topology-operation
-${PRELOAD_GRA_CONFIG_PATH}  /config/GENERIC-RESOURCE-API:preload-information
+${PRELOAD_GRA_CONFIG_PATH}  /data/GENERIC-RESOURCE-API:preload-information
 ${PRELOAD_TOPOLOGY_OPERATION_BODY}  sdnc
-${SDNC_INDEX_PATH}    /restconf
+${SDNC_INDEX_PATH}    /rests
 ${SDNCGC_HEALTHCHECK_OPERATION_PATH}  /operations/SLI-API:healthcheck
 ${SDNC_REST_ENDPOINT}    ${GLOBAL_SDNC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDNC_IP_ADDR}:${GLOBAL_SDNC_REST_PORT}
 ${SDNC_ADMIN_ENDPOINT}    ${GLOBAL_SDNC_SERVER_PROTOCOL}://${GLOBAL_INJECTED_SDNC_PORTAL_IP_ADDR}:${GLOBAL_SDNC_ADMIN_PORT}
 ${SDNC_ADMIN_SIGNUP_URL}    ${SDNC_ADMIN_ENDPOINT}/signup
 ${SDNC_ADMIN_LOGIN_URL}    ${SDNC_ADMIN_ENDPOINT}/login
 ${SDNC_ADMIN_VNF_PROFILE_URL}    ${SDNC_ADMIN_ENDPOINT}/mobility/getVnfProfile
-${GRAPI_SIPath}     ${SDNC_INDEX_PATH}/config/GENERIC-RESOURCE-API:services/service/${GR_SI}
+${GRAPI_SIPath}     ${SDNC_INDEX_PATH}/data/GENERIC-RESOURCE-API:services/service=${GR_SI}
 ${Data_GRAPI}    { "service": [ { "service-instance-id": "GRSIdummy123" } ] }
 ${GR_SI}    GRSIdummy123
 
@@ -37,7 +37,7 @@ Run SDNC Health Check
     [Documentation]    Runs an SDNC healthcheck
     ${resp}= 	SDNC.Run Post Request 	${SDNC_REST_ENDPOINT} 	${SDNC_INDEX PATH}${SDNCGC_HEALTHCHECK_OPERATION_PATH}     data=${None}    auth=${GLOBAL_SDNC_AUTHENTICATION}
     Should Be Equal As Strings 	${resp.status_code} 	200
-    Should Be Equal As Strings 	${resp.json()['output']['response-code']} 	200
+    Should Be Equal As Strings 	${resp.json()['SLI-API:output']['response-code']} 	200
 
 Run SDNC Health Check Generic Resource API
     [Documentation]    Runs an GENERIC-RESOURCE-API API check for SDNC healthcheck
@@ -52,7 +52,7 @@ Run SDNC Health Check Generic Resource API
     Should contain    ${res_body}   ${GR_SI}
     #Delete Dummy Data
     ${delete_response}    Run SDNC Delete Request    ${GRAPI_SIPath}
-    Should Be Equal As Strings  ${delete_response.status_code}     200
+    Should Be Equal As Strings  ${delete_response.status_code}     204
 
 Run SDNC Delete Request
     [Documentation]    Runs an SDNC Delete Request
@@ -117,23 +117,24 @@ Preload Vnf
     ${closedloop_vf_module}=    Create Dictionary
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${templates}=    ServiceMapping.Get Service Template Mapping    default    ${service}    ${vnf}
-    :FOR    ${vf_module}    IN      @{vf_modules}
-    \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
+    FOR    ${vf_module}    IN      @{vf_modules}
+           ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
     #     need to pass in vnf_index if non-zero
-    \       ${dict}   Run Keyword If    "${generic_vnf_name}".endswith('0')      Get From Mapping With Index    ${templates}    ${vf_module}   0
+           ${dict}   Run Keyword If    "${generic_vnf_name}".endswith('0')      Get From Mapping With Index    ${templates}    ${vf_module}   0
             ...    ELSE IF  "${generic_vnf_name}".endswith('1')      Get From Mapping With Index    ${templates}    ${vf_module}   1
             ...    ELSE IF  "${generic_vnf_name}".endswith('2')      Get From Mapping With Index    ${templates}    ${vf_module}   2
             ...    ELSE   Get From Mapping    ${templates}    ${vf_module}
     #     skip this iteration if no template
-    \       ${test_dict_length} =  Get Length  ${dict}
-    \       Continue For Loop If   ${test_dict_length} == 0
-    \       ${filename}=    Get From Dictionary    ${dict}    template
-    \       ${base_vf_module_type}=   Set Variable If    '${dict['isBase']}' == 'true'     ${vf_module_type}    ${base_vf_module_type}
-    \       ${closedloop_vf_module}=   Set Variable If    '${dict['isBase']}' == 'false'     ${vf_module}    ${closedloop_vf_module}
-    \       ${vf_name}=     Update Module Name    ${dict}    ${vf_module_name}
+           ${test_dict_length} =  Get Length  ${dict}
+           Continue For Loop If   ${test_dict_length} == 0
+           ${filename}=    Get From Dictionary    ${dict}    template
+           ${base_vf_module_type}=   Set Variable If    '${dict['isBase']}' == 'true'     ${vf_module_type}    ${base_vf_module_type}
+           ${closedloop_vf_module}=   Set Variable If    '${dict['isBase']}' == 'false'     ${vf_module}    ${closedloop_vf_module}
+           ${vf_name}=     Update Module Name    ${dict}    ${vf_module_name}
     #    Admin portal update no longer
     #\       Preload Vnf Profile    ${vf_module_type}
-    \       Preload One Vnf Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
+           Preload One Vnf Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
+    END
     [Return]    ${base_vf_module_type}   ${closedloop_vf_module}
 
 Preload Gra
@@ -142,7 +143,7 @@ Preload Gra
     ${closedloop_vf_module}=    Create Dictionary
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${templates}=    ServiceMapping.Get Service Template Mapping    default    ${service}    ${vnf}
-    :FOR    ${vf_module}    IN      @{vf_modules}
+    FOR    ${vf_module}    IN      @{vf_modules}
     \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
     #     need to pass in vnf_index if non-zero
     \       ${dict}   Run Keyword If    "${generic_vnf_name}".endswith('0')      Get From Mapping With Index    ${templates}    ${vf_module}   0
@@ -157,6 +158,7 @@ Preload Gra
     \       ${closedloop_vf_module}=   Set Variable If    '${dict['isBase']}' == 'false'     ${vf_module}    ${closedloop_vf_module}
     \       ${vf_name}=     Update Module Name    ${dict}    ${vf_module_name}
     \       Preload One Gra Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
+    END
     [Return]    ${base_vf_module_type}   ${closedloop_vf_module}
 
 
@@ -172,8 +174,9 @@ Get From Mapping With Index
     [Documentation]    Retrieve the appropriate prelad template entry for the passed vf_module
     [Arguments]    ${templates}    ${vf_module}   ${vnf_index}=0
     ${vf_module_name}=    Get From DIctionary    ${vf_module}    name
-    :FOR    ${template}   IN   @{templates}
+    FOR    ${template}   IN   @{templates}
     \    Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}' and ('${template['vnf_index']}' == '${vnf_index}')     ${template}
+    END
     ${result}=    Create Dictionary
     [Return]    ${result}
 
@@ -181,8 +184,9 @@ Get From Mapping
     [Documentation]    Retrieve the appropriate prelad template entry for the passed vf_module
     [Arguments]    ${templates}    ${vf_module}
     ${vf_module_name}=    Get From DIctionary    ${vf_module}    name
-    :FOR    ${template}   IN   @{templates}
+    FOR    ${template}   IN   @{templates}
     \    Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}'     ${template}
+    END
     ${result}=    Create Dictionary
     [Return]    ${result}
 
@@ -234,10 +238,10 @@ Get Template Parameters
     ${template}=    PreloadData.Get Preload Data    preload    ${service}    ${template}
     # add all of the defaults to template...
     @{keys}=    Get Dictionary Keys    ${defaults}
-    :FOR   ${key}   IN   @{keys}
+    FOR   ${key}   IN   @{keys}
     \    ${value}=   Get From Dictionary    ${defaults}    ${key}
     \    Set To Dictionary    ${template}  ${key}    ${value}
-
+    END
     #
     # Get the vnf_parameters to preload
     #
@@ -251,22 +255,24 @@ Resolve VNF Parameters Into Array
     [Arguments]   ${valuemap}    ${from}
     ${vnf_parameters}=   Create List
     ${keys}=    Get Dictionary Keys    ${from}
-    :FOR   ${key}   IN  @{keys}
+    FOR   ${key}   IN  @{keys}
     \    ${value}=    Get From Dictionary    ${from}   ${key}
     \    ${value}=    Templating.Template String    ${value}    ${valuemap}
     \    ${parameter}=   Create Dictionary   vnf-parameter-name=${key}    vnf-parameter-value=${value}
     \    Append To List    ${vnf_parameters}   ${parameter}
+    END
     [Return]   ${vnf_parameters}
 
 Resolve GRA Parameters Into Array
     [Arguments]   ${valuemap}    ${from}
     ${vnf_parameters}=   Create List
     ${keys}=    Get Dictionary Keys    ${from}
-    :FOR   ${key}   IN  @{keys}
-    \    ${value}=    Get From Dictionary    ${from}   ${key}
-    \    ${value}=    Templating.Template String    ${value}    ${valuemap}
-    \    ${parameter}=   Create Dictionary   name=${key}    value=${value}
-    \    Append To List    ${vnf_parameters}   ${parameter}
+    FOR   ${key}   IN  @{keys}
+        ${value}=    Get From Dictionary    ${from}   ${key}
+        ${value}=    Templating.Template String    ${value}    ${valuemap}
+        ${parameter}=   Create Dictionary   name=${key}    value=${value}
+        Append To List    ${vnf_parameters}   ${parameter}
+    END
     [Return]   ${vnf_parameters}
 
 
