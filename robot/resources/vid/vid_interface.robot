@@ -115,10 +115,11 @@ Get Model UUID from VID
     ${resp}=   Get Text   xpath=//body/pre
     ${json}=   To Json    ${resp}
     ${services}=   Get From Dictionary    ${json}   services
-    :FOR   ${dict}  IN  @{services}
-    \    ${uuid}=   Get From DIctionary   ${dict}   uuid
-    \    ${inv}=   Get From DIctionary   ${dict}    invariantUUID
-    \    Return From Keyword If   "${invariantUUID}" == "${inv}"   ${uuid}
+    FOR   ${dict}  IN  @{services}
+        ${uuid}=   Get From DIctionary   ${dict}   uuid
+        ${inv}=   Get From DIctionary   ${dict}    invariantUUID
+        Return From Keyword If   "${invariantUUID}" == "${inv}"   ${uuid}
+    END
     [Return]    ""
 
 
@@ -133,8 +134,9 @@ Get Module Names from VID
     ${modules}=   Create List
     ${vnfs}=   Get From Dictionary    ${json}   vnfs
     ${keys}=   Get Dictionary Keys    ${vnfs}
-    :FOR   ${key}  IN  @{keys}
-    \    Add VFModule   ${vnfs['${key}']}   ${modules}
+    FOR   ${key}  IN  @{keys}
+        Add VFModule   ${vnfs['${key}']}   ${modules}
+    END
     [Return]    ${modules}
 
 Add VFModule
@@ -142,7 +144,8 @@ Add VFModule
     [Arguments]   ${vnf}   ${modules}
     ${vfModules}=   Get From Dictionary    ${vnf}   vfModules
     ${keys}=   Get Dictionary Keys    ${vfModules}
-    :FOR   ${key}  IN  @{keys}
-    \    ${module}=   Get From Dictionary    ${vfModules}   ${key}
-    \    ${dict}=    Create Dictionary   name=${module['name']}
-    \    Append to List   ${modules}   ${dict}
+    FOR   ${key}  IN  @{keys}
+        ${module}=   Get From Dictionary    ${vfModules}   ${key}
+        ${dict}=    Create Dictionary   name=${module['name']}
+        Append to List   ${modules}   ${dict}
+    END

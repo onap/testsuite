@@ -39,24 +39,26 @@ Model Distribution For Directory
 
 Create ZIPs in SDC ZIP Directory
     [Arguments]  ${directory_list}  ${ziplist}
-    :FOR   ${directory}    IN    @{directory_list}
-    \    ${zipname}=   Replace String    ${directory}    /    _
-    \    ${zip}=    Catenate    ${SDC_ZIP_DIRECTORY}/${zipname}.zip
-    \    ${folder}=    Catenate    ${SDC_ASSETS_DIRECTORY}/${directory}
-    \    OperatingSystem.Create Directory    ${SDC_ASSETS_DIRECTORY}/temp
-    \    Create Zip From Files In Directory        ${folder}    ${zip}
-    \    Append To List    ${ziplist}    ${zip}
+    FOR   ${directory}    IN    @{directory_list}
+        ${zipname}=   Replace String    ${directory}    /    _
+        ${zip}=    Catenate    ${SDC_ZIP_DIRECTORY}/${zipname}.zip
+        ${folder}=    Catenate    ${SDC_ASSETS_DIRECTORY}/${directory}
+        OperatingSystem.Create Directory    ${SDC_ASSETS_DIRECTORY}/temp
+        Create Zip From Files In Directory        ${folder}    ${zip}
+        Append To List    ${ziplist}    ${zip}
+    END
     [Return]  ${ziplist}
 
 Create CSARSs in SDC Onboarding Packages Directory
     [Arguments]  ${directory_list}  ${ziplist}
-    :FOR   ${directory}    IN    @{directory_list}
-    \    ${zipname}=   Replace String    ${directory}    /    _
-    \    ${csar}=    Catenate    ${SDC_CSAR_DIRECTORY}/${zipname}.csar
-    \    ${folder}=    Catenate    ${SDC_TOSCA_ONBOARDING_PACKAGES_DIRECTORY}/${directory}
-    \    OperatingSystem.Create Directory    ${SDC_TOSCA_ONBOARDING_PACKAGES_DIRECTORY}/temp
-    \    Create Zip From Files In Directory        ${folder}    ${csar}    sub_directories=${true}
-    \    Append To List    ${ziplist}    ${csar}
+    FOR   ${directory}    IN    @{directory_list}
+        ${zipname}=   Replace String    ${directory}    /    _
+        ${csar}=    Catenate    ${SDC_CSAR_DIRECTORY}/${zipname}.csar
+        ${folder}=    Catenate    ${SDC_TOSCA_ONBOARDING_PACKAGES_DIRECTORY}/${directory}
+        OperatingSystem.Create Directory    ${SDC_TOSCA_ONBOARDING_PACKAGES_DIRECTORY}/temp
+        Create Zip From Files In Directory        ${folder}    ${csar}    sub_directories=${true}
+        Append To List    ${ziplist}    ${csar}
+    END
     [Return]  ${ziplist}
 
 TOSCA Based PNF Model Distribution For Directory
@@ -68,13 +70,14 @@ TOSCA Based PNF Model Distribution For Directory
     ${service_name}=    Catenate    ${service}    ${uuid}
     ${shortened_uuid}=     Evaluate    str("${service_name}")[:23]
     ${catalog_service_name}=   Set Variable If   '${catalog_service_name}' ==''   ${shortened_uuid}   ${catalog_service_name}
-    :FOR   ${directory}    IN    @{directory_list}
-    \    ${zipname}=   Replace String    ${directory}    /    _
-    \    ${csar}=    Catenate    ${SDC_CSAR_DIRECTORY}/${zipname}.csar
-    \    ${folder}=    Catenate    ${SDC_TOSCA_ONBOARDING_PACKAGES_DIRECTORY}/${directory}
-    \    OperatingSystem.Create Directory    ${SDC_TOSCA_ONBOARDING_PACKAGES_DIRECTORY}/temp
-    \    Create Zip From Files In Directory        ${folder}    ${csar}    sub_directories=${true}
-    \    Append To List    ${csarlist}    ${csar}
+    FOR   ${directory}    IN    @{directory_list}
+        ${zipname}=   Replace String    ${directory}    /    _
+        ${csar}=    Catenate    ${SDC_CSAR_DIRECTORY}/${zipname}.csar
+        ${folder}=    Catenate    ${SDC_TOSCA_ONBOARDING_PACKAGES_DIRECTORY}/${directory}
+        OperatingSystem.Create Directory    ${SDC_TOSCA_ONBOARDING_PACKAGES_DIRECTORY}/temp
+        Create Zip From Files In Directory        ${folder}    ${csar}    sub_directories=${true}
+        Append To List    ${csarlist}    ${csar}
+    END
     ${catalog_service_name}    ${catalog_resource_name}    ${catalog_resource_ids}   ${catalog_service_id}   ${catalog_resources}   Distribute Model From SDC    ${csarlist}    ${catalog_service_name}   ${service}    resourceType=PNF
     Download CSAR    ${catalog_service_id}
     [Return]    ${catalog_service_name}    ${catalog_resource_name}    ${catalog_resources}
@@ -83,8 +86,9 @@ Teardown Models
     [Documentation]    Clean up at the end of the test
     [Arguments]     ${catalog_service_id}    ${catalog_resource_ids}
     Return From Keyword If    '${catalog_service_id}' == ''
-    :FOR    ${catalog_resource_id}   IN   @{catalog_resource_ids}
-    \   ${resourece_json}=   Mark SDC Catalog Resource Inactive    ${catalog_resource_id}
+    FOR    ${catalog_resource_id}   IN   @{catalog_resource_ids}
+       ${resourece_json}=   Mark SDC Catalog Resource Inactive    ${catalog_resource_id}
+    END
     ${service_json}=   Mark SDC Catalog Service Inactive    ${catalog_service_id}
     ${services_json}=   Delete Inactive SDC Catalog Services
     ${resources_json}=    Delete Inactive SDC Catalog Resources

@@ -54,9 +54,10 @@ Get KeystoneAPIVersion
     Should Be Equal As Strings    ${resp.status_code}    300
     ${versions}=   Get From Dictionary    ${resp.json()}   versions
     ${values}=   Get From Dictionary    ${versions}   values
-    :FOR    ${value}    IN    @{values}
-       \  ${status}=    Get Variable Value    ${value["status"]}
-       \  Run Keyword If    '${status}'=='stable'   Exit For Loop
+    FOR    ${value}    IN    @{values}
+         ${status}=    Get Variable Value    ${value["status"]}
+         Run Keyword If    '${status}'=='stable'   Exit For Loop
+    END
     ${href}=  Set Variable     ${value["links"][0]["href"]}
     ${keystone}=  Set Variable   ${GLOBAL_INJECTED_KEYSTONE}
     ${version}=    Remove String  ${href}   ${keystone}  /
