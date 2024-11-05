@@ -86,20 +86,22 @@ Get Openstack Subnet By Name
     ${resp}=    Get Openstack Subnets    ${alias}
     @{list}=    Get From Dictionary    ${resp}    subnets
     ${returnnet}=    Set Variable
-    :FOR    ${net}    IN    @{list}
-    \    ${name}=   Get From Dictionary    ${net}    name
-    \    ${cidr}=   Get From Dictionary    ${net}    cidr
-    \    ${returnnet}=    Set Variable    ${net}
-    \    Exit For Loop If    '${name}'=='${network_name}' and '${cidr}'=='${network_cidr}'
-    \    ${returnnet}=    Create DIctionary
+    FOR    ${net}    IN    @{list}
+        ${name}=   Get From Dictionary    ${net}    name
+        ${cidr}=   Get From Dictionary    ${net}    cidr
+        ${returnnet}=    Set Variable    ${net}
+        Exit For Loop If    '${name}'=='${network_name}' and '${cidr}'=='${network_cidr}'
+        ${returnnet}=    Create DIctionary
+    END
     [Return]    ${returnnet}
 
 Get Openstack IP By Name
     [Arguments]    ${alias}    ${network_name}    ${cidr}    ${ip}
     ${ports}=    Get Openstack Ports For Subnet    ${alias}    ${network_name}    ${cidr}
     Log    ${ports}
-    :FOR    ${port}   IN   @{ports}
-    \    Return From Keyword If    '${port['fixed_ips'][0]['ip_address']}' == '${ip}'    ${port}
+    FOR    ${port}   IN   @{ports}
+        Return From Keyword If    '${port['fixed_ips'][0]['ip_address']}' == '${ip}'    ${port}
+    END
     [Return]    None
 
 Get Openstack Ports For Subnet
@@ -107,8 +109,9 @@ Get Openstack Ports For Subnet
     ${net}=    Get Openstack Subnet By Name    ${alias}    ${network_name}    ${cidr}
     ${ports}=    Get Openstack Ports     ${alias}
     ${net_ports}=    Create List
-    :FOR    ${port}    IN    @{ports['ports']}
-    \    Run Keyword If   '${net['network_id']}' == '${port['network_id']}'    Append To List    ${net_ports}   ${port}
+    FOR    ${port}    IN    @{ports['ports']}
+        Run Keyword If   '${net['network_id']}' == '${port['network_id']}'    Append To List    ${net_ports}   ${port}
+    END
     [Return]   ${net_ports}
 
 Get Openstack Port By Id

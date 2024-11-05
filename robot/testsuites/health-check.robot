@@ -65,7 +65,7 @@ Basic DCAE Microservices Health Check
     Run DCAE Microservices Health Check
 
 Basic DMAAP Data Router Health Check
-    [Tags]    health    datarouter   health-dmaap
+    [Tags]    datarouter   health-dmaap
     Run DR Health Check
 
 Basic DMAAP Message Router Health Check
@@ -102,7 +102,7 @@ Basic Multicloud API Health Check
     Run MultiCloud Health Check
 
 Basic Multicloud-pike API Health Check
-    [Tags]    health    multicloud    small   health-multicloud
+    [Tags]    multicloud    small   health-multicloud
     Run MultiCloud-pike Health Check
 
 Basic Multicloud-starlingx API Health Check
@@ -311,15 +311,15 @@ Portal CLI Application Access Test
 
 
 Basic Holmes Rule Management API Health Check
-    [Tags]    health-holmes    health
+    [Tags]    health-holmes
     Run Holmes Rule Mgmt Healthcheck
 
 Basic Holmes Engine Management API Health Check
-    [Tags]    health-holmes    health
+    [Tags]    health-holmes
     Run Holmes Engine Mgmt Healthcheck
 
 Basic Modeling Parser API Health Check
-    [Tags]    health    api   health-modeling
+    [Tags]    api   health-modeling
     Run Modeling Parser Healthcheck
 
 Enhanced CDS Health Check

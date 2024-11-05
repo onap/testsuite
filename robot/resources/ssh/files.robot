@@ -30,10 +30,11 @@ Grep File on Hosts
     [Documentation]     Grep the passed file name and return all of the lines that match the passed pattern using passed list of connections
     [Arguments]    ${HOSTS}    ${pattern}    ${fullpath}
     &{map}=    Create Dictionary
-    :FOR    ${HOST}    IN    @{HOSTS}
-    \    Log    ${HOST}
-    \    @{lines}=    Grep File on Host    ${HOST}   ${pattern}    ${fullpath}
-    \    &{map}=    Create Dictionary    ${HOST}=@{lines}    &{map}
+    FOR    ${HOST}    IN    @{HOSTS}
+        Log    ${HOST}
+        @{lines}=    Grep File on Host    ${HOST}   ${pattern}    ${fullpath}
+        &{map}=    Create Dictionary    ${HOST}=@{lines}    &{map}
+    END
     [Return]    &{map}
 
 Tail File on Host Until

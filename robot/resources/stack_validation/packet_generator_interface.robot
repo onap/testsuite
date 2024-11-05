@@ -50,13 +50,14 @@ Enable Streams
     ${comma}=      Set Variable
     ${stream_count}=    Evaluate    ${stream_count}+1
     Templating.Create Environment    pgi    ${GLOBAL_TEMPLATE_FOLDER}
-    :FOR    ${i}    IN RANGE     1    ${stream_count}
-    \    ${name}=    Catenate    ${prefix}${i}
-    \    ${map}=    Create Dictionary    stream=${name}
-    \    ${one}=   Templating.Apply Template    pgi    ${PGN_ENABLE_STREAM_TEMPLATE}    ${map}
-    \    ${one}=    evaluate    json.dumps(${one})    json
-    \    ${streams}=    Set Variable    ${streams}${comma}${one}
-    \    ${comma}=      Set Variable    ,
+    FOR    ${i}    IN RANGE     1    ${stream_count}
+        ${name}=    Catenate    ${prefix}${i}
+        ${map}=    Create Dictionary    stream=${name}
+        ${one}=   Templating.Apply Template    pgi    ${PGN_ENABLE_STREAM_TEMPLATE}    ${map}
+        ${one}=    evaluate    json.dumps(${one})    json
+        ${streams}=    Set Variable    ${streams}${comma}${one}
+        ${comma}=      Set Variable    ,
+    END
     ${map}=    Create Dictionary    pgstreams=${streams}
     ${data}=   Templating.Apply Template    pgi    ${PGN_ENABLE_STREAMS_TEMPLATE}    ${map}
     ${resp}= 	Put Request 	${alias} 	${data_path}     data=${data}     headers=${headers}

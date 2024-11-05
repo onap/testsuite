@@ -59,24 +59,25 @@ Orchestrate VNF
     ${vnf_name_index}=   Set Variable  0
     ${vf_module_name_list}=    Create List
     ${uuid}=    Evaluate    str("${uuid}")[:8]
-    :FOR   ${vnf}   IN   @{vnflist}
-    \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}_${vnf_name_index}
-    \   ${vf_module_name}=    Catenate    Vfmodule_Ete_${vnf}_${uuid}_${vnf_name_index}
-    \   ${vnf_name_index}=   Evaluate   ${vnf_name_index} + 1
-    \   ${vnf_type}=   Get VNF Type   ${catalog_resources}   ${vnf}    ${service}
-    \   ${vf_module}=    Get VF Module    ${catalog_resources}   ${vnf}    ${service}
-    \   Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${customer_name}
+    FOR   ${vnf}   IN   @{vnflist}
+       ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}_${vnf_name_index}
+       ${vf_module_name}=    Catenate    Vfmodule_Ete_${vnf}_${uuid}_${vnf_name_index}
+       ${vnf_name_index}=   Evaluate   ${vnf_name_index} + 1
+       ${vnf_type}=   Get VNF Type   ${catalog_resources}   ${vnf}    ${service}
+       ${vf_module}=    Get VF Module    ${catalog_resources}   ${vnf}    ${service}
+       Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${customer_name}
 
-    \   ${vf_module_type}   ${closedloop_vf_module}=   Run Keyword If   "${API_TYPE}"=="GRA_API"     Preload Gra    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}  ${service}    ${server_id}
-    \                                                  ...   ELSE   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}  ${service}   ${server_id}
+       ${vf_module_type}   ${closedloop_vf_module}=   Run Keyword If   "${API_TYPE}"=="GRA_API"     Preload Gra    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}  ${service}    ${server_id}
+                                                      ...   ELSE   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_module}    ${vnf}    ${uuid}  ${service}   ${server_id}
 
-    \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${customer_name}   ${vnf_name}
-    \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
-    \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
+       ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${customer_name}   ${vnf_name}
+       ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
+       Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
-    \   ${uris_to_delete}=   Set Variable   'http://devnull'
-    \   Validate VF Module      ${vf_module_name}    ${vnf}
-    \   Append To List   ${vf_module_name_list}    ${vf_module_name}
+       ${uris_to_delete}=   Set Variable   'http://devnull'
+       Validate VF Module      ${vf_module_name}    ${vnf}
+       Append To List   ${vf_module_name_list}    ${vf_module_name}
+    END
     [Return]     ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${catalog_resource_ids}   ${catalog_service_id}    ${uris_to_delete}
 
 
@@ -106,27 +107,28 @@ Orchestrate Demo VNF
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${vnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
     ${generic_vnfs}=    Create Dictionary
-    :FOR   ${vnf}   IN   @{vnflist}
-    \   ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
-    \   ${vf_module_name}=    Catenate    Vfmodule_Demo_${vnf}_${uuid}
-    \   ${vnf_type}=    Set Variable  ${vnf_json_resources['${vnf}']['vnf_type']}
-    \   ${vf_module}=   Set Variable  ${vnf_json_resources['${vnf}']['vf_module']}
-    \   Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${full_customer_name}
-    \   ${vf_module_entry}=   Create Dictionary    name=${vf_module}
-    \   ${vf_modules}=   Create List    ${vf_module_entry}
+    FOR   ${vnf}   IN   @{vnflist}
+       ${vnf_name}=    Catenate    Ete_${vnf}_${uuid}
+       ${vf_module_name}=    Catenate    Vfmodule_Demo_${vnf}_${uuid}
+       ${vnf_type}=    Set Variable  ${vnf_json_resources['${vnf}']['vnf_type']}
+       ${vf_module}=   Set Variable  ${vnf_json_resources['${vnf}']['vf_module']}
+       Create VID VNF    ${service_instance_id}    ${vnf_name}    ${product_family}    ${lcp_region}    ${tenant_name}    ${vnf_type}   ${full_customer_name}
+       ${vf_module_entry}=   Create Dictionary    name=${vf_module}
+       ${vf_modules}=   Create List    ${vf_module_entry}
     #   in Demo VNF flow old logic since we did not create the resource so @{vf_modules} is passed to Preload Vnf / Preload Gra
-    \   ${vf_module_type}   ${closedloop_vf_module}=   Run Keyword If   "${API_TYPE}"=="GRA_API"     Preload Gra    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}  ${service}    ${server_id}
-    \                                                  ...   ELSE   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}  ${service}   ${server_id}
+       ${vf_module_type}   ${closedloop_vf_module}=   Run Keyword If   "${API_TYPE}"=="GRA_API"     Preload Gra    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}  ${service}    ${server_id}
+                                                      ...   ELSE   Preload Vnf    ${service_instance_id}   ${vnf_name}   ${vnf_type}   ${vf_module_name}    ${vf_modules}    ${vnf}    ${uuid}  ${service}   ${server_id}
 
 
-    \   ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${full_customer_name}   ${vnf_name}
-    \   ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
-    \   Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
+       ${vf_module_id}=   Create VID VNF module    ${service_instance_id}    ${vf_module_name}    ${lcp_region}    ${tenant_name}     ${vf_module_type}   ${full_customer_name}   ${vnf_name}
+       ${generic_vnf}=   Validate Generic VNF    ${vnf_name}    ${vnf_type}    ${service_instance_id}
+       Set To Dictionary    ${generic_vnfs}    ${vf_module_type}    ${generic_vnf}
     #    TODO: Need to look at a better way to default ipv4_oam_interface  search for Heatbridge
     ##  Part of remove Heatbridge
     ##\   Execute Heatbridge    ${vf_module_name}    ${vnf}  ${service}    ipv4_oam_interface
-    \   Validate VF Module      ${vf_module_name}    ${vnf}
-    \   Append To List   ${vf_module_name_list}   ${vf_module_name}
+       Validate VF Module      ${vf_module_name}    ${vnf}
+       Append To List   ${vf_module_name_list}   ${vf_module_name}
+    END
     [Return]     ${vf_module_name}    ${service}    ${generic_vnfs}
 
 
@@ -151,12 +153,13 @@ Get Catalog Resource
     ${base_name}=  Get Name Pattern   ${vnf}    ${service}
     ${keys}=    Get Dictionary Keys    ${resources}
 
-    :FOR   ${key}   IN    @{keys}
-    \    ${cr}=   Get From Dictionary    ${resources}    ${key}
-    \    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat1']['artifactDisplayName']}'    ${cr}
-    \    Run Keyword If    'heat2' in ${cr['allArtifacts']}    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat2']['artifactDisplayName']}'    ${cr}
-    \    Run Keyword If    'heat3' in ${cr['allArtifacts']}    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat3']['artifactDisplayName']}'    ${cr}
-    \    Run Keyword If    'heat4' in ${cr['allArtifacts']}    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat4']['artifactDisplayName']}'    ${cr}
+    FOR   ${key}   IN    @{keys}
+        ${cr}=   Get From Dictionary    ${resources}    ${key}
+        Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat1']['artifactDisplayName']}'    ${cr}
+        Run Keyword If    'heat2' in ${cr['allArtifacts']}    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat2']['artifactDisplayName']}'    ${cr}
+        Run Keyword If    'heat3' in ${cr['allArtifacts']}    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat3']['artifactDisplayName']}'    ${cr}
+        Run Keyword If    'heat4' in ${cr['allArtifacts']}    Return From Keyword If   '${base_name}' in '${cr['allArtifacts']['heat4']['artifactDisplayName']}'    ${cr}
+    END
     Fail    Unable to find catalog resource for ${vnf} ${base_name}
 
 Get Name Pattern
@@ -164,9 +167,10 @@ Get Name Pattern
     [Arguments]   ${vnf}    ${service}
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${list}=    ServiceMapping.Get Service Template Mapping    default    ${service}    ${vnf}
-    :FOR    ${dict}   IN   @{list}
-    \   ${base_name}=   Get From Dictionary    ${dict}    name_pattern
-    \   Return From Keyword If   '${dict['isBase']}' == 'true'   ${base_name}
+    FOR    ${dict}   IN   @{list}
+       ${base_name}=   Get From Dictionary    ${dict}    name_pattern
+       Return From Keyword If   '${dict['isBase']}' == 'true'   ${base_name}
+    END
     Fail  Unable to locate base name pattern
 
 Create Customer For VNF
@@ -185,8 +189,9 @@ Setup Orchestrate VNF
     ${tenant_id}    ${tenant_name}=    Initialize Tenant From Openstack
     Run Openstack Auth Request    auth
     ${regs}=    Get Openstack Regions    auth
-    :FOR    ${region}    IN    @{regs}
-    \    Inventory Tenant If Not Exists    ${cloud_owner}  ${region}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}    ${tenant_id}    ${tenant_name}
+    FOR    ${region}    IN    @{regs}
+        Inventory Tenant If Not Exists    ${cloud_owner}  ${region}  ${cloud_type}    ${owner_defined_type}    ${cloud_region_version}    ${cloud_zone}    ${tenant_id}    ${tenant_name}
+    END
     Inventory Zone If Not Exists
     Inventory Complex If Not Exists    ${GLOBAL_AAI_COMPLEX_NAME}   ${GLOBAL_AAI_PHYSICAL_LOCATION_ID}   ${GLOBAL_AAI_CLOUD_OWNER}   ${GLOBAL_INJECTED_REGION}   ${GLOBAL_AAI_CLOUD_OWNER_DEFINED_TYPE}
     Log   Orchestrate VNF setup complete
@@ -221,19 +226,22 @@ Delete VNF
     ${sorted_stack_names}=  Remove Duplicates   ${vf_module_name_list}
     Sort List   ${sorted_stack_names}
     Reverse List   ${sorted_stack_names}
-    :FOR   ${stack}   IN   @{sorted_stack_names}
-    \     ${keypair_name}=    Get Stack Keypairs   ${stack}
-    \     Append To List   ${list}   ${keypair_name}
+    FOR   ${stack}   IN   @{sorted_stack_names}
+         ${keypair_name}=    Get Stack Keypairs   ${stack}
+         Append To List   ${list}   ${keypair_name}
+    END
     Teardown VVG Server    ${server_id}
     Run Keyword and Ignore Error   Teardown VID   ${service_instance_id}   ${lcp_region}   ${tenant_name}   ${customer_name}    ${uris_to_delete}
     #
-    :FOR   ${stack}   IN   @{sorted_stack_names}
-    \    Run Keyword and Ignore Error    Teardown Stack    ${stack}
-    \    Log    Stack Deleted ${stack}
+    FOR   ${stack}   IN   @{sorted_stack_names}
+        Run Keyword and Ignore Error    Teardown Stack    ${stack}
+        Log    Stack Deleted ${stack}
+    END
     # only needed if stack deleted but not keypair
-    :FOR   ${key_pair}   IN   @{list}
-    \    Run Keyword and Ignore Error    Delete Stack Keypair  ${key_pair}
-    \    Log    Key pair Deleted ${key_pair}
+    FOR   ${key_pair}   IN   @{list}
+        Run Keyword and Ignore Error    Delete Stack Keypair  ${key_pair}
+        Log    Key pair Deleted ${key_pair}
+    END
     Log    VNF Deleted
 
 Teardown VNF
