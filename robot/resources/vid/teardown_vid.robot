@@ -64,11 +64,12 @@ Delete Next VID Entity
     Wait Until Page Contains    View/Edit Service Instance     timeout=${GLOBAL_VID_UI_TIMEOUT_MEDIUM}
     Wait Until Element Is Visible    xpath=//a/span[@class='glyphicon glyphicon-remove']    timeout=${GLOBAL_VID_UI_TIMEOUT_LONG}
 
-    :FOR   ${remove_first}    IN    @{remove_order}
-    \    ${remove_xpath}=    Set Variable   //li/div[contains(.,'${remove_first}')]/a/span[@class='glyphicon glyphicon-remove']
-    \    ${status}    ${data}=   Run Keyword And Ignore Error    Page Should Contain Element     xpath=${remove_xpath}
-    \    Exit For Loop If    '${status}' == 'PASS'
-    \   ${remove_xpath}=    Set Variable   //li/div/a/span[@class='glyphicon glyphicon-remove']
+    FOR   ${remove_first}    IN    @{remove_order}
+        ${remove_xpath}=    Set Variable   //li/div[contains(.,'${remove_first}')]/a/span[@class='glyphicon glyphicon-remove']
+        ${status}    ${data}=   Run Keyword And Ignore Error    Page Should Contain Element     xpath=${remove_xpath}
+        Exit For Loop If    '${status}' == 'PASS'
+       ${remove_xpath}=    Set Variable   //li/div/a/span[@class='glyphicon glyphicon-remove']
+    END
     Click On Element When Visible    xpath=${remove_xpath}
 
     ${status}   ${value}=   Run Keyword and Ignore Error   Wait Until Page Contains Element     xpath=//select[@parameter-id='lcpRegion']

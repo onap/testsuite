@@ -79,15 +79,15 @@ Add Service Mapping
     ${template_mapping_list}    Create List
     ${module_index}=     Set Variable    0
 
-    :FOR     ${module}     IN     @{module_list}
-    \   ${empty_dict}    Create Dictionary
-    \   ${base}=    Set Variable    ${module["isBase"]}
-    \   ${filename}=    Set Variable    ${module["filename"]}
-    \   ${index}=    Set Variable If    '${base}'=='true'    0     ${module_index} + 1
-    \   ${name}=    Remove String        ${filename}    .yaml    .yml
-    \   ${preload}=    Set Variable    ${module["preload"]}
-    \   set to dictionary    ${empty_dict}    isBase=${base}    template=""    vnf_index=${index}    name_pattern=${name}    preload_file=${preload}
-    \   Append To List    ${template_mapping_list}    ${empty_dict}
+    FOR     ${module}     IN     @{module_list}
+       ${empty_dict}    Create Dictionary
+       ${base}=    Set Variable    ${module["isBase"]}
+       ${filename}=    Set Variable    ${module["filename"]}
+       ${index}=    Set Variable If    '${base}'=='true'    0     ${module_index} + 1
+       ${name}=    Remove String        ${filename}    .yaml    .yml
+       ${preload}=    Set Variable    ${module["preload"]}
+       set to dictionary    ${empty_dict}    isBase=${base}    template=""    vnf_index=${index}    name_pattern=${name}    preload_file=${preload}
+       Append To List    ${template_mapping_list}    ${empty_dict}
 
     ${GLOBAL_SERVICE_TEMPLATE_MAPPING}    Create Dictionary
     ${GLOBAL_SERVICE_FOLDER_MAPPING}    Create Dictionary

@@ -70,10 +70,11 @@ Deploying SON Polciies
 
 Create dmaap topics
     [Tags]                              5gson
-    :FOR   ${topic}   IN   @{TOPICS}
-    \   ${data_path}=                   Set Variable                       /events/${topic}
-    \   ${resp}=                        Run MR Post Request                data_path=${data_path}
-    \   Should Be Equal As Strings      ${resp.status_code}                200
+    FOR   ${topic}   IN   @{TOPICS}
+       ${data_path}=                   Set Variable                       /events/${topic}
+       ${resp}=                        Run MR Post Request                data_path=${data_path}
+       Should Be Equal As Strings      ${resp.status_code}                200
+    END
 
 Deploy SON Handler
     [Tags]                              5gson
@@ -123,10 +124,11 @@ Post Fault Message to VES Collector
     [Tags]                              5gson
     ${session}=                         Create Session                     configdb                         http://configdb.onap:8080
     ${headers}=                         Create Dictionary                  content-type=application/json
-    :FOR   ${NBR}   IN   @{NEW_NBRS}
-    \   ${nbr_obj}                      Set Variable                       {"targetCellId": "${NBR}", "ho": true}
-    \   ${resp}                         Put Request                        configdb                         ${CONFIGDB_CREATENBR_PATH}/Chn0005    headers=${headers}    data=${nbr_obj}
-    \   Should Be Equal As Strings      ${resp.status_code}                201
+    FOR   ${NBR}   IN   @{NEW_NBRS}
+       ${nbr_obj}                      Set Variable                       {"targetCellId": "${NBR}", "ho": true}
+       ${resp}                         Put Request                        configdb                         ${CONFIGDB_CREATENBR_PATH}/Chn0005    headers=${headers}    data=${nbr_obj}
+       Should Be Equal As Strings      ${resp.status_code}                201
+    END
     ${fault_event}=                     Set Variable                       ${5GSON_RESOURCES_PATH}/son_fault.json
     Send Event to VES Collector         event=${fault_event}
 
@@ -147,8 +149,9 @@ Verify SDNC Dmaap Message
     ${resp}=                            Run MR Get Request                 /events/SDNR-CL/robot-cg/robot-cid
     @{messages}=                        Set Variable                       ${resp.json()}
     Should Not Be Empty                 ${messages}
-    :FOR   ${msg}   IN   @{messages}
-    \   ${msg_json}=                    Convert String to JSON             ${msg}
-    \   ${rpc_name}=                    Set Variable                       ${msg_json.get("rpc-name")}
-    \   ${no_of_msgs}=                  Set Variable If                    "${rpc_name}" == "modifyconfig"    ${no_of_msgs + 1}
+    FOR   ${msg}   IN   @{messages}
+       ${msg_json}=                    Convert String to JSON             ${msg}
+       ${rpc_name}=                    Set Variable                       ${msg_json.get("rpc-name")}
+       ${no_of_msgs}=                  Set Variable If                    "${rpc_name}" == "modifyconfig"    ${no_of_msgs + 1}
+    END
     Should Be Equal As Numbers          ${no_of_msgs}                      4

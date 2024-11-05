@@ -130,9 +130,10 @@ Validate Not Valid Onboarding Package
     Should Be Equal As Strings  ${status}     FAILED
     ${status_req_list}=  Set Variable  ${json[0]['results']['results']}
     ${failed_req_from_test_run}=    Create List
-    :FOR    ${status_req}     IN      @{status_req_list}
-    \    ${req_status}=  Get From Dictionary   ${status_req}     passed
-    \    Run Keyword If  "${req_status}"=='False'  Add Failed Requirement To List  ${status_req}   ${failed_req_from_test_run}  vnfreqName
+    FOR    ${status_req}     IN      @{status_req_list}
+        ${req_status}=  Get From Dictionary   ${status_req}     passed
+        Run Keyword If  "${req_status}"=='False'  Add Failed Requirement To List  ${status_req}   ${failed_req_from_test_run}  vnfreqName
+    END
     Log  ${failed_req_from_test_run}
     Sort List  ${failed_req_from_test_run}
     Sort List  ${failed_req_list}
@@ -148,9 +149,10 @@ Get And Comapre Error Responses From SDC API
     ${json}=  Set Variable  ${resp.json()}
     ${sdc_response_list}    Set Variable   ${json['errors']['uploadFile']}
     ${failed_req_from_test_run}=    Create List
-    :FOR    ${message_item}     IN      @{sdc_response_list}
-    \    ${req_status}=  Get From Dictionary   ${message_item}     level
-    \    Run Keyword If  "${req_status}"=='ERROR'  Add Failed Requirement To List  ${message_item}   ${failed_req_from_test_run}  message
+    FOR    ${message_item}     IN      @{sdc_response_list}
+        ${req_status}=  Get From Dictionary   ${message_item}     level
+        Run Keyword If  "${req_status}"=='ERROR'  Add Failed Requirement To List  ${message_item}   ${failed_req_from_test_run}  message
+    END
     Log  ${failed_req_from_test_run}
     Sort List  ${sdc_response}
     Sort List  ${failed_req_from_test_run}
