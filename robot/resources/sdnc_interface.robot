@@ -117,7 +117,7 @@ Preload Vnf
     ${closedloop_vf_module}=    Create Dictionary
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${templates}=    ServiceMapping.Get Service Template Mapping    default    ${service}    ${vnf}
-    :FOR    ${vf_module}    IN      @{vf_modules}
+    FOR    ${vf_module}    IN      @{vf_modules}
     \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
     #     need to pass in vnf_index if non-zero
     \       ${dict}   Run Keyword If    "${generic_vnf_name}".endswith('0')      Get From Mapping With Index    ${templates}    ${vf_module}   0
@@ -134,6 +134,7 @@ Preload Vnf
     #    Admin portal update no longer
     #\       Preload Vnf Profile    ${vf_module_type}
     \       Preload One Vnf Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
+    END
     [Return]    ${base_vf_module_type}   ${closedloop_vf_module}
 
 Preload Gra
@@ -142,7 +143,7 @@ Preload Gra
     ${closedloop_vf_module}=    Create Dictionary
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${templates}=    ServiceMapping.Get Service Template Mapping    default    ${service}    ${vnf}
-    :FOR    ${vf_module}    IN      @{vf_modules}
+    FOR    ${vf_module}    IN      @{vf_modules}
     \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
     #     need to pass in vnf_index if non-zero
     \       ${dict}   Run Keyword If    "${generic_vnf_name}".endswith('0')      Get From Mapping With Index    ${templates}    ${vf_module}   0
@@ -157,6 +158,7 @@ Preload Gra
     \       ${closedloop_vf_module}=   Set Variable If    '${dict['isBase']}' == 'false'     ${vf_module}    ${closedloop_vf_module}
     \       ${vf_name}=     Update Module Name    ${dict}    ${vf_module_name}
     \       Preload One Gra Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
+    END
     [Return]    ${base_vf_module_type}   ${closedloop_vf_module}
 
 
@@ -172,8 +174,9 @@ Get From Mapping With Index
     [Documentation]    Retrieve the appropriate prelad template entry for the passed vf_module
     [Arguments]    ${templates}    ${vf_module}   ${vnf_index}=0
     ${vf_module_name}=    Get From DIctionary    ${vf_module}    name
-    :FOR    ${template}   IN   @{templates}
+    FOR    ${template}   IN   @{templates}
     \    Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}' and ('${template['vnf_index']}' == '${vnf_index}')     ${template}
+    END
     ${result}=    Create Dictionary
     [Return]    ${result}
 
@@ -181,8 +184,9 @@ Get From Mapping
     [Documentation]    Retrieve the appropriate prelad template entry for the passed vf_module
     [Arguments]    ${templates}    ${vf_module}
     ${vf_module_name}=    Get From DIctionary    ${vf_module}    name
-    :FOR    ${template}   IN   @{templates}
+    FOR    ${template}   IN   @{templates}
     \    Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}'     ${template}
+    END
     ${result}=    Create Dictionary
     [Return]    ${result}
 
@@ -234,10 +238,10 @@ Get Template Parameters
     ${template}=    PreloadData.Get Preload Data    preload    ${service}    ${template}
     # add all of the defaults to template...
     @{keys}=    Get Dictionary Keys    ${defaults}
-    :FOR   ${key}   IN   @{keys}
+    FOR   ${key}   IN   @{keys}
     \    ${value}=   Get From Dictionary    ${defaults}    ${key}
     \    Set To Dictionary    ${template}  ${key}    ${value}
-
+    END
     #
     # Get the vnf_parameters to preload
     #
@@ -251,22 +255,24 @@ Resolve VNF Parameters Into Array
     [Arguments]   ${valuemap}    ${from}
     ${vnf_parameters}=   Create List
     ${keys}=    Get Dictionary Keys    ${from}
-    :FOR   ${key}   IN  @{keys}
+    FOR   ${key}   IN  @{keys}
     \    ${value}=    Get From Dictionary    ${from}   ${key}
     \    ${value}=    Templating.Template String    ${value}    ${valuemap}
     \    ${parameter}=   Create Dictionary   vnf-parameter-name=${key}    vnf-parameter-value=${value}
     \    Append To List    ${vnf_parameters}   ${parameter}
+    END
     [Return]   ${vnf_parameters}
 
 Resolve GRA Parameters Into Array
     [Arguments]   ${valuemap}    ${from}
     ${vnf_parameters}=   Create List
     ${keys}=    Get Dictionary Keys    ${from}
-    :FOR   ${key}   IN  @{keys}
-    \    ${value}=    Get From Dictionary    ${from}   ${key}
-    \    ${value}=    Templating.Template String    ${value}    ${valuemap}
-    \    ${parameter}=   Create Dictionary   name=${key}    value=${value}
-    \    Append To List    ${vnf_parameters}   ${parameter}
+    FOR   ${key}   IN  @{keys}
+        ${value}=    Get From Dictionary    ${from}   ${key}
+        ${value}=    Templating.Template String    ${value}    ${valuemap}
+        ${parameter}=   Create Dictionary   name=${key}    value=${value}
+        Append To List    ${vnf_parameters}   ${parameter}
+    END
     [Return]   ${vnf_parameters}
 
 

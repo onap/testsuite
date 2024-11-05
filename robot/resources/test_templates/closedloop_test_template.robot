@@ -199,26 +199,28 @@ VFWCL High Test
         [Arguments]    ${pkg_host}
 	Enable Streams V2    ${pkg_host}   10
         Log   Set number of streams to 10
-	:FOR    ${i}    IN RANGE    12
-	\   Sleep  15s
-	\   ${resp}=   Get List Of Enabled Streams V2   ${pkg_host}
-        \   ${stream_count}=   Set Variable   ${resp['stream-count']['streams']['active-streams']}
-        \   Log   Number of streams: ${stream_count}
-        \   Exit For Loop If   '${stream_count}'=='5'
-        Should Be Equal As Integers  ${stream_count}   5
+	FOR    ${i}    IN RANGE    12
+	   Sleep  15s
+	   ${resp}=   Get List Of Enabled Streams V2   ${pkg_host}
+          ${stream_count}=   Set Variable   ${resp['stream-count']['streams']['active-streams']}
+          Log   Number of streams: ${stream_count}
+          Exit For Loop If   '${stream_count}'=='5'
+       Should Be Equal As Integers  ${stream_count}   5
+    END
 
 VFWCL Low Test
 	[Documentation]    Test Control Loop for Low Traffic
         [Arguments]    ${pkg_host}
 	Enable Streams V2     ${pkg_host}   1
         Log   Set number of streams to 1
-	:FOR    ${i}    IN RANGE    12
-	\   Sleep  15s
-	\   ${resp}=   Get List Of Enabled Streams V2   ${pkg_host}
-        \   ${stream_count}=   Set Variable   ${resp['stream-count']['streams']['active-streams']}
-        \   Log   Number of streams: ${stream_count}
-        \   Exit For Loop If   '${stream_count}'=='5'
-        Should Be Equal As Integers  ${stream_count}   5
+	FOR    ${i}    IN RANGE    12
+	   Sleep  15s
+	   ${resp}=   Get List Of Enabled Streams V2   ${pkg_host}
+          ${stream_count}=   Set Variable   ${resp['stream-count']['streams']['active-streams']}
+          Log   Number of streams: ${stream_count}
+          Exit For Loop If   '${stream_count}'=='5'
+       Should Be Equal As Integers  ${stream_count}   5
+    END
 
 VFWCL Set To Medium
 	[Documentation]    Set flows to Medium to turn off control loop

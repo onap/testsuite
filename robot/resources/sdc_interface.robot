@@ -86,7 +86,7 @@ Distribute Model From SDC
     #   Add Resource to Service in a separate FOR loop
     ${resource_types}=   Create Dictionary
 
-    :FOR    ${zip}     IN     @{model_zip_path}
+    FOR    ${zip}     IN     @{model_zip_path}
     \    ${loop_catalog_resource_id}=    Setup SDC Catalog Resource    ${zip}    ${cds}  ${resourceType}
     #     zip can be vFW.zip or vFWDT_VFWSNK.zip
     \     ${resource_type_match}=  Run Keyword If  "${resourceType}"=='PNF'   Get Regexp Matches    ${zip}    ${service}_(.*)\.csar    1
@@ -95,18 +95,19 @@ Distribute Model From SDC
     \    ${resource_type_string}=   Set Variable If   len(${resource_type_match})==0    ${service}    ${service}${resource_type_match[0]}
     \    Set To Dictionary    ${resource_types}    ${resource_type_string}    ${loop_catalog_resource_id}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
-
+    END
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${vnflist}=    ServiceMapping.Get Service Vnf Mapping    default    ${service}
 
     # Spread the icons on the pallette starting on the left
     ${xoffset}=    Set Variable    ${0}
 
-    :FOR  ${vnf}   IN   @{vnflist}
+    FOR  ${vnf}   IN   @{vnflist}
     \    ${loop_catalog_resource_resp}=    Get SDC Catalog Resource      ${resource_types['${vnf}']}
     \    Set To Dictionary    ${catalog_resources}   ${resource_types['${vnf}']}=${loop_catalog_resource_resp}
     \    ${catalog_resource_unique_name}    ${catalog_resource_name}    Add SDC Resource Instance    ${catalog_service_id}    ${resource_types['${vnf}']}    ${loop_catalog_resource_resp['name']}    ${xoffset}  resourceType=${resourceType}
     \    ${xoffset}=   Set Variable   ${xoffset+100}
+    END
     #
     # do this here because the loop_catalog_resource_resp is different format after adding networks
     ${vf_module}=   Run Keyword If  "${resourceType}"=='PNF'  Set Variable   It is PNF
@@ -115,7 +116,7 @@ Distribute Model From SDC
     #  do network
     ${networklist}=    ServiceMapping.Get Service Neutron Mapping    default    ${service}
     ${generic_neutron_net_uuid}=   Get Generic NeutronNet UUID
-    :FOR   ${network}   IN   @{networklist}
+    FOR   ${network}   IN   @{networklist}
     \    ${loop_catalog_resource_id}=   Set Variable    ${generic_neutron_net_uuid}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
     \    ${loop_catalog_resource_resp}=    Get SDC Catalog Resource    ${loop_catalog_resource_id}
@@ -124,24 +125,27 @@ Distribute Model From SDC
     \    Setup SDC Catalog Resource GenericNeutronNet Properties      ${catalog_service_id}    ${nf_role}   ${loop_catalog_resource_id}
     \    ${xoffset}=   Set Variable   ${xoffset+100}
     \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
+    END
     ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
     #
     # do deployment artifacts
     #
     ${deploymentlist}=    ServiceMapping.Get Service Deployment Artifact Mapping    default    ${service}
-    :FOR  ${deployment}  IN   @{deploymentlist}
+    FOR  ${deployment}  IN   @{deploymentlist}
     \    ${loop_catalog_resource_resp}=    Get SDC Catalog Resource    ${loop_catalog_resource_id}
     \    Setup SDC Catalog Resource Deployment Artifact Properties      ${catalog_service_id}   ${loop_catalog_resource_resp}  ${catalog_resource_unique_name}  ${deployment}
+    END
     Run Keyword If  ${cds} == True  Add CDS Parameters  ${catalog_service_name}
     Checkin SDC Catalog Service    ${catalog_service_id}
     # on certify it gets a new id
     ${catalog_service_id}=    Wait Until Keyword Succeeds  60s  10s   Certify SDC Catalog Service    ${catalog_service_id}
-        :FOR   ${DIST_INDEX}    IN RANGE   1
+        FOR   ${DIST_INDEX}    IN RANGE   1
         \   Log     Distribution Attempt ${DIST_INDEX}
         \   Distribute SDC Catalog Service    ${catalog_service_id}
         \   ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
         \   ${status}   ${_} =   Run Keyword And Ignore Error   Loop Over Check Catalog Service Distributed       ${catalog_service_resp['uuid']}
         \   Exit For Loop If   '${status}'=='PASS'
+        END
         Should Be Equal As Strings  ${status}  PASS
     [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
 
@@ -159,12 +163,13 @@ Distribute vCPEResCust Model From SDC
     #${catalog_service_id}=    Add SDC Catalog Service    ${catalog_service_name}
     ${catalog_resource_ids}=    Create List
     ${catalog_resources}=   Create Dictionary
-    :FOR    ${zip}     IN     @{model_zip_path}
+    FOR    ${zip}     IN     @{model_zip_path}
     \    ${loop_catalog_resource_id}=    Setup SDC Catalog Resource    ${zip}    ${cds}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
     \    ${loop_catalog_resource_resp}=    Get SDC Catalog Resource    ${loop_catalog_resource_id}
     \    Add SDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
     \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
+    END
     #
     # do this here because the loop_catalog_resource_resp is different format after adding networks
     ${vf_module}=   Find Element In Array    ${loop_catalog_resource_resp['groups']}    type    org.openecomp.groups.VfModule
@@ -189,7 +194,7 @@ Distribute vCPEResCust Model From SDC
     ${xoffset}=    Set Variable    ${100}
     ${allottedresource_uuid}=   Get AllottedResource UUID
     ${random}=    Get Current Date
-    :FOR   ${allottedresource}   IN   @{allottedresource_list}
+    FOR   ${allottedresource}   IN   @{allottedresource_list}
     \    ${loop_catalog_resource_id}=   Set Variable    ${allottedresource_uuid}
     \    Append To List    ${catalog_resource_ids}   ${loop_catalog_resource_id}
     \    ${loop_catalog_resource_id}=    Add SDC Allotted Resource Catalog Resource     00000    ${allottedresource}_${random}    ONAP     ${loop_catalog_resource_id}   ${allottedresource}
@@ -208,16 +213,18 @@ Distribute vCPEResCust Model From SDC
     \    ${loop_catalog_resource_id}    ${loop_catalog_resource_uuid}    Wait Until Keyword Succeeds    60s   10s  Certify SDC Catalog Resource    ${loop_catalog_resource_id}  ${SDC_DESIGNER_USER_ID}
     \    Add SDC Resource Instance    ${catalog_service_id}    ${loop_catalog_resource_id}    ${loop_catalog_resource_resp['name']}
     \    Set To Dictionary    ${catalog_resources}   ${loop_catalog_resource_id}=${loop_catalog_resource_resp}
+    END
     ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
     Checkin SDC Catalog Service    ${catalog_service_id}
     # on certify it gets a new id
     ${catalog_service_id}=    Wait Until Keyword Succeeds   60s    10s   Certify SDC Catalog Service    ${catalog_service_id}
-        :FOR   ${DIST_INDEX}    IN RANGE   1
+        FOR   ${DIST_INDEX}    IN RANGE   1
         \   Log     Distribution Attempt ${DIST_INDEX}
         \   Distribute SDC Catalog Service    ${catalog_service_id}
         \   ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
         \   ${status}   ${_} =   Run Keyword And Ignore Error   Loop Over Check Catalog Service Distributed       ${catalog_service_resp['uuid']}
         \   Exit For Loop If   '${status}'=='PASS'
+        END
         Should Be Equal As Strings  ${status}  PASS
     [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
 
@@ -229,7 +236,7 @@ Create Allotted Resource Data File
    Set To Dictionary    ${allotted_csar_map}    tunnelxconn=service-Demovcpevgmux-csar.csar
    Set To Dictionary    ${allotted_csar_map}    brg=service-Demovcpevbrgemu-csar.csar
    ${keys}=    Get Dictionary Keys    ${allotted_csar_map}
-   :FOR   ${key}   IN   @{keys}
+   FOR   ${key}   IN   @{keys}
    \    ${csar}=    Get From Dictionary    ${allotted_csar_map}    ${key}
    \    ${dir}    ${ext}=    Split String From Right    ${csar}    -    1
    \    Extract Zip File    /share/logs/csars/${csar}    /share/logs/csars/${dir}
@@ -241,6 +248,7 @@ Create Allotted Resource Data File
    \    Set To Dictionary    ${attrs}    UUID=${json_obj['metadata']['UUID']}
    \    Set To Dictionary    ${attrs}    node_type=${json_obj['topology_template']['substitution_mappings']['node_type']}
    \    Set To Dictionary    ${allotted_resource}    ${key}=${attrs}
+   END
    ${result_str}=   Evaluate    json.dumps(${allotted_resource}, indent=2)    json
    Log    ${result_str}
    Create File    /tmp/vcpe_allotted_resource_data.json    ${result_str}
@@ -280,12 +288,13 @@ Loop Over Check Catalog Service Distributed
     [Arguments]    ${catalog_service_id}
     # SO watchdog timeout is 300 seconds need buffer
     ${dist_status}=   Set Variable    CONTINUE
-    :FOR  ${CHECK_INDEX}  IN RANGE   20
+    FOR  ${CHECK_INDEX}  IN RANGE   20
     \   ${status}   ${_} =   Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}    ${dist_status}
     \   Sleep     20s
     \   Return From Keyword If   '${status}'=='PASS'
     # need a way to exit the loop early on DISTRIBUTION_COMPLETE_ERROR  ${dist_status} doesnt work
     #\   Exit For Loop If   '${dist_status}'=='EXIT'
+    END
     Should Be Equal As Strings  ${status}   PASS
 
 Setup SDC Catalog Resource
@@ -344,11 +353,12 @@ Setup SDC Catalog Resource GenericNeutronNet Properties
     ${type}=      Run Keyword If     ${passed}    Evaluate    type(${componentInstances})
     ${componentInstancesList}=    Run Keyword If   "${type}"!="<type 'list'>"    Create List  ${componentInstances}
     ...    ELSE   Set Variable    ${componentInstances}
-    :FOR   ${item}  IN   @{componentInstancesList}
+    FOR   ${item}  IN   @{componentInstancesList}
     \    ${test}    ${v}=    Run Keyword and Ignore Error    Should Contain    ${item}     ${nf_role}
     \    Run Keyword If    '${test}' == 'FAIL'    Continue For Loop
     \    ${componentInstance1}=   Set Variable    ${item}
-    :FOR    ${comp}    IN    @{resp['componentInstancesProperties']["${componentInstance1}"]}
+    END
+    FOR    ${comp}    IN    @{resp['componentInstancesProperties']["${componentInstance1}"]}
     \    ${name}    Set Variable   ${comp['name']}
     \    ${test}    ${v}=    Run Keyword and Ignore Error    Should Contain    ${name}    network_role
     \    Run Keyword If    '${test}' == 'FAIL'    Continue For Loop
@@ -362,7 +372,7 @@ Setup SDC Catalog Resource GenericNeutronNet Properties
     \    Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     \    ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_NET_RESOURCE_INPUT_TEMPLATE}    ${dict}
     \    ${response}=    Set SDC Catalog Resource Component Instance Properties    ${catalog_parent_service_id}    ${catalog_service_id}    ${data}
-
+    END
 
 Setup SDC Catalog Resource AllottedResource Properties
     [Documentation]    Set up Allotted Resource properties and inputs
@@ -376,12 +386,13 @@ Setup SDC Catalog Resource AllottedResource Properties
     ${type}=      Run Keyword If     ${passed}    Evaluate    type(${componentInstances})
     ${componentInstancesList}=    Run Keyword If   "${type}"!="<type 'list'>"    Create List  ${componentInstances}
     ...    ELSE   Set Variable    ${componentInstances}
-    :FOR   ${item}  IN   @{componentInstancesList}
+    FOR   ${item}  IN   @{componentInstancesList}
     \    ${test}    ${v}=    Run Keyword and Ignore Error    Should Contain    ${item}     ${nf_role_lc}
     \    Run Keyword If    '${test}' == 'FAIL'    Continue For Loop
     \    ${componentInstance1}=   Set Variable    ${item}
+    END
     ${dict}=    Create Dictionary
-    :FOR    ${comp}    IN    @{resp['componentInstancesProperties']["${componentInstance1}"]}
+    FOR    ${comp}    IN    @{resp['componentInstancesProperties']["${componentInstance1}"]}
     \    ${name}    Set Variable   ${comp['name']}
     \    ${test}    ${v}=    Run Keyword and Ignore Error    Should Contain Any     ${name}    network_role  providing_service_invariant_uuid  providing_service_uuid  providing_service_name   uniqueId
     \    Run Keyword If    '${test}' == 'FAIL'    Continue For Loop
@@ -395,6 +406,7 @@ Setup SDC Catalog Resource AllottedResource Properties
     \    ${uniqueId}    Set Variable     ${comp['uniqueId']}
     \    ${uniqueId}   Fetch From Left   ${uniqueId}   .
     \    Set To Dictionary    ${dict}    uniqueId=${uniqueId}
+    END
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_ALLOTTED_RESOURCE_PROPERTIES_TEMPLATE}    ${dict}
     ${response}=    Set SDC Catalog Resource Component Instance Properties For Resource    ${catalog_resource_id}    ${componentInstance1}    ${data}
@@ -407,11 +419,12 @@ Setup SDC Catalog Resource AllottedResource Inputs
     # Set vnf inputs
     ${resp}=    Get SDC Catalog Resource Inputs    ${catalog_resource_id}
     ${dict}=    Create Dictionary
-    :FOR    ${comp}    IN    @{resp['inputs']}
+    FOR    ${comp}    IN    @{resp['inputs']}
     \    ${name}    Set Variable    ${comp['name']}
     \    ${uid}    Set Variable    ${comp['uniqueId']}
     \    Run Keyword If    '${name}'=='nf_type'    Set To Dictionary    ${dict}    nf_type=${nf_role}    nf_type_uid=${uid}
     \    Run Keyword If    '${name}'=='nf_role'    Set To Dictionary    ${dict}    nf_role=${nf_role}   nf_role_uid=${uid}
+    END
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    sdc   ${SDC_CATALOG_ALLOTTED_RESOURCE_INPUTS_TEMPLATE}    ${dict}
     ${response}=    Set SDC Catalog Resource VNF Inputs    ${catalog_resource_id}    ${data}
@@ -422,7 +435,7 @@ Setup SDC Catalog Resource CDS Properties
     [Arguments]    ${catalog_resource_id}
     # Set vnf module properties
     ${resp}=    Get SDC Catalog Resource Component Instances   ${catalog_resource_id}
-    :FOR    ${comp}    IN    @{resp['componentInstances']}
+    FOR    ${comp}    IN    @{resp['componentInstances']}
     \    ${name}    Set Variable   ${comp['name']}
     \    ${uniqueId}    Set Variable    ${comp['uniqueId']}
     \    ${actualComponentUid}    Set Variable    ${comp['actualComponentUid']}
@@ -437,11 +450,12 @@ Setup SDC Catalog Resource CDS Properties
     \    ${data}=   Templating.Apply Template    sdc   ${SDC_RESOURCE_INSTANCE_VNF_PROPERTIES_TEMPLATE}    ${dict}
     \    ${response}=    Set SDC Catalog Resource Component Instance Properties    ${catalog_resource_id}    ${uniqueId}    ${data}
     \    Log    resp=${response}
+    END
 
     # Set vnf inputs
     ${resp}=    Get SDC Catalog Resource Inputs    ${catalog_resource_id}
     ${dict}=    Create Dictionary
-    :FOR    ${comp}    IN    @{resp['inputs']}
+    FOR    ${comp}    IN    @{resp['inputs']}
     \    ${name}    Set Variable    ${comp['name']}
     \    ${uid}    Set Variable    ${comp['uniqueId']}
     \    Run Keyword If    '${name}'=='nf_function'    Set To Dictionary    ${dict}    nf_function=ONAP-FIREWALL    nf_function_uid=${uid}
@@ -449,6 +463,7 @@ Setup SDC Catalog Resource CDS Properties
     \    Run Keyword If    '${name}'=='nf_naming_code'    Set To Dictionary    ${dict}    nf_naming_code=vfw    nf_naming_code_uid=${uid}
     \    Run Keyword If    '${name}'=='nf_role'    Set To Dictionary    ${dict}    nf_role=vFW    nf_role_uid=${uid}
     \    Run Keyword If    '${name}'=='cloud_env'    Set To Dictionary    ${dict}    cloud_env=openstack    cloud_env_uid=${uid}
+    END
     Templating.Create Environment    sdc    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    sdc   ${SDC_RESOURCE_INSTANCE_VNF_INPUTS_TEMPLATE}    ${dict}
     ${response}=    Set SDC Catalog Resource VNF Inputs    ${catalog_resource_id}    ${data}
@@ -734,7 +749,7 @@ Get SDC Demo Vnf Catalog Resource
     ${resp}=   Get Service Catalog    ${service_name}
     @{ITEMS}=    Copy List    ${resp['componentInstances']}
     ${demo_catalog_resource}=   Create Dictionary
-    :FOR    ${ELEMENT}    IN    @{ITEMS}
+    FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['name']}
     \    Log    ${ELEMENT['groupInstances'][0]['groupName']}
     \    ${vnf}=   Get VNF From Group Name     ${ELEMENT['groupInstances'][0]['groupName']}     ${service_name}
@@ -742,6 +757,7 @@ Get SDC Demo Vnf Catalog Resource
     \    LOG     ${vnf_data}
     \    Set To Dictionary    ${demo_catalog_resource}    ${vnf}=${vnf_data}
     \    LOG     ${demo_catalog_resource}
+    END
     [Return]    ${demo_catalog_resource}
 
 Get VNF From Group Name
@@ -886,7 +902,7 @@ Check Catalog Service Distributed
     ${SO_COMPLETE}   Set Variable   FALSE
     ${dist_status}   Set Variable   CONTINUE
     Should Not Be Empty   ${ITEMS}
-    :FOR    ${ELEMENT}    IN    @{ITEMS}
+    FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['omfComponentID']}
     \    Log    ${ELEMENT['status']}
     \    ${SO_COMPLETE}   Set Variable If   (('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_OK')) or ('${SO_COMPLETE}'=='TRUE')  TRUE
@@ -894,6 +910,7 @@ Check Catalog Service Distributed
     \    Run Keyword If   ('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_ERROR')     Fatal Error    "SO DISTRIBUTION_COMPLETE_ERROR"
     \    ${dist_status}=  Set Variable If   (('${ELEMENT['status']}' == 'COMPONENT_DONE_ERROR') and ('${ELEMENT['omfComponentID']}' == 'aai-ml'))  EXIT
     \    Exit For Loop If   (('${ELEMENT['status']}' == 'COMPONENT_DONE_ERROR') and ('${ELEMENT['omfComponentID']}' == 'aai-ml'))
+    END
     Should Be True   ( '${SO_COMPLETE}'=='TRUE')   SO Test
 
 Get Catalog Service Distribution Details
@@ -910,9 +927,10 @@ Run SDC Health Check
     Should Be Equal As Strings  ${resp.status_code}     200    SDC DOWN
     ${SDC_DE_HEALTH}=    Catenate   DOWN
     @{ITEMS}=    Copy List    ${resp.json()['componentsInfo']}
-    :FOR    ${ELEMENT}    IN    @{ITEMS}
+    FOR    ${ELEMENT}    IN    @{ITEMS}
     \    Log    ${ELEMENT['healthCheckStatus']}
     \    ${SDC_DE_HEALTH}  Set Variable If   (('DE' in '${ELEMENT['healthCheckComponent']}') and ('${ELEMENT['healthCheckStatus']}' == 'UP')) or ('${SDC_DE_HEALTH}'=='UP')  UP
+    END
     Log   (DMaaP:${SDC_DE_HEALTH})    console=True
 
 Run SDC BE ONBOARD Healthcheck
@@ -955,12 +973,13 @@ Add CDS Parameters
     ${component_uuid}=  Set Variable  ${resp.json()['componentInstances'][0]['uniqueId']}
     ${skip_post_instatiation}=  Set Variable If  '${catalog_service_name}' == "demoVLB_CDS"  false  true
     @{inputs}=   Copy List  ${resp.json()['componentInstances'][0]['inputs']}
-    :FOR  ${input}  IN  @{inputs}
+    FOR  ${input}  IN  @{inputs}
     \    Run Keyword If  '${input['name']}' == "sdnc_artifact_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  vnf
         ...  ELSE IF  '${input['name']}' == "sdnc_model_name"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  vLB_CDS
         ...  ELSE IF  '${input['name']}' == "sdnc_model_version"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  1.0.0
         ...  ELSE IF  '${input['name']}' == "skip_post_instantiation_configuration"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  boolean  ${skip_post_instatiation}
         ...  ELSE IF  '${input['name']}' == "controller_actor"   Set Input Parameter  ${service_uuid}  ${component_uuid}  ${input}  string  CDS
+    END
 
 Set Input Parameter
     [Arguments]   ${service_uuid}  ${component_uuid}  ${input}  ${input_type}  ${input_value}

@@ -43,9 +43,10 @@ Get First Free Service Recipe Id
     Log  ${source data}
     ${serviceRecipes}=    Set Variable     ${source data['_embedded']['serviceRecipe']}
     ${ids}=    Create List
-    :FOR    ${recipe}     IN      @{serviceRecipes}
-    \    ${id}=    Get From Dictionary   ${recipe}     id
-    \    Append To List    ${ids}    ${id}
+    FOR    ${recipe}     IN      @{serviceRecipes}
+        ${id}=    Get From Dictionary   ${recipe}     id
+        Append To List    ${ids}    ${id}
+    END
     Sort list  ${ids}
     ${biggest_id}=  Get From List  ${ids}  -1
     Log  Biggest id is ${biggest_id} first free is ${biggest_id+1}

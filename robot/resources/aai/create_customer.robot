@@ -42,8 +42,9 @@ Get OwningEntity Id
   	${resp_json}=  Set Variable  ${resp.json()}
     @{list}=  Copy List   ${resp_json['owning-entity']}
     ${id}=  Set Variable
-    :FOR   ${map}    IN    @{list}
-    \    ${owning_entity_name}=       Get From Dictionary    ${map}    owning-entity-name
-    \    ${owning_entity_id}=       Get From Dictionary    ${map}    owning-entity-id
-    \    ${id}   Run Keyword If    '${owning_entity_name}' == '${name}'    Set Variable    ${owning_entity_id}
-	[Return]  ${id}
+    FOR   ${map}    IN    @{list}
+        ${owning_entity_name}=       Get From Dictionary    ${map}    owning-entity-name
+        ${owning_entity_id}=       Get From Dictionary    ${map}    owning-entity-id
+        ${id}   Run Keyword If    '${owning_entity_name}' == '${name}'    Set Variable    ${owning_entity_id}
+	END
+    [Return]  ${id}

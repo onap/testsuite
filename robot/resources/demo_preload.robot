@@ -101,10 +101,11 @@ Preload User Model
     ${relationships}=   Set Variable   ${generic_vnf['relationship-list']['relationship']}
     ${relationship_data}=    Get Relationship Data   ${relationships}
     ${customer_id}=   Catenate
-    :FOR    ${r}   IN   @{relationship_data}
+    FOR    ${r}   IN   @{relationship_data}
     \   ${service}=   Set Variable If    '${r['relationship-key']}' == 'service-subscription.service-type'   ${r['relationship-value']}    ${service}
     \   ${service_instance_id}=   Set Variable If    '${r['relationship-key']}' == 'service-instance.service-instance-id'   ${r['relationship-value']}   ${service_instance_id}
     \   ${customer_id}=    Set Variable If   '${r['relationship-key']}' == 'customer.global-customer-id'   ${r['relationship-value']}   ${customer_id}
+    END
     ${invariantUUID}=   Get Persona Model Id     ${service_instance_id}    ${service}    ${customer_id}
 
     # We still need the vf module names. We can get them from VID using the persona_model_id (invariantUUID) from A&AI
@@ -126,10 +127,11 @@ Preload User Model GRA
     ${relationships}=   Set Variable   ${generic_vnf['relationship-list']['relationship']}
     ${relationship_data}=    Get Relationship Data   ${relationships}
     ${customer_id}=   Catenate
-    :FOR    ${r}   IN   @{relationship_data}
+    FOR    ${r}   IN   @{relationship_data}
     \   ${service}=   Set Variable If    '${r['relationship-key']}' == 'service-subscription.service-type'   ${r['relationship-value']}    ${service}
     \   ${service_instance_id}=   Set Variable If    '${r['relationship-key']}' == 'service-instance.service-instance-id'   ${r['relationship-value']}   ${service_instance_id}
     \   ${customer_id}=    Set Variable If   '${r['relationship-key']}' == 'customer.global-customer-id'   ${r['relationship-value']}   ${customer_id}
+    END
     ${invariantUUID}=   Get Persona Model Id     ${service_instance_id}    ${service}    ${customer_id}
 
     # We still need the vf module names. We can get them from VID using the persona_model_id (invariantUUID) from A&AI
@@ -144,10 +146,10 @@ Preload User Model GRA
 
 Get Relationship Data
     [Arguments]   ${relationships}
-    :FOR    ${r}   IN   @{relationships}
+    FOR    ${r}   IN   @{relationships}
     \     ${status}   ${relationship_data}   Run Keyword And Ignore Error    Set Variable   ${r['relationship-data']}
     \     Return From Keyword If    '${status}' == 'PASS'   ${relationship_data}
-
+    END
 
 Get Generic VNF By ID
     [Arguments]   ${vnf_id}
@@ -175,14 +177,16 @@ Instantiate VNF
     ${vf_module_name_list}   ${generic_vnfs}    ${server_id}    ${service_instance_id}    ${catalog_resource_ids}   ${catalog_service_id}    ${uris_to_delete}=    Orchestrate VNF    DemoCust_${uuid}    ${service}   ${service}    ${tenant_id}    ${tenant_name}
     ${stack_name} = 	Get From List 	${vf_module_name_list} 	-1
     Save For Delete    ${tenant_id}    ${tenant_name}    ${server_id}    DemoCust_${uuid}    ${service_instance_id}    ${stack_name}    ${catalog_service_id}    ${catalog_resource_ids}
-    :FOR  ${vf_module_name}  IN   @{vf_module_name_list}
+    FOR  ${vf_module_name}  IN   @{vf_module_name_list}
     \   Log   VNF Module Name=${vf_module_name}
+    END
     # Don't get from SO for now due to SO-1186
     # ${model_invariant_id}=  Run SO Get ModelInvariantId   ${suite_service_model_name}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
-    :FOR    ${vf_module}    IN    @{generic_vnfs}
+    FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
     \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'   ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
+    END
     Log   Update old vFWCL Policy for ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vFWCL Operational and Monitoring Policies    ${model_invariant_id}
     Log   Update Tca ControlLoopName
@@ -206,9 +210,10 @@ Instantiate Demo VNF
     # Don't get from SO for now due to SO-1186
     # ${model_invariant_id}=  Run SO Get ModelInvariantId   ${suite_service_model_name}  ${vf_module_label}
     ${model_invariant_id}=   Set Variable   ${EMPTY}
-    :FOR    ${vf_module}    IN    @{generic_vnfs}
+    FOR    ${vf_module}    IN    @{generic_vnfs}
     \    ${generic_vnf}=    Get From Dictionary    ${generic_vnfs}    ${vf_module}
     \    ${model_invariant_id}=    Set Variable If    '${vf_module_label}' in '${vf_module}'   ${generic_vnf['model-invariant-id']}    ${model_invariant_id}
+    END
     Log   ModelInvariantID=${model_invariant_id}
     ${status}   ${value}=   Run Keyword And Ignore Error  Update vFWCL Operational and Monitoring Policies    ${model_invariant_id}
 
@@ -226,15 +231,16 @@ Save For Delete
 
     ${vars}=    Catenate
     ${keys}=   Get Dictionary Keys    ${dict}
-    :FOR   ${key}   IN   @{keys}
+    FOR   ${key}   IN   @{keys}
     \    ${value}=   Get From Dictionary   ${dict}   ${key}
     \    ${vars}=   Catenate   ${vars}${key} = "${value}"\n
-
+    END
     ${comma}=   Catenate
     ${vars}=    Catenate   ${vars}CATALOG_RESOURCE_IDS = [
-    :FOR   ${id}   IN    @{catalog_resource_ids}
+    FOR   ${id}   IN    @{catalog_resource_ids}
     \    ${vars}=    Catenate  ${vars}${comma} "${id}"
     \    ${comma}=   Catenate   ,
+    END
     ${vars}=    Catenate  ${vars}]\n
     OperatingSystem.Create File   ${FILE_CACHE}/${stack_name}.py   ${vars}
     OperatingSystem.Create File   ${FILE_CACHE}/lastVNF4HEATBRIGE.py   ${vars}

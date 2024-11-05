@@ -33,16 +33,17 @@ Instantiate Service Direct To SO
     ${template}=   Create Dictionary
     @{keys}=    Get Dictionary Keys    ${preload_dict}
     ${parameters}=    Get Globally Injected Parameters
-    :FOR   ${key}   IN   @{keys}
-    \    ${value}=   Get From Dictionary    ${preload_dict}    ${key}
-    \    ${tmp_value}=   Set Variable If   'GLOBAL_' in $value     ${value}
-    \    ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    \$      ${EMPTY}
-    \    ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    {      ${EMPTY}
-    \    ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    }      ${EMPTY}
-    \    ${value}=   Set Variable If   'GLOBAL_' in $value    ${parameters["${tmp_value}"]}     ${value}
-    \    ${new_key}=   Catenate    \$   {   ${key}   }
-    \    ${new_key}=     Evaluate  '${new_key}'.replace(' ','')
-    \    Set To Dictionary    ${template}   ${new_key}    ${value}
+    FOR   ${key}   IN   @{keys}
+        ${value}=   Get From Dictionary    ${preload_dict}    ${key}
+        ${tmp_value}=   Set Variable If   'GLOBAL_' in $value     ${value}
+        ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    \$      ${EMPTY}
+        ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    {      ${EMPTY}
+        ${tmp_value}=   Run Keyword If  'GLOBAL_' in $value  Replace String  ${tmp_value}    }      ${EMPTY}
+        ${value}=   Set Variable If   'GLOBAL_' in $value    ${parameters["${tmp_value}"]}     ${value}
+        ${new_key}=   Catenate    \$   {   ${key}   }
+        ${new_key}=     Evaluate  '${new_key}'.replace(' ','')
+        Set To Dictionary    ${template}   ${new_key}    ${value}
+    END
 
     ${tmp_key1}=   Catenate  \$  {   ecompnet  }
     ${tmp_key1}=     Evaluate  '${tmp_key1}'.replace(' ','')
