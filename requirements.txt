@@ -16,3 +16,4 @@ dnspython
 pyyaml>=4.2b1
 json5
 pytz
+urllib3<2
