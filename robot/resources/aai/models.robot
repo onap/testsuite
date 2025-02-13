@@ -7,7 +7,7 @@ Library    ONAPLibrary.AAI    WITH NAME    AAI
 
 *** Variables ***
 ${INDEX_PATH}     /aai/v16
-${MODELS_SPEC_PATH}    /service-design-and-creation/models/
+${MODELS_SPEC_PATH}    /service-design-and-creation/models
 
 *** Keywords ***
 Validate Size Of AAI Models
