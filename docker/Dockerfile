@@ -1,11 +1,10 @@
-FROM ubuntu:20.04 as base
+FROM ubuntu:20.04 AS base
 
 ## Be careful of Windows newlines
-MAINTAINER "ONAP"
 LABEL name="Docker image for the ONAP Robot Testing Framework"
 LABEL usage="docker run -e ROBOT_TEST=<testname> -ti onapete"
 ENV BUILDTIME=true
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 ARG KUBERNETES_VERSION="v1.23.8"
 ARG HELM_VERSION="v3.8.2"
@@ -55,7 +54,6 @@ COPY requirements.txt requirements.txt
 
 RUN mkdir -p /var/opt/ONAP &&  \
     pip3 install --no-cache-dir -r requirements.txt setuptools wheel virtualenv &&  \
-    pip3 install --no-cache-dir git+https://$PYTHON_UTILS_REPO@$PYTHON_UTILS_TAG#egg=robotframework-onap\&subdirectory=robotframework-onap && \
     git clone --depth 1 https://$DEMO_REPO -b $DEMO_TAG /var/opt/ONAP/demo &&  \
     chmod +x /usr/local/bin/kubectl &&  \
     chmod 700 get_helm.sh &&  \
