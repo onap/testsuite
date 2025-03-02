@@ -1,15 +1,15 @@
-robotframework==3.1.2
+--extra-index-url https://nexus3.onap.org/repository/PyPi.staging/simple
+robotframework==3.2.2
 pyrsistent==0.16.1
 selenium
-robotframework-seleniumlibrary
+robotframework-seleniumlibrary==5.1.0
 robotframework-archivelibrary
 robotframework-sshlibrary
 robotframework-httplibrary
 robotframework-ftplibrary
+robotframework-jsonlibrary
 requests>=2.20.0
-robotframework-selenium2library
 robotframework-databaselibrary
-robotframework-extendedselenium2library
 robotframework-requests==0.9.3
 deepdiff
 dnspython
@@ -17,3 +17,4 @@ pyyaml>=4.2b1
 json5
 pytz
 urllib3<2
+robotframework-onap==11.0.0.dev19
