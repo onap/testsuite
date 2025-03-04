@@ -168,7 +168,7 @@ Run Create Policy Post Request
      ${resp}=   Post Request    policy   ${POLICY_CREATE_POLICY_URI}     data=${json_policy}    headers=${headers}
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
-     Should Be Equal As Strings    ${resp.status_code}     200
+     Should Be Equal As Strings    ${resp.status_code}     201
 
 Run Get Policy Get Request
      [Documentation]    Runs Get Policy request
