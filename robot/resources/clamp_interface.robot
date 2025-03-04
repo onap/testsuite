@@ -103,7 +103,7 @@ Run CLAMP Get Request
      [Documentation]    Runs CLAMP Get request
      [Arguments]    ${data_path}
      ${session}=    Create Session      session         ${CLAMP_ENDPOINT}
-     ${resp}=   Get Request     session         ${data_path}
+     ${resp}=   GET On Session     session         ${data_path}
      Should Be Equal As Integers        ${resp.status_code}     200
      Log    Received response from CLAMP ${resp.text}
      [Return]    ${resp}

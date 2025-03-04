@@ -38,7 +38,7 @@ Run Policy Health Check
      Log    Creating session ${POLICY_NEW_HEALTHCHECK_ENDPOINT}
      ${session}=    Create Session  policy  ${POLICY_NEW_HEALTHCHECK_ENDPOINT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}=   Get Request   policy  ${POLICY_NEW_HEALTHCHECK_PATH}    headers=${headers}
+     ${resp}=   GET On Session   policy  ${POLICY_NEW_HEALTHCHECK_PATH}    headers=${headers}
      Log    Received response from policy ${resp.text}
      Should Be Equal As Strings   ${resp.status_code}   200
      Should Be True   ${resp.json()['healthy']}
@@ -50,7 +50,7 @@ Run Policy Pap Get Request
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}= 	Get Request 	policy   ${data_path}     headers=${headers}
+     ${resp}= 	GET On Session 	policy   ${data_path}     headers=${headers}
      Log    Received response from Policy Pap ${resp.text}
      [Return]   ${resp}
 
@@ -61,7 +61,7 @@ Run Policy Api Get Request
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}= 	Get Request 	policy   ${data_path}     headers=${headers}
+     ${resp}= 	GET On Session 	policy   ${data_path}     headers=${headers}
      Log    Received response from policy API ${resp.text}
      [Return]    ${resp}
 
@@ -72,7 +72,7 @@ Run Policy Api Post Request
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}= 	Post Request 	policy   ${data_path}     data=${data}    headers=${headers}
+     ${resp}= 	POST On Session 	policy   ${data_path}     data=${data}    headers=${headers}
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
 
@@ -83,7 +83,7 @@ Run Policy Pap Post Request
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}= 	Post Request 	policy   ${data_path}     data=${data}    headers=${headers}
+     ${resp}= 	POST On Session 	policy   ${data_path}     data=${data}    headers=${headers}
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
 
@@ -94,7 +94,7 @@ Undeploy Policy
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}=   Delete Request     policy  /policy/pap/v1/pdps/policies/${policy_name}     headers=${headers}
+     ${resp}=   DELETE On Session     policy  /policy/pap/v1/pdps/policies/${policy_name}     headers=${headers}
      Log    Received response from policy ${resp.text}
      Should Be Equal As Strings    ${resp.status_code}     202
 
@@ -165,7 +165,7 @@ Run Create Policy Post Request
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${json_policy}      Get Binary File          ${json_path_policy}create_policy.json
-     ${resp}=   Post Request    policy   ${POLICY_CREATE_POLICY_URI}     data=${json_policy}    headers=${headers}
+     ${resp}=   POST On Session    policy   ${POLICY_CREATE_POLICY_URI}     data=${json_policy}    headers=${headers}
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
      Should Be Equal As Strings    ${resp.status_code}     201
@@ -177,7 +177,7 @@ Run Get Policy Get Request
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}=   Get Request    policy   ${POLICY_GET_POLICY_URI}     headers=${headers}
+     ${resp}=   GET On Session    policy   ${POLICY_GET_POLICY_URI}     headers=${headers}    expected_status=any
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
 
@@ -189,7 +189,7 @@ Run Deploy Policy Pap Post Request
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${json_deploy}     Get Binary File          ${json_path_policy}deploy_policy.json
-     ${resp}=   Post Request    policy   /policy/pap/v1/pdps/policies     data=${json_deploy}    headers=${headers}
+     ${resp}=   POST On Session    policy   /policy/pap/v1/pdps/policies     data=${json_deploy}    headers=${headers}
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
      Should Be Equal As Strings    ${resp.status_code}     202
@@ -201,7 +201,7 @@ Run Undeploy Policy
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}=   Delete Request     policy  /policy/pap/v1/pdps/policies/operational.modifyconfig     headers=${headers}
+     ${resp}=   DELETE On Session     policy  /policy/pap/v1/pdps/policies/operational.modifyconfig     headers=${headers}
      Log    Received response from policy ${resp.text}
      Should Be Equal As Strings    ${resp.status_code}     202
 
@@ -212,7 +212,7 @@ Run Undeploy vFW Monitoring Policy
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}=   Delete Request     policy  /policy/pap/v1/pdps/policies/onap.vfirewall.tca     headers=${headers}
+     ${resp}=   DELETE On Session     policy  /policy/pap/v1/pdps/policies/onap.vfirewall.tca     headers=${headers}
      Log    Received response from policy ${resp.text}
      Should Be Equal As Strings    ${resp.status_code}     202
 
@@ -224,7 +224,7 @@ Run Delete vFW Monitoring Policy
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}=   Delete Request     policy   /policy/api/v1/policytypes/onap.policies.monitoring.tcagen2/versions/1.0.0/policies/onap.vfirewall.tca/versions/1.0.0   headers=${headers}
+     ${resp}=   DELETE On Session     policy   /policy/api/v1/policytypes/onap.policies.monitoring.tcagen2/versions/1.0.0/policies/onap.vfirewall.tca/versions/1.0.0   headers=${headers}
      Log    Received response from policy ${resp.text}
      Should Be Equal As Strings    ${resp.status_code}     200
 
@@ -235,7 +235,7 @@ Run Delete vFW Operational Policy
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}=   Delete Request     policy   /policy/api/v1/policytypes/onap.policies.controlloop.operational.common.Drools/versions/1.0.0/policies/operational.modifyconfig/versions/1.0.0     headers=${headers}
+     ${resp}=   DELETE On Session     policy   /policy/api/v1/policytypes/onap.policies.controlloop.operational.common.Drools/versions/1.0.0/policies/operational.modifyconfig/versions/1.0.0     headers=${headers}
      Log    Received response from policy ${resp.text}
      Should Be Equal As Strings    ${resp.status_code}     200
 
@@ -246,7 +246,7 @@ Run Delete Policy Request
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}=   Delete Request  policy  ${POLICY_GET_POLICY_URI}    headers=${headers}
+     ${resp}=   DELETE On Session  policy  ${POLICY_GET_POLICY_URI}    headers=${headers}
      Log    Received response from policy ${resp.text}
      [Return]    ${resp}
      Should Be Equal As Strings    ${resp.status_code}     200
@@ -257,7 +257,7 @@ Run Policy Deployment Verification
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp_deployed_policy}=    Get Request    policy    ${POLICY_PAP_STATUS_QUERY}    headers=${headers}
+     ${resp_deployed_policy}=    GET On Session    policy    ${POLICY_PAP_STATUS_QUERY}    headers=${headers}
      Log    Received response from policy status ${resp_deployed_policy.text}
      Return From Keyword If   ${resp_deployed_policy.status_code}==404
      Should Be Equal As Strings   ${resp_deployed_policy.status_code}   200

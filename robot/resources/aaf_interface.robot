@@ -21,6 +21,6 @@ Run AAF Get Request
      ${session}=    Create Session 	aaf	${GLOBAL_AAF_SERVER}    auth=${GLOBAL_AAF_AUTHENTICATION}
      ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
-     ${resp}= 	Get Request 	aaf 	${data_path}     headers=${headers}
+     ${resp}= 	GET On Session 	aaf 	${data_path}     headers=${headers}
      Log    Received response from aaf ${resp.text}
      [Return]    ${resp}

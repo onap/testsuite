@@ -7,8 +7,8 @@ Library           OperatingSystem
 Library           String
 
 *** Variables ***
-${CDS_HEALTH_CHECK_PATH}    /api/v1/execution-service/health-check
 ${CDS_HEALTH_ENDPOINT}     ${GLOBAL_CCSDK_CDS_SERVER_PROTOCOL}://${GLOBAL_INJECTED_CCSDK_CDS_BLUEPRINT_PROCESSOR_IP_ADDR}:${GLOBAL_CCSDK_CDS_HEALTH_SERVER_PORT}
+${CDS_HEALTH_CHECK_PATH}                             /api/v1/execution-service/health-check
 ${CDS_CREATE_DATA_DICTIONARY_ENDPOINT}               /api/v1/dictionary/definition
 ${CDS_RETRIEVE_DATA_DICTIONARY_ENDPOINT}             /api/v1/dictionary/search/
 ${CDS_BOOTSTRAP_ENDPOINT}                            /api/v1/blueprint-model/bootstrap
@@ -30,7 +30,7 @@ Run CDS Basic Health Check
     ${auth}=  Create List  ${GLOBAL_CCSDK_CDS_USERNAME}    ${GLOBAL_CCSDK_CDS_PASSWORD}
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${headers}=  Create Dictionary    Accept=application/json    Content-Type=application/json
-    ${resp}=    Get Request     cds    ${CDS_HEALTH_CHECK_PATH}     headers=${headers}
+    ${resp}=    GET On Session     cds    ${CDS_HEALTH_CHECK_PATH}     headers=${headers}
     Log    Received response code from cds ${resp}
     Log    Received content from cds ${resp.content}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -41,7 +41,7 @@ Run CDS Create Data Dictionary Health Check
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${headers}=  Create Dictionary    Accept=application/json    Content-Type=application/json
     ${json}      Get Binary File          ${CREATE_DICTIONARY_JSON_PATH}
-    ${resp}=    Post Request     cds    ${CDS_CREATE_DATA_DICTIONARY_ENDPOINT}        data=${json}              headers=${headers}
+    ${resp}=    POST On Session     cds    ${CDS_CREATE_DATA_DICTIONARY_ENDPOINT}        data=${json}              headers=${headers}
     Log    Received response code from cds ${resp}
     Log    Received content from cds ${resp.content}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -51,7 +51,7 @@ Run CDS GET Data Dictionary Health Check
     ${auth}=  Create List  ${GLOBAL_CCSDK_CDS_USERNAME}    ${GLOBAL_CCSDK_CDS_PASSWORD}
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${headers}=  Create Dictionary    Accept=application/json    Content-Type=application/json
-    ${resp}=    Get Request     cds    ${CDS_RETRIEVE_DATA_DICTIONARY_ENDPOINT}${CDS_CD_TAG}     headers=${headers}
+    ${resp}=    GET On Session     cds    ${CDS_RETRIEVE_DATA_DICTIONARY_ENDPOINT}${CDS_CD_TAG}     headers=${headers}
     Log    Received response code from cds ${resp}
     Log    Received content from cds ${resp.content}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -64,7 +64,7 @@ Run CDS Bootstrap Health Check
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${headers}=  Create Dictionary    Accept=application/json    Content-Type=application/json
     ${json_bootstrap}      Get Binary File          ${BOOTSTRAP_JSON_PATH}
-    ${resp}=    Post Request     cds    ${CDS_BOOTSTRAP_ENDPOINT}        data=${json_bootstrap}              headers=${headers}
+    ${resp}=    POST On Session     cds    ${CDS_BOOTSTRAP_ENDPOINT}        data=${json_bootstrap}              headers=${headers}
     Log    Received response code from cds ${resp}
     Log    Received content from cds ${resp.content}
     Should Be Equal As Strings  ${resp.status_code}     200
@@ -75,7 +75,7 @@ Run CDS Enrich CBA Health Check
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${data}=	Get Binary File		${CDS_CBA_PACKAGE_FILE}
     ${file}=	Create Dictionary	file=${data}
-    ${resp}=    Post Request   cds    ${CDS_CBA_ENRICH_ENDPOINT}    files=${file}
+    ${resp}=    POST On Session   cds    ${CDS_CBA_ENRICH_ENDPOINT}    files=${file}
     Should Be Equal As Strings  ${resp.status_code}    200
     Create File    ${CDS_CBA_ENRICHED_FILE}    ${resp.text}    encoding=ISO-8859-1
 
@@ -85,7 +85,7 @@ Run CDS Publish CBA Health Check
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${data}=	Get Binary File    ${CDS_CBA_ENRICHED_FILE}
     ${file}=	Create Dictionary	file=${data}
-    ${resp}=    Post Request   cds    ${CDS_CBA_PUBLISH_ENDPOINT}    files=${file}
+    ${resp}=    POST On Session   cds    ${CDS_CBA_PUBLISH_ENDPOINT}    files=${file}
     Should Be Equal As Strings  ${resp.status_code}    200      And    ${resp.json()['blueprintModel']['id']}!= ${NONE}
     Set Global Variable    ${blueprintModel}    ${resp.json()['blueprintModel']['id']}
 
@@ -95,7 +95,7 @@ Run CDS Process CBA Health Check
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${headers}=  Create Dictionary    Accept=*/*        Content-Type=application/json
     ${file}    Get Binary File                  ${CDS_CBA_PROCESS_FILE_PATH}
-    ${resp}=    Post Request   cds    ${CDS_CBA_PROCESS_API_ENDPOINT}    data=${file}   headers=${headers}
+    ${resp}=    POST On Session   cds    ${CDS_CBA_PROCESS_API_ENDPOINT}    data=${file}   headers=${headers}
     Should Be Equal As Strings  ${resp.status_code}    200
     Should Be Equal As Strings  ${resp.json()['status']['eventType']}   ${SUCCESS}
 
@@ -104,5 +104,5 @@ Run CDS Delete CBA Health Check
     ${auth}=  Create List  ${GLOBAL_CCSDK_CDS_USERNAME}       ${GLOBAL_CCSDK_CDS_PASSWORD}
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${headers}=    Create Dictionary    Accept=*/*    Content-Type=application/json
-    ${resp}=    Delete Request   cds    ${CDS_CBA_DELETE_ENDPOINT}${blueprintModel}       headers=${headers}
+    ${resp}=    DELETE On Session   cds    ${CDS_CBA_DELETE_ENDPOINT}${blueprintModel}       headers=${headers}
     Should Be Equal As Strings  ${resp.status_code}    200

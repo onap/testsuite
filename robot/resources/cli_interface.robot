@@ -18,7 +18,6 @@ Run CLI Get Request
      [Documentation]    Runs CLI Get request
      [Arguments]    ${data_path}
      ${session}=    Create Session    cli    ${CLI_ENDPOINT}
-     ${resp}=     Get Request     cli     ${data_path}
+     ${resp}=     GET On Session     cli     ${data_path}
      Log    Received response from CLI ${resp.text}
      [Return]    ${resp}
-
