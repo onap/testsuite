@@ -11,7 +11,7 @@ Library    ONAPLibrary.Protobuf
 HV-VES test case
     ${status}    ${data}=    Run Keyword And Ignore Error   Variable Should Exist    ${GLOBAL_KAFKA_BOOTSTRAP_SERVICE}
     Send Message    ${GLOBAL_DCAE_HVVES_SERVER_NAME}        ${GLOBAL_DCAE_HVVES_SERVER_PORT}
-    Sleep   10s
+    Sleep   2s
     ${msg}=  Run Keyword  Decode Last Message From Topic    ${GLOBAL_KAFKA_BOOTSTRAP_SERVICE}   HV_VES_PERF3GPP  ${GLOBAL_KAFKA_USER}
     ${results}=    Compare File To Message    ${EXECDIR}/robot/assets/dcae/hvves_msg.raw    ${msg}
     Should Be True    ${results}
