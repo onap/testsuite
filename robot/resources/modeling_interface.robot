@@ -20,7 +20,7 @@ Run Modeling Get Request
      [Documentation]    Runs Modeling Get request
      [Arguments]    ${data_path}
      ${session}=    Create Session   session   ${MODEL_PARSER_ENDPOINT}
-     ${resp}=   Get Request   session   ${data_path}
+     ${resp}=   Get On Session   session   ${data_path}
      Should Be Equal As Integers   ${resp.status_code}   200
      Log    Received response from Modeling ${resp.text}
      [Return]    ${resp}

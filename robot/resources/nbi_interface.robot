@@ -20,7 +20,7 @@ Run NBI Get Request
      [Documentation]    Runs NBI Get request
      [Arguments]    ${data_path}
      ${session}=    Create Session   session   ${NBI_ENDPOINT}
-     ${resp}=   Get Request   session   ${data_path}
+     ${resp}=   Get On Session   session   ${data_path}
      Should Be Equal As Integers   ${resp.status_code}   200
      Log    Received response from NBI ${resp.text}
      ${json}=    Set Variable    ${resp.json()}

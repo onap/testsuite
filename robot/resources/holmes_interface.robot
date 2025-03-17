@@ -24,7 +24,7 @@ Run Holmes Get Request
     [Arguments]   ${endpoint}   ${data_path}
     [Documentation]    Runs Holmes Get request
     ${session}=    Create Session    holmes    ${endpoint}
-    ${resp}=    Get Request    holmes    ${data_path}
+    ${resp}=    Get On Session    holmes    ${data_path}
     Should Be Equal As Integers    ${resp.status_code}    200
     Log    Received response from server ${resp.text}
     [Return]    ${resp}

@@ -19,5 +19,5 @@ Run DR Get Request
     [Documentation]    Runs DR Get request
     [Arguments]        ${data_path}
     ${session}=        Create Session    session    ${DR_ENDPOINT}
-    ${resp}=           Get Request       session    ${data_path}
+    ${resp}=           Get On Session    session    ${data_path}
     [Return]           ${resp}

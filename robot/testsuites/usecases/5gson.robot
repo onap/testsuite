@@ -80,13 +80,13 @@ Deploy SON Handler
     [Tags]                              5gson
     ${headers}=                         Create Dictionary                  content-type=application/json
     ${session}=                         Create Session                     inv                              ${INVENTORY_SERVER}
-    ${resp}=                            Get Request                        inv                              ${INVENTORY_ENDPOINT}?typeName=k8s-sonhms
+    ${resp}=                            Get On Session                     inv                              ${INVENTORY_ENDPOINT}?typeName=k8s-sonhms
     ${json}=                            Set Variable                       ${resp.json()}
     ${serviceTypeId-sonhms}             Set Variable                       ${json['items'][0]['typeId']}
     ${sonhms_inputs}=                   Get Binary File                    ${5GSON_RESOURCES_PATH}/sonhms_inputs.json
     ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeId-sonhms}", "inputs": ${sonhms_inputs}}
     ${session}=                         Create Session                     deployment-son                   ${DEPLOYMENT_SERVER}
-    ${resp}=                            Put Request                        deployment-son                   /${DEPLOYMENT_ENDPOINT}/sonhms         data=${deployment_data}     headers=${headers}
+    ${resp}=                            Put On Session                     deployment-son                   /${DEPLOYMENT_ENDPOINT}/sonhms         data=${deployment_data}     headers=${headers}
     ${operationLink}                    Set Variable                       ${resp.json().get('links').get('status')}
     ${operationId}                      Fetch From Right                   ${operationLink}                 /
     Wait Until Keyword Succeeds         5 minute                           20 sec                           Deployment Status       ${DEPLOYMENT_SERVER}     ${DEPLOYMENT_ENDPOINT}     sonhms     ${operationId}
@@ -101,12 +101,12 @@ Deploy Config DB
     ${json_data}                        Convert JSON To String             ${templatejson}
     ${headers}=                         Create Dictionary                  content-type=application/json
     ${session}=                         Create Session                     sftp                             ${INVENTORY_SERVER}
-    ${resp}=                            Post Request                       sftp                             ${INVENTORY_ENDPOINT}          data=${json_data}             headers=${headers}
+    ${resp}=                            Post On Session                    sftp                             ${INVENTORY_ENDPOINT}          data=${json_data}             headers=${headers}
     ${serviceTypeId-configdb}=          Set Variable                       ${resp.json().get('typeId')}
     Set Global Variable                 ${serviceTypeId-configdb}
     ${deployment_data}=                 Set Variable                       {"serviceTypeId": "${serviceTypeId-configdb}" }
     ${session}=                         Create Session                     deployment-configdb              ${DEPLOYMENT_SERVER}
-    ${resp}=                            Put Request                        deployment-configdb              /${DEPLOYMENT_ENDPOINT}/configdb         data=${deployment_data}     headers=${headers}
+    ${resp}=                            Put On Session                     deployment-configdb              /${DEPLOYMENT_ENDPOINT}/configdb         data=${deployment_data}     headers=${headers}
     ${operationLink}=                   Set Variable                       ${resp.json().get('links').get('status')}
     ${operationId}                      Fetch From Right                   ${operationLink}                 /
     Wait Until Keyword Succeeds         2 minute                           5 sec                            Deployment Status       ${DEPLOYMENT_SERVER}     ${DEPLOYMENT_ENDPOINT}     configdb     ${operationId}
@@ -117,7 +117,7 @@ Load Data to Config DB
     ${initial_dump}                     Get Binary File                    ${5GSON_RESOURCES_PATH}/dump_file.json
     ${headers}=                         Create Dictionary                  content-type=application/json
     ${session}=                         Create Session                     configdb                         http://configdb.onap:8080
-    ${resp}=                            Put Request                        configdb                         ${CONFIGDB_INSERT_PATH}    data=${initial_dump}    headers=${headers}
+    ${resp}=                            Put On Session                     configdb                         ${CONFIGDB_INSERT_PATH}    data=${initial_dump}    headers=${headers}
     Should Be Equal As Strings          ${resp.status_code}                201
 
 Post Fault Message to VES Collector
@@ -126,7 +126,7 @@ Post Fault Message to VES Collector
     ${headers}=                         Create Dictionary                  content-type=application/json
     FOR   ${NBR}   IN   @{NEW_NBRS}
        ${nbr_obj}                      Set Variable                       {"targetCellId": "${NBR}", "ho": true}
-       ${resp}                         Put Request                        configdb                         ${CONFIGDB_CREATENBR_PATH}/Chn0005    headers=${headers}    data=${nbr_obj}
+       ${resp}                         Put On Session                     configdb                         ${CONFIGDB_CREATENBR_PATH}/Chn0005    headers=${headers}    data=${nbr_obj}
        Should Be Equal As Strings      ${resp.status_code}                201
     END
     ${fault_event}=                     Set Variable                       ${5GSON_RESOURCES_PATH}/son_fault.json

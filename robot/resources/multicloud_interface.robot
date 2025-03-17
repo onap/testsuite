@@ -69,7 +69,7 @@ Run MultiCloud Get Request
      [Documentation]    Runs MultiCloud Get request
      [Arguments]    ${endpoint}   ${data_path}
      ${session}=    Create Session   session   ${endpoint}
-     ${resp}=   Get Request   session   ${data_path}
+     ${resp}=   Get On Session   session   ${data_path}
      Should Be Equal As Integers   ${resp.status_code}   200
      Log    Received response from MultiCloud ${resp.text}
      [Return]    ${resp}

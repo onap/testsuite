@@ -70,7 +70,7 @@ CDS Service Instantiate
     ${session}=  Create Session  cds  ${GLOBAL_CCSDK_CDS_SERVER_PROTOCOL}://${GLOBAL_INJECTED_CCSDK_CDS_BLUEPRINT_PROCESSOR_IP_ADDR}:${GLOBAL_CCSDK_CDS_HEALTH_SERVER_PORT}
     ${data}=  Create Dictionary  loadModelType=true  loadResourceDictionary=true  loadCBA=true
     ${headers}=  Create Dictionary  Content-Type=application/json  Authorization=Basic ${GLOBAL_CDS_AUTH}
-    ${resp}=  Post Request  cds  ${CDS_BOOTSTRAP_PATH}  data=${data}  headers=${headers}
+    ${resp}=  Post On Session  cds  ${CDS_BOOTSTRAP_PATH}  data=${data}  headers=${headers}
     ${status_string}=    Convert To String    ${resp.status_code}
     Should Match Regexp    ${status_string}    ^(200|201|202)$
     ${time_now}=  Get Time

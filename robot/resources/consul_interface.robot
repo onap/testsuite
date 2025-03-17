@@ -17,7 +17,7 @@ Run Consul Get Request
     [Arguments]    ${data_path}
     ${session}=    Create Session      consul  ${CONSUL_ENDPOINT}
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-    ${resp}=   Get Request     consul  ${data_path}     headers=${headers}
+    ${resp}=   Get On Session     consul  ${data_path}     headers=${headers}
     Log    Received response from tcagen2 ${resp.text}
     Should Be Equal As Strings         ${resp.status_code}     200
     [Return]   ${resp}
@@ -27,7 +27,7 @@ Run Consul Put Request
     [Arguments]    ${data_path}  ${data}
     ${session}=    Create Session      consul  ${CONSUL_ENDPOINT}
     ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-    ${resp}=   Put Request     consul  ${data_path}     data=${data}    headers=${headers}
+    ${resp}=   Put On Session     consul  ${data_path}     data=${data}    headers=${headers}
     Log    Received response from consul ${resp.text}
     [Return]    ${resp}
 
