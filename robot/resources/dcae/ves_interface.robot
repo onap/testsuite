@@ -36,7 +36,7 @@ Send Event to VES Collector
     ${event_from_file}=                 OperatingSystem.Get File            ${event}
     ${auth}=                            Create List                         ${GLOBAL_DCAE_VES_USERNAME}     ${GLOBAL_DCAE_VES_PASSWORD}
     ${session}=                         Create Session                      ves                             ${VES_HEALTH_CHECK_PATH}      auth=${auth}
-    ${resp}=                            Post Request                        ves                             ${VES_LISTENER_PATH}          data=${event_from_file}   headers=${headers}
+    ${resp}=                            Post On Session                     ves                             ${VES_LISTENER_PATH}          data=${event_from_file}   headers=${headers}
     Should Be Equal As Strings          ${resp.status_code}                 202
 
 Topic Validate

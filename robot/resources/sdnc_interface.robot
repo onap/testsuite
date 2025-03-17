@@ -60,7 +60,7 @@ Run SDNC Delete Request
     Disable Warnings
     ${session}=    Create Session       SDNC     ${SDNC_REST_ENDPOINT}    auth=${GLOBAL_SDNC_AUTHENTICATION}
     ${headers}=  Create Dictionary     Accept=*/*    Accept-Encoding=gzip, deflate, br    Connection=keep-alive
-    ${resp}=    Delete Request  SDNC     ${URL}     data=${None}    headers=${headers}
+    ${resp}=    Delete On Session  SDNC     ${URL}     data=${None}    headers=${headers}
     [Return]    ${resp}
 
 Preload Vcpe Networks

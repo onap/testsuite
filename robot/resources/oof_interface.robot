@@ -33,7 +33,7 @@ Run OOF-Homing Get Request
 	[Documentation]    Runs OOF-Homing Get request
 	[Arguments]    ${data_path}
 	${session}=    Create Session   session   ${OOF_HOMING_ENDPOINT}
-	${resp}=   Get Request   session   ${data_path}
+	${resp}=   Get On Session   session   ${data_path}
 	Should Be Equal As Integers   ${resp.status_code}   200
 	Log    Received response from OOF-Homing ${resp.text}
 	[Return]    ${resp}
@@ -45,7 +45,7 @@ RUN OOF-Homing SendPlanWithWrongVersion
     ${auth}=  Create List  ${GLOBAL_OOF_HOMING_USERNAME}    ${GLOBAL_OOF_HOMING_PASSWORD}
     ${session}=    Create Session   session   ${OOF_HOMING_ENDPOINT}   auth=${auth}
     &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
-    ${resp}=         Post Request        optf-cond   /v1/plans     data=${data}     headers=${headers}
+    ${resp}=         Post On Session        optf-cond   /v1/plans     data=${data}     headers=${headers}
     Log               *********************
     Log               response = ${resp}
     Log               body = ${resp.text}
@@ -64,7 +64,7 @@ Run OOF-OSDF Get Request
     [Documentation]    Runs OOF-OSDF Get request
     [Arguments]    ${data_path}
     ${session}=    Create Session   session   ${OOF_OSDF_ENDPOINT}
-    ${resp}=   Get Request   session   ${data_path}
+    ${resp}=   Get On Session   session   ${data_path}
     Should Be Equal As Integers   ${resp.status_code}   200
     Log    Received response from OOF-OSDF ${resp.text}
     [Return]    ${resp}

@@ -84,7 +84,7 @@ Run CLAMP HTTPS Put Request
      @{client_certs}=    Create List     ${CLAMP_CLIENT_CERT}   ${CLAMP_CLIENT_KEY}
      ${session}=   Create Client Cert Session  session   ${CLAMP_ENDPOINT}     client_certs=@{client_certs}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp}=   Put Request     session   ${data_path}   data=${data}  headers=${headers}
+     ${resp}=   Put On Session     session   ${data_path}   data=${data}  headers=${headers}
      Should Be Equal As Integers        ${resp.status_code}     200
      Log    ${resp.json()}
      [Return]    ${resp}
@@ -94,7 +94,7 @@ Run CLAMP HTTPS Get Request
      [Arguments]    ${data_path}
      @{client_certs}=    Create List     ${CLAMP_CLIENT_CERT}   ${CLAMP_CLIENT_KEY}
      ${session}=   Create Client Cert Session  session   ${CLAMP_ENDPOINT}     client_certs=@{client_certs}
-     ${resp}=   Get Request     session         ${data_path}
+     ${resp}=   Get On Session     session         ${data_path}
      Should Be Equal As Integers        ${resp.status_code}     200
      Log    ${resp.json()}
      [Return]    ${resp}

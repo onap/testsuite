@@ -99,7 +99,7 @@ Run VES HTTP Post Request
     ${auth}=  Create List   ${GLOBAL_DCAE_VES_USERNAME}    ${GLOBAL_DCAE_VES_PASSWORD}
     ${session}=    Create Session       ves     ${VES_ENDPOINT}   auth=${auth}
     ${headers}=  Create Dictionary   Accept=application/json    Content-Type=application/json
-    ${post_resp}=       Post Request    ves     ${VES_data_path}      data=${data}    headers=${headers}
+    ${post_resp}=       Post On Session    ves     ${VES_data_path}      data=${data}    headers=${headers}
     Log  PNF integration request ${data}
     Should Be Equal As Strings  ${post_resp.status_code}        202
     Log  VES has accepted event with status code ${post_resp.status_code}
