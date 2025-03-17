@@ -72,7 +72,7 @@ Run MR Auth Post Request
      ${xAuth}=    Set Variable    ${id_key}:${signature}
      ${headers}=  Create Dictionary     Content-Type=application/json    X-CambriaAuth=${xAuth}    X-CambriaDate=${time}
      ${session}=    Create Session      mr      ${MR_ENDPOINT}
-     ${resp}=   Post Request     mr      ${data_path}     headers=${headers}   data=${data}
+     ${resp}=   Post On Session     mr      ${data_path}     headers=${headers}   data=${data}
      ${status_string}=    Convert To String    ${resp.status_code}
      Should Match Regexp    ${status_string}    ^(204|200)$
      Log    Received response from message router ${resp.text}
@@ -90,7 +90,7 @@ Run MR Auth Put Request
      ${xAuth}=    Set Variable    ${id_key}:${signature}
      ${headers}=  Create Dictionary     Content-Type=application/json    X-CambriaAuth=${xAuth}    X-CambriaDate=${time}
      ${session}=    Create Session      mr      ${MR_ENDPOINT}
-     ${resp}=   Put Request     mr      ${data_path}     headers=${headers}   data=${data}
+     ${resp}=   Put On Session     mr      ${data_path}     headers=${headers}   data=${data}
      Should Be Equal As Strings         ${resp.status_code}     200
      Log    Received response from message router ${resp.text}
      [Return]    ${resp}
@@ -102,7 +102,7 @@ Run MR Auth Get Request
      ${session}=    Create Session      mr      ${MR_ENDPOINT}     auth=${auth}
      ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
-     ${resp}=   Get Request     mr      ${data_path}     headers=${headers}
+     ${resp}=   Get On Session     mr      ${data_path}     headers=${headers}
      Log    Received response from message router ${resp.text}
      [Return]    ${resp}
 
@@ -113,7 +113,7 @@ Run MR Auth Post Request (User And Pass)
      ${session}=    Create Session      mr      ${MR_ENDPOINT}     auth=${auth}
      ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}
-     ${resp}=   Post Request     mr      ${data_path}     headers=${headers}   data=${data}
+     ${resp}=   Post On Session     mr      ${data_path}     headers=${headers}   data=${data}
      ${status_string}=    Convert To String    ${resp.status_code}
      Should Match Regexp    ${status_string}    ^(204|200)$
      Log    Received response from message router ${resp.text}
@@ -125,7 +125,7 @@ Run MR Get Request
      ${session}=    Create Session      mr      ${MR_ENDPOINT}
      ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
-     ${resp}=   Get Request     mr      ${data_path}     headers=${headers}
+     ${resp}=   Get On Session     mr      ${data_path}     headers=${headers}
      Log    Received response from message router ${resp.text}
      [Return]    ${resp}
 
@@ -139,7 +139,7 @@ Run MR Post Request
      ${data}=   Templating.Apply Template    mr    ${MR_PUBLISH_TEMPLATE}    ${dict}
      ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
-     ${resp}=   Post Request    mr      ${data_path}     data=${data}    headers=${headers}
+     ${resp}=   Post On Session    mr      ${data_path}     data=${data}    headers=${headers}
      Log    Received response from message router ${resp.text}
      [Return]    ${resp}
 
@@ -149,6 +149,6 @@ Run MR Delete Request
      ${session}=    Create Session      mr      ${MR_ENDPOINT}
      ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
-     ${resp}=   Delete Request     mr      ${data_path}     headers=${headers}
+     ${resp}=   Delete On Session     mr      ${data_path}     headers=${headers}
      Log    Received response from message router ${resp.status_code}
      [Return]    ${resp}

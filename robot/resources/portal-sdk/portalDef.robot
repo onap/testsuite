@@ -714,7 +714,7 @@ Enhanced Notification on ONAP Portal
     [Arguments]     ${data_path}     ${data}
     ${session}=         Create Session     portal         ${PORTAL_URL}
     ${headers}=     Create Dictionary     Accept=application/json    Content-Type=application/json    Authorization=Basic amlyYTpfcGFzcw==    username=jira    password=_pass
-    ${resp}=     Post Request     portal     ${data_path}     data=${data}     headers=${headers}
+    ${resp}=     Post On Session     portal     ${data_path}     data=${data}     headers=${headers}
     [Return]     ${resp}
 
 Notification on ONAP Portal

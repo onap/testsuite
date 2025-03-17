@@ -60,7 +60,7 @@ VES Client send single VES event
     ${data}=                        Templating.Apply Template   pnf                         ${pnf_simulator_single_event}   ${single_event}
     ${session}=                     Create Session              pnf_sim                     ${pnf_sim_endpoint}
     ${headers}=                     Create Dictionary            Accept=application/json    Content-Type=application/json
-    ${post_resp}=                   Post Request                pnf_sim                     ${single_event_data_path}       data=${data}        headers=${headers}
+    ${post_resp}=                   Post On Session                pnf_sim                     ${single_event_data_path}       data=${data}        headers=${headers}
     Log                             PNF registration request ${data}
     Should Be Equal As Strings      ${post_resp.status_code}    ${http_reposnse_code}
     Log                             VES has accepted event with status code ${post_resp.status_code}

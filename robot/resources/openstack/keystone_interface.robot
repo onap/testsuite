@@ -49,7 +49,7 @@ Get KeystoneAPIVersion
     ${session}=    Create Session    keystone    ${url}    verify=True
     ${uuid}=    Generate UUID4
     ${headers}=    Create Dictionary    Accept=application/json    Content-Type=application/json
-    ${resp}=    Get Request    keystone  /   headers=${headers}
+    ${resp}=    Get On Session    keystone  /   headers=${headers}
     Log    Received response from keystone ${resp.text}
     Should Be Equal As Strings    ${resp.status_code}    300
     ${versions}=   Get From Dictionary    ${resp.json()}   versions
