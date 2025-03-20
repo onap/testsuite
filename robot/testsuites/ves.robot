@@ -19,11 +19,11 @@ Suite Setup       Activate DMAAP Topics
 *** Variables ***
 ${MR_TOPIC_CHECK_PATH}              /topics
 ${DR_SUB_CHECK_PATH}                /internal/prov
-${MR_TOPIC_URL_PATH}                /events/unauthenticated.SEC_FAULT_OUTPUT/CG1/C1
-${MR_FAULTSUPERVISION_TOPIC_URL_PATH}   /events/unauthenticated.SEC_3GPP_FAULTSUPERVISION_OUTPUT/CG1/C1
-${MR_HEARTBEAT_TOPIC_URL_PATH}      /events/unauthenticated.SEC_3GPP_HEARTBEAT_OUTPUT/CG1/C1
-${MR_PERFORMANCEASSURANCE_TOPIC_URL_PATH}      /events/unauthenticated.SEC_3GPP_PERFORMANCEASSURANCE_OUTPUT/CG1/C1
-${MR_PROVISIONING_TOPIC_URL_PATH}      /events/unauthenticated.SEC_3GPP_PROVISIONING_OUTPUT/CG1/C1
+${MR_TOPIC_URL_PATH}                unauthenticated.SEC_FAULT_OUTPUT
+${MR_FAULTSUPERVISION_TOPIC_URL_PATH}   unauthenticated.SEC_3GPP_FAULTSUPERVISION_OUTPUT
+${MR_HEARTBEAT_TOPIC_URL_PATH}      unauthenticated.SEC_3GPP_HEARTBEAT_OUTPUT
+${MR_PERFORMANCEASSURANCE_TOPIC_URL_PATH}      unauthenticated.SEC_3GPP_PERFORMANCEASSURANCE_OUTPUT
+${MR_PROVISIONING_TOPIC_URL_PATH}      unauthenticated.SEC_3GPP_PROVISIONING_OUTPUT
 ${DMAAP_BC_MR_CLIENT_PATH}          /webapi/mr_clients
 ${DMAAP_BC_MR_CLUSTER_PATH}         /webapi/mr_clusters
 ${VES_LISTENER_PATH}                /eventListener/v7

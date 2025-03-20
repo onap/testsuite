@@ -35,7 +35,7 @@ xNF PM File Validate
     ...  This keyword gets the last event from the PM topic and validates if the expected string is present: "${expected_pm_str}" .
     [Arguments]                 ${expected_pm_str}
     ${bytes} =	Encode String To Bytes	         ${expected_pm_str}	     UTF-8
-    ${msg}=  Run Keyword        Get Last Message From Topic    ${GLOBAL_KAFKA_BOOTSTRAP_SERVICE}    unauthenticated.PERFORMANCE_MEASUREMENTS   ${GLOBAL_KAFKA_USER}
+    ${msg}=  Run Keyword        Get Last Message From Topic    unauthenticated.PERFORMANCE_MEASUREMENTS
     Should Contain              ${msg}                    ${bytes}
 
 

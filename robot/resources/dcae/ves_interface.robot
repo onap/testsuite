@@ -1,7 +1,9 @@
+*** Settings ***
 Documentation	  The main interface for interacting with VES Collector
-Library 	      RequestsLibrary
+Library           RequestsLibrary
 Library           OperatingSystem
 Library           String
+Resource          ../strimzi_kafka.robot
 
 *** Variables ***
 ${INVENTORY_SERVER}                                 ${GLOBAL_INVENTORY_SERVER_PROTOCOL}://${GLOBAL_INVENTORY_SERVER_NAME}:${GLOBAL_INVENTORY_SERVER_PORT}
@@ -17,11 +19,11 @@ ${PerformanceAssurance_json}                        ${EXECDIR}/robot/assets/dcae
 ${Provisioning_json}                                ${EXECDIR}/robot/assets/dcae/ves_stdnDefined_3GPP-Provisioning.json
 ${MR_TOPIC_CHECK_PATH}                              /topics
 ${DR_SUB_CHECK_PATH}                                /internal/prov
-${MR_TOPIC_URL_PATH}                                /events/unauthenticated.SEC_FAULT_OUTPUT/CG1/C1
-${MR_FAULTSUPERVISION_TOPIC_URL_PATH}               /events/unauthenticated.SEC_3GPP_FAULTSUPERVISION_OUTPUT/CG1/C1
-${MR_HEARTBEAT_TOPIC_URL_PATH}                      /events/unauthenticated.SEC_3GPP_HEARTBEAT_OUTPUT/CG1/C1
-${MR_PERFORMANCEASSURANCE_TOPIC_URL_PATH}           /events/unauthenticated.SEC_3GPP_PERFORMANCEASSURANCE_OUTPUT/CG1/C1
-${MR_PROVISIONING_TOPIC_URL_PATH}                   /events/unauthenticated.SEC_3GPP_PROVISIONING_OUTPUT/CG1/C1
+${MR_TOPIC_URL_PATH}                                unauthenticated.SEC_FAULT_OUTPUT
+${MR_FAULTSUPERVISION_TOPIC_URL_PATH}               unauthenticated.SEC_3GPP_FAULTSUPERVISION_OUTPUT
+${MR_HEARTBEAT_TOPIC_URL_PATH}                      unauthenticated.SEC_3GPP_HEARTBEAT_OUTPUT
+${MR_PERFORMANCEASSURANCE_TOPIC_URL_PATH}           unauthenticated.SEC_3GPP_PERFORMANCEASSURANCE_OUTPUT
+${MR_PROVISIONING_TOPIC_URL_PATH}                   unauthenticated.SEC_3GPP_PROVISIONING_OUTPUT
 ${DMAAP_BC_MR_CLIENT_PATH}                          /webapi/mr_clients
 ${DMAAP_BC_MR_CLUSTER_PATH}                         /webapi/mr_clusters
 ${VES_LISTENER_PATH}                                /eventListener/v7
@@ -40,26 +42,14 @@ Send Event to VES Collector
     Should Be Equal As Strings          ${resp.status_code}                 202
 
 Topic Validate
-    [Documentation]   Keyword checks content of DMAAP topic and evaluate it's content with desired value
+    [Documentation]   Keyword checks content of Kafka topic and evaluate it's content with desired value
     [Arguments]                         ${topic_name}   ${expected_text}
-    ${timestamp}=                       Get Current Date
-    ${dict}=                            Create Dictionary                           timestamp=${timestamp}
-    Templating.Create Environment       mr                                          ${GLOBAL_TEMPLATE_FOLDER}
-    ${data}=                            Templating.Apply Template                   mr                                  ${MR_PUBLISH_TEMPLATE}              ${dict}
-    ${resp}=                            Run MR Get Request                          ${topic_name}
-    Should Contain                      ${resp.text}                                ${expected_text}
+    ${bytes}=                           Encode String To Bytes    ${expected_text}    UTF-8
+    ${resp}=                            Get Last Message From Topic                 ${topic_name}
+    Should Contain                      ${resp}                                ${bytes}
 
 Send Event to VES & Validate Topic
-    [Documentation]   Keyword is a test template which alows to send event through VES Collector and check if ivent is routed to proper DMAAP topic
+    [Documentation]   Keyword is a test template which alows to send event through VES Collector and check if ivent is routed to proper Kafka topic
     [Arguments]                         ${event}   ${topic_name}   ${expected_text}
     Send Event to VES Collector         ${event}
     Wait Until Keyword Succeeds  10x  1s   Topic Validate    ${topic_name}   ${expected_text}
-
-Activate DMAAP Topics
-    [Documentation]   Currently first event routed to empty DMAAP topic is gone, so there is need to "activate" topics for testing pourposes
-    Wait Until Keyword Succeeds  10x  5s   Send Event to VES & Validate Topic      ${ves7_valid_json}   ${MR_TOPIC_URL_PATH}   Fault_Vscf:Acs-Ericcson_PilotNumberPoolExhaustion
-    Wait Until Keyword Succeeds  10x  5s   Send Event to VES & Validate Topic      ${FaultSupervision_json}   ${MR_FAULTSUPERVISION_TOPIC_URL_PATH}   ves_stdnDefined_3GPP-FaultSupervision
-    Wait Until Keyword Succeeds  10x  5s   Send Event to VES & Validate Topic      ${Heartbeat_json}   ${MR_HEARTBEAT_TOPIC_URL_PATH}   ves_stdnDefined_3GPP-Heartbeat
-    Wait Until Keyword Succeeds  10x  5s   Send Event to VES & Validate Topic      ${PerformanceAssurance_json}   ${MR_PERFORMANCEASSURANCE_TOPIC_URL_PATH}   ves_stdnDefined_3GPP-PerformanceAssurance
-    Wait Until Keyword Succeeds  10x  5s   Send Event to VES & Validate Topic      ${Provisioning_json}   ${MR_PROVISIONING_TOPIC_URL_PATH}   ves_stdnDefined_3GPP-Provisioning
-    Sleep   10s
