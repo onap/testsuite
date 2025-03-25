@@ -898,7 +898,6 @@ Check Catalog Service Distributed
     Should Be Equal As Strings  ${dist_resp['distributionStatusOfServiceList'][0]['deployementStatus']}         Distributed
     ${det_resp}=    Get Catalog Service Distribution Details    ${dist_resp['distributionStatusOfServiceList'][0]['distributionID']}
     @{ITEMS}=    Copy List    ${det_resp['distributionStatusList']}
-    Should Not Be Empty   ${ITEMS}
     ${SO_COMPLETE}   Set Variable   FALSE
     ${dist_status}   Set Variable   CONTINUE
     Should Not Be Empty   ${ITEMS}

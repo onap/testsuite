@@ -3,10 +3,9 @@ Documentation     PNF Registration Handler (PRH) test cases
 Resource        ../aai/aai_interface.robot
 Resource        ../aai/create_customer.robot
 Resource        ../sdc_interface.robot
-Resource        ../dmaap/mr_interface.robot
 Resource        ../so/add_service_recipe.robot
 Resource        ../test_templates/pnf_orchestration_test_template.robot
-Resource        ../demo_preload.robot
+Resource        ../strimzi_kafka.robot
 Library         ONAPLibrary.Openstack
 Library         OperatingSystem
 Library         RequestsLibrary
@@ -21,7 +20,7 @@ Library         ONAPLibrary.SO    WITH NAME     SO
 *** Variables ***
 ${aai_so_registration_entry_template}=  aai/add_pnf_registration_info.jinja
 ${pnf_ves_integration_request}=  ves/pnf_registration_request.jinja
-${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_VES_PNFREG_OUTPUT_PATH}  /events/unauthenticated.VES_PNFREG_OUTPUT/2/1
+${KAFKA_UNAUTHENTICATED_VES_PNFREG_OUTPUT_TOPIC}  unauthenticated.VES_PNFREG_OUTPUT
 ${VES_ENDPOINT}    ${GLOBAL_DCAE_VES_HTTPS_PROTOCOL}://${GLOBAL_INJECTED_DCAE_VES_HOST}:${GLOBAL_DCAE_VES_HTTPS_SERVER_PORT}
 ${VES_data_path}   /eventListener/v7
 ${tenant_name}    dummy_tenant_for_pnf
@@ -30,11 +29,11 @@ ${region}   RegionForPNF
 
 
 *** Keywords ***
-Create A&AI antry without SO and succesfully registrate PNF
+Create A&AI entry without SO and succesfully registrate PNF
     [Documentation]   Test case template for create A&AI antry without SO and succesfully registrate PNF
     [Arguments]   ${PNF_entry_dict}
     Send VES integration request  ${PNF_entry_dict}
-    Wait Until Keyword Succeeds  10x  5s  Check VES_PNFREG_OUTPUT topic presence in MR
+    Wait Until Keyword Succeeds  10x  5s  Check VES_PNFREG_OUTPUT topic presence in Kafka
     Create PNF initial entry in A&AI  ${PNF_entry_dict}
     Send VES integration request  ${PNF_entry_dict}
     Verify PNF Integration Request in A&AI  ${PNF_entry_dict}
@@ -86,11 +85,11 @@ Check PNF orchestration status in A&AI
     ${json_resp}=  Set Variable  ${get_resp.json()}
     Should Be Equal As Strings  ${status}       ${json_resp['orchestration-status']}
 
-Check VES_PNFREG_OUTPUT topic presence in MR
-    [Documentation]   Verify if unauthenticated.VES_PNFREG_OUTPUT topic is present in MR
-    ${get_resp}=  Run MR Get Request  ${DMAAP_MESSAGE_ROUTER_UNAUTHENTICATED_VES_PNFREG_OUTPUT_PATH}
-    Should Be Equal As Strings  ${get_resp.status_code}        200
-    Log  unauthenticated.VES_PNFREG_OUTPUT topic is present in MR
+Check VES_PNFREG_OUTPUT topic presence in Kafka
+    [Documentation]   Verify if unauthenticated.VES_PNFREG_OUTPUT topic is present in Kafka
+    ${get_resp}=  Get Last Message From Topic  ${KAFKA_UNAUTHENTICATED_VES_PNFREG_OUTPUT_TOPIC}
+    Should Not Be Empty  ${get_resp}
+    Log  unauthenticated.VES_PNFREG_OUTPUT topic is present in Kafka
 
 Run VES HTTP Post Request
     [Documentation]    Runs a VES Post request
