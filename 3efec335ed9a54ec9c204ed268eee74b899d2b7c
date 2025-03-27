@@ -16,6 +16,24 @@
       "message": "Isn\u0027t that slightly changing the test logic?",
       "revId": "3efec335ed9a54ec9c204ed268eee74b899d2b7c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d05d397c_28abebe8",
+        "filename": "robot/resources/sdc_interface.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 7849
+      },
+      "writtenOn": "2025-03-27T08:45:33Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "ac250f55_19b35b96",
+      "revId": "3efec335ed9a54ec9c204ed268eee74b899d2b7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
