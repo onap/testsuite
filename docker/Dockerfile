@@ -15,8 +15,8 @@ ARG DEMO_TAG=master
 # Install apt packages, Python, Pip, etc
 RUN apt-get update &&  \
     apt-get install --no-install-recommends --assume-yes  \
-    chromium-browser  \
-    chromium-chromedriver  \
+    libnss3 \
+    firefox-geckodriver \
     dnsutils  \
     git  \
     gcc  \
