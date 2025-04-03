@@ -24,15 +24,15 @@ Setup Browser Firefox
 
 
 Setup Browser Chrome
-    ${chrome options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
-    Call Method    ${chrome options}    add_argument    no-sandbox
-    Call Method    ${chrome options}    add_argument    ignore-certificate-errors
+    ${chrome_options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
+    ${user_data_dir}=   Evaluate    tempfile.mkdtemp()  sys
+    Call Method    ${chrome_options}    add_argument    user-data-dir\=${user_data_dir}
+    Call Method    ${chrome_options}    add_argument    no-sandbox
+    Call Method    ${chrome_options}    add_argument    ignore-certificate-errors
     Run Keyword If  ${HEADLESS}==True  Call Method    ${chrome options}    add_argument    headless
-    ${dc}   Evaluate    sys.modules['selenium.webdriver'].DesiredCapabilities.CHROME  sys, selenium.webdriver
-    Set To Dictionary   ${dc}   elementScrollBehavior    1
-    Set To Dictionary   ${dc}   ACCEPT_SSL_CERTS    True
-    Create Webdriver    Chrome   chrome_options=${chrome_options}    desired_capabilities=${dc}
-    Set Global Variable    ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}    ${dc}
+    Call Method    ${chrome_options}    set_capability    acceptInsecureCerts     ${True}
+    Create Webdriver  Chrome   options=${chrome_options}
+    Set Global Variable    ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}
 
 
 

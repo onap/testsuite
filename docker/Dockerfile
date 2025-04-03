@@ -15,6 +15,7 @@ ARG DEMO_TAG=master
 # Install apt packages, Python, Pip, etc
 RUN apt-get update &&  \
     apt-get install --no-install-recommends --assume-yes  \
+    libnss3 \
     chromium-browser  \
     chromium-chromedriver  \
     dnsutils  \
