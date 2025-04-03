@@ -16,23 +16,19 @@ Setup Browser
     Log    Running with ${GLOBAL_SELENIUM_BROWSER}
 
 Setup Browser Firefox
-    ${caps}=   Evaluate   sys.modules['selenium.webdriver'].common.desired_capabilities.DesiredCapabilities.FIREFOX   sys
-    Set To Dictionary   ${caps}   marionette=
-    Set To Dictionary   ${caps}   elementScrollBehavior    1
-    ${wd}=   Create WebDriver   Firefox   capabilities=${caps}
-    Set Global Variable    ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}    ${caps}
+    ${firefox_options}=    Evaluate    selenium.webdriver.FirefoxOptions()    selenium.webdriver
+    Create WebDriver   Firefox  options=${firefox_options}
+    Set Global Variable    ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}      Call Method     ${firefox_options}  to_capabilities
 
 
 Setup Browser Chrome
-    ${chrome options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
-    Call Method    ${chrome options}    add_argument    no-sandbox
-    Call Method    ${chrome options}    add_argument    ignore-certificate-errors
-    Run Keyword If  ${HEADLESS}==True  Call Method    ${chrome options}    add_argument    headless
-    ${dc}   Evaluate    sys.modules['selenium.webdriver'].DesiredCapabilities.CHROME  sys, selenium.webdriver
-    Set To Dictionary   ${dc}   elementScrollBehavior    1
-    Set To Dictionary   ${dc}   ACCEPT_SSL_CERTS    True
-    Create Webdriver    Chrome   chrome_options=${chrome_options}    desired_capabilities=${dc}
-    Set Global Variable    ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}    ${dc}
+    ${chrome_options}=    Evaluate    selenium.webdriver.ChromeOptions()    selenium.webdriver
+    Call Method    ${chrome_options}    add_argument    no-sandbox
+    Call Method    ${chrome_options}    add_argument    ignore-certificate-errors
+    Run Keyword If  ${HEADLESS}==True  Call Method    ${chrome_options}    add_argument    headless
+    Call Method    ${chrome_options}    set_capability    acceptInsecureCerts     ${True}
+    Create Webdriver  Chrome   options=${chrome_options}
+    Set Global Variable    ${GLOBAL_SELENIUM_BROWSER_CAPABILITIES}  Call Method     ${chrome_options}   to_capabilities
 
 
 

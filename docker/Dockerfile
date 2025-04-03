@@ -15,8 +15,8 @@ ARG DEMO_TAG=master
 # Install apt packages, Python, Pip, etc
 RUN apt-get update &&  \
     apt-get install --no-install-recommends --assume-yes  \
-    chromium-browser  \
-    chromium-chromedriver  \
+    libnss3 \
+    firefox-geckodriver \
     dnsutils  \
     git  \
     gcc  \
@@ -67,7 +67,6 @@ RUN mkdir -p /app &&  \
     cp /var/opt/ONAP/setup-hvves.sh /app &&  \
     chmod 600 /var/opt/ONAP/robot/assets/keys/* &&  \
     chmod 777 /var/opt/ONAP/*.sh &&  \
-    cd /var/opt/ONAP &&  \
-    ./setup.sh
+    cd /var/opt/ONAP
 
 CMD ["lighttpd", "-D", "-f",  "/etc/lighttpd/lighttpd.conf"]
