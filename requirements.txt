@@ -3,8 +3,8 @@ robotframework==3.2.2
 pyrsistent==0.16.1
 # last version to work with chrome_options
 # https://github.com/SeleniumHQ/selenium/commit/9f5801c82fb3be3d5850707c46c3f8176e3ccd8e
-selenium==4.9.1
-robotframework-seleniumlibrary==4.9.1
+selenium==4.5.0
+robotframework-seleniumlibrary==4.5.0
 robotframework-archivelibrary
 robotframework-sshlibrary
 robotframework-httplibrary
