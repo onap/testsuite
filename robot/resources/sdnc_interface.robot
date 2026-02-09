@@ -34,9 +34,15 @@ ${GR_SI}    GRSIdummy123
 
 *** Keywords ***
 Run SDNC Health Check
-    [Documentation]    Runs an SDNC healthcheck
-    ${resp}= 	SDNC.Run Post Request 	${SDNC_REST_ENDPOINT} 	${SDNC_INDEX PATH}${SDNCGC_HEALTHCHECK_OPERATION_PATH}     data=${None}    auth=${GLOBAL_SDNC_AUTHENTICATION}
-    Should Be Equal As Strings 	${resp.status_code} 	200
+    [Documentation]    Runs an SDNC healthcheck. Accepts both 200 (older versions) and 204 No Content (newer versions)
+    ${resp}= 	SDNC.Run Post Request 	${SDNC_REST_ENDPOINT} 	${SDNC_INDEX_PATH}${SDNCGC_HEALTHCHECK_OPERATION_PATH}     data=${None}    auth=${GLOBAL_SDNC_AUTHENTICATION}
+    Run Keyword If    '${resp.status_code}' == '200'    Validate SDNC 200 Response    ${resp}
+    ...    ELSE IF    '${resp.status_code}' == '204'    Log    SDNC returned 204 No Content (newer version)
+    ...    ELSE    Fail    Expected status code 200 or 204, but got ${resp.status_code}
+
+Validate SDNC 200 Response
+    [Documentation]    Validates the JSON response for SDNC 200 status code
+    [Arguments]    ${resp}
     Should Be Equal As Strings 	${resp.json()['SLI-API:output']['response-code']} 	200
 
 Run SDNC Health Check Generic Resource API
