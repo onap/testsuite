@@ -143,10 +143,11 @@ Distribute Model From SDC
            Log     Distribution Attempt ${DIST_INDEX}
            Distribute SDC Catalog Service    ${catalog_service_id}
            ${catalog_service_resp}=    Get SDC Catalog Service    ${catalog_service_id}
-           ${status}   ${_} =   Run Keyword And Ignore Error   Loop Over Check Catalog Service Distributed       ${catalog_service_resp['uuid']}
+           ${status}   ${error_msg} =   Run Keyword And Ignore Error   Loop Over Check Catalog Service Distributed       ${catalog_service_resp['uuid']}
            Exit For Loop If   '${status}'=='PASS'
         END
-        Should Be Equal As Strings  ${status}  PASS
+        Run Keyword If  '${status}'=='FAIL'  Log  Distribution Check Failed: ${error_msg}  ERROR
+        Should Be Equal As Strings  ${status}  PASS  Distribution verification failed after ${DIST_INDEX} attempts. Last error: ${error_msg}
     [Return]    ${catalog_service_resp['name']}    ${loop_catalog_resource_resp['name']}    ${vf_module}   ${catalog_resource_ids}    ${catalog_service_id}   ${catalog_resources}
 
 Distribute vCPEResCust Model From SDC
@@ -289,13 +290,14 @@ Loop Over Check Catalog Service Distributed
     # SO watchdog timeout is 300 seconds need buffer
     ${dist_status}=   Set Variable    CONTINUE
     FOR  ${CHECK_INDEX}  IN RANGE   20
-       ${status}   ${_} =   Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}    ${dist_status}
+       ${status}   ${error_msg} =   Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}    ${dist_status}
        Sleep     20s
        Return From Keyword If   '${status}'=='PASS'
     # need a way to exit the loop early on DISTRIBUTION_COMPLETE_ERROR  ${dist_status} doesnt work
     #\   Exit For Loop If   '${dist_status}'=='EXIT'
     END
-    Should Be Equal As Strings  ${status}   PASS
+    Log  Distribution check failed after ${CHECK_INDEX} attempts (${${CHECK_INDEX}*20} seconds). Last error: ${error_msg}  ERROR
+    Should Be Equal As Strings  ${status}   PASS  Distribution timed out after 20 checks (400 seconds). ${error_msg}
 
 Setup SDC Catalog Resource
     [Documentation]    Creates all the steps a VF/PNF needs for an SDC Catalog Resource and returns the id
@@ -900,17 +902,20 @@ Check Catalog Service Distributed
     @{ITEMS}=    Copy List    ${det_resp['distributionStatusList']}
     ${SO_COMPLETE}   Set Variable   FALSE
     ${dist_status}   Set Variable   CONTINUE
+    ${component_status_summary}=  Create List
     Should Not Be Empty   ${ITEMS}
     FOR    ${ELEMENT}    IN    @{ITEMS}
-        Log    ${ELEMENT['omfComponentID']}
-        Log    ${ELEMENT['status']}
+        Log    Component: ${ELEMENT['omfComponentID']} - Status: ${ELEMENT['status']}
+        Append To List  ${component_status_summary}  ${ELEMENT['omfComponentID']}=${ELEMENT['status']}
         ${SO_COMPLETE}   Set Variable If   (('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_OK')) or ('${SO_COMPLETE}'=='TRUE')  TRUE
         Exit For Loop If   ('${SO_COMPLETE}'=='TRUE')
-        Run Keyword If   ('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_ERROR')     Fatal Error    "SO DISTRIBUTION_COMPLETE_ERROR"
+        Run Keyword If   ('${ELEMENT['status']}' == 'DISTRIBUTION_COMPLETE_ERROR')     Fatal Error    "Component ${ELEMENT['omfComponentID']} failed with DISTRIBUTION_COMPLETE_ERROR"
         ${dist_status}=  Set Variable If   (('${ELEMENT['status']}' == 'COMPONENT_DONE_ERROR') and ('${ELEMENT['omfComponentID']}' == 'aai-ml'))  EXIT
         Exit For Loop If   (('${ELEMENT['status']}' == 'COMPONENT_DONE_ERROR') and ('${ELEMENT['omfComponentID']}' == 'aai-ml'))
     END
-    Should Be True   ( '${SO_COMPLETE}'=='TRUE')   SO Test
+    ${status_summary}=  Catenate  SEPARATOR=, ${SPACE}  @{component_status_summary}
+    Log  Distribution Status Summary: ${status_summary}
+    Should Be True   ( '${SO_COMPLETE}'=='TRUE')   No component reported DISTRIBUTION_COMPLETE_OK. Component statuses: ${status_summary}
 
 Get Catalog Service Distribution Details
     [Documentation]    Gets SDC Catalog Service distribution details
