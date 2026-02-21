@@ -64,12 +64,15 @@ Run SDNC Health Check Generic Resource API
     Should Be Equal As Strings  ${delete_response.status_code}     204
 
 Run SDNC Delete Request
-    [Documentation]    Runs an SDNC Delete Request
+    [Documentation]    Runs an SDNC Delete Request and returns the response.
+    ...    expected_status=any is used because the /rests/ (RFC 8040) endpoint
+    ...    returns 409 instead of 404 for non-existing resources. Callers are
+    ...    responsible for validating the status code.
     [Arguments]    ${URL}
     Disable Warnings
     ${session}=    Create Session       SDNC     ${SDNC_REST_ENDPOINT}    auth=${GLOBAL_SDNC_AUTHENTICATION}
     ${headers}=  Create Dictionary     Accept=*/*    Accept-Encoding=gzip, deflate, br    Connection=keep-alive
-    ${resp}=    Delete On Session  SDNC     ${URL}     data=${None}    headers=${headers}
+    ${resp}=    Delete On Session  SDNC     ${URL}     data=${None}    headers=${headers}    expected_status=any
     [Return]    ${resp}
 
 Preload Vcpe Networks
