@@ -257,7 +257,7 @@ Run Policy Deployment Verification
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
-     ${resp_deployed_policy}=    GET On Session    policy    ${POLICY_PAP_STATUS_QUERY}    headers=${headers}
+     ${resp_deployed_policy}=    GET On Session    policy    ${POLICY_PAP_STATUS_QUERY}    headers=${headers}    expected_status=any
      Log    Received response from policy status ${resp_deployed_policy.text}
      Return From Keyword If   ${resp_deployed_policy.status_code}==404
      Should Be Equal As Strings   ${resp_deployed_policy.status_code}   200
