@@ -48,6 +48,38 @@ Note that this script will download the chromedriver for the current OS. The def
 
 Windows and Mac hosts will download into the current working directory. Windows and MAC users will need to ensure that the driver is in the execution PATH.
 
+## Test Documentation (`docs/`)
+
+This repository includes generated Sphinx documentation in the `docs/` folder.
+
+- It documents Robot Framework suites under `robot/testsuites`.
+- For each suite, it captures suite metadata and all test cases (name, tags, documentation, timeout/setup/teardown/template where present, and step summary).
+- The suite index contains overall coverage counts and links to each suite page.
+
+### Generate/update docs
+
+From the repository root:
+
+```sh
+python docs/generate_robot_docs.py
+```
+
+### Render HTML docs
+
+If needed, install Sphinx first:
+
+```sh
+pip install docs/requirements.txt
+```
+
+Build HTML:
+
+```sh
+python -m sphinx -b html docs docs/_build/html
+```
+
+Open `docs/_build/html/index.html` in your browser.
+
 ## Executing ETE Testcases
 
 ### Overview
