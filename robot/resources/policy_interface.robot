@@ -248,8 +248,8 @@ Run Delete Policy Request
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp}=   DELETE On Session  policy  ${POLICY_GET_POLICY_URI}    headers=${headers}
      Log    Received response from policy ${resp.text}
-     [Return]    ${resp}
      Should Be Equal As Strings    ${resp.status_code}     200
+     [Return]    ${resp}
 
 Run Policy Deployment Verification
      [Documentation]    Runs Get Request to validate if the policy is deployed. Also, it verify the policy name, version, pdp group name and policy state field.
@@ -259,10 +259,15 @@ Run Policy Deployment Verification
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${resp_deployed_policy}=    GET On Session    policy    ${POLICY_PAP_STATUS_QUERY}    headers=${headers}    expected_status=any
      Log    Received response from policy status ${resp_deployed_policy.text}
-     Return From Keyword If   ${resp_deployed_policy.status_code}==404
+     Return From Keyword If   ${resp_deployed_policy.status_code}==404    ${False}
      Should Be Equal As Strings   ${resp_deployed_policy.status_code}   200
      ${resp_deployed_policy_string}=   Convert to string   ${resp_deployed_policy.content}
-     ${resp_deployed_policy_flag}=   Run Keyword And Return Status   Should Contain   ${resp_deployed_policy_string}   ${POLICY_NAME}   ${POLICY_VERSION}   ${PDP_GROUP_NAME}   ${POLICY_STATE_FIELD}
+     ${resp_deployed_policy_flag}=   Run Keyword And Return Status
+     ...    Run Keywords
+     ...    Should Contain   ${resp_deployed_policy_string}   ${POLICY_NAME}
+     ...    AND    Should Contain   ${resp_deployed_policy_string}   ${POLICY_VERSION}
+     ...    AND    Should Contain   ${resp_deployed_policy_string}   ${PDP_GROUP_NAME}
+     ...    AND    Should Contain   ${resp_deployed_policy_string}   ${POLICY_STATE_FIELD}
      [Return]    ${resp_deployed_policy_flag}
 
 Check for Existing Policy and Clean up
