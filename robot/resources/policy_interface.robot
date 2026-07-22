@@ -167,8 +167,8 @@ Run Create Policy Post Request
      ${json_policy}      Get Binary File          ${json_path_policy}create_policy.json
      ${resp}=   POST On Session    policy   ${POLICY_CREATE_POLICY_URI}     data=${json_policy}    headers=${headers}
      Log    Received response from policy ${resp.text}
-     [Return]    ${resp}
      Should Be Equal As Strings    ${resp.status_code}     201
+     [Return]    ${resp}
 
 Run Get Policy Get Request
      [Documentation]    Runs Get Policy request
@@ -189,10 +189,10 @@ Run Deploy Policy Pap Post Request
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
      ${json_deploy}     Get Binary File          ${json_path_policy}deploy_policy.json
-     ${resp}=   POST On Session    policy   /policy/pap/v1/pdps/policies     data=${json_deploy}    headers=${headers}
+     ${resp}=   POST On Session    policy   /policy/pap/v1/pdps/policies     data=${json_deploy}    headers=${headers}    expected_status=any
      Log    Received response from policy ${resp.text}
-     [Return]    ${resp}
      Should Be Equal As Strings    ${resp.status_code}     202
+     [Return]    ${resp}
 
 Run Undeploy Policy
      [Documentation]    Runs Policy PAP Undeploy a Policy from PDP Groups
