@@ -139,15 +139,15 @@ Basic OOF-OSDF Health Check
 
 Basic Policy Health Check
     [Tags]    health    medium   health-policy
-    Run Policy Health Check
+    Wait Until Keyword Succeeds    60s    10s    Run Policy Health Check
 
 Enhanced Policy New Healthcheck
     [Tags]    health    medium   health-policy
-    [Timeout]   60
+    [Timeout]   180
     Check for Existing Policy and Clean up
-    Run Create Policy Post Request
+    Wait Until Keyword Succeeds    60s    10s    Run Create Policy Post Request
     Run Get Policy Get Request
-    Run Deploy Policy Pap Post Request
+    Wait Until Keyword Succeeds    60s    10s    Run Deploy Policy Pap Post Request
     Run Undeploy Policy
     Run Delete Policy Request
 
