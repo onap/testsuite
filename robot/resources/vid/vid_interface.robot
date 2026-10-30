@@ -28,7 +28,7 @@ Run VID Health Check
 Run VID Get Request
     [Documentation]    Runs an VID get request
     [Arguments]    ${data_path}
-    ${auth}=  Create List  ${GLOBAL_VID_HEALTH_USERNAME}    ${GLOBAL_VID_HEALTH_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_VID_HEALTH_USERNAME}    ${GLOBAL_VID_HEALTH_PASSWORD}
     Log    Creating session ${VID_ENDPOINT}
     ${session}=    Create Session 	vid 	${VID_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID4

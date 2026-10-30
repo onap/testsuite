@@ -42,7 +42,7 @@ RUN OOF-Homing SendPlanWithWrongVersion
 	[Documentation]    It sends a POST request to conductor
     ${session}=    Create Session   optf-cond      ${OOF_HOMING_ENDPOINT}
     ${data}=         Get Binary File     ${OOF_HOMING_PLAN_FOLDER}${/}plan_with_wrong_version.json
-    ${auth}=  Create List  ${GLOBAL_OOF_HOMING_USERNAME}    ${GLOBAL_OOF_HOMING_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_OOF_HOMING_USERNAME}    ${GLOBAL_OOF_HOMING_PASSWORD}
     ${session}=    Create Session   session   ${OOF_HOMING_ENDPOINT}   auth=${auth}
     &{headers}=      Create Dictionary    Content-Type=application/json  Accept=application/json
     ${resp}=         Post On Session        optf-cond   /v1/plans     data=${data}     headers=${headers}
@@ -81,14 +81,14 @@ Run OOF-OSDF Post Request
 
 Run OOF-OSDF Post Homing
    [Documentation]    Runs a osdf homing request
-    ${auth}=  Create List  ${GLOBAL_OOF_OSDF_USERNAME}    ${GLOBAL_OOF_OSDF_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_OOF_OSDF_USERNAME}    ${GLOBAL_OOF_OSDF_PASSWORD}
     ${data}=         Get Binary File     ${OOF_OSDF_TEMPLATE_FOLDER}${/}placement_request.json
     ${resp}=   Run OOF-OSDF Post Request  /api/oof/placement/v1       auth=${auth}    data=${data}
     Should Be Equal As Strings    ${resp.status_code}   204
 
 Run OOF-OSDF Post PCI-OPT
     [Documentation]    Runs a osdf PCI-OPT request
-    ${auth}=  Create List  ${GLOBAL_OOF_PCI_USERNAME}    ${GLOBAL_OOF_PCI_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_OOF_PCI_USERNAME}    ${GLOBAL_OOF_PCI_PASSWORD}
     ${data}=         Get Binary File     ${OOF_OSDF_TEMPLATE_FOLDER}${/}pci-opt-request.json
     ${resp}=   Run OOF-OSDF Post Request  /api/oof/pci/v1   auth=${auth}    data=${data}
     Should Be Equal As Strings    ${resp.status_code}   204

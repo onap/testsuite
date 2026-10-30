@@ -13,7 +13,7 @@ ${DCAE_MS_HEALTH_ENDPOINT}     ${GLOBAL_DCAE_MS_SERVER_PROTOCOL}://${GLOBAL_INJE
 *** Keywords ***
 Run DCAE Microservices Health Check
     [Documentation]    Runs a DCAE Microservices health check
-    ${auth}=  Create List  ${GLOBAL_DCAE_MS_USERNAME}    ${GLOBAL_DCAE_MS_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_DCAE_MS_USERNAME}    ${GLOBAL_DCAE_MS_PASSWORD}
     Log    Creating session ${DCAE_MS_HEALTH_ENDPOINT}
     ${session}=    Create Session 	dcae 	${DCAE_MS_HEALTH_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID4

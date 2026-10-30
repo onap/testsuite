@@ -87,7 +87,7 @@ Orchestrate VNF With CDS
     Log     --------request--------
     Log     ${request}
     Log     --------end request--------
-    ${auth}=  Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
     ${resp}=    SO.Run Post Request  ${GLOBAL_SO_ENDPOINT}    ${so_uri_path}   ${data}    auth=${auth}
     Log 	--------response-------
     ${json_string}=    Evaluate    json.dumps(${resp.json()})    json
@@ -96,7 +96,7 @@ Orchestrate VNF With CDS
     ${requestId}=    Catenate    ${resp.json()['requestReferences']['requestId']}
     Log    requestId=${requestId}
     Log	-------end response-------
-    # ${auth}=	Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    # ${auth}=	Create Basic Auth  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
     # Run Polling Get Request    ${SO_ENDPOINT}    ${GLOBAL_SO_STATUS_PATH}${request_id}    auth=${auth}
 
 Get VNF Info

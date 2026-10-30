@@ -8,6 +8,7 @@ Library 	      RequestsLibrary
 Resource          ../global_properties.robot
 Resource          vid_interface.robot
 Library    ONAPLibrary.SO    WITH NAME    SO
+Library    ONAPLibrary.Utilities
 
 *** Keywords ***
 Create VID VNF
@@ -87,7 +88,7 @@ Delete VID VNF
 
     ${response text}=    Get Text    xpath=//div[@ng-controller='deletionDialogController']//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']
     ${request_id}=    Parse Request Id     ${response text}
-    ${auth}=	Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    ${auth}=	Create Basic Auth  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
     ${resp}=	SO.Run Polling Get Request    ${GLOBAL_SO_ENDPOINT}    ${GLOBAL_SO_STATUS_PATH}${request_id}    auth=${auth}
 
 Create VID VNF module
@@ -164,7 +165,7 @@ Fill Module Form And Submit
     ${instance_id}=    Parse Instance Id     ${response text}
 
     ${request_id}=    Parse Request Id     ${response text}
-    ${auth}=   Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    ${auth}=   Create Basic Auth  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
     ${resp}=   SO.Run Polling Get Request    ${GLOBAL_SO_ENDPOINT}    ${GLOBAL_SO_STATUS_PATH}${request_id}    auth=${auth}
     [Return]     ${instance_id}
 

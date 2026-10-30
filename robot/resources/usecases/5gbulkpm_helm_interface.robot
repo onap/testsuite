@@ -4,6 +4,7 @@ Library 	      RequestsLibrary
 Library           OperatingSystem
 Library           String
 Library           JSONLibrary
+Library           ONAPLibrary.Utilities
 Resource          ../dmaap/dr_interface.robot
 Resource          ../consul_interface.robot
 Resource          ../chart_museum.robot
@@ -77,7 +78,7 @@ Send File Ready Event to VES Collector
     Disable Warnings
     ${headers}=                         Create Dictionary                   content-type=application/json
     ${fileready}=                       OperatingSystem.Get File            ${JSON_DATA_FILE}
-    ${auth}=                            Create List                         ${GLOBAL_DCAE_VES_USERNAME}     ${GLOBAL_DCAE_VES_PASSWORD}
+    ${auth}=                            Create Basic Auth                         ${GLOBAL_DCAE_VES_USERNAME}     ${GLOBAL_DCAE_VES_PASSWORD}
     ${session}=                         Create Session                      ves                             ${VES_HEALTH_CHECK_PATH}      auth=${auth}
     ${resp}=                            Post On Session                     ves                             ${VES_LISTENER_PATH}          data=${fileready}   headers=${headers}
     Should Be Equal As Strings          ${resp.status_code}                 202
@@ -231,7 +232,7 @@ Send File Ready Event to VES Collector for HTTPS Server
     Templating.Create Environment       pm                                  ${GLOBAL_TEMPLATE_FOLDER}
     ${VES_FILE_READY_NOTIFICATION}=     Templating.Apply Template           pm                              ${pm_notification_event}   ${pm_event}
     ${headers}=                         Create Dictionary                   content-type=application/json
-    ${auth}=                            Create List                         ${GLOBAL_DCAE_VES_USERNAME}     ${GLOBAL_DCAE_VES_PASSWORD}
+    ${auth}=                            Create Basic Auth                         ${GLOBAL_DCAE_VES_USERNAME}     ${GLOBAL_DCAE_VES_PASSWORD}
     ${session}=                         Create Session                      ves                             ${VES_HEALTH_CHECK_PATH}      auth=${auth}
     ${resp}=                            Post On Session                     ves                             ${VES_LISTENER_PATH}          data=${VES_FILE_READY_NOTIFICATION}   headers=${headers}
     Should Be Equal As Strings          ${resp.status_code}                 202

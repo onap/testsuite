@@ -4,6 +4,7 @@ Library           OperatingSystem
 Library           ONAPLibrary.SO    WITH NAME    SO
 Library           ONAPLibrary.HeatVNFValidation    WITH NAME    HeatVNFValidation
 Library           ONAPLibrary.VVPValidation.HeatValidationScripts    WITH NAME    VVPValidation
+Library           ONAPLibrary.Utilities
 
 *** Variables ***
 ${CLOUD_CONFIG_PATH}        /cloudSite
@@ -18,7 +19,7 @@ Run VVP Validation Scripts
 Run VNF Instantiation Report
     [Documentation]   Validates that a stack was created correctly, used for OVP portal submission.
     [Arguments]    ${region_id}    ${vnf_details}    ${os_password}    ${vnf_name}
-    ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
     ${get_resp}=    SO.Run Get Request    ${GLOBAL_SO_CATDB_ENDPOINT}    ${CLOUD_CONFIG_PATH}/${region_id}   auth=${auth}
 
     ${object}=      Evaluate    json.loads('''${get_resp.text}''')     json

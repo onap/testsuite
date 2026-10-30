@@ -20,7 +20,7 @@ Connect To Packet Generator
     [Arguments]    ${host}    ${alias}=pgn
     ${map}=  Create Dictionary     host=${host}    port=${GLOBAL_PACKET_GENERATOR_PORT}
     ${url}=    Templating.Template String    ${PGN_URL_TEMPLATE}    ${map}
-    ${auth}=  Create List     ${GLOBAL_PACKET_GENERATOR_USERNAME}    ${GLOBAL_PACKET_GENERATOR_PASSWORD}
+    ${auth}=  Create Basic Auth     ${GLOBAL_PACKET_GENERATOR_USERNAME}    ${GLOBAL_PACKET_GENERATOR_PASSWORD}
     ${session}=    Create Session 	${alias} 	${url}    auth=${auth}
     [Return]     ${session}
 

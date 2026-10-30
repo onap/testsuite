@@ -95,7 +95,7 @@ Run VES HTTP Post Request
     [Documentation]    Runs a VES Post request
     [Arguments]     ${data}
     Disable Warnings
-    ${auth}=  Create List   ${GLOBAL_DCAE_VES_USERNAME}    ${GLOBAL_DCAE_VES_PASSWORD}
+    ${auth}=  Create Basic Auth   ${GLOBAL_DCAE_VES_USERNAME}    ${GLOBAL_DCAE_VES_PASSWORD}
     ${session}=    Create Session       ves     ${VES_ENDPOINT}   auth=${auth}
     ${headers}=  Create Dictionary   Accept=application/json    Content-Type=application/json
     ${post_resp}=       Post On Session    ves     ${VES_data_path}      data=${data}    headers=${headers}
@@ -114,7 +114,7 @@ Cleanup PNF entry in A&AI
 Check SO service completition status
     [Documentation]   Gets service status and compares with expected status
     [Arguments]    ${request_id}   ${so_expected_status}
-    ${auth}=	Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    ${auth}=	Create Basic Auth  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
     ${so_status_request}=  SO.Run Get Request    ${GLOBAL_SO_ENDPOINT}    ${request_id}    auth=${auth}
     ${so_status_request_data}=   Set Variable  ${so_status_request.json()}
     ${so_status}=    Set Variable     ${so_status_request_data['request']['requestStatus']['requestState']}

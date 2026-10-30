@@ -5,6 +5,7 @@ Resource          global_properties.robot
 Library           SSHLibrary
 Library           OperatingSystem
 Library           String
+Library           ONAPLibrary.Utilities
 
 *** Variables ***
 ${CDS_HEALTH_ENDPOINT}     ${GLOBAL_CCSDK_CDS_SERVER_PROTOCOL}://${GLOBAL_INJECTED_CCSDK_CDS_BLUEPRINT_PROCESSOR_IP_ADDR}:${GLOBAL_CCSDK_CDS_HEALTH_SERVER_PORT}
@@ -27,7 +28,7 @@ ${SUCCESS}                                           EVENT_COMPONENT_EXECUTED
 *** Keywords ***
 Run CDS Basic Health Check
     [Documentation]    Runs a CDS health check
-    ${auth}=  Create List  ${GLOBAL_CCSDK_CDS_USERNAME}    ${GLOBAL_CCSDK_CDS_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_CCSDK_CDS_USERNAME}    ${GLOBAL_CCSDK_CDS_PASSWORD}
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${headers}=  Create Dictionary    Accept=application/json    Content-Type=application/json
     ${resp}=    GET On Session     cds    ${CDS_HEALTH_CHECK_PATH}     headers=${headers}
@@ -37,7 +38,7 @@ Run CDS Basic Health Check
 
 Run CDS Create Data Dictionary Health Check
     [Documentation]    Runs CDS Create Data Dictionary Health Check
-    ${auth}=  Create List  ${GLOBAL_CCSDK_CDS_USERNAME}    ${GLOBAL_CCSDK_CDS_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_CCSDK_CDS_USERNAME}    ${GLOBAL_CCSDK_CDS_PASSWORD}
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${headers}=  Create Dictionary    Accept=application/json    Content-Type=application/json
     ${json}      Get Binary File          ${CREATE_DICTIONARY_JSON_PATH}
@@ -48,7 +49,7 @@ Run CDS Create Data Dictionary Health Check
 
 Run CDS GET Data Dictionary Health Check
     [Documentation]    Runs CDS Get Data Dictionary health check
-    ${auth}=  Create List  ${GLOBAL_CCSDK_CDS_USERNAME}    ${GLOBAL_CCSDK_CDS_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_CCSDK_CDS_USERNAME}    ${GLOBAL_CCSDK_CDS_PASSWORD}
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${headers}=  Create Dictionary    Accept=application/json    Content-Type=application/json
     ${resp}=    GET On Session     cds    ${CDS_RETRIEVE_DATA_DICTIONARY_ENDPOINT}${CDS_CD_TAG}     headers=${headers}
@@ -60,7 +61,7 @@ Run CDS GET Data Dictionary Health Check
 
 Run CDS Bootstrap Health Check
     [Documentation]    Run CDS Bootstrap Health Check
-    ${auth}=  Create List  ${GLOBAL_CCSDK_CDS_USERNAME}    ${GLOBAL_CCSDK_CDS_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_CCSDK_CDS_USERNAME}    ${GLOBAL_CCSDK_CDS_PASSWORD}
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${headers}=  Create Dictionary    Accept=application/json    Content-Type=application/json
     ${json_bootstrap}      Get Binary File          ${BOOTSTRAP_JSON_PATH}
@@ -71,7 +72,7 @@ Run CDS Bootstrap Health Check
 
 Run CDS Enrich CBA Health Check
     [Documentation]    Runs a successful CDS enrich Post requests
-    ${auth}=  Create List  ${GLOBAL_CCSDK_CDS_USERNAME}         ${GLOBAL_CCSDK_CDS_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_CCSDK_CDS_USERNAME}         ${GLOBAL_CCSDK_CDS_PASSWORD}
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${data}=	Get Binary File		${CDS_CBA_PACKAGE_FILE}
     ${file}=	Create Dictionary	file=${data}
@@ -81,7 +82,7 @@ Run CDS Enrich CBA Health Check
 
 Run CDS Publish CBA Health Check
     [Documentation]    Runs a publish CDS upload enriched Post requests API
-    ${auth}=  Create List  ${GLOBAL_CCSDK_CDS_USERNAME}       ${GLOBAL_CCSDK_CDS_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_CCSDK_CDS_USERNAME}       ${GLOBAL_CCSDK_CDS_PASSWORD}
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${data}=	Get Binary File    ${CDS_CBA_ENRICHED_FILE}
     ${file}=	Create Dictionary	file=${data}
@@ -91,7 +92,7 @@ Run CDS Publish CBA Health Check
 
 Run CDS Process CBA Health Check
     [Documentation]    Runs a process CDS enriched CBA Post requests API
-    ${auth}=  Create List  ${GLOBAL_CCSDK_CDS_USERNAME}       ${GLOBAL_CCSDK_CDS_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_CCSDK_CDS_USERNAME}       ${GLOBAL_CCSDK_CDS_PASSWORD}
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${headers}=  Create Dictionary    Accept=*/*        Content-Type=application/json
     ${file}    Get Binary File                  ${CDS_CBA_PROCESS_FILE_PATH}
@@ -101,7 +102,7 @@ Run CDS Process CBA Health Check
 
 Run CDS Delete CBA Health Check
     [Documentation]    Runs a CDS Delete CBA Delete requests API
-    ${auth}=  Create List  ${GLOBAL_CCSDK_CDS_USERNAME}       ${GLOBAL_CCSDK_CDS_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_CCSDK_CDS_USERNAME}       ${GLOBAL_CCSDK_CDS_PASSWORD}
     ${session}=    Create Session       cds    ${CDS_HEALTH_ENDPOINT}    auth=${auth}
     ${headers}=    Create Dictionary    Accept=*/*    Content-Type=application/json
     ${resp}=    DELETE On Session   cds    ${CDS_CBA_DELETE_ENDPOINT}${blueprintModel}       headers=${headers}

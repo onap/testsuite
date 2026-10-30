@@ -98,7 +98,7 @@ Run MR Auth Put Request
 Run MR Auth Get Request
      [Documentation]    Runs MR Authenticated Put Request
      [Arguments]     ${data_path}     ${username}   ${password}
-     ${auth}=            Create List              ${username}      ${password}
+     ${auth}=            Create Basic Auth              ${username}      ${password}
      ${session}=    Create Session      mr      ${MR_ENDPOINT}     auth=${auth}
      ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}    X-FromAppId=${GLOBAL_APPLICATION_ID}
@@ -109,7 +109,7 @@ Run MR Auth Get Request
 Run MR Auth Post Request (User And Pass)
      [Documentation]    Runs MR Authenticated Post Request
      [Arguments]     ${data_path}     ${username}   ${password}   ${data}
-     ${auth}=            Create List              ${username}      ${password}
+     ${auth}=            Create Basic Auth              ${username}      ${password}
      ${session}=    Create Session      mr      ${MR_ENDPOINT}     auth=${auth}
      ${uuid}=    Generate UUID4
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json    X-TransactionId=${GLOBAL_APPLICATION_ID}-${uuid}

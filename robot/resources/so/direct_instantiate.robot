@@ -64,7 +64,7 @@ Instantiate Service Direct To SO
 
 CDS Service Instantiate
     [Arguments]  ${cds_service_model}  ${service_uuid}  ${service_invariantUUID}
-    ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME}  ${GLOBAL_SO_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_SO_CATDB_USERNAME}  ${GLOBAL_SO_PASSWORD}
     ${resp}=  SO.Run Get Request  ${GLOBAL_SO_CATDB_ENDPOINT}  ${SO_CATALOGDB_PATH}=${cds_service_model}  auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}  200
     ${session}=  Create Session  cds  ${GLOBAL_CCSDK_CDS_SERVER_PROTOCOL}://${GLOBAL_INJECTED_CCSDK_CDS_BLUEPRINT_PROCESSOR_IP_ADDR}:${GLOBAL_CCSDK_CDS_HEALTH_SERVER_PORT}
@@ -84,7 +84,7 @@ CDS Service Instantiate
     Templating.Create Environment    cds    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=   Templating.Apply Template    cds    ${SO_TEMPLATE_PATH}/cds_service_template.jinja    ${dict}
     Log  ${data}
-    ${auth}=  Create List  ${GLOBAL_SO_USERNAME}  ${GLOBAL_SO_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_SO_USERNAME}  ${GLOBAL_SO_PASSWORD}
     ${resp}=  SO.Run Post Request  ${GLOBAL_SO_APIHAND_ENDPOINT}  ${SO_APIHANDLER_PATH}  ${data}  auth=${auth}
     Should Be Equal As Strings  ${resp.status_code}  202
     [Return]  ${resp.json()['requestReferences']['requestId']}

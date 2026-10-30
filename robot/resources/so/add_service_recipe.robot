@@ -5,6 +5,7 @@ Library    OperatingSystem
 Library    Collections
 Library    ONAPLibrary.SO    WITH NAME    SO
 Library    ONAPLibrary.Templating    WITH NAME    Templating
+Library    ONAPLibrary.Utilities
 Resource    ../global_properties.robot
 
 *** Variables ***
@@ -23,7 +24,7 @@ Add Service Recipe
     ${arguments}=    Create Dictionary     service_model_UUID=${service_model_UUID}  orchestrationUri=${orchestrationUri}   id=${id}
     Templating.Create Environment    so    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=    Templating.Apply Template    so    ${SO_ADD_SERVICE_RECIPE}     ${arguments}
-    ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
     ${get_resp}=   SO.Run Post Request   ${GLOBAL_SO_CATDB_ENDPOINT}    ${SERVICE_RECIPE_PATH}   ${data}    auth=${auth}
     Should Be Equal As Strings  ${get_resp.status_code}     201
     [Return]  ${id}
@@ -31,7 +32,7 @@ Add Service Recipe
 Get Service Recipe
     [Documentation]    Gets service recipe/s in SO
     [Arguments]    ${service_id}=
-    ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
     ${get_resp}=    SO.Run Get Request    ${GLOBAL_SO_CATDB_ENDPOINT}    ${SERVICE_RECIPE_PATH}/${service_id}   auth=${auth}
     Should Be Equal As Strings  ${get_resp.status_code}     200
     [Return]   ${get_resp}
@@ -55,6 +56,6 @@ Get First Free Service Recipe Id
 Delete Service Recipe
      [Documentation]    Deletes service recipe/s in SO
      [Arguments]    ${service_id}
-     ${auth}=  Create List  ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
+     ${auth}=  Create Basic Auth  ${GLOBAL_SO_CATDB_USERNAME}    ${GLOBAL_SO_PASSWORD}
      ${get_resp}=   SO.Run Delete Request   ${GLOBAL_SO_CATDB_ENDPOINT}    ${SERVICE_RECIPE_PATH}/${service_id}      auth=${auth}
      Should Be Equal As Strings  ${get_resp.status_code}     204

@@ -6,6 +6,7 @@ Library           Collections
 Library           SSHLibrary
 Library           OperatingSystem
 Library           ONAPLibrary.Templating    WITH NAME    Templating
+Library           ONAPLibrary.Utilities
 Resource          global_properties.robot
 Resource          ssh/files.robot
 
@@ -34,7 +35,7 @@ ${POLICY_PAP_STATUS_QUERY}      /policy/pap/v1/policies/status/${PDP_GROUP_NAME}
 
 Run Policy Health Check
      [Documentation]    Runs Policy Health Check
-     ${auth}=    Create List     ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth     ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      Log    Creating session ${POLICY_NEW_HEALTHCHECK_ENDPOINT}
      ${session}=    Create Session  policy  ${POLICY_NEW_HEALTHCHECK_ENDPOINT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -46,7 +47,7 @@ Run Policy Health Check
 Run Policy Pap Get Request
      [Documentation]    Runs Policy Pap Get request
      [Arguments]    ${data_path}
-     ${auth}=    Create List   ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth   ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -57,7 +58,7 @@ Run Policy Pap Get Request
 Run Policy Api Get Request
      [Documentation]    Runs Policy Api Get request
      [Arguments]    ${data_path}
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -68,7 +69,7 @@ Run Policy Api Get Request
 Run Policy Api Post Request
      [Documentation]    Runs Policy Api Post request
      [Arguments]    ${data_path}  ${data}
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -79,7 +80,7 @@ Run Policy Api Post Request
 Run Policy Pap Post Request
      [Documentation]    Runs Policy Pap Post request
      [Arguments]    ${data_path}  ${data}
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -90,7 +91,7 @@ Run Policy Pap Post Request
 Undeploy Policy
      [Documentation]    Runs Policy PAP Undeploy a Policy from PDP Groups
      [Arguments]    ${policy_name}
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -160,7 +161,7 @@ Push vFirewall Policies To PDP Group
 Run Create Policy Post Request
      [Documentation]    Runs Create Policy Post request
      #[Arguments]    ${data}
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -173,7 +174,7 @@ Run Create Policy Post Request
 Run Get Policy Get Request
      [Documentation]    Runs Get Policy request
      #[Arguments]    ${data}
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -184,7 +185,7 @@ Run Get Policy Get Request
 Run Deploy Policy Pap Post Request
      [Documentation]    Runs Deploy Policy Pap Post request
      #[Arguments]    ${data_path}  ${data}
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -197,7 +198,7 @@ Run Deploy Policy Pap Post Request
 Run Undeploy Policy
      [Documentation]    Runs Policy PAP Undeploy a Policy from PDP Groups
      #[Arguments]    ${policy_name}
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -208,7 +209,7 @@ Run Undeploy Policy
 Run Undeploy vFW Monitoring Policy
      [Documentation]    Runs Policy PAP Undeploy vFW  Monitoring  Policy from PDP Groups
      #[Arguments]    ${policy_name}
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -220,7 +221,7 @@ Run Undeploy vFW Monitoring Policy
 Run Delete vFW Monitoring Policy
      [Documentation]    Runs Policy API Undeploy a Monitoring Policy
      #[Arguments]    ${policy_name}
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -231,7 +232,7 @@ Run Delete vFW Monitoring Policy
 Run Delete vFW Operational Policy
      [Documentation]    Runs Policy API Delete Operational Policy
      #[Arguments]    ${policy_name}
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -242,7 +243,7 @@ Run Delete vFW Operational Policy
 Run Delete Policy Request
      [Documentation]    Runs Policy Delete request
      #[Arguments]    ${data_path}  ${data}
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_API_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json
@@ -253,7 +254,7 @@ Run Delete Policy Request
 
 Run Policy Deployment Verification
      [Documentation]    Runs Get Request to validate if the policy is deployed. Also, it verify the policy name, version, pdp group name and policy state field.
-     ${auth}=    Create List    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
+     ${auth}=    Create Basic Auth    ${POLICY_ADMIN_USERNAME}   ${POLICY_ADMIN_PASSWORD}
      ${session}=    Create Session      policy  ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}   auth=${auth}
      Log    Creating session ${GLOBAL_POLICY_SERVER_PROTOCOL}://${POLICY_PAP_IP}:${GLOBAL_POLICY_HEALTHCHECK_PORT}
      ${headers}=  Create Dictionary     Accept=application/json    Content-Type=application/json

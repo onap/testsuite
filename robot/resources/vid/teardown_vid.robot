@@ -4,6 +4,7 @@ Library 	    SeleniumLibrary
 Library         Collections
 Library         String
 Library        ONAPLibrary.SO    WITH NAME     SO
+Library        ONAPLibrary.Utilities
 Resource        vid_interface.robot
 Resource        create_vid_vnf.robot
 Resource        create_service_instance.robot
@@ -82,7 +83,7 @@ Delete Next VID Entity
     ${response text}=    Get Text    xpath=//div[@ng-controller='deletionDialogController']//div[@ng-controller= 'msoCommitController']/pre[@class = 'log ng-binding']
     ${request_id}=    Parse Request Id     ${response text}
     Click Element    xpath=//div[@class='ng-scope']/div[@class = 'buttonRow']/button[text() = 'Close']
-    ${auth}=	Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    ${auth}=	Create Basic Auth  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
     ${resp}=	SO.Run Polling Get Request    ${GLOBAL_SO_ENDPOINT}    ${GLOBAL_SO_STATUS_PATH}${request_id}    auth=${auth}
     [Return]   ${teardown_status}    ${vfmodule}
 

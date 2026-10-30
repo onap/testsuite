@@ -3,6 +3,7 @@ Documentation	  The main interface for interacting with VES Collector
 Library           RequestsLibrary
 Library           OperatingSystem
 Library           String
+Library           ONAPLibrary.Utilities
 Resource          ../strimzi_kafka.robot
 
 *** Variables ***
@@ -36,7 +37,7 @@ Send Event to VES Collector
     [Arguments]                         ${event}
     ${headers}=                         Create Dictionary                   content-type=application/json
     ${event_from_file}=                 OperatingSystem.Get File            ${event}
-    ${auth}=                            Create List                         ${GLOBAL_DCAE_VES_USERNAME}     ${GLOBAL_DCAE_VES_PASSWORD}
+    ${auth}=                            Create Basic Auth                         ${GLOBAL_DCAE_VES_USERNAME}     ${GLOBAL_DCAE_VES_PASSWORD}
     ${session}=                         Create Session                      ves                             ${VES_HEALTH_CHECK_PATH}      auth=${auth}
     ${resp}=                            Post On Session                     ves                             ${VES_LISTENER_PATH}          data=${event_from_file}   headers=${headers}
     Should Be Equal As Strings          ${resp.status_code}                 202

@@ -13,7 +13,7 @@ ${DCAE_HEALTH_ENDPOINT}     ${GLOBAL_DCAE_SERVER_PROTOCOL}://${GLOBAL_INJECTED_D
 *** Keywords ***
 Run DCAE Health Check
     [Documentation]    Runs a DCAE health check
-    ${auth}=  Create List  ${GLOBAL_DCAE_USERNAME}    ${GLOBAL_DCAE_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_DCAE_USERNAME}    ${GLOBAL_DCAE_PASSWORD}
     Log    Creating session ${DCAE_HEALTH_ENDPOINT}
     ${session}=    Create Session 	dcae 	${DCAE_HEALTH_ENDPOINT}    auth=${auth}
     ${uuid}=    Generate UUID4

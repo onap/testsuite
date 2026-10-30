@@ -5,6 +5,7 @@ Library    OperatingSystem
 Library    Collections
 Library    ONAPLibrary.SO    WITH NAME    SO
 Library    ONAPLibrary.Templating    WITH NAME    Templating
+Library    ONAPLibrary.Utilities
 Resource    ../global_properties.robot
 
 *** Variables ***
@@ -19,7 +20,7 @@ Create PNF Service Using GR Api
     [Arguments]   ${arguments}
     Templating.Create Environment    so    ${GLOBAL_TEMPLATE_FOLDER}
     ${data}=    Templating.Apply Template    so    ${CREATE_PNF_SERVICE_GR_API}     ${arguments}
-    ${auth}=  Create List  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
+    ${auth}=  Create Basic Auth  ${GLOBAL_SO_USERNAME}    ${GLOBAL_SO_PASSWORD}
     ${requestReferences}  SO.Run Post Request   ${GLOBAL_SO_ENDPOINT}    ${CREATE_SERVICE_PATH}   ${data}    auth=${auth}
     ${requestReferences_json}   Set Variable  ${requestReferences.json()}
     ${request_id}  Set Variable  ${requestReferences_json['requestReferences']['requestId']}
