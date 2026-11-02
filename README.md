@@ -145,3 +145,50 @@ runTags.sh -i health -i ete -e garbage
 
 ## Contributing
 Follow [Robot Framework Development Guide](https://wiki.onap.org/display/DW/Robot+Framework+Development+Guide).
+
+## Optional MultiCloud Authentication
+
+`Run MultiCloud Get Request` optionally uses HTTP Basic authentication for
+`${MC_ENDPOINT}` (the broker) and `${MC_K8S_ENDPOINT}` only. Legacy provider
+and Prometheus endpoints remain anonymous, even when credentials are configured.
+With neither credential configured, requests remain anonymous as before.
+
+Supply `MULTICLOUD_AUTH_USERNAME` and `MULTICLOUD_AUTH_PASSWORD` in the Robot
+process environment. For a container deployment, inject them directly from a
+Kubernetes Secret with `secretKeyRef`; do not put credentials in generated
+ConfigMaps or command-line arguments. Chart wiring is separate from this change.
+Environment-injected Secret updates require restarting the testsuite container
+before starting a new Robot run.
+
+When neither environment variable is present, the helper also supports the Robot
+globals `${GLOBAL_MC_AUTH_USERNAME}` and `${GLOBAL_MC_AUTH_PASSWORD}` from a
+protected variable source. If either environment variable is present, the
+environment pair takes precedence as a whole; missing values are not filled from
+globals. A partial pair, empty or whitespace-only values, or a username containing
+`:` fails before sending a request, without reporting the credentials. Passwords
+may contain colons. Nonblank values are used literally, including quotes,
+backslashes, variable-like text, and leading or trailing spaces.
+
+Credential lookup, validation, and session creation suppress Robot assignment
+and argument logging, restoring the previous log level even on failure. The
+existing `ONAPLibrary.Utilities` `Create Basic Auth` keyword masks passwords and
+redacts Authorization headers from RequestsLibrary logs. Do not separately log
+these variables or dump the process environment.
+
+Basic authentication is only encoded, not encrypted. Use HTTPS endpoints over a
+trusted transport; this helper retains RequestsLibrary's existing TLS behavior
+(`verify=False`), so HTTPS alone does not provide certificate verification here.
+Do not use it to transmit credentials over an untrusted connection.
+
+Run the local regression tests with the repository dependencies installed:
+
+```sh
+python -m unittest discover -s robot/tests -p test_multicloud_auth.py -v
+python -m rflint --ignore LineTooLong --ignore RequireKeywordDocumentation --ignore RequireTestDocumentation robot/resources/multicloud_interface.robot
+```
+
+The tests execute real Robot requests against a local HTTP stub and check
+anonymous defaults, endpoint isolation, invalid configuration, literal
+credentials, log-level restoration, and redaction in `output.xml`, `log.html`,
+and `report.html` at TRACE level. Use Python 3.11 for rflint, as configured in
+`tox.ini`; rflint 1.1 uses `imp`, which is unavailable in Python 3.12 and later.

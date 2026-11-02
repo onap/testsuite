@@ -2,6 +2,9 @@
 Documentation     The main interface for interacting with MultiCloud
 Library           RequestsLibrary
 Library            Collections
+Library           OperatingSystem
+Library           String
+Library           ONAPLibrary.Utilities
 
 Resource          global_properties.robot
 
@@ -68,8 +71,42 @@ Run MultiCloud-fcaps Health Check
 Run MultiCloud Get Request
      [Documentation]    Runs MultiCloud Get request
      [Arguments]    ${endpoint}   ${data_path}
-     ${session}=    Create Session   session   ${endpoint}
+     Create MultiCloud Session    ${endpoint}
      ${resp}=   Get On Session   session   ${data_path}
      Should Be Equal As Integers   ${resp.status_code}   200
      Log    Received response from MultiCloud ${resp.text}
      [Return]    ${resp}
+
+Create MultiCloud Session
+     [Arguments]    ${endpoint}
+     ${log_level}=    Set Log Level    NONE
+     [Teardown]    Set Log Level    ${log_level}
+     ${auth}=    Get MultiCloud Basic Auth    ${endpoint}
+     Create Session    session    ${endpoint}    auth=${auth}
+
+Get MultiCloud Basic Auth
+     [Arguments]    ${endpoint}
+     ${broker}=    Run Keyword And Return Status    Should Be Equal    ${endpoint}    ${MC_ENDPOINT}
+     ${k8s}=    Run Keyword And Return Status    Should Be Equal    ${endpoint}    ${MC_K8S_ENDPOINT}
+     Return From Keyword If    not ${broker} and not ${k8s}    ${None}
+     ${absent}=    Create List
+     ${username}=    Get Environment Variable    MULTICLOUD_AUTH_USERNAME    ${absent}
+     ${password}=    Get Environment Variable    MULTICLOUD_AUTH_PASSWORD    ${absent}
+     ${username_absent}=    Run Keyword And Return Status    Should Be Equal    ${username}    ${absent}    msg=MultiCloud authentication is configured    values=${False}
+     ${password_absent}=    Run Keyword And Return Status    Should Be Equal    ${password}    ${absent}    msg=MultiCloud authentication is configured    values=${False}
+     ${username}=    Run Keyword If    ${username_absent} and ${password_absent}    Get Variable Value    \${GLOBAL_MC_AUTH_USERNAME}    ${absent}
+     ...    ELSE    Get Variable Value    \${username}
+     ${password}=    Run Keyword If    ${username_absent} and ${password_absent}    Get Variable Value    \${GLOBAL_MC_AUTH_PASSWORD}    ${absent}
+     ...    ELSE    Get Variable Value    \${password}
+     ${username_absent}=    Run Keyword And Return Status    Should Be Equal    ${username}    ${absent}    msg=MultiCloud authentication is configured    values=${False}
+     ${password_absent}=    Run Keyword And Return Status    Should Be Equal    ${password}    ${absent}    msg=MultiCloud authentication is configured    values=${False}
+     Return From Keyword If    ${username_absent} and ${password_absent}    ${None}
+     Should Not Be Equal    ${username}    ${absent}    msg=MultiCloud authentication requires both username and password    values=${False}
+     Should Not Be Equal    ${password}    ${absent}    msg=MultiCloud authentication requires both username and password    values=${False}
+     ${trimmed_username}=    Strip String    ${username}
+     ${trimmed_password}=    Strip String    ${password}
+     Should Not Be Empty    ${trimmed_username}    msg=MultiCloud authentication requires a nonblank username
+     Should Not Be Empty    ${trimmed_password}    msg=MultiCloud authentication requires a nonblank password
+     Should Not Contain    ${username}    :    msg=MultiCloud authentication username must not contain a colon    values=${False}
+     ${auth}=    Create Basic Auth    ${username}    ${password}
+     [Return]    ${auth}
