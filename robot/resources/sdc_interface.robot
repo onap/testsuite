@@ -290,8 +290,8 @@ Loop Over Check Catalog Service Distributed
     ${dist_status}=   Set Variable    CONTINUE
     FOR  ${CHECK_INDEX}  IN RANGE   20
        ${status}   ${_} =   Run Keyword And Ignore Error     Check Catalog Service Distributed    ${catalog_service_id}    ${dist_status}
-       Sleep     20s
        Return From Keyword If   '${status}'=='PASS'
+       Sleep     20s
     # need a way to exit the loop early on DISTRIBUTION_COMPLETE_ERROR  ${dist_status} doesnt work
     #\   Exit For Loop If   '${dist_status}'=='EXIT'
     END
