@@ -88,6 +88,7 @@ Add Service Mapping
        ${preload}=    Set Variable    ${module["preload"]}
        set to dictionary    ${empty_dict}    isBase=${base}    template=""    vnf_index=${index}    name_pattern=${name}    preload_file=${preload}
        Append To List    ${template_mapping_list}    ${empty_dict}
+    END
 
     ${GLOBAL_SERVICE_TEMPLATE_MAPPING}    Create Dictionary
     ${GLOBAL_SERVICE_FOLDER_MAPPING}    Create Dictionary

@@ -75,7 +75,7 @@ CDS Service Instantiate
     Should Match Regexp    ${status_string}    ^(200|201|202)$
     ${time_now}=  Get Time
     @{date_time}=  Split String  ${time_now}
-    ${time_stamp}=  Catenate  SEPARATOR=_  @{date_time}[0]  @{date_time}[1]
+    ${time_stamp}=  Catenate  SEPARATOR=_  ${date_time}[0]  ${date_time}[1]
     ${customized_time_stamp}=  Remove String  ${time_stamp}  :
     ${cds_instance_name}=   Set Variable   cds_vlb_svc_${customized_time_stamp}
     ${global_parameters}=  Get Globally Injected Parameters

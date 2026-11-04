@@ -156,20 +156,20 @@ Preload Gra
     ServiceMapping.Set Directory    default    ${GLOBAL_SERVICE_MAPPING_DIRECTORY}
     ${templates}=    ServiceMapping.Get Service Template Mapping    default    ${service}    ${vnf}
     FOR    ${vf_module}    IN      @{vf_modules}
-    \       ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
+        ${vf_module_type}=    Get From Dictionary    ${vf_module}    name
     #     need to pass in vnf_index if non-zero
-    \       ${dict}   Run Keyword If    "${generic_vnf_name}".endswith('0')      Get From Mapping With Index    ${templates}    ${vf_module}   0
+        ${dict}   Run Keyword If    "${generic_vnf_name}".endswith('0')      Get From Mapping With Index    ${templates}    ${vf_module}   0
             ...    ELSE IF  "${generic_vnf_name}".endswith('1')      Get From Mapping With Index    ${templates}    ${vf_module}   1
             ...    ELSE IF  "${generic_vnf_name}".endswith('2')      Get From Mapping With Index    ${templates}    ${vf_module}   2
             ...    ELSE   Get From Mapping    ${templates}    ${vf_module}
     #     skip this iteration if no template
-    \       ${test_dict_length} =  Get Length  ${dict}
-    \       Continue For Loop If   ${test_dict_length} == 0
-    \       ${filename}=    Get From Dictionary    ${dict}    template
-    \       ${base_vf_module_type}=   Set Variable If    '${dict['isBase']}' == 'true'     ${vf_module_type}    ${base_vf_module_type}
-    \       ${closedloop_vf_module}=   Set Variable If    '${dict['isBase']}' == 'false'     ${vf_module}    ${closedloop_vf_module}
-    \       ${vf_name}=     Update Module Name    ${dict}    ${vf_module_name}
-    \       Preload One Gra Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
+        ${test_dict_length} =  Get Length  ${dict}
+        Continue For Loop If   ${test_dict_length} == 0
+        ${filename}=    Get From Dictionary    ${dict}    template
+        ${base_vf_module_type}=   Set Variable If    '${dict['isBase']}' == 'true'     ${vf_module_type}    ${base_vf_module_type}
+        ${closedloop_vf_module}=   Set Variable If    '${dict['isBase']}' == 'false'     ${vf_module}    ${closedloop_vf_module}
+        ${vf_name}=     Update Module Name    ${dict}    ${vf_module_name}
+        Preload One Gra Topology    ${service_type_uuid}    ${generic_vnf_name}    ${generic_vnf_type}     ${vf_name}    ${vf_module_type}    ${service}    ${filename}   ${uuid}     ${server_id}
     END
     [Return]    ${base_vf_module_type}   ${closedloop_vf_module}
 
@@ -187,7 +187,7 @@ Get From Mapping With Index
     [Arguments]    ${templates}    ${vf_module}   ${vnf_index}=0
     ${vf_module_name}=    Get From DIctionary    ${vf_module}    name
     FOR    ${template}   IN   @{templates}
-    \    Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}' and ('${template['vnf_index']}' == '${vnf_index}')     ${template}
+        Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}' and ('${template['vnf_index']}' == '${vnf_index}')     ${template}
     END
     ${result}=    Create Dictionary
     [Return]    ${result}
@@ -197,7 +197,7 @@ Get From Mapping
     [Arguments]    ${templates}    ${vf_module}
     ${vf_module_name}=    Get From DIctionary    ${vf_module}    name
     FOR    ${template}   IN   @{templates}
-    \    Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}'     ${template}
+        Return From Keyword If    '${template['name_pattern']}' in '${vf_module_name}'     ${template}
     END
     ${result}=    Create Dictionary
     [Return]    ${result}
@@ -251,8 +251,8 @@ Get Template Parameters
     # add all of the defaults to template...
     @{keys}=    Get Dictionary Keys    ${defaults}
     FOR   ${key}   IN   @{keys}
-    \    ${value}=   Get From Dictionary    ${defaults}    ${key}
-    \    Set To Dictionary    ${template}  ${key}    ${value}
+        ${value}=   Get From Dictionary    ${defaults}    ${key}
+        Set To Dictionary    ${template}  ${key}    ${value}
     END
     #
     # Get the vnf_parameters to preload
@@ -268,10 +268,10 @@ Resolve VNF Parameters Into Array
     ${vnf_parameters}=   Create List
     ${keys}=    Get Dictionary Keys    ${from}
     FOR   ${key}   IN  @{keys}
-    \    ${value}=    Get From Dictionary    ${from}   ${key}
-    \    ${value}=    Templating.Template String    ${value}    ${valuemap}
-    \    ${parameter}=   Create Dictionary   vnf-parameter-name=${key}    vnf-parameter-value=${value}
-    \    Append To List    ${vnf_parameters}   ${parameter}
+        ${value}=    Get From Dictionary    ${from}   ${key}
+        ${value}=    Templating.Template String    ${value}    ${valuemap}
+        ${parameter}=   Create Dictionary   vnf-parameter-name=${key}    vnf-parameter-value=${value}
+        Append To List    ${vnf_parameters}   ${parameter}
     END
     [Return]   ${vnf_parameters}
 
